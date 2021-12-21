@@ -26,7 +26,7 @@ namespace RhythmHeavenMania
         public void IncreaseScore()
         {
             totalHits++;
-            score = GetPercent(totalHits, GameManager.instance.allPlayerActions.Count);
+            // score = GetPercent(totalHits, GameManager.instance.allPlayerActions.Count); broken right now will fix eventually
         }
 
         public float GetPercent(float value, float totalValue)

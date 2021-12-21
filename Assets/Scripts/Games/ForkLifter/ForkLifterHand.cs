@@ -26,7 +26,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
         {
             allPlayerActions = GameManager.instance.Events.FindAll(c => c.eventName != "gulp" && c.eventName != "sigh" && c.eventName != "prepare");
 
-            if (GameManager.instance.currentEventPlayer < allPlayerActions.Count)
+            /*if (GameManager.instance.currentEventPlayer < allPlayerActions.Count)
             {
                 switch (allPlayerActions[GameManager.instance.currentEventPlayer].eventName)
                 {
@@ -51,7 +51,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
             else
             {
                 ForkLifter.instance.peaPreview.sprite = null;
-            }
+            }*/
         }
 
         public void Prepare()
