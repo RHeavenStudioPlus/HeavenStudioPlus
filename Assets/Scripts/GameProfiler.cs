@@ -2,33 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameProfiler : MonoBehaviour
+namespace RhythmHeavenMania
 {
-    public float score = 0;
-    public int totalHits = 0;
-
-    public bool perfect = false; 
-
-    public static GameProfiler instance { get; set; }
-
-    private void Awake()
+    public class GameProfiler : MonoBehaviour
     {
-        instance = this;
-        DontDestroyOnLoad(this.gameObject);
-    }
-    private void Start()
-    {
-        perfect = true;
-    }
+        public float score = 0;
+        public int totalHits = 0;
 
-    public void IncreaseScore()
-    {
-        totalHits++;
-        score = GetPercent(totalHits, GameManager.instance.allPlayerActions.Count);
-    }
+        public bool perfect = false;
 
-    public float GetPercent(float value, float totalValue)
-    {
-        return (value / totalValue) * 100;
+        public static GameProfiler instance { get; set; }
+
+        private void Awake()
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        private void Start()
+        {
+            perfect = true;
+        }
+
+        public void IncreaseScore()
+        {
+            totalHits++;
+            score = GetPercent(totalHits, GameManager.instance.allPlayerActions.Count);
+        }
+
+        public float GetPercent(float value, float totalValue)
+        {
+            return (value / totalValue) * 100;
+        }
     }
 }

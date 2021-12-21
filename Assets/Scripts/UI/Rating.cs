@@ -5,135 +5,141 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 
-public class Rating : MonoBehaviour
+using RhythmHeavenMania.Util;
+
+namespace RhythmHeavenMania
 {
-    public GameObject Title;
-    public GameObject Desc;
-    public GameObject Rank;
-    public GameObject Epilogue;
-    public GameObject Perfect;
-
-    public GameObject RankingHolder;
-
-    public GameObject Fade;
-
-    private string rank;
-    private int rankId;
-
-    public Sprite[] epilogueSprites;
-    public Image epilogueImage;
-
-    public TMP_Text epilogueText;
-
-    private void Start()
+    public class Rating : MonoBehaviour
     {
-        float score = GameProfiler.instance.score;
-        TMP_Text desc = Desc.GetComponent<TMP_Text>();
+        public GameObject Title;
+        public GameObject Desc;
+        public GameObject Rank;
+        public GameObject Epilogue;
+        public GameObject Perfect;
 
-        if (GameProfiler.instance.perfect)
+        public GameObject RankingHolder;
+
+        public GameObject Fade;
+
+        private string rank;
+        private int rankId;
+
+        public Sprite[] epilogueSprites;
+        public Image epilogueImage;
+
+        public TMP_Text epilogueText;
+
+        private void Start()
         {
-            Perfect.SetActive(true);
-            Jukebox.PlayOneShot("Rankings/ranking_perfect");
-            StartCoroutine(PerfectIE());
-        }
-        else
-        {
-            if (score < 59)
+            float score = GameProfiler.instance.score;
+            TMP_Text desc = Desc.GetComponent<TMP_Text>();
+
+            if (GameProfiler.instance.perfect)
             {
-                // try again
-                desc.text = "Your fork technique was rather uncouth. \nYour consecutive stabs needed work.";
-                rank = "Rankings/ranking_tryagain";
-                rankId = 2;
+                Perfect.SetActive(true);
+                Jukebox.PlayOneShot("Rankings/ranking_perfect");
+                StartCoroutine(PerfectIE());
             }
-            else if (score >= 59 && score < 79)
+            else
             {
-                // ok
-                desc.text = "Eh. Good enough.";
-                rank = "Rankings/ranking_ok";
-                rankId = 1;
+                if (score < 59)
+                {
+                    // try again
+                    desc.text = "Your fork technique was rather uncouth. \nYour consecutive stabs needed work.";
+                    rank = "Rankings/ranking_tryagain";
+                    rankId = 2;
+                }
+                else if (score >= 59 && score < 79)
+                {
+                    // ok
+                    desc.text = "Eh. Good enough.";
+                    rank = "Rankings/ranking_ok";
+                    rankId = 1;
+                }
+                else if (score >= 79)
+                {
+                    // superb
+                    desc.text = "Your fork technique was quite elegant. \nYour consecutive stabs were excellent. \nYour triple-stab technique was sublime.";
+                    rank = "Rankings/ranking_superb";
+                    rankId = 0;
+                }
+
+                StartCoroutine(ShowRank());
             }
-            else if (score >= 79)
+        }
+
+        private IEnumerator ShowRank()
+        {
+            // Title
+            yield return new WaitForSeconds(0.5f);
+
+            Jukebox.PlayOneShot("Rankings/ranking_title_show");
+            Title.SetActive(true);
+
+            // Desc
+            yield return new WaitForSeconds(2f);
+
+            Jukebox.PlayOneShot("Rankings/ranking_desc_show");
+            Desc.SetActive(true);
+
+            // Rating
+            yield return new WaitForSeconds(2f);
+
+            Jukebox.PlayOneShot(rank);
+            Rank.transform.GetChild(rankId).gameObject.SetActive(true);
+
+            // Epilogue
+            yield return new WaitForSeconds(5f);
+            Fade.GetComponent<Image>().DOColor(Color.black, 0.75f).OnComplete(delegate
             {
-                // superb
-                desc.text = "Your fork technique was quite elegant. \nYour consecutive stabs were excellent. \nYour triple-stab technique was sublime.";
-                rank = "Rankings/ranking_superb";
-                rankId = 0;
+                StartCoroutine(ShowEpilogue());
+            });
+        }
+
+        private IEnumerator ShowEpilogue()
+        {
+            epilogueImage.sprite = epilogueSprites[rankId];
+            switch (rankId)
+            {
+                case 2:
+                    epilogueText.text = "Blood sugar...so...low...";
+                    break;
+                case 1:
+                    epilogueText.text = "I could eat two more dinners!";
+                    break;
+                case 0:
+                    epilogueText.text = "So full! So satisfied!";
+                    break;
+
             }
 
-            StartCoroutine(ShowRank());
+            yield return new WaitForSeconds(1);
+            Fade.GetComponent<Image>().color = new Color(0, 0, 0, 0);
+            RankingHolder.SetActive(false);
+            Epilogue.SetActive(true);
+
+            switch (rankId)
+            {
+                case 0:
+                    Jukebox.PlayOneShot("Rankings/epilogue_superb");
+                    break;
+                case 1:
+                    Jukebox.PlayOneShot("Rankings/epilogue_ok");
+                    break;
+                case 2:
+                    Jukebox.PlayOneShot("Rankings/epilogue_tryagain");
+                    break;
+            }
+
+            yield return new WaitForSeconds(8);
+            GlobalGameManager.LoadScene(0);
+        }
+
+        private IEnumerator PerfectIE()
+        {
+            yield return new WaitForSeconds(8);
+            GlobalGameManager.LoadScene(0);
         }
     }
 
-    private IEnumerator ShowRank()
-    {
-        // Title
-        yield return new WaitForSeconds(0.5f);
-
-        Jukebox.PlayOneShot("Rankings/ranking_title_show");
-        Title.SetActive(true);
-
-        // Desc
-        yield return new WaitForSeconds(2f);
-
-        Jukebox.PlayOneShot("Rankings/ranking_desc_show");
-        Desc.SetActive(true);
-
-        // Rating
-        yield return new WaitForSeconds(2f);
-
-        Jukebox.PlayOneShot(rank);
-        Rank.transform.GetChild(rankId).gameObject.SetActive(true);
-
-        // Epilogue
-        yield return new WaitForSeconds(5f);
-        Fade.GetComponent<Image>().DOColor(Color.black, 0.75f).OnComplete(delegate 
-        {
-            StartCoroutine(ShowEpilogue());
-        });
-    }
-
-    private IEnumerator ShowEpilogue()
-    {
-        epilogueImage.sprite = epilogueSprites[rankId];
-        switch (rankId)
-        {
-            case 2:
-                epilogueText.text = "Blood sugar...so...low...";
-                break;
-            case 1:
-                epilogueText.text = "I could eat two more dinners!";
-                break;
-            case 0:
-                epilogueText.text = "So full! So satisfied!";
-                break;
-
-        }
-
-        yield return new WaitForSeconds(1);
-        Fade.GetComponent<Image>().color = new Color(0, 0, 0, 0);
-        RankingHolder.SetActive(false);
-        Epilogue.SetActive(true);
-
-        switch (rankId)
-        {
-            case 0:
-                Jukebox.PlayOneShot("Rankings/epilogue_superb");
-                break;
-            case 1:
-                Jukebox.PlayOneShot("Rankings/epilogue_ok");
-                break;
-            case 2:
-                Jukebox.PlayOneShot("Rankings/epilogue_tryagain");
-                break;
-        }
-
-        yield return new WaitForSeconds(8);
-        GlobalGameManager.LoadScene(0);
-    }
-
-    private IEnumerator PerfectIE()
-    {
-        yield return new WaitForSeconds(8);
-        GlobalGameManager.LoadScene(0);
-    }
 }
