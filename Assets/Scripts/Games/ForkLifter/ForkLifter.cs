@@ -62,7 +62,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
         public void Flick(float beat, int type)
         {
-            Jukebox.PlayOneShot("flick");
+            Jukebox.PlayOneShotGame("forkLifter/flick");
             handAnim.Play("Hand_Flick", 0, 0);
             GameObject fo = Instantiate(flickedObject);
             fo.GetComponent<Pea>().startBeat = beat;

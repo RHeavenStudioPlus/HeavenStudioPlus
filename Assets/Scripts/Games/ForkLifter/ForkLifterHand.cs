@@ -49,7 +49,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
         public void Prepare()
         {
-            Jukebox.PlayOneShot("flickPrepare");
+            Jukebox.PlayOneShotGame("forkLifter/flickPrepare");
             GetComponent<Animator>().Play("Hand_Prepare");
         }
     }

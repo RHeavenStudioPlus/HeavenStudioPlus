@@ -101,17 +101,17 @@ namespace RhythmHeavenMania.Games.ForkLifter
         {
             if (topbun && middleburger && bottombun)
             {
-                Jukebox.PlayOneShot("burger");
+                Jukebox.PlayOneShotGame("forkLifter/burger");
             }
             else
             {
                 if (currentEarlyPeasOnFork > 0 || currentLatePeasOnFork > 0)
                 {
-                    Jukebox.PlayOneShot($"cough_{Random.Range(1, 3)}");
+                    Jukebox.PlayOneShotGame($"forkLifter/cough_{Random.Range(1, 3)}");
                 }
                 else
                 {
-                    Jukebox.PlayOneShot("gulp");
+                    Jukebox.PlayOneShotGame("forkLifter/gulp");
                 }
             }
 
@@ -186,7 +186,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
                     FastEffectHit(EligibleHits[currentHitInList].pea.type);
 
-                    Jukebox.PlayOneShot("stab");
+                    Jukebox.PlayOneShotGame("forkLifter/stab");
 
                     currentPerfectPeasOnFork++;
 
@@ -230,7 +230,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
                     FastEffectHit(EligibleHits[currentHitInList].pea.type);
 
-                    Jukebox.PlayOneShot("miss");
+                    Jukebox.PlayOneShotGame("miss");
 
                     currentEarlyPeasOnFork++;
 
@@ -259,7 +259,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
                     FastEffectHit(EligibleHits[currentHitInList].pea.type);
 
-                    Jukebox.PlayOneShot("miss");
+                    Jukebox.PlayOneShotGame("miss");
 
                     currentLatePeasOnFork++;
 
@@ -268,7 +268,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
             }
             else
             {
-                Jukebox.PlayOneShot("stabnohit");
+                Jukebox.PlayOneShotGame("forkLifter/stabnohit");
             }
 
             anim.Play("Player_Stab", 0, 0);
