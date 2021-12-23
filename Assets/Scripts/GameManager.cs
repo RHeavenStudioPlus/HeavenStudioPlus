@@ -34,16 +34,17 @@ namespace RhythmHeavenMania
             SortEventsList();
 
             string json = txt.text;
-            Beatmap.entities = JsonConvert.DeserializeObject<List<Beatmap.Entity>>(json);
+            Beatmap = JsonConvert.DeserializeObject<Beatmap>(json);
 
             SortEventsList();
-
-            StartCoroutine(Begin());
 
             GlobalGameManager.Init();
 
             eventCaller = GetComponent<EventCaller>();
             eventCaller.Init();
+            Conductor.instance.SetBpm(Beatmap.bpm);
+
+            StartCoroutine(Begin());
         }
 
         private IEnumerator Begin()

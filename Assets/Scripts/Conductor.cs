@@ -104,6 +104,12 @@ namespace RhythmHeavenMania
             return final;
         }
 
+        public void SetBpm(float bpm)
+        {
+            this.songBpm = bpm;
+            secPerBeat = 60f / songBpm;
+        }
+
         public bool InThreshold(float beat)
         {
             //Check if the beat sent falls within beatThreshold
