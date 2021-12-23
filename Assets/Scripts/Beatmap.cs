@@ -1,18 +1,25 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class Beatmap : MonoBehaviour
+namespace RhythmHeavenMania
 {
-    // Start is called before the first frame update
-    void Start()
+    [Serializable]
+    public class Beatmap
     {
-        
-    }
+        public double bpm;
+        public List<Entity> entities;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        [Serializable]
+        public class Entity : ICloneable
+        {
+            public float beat;
+            public int track;
+            public string datamodel;
+
+            public object Clone()
+            {
+                return this.MemberwiseClone();
+            }
+        }
     }
 }

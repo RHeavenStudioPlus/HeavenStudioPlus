@@ -4,15 +4,18 @@ using UnityEngine;
 
 using RhythmHeavenMania.Util;
 
+using DG.Tweening;
+
 namespace RhythmHeavenMania.Games.ForkLifter
 {
     public class ForkLifter : MonoBehaviour
     {
         public static ForkLifter instance;
 
-        GameManager GameManager;
+        [Header("References")]
+        public ForkLifterHand ForkLifterHand;
+        private GameManager GameManager;
 
-        public List<GameManager.Event> allPlayerActions = new List<GameManager.Event>();
 
         [Header("Objects")]
         public Animator handAnim;
@@ -22,6 +25,9 @@ namespace RhythmHeavenMania.Games.ForkLifter
         public Sprite[] peaSprites;
         public Sprite[] peaHitSprites;
 
+
+        private List<Beatmap.Entity> allPlayerActions = new List<Beatmap.Entity>();
+
         private void Awake()
         {
             instance = this;
@@ -30,7 +36,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
         private void Start()
         {
             GameManager = GameManager.instance;
-            allPlayerActions = GameManager.Events.FindAll(c => c.eventName != "gulp" && c.eventName != "sigh" && c.eventName != "prepare" && c.eventName != "end");
+            // allPlayerActions = GameManager.Events.FindAll(c => c.eventName != "gulp" && c.eventName != "sigh" && c.eventName != "prepare" && c.eventName != "end");
 
             /*List<Event> temp = new List<Event>();
             for (int i = 0; i < allPlayerActions.Count; i++)
