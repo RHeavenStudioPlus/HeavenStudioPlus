@@ -14,6 +14,7 @@ namespace RhythmHeavenMania
     {
         public Transform GamesHolder;
         private float currentBeat;
+        private float currentLength;
 
         public delegate void EventCallback();
 
@@ -69,7 +70,12 @@ namespace RhythmHeavenMania
                 }),
                 new MiniGame("clappyTrio", new List<GameAction>()
                 {
-                    new GameAction("clap", delegate { Debug.Log("bruh"); }, true ),
+                    // Claps
+                    new GameAction("clap", delegate { ClappyTrio.instance.Clap(currentBeat, currentLength); }, true ),
+
+
+                    new GameAction("prepare_0", delegate { ClappyTrio.instance.Prepare(0); }, true ),
+                    new GameAction("prepare_4", delegate { ClappyTrio.instance.Prepare(4); }, true ),
                 })
             };
 
@@ -108,11 +114,14 @@ namespace RhythmHeavenMania
 
             try
             {
+                currentLength = GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].length;
+
                 GameAction action = game.actions.Find(c => c.actionName == details[1]);
                 action.function.Invoke();
 
                 if (action.playerAction == true)
                     GameManager.instance.currentPlayerEvent++;
+
             }
             catch (Exception ex)
             {

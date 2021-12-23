@@ -29,7 +29,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
         private void Start()
         {
             anim = GetComponent<Animator>();
-            Jukebox.PlayOneShot("zoom");
+            Jukebox.PlayOneShotGame("forkLifter/zoom");
             GetComponentInChildren<SpriteRenderer>().sprite = ForkLifter.instance.peaSprites[type];
 
             e = new ForkLifterPlayer.Eligible();
@@ -73,7 +73,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
             if (normalizedBeat > endTime && endstate <= 1)
             {
                 endstate++;
-                Jukebox.PlayOneShot("disappointed");
+                Jukebox.PlayOneShotGame("audience/disappointed");
             }
 
             if (normalizedBeat > 1.35f)

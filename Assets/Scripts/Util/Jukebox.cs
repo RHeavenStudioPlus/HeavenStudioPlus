@@ -48,6 +48,11 @@ namespace RhythmHeavenMania.Util
             Sound snd = oneShot.AddComponent<Sound>();
             snd.clip = Resources.Load<AudioClip>($"Sfx/{name}");
         }
+
+        public static void PlayOneShotGame(string name)
+        {
+            PlayOneShot($"games/{name}");
+        }
     }
 
 }

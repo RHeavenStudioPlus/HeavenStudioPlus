@@ -132,6 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 49975355}
+  - component: {fileID: 49975356}
   m_Layer: 0
   m_Name: clappyTrio
   m_TagString: Untagged
@@ -155,6 +156,25 @@ Transform:
   m_Father: {fileID: 1923614611}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &49975356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 49975354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7c8ebd2f1b0ce448acc55b6f6608e15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LionLeft: {fileID: 1962334731}
+  faces:
+  - {fileID: -5723618315912617923, guid: bfb4e4bb08acdb14792cdd4c46253ab0, type: 3}
+  - {fileID: -2914173702609090789, guid: bfb4e4bb08acdb14792cdd4c46253ab0, type: 3}
+  - {fileID: -7678601869563919383, guid: bfb4e4bb08acdb14792cdd4c46253ab0, type: 3}
+  - {fileID: -7561877552320588135, guid: bfb4e4bb08acdb14792cdd4c46253ab0, type: 3}
+  - {fileID: 1205416701152040810, guid: bfb4e4bb08acdb14792cdd4c46253ab0, type: 3}
 --- !u!1 &142958109
 GameObject:
   m_ObjectHideFlags: 0
@@ -2670,7 +2690,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 767089604}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.77772, y: 0, z: 0}
+  m_LocalPosition: {x: 5.7654, y: 0, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 325946116}
@@ -6635,7 +6655,7 @@ MonoBehaviour:
   currentEvent: 0
   currentPlayerEvent: 0
   txt: {fileID: 4900000, guid: 13908201c7935ea4c8e9d2a58b006b87, type: 3}
-  startOffset: 1
+  startOffset: 0
 --- !u!212 &2072389418
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6757,7 +6777,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -120
+  m_SortingOrder: 30
   m_Sprite: {fileID: 21300000, guid: 523719bd3643eea4e8b4e418b4571b7a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.3764706}
   m_FlipX: 0
