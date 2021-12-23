@@ -15,8 +15,9 @@ namespace RhythmHeavenMania
         private EventCaller eventCaller;
 
         public Beatmap Beatmap;
+        [HideInInspector] public List<Beatmap.Entity> playerEntities;
 
-        public int currentEvent;
+        public int currentEvent, currentPlayerEvent;
 
         public TextAsset txt;
 
@@ -62,7 +63,7 @@ namespace RhythmHeavenMania
             {
                 if (Conductor.instance.songPositionInBeats >= entities[currentEvent])
                 {
-                    eventCaller.CallEvent(Beatmap.entities[currentEvent].datamodel, Beatmap.entities[currentEvent].beat);
+                    eventCaller.CallEvent(Beatmap.entities[currentEvent].datamodel);
 
                     currentEvent++;
                 }
@@ -79,7 +80,9 @@ namespace RhythmHeavenMania
             if (Beatmap.entities.Count > 0)
             {
                 List<float> entities = Beatmap.entities.Select(c => c.beat).ToList();
+                List<float> entities_p = playerEntities.Select(c => c.beat).ToList();
                 currentEvent = entities.IndexOf(Mathp.GetClosestInList(entities, Conductor.instance.songPositionInBeats));
+                currentPlayerEvent = entities_p.IndexOf(Mathp.GetClosestInList(entities_p, Conductor.instance.songPositionInBeats));
             }
         }
 
