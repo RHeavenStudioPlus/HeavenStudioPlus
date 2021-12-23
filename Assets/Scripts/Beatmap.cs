@@ -6,7 +6,7 @@ namespace RhythmHeavenMania
     [Serializable]
     public class Beatmap
     {
-        public double bpm;
+        public float bpm;
         public List<Entity> entities;
 
         [Serializable]
@@ -14,6 +14,7 @@ namespace RhythmHeavenMania
         {
             public float beat;
             public int track;
+            public float length;
             public string datamodel;
 
             public object Clone()

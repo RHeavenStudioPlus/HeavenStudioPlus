@@ -66,6 +66,10 @@ namespace RhythmHeavenMania
                     new GameAction("prepare", delegate { ForkLifter.instance.ForkLifterHand.Prepare(); }),
                     new GameAction("gulp", delegate { ForkLifterPlayer.instance.Eat(); }),
                     new GameAction("sigh", delegate { Jukebox.PlayOneShot("sigh"); })
+                }),
+                new MiniGame("clappyTrio", new List<GameAction>()
+                {
+                    new GameAction("clap", delegate { Debug.Log("bruh"); }, true ),
                 })
             };
 
@@ -93,7 +97,7 @@ namespace RhythmHeavenMania
 
         private void Update()
         {
-            if (GameManager.instance.currentEvent > 0 && GameManager.instance.currentEvent < GameManager.instance.Beatmap.entities.Count)
+            if (GameManager.instance.currentEvent >= 0 && GameManager.instance.currentEvent < GameManager.instance.Beatmap.entities.Count)
             currentBeat = GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].beat;
         }
 
