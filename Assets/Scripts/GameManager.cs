@@ -12,8 +12,9 @@ namespace RhythmHeavenMania
     public class GameManager : MonoBehaviour
     {
         public static GameManager instance;
+        private EventCaller eventCaller;
 
-        public List<Event> Events = new List<Event>();
+        public Beatmap Beatmap;
 
         public int currentEvent;
 
@@ -21,17 +22,6 @@ namespace RhythmHeavenMania
 
         public float startOffset;
 
-        [Serializable]
-        public class Event : ICloneable
-        {
-            public float spawnTime;
-            public string eventName;
-
-            public object Clone()
-            {
-                return this.MemberwiseClone();
-            }
-        }
 
         private void Awake()
         {
@@ -43,13 +33,16 @@ namespace RhythmHeavenMania
             SortEventsList();
 
             string json = txt.text;
-            Events = JsonConvert.DeserializeObject<List<Event>>(json);
+            Beatmap.entities = JsonConvert.DeserializeObject<List<Beatmap.Entity>>(json);
 
             SortEventsList();
 
             StartCoroutine(Begin());
 
             GlobalGameManager.Init();
+
+            eventCaller = GetComponent<EventCaller>();
+            eventCaller.Init();
         }
 
         private IEnumerator Begin()
@@ -60,15 +53,17 @@ namespace RhythmHeavenMania
 
         private void Update()
         {
-            if (Events.Count < 1)
+            if (Beatmap.entities.Count < 1)
                 return;
 
-            List<float> floats = Events.Select(c => c.spawnTime).ToList();
+            List<float> entities = Beatmap.entities.Select(c => c.beat).ToList();
 
-            if (currentEvent < Events.Count && currentEvent >= 0)
+            if (currentEvent < Beatmap.entities.Count && currentEvent >= 0)
             {
-                if (Conductor.instance.songPositionInBeats >= floats[currentEvent])
+                if (Conductor.instance.songPositionInBeats >= entities[currentEvent])
                 {
+                    eventCaller.CallEvent(Beatmap.entities[currentEvent].datamodel, Beatmap.entities[currentEvent].beat);
+
                     currentEvent++;
                 }
             }
@@ -76,15 +71,15 @@ namespace RhythmHeavenMania
 
         public void SortEventsList()
         {
-            Events.Sort((x, y) => x.spawnTime.CompareTo(y.spawnTime));
+            Beatmap.entities.Sort((x, y) => x.beat.CompareTo(y.beat));
         }
 
         public void SetCurrentEventToClosest()
         {
-            if (Events.Count > 0)
+            if (Beatmap.entities.Count > 0)
             {
-                List<float> floats = Events.Select(c => c.spawnTime).ToList();
-                currentEvent = floats.IndexOf(Mathp.GetClosestInList(floats, Conductor.instance.songPositionInBeats));
+                List<float> entities = Beatmap.entities.Select(c => c.beat).ToList();
+                currentEvent = entities.IndexOf(Mathp.GetClosestInList(entities, Conductor.instance.songPositionInBeats));
             }
         }
 

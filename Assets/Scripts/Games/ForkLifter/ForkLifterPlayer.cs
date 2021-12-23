@@ -10,6 +10,8 @@ namespace RhythmHeavenMania.Games.ForkLifter
 {
     public class ForkLifterPlayer : MonoBehaviour
     {
+        public static ForkLifterPlayer instance { get; set; }
+
         [Header("Objects")]
         public GameObject fork;
         public Sprite peaSprite;
@@ -27,7 +29,6 @@ namespace RhythmHeavenMania.Games.ForkLifter
         public List<Eligible> EligibleHits = new List<Eligible>();
         private int currentHitInList = 0;
 
-        public static ForkLifterPlayer instance { get; set; }
 
         public float timescale = 1;
 
@@ -204,7 +205,6 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
                     RemovePea();
 
-                    GoForAPerfect.instance.Hit();
                     GameProfiler.instance.IncreaseScore();
                 }
                 else if (EligibleHits[currentHitInList].early)
@@ -235,8 +235,6 @@ namespace RhythmHeavenMania.Games.ForkLifter
                     currentEarlyPeasOnFork++;
 
                     RemovePea();
-
-                    GoForAPerfect.instance.Miss();
                 }
                 else if (EligibleHits[currentHitInList].late)
                 {
@@ -266,8 +264,6 @@ namespace RhythmHeavenMania.Games.ForkLifter
                     currentLatePeasOnFork++;
 
                     RemovePea();
-
-                    GoForAPerfect.instance.Miss();
                 }
             }
             else

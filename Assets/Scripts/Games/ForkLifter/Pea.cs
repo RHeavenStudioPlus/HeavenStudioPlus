@@ -74,7 +74,6 @@ namespace RhythmHeavenMania.Games.ForkLifter
             {
                 endstate++;
                 Jukebox.PlayOneShot("disappointed");
-                GoForAPerfect.instance.Miss();
             }
 
             if (normalizedBeat > 1.35f)

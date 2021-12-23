@@ -13,18 +13,11 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
         public Sprite[] fastSprites;
 
-        List<GameManager.Event> allPlayerActions;
-
-        public static ForkLifterHand instance { get; set; }
-
-        private void Awake()
-        {
-            instance = this;
-        }
+        // List<GameManager.Event> allPlayerActions;
 
         public void CheckNextFlick()
         {
-            allPlayerActions = GameManager.instance.Events.FindAll(c => c.eventName != "gulp" && c.eventName != "sigh" && c.eventName != "prepare");
+            // allPlayerActions = GameManager.instance.Events.FindAll(c => c.eventName != "gulp" && c.eventName != "sigh" && c.eventName != "prepare");
 
             /*if (GameManager.instance.currentEventPlayer < allPlayerActions.Count)
             {
