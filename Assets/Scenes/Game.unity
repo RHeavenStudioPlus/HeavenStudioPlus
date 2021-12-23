@@ -6595,7 +6595,6 @@ GameObject:
   - component: {fileID: 2072389417}
   - component: {fileID: 2072389418}
   - component: {fileID: 2072389419}
-  - component: {fileID: 2072389420}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -6632,7 +6631,9 @@ MonoBehaviour:
   Beatmap:
     bpm: 0
     entities: []
+  playerEntities: []
   currentEvent: 0
+  currentPlayerEvent: 0
   txt: {fileID: 4900000, guid: cbe1a43c8ddc790498fde2e01e66d23e, type: 3}
   startOffset: 1
 --- !u!212 &2072389418
@@ -6700,18 +6701,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GamesHolder: {fileID: 1923614611}
   minigames: []
---- !u!114 &2072389420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2072389415}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b526b8bc5e3c6894a9d30b072c68fa27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2127056958
 GameObject:
   m_ObjectHideFlags: 0

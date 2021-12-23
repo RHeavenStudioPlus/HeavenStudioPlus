@@ -13,15 +13,15 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
         public Sprite[] fastSprites;
 
-        // List<GameManager.Event> allPlayerActions;
+        List<Beatmap.Entity> allPlayerActions;
 
         public void CheckNextFlick()
         {
-            // allPlayerActions = GameManager.instance.Events.FindAll(c => c.eventName != "gulp" && c.eventName != "sigh" && c.eventName != "prepare");
+            allPlayerActions = EventCaller.GetAllInGameManagerListExcept("forkLifter", new string[] { "gulp", "sigh", "prepare" });
 
-            /*if (GameManager.instance.currentEventPlayer < allPlayerActions.Count)
+            if (GameManager.instance.currentPlayerEvent < allPlayerActions.Count)
             {
-                switch (allPlayerActions[GameManager.instance.currentEventPlayer].eventName)
+                switch (allPlayerActions[GameManager.instance.currentPlayerEvent].datamodel.Split('/')[1])
                 {
                     case "pea":
                         ForkLifter.instance.peaPreview.sprite = ForkLifter.instance.peaSprites[0];
@@ -44,7 +44,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
             else
             {
                 ForkLifter.instance.peaPreview.sprite = null;
-            }*/
+            }
         }
 
         public void Prepare()
