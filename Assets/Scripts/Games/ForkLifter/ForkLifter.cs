@@ -8,7 +8,7 @@ using DG.Tweening;
 
 namespace RhythmHeavenMania.Games.ForkLifter
 {
-    public class ForkLifter : MonoBehaviour
+    public class ForkLifter : Minigame
     {
         public static ForkLifter instance;
 
@@ -31,6 +31,12 @@ namespace RhythmHeavenMania.Games.ForkLifter
         private void Awake()
         {
             instance = this;
+        }
+
+        public override void OnGameSwitch()
+        {
+            ForkLifterHand.CheckNextFlick();
+            ForkLifterPlayer.instance.RemoveObjFromFork();
         }
 
         private void Start()

@@ -17,9 +17,19 @@ namespace RhythmHeavenMania.Games.ClappyTrio
 
         private int lastIndex;
 
-        private float perfectTime = 0.25f, lateTime = 0.46f;
+        private float perfectTime = 0.25f, lateTime = 0.43f;
 
         private bool hit;
+
+        public bool clapStarted = false;
+        public bool canHit;
+
+        private GameObject clapEffect;
+
+        private void Start()
+        {
+            clapEffect = transform.GetChild(4).GetChild(3).gameObject;
+        }
 
         private void Update()
         {
@@ -79,13 +89,20 @@ namespace RhythmHeavenMania.Games.ClappyTrio
 
             if (canHit)
             {
+                clapEffect.SetActive(true);
                 Jukebox.PlayOneShotGame("clappyTrio/rightClap");
-                ClappyTrio.instance.playerHitLast = true;
+
+                if (this.canHit)
+                    ClappyTrio.instance.playerHitLast = true;
             }
             else
             {
+                clapEffect.SetActive(false);
                 Jukebox.PlayOneShot("miss");
                 ClappyTrio.instance.playerHitLast = false;
+
+                if (clapStarted)
+                    this.canHit = false;
             }
 
             ClappyTrio.instance.SetFace(2, 4);

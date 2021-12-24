@@ -73,7 +73,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
             if (normalizedBeat > endTime && endstate <= 1)
             {
                 endstate++;
-                Jukebox.PlayOneShotGame("audience/disappointed");
+                Jukebox.PlayOneShot("audience/disappointed");
             }
 
             if (normalizedBeat > 1.35f)

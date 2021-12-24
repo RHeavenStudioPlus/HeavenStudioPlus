@@ -17,27 +17,29 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
         public void CheckNextFlick()
         {
-            allPlayerActions = EventCaller.GetAllInGameManagerListExcept("forkLifter", new string[] { "gulp", "sigh", "prepare" });
+            // allPlayerActions = EventCaller.GetAllInGameManagerList("forkLifter", new string[] { "gulp", "sigh", "prepare" });
+            allPlayerActions = EventCaller.GetAllPlayerEntities("forkLifter");
+            int currentPlayerEvent = GameManager.instance.currentPlayerEvent - EventCaller.GetAllPlayerEntitiesExceptBeforeBeat("forkLifter", Conductor.instance.songPositionInBeats).Count;
 
-            if (GameManager.instance.currentPlayerEvent < allPlayerActions.Count)
+            if (currentPlayerEvent < allPlayerActions.Count)
             {
-                switch (allPlayerActions[GameManager.instance.currentPlayerEvent].datamodel.Split('/')[1])
+                switch (allPlayerActions[currentPlayerEvent].datamodel.Split('/')[1])
                 {
                     case "pea":
                         ForkLifter.instance.peaPreview.sprite = ForkLifter.instance.peaSprites[0];
                         fastSprite.sprite = fastSprites[0];
                         break;
                     case "topbun":
-                        fastSprite.sprite = fastSprites[0];
                         ForkLifter.instance.peaPreview.sprite = ForkLifter.instance.peaSprites[1];
+                        fastSprite.sprite = fastSprites[0];
                         break;
                     case "burger":
-                        fastSprite.sprite = fastSprites[1];
                         ForkLifter.instance.peaPreview.sprite = ForkLifter.instance.peaSprites[2];
+                        fastSprite.sprite = fastSprites[1];
                         break;
                     case "bottombun":
-                        fastSprite.sprite = fastSprites[0];
                         ForkLifter.instance.peaPreview.sprite = ForkLifter.instance.peaSprites[3];
+                        fastSprite.sprite = fastSprites[0];
                         break;
                 }
             }

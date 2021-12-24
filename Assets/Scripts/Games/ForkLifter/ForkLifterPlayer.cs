@@ -105,6 +105,11 @@ namespace RhythmHeavenMania.Games.ForkLifter
                 }
             }
 
+            RemoveObjFromFork();
+        }
+
+        public void RemoveObjFromFork()
+        {
             for (int i = 0; i < early.transform.childCount; i++)
             {
                 Destroy(early.transform.GetChild(i).gameObject);
@@ -220,7 +225,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
                     FastEffectHit(EligibleHits[currentHitInList].pea.type);
 
-                    Jukebox.PlayOneShotGame("miss");
+                    Jukebox.PlayOneShot("miss");
 
                     currentEarlyPeasOnFork++;
 
@@ -249,7 +254,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
                     FastEffectHit(EligibleHits[currentHitInList].pea.type);
 
-                    Jukebox.PlayOneShotGame("miss");
+                    Jukebox.PlayOneShot("miss");
 
                     currentLatePeasOnFork++;
 

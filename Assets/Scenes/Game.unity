@@ -168,6 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7c8ebd2f1b0ce448acc55b6f6608e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstEnable: 0
   LionLeft: {fileID: 1962334731}
   faces:
   - {fileID: -5723618315912617923, guid: bfb4e4bb08acdb14792cdd4c46253ab0, type: 3}
@@ -695,13 +696,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 206313026}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -3.615, y: -1.491, z: 0}
   m_LocalScale: {x: 1.58387, y: 1.58387, z: 1.4072311}
   m_Children:
   - {fileID: 209416149}
-  m_Father: {fileID: 950172045}
-  m_RootOrder: 3
+  m_Father: {fileID: 610701222}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &206313028
 SpriteRenderer:
@@ -1554,7 +1555,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ebc898cbaf3e679438e83c68552e527f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 51af38323954a8d44874780ba4577fb4, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1680,10 +1681,10 @@ Transform:
   m_GameObject: {fileID: 490794386}
   m_LocalRotation: {x: -0, y: -0, z: 0.1258703, w: -0.9920467}
   m_LocalPosition: {x: -3.916, y: -0.299, z: 0}
-  m_LocalScale: {x: 1.1646066, y: 1.1646066, z: 0.7352917}
+  m_LocalScale: {x: 1.1646065, y: 1.164606, z: 0.7352917}
   m_Children: []
-  m_Father: {fileID: 950172045}
-  m_RootOrder: 5
+  m_Father: {fileID: 610701222}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -14.462}
 --- !u!212 &490794388
 SpriteRenderer:
@@ -1760,12 +1761,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 510428302}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -3.1557, y: -0.172, z: 0}
   m_LocalScale: {x: 1.8510822, y: 1.8510822, z: 1.1687083}
   m_Children: []
-  m_Father: {fileID: 950172045}
-  m_RootOrder: 4
+  m_Father: {fileID: 610701222}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &510428304
 SpriteRenderer:
@@ -2229,6 +2230,40 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &610701221
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 610701222}
+  m_Layer: 0
+  m_Name: ClapEffect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &610701222
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610701221}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 206313027}
+  - {fileID: 510428303}
+  - {fileID: 490794387}
+  - {fileID: 2145437457}
+  m_Father: {fileID: 950172045}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &628922112
 GameObject:
   m_ObjectHideFlags: 0
@@ -2724,7 +2759,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1001
+  m_SortingOrder: 30000
   m_Sprite: {fileID: 21300000, guid: 3a0a4652ccc94254cade74a22a70f3ea, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
@@ -3357,10 +3392,7 @@ Transform:
   - {fileID: 741732138}
   - {fileID: 601068311}
   - {fileID: 1810132821}
-  - {fileID: 206313027}
-  - {fileID: 510428303}
-  - {fileID: 490794387}
-  - {fileID: 2145437457}
+  - {fileID: 610701222}
   m_Father: {fileID: 1962334732}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4267,6 +4299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b91bd072f874c8746bee1afaf6dac3b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstEnable: 0
   ForkLifterHand: {fileID: 1144790346}
   handAnim: {fileID: 1144790345}
   flickedObject: {fileID: 1671500045}
@@ -7024,7 +7057,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 32767
+  m_SortingOrder: 26766
   m_Sprite: {fileID: 7482667652216324306, guid: ef2fa2a75dc283e40b9d4fe1f20dc6fb, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
@@ -7242,8 +7275,8 @@ Transform:
   m_LocalPosition: {x: -2.2534251, y: -0.30203432, z: 0}
   m_LocalScale: {x: -1.1646066, y: 1.1646066, z: 0.7352917}
   m_Children: []
-  m_Father: {fileID: 950172045}
-  m_RootOrder: 6
+  m_Father: {fileID: 610701222}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 29.4}
 --- !u!212 &2145437458
 SpriteRenderer:
