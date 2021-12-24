@@ -6,6 +6,7 @@ using UnityEngine;
 
 using Starpelly;
 using Newtonsoft.Json;
+using RhythmHeavenMania.Games;
 
 namespace RhythmHeavenMania
 {
@@ -23,6 +24,9 @@ namespace RhythmHeavenMania
 
         public float startOffset;
 
+        [Header("Games")]
+        Coroutine currentGameSwitchIE;
+        private string currentGame;
 
         private void Awake()
         {
@@ -45,6 +49,8 @@ namespace RhythmHeavenMania
             Conductor.instance.SetBpm(Beatmap.bpm);
 
             StartCoroutine(Begin());
+
+            currentGame = eventCaller.GamesHolder.GetComponentsInChildren<Transform>()[1].name;
         }
 
         private IEnumerator Begin()
@@ -97,6 +103,26 @@ namespace RhythmHeavenMania
             }
         }
 
+        public void SwitchGame(string game)
+        {
+            if (currentGameSwitchIE != null) StopCoroutine(currentGameSwitchIE);
+            currentGameSwitchIE = StartCoroutine(SwitchGameIE(game));
+        }
+
+        IEnumerator SwitchGameIE(string game)
+        {
+            this.GetComponent<SpriteRenderer>().enabled = true;
+
+            eventCaller.minigames.Find(c => c.name == currentGame).holder.SetActive(false);
+            eventCaller.minigames.Find(c => c.name == game).holder.SetActive(true);
+            eventCaller.minigames.Find(c => c.name == game).holder.GetComponent<Minigame>().OnGameSwitch();
+            currentGame = game;
+
+            yield return new WaitForSeconds(0.1666f);
+
+
+            this.GetComponent<SpriteRenderer>().enabled = false;
+        }
 
         private void OnGUI()
         {

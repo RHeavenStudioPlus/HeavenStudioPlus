@@ -15,6 +15,7 @@ namespace RhythmHeavenMania
         public Transform GamesHolder;
         private float currentBeat;
         private float currentLength;
+        private string currentSwitchGame;
 
         public delegate void EventCallback();
 
@@ -56,7 +57,8 @@ namespace RhythmHeavenMania
             {
                 new MiniGame("gameManager", new List<GameAction>()
                 {
-                    new GameAction("end", delegate { Debug.Log("end"); })
+                    new GameAction("end", delegate { Debug.Log("end"); }),
+                    new GameAction("switchGame", delegate { GameManager.instance.SwitchGame(currentSwitchGame); })
                 }),
                 new MiniGame("forkLifter", new List<GameAction>() 
                 { 
@@ -73,10 +75,10 @@ namespace RhythmHeavenMania
                     // Claps
                     new GameAction("clap", delegate { ClappyTrio.instance.Clap(currentBeat, currentLength); }, true ),
 
-                    new GameAction("bop", delegate { ClappyTrio.instance.Bop(); }, true ),
+                    new GameAction("bop", delegate { ClappyTrio.instance.Bop(); } ),
 
-                    new GameAction("prepare", delegate { ClappyTrio.instance.Prepare(0); }, true ),
-                    new GameAction("prepare_alt", delegate { ClappyTrio.instance.Prepare(3); }, true ),
+                    new GameAction("prepare", delegate { ClappyTrio.instance.Prepare(0); } ),
+                    new GameAction("prepare_alt", delegate { ClappyTrio.instance.Prepare(3); } ),
                 })
             };
 
@@ -117,6 +119,8 @@ namespace RhythmHeavenMania
             {
                 currentLength = GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].length;
 
+                if (details.Length > 2) currentSwitchGame = details[2];
+
                 GameAction action = game.actions.Find(c => c.actionName == details[1]);
                 action.function.Invoke();
 
@@ -130,7 +134,7 @@ namespace RhythmHeavenMania
             }
         }
 
-        public static List<Beatmap.Entity> GetAllInGameManagerListExcept(string gameName, string[] exclude)
+        public static List<Beatmap.Entity> GetAllInGameManagerList(string gameName, string[] exclude)
         {
             List<Beatmap.Entity> temp1 = GameManager.instance.Beatmap.entities.FindAll(c => c.datamodel.Split('/')[0] == gameName);
             List<Beatmap.Entity> temp2 = new List<Beatmap.Entity>();
@@ -142,6 +146,22 @@ namespace RhythmHeavenMania
                 }
             }
             return temp2;
+        }
+
+        public static List<Beatmap.Entity> GetAllPlayerEntities(string gameName)
+        {
+            return GameManager.instance.playerEntities.FindAll(c => c.datamodel.Split('/')[0] == gameName);
+        }
+
+        public static List<Beatmap.Entity> GetAllPlayerEntitiesExcept(string gameName)
+        {
+            return GameManager.instance.playerEntities.FindAll(c => c.datamodel.Split('/')[0] != gameName);
+        }
+
+        // elaborate as fuck, boy
+        public static List<Beatmap.Entity> GetAllPlayerEntitiesExceptBeforeBeat(string gameName, float beat)
+        {
+            return GameManager.instance.playerEntities.FindAll(c => c.datamodel.Split('/')[0] != gameName && c.beat < beat);
         }
     }
 }

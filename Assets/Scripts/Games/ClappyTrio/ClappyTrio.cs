@@ -6,7 +6,7 @@ using RhythmHeavenMania.Util;
 
 namespace RhythmHeavenMania.Games.ClappyTrio
 {
-    public class ClappyTrio : MonoBehaviour
+    public class ClappyTrio : Minigame
     {
         [SerializeField] private GameObject LionLeft;
         private GameObject LionMiddle;
@@ -24,12 +24,19 @@ namespace RhythmHeavenMania.Games.ClappyTrio
 
         public bool playerHitLast = false;
 
-
         public static ClappyTrio instance { get; set; }
 
         private void Awake()
         {
             instance = this;
+        }
+
+        public override void OnGameSwitch()
+        {
+            SetFace(0, 0);
+            SetFace(1, 0);
+            SetFace(2, 0);
+            PlayAnimationAll("Idle");
         }
 
         private void Start()
@@ -76,12 +83,16 @@ namespace RhythmHeavenMania.Games.ClappyTrio
                     clapIndex = 0;
                     isClapping = false;
                     currentClappingLength = 0;
+                    ClappyTrioPlayer.clapStarted = false;
                 }
             }
         }
 
         public void Clap(float beat, float length)
         {
+            ClappyTrioPlayer.clapStarted = true;
+            ClappyTrioPlayer.canHit = true; // this is technically a lie, this just restores the ability to hit
+
             playerHitLast = false;
             isClapping = true;
             lastClapStart = beat;
@@ -105,14 +116,20 @@ namespace RhythmHeavenMania.Games.ClappyTrio
                 SetFace(1, 1);
                 SetFace(2, 1);
             }
+            else
+            {
+                SetFace(0, 2);
+                SetFace(1, 2);
+                SetFace(2, 0);
+            }
             PlayAnimationAll("Bop");
         }
 
         private void PlayAnimationAll(string anim)
         {
-            LionLeft.GetComponent<Animator>().Play(anim, 0, 0);
-            LionMiddle.GetComponent<Animator>().Play(anim, 0, 0);
-            LionPlayer.GetComponent<Animator>().Play(anim, 0, 0);
+            LionLeft.GetComponent<Animator>().Play(anim, -1, 0);
+            LionMiddle.GetComponent<Animator>().Play(anim, -1, 0);
+            LionPlayer.GetComponent<Animator>().Play(anim, -1, 0);
         }
 
         public void SetFace(int lion, int type)
