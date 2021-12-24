@@ -11,6 +11,11 @@ namespace RhythmHeavenMania
             return (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0));
         }
 
+        public static bool PressedUp()
+        {
+            return (Input.GetKeyUp(KeyCode.Z) || Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(0));
+        }
+
         public static bool Pressing()
         {
             return (Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0));

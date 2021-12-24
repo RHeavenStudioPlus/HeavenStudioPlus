@@ -8,11 +8,6 @@ namespace RhythmHeavenMania.Games.ForkLifter
 {
     public class Pea : MonoBehaviour
     {
-        [Header("Latency")]
-        public float earlyTime;
-        public float perfectTime;
-        public float lateTime;
-        public float endTime;
 
         private Animator anim;
 
@@ -43,27 +38,36 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
         private void Update()
         {
-            float normalizedBeat = (Conductor.instance.GetLoopPositionFromBeat(startBeat, 2.5f));
-            anim.Play("Flicked_Object", -1, normalizedBeat);
+            float normalizedBeatAnim = (Conductor.instance.GetLoopPositionFromBeat(startBeat, 2.5f));
+            anim.Play("Flicked_Object", -1, normalizedBeatAnim);
             anim.speed = 0;
+
+            float normalizedBeat = (Conductor.instance.GetLoopPositionFromBeat(startBeat, 2f));
+
+            float earlyTime = Minigame.earlyTime * 2;
+            float perfectTime = Minigame.perfectTime * 2;
+            float lateTime = Minigame.lateTime * 2;
+            float endTime = Minigame.endTime * 2;
+
+            print(normalizedBeat + " " + perfectTime);
 
             // Early State
             if (normalizedBeat > earlyTime && normalizedBeat < perfectTime && estate <= 1)
             {
-                estate++;
                 MakeEligible(true, false, false);
+                estate++;
             }
             // Perfect State
             else if (normalizedBeat > perfectTime && normalizedBeat < lateTime && pstate <= 1)
             {
-                pstate++;
                 MakeEligible(false, true, false);
+                pstate++;
             }
             // Late State
             else if (normalizedBeat > lateTime && normalizedBeat < endTime && lstate <= 1)
             {
-                lstate++;
                 MakeEligible(false, false, true);
+                lstate++;
             }
             else if (normalizedBeat < earlyTime || normalizedBeat > endTime)
             {
