@@ -83,6 +83,18 @@ TextureImporter:
   - first:
       213: 478934498563711568
     second: clapeffect_3
+  - first:
+      213: 7538691008291824435
+    second: trioTiming
+  - first:
+      213: 750180917687503391
+    second: sing_border
+  - first:
+      213: -8754115064420379011
+    second: sign_middle
+  - first:
+      213: -5709889983327001567
+    second: sign_grapple
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -746,6 +758,90 @@ TextureImporter:
       bones: []
       spriteID: 052e191936485a600800000000000000
       internalID: 478934498563711568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trioTiming
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 442
+        width: 372
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3336aa4c78fce9860800000000000000
+      internalID: 7538691008291824435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sing_border
+      rect:
+        serializedVersion: 2
+        x: 449
+        y: 586
+        width: 35
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1a4a0ce19d296a00800000000000000
+      internalID: 750180917687503391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sign_middle
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 586
+        width: 16
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d76d35eeab2238680800000000000000
+      internalID: -8754115064420379011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sign_grapple
+      rect:
+        serializedVersion: 2
+        x: 977
+        y: 617
+        width: 46
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 124ab3dff4562c0b0800000000000000
+      internalID: -5709889983327001567
       vertices: []
       indices: 
       edges: []
