@@ -15,10 +15,11 @@ namespace RhythmHeavenMania
         private TMP_Text SongPosBeats;
         private TMP_Text BPM;
         private TMP_Text currEvent;
+        private TMP_Text eventLength;
 
         private void Start()
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 GameObject debug = Instantiate(Template, Template.transform.parent);
                 debug.SetActive(true);
@@ -35,6 +36,9 @@ namespace RhythmHeavenMania
                     case 2:
                         currEvent = debug.transform.GetChild(0).GetComponent<TMP_Text>();
                         break;
+                    case 3:
+                        eventLength = debug.transform.GetChild(0).GetComponent<TMP_Text>();
+                        break;
                 }
             }
         }
@@ -44,9 +48,15 @@ namespace RhythmHeavenMania
             SongPosBeats.text = $"SongPosBeats: {Conductor.instance.songPositionInBeats}";
             BPM.text = $"BPM: {Conductor.instance.songBpm}";
             if (GameManager.instance.currentEvent - 1 >= 0)
+            {
                 currEvent.text = $"CurrentEvent: {GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent - 1].datamodel}";
+                eventLength.text = $"Event Length: {GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent - 1].length}";
+            }
             else
+            {
                 currEvent.text = $"CurrentEvent: {GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].datamodel}";
+                eventLength.text = $"Event Length: {GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].length}";
+            }
         }
     }
 }

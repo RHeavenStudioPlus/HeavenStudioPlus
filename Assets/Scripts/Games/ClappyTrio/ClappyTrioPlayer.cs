@@ -13,7 +13,7 @@ namespace RhythmHeavenMania.Games.ClappyTrio
         public bool late;
 
         private float lastClapBeat;
-        private bool clapVacant;
+        [SerializeField] private bool clapVacant;
 
         private int lastIndex;
 
@@ -105,7 +105,7 @@ namespace RhythmHeavenMania.Games.ClappyTrio
                     this.canHit = false;
             }
 
-            ClappyTrio.instance.SetFace(2, 4);
+            ClappyTrio.instance.SetFace(ClappyTrio.instance.Lion.Count - 1, 4);
             this.GetComponent<Animator>().Play("Clap", 0, 0);
         }
     }
