@@ -67,7 +67,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
         {
             Time.timeScale = timescale;
 
-            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space))
+            if (PlayerInput.Pressed())
             {
                 Stab();
             }

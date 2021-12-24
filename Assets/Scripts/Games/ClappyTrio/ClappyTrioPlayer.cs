@@ -17,8 +17,6 @@ namespace RhythmHeavenMania.Games.ClappyTrio
 
         private int lastIndex;
 
-        private float perfectTime = 0.25f, lateTime = 0.43f;
-
         private bool hit;
 
         public bool clapStarted = false;
@@ -38,22 +36,23 @@ namespace RhythmHeavenMania.Games.ClappyTrio
                 Clap();
             }
 
-            if (clapVacant == true)
+            // if (clapVacant == true)
             {
-                float songPosBeat = Conductor.instance.songPositionInBeats;
+                float normalizedBeat = (Conductor.instance.GetLoopPositionFromBeat(lastClapBeat, 1f));
+                print(normalizedBeat);
 
-                if (songPosBeat > lastClapBeat && songPosBeat < lastClapBeat + perfectTime && lastIndex == 0)
+                if (normalizedBeat > Minigame.earlyTime && normalizedBeat < Minigame.perfectTime && lastIndex == 0)
                 {
                     SetEligibility(true, false, false);
                     lastIndex++;
                 }
-                else if (songPosBeat > lastClapBeat + perfectTime && songPosBeat < lastClapBeat + lateTime && lastIndex == 1)
+                else if (normalizedBeat > Minigame.perfectTime && normalizedBeat < Minigame.lateTime && lastIndex == 1)
                 {
                     SetEligibility(false, true, false);
                     // Clap();
                     lastIndex++;
                 }
-                else if (songPosBeat > lastClapBeat + lateTime && lastIndex == 2)
+                else if (normalizedBeat > Minigame.lateTime && lastIndex == 2)
                 {
                     SetEligibility(false, false, true);
                     clapVacant = false;

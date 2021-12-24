@@ -92,13 +92,13 @@ namespace RhythmHeavenMania.Games.ClappyTrio
 
                     // i spent like 25 minutes trying to figure out what was wrong with this when i forgot to subtract the currentClapLength :(
                     if (i == Lion.Count - 1)
-                        minus = 0.35f;
+                        minus = Minigame.perfectTime;
 
                     if (songPosBeat > lastClapStart + (currentClappingLength * (i) - minus) && songPosBeat < lastClapStart + (currentClappingLength * (i + 1)) && clapIndex == i)
                     {
                         if (i == Lion.Count - 1)
                         {
-                            ClappyTrioPlayer.SetClapAvailability(lastClapStart + (currentClappingLength * i - 0.35f));
+                            ClappyTrioPlayer.SetClapAvailability(lastClapStart + (currentClappingLength * i - Minigame.perfectTime));
 
                             clapIndex = 0;
                             isClapping = false;
