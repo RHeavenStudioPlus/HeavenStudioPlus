@@ -58,6 +58,16 @@ namespace RhythmHeavenMania
             if (Beatmap.entities.Count < 1)
                 return;
 
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                Conductor.instance.musicSource.time += 3;
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                Conductor.instance.musicSource.time -= 3;
+                GameManager.instance.SetCurrentEventToClosest();
+            }
+
             List<float> entities = Beatmap.entities.Select(c => c.beat).ToList();
 
             if (currentEvent < Beatmap.entities.Count && currentEvent >= 0)

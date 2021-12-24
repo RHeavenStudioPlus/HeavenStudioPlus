@@ -13,11 +13,17 @@ namespace RhythmHeavenMania.Games.ClappyTrio
         private GameObject LionPlayer;
 
         [SerializeField] private Sprite[] faces;
+        public SpriteRenderer lionHeadLeft, lionHeadMiddle, lionHeadPlayer;
 
         private bool isClapping;
         private float currentClappingLength;
         private float lastClapStart;
         private int clapIndex;
+
+        private ClappyTrioPlayer ClappyTrioPlayer;
+
+        public bool playerHitLast = false;
+
 
         public static ClappyTrio instance { get; set; }
 
@@ -33,6 +39,12 @@ namespace RhythmHeavenMania.Games.ClappyTrio
 
             LionPlayer = Instantiate(LionLeft, LionLeft.transform.parent);
             LionPlayer.transform.localPosition = new Vector3(6.2f, 0);
+            ClappyTrioPlayer = LionPlayer.AddComponent<ClappyTrioPlayer>();
+
+
+            lionHeadLeft = LionLeft.transform.GetChild(1).GetComponent<SpriteRenderer>();
+            lionHeadMiddle = LionMiddle.transform.GetChild(1).GetComponent<SpriteRenderer>();
+            lionHeadPlayer = LionPlayer.transform.GetChild(1).GetComponent<SpriteRenderer>();
         }
 
         private void Update()
@@ -43,6 +55,7 @@ namespace RhythmHeavenMania.Games.ClappyTrio
 
                 if (songPosBeat > lastClapStart && songPosBeat < lastClapStart + 1 && clapIndex == 0)
                 {
+                    SetFace(0, 4);
                     LionLeft.GetComponent<Animator>().Play("Clap", 0, 0);
                     Jukebox.PlayOneShotGame("clappyTrio/leftClap");
 
@@ -50,23 +63,26 @@ namespace RhythmHeavenMania.Games.ClappyTrio
                 }
                 else if (songPosBeat > lastClapStart + currentClappingLength && songPosBeat < lastClapStart + (currentClappingLength * 2) && clapIndex == 1)
                 {
+                    SetFace(1, 4);
                     LionMiddle.GetComponent<Animator>().Play("Clap", 0, 0);
                     Jukebox.PlayOneShotGame("clappyTrio/middleClap");
 
                     clapIndex++;
                 }
-                else if (songPosBeat > lastClapStart + (currentClappingLength * 2) && clapIndex == 2)
+                else if (songPosBeat > lastClapStart + (currentClappingLength * 2 - 0.35f) && clapIndex == 2)
                 {
-                    LionPlayer.GetComponent<Animator>().Play("Clap", 0, 0);
-                    Jukebox.PlayOneShotGame("clappyTrio/rightClap");
+                    ClappyTrioPlayer.SetClapAvailability(lastClapStart + (currentClappingLength * 2 - 0.35f));
 
-                    clapIndex++;
+                    clapIndex = 0;
+                    isClapping = false;
+                    currentClappingLength = 0;
                 }
             }
         }
 
         public void Clap(float beat, float length)
         {
+            playerHitLast = false;
             isClapping = true;
             lastClapStart = beat;
             currentClappingLength = length;
@@ -74,11 +90,22 @@ namespace RhythmHeavenMania.Games.ClappyTrio
 
         public void Prepare(int type)
         {
-            PlayAnimationAll("Prepare");
-            Jukebox.PlayOneShotGame("clappyTrio/ready");
             SetFace(0, type);
             SetFace(1, type);
             SetFace(2, type);
+            PlayAnimationAll("Prepare");
+            Jukebox.PlayOneShotGame("clappyTrio/ready");
+        }
+
+        public void Bop()
+        {
+            if (playerHitLast)
+            {
+                SetFace(0, 1);
+                SetFace(1, 1);
+                SetFace(2, 1);
+            }
+            PlayAnimationAll("Bop");
         }
 
         private void PlayAnimationAll(string anim)
@@ -88,14 +115,14 @@ namespace RhythmHeavenMania.Games.ClappyTrio
             LionPlayer.GetComponent<Animator>().Play(anim, 0, 0);
         }
 
-        private void SetFace(int lion, int type)
+        public void SetFace(int lion, int type)
         {
             if (lion == 0)
-                LionLeft.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = faces[type];
-            else if (lion == 1)
-                LionMiddle.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = faces[type];
-            else if (lion == 3)
-                LionPlayer.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = faces[type];
+                lionHeadLeft.sprite = faces[type];
+            if (lion == 1)
+                lionHeadMiddle.sprite = faces[type];
+            if (lion == 2)
+                lionHeadPlayer.sprite = faces[type];
         }
     }
 }

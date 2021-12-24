@@ -76,16 +76,6 @@ namespace RhythmHeavenMania.Games.ForkLifter
             {
                 currentHitInList = 0;
             }
-
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                Conductor.instance.musicSource.time += 3;
-            }
-            else if (Input.GetKeyDown(KeyCode.S))
-            {
-                Conductor.instance.musicSource.time -= 3;
-                GameManager.instance.SetCurrentEventToClosest();
-            }
         }
 
         public void Eat()
