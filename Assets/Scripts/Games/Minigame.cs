@@ -6,7 +6,16 @@ namespace RhythmHeavenMania.Games
 {
     public class Minigame : MonoBehaviour
     {
-        public static float earlyTime = 0.77f, perfectTime = 0.87f, lateTime = 1.09f, endTime = 1.15f;
+        public static float earlyTime = 0.77f, perfectTime = 0.89f, lateTime = 1.09f, endTime = 1.15f;
+
+        [System.Serializable]
+        public class Eligible
+        {
+            public GameObject gameObject;
+            public bool early;
+            public bool perfect;
+            public bool late;
+        }
 
         // hopefully these will fix the lowbpm problem
         public static float EarlyTime()

@@ -24,9 +24,12 @@ namespace RhythmHeavenMania
 
         public float startOffset;
 
+        public Camera GameCamera;
+
         [Header("Games")]
         Coroutine currentGameSwitchIE;
         private string currentGame;
+
 
         private void Awake()
         {
@@ -115,6 +118,7 @@ namespace RhythmHeavenMania
 
             eventCaller.minigames.Find(c => c.name == currentGame).holder.SetActive(false);
             eventCaller.minigames.Find(c => c.name == game).holder.SetActive(true);
+            GameCamera.orthographic = true;
             eventCaller.minigames.Find(c => c.name == game).holder.GetComponent<Minigame>().OnGameSwitch();
             currentGame = game;
 

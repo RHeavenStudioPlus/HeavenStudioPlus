@@ -13,12 +13,10 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
         public Sprite[] fastSprites;
 
-        List<Beatmap.Entity> allPlayerActions;
-
         public void CheckNextFlick()
         {
             // allPlayerActions = EventCaller.GetAllInGameManagerList("forkLifter", new string[] { "gulp", "sigh", "prepare" });
-            allPlayerActions = EventCaller.GetAllPlayerEntities("forkLifter");
+            var allPlayerActions = EventCaller.GetAllPlayerEntities("forkLifter");
             int currentPlayerEvent = GameManager.instance.currentPlayerEvent - EventCaller.GetAllPlayerEntitiesExceptBeforeBeat("forkLifter", Conductor.instance.songPositionInBeats).Count;
 
             if (currentPlayerEvent < allPlayerActions.Count)

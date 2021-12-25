@@ -1,5 +1,29 @@
 {
     "bpm": 105,
     "entities": [
+        {
+            "beat": 1,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 4,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 6,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 8,
+            "datamodel": "gameManager/switchGame/forkLifter"
+        },
+        {
+            "beat": 8,
+            "datamodel": "forkLifter/pea"
+        },
+        {
+            "beat": 11,
+            "datamodel": "gameManager/switchGame/spaceball"
+        }
     ]
 }
