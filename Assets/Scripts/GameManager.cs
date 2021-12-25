@@ -24,7 +24,7 @@ namespace RhythmHeavenMania
 
         public float startOffset;
 
-        public Camera GameCamera;
+        public Camera GameCamera, CursorCam;
 
         [Header("Games")]
         Coroutine currentGameSwitchIE;

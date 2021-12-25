@@ -25,7 +25,7 @@ namespace RhythmHeavenMania
 
         private void Update()
         {
-            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 pos = GameManager.instance.CursorCam.ScreenToWorldPoint(Input.mousePosition);
 
             if (follow)
             {
