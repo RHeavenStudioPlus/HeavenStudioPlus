@@ -1,0 +1,41 @@
+{
+    "bpm": 135,
+    "entities": [
+        {
+            "beat": 1,
+            "datamodel": "clappyTrio/prepare_alt"
+        },
+        {
+            "beat": 4,
+            "length": 2,
+            "datamodel": "clappyTrio/clap"
+        },
+        {
+            "beat": 12,
+            "datamodel": "clappyTrio/prepare_alt"
+        },
+        {
+            "beat": 13,
+            "length": 1,
+            "datamodel": "clappyTrio/clap"
+        },
+
+
+        {
+            "beat": 17,
+            "datamodel": "gameManager/switchGame/forkLifter"
+        },
+        {
+            "beat": 17,
+            "datamodel": "forkLifter/pea"
+        },
+        {
+            "beat": 20,
+            "datamodel": "forkLifter/pea"
+        },
+        {
+            "beat": 20.5,
+            "datamodel": "forkLifter/pea"
+        }
+    ]
+}

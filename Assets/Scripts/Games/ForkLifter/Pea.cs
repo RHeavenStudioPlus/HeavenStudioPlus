@@ -44,8 +44,6 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
             float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(startBeat, 2f);
 
-            print(normalizedBeat + " " + Minigame.PerfectTime());
-
             // Early State
             if (normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.PerfectTime() && estate <= 1)
             {
