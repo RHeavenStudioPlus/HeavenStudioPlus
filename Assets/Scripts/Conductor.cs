@@ -47,7 +47,7 @@ namespace RhythmHeavenMania
         public static Conductor instance;
 
         //Pause times
-        private int pauseTime = 0;
+        // private int pauseTime = 0;
 
         public float beatThreshold;
 
