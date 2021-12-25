@@ -13,6 +13,7 @@ namespace RhythmHeavenMania.Games.ClappyTrio
         public bool late;
 
         private float lastClapBeat;
+        private float lastClapLength;
         [SerializeField] private bool clapVacant;
 
         private int lastIndex;
@@ -36,36 +37,47 @@ namespace RhythmHeavenMania.Games.ClappyTrio
                 Clap();
             }
 
-            // if (clapVacant == true)
+            if (clapVacant == true)
             {
-                float normalizedBeat = (Conductor.instance.GetLoopPositionFromBeat(lastClapBeat, 1f));
-                print(normalizedBeat);
+                float normalizedBeat = (Conductor.instance.GetLoopPositionFromBeat(lastClapBeat, lastClapLength));
 
-                if (normalizedBeat > Minigame.earlyTime && normalizedBeat < Minigame.perfectTime && lastIndex == 0)
+                if (normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.PerfectTime() && lastIndex == 0)
                 {
                     SetEligibility(true, false, false);
                     lastIndex++;
                 }
-                else if (normalizedBeat > Minigame.perfectTime && normalizedBeat < Minigame.lateTime && lastIndex == 1)
+                else if (normalizedBeat > Minigame.PerfectTime() && normalizedBeat < Minigame.LateTime() && lastIndex == 1)
                 {
                     SetEligibility(false, true, false);
                     // Clap();
                     lastIndex++;
                 }
-                else if (normalizedBeat > Minigame.lateTime && lastIndex == 2)
+                else if (normalizedBeat > Minigame.LateTime() && lastIndex == 2)
                 {
                     SetEligibility(false, false, true);
                     clapVacant = false;
                     lastIndex = 0;
+                    lastClapLength = 0;
+                    lastClapBeat = 0;
                     hit = false;
+                    ClearLog();
                 }
             }
         }
 
-        public void SetClapAvailability(float startBeat)
+        public void ClearLog()
+        {
+            var assembly = System.Reflection.Assembly.GetAssembly(typeof(UnityEditor.Editor));
+            var type = assembly.GetType("UnityEditor.LogEntries");
+            var method = type.GetMethod("Clear");
+            method.Invoke(new object(), null);
+        }
+
+        public void SetClapAvailability(float startBeat, float length)
         {
             lastClapBeat = startBeat;
             clapVacant = true;
+            lastClapLength = length;
         }
 
         private void SetEligibility(bool early, bool perfect, bool late)
@@ -96,6 +108,7 @@ namespace RhythmHeavenMania.Games.ClappyTrio
             }
             else
             {
+                print(early + " " + perfect + " " + late);
                 clapEffect.SetActive(false);
                 Jukebox.PlayOneShot("miss");
                 ClappyTrio.instance.playerHitLast = false;

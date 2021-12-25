@@ -38,43 +38,38 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
         private void Update()
         {
-            float normalizedBeatAnim = (Conductor.instance.GetLoopPositionFromBeat(startBeat, 2.5f));
+            float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(startBeat, 2.5f);
             anim.Play("Flicked_Object", -1, normalizedBeatAnim);
             anim.speed = 0;
 
-            float normalizedBeat = (Conductor.instance.GetLoopPositionFromBeat(startBeat, 2f));
+            float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(startBeat, 2f);
 
-            float earlyTime = Minigame.earlyTime * 2;
-            float perfectTime = Minigame.perfectTime * 2;
-            float lateTime = Minigame.lateTime * 2;
-            float endTime = Minigame.endTime * 2;
-
-            print(normalizedBeat + " " + perfectTime);
+            print(normalizedBeat + " " + Minigame.PerfectTime());
 
             // Early State
-            if (normalizedBeat > earlyTime && normalizedBeat < perfectTime && estate <= 1)
+            if (normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.PerfectTime() && estate <= 1)
             {
                 MakeEligible(true, false, false);
                 estate++;
             }
             // Perfect State
-            else if (normalizedBeat > perfectTime && normalizedBeat < lateTime && pstate <= 1)
+            else if (normalizedBeat > Minigame.PerfectTime() && normalizedBeat < Minigame.LateTime() && pstate <= 1)
             {
                 MakeEligible(false, true, false);
                 pstate++;
             }
             // Late State
-            else if (normalizedBeat > lateTime && normalizedBeat < endTime && lstate <= 1)
+            else if (normalizedBeat > Minigame.LateTime() && normalizedBeat < Minigame.EndTime() && lstate <= 1)
             {
                 MakeEligible(false, false, true);
                 lstate++;
             }
-            else if (normalizedBeat < earlyTime || normalizedBeat > endTime)
+            else if (normalizedBeat < Minigame.EarlyTime() || normalizedBeat > Minigame.EndTime())
             {
                 MakeInEligible();
             }
 
-            if (normalizedBeat > endTime && endstate <= 1)
+            if (normalizedBeat > Minigame.EndTime() && endstate <= 1)
             {
                 endstate++;
                 Jukebox.PlayOneShot("audience/disappointed");
