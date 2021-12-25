@@ -38,6 +38,7 @@ namespace RhythmHeavenMania
 
                 if (PlayerInput.Pressed())
                 {
+                    Cursor.visible = false;
                     Circle.transform.DOScale(0, 0.5f).SetEase(Ease.OutExpo);
                     InnerCircle.SetActive(true);
                     outerCircleTween.Kill();

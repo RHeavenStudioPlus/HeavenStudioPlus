@@ -47,6 +47,7 @@ namespace RhythmHeavenMania
         {
             SongPosBeats.text = $"SongPosBeats: {Conductor.instance.songPositionInBeats}";
             BPM.text = $"BPM: {Conductor.instance.songBpm}";
+            if (GameManager.instance.Beatmap.entities.Count > 0)
             if (GameManager.instance.currentEvent - 1 >= 0)
             {
                 currEvent.text = $"CurrentEvent: {GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent - 1].datamodel}";
