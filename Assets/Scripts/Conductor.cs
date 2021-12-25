@@ -73,7 +73,7 @@ namespace RhythmHeavenMania
 
         void Update()
         {
-            Conductor.instance.musicSource.pitch = Time.timeScale;
+            // Conductor.instance.musicSource.pitch = Time.timeScale;
 
             /*if (Input.GetKeyDown(KeyCode.Space))
             {

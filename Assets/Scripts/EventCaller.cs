@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+using RhythmHeavenMania.Util;
+
 using RhythmHeavenMania.Games.ForkLifter;
 using RhythmHeavenMania.Games.ClappyTrio;
-using RhythmHeavenMania.Util;
+using RhythmHeavenMania.Games.Spaceball;
 
 namespace RhythmHeavenMania
 {
@@ -16,6 +18,7 @@ namespace RhythmHeavenMania
         private float currentBeat;
         private float currentLength;
         private string currentSwitchGame;
+        private string currentType;
 
         public delegate void EventCallback();
 
@@ -60,8 +63,8 @@ namespace RhythmHeavenMania
                     new GameAction("end", delegate { Debug.Log("end"); }),
                     new GameAction("switchGame", delegate { GameManager.instance.SwitchGame(currentSwitchGame); })
                 }),
-                new MiniGame("forkLifter", new List<GameAction>() 
-                { 
+                new MiniGame("forkLifter", new List<GameAction>()
+                {
                     new GameAction("pea", delegate { ForkLifter.instance.Flick(currentBeat, 0); }, true ),
                     new GameAction("topbun", delegate { ForkLifter.instance.Flick(currentBeat, 1); }, true ),
                     new GameAction("burger", delegate { ForkLifter.instance.Flick(currentBeat, 2); }, true ),
@@ -79,6 +82,10 @@ namespace RhythmHeavenMania
 
                     new GameAction("prepare", delegate { ClappyTrio.instance.Prepare(0); } ),
                     new GameAction("prepare_alt", delegate { ClappyTrio.instance.Prepare(3); } ),
+                }),
+                new MiniGame("spaceball", new List<GameAction>()
+                {
+                    new GameAction("shoot", delegate { Spaceball.instance.Shoot(currentBeat); }, true )
                 })
             };
 
