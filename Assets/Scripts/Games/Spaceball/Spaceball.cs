@@ -9,6 +9,7 @@ namespace RhythmHeavenMania.Games.Spaceball
     public class Spaceball : Minigame
     {
         public GameObject Ball;
+        public GameObject BallsHolder;
 
         public GameObject Dispenser;
         public GameObject Dust;
@@ -17,6 +18,8 @@ namespace RhythmHeavenMania.Games.Spaceball
 
         public override void OnGameSwitch()
         {
+            for (int i = 1; i < BallsHolder.transform.childCount; i++)
+                Destroy(BallsHolder.transform.GetChild(i).gameObject);
             GameManager.instance.GameCamera.orthographic = false;
         }
 
@@ -39,13 +42,21 @@ namespace RhythmHeavenMania.Games.Spaceball
             }
         }
 
-        public void Shoot(float beat)
+        public void Shoot(float beat, string type)
         {
-            Jukebox.PlayOneShotGame("spaceball/shoot");
             GameObject ball = Instantiate(Ball);
             ball.transform.parent = Ball.transform.parent;
             ball.SetActive(true);
             ball.GetComponent<SpaceballBall>().startBeat = beat;
+            if (type == "high")
+            {
+                ball.GetComponent<SpaceballBall>().high = true;
+                Jukebox.PlayOneShotGame("spaceball/longShoot");
+            }
+            else
+            {
+                Jukebox.PlayOneShotGame("spaceball/shoot");
+            }
 
             Dispenser.GetComponent<Animator>().Play("DispenserShoot", 0, 0);
         }

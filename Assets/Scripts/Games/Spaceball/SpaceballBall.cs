@@ -13,6 +13,8 @@ namespace RhythmHeavenMania.Games.Spaceball
         private int lastState;
         private bool inList = false;
 
+        public bool high;
+
         private Minigame.Eligible e = new Minigame.Eligible();
 
         public GameObject Holder;
@@ -26,10 +28,17 @@ namespace RhythmHeavenMania.Games.Spaceball
 
         private void Update()
         {
-            float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(startBeat, 1.25f);
-            anim.Play("BallLow", -1, normalizedBeatAnim);
+            float beatLength = 1f;
+            if (high) beatLength = 2f;
 
-            float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(startBeat, 1f);
+            float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(startBeat, beatLength + 0.25f);
+
+            if (high) 
+                anim.Play("BallHigh", -1, normalizedBeatAnim);
+                else
+                anim.Play("BallLow", -1, normalizedBeatAnim);
+
+            float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(startBeat, beatLength);
 
             if (normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.PerfectTime() && lastState == 0)
             {
@@ -53,9 +62,12 @@ namespace RhythmHeavenMania.Games.Spaceball
                 MakeInEligible();
             }
 
-            if (normalizedBeat > 1.25f && lastState == 3)
+            // too lazy to make a proper fix for this
+            float endTime = 1.25f;
+            if (high) endTime = 1.15f;
+
+            if (normalizedBeat > endTime)
             {
-                lastState++;
                 Jukebox.PlayOneShotGame("spaceball/fall");
                 Instantiate(Spaceball.instance.Dust, Spaceball.instance.Dust.transform.parent).SetActive(true);
                 Destroy(this.gameObject);

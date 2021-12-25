@@ -85,7 +85,7 @@ namespace RhythmHeavenMania
                 }),
                 new MiniGame("spaceball", new List<GameAction>()
                 {
-                    new GameAction("shoot", delegate { Spaceball.instance.Shoot(currentBeat); }, true )
+                    new GameAction("shoot", delegate { Spaceball.instance.Shoot(currentBeat, currentType); }, true )
                 })
             };
 
@@ -125,6 +125,7 @@ namespace RhythmHeavenMania
             try
             {
                 currentLength = GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].length;
+                currentType = GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].type;
 
                 if (details.Length > 2) currentSwitchGame = details[2];
 
