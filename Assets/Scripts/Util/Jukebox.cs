@@ -51,7 +51,8 @@ namespace RhythmHeavenMania.Util
 
         public static void PlayOneShotGame(string name)
         {
-            PlayOneShot($"games/{name}");
+            if (GameManager.instance.currentGame == name.Split('/')[0])
+                PlayOneShot($"games/{name}");
         }
     }
 

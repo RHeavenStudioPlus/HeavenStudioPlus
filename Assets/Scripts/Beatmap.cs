@@ -15,6 +15,7 @@ namespace RhythmHeavenMania
             public float beat;
             public int track;
             public float length;
+            public float valA;
             public string type;
             public string datamodel;
 
