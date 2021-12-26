@@ -44,5 +44,10 @@ namespace RhythmHeavenMania.Games
         {
 
         }
+
+        public virtual void OnTimeChange()
+        {
+
+        }
     }
 }

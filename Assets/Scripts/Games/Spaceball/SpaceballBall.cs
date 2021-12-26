@@ -73,6 +73,10 @@ namespace RhythmHeavenMania.Games.Spaceball
                 Instantiate(Spaceball.instance.Dust, Spaceball.instance.Dust.transform.parent).SetActive(true);
                 Destroy(this.gameObject);
             }
+            else if (Conductor.instance.songPositionInBeats < startBeat)
+            {
+                Destroy(this.gameObject);
+            }
         }
 
         public void MakeEligible(bool early, bool perfect, bool late)

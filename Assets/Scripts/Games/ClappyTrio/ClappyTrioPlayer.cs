@@ -60,18 +60,17 @@ namespace RhythmHeavenMania.Games.ClappyTrio
                     lastClapLength = 0;
                     lastClapBeat = 0;
                     hit = false;
-                    ClearLog();
                 }
             }
         }
 
-        public void ClearLog()
+        /*public void ClearLog()
         {
             var assembly = System.Reflection.Assembly.GetAssembly(typeof(UnityEditor.Editor));
             var type = assembly.GetType("UnityEditor.LogEntries");
             var method = type.GetMethod("Clear");
             method.Invoke(new object(), null);
-        }
+        }*/
 
         public void SetClapAvailability(float startBeat, float length)
         {

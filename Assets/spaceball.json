@@ -2,20 +2,26 @@
     "bpm": 105,
     "entities": [
         {
+          "beat": 0,
+          "length": 0,
+          "valA": 170,
+          "datamodel": "spaceball/cameraZoom"  
+        },
+        {
+            "beat": 0,
+            "length": 4,
+            "valA": 10,
+            "datamodel":"spaceball/cameraZoom"
+        },
+        {
             "beat": 4,
             "type": "riceball",
             "datamodel": "spaceball/shoot"
         },
         {
-            "beat": 4,
+            "beat": 8,
             "length": 42,
             "valA": 30,
-            "datamodel": "spaceball/cameraZoom"
-        },
-        {
-            "beat": 44,
-            "length": 2,
-            "valA": 170,
             "datamodel": "spaceball/cameraZoom"
         },
         {
@@ -43,12 +49,12 @@
             "datamodel": "gameManager/switchGame/clappyTrio"
         },
         {
-            "beat": 16,
+            "beat": 17,
             "length": 2,
             "datamodel": "clappyTrio/clap"
         },
         {
-            "beat": 21,
+            "beat": 22,
             "datamodel": "gameManager/switchGame/spaceball"
         },
         {
@@ -104,6 +110,12 @@
         {
             "beat": 44,
             "datamodel": "spaceball/shootHigh"
+        },
+        {
+            "beat": 44,
+            "length": 2,
+            "valA": 170,
+            "datamodel": "spaceball/cameraZoom"
         }
     ]
 }

@@ -90,7 +90,7 @@ namespace RhythmHeavenMania
                 {
                     new GameAction("shoot", delegate { Spaceball.instance.Shoot(currentBeat, false, currentType); }, true ),
                     new GameAction("shootHigh", delegate { Spaceball.instance.Shoot(currentBeat, true, currentType); }, true ),
-                    new GameAction("cameraZoom", delegate { Spaceball.instance.CameraZoom(currentBeat, currentLength, currentValA); } ),
+                    // new GameAction("cameraZoom", delegate { Spaceball.instance.CameraZoom(currentBeat, currentLength, currentValA); } ),
                 })
             };
 
@@ -148,7 +148,21 @@ namespace RhythmHeavenMania
             }
         }
 
-        public static List<Beatmap.Entity> GetAllInGameManagerList(string gameName, string[] exclude)
+        public static List<Beatmap.Entity> GetAllInGameManagerList(string gameName, string[] include)
+        {
+            List<Beatmap.Entity> temp1 = GameManager.instance.Beatmap.entities.FindAll(c => c.datamodel.Split('/')[0] == gameName);
+            List<Beatmap.Entity> temp2 = new List<Beatmap.Entity>();
+            for (int i = 0; i < temp1.Count; i++)
+            {
+                if (include.Any(temp1[i].datamodel.Split('/')[1].Contains))
+                {
+                    temp2.Add(temp1[i]);
+                }
+            }
+            return temp2;
+        }
+
+        public static List<Beatmap.Entity> GetAllInGameManagerListExclude(string gameName, string[] exclude)
         {
             List<Beatmap.Entity> temp1 = GameManager.instance.Beatmap.entities.FindAll(c => c.datamodel.Split('/')[0] == gameName);
             List<Beatmap.Entity> temp2 = new List<Beatmap.Entity>();

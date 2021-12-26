@@ -15,12 +15,15 @@ namespace RhythmHeavenMania.Games.Spaceball
         public GameObject Dust;
 
         private float lastCamDistance;
-        private bool zoomingCamera = false;
-        private float lastZoomCamBeat;
-        private float lastZoomCamLength;
-        private float lastZoomCamDistance;
+        private float currentZoomCamBeat;
+        private float currentZoomCamLength;
+        private float currentZoomCamDistance;
+
+        private int currentZoomIndex;
 
         public Sprite[] Balls;
+
+        private List<Beatmap.Entity> allCameraEvents = new List<Beatmap.Entity>();
 
         public static Spaceball instance { get; set; }
 
@@ -32,9 +35,19 @@ namespace RhythmHeavenMania.Games.Spaceball
             SpaceballPlayer.instance.EligibleHits.RemoveRange(0, SpaceballPlayer.instance.EligibleHits.Count);
         }
 
+        public override void OnTimeChange()
+        {
+            UpdateCameraZoom();
+        }
+
         private void Awake()
         {
             instance = this;
+        }
+
+        private void Start()
+        {
+            UpdateCameraZoom();
         }
 
         private void Update()
@@ -50,30 +63,56 @@ namespace RhythmHeavenMania.Games.Spaceball
                 }
             }
 
-            if (zoomingCamera)
+            if (currentZoomIndex < allCameraEvents.Count && currentZoomIndex >= 0)
             {
-                float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(lastZoomCamBeat, lastZoomCamLength);
-                float newPosZ = Mathf.Lerp(lastCamDistance, lastZoomCamDistance, normalizedBeat);
-                GameManager.instance.GameCamera.transform.localPosition = new Vector3(0, 0, newPosZ);
+                if (Conductor.instance.songPositionInBeats >= allCameraEvents[currentZoomIndex].beat)
+                {
+                    UpdateCameraZoom();
+                    currentZoomIndex++;
+                }
+            }
+
+            float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(currentZoomCamBeat, currentZoomCamLength);
+
+            if (normalizedBeat > Minigame.EndTime())
+            {
+                lastCamDistance = GameManager.instance.GameCamera.transform.localPosition.z;
+            }
+            else
+            {
+                if (currentZoomCamLength <= 0)
+                    GameManager.instance.GameCamera.transform.localPosition = new Vector3(0, 0, currentZoomCamDistance);
+                else
+                {
+                    float newPosZ = Mathf.Lerp(lastCamDistance, currentZoomCamDistance, normalizedBeat);
+                    GameManager.instance.GameCamera.transform.localPosition = new Vector3(0, 0, newPosZ);
+                }
             }
         }
 
-
-        public void CameraZoom(float beat, float length, float distance)
+        private void UpdateCameraZoom()
         {
-            lastZoomCamBeat = beat;
-            lastZoomCamLength = length;
+            allCameraEvents = EventCaller.GetAllInGameManagerList("spaceball", new string[] { "cameraZoom" });
 
-            float dist = distance;
-            dist = dist * -1;
+            if (currentZoomIndex < allCameraEvents.Count && currentZoomIndex >= 0)
+            {
+                if (currentZoomIndex - 1 >= 0)
+                    lastCamDistance = allCameraEvents[currentZoomIndex - 1].valA * -1;
+                else
+                    lastCamDistance = allCameraEvents[0].valA * -1;
 
-            if (dist > 0)
-                lastZoomCamDistance = 0;
-            else
-                lastZoomCamDistance = dist;
+                currentZoomCamBeat = allCameraEvents[currentZoomIndex].beat;
+                currentZoomCamLength = allCameraEvents[currentZoomIndex].length;
 
-            zoomingCamera = true;
-            lastCamDistance = GameManager.instance.GameCamera.transform.localPosition.z;
+                float dist = allCameraEvents[currentZoomIndex].valA * -1;
+
+                print(dist);
+
+                if (dist > 0)
+                    currentZoomCamDistance = 0;
+                else
+                    currentZoomCamDistance = dist;
+            }
         }
 
         public void Shoot(float beat, bool high, string type)
