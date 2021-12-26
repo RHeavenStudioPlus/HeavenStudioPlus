@@ -7476,7 +7476,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 53.15
   orthographic: 0
@@ -14209,7 +14209,7 @@ MonoBehaviour:
   currentEvent: 0
   currentPlayerEvent: 0
   txt: {fileID: 4900000, guid: 50b54b23c06076c4598134813da27f18, type: 3}
-  startOffset: 0
+  startOffset: 0.5
   GameCamera: {fileID: 519420031}
   CursorCam: {fileID: 79134728}
   CircleCursor: {fileID: 1855769658}

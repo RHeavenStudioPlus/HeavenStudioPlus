@@ -37,7 +37,8 @@ namespace RhythmHeavenMania
             instance = this;
         }
 
-        private void Start()
+        // before Start() since this is very important
+        private void OnEnable()
         {
             SortEventsList();
 
@@ -71,11 +72,14 @@ namespace RhythmHeavenMania
             if (Input.GetKeyDown(KeyCode.A))
             {
                 Conductor.instance.musicSource.time += 3;
+                SetCurrentEventToClosest();
+                GetGame(currentGame).holder.GetComponent<Minigame>().OnTimeChange();
             }
             else if (Input.GetKeyDown(KeyCode.S))
             {
                 Conductor.instance.musicSource.time -= 3;
-                GameManager.instance.SetCurrentEventToClosest();
+                SetCurrentEventToClosest();
+                GetGame(currentGame).holder.GetComponent<Minigame>().OnTimeChange();
             }
 
             List<float> entities = Beatmap.entities.Select(c => c.beat).ToList();
@@ -84,9 +88,18 @@ namespace RhythmHeavenMania
             {
                 if (Conductor.instance.songPositionInBeats >= entities[currentEvent])
                 {
-                    eventCaller.CallEvent(Beatmap.entities[currentEvent].datamodel);
+                    // allows for multiple events on the same beat to be executed on the same frame, so no more 1-frame delay
+                    List<Beatmap.Entity> entitesAtSameBeat = Beatmap.entities.FindAll(c => c.beat == Beatmap.entities[currentEvent].beat);
 
-                    currentEvent++;
+                    for (int i = 0; i < entitesAtSameBeat.Count; i++)
+                    {
+                        eventCaller.CallEvent(entitesAtSameBeat[i].datamodel);
+                        currentEvent++;
+                    }
+
+                    // eventCaller.CallEvent(Beatmap.entities[currentEvent].datamodel);
+
+                    // currentEvent++;
                 }
             }
         }
