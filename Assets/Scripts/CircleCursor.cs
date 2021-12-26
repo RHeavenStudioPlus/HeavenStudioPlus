@@ -14,7 +14,7 @@ namespace RhythmHeavenMania
         [Header("DSGuy")]
         [SerializeField] private GameObject Eyes;
         [SerializeField] private GameObject OuterCircle;
-        [SerializeField] private GameObject InnerCircle;
+        public GameObject InnerCircle;
         [SerializeField] private GameObject Circle;
         private Tween outerCircleTween, eyesTween;
 

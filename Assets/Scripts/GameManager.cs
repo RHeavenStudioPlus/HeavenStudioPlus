@@ -25,10 +25,11 @@ namespace RhythmHeavenMania
         public float startOffset;
 
         public Camera GameCamera, CursorCam;
+        public CircleCursor CircleCursor;
 
         [Header("Games")]
         Coroutine currentGameSwitchIE;
-        private string currentGame;
+        public string currentGame;
 
 
         private void Awake()
@@ -53,7 +54,7 @@ namespace RhythmHeavenMania
 
             StartCoroutine(Begin());
 
-            currentGame = eventCaller.GamesHolder.GetComponentsInChildren<Transform>()[1].name;
+            SetCurrentGame(eventCaller.GamesHolder.transform.GetComponentsInChildren<Transform>()[1].name);
         }
 
         private IEnumerator Begin()
@@ -116,21 +117,37 @@ namespace RhythmHeavenMania
         {
             this.GetComponent<SpriteRenderer>().enabled = true;
 
-            eventCaller.minigames.Find(c => c.name == currentGame).holder.SetActive(false);
-            eventCaller.minigames.Find(c => c.name == game).holder.SetActive(true);
+            GetGame(currentGame).holder.GetComponent<Minigame>().OnGameSwitch();
+
+            GetGame(currentGame).holder.SetActive(false);
+            GetGame(game).holder.SetActive(true);
+
             GameCamera.orthographic = true;
-            eventCaller.minigames.Find(c => c.name == game).holder.GetComponent<Minigame>().OnGameSwitch();
-            currentGame = game;
+
+            GetGame(game).holder.GetComponent<Minigame>().OnGameSwitch();
+
+            SetCurrentGame(game);
 
             yield return new WaitForSeconds(0.1666f);
-
 
             this.GetComponent<SpriteRenderer>().enabled = false;
         }
 
-        private void OnGUI()
+        public EventCaller.MiniGame GetGame(string name)
         {
-            // GUI.Box(new Rect(0, 0, 300, 50), $"SongPosInBeats: {Conductor.instance.songPositionInBeats}");
+            return eventCaller.minigames.Find(c => c.name == name);
+        }
+
+        // never gonna use this
+        public EventCaller.MiniGame GetCurrentGame()
+        {
+            return eventCaller.minigames.Find(c => c.name == transform.GetComponentsInChildren<Transform>()[1].name);
+        }
+
+        public void SetCurrentGame(string game)
+        {
+            currentGame = game;
+            CircleCursor.InnerCircle.GetComponent<SpriteRenderer>().color = Colors.Hex2RGB(GetGame(currentGame).color);
         }
     }
 }

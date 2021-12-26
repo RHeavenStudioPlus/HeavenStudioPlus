@@ -37,6 +37,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
         {
             ForkLifterHand.CheckNextFlick();
             ForkLifterPlayer.instance.RemoveObjFromFork();
+            ForkLifterHand.GetComponent<Animator>().Play("Hand_Idle", 0, 0);
         }
 
         private void Start()

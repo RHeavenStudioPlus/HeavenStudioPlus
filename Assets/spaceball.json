@@ -3,7 +3,20 @@
     "entities": [
         {
             "beat": 4,
+            "type": "riceball",
             "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 4,
+            "length": 42,
+            "valA": 30,
+            "datamodel": "spaceball/cameraZoom"
+        },
+        {
+            "beat": 44,
+            "length": 2,
+            "valA": 170,
+            "datamodel": "spaceball/cameraZoom"
         },
         {
             "beat": 6,
@@ -40,8 +53,57 @@
         },
         {
             "beat": 22,
-            "type": "high",
+            "type": "riceball",
+            "datamodel": "spaceball/shootHigh"
+        },
+        {
+            "beat": 26,
             "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 28,
+            "type": "high",
+            "datamodel": "spaceball/shootHigh"
+        },
+        {
+            "beat": 28,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 28,
+            "datamodel": "forkLifter/pea"
+        },
+        {
+            "beat": 29.5,
+            "datamodel": "gameManager/switchGame/forkLifter"
+        },
+        {
+            "beat": 32,
+            "datamodel": "gameManager/switchGame/spaceball"
+        },
+        {
+            "beat": 34,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 36,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 38,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 40,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 42,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 44,
+            "datamodel": "spaceball/shootHigh"
         }
     ]
 }

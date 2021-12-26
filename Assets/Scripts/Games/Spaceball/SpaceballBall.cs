@@ -18,6 +18,7 @@ namespace RhythmHeavenMania.Games.Spaceball
         private Minigame.Eligible e = new Minigame.Eligible();
 
         public GameObject Holder;
+        public SpriteRenderer Sprite;
 
         private void Start()
         {
@@ -31,7 +32,7 @@ namespace RhythmHeavenMania.Games.Spaceball
             float beatLength = 1f;
             if (high) beatLength = 2f;
 
-            float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(startBeat, beatLength + 0.25f);
+            float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(startBeat, beatLength + 0.2f);
 
             if (high) 
                 anim.Play("BallHigh", -1, normalizedBeatAnim);
@@ -63,8 +64,8 @@ namespace RhythmHeavenMania.Games.Spaceball
             }
 
             // too lazy to make a proper fix for this
-            float endTime = 1.25f;
-            if (high) endTime = 1.15f;
+            float endTime = 1.2f;
+            if (high) endTime = 1.1f;
 
             if (normalizedBeat > endTime)
             {
