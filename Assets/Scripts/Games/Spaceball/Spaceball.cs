@@ -106,8 +106,6 @@ namespace RhythmHeavenMania.Games.Spaceball
 
                 float dist = allCameraEvents[currentZoomIndex].valA * -1;
 
-                print(dist);
-
                 if (dist > 0)
                     currentZoomCamDistance = 0;
                 else
@@ -115,12 +113,13 @@ namespace RhythmHeavenMania.Games.Spaceball
             }
         }
 
-        public void Shoot(float beat, bool high, string type)
+        public void Shoot(float beat, bool high, int type)
         {
             GameObject ball = Instantiate(Ball);
             ball.transform.parent = Ball.transform.parent;
             ball.SetActive(true);
             ball.GetComponent<SpaceballBall>().startBeat = beat;
+
             if (high)
             {
                 ball.GetComponent<SpaceballBall>().high = true;
@@ -131,12 +130,17 @@ namespace RhythmHeavenMania.Games.Spaceball
                 Jukebox.PlayOneShotGame("spaceball/shoot");
             }
 
-            if (type == "riceball")
+            if (type == 1)
             {
                 ball.GetComponent<SpaceballBall>().Sprite.sprite = Balls[1];
             }
 
             Dispenser.GetComponent<Animator>().Play("DispenserShoot", 0, 0);
+        }
+
+        public void Costume(int type)
+        {
+            SpaceballPlayer.instance.SetCostume(type);
         }
     }
 }

@@ -13197,6 +13197,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EligibleHits: []
   currentHitInList: 0
+  costume: 0
+  PlayerSprite: {fileID: 198549519}
+  PlayerSpriteSheets:
+  - sprites:
+    - {fileID: -7969101441138513416, guid: 7fbbca0e969f682488f19a39adc6aa62, type: 3}
+    - {fileID: -3597924984213406025, guid: 7fbbca0e969f682488f19a39adc6aa62, type: 3}
+    - {fileID: -2754269979427108517, guid: 7fbbca0e969f682488f19a39adc6aa62, type: 3}
+    - {fileID: 1484695007764172264, guid: 7fbbca0e969f682488f19a39adc6aa62, type: 3}
+    - {fileID: -4397913084546680220, guid: 7fbbca0e969f682488f19a39adc6aa62, type: 3}
+  - sprites:
+    - {fileID: -4949174322852393655, guid: 345cdeebdf48fd6428df7c685385b267, type: 3}
+    - {fileID: 3365178227022463474, guid: 345cdeebdf48fd6428df7c685385b267, type: 3}
+    - {fileID: -7043806042153501721, guid: 345cdeebdf48fd6428df7c685385b267, type: 3}
+    - {fileID: -6281578518888007599, guid: 345cdeebdf48fd6428df7c685385b267, type: 3}
+    - {fileID: 8401854151048007729, guid: 345cdeebdf48fd6428df7c685385b267, type: 3}
+  - sprites:
+    - {fileID: -2958710581570484910, guid: c37344be03f682348ace55262e2f57d2, type: 3}
+    - {fileID: 5082551717538876746, guid: c37344be03f682348ace55262e2f57d2, type: 3}
+    - {fileID: 816561731058611720, guid: c37344be03f682348ace55262e2f57d2, type: 3}
+    - {fileID: -8641696380238954509, guid: c37344be03f682348ace55262e2f57d2, type: 3}
+    - {fileID: -2661094518974622399, guid: c37344be03f682348ace55262e2f57d2, type: 3}
 --- !u!95 &1850992748
 Animator:
   serializedVersion: 3

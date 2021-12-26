@@ -19,7 +19,7 @@ namespace RhythmHeavenMania
         private float currentLength;
         private float currentValA;
         private string currentSwitchGame;
-        private string currentType;
+        private int currentType;
 
         public delegate void EventCallback();
 
@@ -90,6 +90,7 @@ namespace RhythmHeavenMania
                 {
                     new GameAction("shoot", delegate { Spaceball.instance.Shoot(currentBeat, false, currentType); }, true ),
                     new GameAction("shootHigh", delegate { Spaceball.instance.Shoot(currentBeat, true, currentType); }, true ),
+                    new GameAction("costume", delegate { Spaceball.instance.Costume(currentType); }, true ),
                     // new GameAction("cameraZoom", delegate { Spaceball.instance.CameraZoom(currentBeat, currentLength, currentValA); } ),
                 })
             };
