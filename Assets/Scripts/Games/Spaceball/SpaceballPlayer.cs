@@ -14,6 +14,17 @@ namespace RhythmHeavenMania.Games.Spaceball
         public List<Minigame.Eligible> EligibleHits = new List<Minigame.Eligible>();
         [SerializeField] private int currentHitInList = 0;
 
+        public int costume;
+
+        public SpriteRenderer PlayerSprite;
+        public List<SpriteSheet> PlayerSpriteSheets = new List<SpriteSheet>();
+
+        [System.Serializable]
+        public class SpriteSheet
+        {
+            public List<Sprite> sprites;
+        }
+
         public static SpaceballPlayer instance { get; set; }
 
         private void Awake()
@@ -35,6 +46,12 @@ namespace RhythmHeavenMania.Games.Spaceball
             {
                 Swing();
             }
+        }
+
+        public void SetCostume(int costume)
+        {
+            this.costume = costume;
+            anim.Play("Idle", 0, 0);
         }
 
         public void Swing()
@@ -70,7 +87,13 @@ namespace RhythmHeavenMania.Games.Spaceball
             }
             else
                 Jukebox.PlayOneShotGame("spaceball/swing");
+
             anim.Play("Swing", 0, 0);
+        }
+
+        public void SetSprite(int id)
+        {
+            PlayerSprite.sprite = PlayerSpriteSheets[costume].sprites[id];
         }
 
         private void RemoveBall()

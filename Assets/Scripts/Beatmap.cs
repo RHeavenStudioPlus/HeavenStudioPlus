@@ -16,7 +16,7 @@ namespace RhythmHeavenMania
             public int track;
             public float length;
             public float valA;
-            public string type;
+            public int type;
             public string datamodel;
 
             public object Clone()

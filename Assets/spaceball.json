@@ -15,7 +15,7 @@
         },
         {
             "beat": 4,
-            "type": "riceball",
+            "type": 1,
             "datamodel": "spaceball/shoot"
         },
         {
@@ -41,6 +41,11 @@
             "datamodel": "gameManager/switchGame/spaceball"
         },
         {
+            "beat": 11,
+            "type": 1,
+            "datamodel": "spaceball/costume"  
+        },
+        {
             "beat": 14,
             "datamodel": "spaceball/shoot"
         },
@@ -59,7 +64,12 @@
         },
         {
             "beat": 22,
-            "type": "riceball",
+            "type": 2,
+            "datamodel": "spaceball/costume"  
+        },
+        {
+            "beat": 22,
+            "type": 1,
             "datamodel": "spaceball/shootHigh"
         },
         {
@@ -68,7 +78,6 @@
         },
         {
             "beat": 28,
-            "type": "high",
             "datamodel": "spaceball/shootHigh"
         },
         {

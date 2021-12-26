@@ -35,9 +35,11 @@ namespace RhythmHeavenMania.Games.Spaceball
             float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(startBeat, beatLength + 0.2f);
 
             if (high) 
-                anim.Play("BallHigh", -1, normalizedBeatAnim);
+                anim.Play("BallHigh", 0, normalizedBeatAnim);
                 else
-                anim.Play("BallLow", -1, normalizedBeatAnim);
+                anim.Play("BallLow", 0, normalizedBeatAnim);
+
+            anim.speed = 0;
 
             float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(startBeat, beatLength);
 
