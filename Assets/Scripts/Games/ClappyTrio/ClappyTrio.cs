@@ -112,7 +112,13 @@ namespace RhythmHeavenMania.Games.ClappyTrio
                         {
                             SetFace(i, 4);
                             Lion[i].GetComponent<Animator>().Play("Clap", 0, 0);
-                            Jukebox.PlayOneShotGame("clappyTrio/leftClap");
+
+                            // lazy fix rn
+                            if (i > 0)
+                                Jukebox.PlayOneShotGame("clappyTrio/middleClap");
+                            else
+                                Jukebox.PlayOneShotGame("clappyTrio/leftClap");
+
                             clapIndex++;
                         }
                         break;

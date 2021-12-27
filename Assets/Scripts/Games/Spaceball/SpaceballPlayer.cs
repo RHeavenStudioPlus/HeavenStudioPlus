@@ -37,6 +37,7 @@ namespace RhythmHeavenMania.Games.Spaceball
             anim = GetComponent<Animator>();
         }
 
+        int bruh;
         private void Update()
         {
             if (EligibleHits.Count == 0)
@@ -45,6 +46,12 @@ namespace RhythmHeavenMania.Games.Spaceball
             if (PlayerInput.Pressed())
             {
                 Swing();
+            }
+
+            if (Conductor.instance.songPositionInBeats >= 5f && bruh == 0)
+            {
+                Swing();
+                bruh++;
             }
         }
 
