@@ -4,6 +4,8 @@ using UnityEngine;
 
 using Starpelly;
 
+// I CANNOT STRESS THIS ENOUGH, SET "Project Settings/Audio/DSP Buffer Size" to "Best latency" or else AudioSource.time WILL NOT update every frame.
+
 namespace RhythmHeavenMania
 {
     [RequireComponent(typeof(AudioSource))]
@@ -71,7 +73,7 @@ namespace RhythmHeavenMania
             // musicSource.Play();
         }
 
-        void Update()
+        public void Update()
         {
             // Conductor.instance.musicSource.pitch = Time.timeScale;
 
@@ -99,9 +101,8 @@ namespace RhythmHeavenMania
 
         public float GetLoopPositionFromBeat(float startBeat, float length)
         {
-            float final = Starpelly.Mathp.Normalize(songPositionInBeats, startBeat, startBeat + length);
-
-            return final;
+            float a = Mathp.Normalize(songPositionInBeats, startBeat, startBeat + length);
+            return a;
         }
 
         public void SetBpm(float bpm)
