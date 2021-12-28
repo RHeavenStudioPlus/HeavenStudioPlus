@@ -53,6 +53,10 @@ namespace RhythmHeavenMania
 
         public float beatThreshold;
 
+        private float lastTime;
+        private float lastMst_F;
+        private int framesSinceLastSame;
+
         void Awake()
         {
             instance = this;
@@ -73,6 +77,12 @@ namespace RhythmHeavenMania
             // musicSource.Play();
         }
 
+        public void Play(float startBeat)
+        {
+            musicSource.Play();
+            
+        }
+
         public void Update()
         {
             // Conductor.instance.musicSource.pitch = Time.timeScale;
@@ -85,11 +95,38 @@ namespace RhythmHeavenMania
                 else if (pauseTime > 1) { musicSource.UnPause(); pauseTime = 0; }
             }*/
 
+            float mst = musicSource.timeSamples / (float)musicSource.clip.frequency;
+            float mst_f = mst + 0;
+
+            if (mst == lastTime && musicSource.isPlaying)
+            {
+                framesSinceLastSame++;
+
+                mst_f = mst_f + (Time.deltaTime * framesSinceLastSame) * musicSource.pitch;
+
+                if (mst_f < lastMst_F)
+                {
+                    mst_f = lastMst_F;
+                }
+
+                print($"{lastMst_F}, {mst_f}");
+            }
+            else
+            {
+                framesSinceLastSame = 0;
+            }
+
+            lastTime = mst;
+            lastMst_F = mst_f;
+
             //determine how many seconds since the song started
-            songPosition = (float)(musicSource.time - dspSongTime - firstBeatOffset);
+            songPosition = (float)(mst_f - dspSongTime - firstBeatOffset);
 
             //determine how many beats since the song started
             songPositionInBeats = songPosition / secPerBeat;
+            // print($"{musicSource.time}(AudioSource.time), {Time.frameCount}(Time.fasrameCount)");
+            // print($"{musicSource.time}(0), {mst_f}");
+
 
             //calculate the loop position
             if (songPositionInBeats >= (completedLoops + 1) * beatsPerLoop)

@@ -81,7 +81,7 @@ namespace RhythmHeavenMania
                     // Claps
                     new GameAction("clap", delegate { ClappyTrio.instance.Clap(currentBeat, currentLength); }, true ),
 
-                    new GameAction("bop", delegate { ClappyTrio.instance.Bop(); } ),
+                    new GameAction("bop", delegate { ClappyTrio.instance.Bop(currentBeat); } ),
 
                     new GameAction("prepare", delegate { ClappyTrio.instance.Prepare(0); } ),
                     new GameAction("prepare_alt", delegate { ClappyTrio.instance.Prepare(3); } ),

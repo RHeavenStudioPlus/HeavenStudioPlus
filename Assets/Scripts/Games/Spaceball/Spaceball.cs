@@ -94,6 +94,9 @@ namespace RhythmHeavenMania.Games.Spaceball
         {
             allCameraEvents = EventCaller.GetAllInGameManagerList("spaceball", new string[] { "cameraZoom" });
 
+            if (allCameraEvents.Count == 0)
+                currentZoomCamDistance = -10;
+
             if (currentZoomIndex < allCameraEvents.Count && currentZoomIndex >= 0)
             {
                 if (currentZoomIndex - 1 >= 0)

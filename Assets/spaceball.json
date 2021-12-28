@@ -1,10 +1,10 @@
 {
-    "bpm": 105,
+    "bpm": 135,
     "entities": [
         {
           "beat": 0,
           "length": 0,
-          "valA": 20,
+          "valA": 170,
           "datamodel": "spaceball/cameraZoom"  
         },
         {
@@ -68,7 +68,7 @@
             "datamodel": "spaceball/costume"  
         },
         {
-            "beat": 22,
+            "beat": 23,
             "type": 1,
             "datamodel": "spaceball/shootHigh"
         },
@@ -125,6 +125,14 @@
             "length": 2,
             "valA": 170,
             "datamodel": "spaceball/cameraZoom"
+        },
+        {
+            "beat": 48,
+            "datamodel":"gameManager/switchGame/forkLifter"
+        },
+        {
+            "beat": 50,
+            "datamodel":"forkLifter/pea"
         }
     ]
 }

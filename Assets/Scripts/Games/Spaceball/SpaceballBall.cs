@@ -33,7 +33,7 @@ namespace RhythmHeavenMania.Games.Spaceball
             if (high) beatLength = 2f;
 
             float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(startBeat, beatLength + 0.15f);
-            print(normalizedBeatAnim + " " + Time.frameCount);
+            // print(normalizedBeatAnim + " " + Time.frameCount);
 
             if (high)
             {

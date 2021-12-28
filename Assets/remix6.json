@@ -2,40 +2,209 @@
     "bpm": 135,
     "entities": [
         {
-            "beat": 1,
-            "datamodel": "clappyTrio/prepare_alt"
+          "beat": 0,
+          "length": 0,
+          "valA": 170,
+          "datamodel": "spaceball/cameraZoom"  
+        },
+        {
+            "beat": 0,
+            "length": 4,
+            "valA": 10,
+            "datamodel":"spaceball/cameraZoom"
         },
         {
             "beat": 4,
+            "type": 1,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 8,
+            "length": 42,
+            "valA": 30,
+            "datamodel": "spaceball/cameraZoom"
+        },
+        {
+            "beat": 6,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 8,
+            "datamodel": "gameManager/switchGame/forkLifter"
+        },
+        {
+            "beat": 8,
+            "datamodel": "forkLifter/pea"
+        },
+        {
+            "beat": 11,
+            "datamodel": "gameManager/switchGame/spaceball"
+        },
+        {
+            "beat": 11,
+            "type": 1,
+            "datamodel": "spaceball/costume"  
+        },
+        {
+            "beat": 14,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 16,
+            "datamodel": "gameManager/switchGame/clappyTrio"
+        },
+        {
+            "beat": 17,
             "length": 2,
             "datamodel": "clappyTrio/clap"
         },
         {
-            "beat": 12,
-            "datamodel": "clappyTrio/prepare_alt"
+            "beat": 22,
+            "datamodel": "gameManager/switchGame/spaceball"
         },
         {
-            "beat": 13,
-            "length": 1,
-            "datamodel": "clappyTrio/clap"
+            "beat": 22,
+            "type": 2,
+            "datamodel": "spaceball/costume"  
         },
-
-
         {
-            "beat": 17,
+            "beat": 23,
+            "type": 1,
+            "datamodel": "spaceball/shootHigh"
+        },
+        {
+            "beat": 26,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 28,
+            "datamodel": "spaceball/shootHigh"
+        },
+        {
+            "beat": 28,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 28,
+            "datamodel": "forkLifter/pea"
+        },
+        {
+            "beat": 29.5,
             "datamodel": "gameManager/switchGame/forkLifter"
         },
         {
-            "beat": 17,
-            "datamodel": "forkLifter/pea"
+            "beat": 32,
+            "datamodel": "gameManager/switchGame/spaceball"
         },
         {
-            "beat": 20,
-            "datamodel": "forkLifter/pea"
+            "beat": 34,
+            "datamodel": "spaceball/shoot"
         },
         {
-            "beat": 20.5,
-            "datamodel": "forkLifter/pea"
-        }
+            "beat": 36,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 38,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 40,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 42,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 44,
+            "datamodel": "spaceball/shootHigh"
+        },
+        {
+            "beat": 44,
+            "length": 2,
+            "valA": 170,
+            "datamodel": "spaceball/cameraZoom"
+        },
+        {
+            "beat": 48,
+            "datamodel":"gameManager/switchGame/forkLifter"
+        },
+        {
+            "beat": 50,
+            "datamodel":"forkLifter/pea"
+        },
+        {
+            "beat": 53,
+            "datamodel":"forkLifter/pea"
+        },
+        {
+            "beat": 57,
+            "datamodel":"gameManager/switchGame/spaceball"
+        },
+        {
+            "beat": 57,
+            "length": 0,
+            "valA": 10,
+            "datamodel":"spaceball/cameraZoom"
+        },
+        {
+            "beat": 57,
+            "datamodel":"spaceball/shoot"
+        },
+        {
+            "beat": 59,
+            "datamodel":"spaceball/shoot"
+        },
+        {
+            "beat": 61,
+            "datamodel":"spaceball/shootHigh"
+        },
+        {
+            "beat": 63,
+            "datamodel":"spaceball/shoot"
+        },
+        {
+            "beat": 65,
+            "datamodel":"gameManager/switchGame/clappyTrio"
+        },
+        {
+            "beat": 65,
+            "length": 1,
+            "datamodel":"clappyTrio/clap"
+        },
+        {
+            "beat": 68,
+            "datamodel":"clappyTrio/bop"
+        },
+        {
+            "beat": 69,
+            "datamodel":"clappyTrio/prepare"
+        },
+        {
+            "beat": 70,
+            "length": 1,
+            "datamodel":"clappyTrio/clap"
+        },
+        {
+            "beat": 72.5,
+            "datamodel":"gameManager/switchGame/forkLifter"
+        },
+        {
+            "beat": 73,
+            "datamodel":"forkLifter/pea"
+        },
+        {
+            "beat": 75,
+            "datamodel":"forkLifter/pea"
+        },
+        {
+            "beat": 77,
+            "datamodel":"forkLifter/pea"
+        },
+        {
+            "beat": 79,
+            "datamodel":"gameManager/switchGame/spaceball"
+        },
     ]
 }
