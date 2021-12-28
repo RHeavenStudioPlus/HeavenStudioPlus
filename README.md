@@ -1,10 +1,10 @@
 ## This project is still in development. There are NO public compiled releases (yet).
 
 # Rhythm Heaven Mania
-![image](https://user-images.githubusercontent.com/24588691/147578029-c0ca76eb-34a4-48ad-a27e-480cc3966b38.png)
-
 
 (WIP) Fully playable, open source recreation of every rhythm heaven minigame with a built in level editor.
+
+![image](https://user-images.githubusercontent.com/24588691/147578029-c0ca76eb-34a4-48ad-a27e-480cc3966b38.png)
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![youtube.com/starpelly](https://img.shields.io/badge/youtube-youtube.com%2Fstarpelly-red)](https://youtube.com/starpelly)
