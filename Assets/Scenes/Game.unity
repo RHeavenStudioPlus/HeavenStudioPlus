@@ -7163,7 +7163,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: c0b3e65059fb3cd49aa056342f2246c8, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 92cf585c80f8fb843964e525aef1406c, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -12989,7 +12989,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1776916805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14407,12 +14407,13 @@ MonoBehaviour:
   playerEntities: []
   currentEvent: 0
   currentPlayerEvent: 0
-  txt: {fileID: 4900000, guid: 50b54b23c06076c4598134813da27f18, type: 3}
+  txt: {fileID: 4900000, guid: 4b7512c586e16a847a5b8490bf35e852, type: 3}
   startOffset: 0.5
   GameCamera: {fileID: 519420031}
   CursorCam: {fileID: 79134728}
   CircleCursor: {fileID: 1855769658}
   currentGame: 
+  startBeat: 0
 --- !u!212 &2072389418
 SpriteRenderer:
   m_ObjectHideFlags: 0

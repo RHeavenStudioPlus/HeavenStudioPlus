@@ -177,7 +177,7 @@ namespace RhythmHeavenMania.Games.ClappyTrio
             Jukebox.PlayOneShotGame("clappyTrio/ready");
         }
 
-        public void Bop()
+        public void Bop(float beat)
         {
             if (playerHitLast)
             {
@@ -188,15 +188,21 @@ namespace RhythmHeavenMania.Games.ClappyTrio
             }
             else
             {
-                for (int i = 0; i < Lion.Count; i++)
+                var a = EventCaller.GetAllInGameManagerList("clappyTrio", new string[] { "clap" });
+                var b = a.FindAll(c => c.beat < beat);
+
+                if (b.Count > 0)
                 {
-                    if (i == Lion.Count - 1)
+                    for (int i = 0; i < Lion.Count; i++)
                     {
-                        SetFace(i, 0);
-                    }
-                    else
-                    {
-                        SetFace(i, 2);
+                        if (i == Lion.Count - 1)
+                        {
+                            SetFace(i, 0);
+                        }
+                        else
+                        {
+                            SetFace(i, 2);
+                        }
                     }
                 }
             }

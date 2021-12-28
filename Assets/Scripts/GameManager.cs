@@ -31,6 +31,7 @@ namespace RhythmHeavenMania
         Coroutine currentGameSwitchIE;
         public string currentGame;
 
+        public float startBeat;
 
         private void Awake()
         {
@@ -55,7 +56,12 @@ namespace RhythmHeavenMania
 
             StartCoroutine(Begin());
 
-            SetCurrentGame(eventCaller.GamesHolder.transform.GetComponentsInChildren<Transform>()[1].name);
+            // SetCurrentGame(eventCaller.GamesHolder.transform.GetComponentsInChildren<Transform>()[1].name);
+
+            if (Beatmap.entities.Count >= 1)
+            {
+                SetCurrentGame(Beatmap.entities[0].datamodel.Split('/')[0]);
+            }
         }
 
         private IEnumerator Begin()

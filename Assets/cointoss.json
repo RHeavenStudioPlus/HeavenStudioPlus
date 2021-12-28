@@ -1,0 +1,38 @@
+{
+    "bpm": 120,
+    "entities": [
+        {
+            "beat": 4,
+            "datamodel": "spaceball/shootHigh"
+        },
+        {
+            "beat": 8,
+            "datamodel": "gameManager/switchGame/clappyTrio"
+        },
+        {
+            "beat": 9,
+            "datamodel": "clappyTrio/bop"
+        },
+        {
+            "beat": 10,
+            "datamodel": "clappyTrio/bop"
+        },
+        {
+            "beat": 11,
+            "datamodel": "clappyTrio/prepare_alt"
+        },
+        {
+            "beat": 12,
+            "length": 1,
+            "datamodel": "clappyTrio/clap"
+        },
+        {
+            "beat": 16,
+            "datamodel": "gameManager/switchGame/spaceball"
+        },
+        {
+            "beat": 21,
+            "datamodel": "spaceball/shoot"
+        },
+    ]
+}
