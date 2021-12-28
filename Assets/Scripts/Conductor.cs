@@ -104,12 +104,21 @@ namespace RhythmHeavenMania
 
                 mst_f = mst_f + (Time.deltaTime * framesSinceLastSame) * musicSource.pitch;
 
-                if (mst_f < lastMst_F)
+                if (mst_f <= lastMst_F)
                 {
-                    mst_f = lastMst_F;
+                    // mst_f = lastMst_F;
+                    float b = lastMst_F + (Time.deltaTime) * musicSource.pitch;
+
+                    mst_f = b;
+                    // print(b);
+                    // print(mst_f + "  " + b + "  " + lastMst_F);
+                }
+                else if (mst_f < lastTime)
+                {
+                    Debug.LogError("What the fuck.");
                 }
 
-                print($"{lastMst_F}, {mst_f}");
+                // print($"{lastMst_F}, {mst_f}");
             }
             else
             {
@@ -124,7 +133,7 @@ namespace RhythmHeavenMania
 
             //determine how many beats since the song started
             songPositionInBeats = songPosition / secPerBeat;
-            // print($"{musicSource.time}(AudioSource.time), {Time.frameCount}(Time.fasrameCount)");
+            // print($"{mst_f}(AudioSource.time), {Time.frameCount}(Time.fasrameCount)");
             // print($"{musicSource.time}(0), {mst_f}");
 
 

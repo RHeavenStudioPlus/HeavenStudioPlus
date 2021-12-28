@@ -25,6 +25,8 @@ namespace RhythmHeavenMania.Games.Spaceball
 
         private List<Beatmap.Entity> allCameraEvents = new List<Beatmap.Entity>();
 
+        public Alien alien;
+
         public static Spaceball instance { get; set; }
 
         public override void OnGameSwitch()

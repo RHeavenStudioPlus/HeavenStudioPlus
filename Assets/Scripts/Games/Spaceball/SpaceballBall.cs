@@ -25,6 +25,9 @@ namespace RhythmHeavenMania.Games.Spaceball
             anim = GetComponent<Animator>();
 
             e.gameObject = this.gameObject;
+
+            float rot = Random.Range(0, 360);
+            Sprite.gameObject.transform.eulerAngles = new Vector3(0, 0, rot);
         }
 
         private void Update()
@@ -78,10 +81,6 @@ namespace RhythmHeavenMania.Games.Spaceball
             {
                 Jukebox.PlayOneShotGame("spaceball/fall");
                 Instantiate(Spaceball.instance.Dust, Spaceball.instance.Dust.transform.parent).SetActive(true);
-                Destroy(this.gameObject);
-            }
-            else if (Conductor.instance.songPositionInBeats < startBeat)
-            {
                 Destroy(this.gameObject);
             }
         }
