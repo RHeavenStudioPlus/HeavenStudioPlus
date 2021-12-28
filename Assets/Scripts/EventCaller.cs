@@ -91,6 +91,7 @@ namespace RhythmHeavenMania
                     new GameAction("shoot", delegate { Spaceball.instance.Shoot(currentBeat, false, currentType); }, true ),
                     new GameAction("shootHigh", delegate { Spaceball.instance.Shoot(currentBeat, true, currentType); }, true ),
                     new GameAction("costume", delegate { Spaceball.instance.Costume(currentType); }, true ),
+                    new GameAction("alien", delegate { Spaceball.instance.alien.Show(currentBeat); }, true ),
                     // new GameAction("cameraZoom", delegate { Spaceball.instance.CameraZoom(currentBeat, currentLength, currentValA); } ),
                 })
             };

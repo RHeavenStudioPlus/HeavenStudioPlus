@@ -1,10 +1,10 @@
 {
-    "bpm": 135,
+    "bpm": 105,
     "entities": [
         {
           "beat": 0,
           "length": 0,
-          "valA": 170,
+          "valA": 4,
           "datamodel": "spaceball/cameraZoom"  
         },
         {
@@ -19,31 +19,28 @@
             "datamodel": "spaceball/shoot"
         },
         {
-            "beat": 8,
-            "length": 42,
-            "valA": 30,
-            "datamodel": "spaceball/cameraZoom"
-        },
-        {
             "beat": 6,
             "datamodel": "spaceball/shoot"
         },
         {
             "beat": 8,
-            "datamodel": "gameManager/switchGame/forkLifter"
+            "length": 4,
+            "valA": 20,
+            "datamodel": "spaceball/cameraZoom"
         },
         {
             "beat": 8,
-            "datamodel": "forkLifter/pea"
+            "datamodel": "spaceball/shoot"
         },
         {
-            "beat": 11,
-            "datamodel": "gameManager/switchGame/spaceball"
+            "beat": 10,
+            "datamodel": "spaceball/shoot"
         },
         {
-            "beat": 11,
-            "type": 1,
-            "datamodel": "spaceball/costume"  
+            "beat": 12,
+            "length": 0.25,
+            "valA": 10,
+            "datamodel": "spaceball/cameraZoom"
         },
         {
             "beat": 14,
@@ -51,26 +48,29 @@
         },
         {
             "beat": 16,
-            "datamodel": "gameManager/switchGame/clappyTrio"
+            "datamodel": "spaceball/shoot"
         },
         {
-            "beat": 17,
-            "length": 2,
-            "datamodel": "clappyTrio/clap"
+            "beat": 18,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 20,
+            "datamodel": "spaceball/shoot"
         },
         {
             "beat": 22,
-            "datamodel": "gameManager/switchGame/spaceball"
+            "datamodel": "spaceball/shoot"
         },
         {
             "beat": 22,
-            "type": 2,
-            "datamodel": "spaceball/costume"  
+            "length": 4,
+            "valA": 20,
+            "datamodel": "spaceball/cameraZoom"
         },
         {
-            "beat": 23,
-            "type": 1,
-            "datamodel": "spaceball/shootHigh"
+            "beat": 24,
+            "datamodel": "spaceball/shoot"
         },
         {
             "beat": 26,
@@ -81,20 +81,14 @@
             "datamodel": "spaceball/shootHigh"
         },
         {
-            "beat": 28,
-            "datamodel": "spaceball/shoot"
-        },
-        {
-            "beat": 28,
-            "datamodel": "forkLifter/pea"
-        },
-        {
-            "beat": 29.5,
-            "datamodel": "gameManager/switchGame/forkLifter"
+            "beat": 32,
+            "length": 4,
+            "valA": 10,
+            "datamodel": "spaceball/cameraZoom"
         },
         {
             "beat": 32,
-            "datamodel": "gameManager/switchGame/spaceball"
+            "datamodel": "spaceball/shoot"
         },
         {
             "beat": 34,
@@ -122,17 +116,147 @@
         },
         {
             "beat": 44,
-            "length": 2,
-            "valA": 170,
+            "length": 1,
+            "valA": 20,
             "datamodel": "spaceball/cameraZoom"
         },
         {
             "beat": 48,
-            "datamodel":"gameManager/switchGame/forkLifter"
+            "datamodel": "spaceball/shoot"
         },
         {
             "beat": 50,
-            "datamodel":"forkLifter/pea"
-        }
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 52,
+            "datamodel": "spaceball/shootHigh"
+        },
+        {
+            "beat": 56,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 58,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 60,
+            "datamodel": "spaceball/shootHigh"
+        },
+        {
+            "beat": 64,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 66,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 68,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 70,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 72,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 72,
+            "datamodel": "spaceball/alien"
+        },
+        {
+            "beat": 74,
+            "datamodel": "spaceball/alien"
+        },
+        {
+            "beat": 74,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 76,
+            "datamodel": "spaceball/shootHigh"
+        },
+        {
+            "beat": 80,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 82,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 84,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 85,
+            "datamodel": "spaceball/alien"
+        },
+        {
+            "beat": 86,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 86,
+            "type": 1,
+            "datamodel": "spaceball/costume"
+        },
+        {
+            "beat": 87,
+            "datamodel": "spaceball/alien"
+        },
+        {
+            "beat": 88,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 89,
+            "datamodel": "spaceball/alien"
+        },
+        {
+            "beat": 90,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 92,
+            "datamodel": "spaceball/shootHigh"
+        },
+        {
+            "beat": 96,
+            "type": 2,
+            "datamodel": "spaceball/costume"
+        },
+        {
+            "beat": 96,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 98,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 100,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 102,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 104,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 106,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 108,
+            "datamodel": "spaceball/shootHigh"
+        },
     ]
 }
