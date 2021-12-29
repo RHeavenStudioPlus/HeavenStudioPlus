@@ -61,6 +61,7 @@ namespace RhythmHeavenMania
             if (Beatmap.entities.Count >= 1)
             {
                 SetCurrentGame(Beatmap.entities[0].datamodel.Split('/')[0]);
+                SetGame(Beatmap.entities[0].datamodel.Split('/')[0]);
             }
         }
 
@@ -136,20 +137,33 @@ namespace RhythmHeavenMania
         {
             this.GetComponent<SpriteRenderer>().enabled = true;
 
-            GetGame(currentGame).holder.GetComponent<Minigame>().OnGameSwitch();
+            SetGame(game);
+
+            yield return new WaitForSeconds(0.1666f);
+
+            this.GetComponent<SpriteRenderer>().enabled = false;
+        }
+
+        private void SetGame(string game, bool onGameSwitch = true)
+        {
+            if (onGameSwitch)
+            {
+                if (GetGame(currentGame).holder.GetComponent<Minigame>() != null)
+                    GetGame(currentGame).holder.GetComponent<Minigame>().OnGameSwitch();
+            }
 
             GetGame(currentGame).holder.SetActive(false);
             GetGame(game).holder.SetActive(true);
 
             GameCamera.orthographic = true;
 
-            GetGame(game).holder.GetComponent<Minigame>().OnGameSwitch();
+            if (onGameSwitch)
+            {
+                if (GetGame(currentGame).holder.GetComponent<Minigame>() != null)
+                    GetGame(game).holder.GetComponent<Minigame>().OnGameSwitch();
+            }
 
             SetCurrentGame(game);
-
-            yield return new WaitForSeconds(0.1666f);
-
-            this.GetComponent<SpriteRenderer>().enabled = false;
         }
 
         public EventCaller.MiniGame GetGame(string name)

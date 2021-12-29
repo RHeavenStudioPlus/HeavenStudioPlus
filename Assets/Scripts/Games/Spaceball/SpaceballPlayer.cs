@@ -63,7 +63,7 @@ namespace RhythmHeavenMania.Games.Spaceball
                 if (EligibleHits[currentHitInList].perfect)
                 {
                     Jukebox.PlayOneShotGame("spaceball/hit");
-                    EligibleHits[currentHitInList].gameObject.GetComponent<SpaceballBall>().Holder.transform.DOLocalMove(new Vector3(Random.Range(0, 25), 0, -600), 7f).SetEase(Ease.Linear);
+                    EligibleHits[currentHitInList].gameObject.GetComponent<SpaceballBall>().Holder.transform.DOLocalMove(new Vector3(Random.Range(25, 60), 0, -600), 7f).SetEase(Ease.Linear);
                     EligibleHits[currentHitInList].gameObject.GetComponent<SpaceballBall>().Holder.transform.GetChild(0).gameObject.AddComponent<Rotate>().rotateSpeed = -95;
 
                     EligibleHits[currentHitInList].gameObject.GetComponent<SpaceballBall>().enabled = false;
