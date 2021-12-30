@@ -43,7 +43,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             {
                 Pot p = EligibleHits[currentHitInList].gameObject.GetComponent<Pot>();
 
-                if (p.type == 2)
+                if (p.type == 2 || p.type == 3)
                 {
                     punchLeft = false;
                 }

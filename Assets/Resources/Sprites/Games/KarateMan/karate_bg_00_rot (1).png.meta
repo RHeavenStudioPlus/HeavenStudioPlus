@@ -1,13 +1,16 @@
 fileFormatVersion: 2
-guid: 56787d9b67ab042499dbe184fc104c64
+guid: 1fe78dfa0c2320546915f1f2b70c79a7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3401044921375397511
-    second: karate_bg_00_rot_0
+      213: 3927547596512374108
+    second: karate_bg_00_rot (1)_0
   - first:
-      213: 4923284882345810831
-    second: karate_bg_00_rot_1
+      213: 6723002177432063909
+    second: karate_bg_00_rot (1)_1
+  - first:
+      213: -5244473057742839103
+    second: karate_bg_00_rot (1)_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -97,34 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: karate_bg_00_rot_0
+      name: karate_bg_00_rot (1)_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 584
-        width: 256
-        height: 440
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 979e54cd9af0dc0d0800000000000000
-      internalID: -3401044921375397511
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: karate_bg_00_rot_1
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 584
-        width: 256
-        height: 440
+        y: 2336
+        width: 1024
+        height: 1760
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,8 +114,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f8bd54c0485035440800000000000000
-      internalID: 4923284882345810831
+      spriteID: c5d2f80eab3718630800000000000000
+      internalID: 3927547596512374108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karate_bg_00_rot (1)_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 544
+        width: 1024
+        height: 1760
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5af04024cd6ec4d50800000000000000
+      internalID: 6723002177432063909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karate_bg_00_rot (1)_2
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 2336
+        width: 1024
+        height: 1760
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c2a1275a83e737b0800000000000000
+      internalID: -5244473057742839103
       vertices: []
       indices: 
       edges: []

@@ -2,37 +2,170 @@
     "bpm": 120,
     "entities": [
         {
+            "beat": 0,
+            "datamodel": "clappyTrio/bop"
+        },
+        {
+            "beat": 1,
+            "datamodel": "clappyTrio/bop"
+        },
+        {
+            "beat": 2,
+            "datamodel": "clappyTrio/bop"
+        },
+        {
+            "beat": 3,
+            "datamodel": "clappyTrio/prepare"
+        },
+        {
             "beat": 4,
-            "datamodel": "spaceball/shootHigh"
-        },
-        {
-            "beat": 8,
-            "datamodel": "gameManager/switchGame/clappyTrio"
-        },
-        {
-            "beat": 9,
-            "datamodel": "clappyTrio/bop"
-        },
-        {
-            "beat": 10,
-            "datamodel": "clappyTrio/bop"
-        },
-        {
-            "beat": 11,
-            "datamodel": "clappyTrio/prepare_alt"
-        },
-        {
-            "beat": 12,
             "length": 1,
             "datamodel": "clappyTrio/clap"
         },
         {
+            "beat": 7.75,
+            "datamodel": "gameManager/switchGame/karateman"
+        },
+        {
+            "beat": 8,
+            "datamodel": "karateman/bop"
+        },
+        {
+            "beat": 9,
+            "datamodel": "karateman/bop"
+        },
+        {
+            "beat": 10,
+            "datamodel": "karateman/bop"
+        },
+        {
+            "beat": 10,
+            "datamodel": "karateman/pot"
+        },
+        {
+            "beat": 12,
+            "datamodel": "karateman/bop"
+        },
+        {
+            "beat": 13,
+            "datamodel": "karateman/rock"
+        },
+        {
+            "beat": 15.75,
+            "datamodel": "gameManager/switchGame/clappyTrio"
+        },
+        {
             "beat": 16,
-            "datamodel": "gameManager/switchGame/spaceball"
+            "datamodel":"clappyTrio/bop"
+        },
+        {
+            "beat": 17,
+            "datamodel":"clappyTrio/bop"
+        },
+        {
+            "beat": 18,
+            "datamodel":"clappyTrio/bop"
+        },
+        {
+            "beat": 19,
+            "datamodel":"clappyTrio/bop"
+        },
+        {
+            "beat": 20,
+            "datamodel":"clappyTrio/prepare"
         },
         {
             "beat": 21,
+            "length": 0.5,
+            "datamodel":"clappyTrio/clap"
+        },
+        {
+            "beat": 23,
+            "datamodel":"clappyTrio/bop"
+        },
+        {
+            "beat": 23.75,
+            "datamodel":"gameManager/switchGame/spaceball"
+        },
+        {
+            "beat": 24,
+            "length": 4,
+            "valA": 20,
+            "datamodel": "spaceball/cameraZoom"
+        },
+        {
+            "beat": 24,
             "datamodel": "spaceball/shoot"
         },
+        {
+            "beat": 26,
+            "datamodel": "spaceball/shoot"
+        },
+        {
+            "beat": 28,
+            "length": 2,
+            "valA": 120,
+            "datamodel": "spaceball/cameraZoom"
+        },
+        {
+            "beat": 28,
+            "datamodel": "spaceball/shootHigh"
+        },
+        {
+            "beat": 31.75,
+            "datamodel": "gameManager/switchGame/forkLifter"
+        },
+        {
+            "beat": 32,
+            "datamodel": "forkLifter/pea"
+        },
+        {
+            "beat": 36,
+            "datamodel": "forkLifter/pea"
+        },
+        {
+            "beat": 39,
+            "datamodel": "forkLifter/gulp"
+        },
+        {
+            "beat": 40,
+            "datamodel":"gameManager/switchGame/karateman"
+        },
+        {
+            "beat": 40,
+            "datamodel": "karateman/bgfxOn"
+        },
+        {
+            "beat": 40,
+            "datamodel":"karateman/bop"
+        },
+        {
+            "beat": 41,
+            "datamodel":"karateman/bop"
+        },
+        {
+            "beat": 42,
+            "datamodel":"karateman/bop"
+        },
+        {
+            "beat": 42,
+            "datamodel":"karateman/pot"
+        },
+        {
+            "beat": 44,
+            "datamodel":"karateman/bop"
+        },
+        {
+            "beat": 44,
+            "datamodel": "karateman/bulb"
+        },
+        {
+            "beat": 46,
+            "datamodel":"karateman/bop"
+        },
+        {
+            "beat": 46,
+            "datamodel": "karateman/ball"
+        }
     ]
 }

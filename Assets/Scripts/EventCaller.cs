@@ -91,17 +91,19 @@ namespace RhythmHeavenMania
                 {
                     new GameAction("shoot", delegate { Spaceball.instance.Shoot(currentBeat, false, currentType); }, true ),
                     new GameAction("shootHigh", delegate { Spaceball.instance.Shoot(currentBeat, true, currentType); }, true ),
-                    new GameAction("costume", delegate { Spaceball.instance.Costume(currentType); }, true ),
-                    new GameAction("alien", delegate { Spaceball.instance.alien.Show(currentBeat); }, true ),
+                    new GameAction("costume", delegate { Spaceball.instance.Costume(currentType); } ),
+                    new GameAction("alien", delegate { Spaceball.instance.alien.Show(currentBeat); } ),
                     // new GameAction("cameraZoom", delegate { Spaceball.instance.CameraZoom(currentBeat, currentLength, currentValA); } ),
                 }),
                 new MiniGame("karateman", "F6C135", new List<GameAction>()
                 {
-                    new GameAction("bop", delegate { KarateMan.instance.Bop(); }, true ),
+                    new GameAction("bop", delegate { KarateMan.instance.Bop(); } ),
                     new GameAction("pot", delegate { KarateMan.instance.Shoot(currentBeat, 0); }, true ),
                     new GameAction("bulb", delegate { KarateMan.instance.Shoot(currentBeat, 1); }, true ),
                     new GameAction("rock", delegate { KarateMan.instance.Shoot(currentBeat, 2); }, true ),
-                    // new GameAction("cameraZoom", delegate { Spaceball.instance.CameraZoom(currentBeat, currentLength, currentValA); } ),
+                    new GameAction("ball", delegate { KarateMan.instance.Shoot(currentBeat, 3); }, true ),
+                    new GameAction("bgfxOn", delegate { KarateMan.instance.BGFXOn(); } ),
+                    new GameAction("bgfxOff", delegate { KarateMan.instance.BGFXOff(); }),
                 })
             };
 

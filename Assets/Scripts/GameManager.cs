@@ -75,6 +75,8 @@ namespace RhythmHeavenMania
         {
             if (Beatmap.entities.Count < 1)
                 return;
+            if (!Conductor.instance.musicSource.isPlaying)
+                return;
 
             if (Input.GetKeyDown(KeyCode.A))
             {

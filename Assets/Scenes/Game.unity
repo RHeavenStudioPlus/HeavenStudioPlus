@@ -7732,7 +7732,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 5fc457d2d31969c44a6734ce4e684ff8, type: 3}
+  m_audioClip: {fileID: 8300000, guid: e5cf71158cc9bff4a8fbfbca1e73e500, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -8624,7 +8624,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.65
+      scalar: 0.71
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -25219,8 +25219,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1808581453}
   m_LocalRotation: {x: -0, y: -0, z: 0.70710576, w: 0.70710784}
-  m_LocalPosition: {x: -0.2002, y: 0.331, z: 0}
-  m_LocalScale: {x: 11.974636, y: 20.432762, z: 1}
+  m_LocalPosition: {x: 0, y: 0.0066, z: 0}
+  m_LocalScale: {x: 0.73, y: 0.74, z: 1}
   m_Children: []
   m_Father: {fileID: 1106447917}
   m_RootOrder: 0
@@ -25265,12 +25265,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -300
-  m_Sprite: {fileID: 7482667652216324306, guid: ef2fa2a75dc283e40b9d4fe1f20dc6fb, type: 3}
-  m_Color: {r: 1, g: 0.90196085, b: 0.41960788, a: 1}
+  m_Sprite: {fileID: -5244473057742839103, guid: 1fe78dfa0c2320546915f1f2b70c79a7, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 14.222222, y: 24.444445}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -25374,7 +25374,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1832105476
 Transform:
   m_ObjectHideFlags: 0
@@ -25417,6 +25417,13 @@ MonoBehaviour:
   - {fileID: 8050164209934277894, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
   - {fileID: 5443719295599431979, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
   - {fileID: -4108414130637688947, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
+  - {fileID: -3530312539838775474, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
+  BGSprites:
+  - Sprites:
+    - {fileID: -5244473057742839103, guid: 1fe78dfa0c2320546915f1f2b70c79a7, type: 3}
+    - {fileID: 3927547596512374108, guid: 1fe78dfa0c2320546915f1f2b70c79a7, type: 3}
+    - {fileID: 6723002177432063909, guid: 1fe78dfa0c2320546915f1f2b70c79a7, type: 3}
+  BGSprite: {fileID: 1808581455}
 --- !u!1 &1834726556
 GameObject:
   m_ObjectHideFlags: 0
@@ -26594,7 +26601,7 @@ MonoBehaviour:
   playerEntities: []
   currentEvent: 0
   currentPlayerEvent: 0
-  txt: {fileID: 4900000, guid: df453afcce54d5c4e9105c6829ed8f30, type: 3}
+  txt: {fileID: 4900000, guid: 244c565c8088cfa4597e0ebda9c7de98, type: 3}
   startOffset: 0.5
   GameCamera: {fileID: 519420031}
   CursorCam: {fileID: 79134728}
