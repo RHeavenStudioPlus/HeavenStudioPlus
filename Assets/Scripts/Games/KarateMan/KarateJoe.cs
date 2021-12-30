@@ -8,9 +8,16 @@ namespace RhythmHeavenMania.Games.KarateMan
 {
     public class KarateJoe : MonoBehaviour
     {
-        private Animator anim;
+        public Animator anim;
 
         private int currentHitInList = 0;
+
+        public GameObject HitEffect;
+
+        [Header("Particles")]
+        public ParticleSystem HitParticle;
+        public ParticleSystem RockParticle;
+        public GameObject BulbHit;
 
         private void Start()
         {
@@ -30,24 +37,63 @@ namespace RhythmHeavenMania.Games.KarateMan
             var EligibleHits = KarateMan.instance.EligibleHits;
             bool canHit = (EligibleHits.Count > 0) && (currentHitInList < EligibleHits.Count);
 
+            bool punchLeft = true;
+
             if (canHit)
             {
+                Pot p = EligibleHits[currentHitInList].gameObject.GetComponent<Pot>();
+
+                if (p.type == 2)
+                {
+                    punchLeft = false;
+                }
+                else
+                {
+                    punchLeft = true;
+                }
+
                 if (KarateMan.instance.EligibleHits[currentHitInList].perfect)
                 {
-                    Jukebox.PlayOneShotGame("karateman/potHit");
+                    Jukebox.PlayOneShotGame(p.hitSnd);
+                    p.Hit();
+
+                    GameObject hit = Instantiate(HitEffect);
+                    hit.transform.parent = HitEffect.transform.parent;
+                    hit.SetActive(true);
+
+                    switch (p.type)
+                    {
+                        case 0:
+                            HitParticle.Play();
+                            break;
+                        case 1:
+                            GameObject bulbHit = Instantiate(BulbHit);
+                            bulbHit.transform.parent = BulbHit.transform.parent;
+                            bulbHit.SetActive(true);
+                            Destroy(bulbHit, 0.7f);
+                            break;
+                        case 2:
+                            RockParticle.Play();
+                            break;
+                    }
+
+                    Destroy(hit, 0.04f);
                 }
                 else
                 {
                     Jukebox.PlayOneShot("miss");
                 }
-                EligibleHits[currentHitInList].gameObject.GetComponent<Pot>().enabled = false;
-                EligibleHits[currentHitInList].gameObject.GetComponent<Pot>().RemoveObject(currentHitInList, EligibleHits);
+                p.isEligible = false;
+                p.RemoveObject(currentHitInList, EligibleHits);
             }
             else
             {
                 Jukebox.PlayOneShotGame("karateman/swingNoHit");
             }
-            anim.Play("PunchLeft", 0, 0);
+            if (punchLeft)
+                anim.Play("PunchLeft", 0, 0);
+            else
+                anim.Play("PunchRight", 0, 0);
         }
     }
 }

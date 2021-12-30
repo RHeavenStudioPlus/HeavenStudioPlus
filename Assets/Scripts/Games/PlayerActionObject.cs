@@ -9,6 +9,7 @@ namespace RhythmHeavenMania.Games
         public bool inList = false;
         public int lastState;
         private Minigame.Eligible e = new Minigame.Eligible();
+        public bool isEligible;
 
         public void PlayerActionInit(GameObject g)
         {
@@ -18,6 +19,7 @@ namespace RhythmHeavenMania.Games
         // could possibly add support for custom early, perfect, and end times if needed.
         public void StateCheck(float normalizedBeat, List<Minigame.Eligible> eligibleHitsList)
         {
+            if (!isEligible) return;
             if (normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.PerfectTime() && lastState == 0)
             {
                 MakeEligible(true, false, false, eligibleHitsList);

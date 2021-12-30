@@ -97,8 +97,10 @@ namespace RhythmHeavenMania
                 }),
                 new MiniGame("karateman", "F6C135", new List<GameAction>()
                 {
-                    new GameAction("bop", delegate { print("bop"); }, true ),
-                    new GameAction("pot", delegate { KarateMan.instance.Shoot(currentBeat); }, true ),
+                    new GameAction("bop", delegate { KarateMan.instance.Bop(); }, true ),
+                    new GameAction("pot", delegate { KarateMan.instance.Shoot(currentBeat, 0); }, true ),
+                    new GameAction("bulb", delegate { KarateMan.instance.Shoot(currentBeat, 1); }, true ),
+                    new GameAction("rock", delegate { KarateMan.instance.Shoot(currentBeat, 2); }, true ),
                     // new GameAction("cameraZoom", delegate { Spaceball.instance.CameraZoom(currentBeat, currentLength, currentValA); } ),
                 })
             };
