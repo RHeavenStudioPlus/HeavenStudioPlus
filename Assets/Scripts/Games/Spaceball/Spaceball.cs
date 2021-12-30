@@ -51,7 +51,7 @@ namespace RhythmHeavenMania.Games.Spaceball
 
         private void Start()
         {
-            UpdateCameraZoom();
+            allCameraEvents = EventCaller.GetAllInGameManagerList("spaceball", new string[] { "cameraZoom" });
         }
 
         private void Update()
@@ -85,7 +85,9 @@ namespace RhythmHeavenMania.Games.Spaceball
             else
             {
                 if (currentZoomCamLength <= 0)
+                {
                     GameManager.instance.GameCamera.transform.localPosition = new Vector3(0, 0, currentZoomCamDistance);
+                }
                 else
                 {
                     float newPosZ = Mathf.Lerp(lastCamDistance, currentZoomCamDistance, normalizedBeat);
@@ -96,8 +98,6 @@ namespace RhythmHeavenMania.Games.Spaceball
 
         private void UpdateCameraZoom()
         {
-            allCameraEvents = EventCaller.GetAllInGameManagerList("spaceball", new string[] { "cameraZoom" });
-
             if (allCameraEvents.Count == 0)
                 currentZoomCamDistance = -10;
 
@@ -106,7 +106,12 @@ namespace RhythmHeavenMania.Games.Spaceball
                 if (currentZoomIndex - 1 >= 0)
                     lastCamDistance = allCameraEvents[currentZoomIndex - 1].valA * -1;
                 else
-                    lastCamDistance = allCameraEvents[0].valA * -1;
+                {
+                    if (currentZoomIndex == 0)
+                        lastCamDistance = -10;
+                    else
+                        lastCamDistance = allCameraEvents[0].valA * -1;
+                }
 
                 currentZoomCamBeat = allCameraEvents[currentZoomIndex].beat;
                 currentZoomCamLength = allCameraEvents[currentZoomIndex].length;

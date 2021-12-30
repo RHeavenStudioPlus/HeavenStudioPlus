@@ -15,9 +15,49 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         public Sprite[] ObjectSprites;
 
+        public List<BGSpriteC> BGSprites;
+        public SpriteRenderer BGSprite;
+
+        private bool bgEnabled;
+        private int newBeat;
+
+        [System.Serializable]
+        public class BGSpriteC
+        {
+            public List<Sprite> Sprites;
+        }
+
         private void Awake()
         {
             instance = this;
+        }
+
+        private void Update()
+        {
+            if (bgEnabled)
+            {
+                if (Conductor.instance.songPositionInBeats > newBeat)
+                {
+                    if (newBeat % 2 == 0)
+                        BGSprite.sprite = BGSprites[0].Sprites[1];
+                    else
+                        BGSprite.sprite = BGSprites[0].Sprites[2];
+
+                    newBeat++;
+                }
+            }
+        }
+
+        public void BGFXOn()
+        {
+            bgEnabled = true;
+            newBeat = Mathf.RoundToInt(Conductor.instance.songPositionInBeats);
+        }
+
+        public void BGFXOff()
+        {
+            bgEnabled = false;
+            BGSprite.sprite = BGSprites[0].Sprites[0];
         }
 
         public void Shoot(float beat, int type)
@@ -47,6 +87,10 @@ namespace RhythmHeavenMania.Games.KarateMan
                 case 2:
                     Jukebox.PlayOneShotGame("karateman/objectOut");
                     p.hitSnd = "karateman/rockHit";
+                    break;
+                case 3:
+                    Jukebox.PlayOneShotGame("karateman/objectOut");
+                    p.hitSnd = "karateman/soccerHit";
                     break;
             }
         }

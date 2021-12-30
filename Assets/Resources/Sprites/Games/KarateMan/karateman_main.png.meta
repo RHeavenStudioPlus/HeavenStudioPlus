@@ -92,6 +92,9 @@ TextureImporter:
   - first:
       213: 2973732670430313046
     second: karateman_snow
+  - first:
+      213: -3530312539838775474
+    second: karateman_ball
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -798,7 +801,7 @@ TextureImporter:
         width: 248
         height: 248
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -806,6 +809,27 @@ TextureImporter:
       bones: []
       spriteID: 65af8f5bb12d44920800000000000000
       internalID: 2973732670430313046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_ball
+      rect:
+        serializedVersion: 2
+        x: 292
+        y: 1124
+        width: 280
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4f7dcc037fc10fc0800000000000000
+      internalID: -3530312539838775474
       vertices: []
       indices: 
       edges: []
