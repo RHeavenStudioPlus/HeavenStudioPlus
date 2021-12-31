@@ -68,7 +68,7 @@ namespace RhythmHeavenMania
         private IEnumerator Begin()
         {
             yield return new WaitForSeconds(startOffset);
-            Conductor.instance.musicSource.Play();
+            Conductor.instance.Play(0);
         }
 
         private void Update()
