@@ -107,9 +107,18 @@ namespace RhythmHeavenMania
                 })
             };
 
-            for (int i = 1; i < minigames.Count; i++)
+            List<MiniGame> minigamesInBeatmap = new List<MiniGame>();
+            for (int i = 0; i < GameManager.instance.Beatmap.entities.Count; i++)
             {
-                minigames[i].holder = GamesHolder.Find(minigames[i].name).gameObject;
+                if (!minigamesInBeatmap.Contains(minigames.Find(c => c.name == GameManager.instance.Beatmap.entities[i].datamodel.Split('/')[0])) && GameManager.instance.Beatmap.entities[i].datamodel.Split('/')[0] != "gameManager")
+                {
+                    minigamesInBeatmap.Add(minigames.Find(c => c.name == GameManager.instance.Beatmap.entities[i].datamodel.Split('/')[0]));
+                }
+            }
+
+            for (int i = 0; i < minigamesInBeatmap.Count; i++)
+            {
+                minigames[minigames.FindIndex(c => c.name == minigamesInBeatmap[i].name)].holder = Resources.Load<GameObject>($"Games/{minigamesInBeatmap[i].name}");
             }
 
             for (int i = 0; i < GameManager.instance.Beatmap.entities.Count; i++)
@@ -124,6 +133,7 @@ namespace RhythmHeavenMania
                 }
                 catch (Exception ex)
                 {
+                    // Debug.LogWarning(GameManager.instance.Beatmap.entities[i].datamodel);
                     Debug.LogWarning(ex);
                 }
             }
