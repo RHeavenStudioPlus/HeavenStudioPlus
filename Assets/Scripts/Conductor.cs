@@ -74,6 +74,14 @@ namespace RhythmHeavenMania
         public void Play(float startBeat)
         {
             timeKeeper.Play();
+            SetTime(startBeat);
+        }
+
+        public void SetTime(float startBeat)
+        {
+            musicSource.time = GetSongPosFromBeat(startBeat);
+            songPositionInBeats = musicSource.time / secPerBeat;
+            GameManager.instance.SetCurrentEventToClosest(songPositionInBeats);
         }
 
         public void Update()
@@ -83,12 +91,9 @@ namespace RhythmHeavenMania
             //determine how many seconds since the song started
             // songPosition = (float)(timeKeeper.dspTime - dspSongTime - firstBeatOffset);
             songPosition = (float)timeKeeper.GetCurrentTimeInSong();
-            print(songPosition);
 
             //determine how many beats since the song started
             songPositionInBeats = songPosition / secPerBeat;
-            // print($"{mst_f}(AudioSource.time), {Time.frameCount}(Time.fasrameCount)");
-            // print($"{musicSource.time}(0), {songPosition}");
 
 
             //calculate the loop position
@@ -103,6 +108,11 @@ namespace RhythmHeavenMania
         {
             float a = Mathp.Normalize(songPositionInBeats, startBeat, startBeat + length);
             return a;
+        }
+
+        private float GetSongPosFromBeat(float beat)
+        {
+            return secPerBeat * beat;
         }
 
         public void SetBpm(float bpm)

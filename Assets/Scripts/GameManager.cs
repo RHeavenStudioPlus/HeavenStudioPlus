@@ -33,6 +33,10 @@ namespace RhythmHeavenMania
 
         public float startBeat;
 
+        private GameObject currentGameO;
+
+        private List<GameObject> preloadedGames = new List<GameObject>();
+
         private void Awake()
         {
             instance = this;
@@ -68,7 +72,7 @@ namespace RhythmHeavenMania
         private IEnumerator Begin()
         {
             yield return new WaitForSeconds(startOffset);
-            Conductor.instance.Play(0);
+            Conductor.instance.Play(startBeat);
         }
 
         private void Update()
@@ -80,14 +84,14 @@ namespace RhythmHeavenMania
 
             if (Input.GetKeyDown(KeyCode.A))
             {
-                Conductor.instance.musicSource.time += 3;
-                SetCurrentEventToClosest();
+                Conductor.instance.SetTime(Conductor.instance.songPositionInBeats + 3);
+
                 GetGame(currentGame).holder.GetComponent<Minigame>().OnTimeChange();
             }
             else if (Input.GetKeyDown(KeyCode.S))
             {
-                Conductor.instance.musicSource.time -= 3;
-                SetCurrentEventToClosest();
+                Conductor.instance.SetTime(Conductor.instance.songPositionInBeats - 3);
+
                 GetGame(currentGame).holder.GetComponent<Minigame>().OnTimeChange();
             }
 
@@ -98,17 +102,26 @@ namespace RhythmHeavenMania
                 if (Conductor.instance.songPositionInBeats >= entities[currentEvent])
                 {
                     // allows for multiple events on the same beat to be executed on the same frame, so no more 1-frame delay
-                    List<Beatmap.Entity> entitesAtSameBeat = Beatmap.entities.FindAll(c => c.beat == Beatmap.entities[currentEvent].beat);
+                    var entitesAtSameBeat   = Beatmap.entities.FindAll(c => c.beat == Beatmap.entities[currentEvent].beat && c.datamodel.Split('/')[0] != "gameManager");
+                    var gameManagerEntities = Beatmap.entities.FindAll(c => c.beat == Beatmap.entities[currentEvent].beat && c.datamodel.Split('/')[0] == "gameManager");
+
+                    // GameManager entities should ALWAYS execute before gameplay entities
+                    for (int i = 0; i < gameManagerEntities.Count; i++)
+                    {
+                        eventCaller.CallEvent(gameManagerEntities[i].datamodel);
+                    }
 
                     for (int i = 0; i < entitesAtSameBeat.Count; i++)
                     {
+                        // if game isn't loaded, preload game so whatever event that would be called will still run outside if needed
+                        if (entitesAtSameBeat[i].datamodel.Split('/')[0] != currentGame && !preloadedGames.Contains(preloadedGames.Find(c => c.name == entitesAtSameBeat[i].datamodel.Split('/')[0])))
+                        {
+                            PreloadGame(entitesAtSameBeat[i].datamodel.Split('/')[0]);
+                        }
                         eventCaller.CallEvent(entitesAtSameBeat[i].datamodel);
-                        currentEvent++;
                     }
 
-                    // eventCaller.CallEvent(Beatmap.entities[currentEvent].datamodel);
-
-                    // currentEvent++;
+                    currentEvent += entitesAtSameBeat.Count + gameManagerEntities.Count;
                 }
             }
         }
@@ -118,14 +131,22 @@ namespace RhythmHeavenMania
             Beatmap.entities.Sort((x, y) => x.beat.CompareTo(y.beat));
         }
 
-        public void SetCurrentEventToClosest()
+        public void SetCurrentEventToClosest(float beat)
         {
             if (Beatmap.entities.Count > 0)
             {
                 List<float> entities = Beatmap.entities.Select(c => c.beat).ToList();
                 List<float> entities_p = playerEntities.Select(c => c.beat).ToList();
-                currentEvent = entities.IndexOf(Mathp.GetClosestInList(entities, Conductor.instance.songPositionInBeats));
-                currentPlayerEvent = entities_p.IndexOf(Mathp.GetClosestInList(entities_p, Conductor.instance.songPositionInBeats));
+                currentEvent = entities.IndexOf(Mathp.GetClosestInList(entities, beat));
+                currentPlayerEvent = entities_p.IndexOf(Mathp.GetClosestInList(entities_p, beat));
+
+                print(currentEvent);
+
+                string newGame = Beatmap.entities[currentEvent].datamodel.Split('/')[0];
+                if (newGame != currentGame)
+                {
+                    SwitchGame(newGame);
+                }
             }
         }
 
@@ -148,14 +169,30 @@ namespace RhythmHeavenMania
 
         private void SetGame(string game, bool onGameSwitch = true)
         {
-            if (onGameSwitch)
+            Destroy(currentGameO);
+
+            var instantiate = true;
+
+            if (preloadedGames.Count > 0)
             {
-                if (GetGame(currentGame).holder.GetComponent<Minigame>() != null)
-                    GetGame(currentGame).holder.GetComponent<Minigame>().OnGameSwitch();
+                for (int i = 0; i < preloadedGames.Count; i++)
+                {
+                    if (preloadedGames[i].gameObject.name == game)
+                    {
+                        preloadedGames[i].SetActive(true);
+                        currentGameO = preloadedGames[i];
+                        preloadedGames.Remove(preloadedGames[i]);
+                        instantiate = false;
+                    }
+                }
             }
 
-            GetGame(currentGame).holder.SetActive(false);
-            GetGame(game).holder.SetActive(true);
+            if (instantiate)
+            {
+                currentGameO = Instantiate(GetGame(game).holder);
+                currentGameO.transform.parent = eventCaller.GamesHolder.transform;
+                currentGameO.name = game;
+            }
 
             GameCamera.orthographic = true;
 
@@ -166,6 +203,18 @@ namespace RhythmHeavenMania
             }
 
             SetCurrentGame(game);
+        }
+
+        private void PreloadGame(string game)
+        {
+            if (preloadedGames.Contains(preloadedGames.Find(c => c.name == game)))
+                return;
+
+            var g = Instantiate(GetGame(game).holder);
+            g.transform.parent = eventCaller.GamesHolder.transform;
+            g.SetActive(false);
+            g.name = game;
+            preloadedGames.Add(g);
         }
 
         public EventCaller.MiniGame GetGame(string name)
