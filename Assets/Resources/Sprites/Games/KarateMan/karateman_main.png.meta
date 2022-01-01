@@ -95,6 +95,12 @@ TextureImporter:
   - first:
       213: -3530312539838775474
     second: karateman_ball
+  - first:
+      213: -6341196331951941137
+    second: karateman_bomb
+  - first:
+      213: 8671423413994339737
+    second: karateman_barrel
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -822,7 +828,7 @@ TextureImporter:
         width: 280
         height: 280
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -830,6 +836,48 @@ TextureImporter:
       bones: []
       spriteID: e4f7dcc037fc10fc0800000000000000
       internalID: -3530312539838775474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_bomb
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 836
+        width: 280
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe99efe788b8ff7a0800000000000000
+      internalID: -6341196331951941137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_barrel
+      rect:
+        serializedVersion: 2
+        x: 864
+        y: 865
+        width: 280
+        height: 251
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99d3320e6a5175870800000000000000
+      internalID: 8671423413994339737
       vertices: []
       indices: 
       edges: []
