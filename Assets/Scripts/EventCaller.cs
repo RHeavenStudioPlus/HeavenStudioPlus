@@ -93,7 +93,7 @@ namespace RhythmHeavenMania
                     new GameAction("shootHigh", delegate { Spaceball.instance.Shoot(currentBeat, true, currentType); }, true ),
                     new GameAction("costume", delegate { Spaceball.instance.Costume(currentType); } ),
                     new GameAction("alien", delegate { Spaceball.instance.alien.Show(currentBeat); } ),
-                    // new GameAction("cameraZoom", delegate { Spaceball.instance.CameraZoom(currentBeat, currentLength, currentValA); } ),
+                    new GameAction("cameraZoom", delegate { } ),
                 }),
                 new MiniGame("karateman", "F6C135", new List<GameAction>()
                 {
@@ -102,6 +102,7 @@ namespace RhythmHeavenMania
                     new GameAction("bulb", delegate { KarateMan.instance.Shoot(currentBeat, 1); }, true ),
                     new GameAction("rock", delegate { KarateMan.instance.Shoot(currentBeat, 2); }, true ),
                     new GameAction("ball", delegate { KarateMan.instance.Shoot(currentBeat, 3); }, true ),
+                    new GameAction("kick", delegate { KarateMan.instance.Shoot(currentBeat, 4); }, true ),
                     new GameAction("bgfxOn", delegate { KarateMan.instance.BGFXOn(); } ),
                     new GameAction("bgfxOff", delegate { KarateMan.instance.BGFXOff(); }),
                 })
@@ -126,15 +127,14 @@ namespace RhythmHeavenMania
                 string[] e = GameManager.instance.Beatmap.entities[i].datamodel.Split('/');
                 try
                 {
-                    if (minigames.Find(c => c.name == e[0]).actions.Find(c => c.actionName == e[1]).playerAction == true)
+                    if (minigames.Find(c => c.name == e[0]).actions.Find(c => c.actionName == e[1]).playerAction == true && e[0] != "gameManager")
                     {
                         GameManager.instance.playerEntities.Add(GameManager.instance.Beatmap.entities[i]);
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Debug.LogWarning(GameManager.instance.Beatmap.entities[i].datamodel);
-                    Debug.LogWarning(ex);
+                    Debug.LogWarning(GameManager.instance.Beatmap.entities[i].datamodel + " " + ex);
                 }
             }
         }

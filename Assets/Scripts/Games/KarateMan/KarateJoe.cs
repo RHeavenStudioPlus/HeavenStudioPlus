@@ -43,7 +43,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             {
                 Pot p = EligibleHits[currentHitInList].gameObject.GetComponent<Pot>();
 
-                if (p.type == 2 || p.type == 3)
+                if (p.type == 2 || p.type == 3 || p.type == 4)
                 {
                     punchLeft = false;
                 }
@@ -82,6 +82,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                 else
                 {
                     Jukebox.PlayOneShot("miss");
+                    p.Miss();
                 }
                 p.isEligible = false;
                 p.RemoveObject(currentHitInList, EligibleHits);

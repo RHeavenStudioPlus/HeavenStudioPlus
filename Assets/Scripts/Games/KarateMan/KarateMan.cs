@@ -8,7 +8,7 @@ namespace RhythmHeavenMania.Games.KarateMan
 {
     public class KarateMan : Minigame
     {
-        public GameObject Pot;
+        public GameObject Pot, Bomb;
         public KarateJoe KarateJoe;
 
         public static KarateMan instance { get; set; }
@@ -91,6 +91,11 @@ namespace RhythmHeavenMania.Games.KarateMan
                 case 3:
                     Jukebox.PlayOneShotGame("karateman/objectOut");
                     p.hitSnd = "karateman/soccerHit";
+                    break;
+                case 4:
+                    p.kick = true;
+                    Jukebox.PlayOneShotGame("karateman/barrelOutKicks");
+                    p.hitSnd = "karateman/barrelOutKicks";
                     break;
             }
         }

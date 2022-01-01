@@ -32,11 +32,11 @@ namespace RhythmHeavenMania.Games.ClappyTrio
 
         public override void OnGameSwitch()
         {
-            for (int i = 0; i < Lion.Count; i++)
-            {
-                SetFace(i, 0);
-            }
-            PlayAnimationAll("Idle");
+            // for (int i = 0; i < Lion.Count; i++)
+            // {
+            //     SetFace(i, 0);
+            // }
+            // PlayAnimationAll("Idle");
         }
 
         private void Start()
