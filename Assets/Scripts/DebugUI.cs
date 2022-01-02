@@ -4,66 +4,110 @@ using UnityEngine;
 
 using TMPro;
 
-
-// hardcoded because im lazy
 namespace RhythmHeavenMania
 {
     public class DebugUI : MonoBehaviour
     {
         public GameObject Template;
 
+        private int indexL;
+        private int indexR;
+
+        private TMP_Text Title;
         private TMP_Text SongPosBeats;
+        private TMP_Text SecPerBeat;
+        private TMP_Text SongPos;
         private TMP_Text BPM;
+
         private TMP_Text currEvent;
         private TMP_Text eventLength;
         private TMP_Text eventType;
+        private TMP_Text currentGame;
+
+
+        private TMP_Text graphicsDeviceName;
+        private TMP_Text operatingSystem;
+        private TMP_Text fps;
 
         private void Start()
         {
-            for (int i = 0; i < 5; i++)
-            {
-                GameObject debug = Instantiate(Template, Template.transform.parent);
-                debug.SetActive(true);
-                debug.transform.localPosition = new Vector3(Template.transform.localPosition.x, Template.transform.localPosition.y - 44.9301f * i);
+            CreateDebugUI(out Title); SetText(Title, "Rhythm Heaven Mania v1.0 BRAEDON DEBUG PLAYTEST");
+            CreateDebugUI(out SongPosBeats);
+            CreateDebugUI(out SongPos);
+            CreateDebugUI(out SecPerBeat);
+            CreateDebugUI(out BPM);
 
-                switch (i)
-                {
-                    case 0:
-                        SongPosBeats = debug.transform.GetChild(0).GetComponent<TMP_Text>();
-                        break;
-                    case 1:
-                        BPM = debug.transform.GetChild(0).GetComponent<TMP_Text>();
-                        break;
-                    case 2:
-                        currEvent = debug.transform.GetChild(0).GetComponent<TMP_Text>();
-                        break;
-                    case 3:
-                        eventLength = debug.transform.GetChild(0).GetComponent<TMP_Text>();
-                        break;
-                    case 4:
-                        eventType = debug.transform.GetChild(0).GetComponent<TMP_Text>();
-                        break;
-                }
-            }
+            Separate();
+
+            CreateDebugUI(out currEvent);
+            CreateDebugUI(out eventLength);
+            CreateDebugUI(out eventType);
+            CreateDebugUI(out currentGame);
+
+
+            CreateDebugUI(out operatingSystem, true); SetText(operatingSystem, SystemInfo.operatingSystem);
+            CreateDebugUI(out graphicsDeviceName, true); SetText(graphicsDeviceName, SystemInfo.graphicsDeviceName);
+            CreateDebugUI(out fps, true);
+
         }
 
         private void Update()
         {
-            SongPosBeats.text = $"SongPosBeats: {Conductor.instance.songPositionInBeats}";
-            BPM.text = $"BPM: {Conductor.instance.songBpm}";
+            SetText(SongPosBeats, $"Song Position In Beats: {Conductor.instance.songPositionInBeats}");
+            SetText(SongPos, $"Song Position: {Conductor.instance.songPosition}");
+            SetText(BPM, $"BPM: {Conductor.instance.songBpm}");
+            SetText(fps, $"FPS: {1.0f / Time.smoothDeltaTime}");
+            SetText(SecPerBeat, $"Seconds Per Beat: {Conductor.instance.secPerBeat}");
+
+
+            SetText(currentGame, $"Current Game: {GameManager.instance.currentGame}");
+
+            int minus = 0;
+
             if (GameManager.instance.Beatmap.entities.Count > 0)
-            if (GameManager.instance.currentEvent - 1 >= 0)
             {
-                currEvent.text = $"CurrentEvent: {GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent - 1].datamodel}";
-                eventLength.text = $"Event Length: {GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent - 1].length}";
-                eventType.text = $"Event Type: {GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent - 1].type}";
-                }
+                if (GameManager.instance.currentEvent - 1 >= 0) minus = 1;
+
+                SetText(currEvent, $"CurrentEvent: {GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent - minus].datamodel}");
+                SetText(eventLength, $"Event Length: {GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent - minus].length}");
+                SetText(eventType, $"Event Type: {GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent - minus].type}");
+            }
+        }
+
+        private void CreateDebugUI(out TMP_Text t, bool right = false)
+        {
+            GameObject debug = Instantiate(Template, Template.transform.parent);
+            debug.SetActive(true);
+
+            if (right)
+            {
+                debug.transform.localPosition = new Vector3(322.69f, Template.transform.localPosition.y - 34f * indexR);
+                debug.GetComponent<TMP_Text>().alignment = TextAlignmentOptions.Right;
+                debug.transform.GetChild(0).GetComponent<TMP_Text>().alignment = TextAlignmentOptions.Right;
+                indexR++;
+            }
             else
             {
-                currEvent.text = $"CurrentEvent: {GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].datamodel}";
-                eventLength.text = $"Event Length: {GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].length}";
-                eventType.text = $"Event Type: {GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].type}";
+                debug.transform.localPosition = new Vector3(Template.transform.localPosition.x, Template.transform.localPosition.y - 34f * indexL);
+                indexL++;
             }
+
+            t = debug.transform.GetChild(0).GetComponent<TMP_Text>();
+
+        }
+
+        private void Separate(bool right = false)
+        {
+            if (right)
+                indexR++;
+            else
+                indexL++;
+        }
+
+        private void SetText(TMP_Text t, string text)
+        {
+            t.transform.parent.GetComponent<TMP_Text>().text = $"<mark=#3d3d3d padding=\"44.9301, 44.9301, 44.9301, 44.9301\">{text}</mark>";
+            t.text = text;
         }
     }
 }
