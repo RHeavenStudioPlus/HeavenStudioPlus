@@ -19,17 +19,53 @@ namespace RhythmHeavenMania.Games.KarateMan
         public ParticleSystem RockParticle;
         public GameObject BulbHit;
 
+        public bool hitBarrel = false;
+        private Coroutine kickC;
+
+        private float barrelBeat;
+
+        public static KarateJoe instance { get; set; }
+
         private void Start()
         {
+            instance = this;
             anim = GetComponent<Animator>();
         }
 
         private void Update()
         {
-            if (PlayerInput.Pressed())
+            if (hitBarrel)
             {
-                Swing();
+                if (PlayerInput.PressedUp())
+                {
+                    if (kickC != null) StopCoroutine(kickC);
+                    hitBarrel = false;
+                    anim.Play("Kick", 0, 0);
+                }
+
+                if (Conductor.instance.songPositionInBeats > barrelBeat + 3)
+                {
+                    if (kickC != null) StopCoroutine(kickC);
+                    hitBarrel = false;
+                    // should be inebetween for this
+                    anim.Play("Idle", 0, 0);
+                }
             }
+            else
+            {
+                if (PlayerInput.Pressed())
+                {
+                    Swing();
+                }
+            }
+        }
+
+        private IEnumerator PrepareKick()
+        {
+            barrelBeat = Conductor.instance.songPositionInBeats;
+            hitBarrel = true;
+            yield return new WaitForSeconds(0.17f);
+            anim.Play("KickPrepare", 0, 0);
         }
 
         private void Swing()
@@ -74,6 +110,10 @@ namespace RhythmHeavenMania.Games.KarateMan
                             break;
                         case 2:
                             RockParticle.Play();
+                            break;
+                        case 4:
+                            if (kickC != null) StopCoroutine(kickC);
+                            kickC = StartCoroutine(PrepareKick());
                             break;
                     }
 

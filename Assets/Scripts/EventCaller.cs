@@ -103,8 +103,8 @@ namespace RhythmHeavenMania
                     new GameAction("rock", delegate { KarateMan.instance.Shoot(currentBeat, 2); }, true ),
                     new GameAction("ball", delegate { KarateMan.instance.Shoot(currentBeat, 3); }, true ),
                     new GameAction("kick", delegate { KarateMan.instance.Shoot(currentBeat, 4); }, true ),
-                    new GameAction("bgfxOn", delegate { KarateMan.instance.BGFXOn(); } ),
-                    new GameAction("bgfxOff", delegate { KarateMan.instance.BGFXOff(); }),
+                    new GameAction("bgfxon", delegate { KarateMan.instance.BGFXOn(); } ),
+                    new GameAction("bgfxoff", delegate { KarateMan.instance.BGFXOff(); }),
                 })
             };
 

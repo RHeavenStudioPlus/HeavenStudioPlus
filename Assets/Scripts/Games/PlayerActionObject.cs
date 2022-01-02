@@ -8,12 +8,12 @@ namespace RhythmHeavenMania.Games
     {
         public bool inList = false;
         public int lastState;
-        private Minigame.Eligible e = new Minigame.Eligible();
+        public Minigame.Eligible state = new Minigame.Eligible();
         public bool isEligible;
 
         public void PlayerActionInit(GameObject g)
         {
-            e.gameObject = g;
+            state.gameObject = g;
         }
 
         // could possibly add support for custom early, perfect, and end times if needed.
@@ -47,16 +47,16 @@ namespace RhythmHeavenMania.Games
         {
             if (!inList)
             {
-                e.early = early;
-                e.perfect = perfect;
-                e.late = late;
+                state.early = early;
+                state.perfect = perfect;
+                state.late = late;
 
-                eligibleHitsList.Add(e);
+                eligibleHitsList.Add(state);
                 inList = true;
             }
             else
             {
-                Minigame.Eligible es = eligibleHitsList[eligibleHitsList.IndexOf(e)];
+                Minigame.Eligible es = eligibleHitsList[eligibleHitsList.IndexOf(state)];
                 es.early = early;
                 es.perfect = perfect;
                 es.late = late;
@@ -67,7 +67,7 @@ namespace RhythmHeavenMania.Games
         {
             if (!inList) return;
 
-            eligibleHitsList.Remove(e);
+            eligibleHitsList.Remove(state);
             inList = false;
         }
 
@@ -78,6 +78,39 @@ namespace RhythmHeavenMania.Games
                 EligibleHits.Remove(EligibleHits[currentHitInList]);
                 currentHitInList++;
             }
+        }
+        
+        // No list
+        public void StateCheckNoList(float normalizedBeat)
+        {
+            if (normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.PerfectTime() && lastState == 0)
+            {
+                ModifyState(true, false, false);
+                lastState++;
+            }
+            // Perfect State
+            else if (normalizedBeat > Minigame.PerfectTime() && normalizedBeat < Minigame.LateTime() && lastState == 1)
+            {
+                ModifyState(false, true, false);
+                lastState++;
+            }
+            // Late State
+            else if (normalizedBeat > Minigame.LateTime() && normalizedBeat < Minigame.EndTime() && lastState == 2)
+            {
+                ModifyState(false, false, true);
+                lastState++;
+            }
+            else if (normalizedBeat < Minigame.EarlyTime() || normalizedBeat > Minigame.EndTime())
+            {
+                // ineligible
+            }
+        }
+
+        private void ModifyState(bool early, bool perfect, bool late)
+        {
+            state.early = early;
+            state.perfect = perfect;
+            state.late = late;
         }
     }
 }
