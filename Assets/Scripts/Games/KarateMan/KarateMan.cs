@@ -95,7 +95,10 @@ namespace RhythmHeavenMania.Games.KarateMan
                 case 4:
                     p.kick = true;
                     Jukebox.PlayOneShotGame("karateman/barrelOutKicks");
-                    p.hitSnd = "karateman/barrelOutKicks";
+                    p.hitSnd = "karateman/barrelBreak";
+
+                    GameObject pks = new GameObject(); pks.AddComponent<PunchKickSound>().startBeat = beat;
+                    pks.transform.parent = this.transform.parent;
                     break;
             }
         }

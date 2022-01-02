@@ -101,6 +101,33 @@ TextureImporter:
   - first:
       213: 8671423413994339737
     second: karateman_barrel
+  - first:
+      213: 4054907966118216257
+    second: karateman_kick_prepare_0
+  - first:
+      213: -2527936805555730590
+    second: karateman_kick_0
+  - first:
+      213: 6207558157275519107
+    second: karateman_kick_1
+  - first:
+      213: -8214882660725976715
+    second: karateman_kick_leg_0
+  - first:
+      213: 3928519723912928495
+    second: karateman_kick_2
+  - first:
+      213: 8471165906507836423
+    second: karateman_kick_3
+  - first:
+      213: 2524486813432512213
+    second: karateman_kick_leg_1
+  - first:
+      213: -3384082045092113307
+    second: karateman_kick_leg_2
+  - first:
+      213: -678416614439994711
+    second: karateman_fastfx_1
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -878,6 +905,195 @@ TextureImporter:
       bones: []
       spriteID: 99d3320e6a5175870800000000000000
       internalID: 8671423413994339737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_kick_prepare_0
+      rect:
+        serializedVersion: 2
+        x: 3428
+        y: 2244
+        width: 664
+        height: 536
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 142c065bf4de54830800000000000000
+      internalID: 4054907966118216257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_kick_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 4
+        width: 760
+        height: 792
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26707327ed6faecd0800000000000000
+      internalID: -2527936805555730590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_kick_1
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 4
+        width: 440
+        height: 760
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3885cf6414da52650800000000000000
+      internalID: 6207558157275519107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_kick_leg_0
+      rect:
+        serializedVersion: 2
+        x: 3332
+        y: 804
+        width: 472
+        height: 279
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57199ef8ebfdefd80800000000000000
+      internalID: -8214882660725976715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_kick_2
+      rect:
+        serializedVersion: 2
+        x: 1860
+        y: 164
+        width: 376
+        height: 440
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fec12fcefd7e48630800000000000000
+      internalID: 3928519723912928495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_kick_3
+      rect:
+        serializedVersion: 2
+        x: 2244
+        y: 164
+        width: 440
+        height: 440
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70cacc28280af8570800000000000000
+      internalID: 8471165906507836423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_kick_leg_1
+      rect:
+        serializedVersion: 2
+        x: 2948
+        y: 644
+        width: 376
+        height: 440
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5de7dcaa167c80320800000000000000
+      internalID: 2524486813432512213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_kick_leg_2
+      rect:
+        serializedVersion: 2
+        x: 2692
+        y: 644
+        width: 248
+        height: 472
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 564d1834f435901d0800000000000000
+      internalID: -3384082045092113307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_fastfx_1
+      rect:
+        serializedVersion: 2
+        x: 2692
+        y: 68
+        width: 856
+        height: 568
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9aab49efea7c596f0800000000000000
+      internalID: -678416614439994711
       vertices: []
       indices: 
       edges: []
