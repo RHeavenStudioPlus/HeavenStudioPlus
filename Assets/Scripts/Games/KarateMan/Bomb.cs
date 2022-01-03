@@ -16,6 +16,9 @@ namespace RhythmHeavenMania.Games.KarateMan
         public bool kicked;
         private bool eligible;
 
+        public GameObject RotHolder;
+        private Vector3 lastRot;
+
         private void Start()
         {
             anim = GetComponent<Animator>();
@@ -41,6 +44,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                 {
                     eligible = false;
                     // explode animation
+                    if (normalizedBeat > 4)
                     Destroy(this.gameObject);
                 }
 
@@ -70,13 +74,18 @@ namespace RhythmHeavenMania.Games.KarateMan
                     Destroy(this.gameObject);
                 }
             }
+
+            lastRot = RotHolder.transform.eulerAngles;
         }
 
         public void Hit()
         {
+            KarateJoe.instance.HitEffectF(new Vector3(0.9f, 2.0549f));
+
             Jukebox.PlayOneShotGame("karateman/bombKick");
             hitBeat = Conductor.instance.songPositionInBeats;
             kicked = true;
+            RotHolder.transform.eulerAngles = lastRot;
         }
     }
 }

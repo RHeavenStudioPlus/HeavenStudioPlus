@@ -128,6 +128,21 @@ TextureImporter:
   - first:
       213: -678416614439994711
     second: karateman_fastfx_1
+  - first:
+      213: 6524922379630696755
+    second: karateman_barrelfx_0
+  - first:
+      213: 1156572009758090512
+    second: karateman_barrelfx_1
+  - first:
+      213: -7998309181045564909
+    second: karateman_barrelfx_2
+  - first:
+      213: -7906004722935515527
+    second: karateman_barrelfx_3
+  - first:
+      213: 5805539206011318834
+    second: karateman_barrelfx_4
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -1086,7 +1101,7 @@ TextureImporter:
         width: 856
         height: 568
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1094,6 +1109,111 @@ TextureImporter:
       bones: []
       spriteID: 9aab49efea7c596f0800000000000000
       internalID: -678416614439994711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_barrelfx_0
+      rect:
+        serializedVersion: 2
+        x: 1828
+        y: 708
+        width: 184
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33952e0755e2d8a50800000000000000
+      internalID: 6524922379630696755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_barrelfx_1
+      rect:
+        serializedVersion: 2
+        x: 2020
+        y: 708
+        width: 184
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0156ac67d18fc0010800000000000000
+      internalID: 1156572009758090512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_barrelfx_2
+      rect:
+        serializedVersion: 2
+        x: 2212
+        y: 708
+        width: 184
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31a980c3d2c400190800000000000000
+      internalID: -7998309181045564909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_barrelfx_3
+      rect:
+        serializedVersion: 2
+        x: 2404
+        y: 804
+        width: 280
+        height: 184
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9763ed0a79a384290800000000000000
+      internalID: -7906004722935515527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_barrelfx_4
+      rect:
+        serializedVersion: 2
+        x: 2404
+        y: 612
+        width: 280
+        height: 184
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23278e7162b619050800000000000000
+      internalID: 5805539206011318834
       vertices: []
       indices: 
       edges: []

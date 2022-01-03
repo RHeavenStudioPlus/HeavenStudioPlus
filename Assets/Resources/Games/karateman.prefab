@@ -106,6 +106,7 @@ MonoBehaviour:
     late: 0
   isEligible: 0
   kicked: 0
+  RotHolder: {fileID: 7503168023327542540}
 --- !u!1 &2099248522849929875
 GameObject:
   m_ObjectHideFlags: 0
@@ -766,6 +767,7 @@ MonoBehaviour:
   HitParticle: {fileID: 7248900332593533644}
   RockParticle: {fileID: 7248900332432276694}
   BulbHit: {fileID: 7248900333007582906}
+  hitBarrel: 0
 --- !u!95 &7248900332013002442
 Animator:
   serializedVersion: 3
@@ -1102,9 +1104,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 60
   m_Sprite: {fileID: -348202296468608855, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.4745098}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.7019608}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -12004,9 +12006,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 60
   m_Sprite: {fileID: -348202296468608855, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.4745098}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.7019608}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -12059,6 +12061,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7248900333300803150}
   - component: {fileID: 7248900333300803151}
+  - component: {fileID: 5840347371021274451}
   m_Layer: 0
   m_Name: karateman
   m_TagString: Untagged
@@ -12112,12 +12115,44 @@ MonoBehaviour:
   - {fileID: -3530312539838775474, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
   - {fileID: 8671423413994339737, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
   - {fileID: -6341196331951941137, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
+  BarrelSprites:
+  - {fileID: 6524922379630696755, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
+  - {fileID: 1156572009758090512, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
+  - {fileID: -7998309181045564909, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
+  - {fileID: -7906004722935515527, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
+  - {fileID: 5805539206011318834, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
   BGSprites:
   - Sprites:
     - {fileID: -5244473057742839103, guid: 1fe78dfa0c2320546915f1f2b70c79a7, type: 3}
     - {fileID: 3927547596512374108, guid: 1fe78dfa0c2320546915f1f2b70c79a7, type: 3}
     - {fileID: 6723002177432063909, guid: 1fe78dfa0c2320546915f1f2b70c79a7, type: 3}
   BGSprite: {fileID: 7248900333330862853}
+--- !u!61 &5840347371021274451
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7248900333300803145}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.5021653, y: -5.3626747}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 19.024342, y: 3.0151978}
+  m_EdgeRadius: 0
 --- !u!1 &7248900333330862855
 GameObject:
   m_ObjectHideFlags: 0

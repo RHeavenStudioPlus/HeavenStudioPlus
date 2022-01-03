@@ -14,6 +14,7 @@ namespace RhythmHeavenMania.Games.KarateMan
         public static KarateMan instance { get; set; }
 
         public Sprite[] ObjectSprites;
+        public Sprite[] BarrelSprites;
 
         public List<BGSpriteC> BGSprites;
         public SpriteRenderer BGSprite;

@@ -93,14 +93,12 @@ namespace RhythmHeavenMania.Games.KarateMan
                     Jukebox.PlayOneShotGame(p.hitSnd);
                     p.Hit();
 
-                    GameObject hit = Instantiate(HitEffect);
-                    hit.transform.parent = HitEffect.transform.parent;
-                    hit.SetActive(true);
+                    HitEffectF(HitEffect.transform.localPosition);
 
                     switch (p.type)
                     {
                         case 0:
-                            HitParticle.Play();
+                            // HitParticle.Play();
                             break;
                         case 1:
                             GameObject bulbHit = Instantiate(BulbHit);
@@ -109,15 +107,48 @@ namespace RhythmHeavenMania.Games.KarateMan
                             Destroy(bulbHit, 0.7f);
                             break;
                         case 2:
-                            RockParticle.Play();
+                            // RockParticle.Play();
                             break;
                         case 4:
                             if (kickC != null) StopCoroutine(kickC);
                             kickC = StartCoroutine(PrepareKick());
+                            for (int i = 0; i < 8; i++)
+                            {
+                                GameObject be = new GameObject();
+                                be.transform.localPosition = p.transform.localPosition;
+                                be.transform.parent = this.transform.parent;
+                                BarrelDestroyEffect bde = be.AddComponent<BarrelDestroyEffect>();
+
+                                switch (i)
+                                {
+                                    case 0:
+                                        bde.spriteIndex = 0;
+                                        break;
+                                    case 1:
+                                        bde.spriteIndex = 0;
+                                        break;
+                                    case 2:
+                                        bde.spriteIndex = 1;
+                                        break;
+                                    case 3:
+                                        bde.spriteIndex = 2;
+                                        break;
+                                    case 4:
+                                        bde.spriteIndex = 3;
+                                        break;
+                                    case 5:
+                                        bde.spriteIndex = 3;
+                                        break;
+                                    case 6:
+                                        bde.spriteIndex = 4;
+                                        break;
+                                    case 7:
+                                        bde.spriteIndex = 4;
+                                        break;
+                                }
+                            }
                             break;
                     }
-
-                    Destroy(hit, 0.04f);
                 }
                 else
                 {
@@ -135,6 +166,15 @@ namespace RhythmHeavenMania.Games.KarateMan
                 anim.Play("PunchLeft", 0, 0);
             else
                 anim.Play("PunchRight", 0, 0);
+        }
+
+        public void HitEffectF(Vector3 pos)
+        {
+            GameObject hit = Instantiate(HitEffect);
+            hit.transform.parent = HitEffect.transform.parent;
+            hit.transform.localPosition = pos;
+            hit.SetActive(true);
+            Destroy(hit, 0.03f);
         }
     }
 }
