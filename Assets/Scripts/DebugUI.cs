@@ -49,6 +49,7 @@ namespace RhythmHeavenMania
             CreateDebugUI(out graphicsDeviceName, true); SetText(graphicsDeviceName, SystemInfo.graphicsDeviceName);
             CreateDebugUI(out fps, true);
 
+            transform.GetChild(0).GetComponent<Canvas>().worldCamera = GameManager.instance.CursorCam;
         }
 
         private void Update()
