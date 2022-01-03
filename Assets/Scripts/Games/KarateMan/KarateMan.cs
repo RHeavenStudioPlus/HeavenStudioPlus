@@ -22,6 +22,9 @@ namespace RhythmHeavenMania.Games.KarateMan
         private bool bgEnabled;
         private int newBeat;
 
+        private float bopLength;
+        private float bopBeat;
+
         [System.Serializable]
         public class BGSpriteC
         {
@@ -35,17 +38,26 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         private void Update()
         {
-            if (bgEnabled)
+
+            if (Conductor.instance.songPositionInBeats > newBeat)
             {
-                if (Conductor.instance.songPositionInBeats > newBeat)
+                if (bgEnabled)
                 {
                     if (newBeat % 2 == 0)
                         BGSprite.sprite = BGSprites[0].Sprites[1];
                     else
                         BGSprite.sprite = BGSprites[0].Sprites[2];
-
-                    newBeat++;
                 }
+
+                if (Conductor.instance.songPositionInBeats >= bopBeat && Conductor.instance.songPositionInBeats < bopBeat + bopLength)
+                {
+                    if (KarateJoe.anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 && !KarateJoe.anim.IsInTransition(0))
+                    KarateJoe.anim.Play("Bop", 0, 0);
+
+                    print("bop");
+                }
+
+                newBeat++;
             }
         }
 
@@ -104,9 +116,10 @@ namespace RhythmHeavenMania.Games.KarateMan
             }
         }
 
-        public void Bop()
+        public void Bop(float beat, float length)
         {
-            KarateJoe.anim.Play("Bop", 0, 0);
+            bopLength = length;
+            bopBeat = beat;
         }
     }
 }

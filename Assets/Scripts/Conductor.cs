@@ -7,7 +7,7 @@ using Starpelly;
 
 namespace RhythmHeavenMania
 {
-    [RequireComponent(typeof(AudioSource))]
+    // [RequireComponent(typeof(AudioSource))]
     public class Conductor : MonoBehaviour
     {
         //Song beats per minute

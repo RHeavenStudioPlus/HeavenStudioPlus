@@ -16,7 +16,7 @@ namespace RhythmHeavenMania
         private EventCaller eventCaller;
 
         public Beatmap Beatmap;
-        [HideInInspector] public List<Beatmap.Entity> playerEntities;
+        [HideInInspector] public List<Beatmap.Entity> playerEntities = new List<Beatmap.Entity>();
 
         public int currentEvent, currentPlayerEvent;
 
@@ -37,15 +37,23 @@ namespace RhythmHeavenMania
 
         private List<GameObject> preloadedGames = new List<GameObject>();
 
+        [HideInInspector] public GameObject GamesHolder;
+
         private void Awake()
         {
             instance = this;
         }
 
         // before Start() since this is very important
-        private void OnEnable()
+        private void Start()
         {
-            SortEventsList();
+            this.transform.localScale = new Vector3(3000, 3000);
+            SpriteRenderer sp = this.gameObject.AddComponent<SpriteRenderer>();
+            sp.enabled = false;
+            sp.color = Color.black;
+            sp.sprite = Resources.Load<Sprite>("Sprites/GeneralPurpose/Square");
+            sp.sortingOrder = 30000;
+            this.gameObject.layer = 3;
 
             string json = txt.text;
             Beatmap = JsonConvert.DeserializeObject<Beatmap>(json);
@@ -54,7 +62,8 @@ namespace RhythmHeavenMania
 
             GlobalGameManager.Init();
 
-            eventCaller = GetComponent<EventCaller>();
+            eventCaller = this.gameObject.AddComponent<EventCaller>();
+            eventCaller.GamesHolder = GamesHolder.transform;
             eventCaller.Init();
             Conductor.instance.SetBpm(Beatmap.bpm);
 
@@ -136,9 +145,12 @@ namespace RhythmHeavenMania
             if (Beatmap.entities.Count > 0)
             {
                 List<float> entities = Beatmap.entities.Select(c => c.beat).ToList();
-                List<float> entities_p = playerEntities.Select(c => c.beat).ToList();
+                if (playerEntities != null)
+                {
+                    List<float> entities_p = playerEntities.Select(c => c.beat).ToList();
+                    currentPlayerEvent = entities_p.IndexOf(Mathp.GetClosestInList(entities_p, beat));
+                }
                 currentEvent = entities.IndexOf(Mathp.GetClosestInList(entities, beat));
-                currentPlayerEvent = entities_p.IndexOf(Mathp.GetClosestInList(entities_p, beat));
 
                 print(currentEvent);
 
