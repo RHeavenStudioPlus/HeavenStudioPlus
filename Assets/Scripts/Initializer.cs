@@ -8,6 +8,10 @@ namespace RhythmHeavenMania
     {
         public TextAsset level;
         public AudioClip music;
+        public bool debugUI;
+
+        public bool playOnStart = false;
+        public bool editor = false;
 
         private void Start()
         {
@@ -24,6 +28,7 @@ namespace RhythmHeavenMania
             GameObject GameManager = new GameObject();
             GameManager.name = "GameManager";
             GameManager gameManager = GameManager.AddComponent<GameManager>();
+            if (playOnStart) gameManager.playOnStart = true;
 
             gameManager.txt = level;
             gameManager.GamesHolder = Games;
@@ -33,12 +38,22 @@ namespace RhythmHeavenMania
 
             GameObject Profiler = Instantiate(Resources.Load<GameObject>("Prefabs/GameProfiler"));
             Profiler.name = "GameProfiler";
+            if (!debugUI)
+            {
+                Profiler.GetComponent<DebugUI>().enabled = false;
+                Profiler.transform.GetChild(0).gameObject.SetActive(false);
+            }
 
             GameObject Conductor = new GameObject();
             Conductor.name = "Conductor";
             Conductor.AddComponent<AudioSource>().clip = music;
             Conductor.AddComponent<Conductor>();
             Conductor.AddComponent<AudioDspTimeKeeper>();
+
+            if (editor)
+            {
+                this.GetComponent<RhythmHeavenMania.Editor.Editor>().Init();
+            }
         }
     }
 }

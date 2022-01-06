@@ -39,6 +39,8 @@ namespace RhythmHeavenMania
 
         [HideInInspector] public GameObject GamesHolder;
 
+        public bool playOnStart;
+
         private void Awake()
         {
             instance = this;
@@ -67,7 +69,7 @@ namespace RhythmHeavenMania
             eventCaller.Init();
             Conductor.instance.SetBpm(Beatmap.bpm);
 
-            StartCoroutine(Begin());
+            if (playOnStart) StartCoroutine(Begin());
 
             // SetCurrentGame(eventCaller.GamesHolder.transform.GetComponentsInChildren<Transform>()[1].name);
 
