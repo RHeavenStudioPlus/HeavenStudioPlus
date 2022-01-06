@@ -120,5 +120,10 @@ namespace RhythmHeavenMania
             this.songBpm = bpm;
             secPerBeat = 60f / songBpm;
         }
+
+        public float SongLengthInBeats()
+        {
+            return musicSource.clip.length / secPerBeat;
+        }
     }
 }
