@@ -93,18 +93,18 @@ namespace RhythmHeavenMania
             if (!Conductor.instance.isPlaying)
                 return;
 
-            if (Input.GetKeyDown(KeyCode.A))
+            /*if (Input.GetKeyDown(KeyCode.A))
             {
-                Conductor.instance.SetTime(Conductor.instance.songPositionInBeats + 3);
+                Conductor.instance.SetBeat(Conductor.instance.songPositionInBeats + 3);
 
                 GetGame(currentGame).holder.GetComponent<Minigame>().OnTimeChange();
             }
             else if (Input.GetKeyDown(KeyCode.S))
             {
-                Conductor.instance.SetTime(Conductor.instance.songPositionInBeats - 3);
+                Conductor.instance.SetBeat(Conductor.instance.songPositionInBeats - 3);
 
                 GetGame(currentGame).holder.GetComponent<Minigame>().OnTimeChange();
-            }
+            }*/
 
             List<float> entities = Beatmap.entities.Select(c => c.beat).ToList();
 
@@ -152,14 +152,23 @@ namespace RhythmHeavenMania
                     List<float> entities_p = playerEntities.Select(c => c.beat).ToList();
                     currentPlayerEvent = entities_p.IndexOf(Mathp.GetClosestInList(entities_p, beat));
                 }
+
                 currentEvent = entities.IndexOf(Mathp.GetClosestInList(entities, beat));
 
-                print(currentEvent);
-
                 string newGame = Beatmap.entities[currentEvent].datamodel.Split('/')[0];
-                if (newGame != currentGame)
+
+                if (Beatmap.entities[currentEvent].datamodel.Split('/')[1] != "switchGame")
                 {
-                    SwitchGame(newGame);
+                    if (newGame == "gameManager")
+                    {
+                        // holy shit
+                        newGame = Beatmap.entities[entities.IndexOf(Mathp.GetClosestInList(Beatmap.entities.FindAll(c => c.datamodel != "gameManager" && c.beat < Conductor.instance.songPositionInBeats).ToList().Select(c => c.beat).ToList(), beat))].datamodel.Split('/')[0];
+                    }
+
+                    if (newGame != currentGame)
+                    {
+                        SwitchGame(newGame);
+                    }
                 }
             }
         }
@@ -191,12 +200,15 @@ namespace RhythmHeavenMania
             {
                 for (int i = 0; i < preloadedGames.Count; i++)
                 {
-                    if (preloadedGames[i].gameObject.name == game)
+                    if (preloadedGames[i].gameObject != null)
                     {
-                        preloadedGames[i].SetActive(true);
-                        currentGameO = preloadedGames[i];
-                        preloadedGames.Remove(preloadedGames[i]);
-                        instantiate = false;
+                        if (preloadedGames[i].gameObject.name == game)
+                        {
+                            preloadedGames[i].SetActive(true);
+                            currentGameO = preloadedGames[i];
+                            preloadedGames.Remove(preloadedGames[i]);
+                            instantiate = false;
+                        }
                     }
                 }
             }

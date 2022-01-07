@@ -107,7 +107,6 @@ namespace RhythmHeavenMania.Games.ClappyTrio
             }
             else
             {
-                print(early + " " + perfect + " " + late);
                 clapEffect.SetActive(false);
                 Jukebox.PlayOneShot("miss");
                 ClappyTrio.instance.playerHitLast = false;

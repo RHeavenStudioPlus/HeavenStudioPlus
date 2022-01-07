@@ -11,6 +11,7 @@ namespace RhythmHeavenMania.Editor
         private Initializer Initializer;
 
         [SerializeField] private Canvas MainCanvas;
+        [SerializeField] public Camera EditorCamera;
 
         [Header("Rect")]
         [SerializeField] private RenderTexture ScreenRenderTexture;
@@ -19,12 +20,14 @@ namespace RhythmHeavenMania.Editor
         [Header("Components")]
         [SerializeField] private Timeline Timeline;
 
+        public static Editor instance { get; private set; }
+
         private void Start()
         {
+            instance = this;
             Initializer = GetComponent<Initializer>();
 
             MainCanvas.gameObject.SetActive(false);
-            print("d");
         }
 
         public void Init()
