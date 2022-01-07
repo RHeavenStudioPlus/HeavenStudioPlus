@@ -8,17 +8,17 @@ namespace RhythmHeavenMania
     {
         public static bool Pressed()
         {
-            return (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0));
+            return Input.GetKeyDown(KeyCode.Z);
         }
 
         public static bool PressedUp()
         {
-            return (Input.GetKeyUp(KeyCode.Z) || Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(0));
+            return Input.GetKeyUp(KeyCode.Z);
         }
 
         public static bool Pressing()
         {
-            return (Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0));
+            return Input.GetKey(KeyCode.Z);
         }
     }
 }

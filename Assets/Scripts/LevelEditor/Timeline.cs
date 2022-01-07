@@ -14,11 +14,12 @@ namespace RhythmHeavenMania.Editor
         [SerializeField] private TMP_Text SongPos;
 
         [Header("Timeline Properties")]
-        private bool isPlaying = false;
         private float lastBeatPos = 0;
+        private Vector2 lastMousePos;
 
         [Header("Timeline Components")]
         [SerializeField] private RectTransform TimelineSlider;
+        [SerializeField] private TMP_Text TimelinePlaybackBeat;
         [SerializeField] private RectTransform TimelineContent;
         [SerializeField] private RectTransform TimelineSongPosLineRef;
         private RectTransform TimelineSongPosLine;
@@ -33,10 +34,18 @@ namespace RhythmHeavenMania.Editor
 
         private void Update()
         {
-            SongBeat.text = $"Beat {string.Format("{0:0.000}", Conductor.instance.songPositionInBeats)}";
-            SongPos.text = FormatTime(Conductor.instance.songPosition);
+            if (!Conductor.instance.isPlaying && !Conductor.instance.isPaused)
+            {
+                SongBeat.text = $"Beat {string.Format("{0:0.000}", TimelineSlider.localPosition.x)}";
+                SongPos.text = FormatTime(Conductor.instance.GetSongPosFromBeat(TimelineSlider.localPosition.x));
+            }
+            else
+            {
+                SongBeat.text = $"Beat {string.Format("{0:0.000}", Conductor.instance.songPositionInBeats)}";
+                SongPos.text = FormatTime(Conductor.instance.songPosition);
+            }
 
-            isPlaying = Conductor.instance.isPlaying;
+            SliderControl();
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -50,13 +59,22 @@ namespace RhythmHeavenMania.Editor
                 }
             }
 
-            SliderControl();
 
             lastBeatPos = Conductor.instance.songPositionInBeats;
+
+            if (Input.GetMouseButtonDown(1) && !Conductor.instance.isPlaying)
+            {
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(TimelineContent, Input.mousePosition, Editor.instance.EditorCamera, out lastMousePos);
+                TimelineSlider.localPosition = new Vector3(lastMousePos.x, TimelineSlider.transform.localPosition.y);
+
+                Conductor.instance.SetBeat(TimelineSlider.transform.localPosition.x);
+            }
         }
 
         private void SliderControl()
         {
+            TimelinePlaybackBeat.text = $"Beat {string.Format("{0:0.000}", TimelineSlider.localPosition.x)}";
+
             if (TimelineSongPosLine != null)
             {
                 TimelineSongPosLine.transform.localPosition = new Vector3(Conductor.instance.songPositionInBeats, TimelineSlider.transform.localPosition.y);
@@ -69,14 +87,14 @@ namespace RhythmHeavenMania.Editor
         {
             if (fromStart)
             {
-                if (isPlaying)
+                if (Conductor.instance.isPlaying)
                     Play(true);
                 else
                     Stop();
             }
             else
             {
-                if (!isPlaying)
+                if (!Conductor.instance.isPlaying)
                 {
                     Play(false);
                 }
@@ -111,6 +129,7 @@ namespace RhythmHeavenMania.Editor
             // isPaused = true;
             // timelineSlider.value = 0;
 
+            if (TimelineSongPosLine != null)
             Destroy(TimelineSongPosLine.gameObject);
 
             Conductor.instance.Stop();

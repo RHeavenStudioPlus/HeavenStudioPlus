@@ -23,9 +23,7 @@ namespace RhythmHeavenMania
         // Current song position, in beats
         public float songPositionInBeats;
 
-        // How many seconds have passed since the song started
-        public float startTime;
-
+        // Time that the song paused
         private float pauseTime;
 
         // Current time of the song
@@ -43,6 +41,8 @@ namespace RhythmHeavenMania
         public bool isPlaying;
         public bool isPaused;
 
+        public float currentTime;
+
         // private AudioDspTimeKeeper timeKeeper;
 
         void Awake()
@@ -57,23 +57,33 @@ namespace RhythmHeavenMania
             secPerBeat = 60f / songBpm;
         }
 
+        public void SetBeat(float t)
+        {
+            float secFromBeat = secPerBeat * t;
+
+            currentTime = secFromBeat;
+            pauseTime = 0;
+
+            if (secFromBeat < musicSource.clip.length)
+                musicSource.time = secFromBeat;
+
+            GameManager.instance.SetCurrentEventToClosest(t);
+        }
+
         public void Play()
         {
-            float lastTime = pauseTime - startTime;
-
-            startTime = Time.time;
-
-            time = startTime + lastTime;
+            time = currentTime + pauseTime;
 
             isPlaying = true;
             isPaused = false;
 
-            musicSource.PlayScheduled(startTime);
+            musicSource.PlayScheduled(Time.time);
         }
 
         public void Pause()
         {
             pauseTime = time;
+            currentTime = 0;
 
             isPlaying = false;
             isPaused = true;
@@ -87,15 +97,17 @@ namespace RhythmHeavenMania
             isPlaying = false;
             isPaused = false;
 
+            GameManager.instance.SetCurrentEventToClosest(songPositionInBeats);
+
             musicSource.Stop();
         }
 
-        public void SetTime(float startBeat)
+        /*public void SetTime(float startBeat)
         {
             musicSource.time = GetSongPosFromBeat(startBeat);
             songPositionInBeats = musicSource.time / secPerBeat;
             GameManager.instance.SetCurrentEventToClosest(songPositionInBeats);
-        }
+        }*/
 
         public void Update()
         {
@@ -103,7 +115,7 @@ namespace RhythmHeavenMania
             {
                 time += Time.deltaTime * musicSource.pitch;
 
-                songPosition = time - startTime - firstBeatOffset;
+                songPosition = time - firstBeatOffset;
 
                 songPositionInBeats = songPosition / secPerBeat;
             }
@@ -115,7 +127,7 @@ namespace RhythmHeavenMania
             return a;
         }
 
-        private float GetSongPosFromBeat(float beat)
+        public float GetSongPosFromBeat(float beat)
         {
             return secPerBeat * beat;
         }
