@@ -48,7 +48,7 @@ namespace RhythmHeavenMania
             Conductor.name = "Conductor";
             Conductor.AddComponent<AudioSource>().clip = music;
             Conductor.AddComponent<Conductor>();
-            Conductor.AddComponent<AudioDspTimeKeeper>();
+            // Conductor.AddComponent<AudioDspTimeKeeper>();
 
             if (editor)
             {
