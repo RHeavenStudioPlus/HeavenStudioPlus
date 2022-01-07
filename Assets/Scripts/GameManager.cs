@@ -83,14 +83,14 @@ namespace RhythmHeavenMania
         private IEnumerator Begin()
         {
             yield return new WaitForSeconds(startOffset);
-            Conductor.instance.Play(startBeat);
+            // Conductor.instance.Play(startBeat);
         }
 
         private void Update()
         {
             if (Beatmap.entities.Count < 1)
                 return;
-            if (!Conductor.instance.musicSource.isPlaying)
+            if (!Conductor.instance.isPlaying)
                 return;
 
             if (Input.GetKeyDown(KeyCode.A))

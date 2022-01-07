@@ -19,12 +19,12 @@ namespace RhythmHeavenMania.Games.Spaceball
 
         private void Update()
         {
-            if (Conductor.instance.musicSource.isPlaying && !isShowing)
+            if (Conductor.instance.isPlaying && !isShowing)
             {
-                anim.Play("AlienSwing", 0, Conductor.instance.loopPositionInAnalog * 2);
+                // anim.Play("AlienSwing", 0, Conductor.instance.loopPositionInAnalog * 2);
                 anim.speed = 0;
             }
-            else if (!Conductor.instance.musicSource.isPlaying)
+            else if (!Conductor.instance.isPlaying)
             {
                 anim.Play("AlienIdle", 0, 0);
             }

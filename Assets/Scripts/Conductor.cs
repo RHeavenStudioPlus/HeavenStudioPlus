@@ -10,44 +10,40 @@ namespace RhythmHeavenMania
     // [RequireComponent(typeof(AudioSource))]
     public class Conductor : MonoBehaviour
     {
-        //Song beats per minute
-        //This is determined by the song you're trying to sync up to
+        // Song beats per minute
+        // This is determined by the song you're trying to sync up to
         public float songBpm;
 
-        //The number of seconds for each song beat
+        // The number of seconds for each song beat
         public float secPerBeat;
 
-        //Current song position, in seconds
+        // Current song position, in seconds
         public float songPosition;
 
-        //Current song position, in beats
+        // Current song position, in beats
         public float songPositionInBeats;
 
-        //How many seconds have passed since the song started
-        public float dspSongTime;
+        // How many seconds have passed since the song started
+        public float startTime;
 
-        //an AudioSource attached to this GameObject that will play the music.
+        private float pauseTime;
+
+        // Current time of the song
+        private float time;
+
+        // an AudioSource attached to this GameObject that will play the music.
         public AudioSource musicSource;
 
-        //The offset to the first beat of the song in seconds
+        // The offset to the first beat of the song in seconds
         public float firstBeatOffset;
 
-        //the number of beats in each loop
-        public float beatsPerLoop;
-
-        //the total number of loops completed since the looping clip first started
-        public int completedLoops = 0;
-
-        //The current position of the song within the loop in beats.
-        public float loopPositionInBeats;
-
-        //The current relative position of the song within the loop measured between 0 and 1.
-        public float loopPositionInAnalog;
-
-        //Conductor instance
+        // Conductor instance
         public static Conductor instance;
 
-        private AudioDspTimeKeeper timeKeeper;
+        public bool isPlaying;
+        public bool isPaused;
+
+        // private AudioDspTimeKeeper timeKeeper;
 
         void Awake()
         {
@@ -56,25 +52,42 @@ namespace RhythmHeavenMania
 
         void Start()
         {
-            //Load the AudioSource attached to the Conductor GameObject
             musicSource = GetComponent<AudioSource>();
 
-            timeKeeper = GetComponent<AudioDspTimeKeeper>();
-
-            //Calculate the number of seconds in each beat
             secPerBeat = 60f / songBpm;
-
-            //Record the time when the music starts
-            // dspSongTime = (float)musicSource.time;
-
-            //Start the music
-            // musicSource.Play();
         }
 
-        public void Play(float startBeat)
+        public void Play()
         {
-            timeKeeper.Play();
-            SetTime(startBeat);
+            float lastTime = pauseTime - startTime;
+
+            startTime = Time.time;
+
+            time = startTime + lastTime;
+
+            isPlaying = true;
+            isPaused = false;
+
+            musicSource.PlayScheduled(startTime);
+        }
+
+        public void Pause()
+        {
+            pauseTime = time;
+
+            isPlaying = false;
+            isPaused = true;
+
+            musicSource.Pause();
+        }
+
+        public void Stop()
+        {
+            time = 0;
+            isPlaying = false;
+            isPaused = false;
+
+            musicSource.Stop();
         }
 
         public void SetTime(float startBeat)
@@ -86,22 +99,14 @@ namespace RhythmHeavenMania
 
         public void Update()
         {
-            if (!musicSource.isPlaying) return;
+            if (isPlaying)
+            {
+                time += Time.deltaTime * musicSource.pitch;
 
-            //determine how many seconds since the song started
-            // songPosition = (float)(timeKeeper.dspTime - dspSongTime - firstBeatOffset);
-            songPosition = (float)timeKeeper.GetCurrentTimeInSong();
+                songPosition = time - startTime - firstBeatOffset;
 
-            //determine how many beats since the song started
-            songPositionInBeats = songPosition / secPerBeat;
-
-
-            //calculate the loop position
-            if (songPositionInBeats >= (completedLoops + 1) * beatsPerLoop)
-                completedLoops++;
-            loopPositionInBeats = songPositionInBeats - completedLoops * beatsPerLoop;
-
-            loopPositionInAnalog = loopPositionInBeats / beatsPerLoop;
+                songPositionInBeats = songPosition / secPerBeat;
+            }
         }
 
         public float GetLoopPositionFromBeat(float startBeat, float length)
@@ -123,6 +128,7 @@ namespace RhythmHeavenMania
 
         public float SongLengthInBeats()
         {
+            if (!musicSource.clip) return 0;
             return musicSource.clip.length / secPerBeat;
         }
     }

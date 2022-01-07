@@ -18,7 +18,10 @@ namespace RhythmHeavenMania.Editor
         private float lastBeatPos = 0;
 
         [Header("Timeline Components")]
-        [SerializeField] private Slider TimelineSlider;
+        [SerializeField] private RectTransform TimelineSlider;
+        [SerializeField] private RectTransform TimelineContent;
+        [SerializeField] private RectTransform TimelineSongPosLineRef;
+        private RectTransform TimelineSongPosLine;
 
         #region Initializers
 
@@ -33,7 +36,7 @@ namespace RhythmHeavenMania.Editor
             SongBeat.text = $"Beat {string.Format("{0:0.000}", Conductor.instance.songPositionInBeats)}";
             SongPos.text = FormatTime(Conductor.instance.songPosition);
 
-            isPlaying = Conductor.instance.musicSource.isPlaying;
+            isPlaying = Conductor.instance.isPlaying;
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -54,11 +57,10 @@ namespace RhythmHeavenMania.Editor
 
         private void SliderControl()
         {
-            TimelineSlider.maxValue = Conductor.instance.SongLengthInBeats();
-
-            if (isPlaying)
+            if (TimelineSongPosLine != null)
             {
-                TimelineSlider.value = Conductor.instance.songPositionInBeats;
+                TimelineSongPosLine.transform.localPosition = new Vector3(Conductor.instance.songPositionInBeats, TimelineSlider.transform.localPosition.y);
+                TimelineSongPosLine.transform.localScale = new Vector3(1f / TimelineContent.transform.localScale.x, TimelineSlider.transform.localScale.y, 1);
             }
         }
 
@@ -67,14 +69,14 @@ namespace RhythmHeavenMania.Editor
         {
             if (fromStart)
             {
-                if (isPlaying && Conductor.instance.musicSource.clip)
+                if (isPlaying)
                     Play(true);
                 else
                     Stop();
             }
             else
             {
-                if (!isPlaying && Conductor.instance.musicSource.clip)
+                if (!isPlaying)
                 {
                     Play(false);
                 }
@@ -88,22 +90,30 @@ namespace RhythmHeavenMania.Editor
         public void Play(bool fromStart)
         {
             if (fromStart) Stop();
-            // isPaused = false;
-            Conductor.instance.musicSource.Play();
+
+            if (!Conductor.instance.isPaused)
+            {
+                TimelineSongPosLine = Instantiate(TimelineSongPosLineRef, TimelineSongPosLineRef.parent).GetComponent<RectTransform>();
+                TimelineSongPosLine.gameObject.SetActive(true);
+            }
+
+            Conductor.instance.Play();
         }
 
         public void Pause()
         {
             // isPaused = true;
-            Conductor.instance.musicSource.Pause();
+            Conductor.instance.Pause();
         }
 
         public void Stop()
         {
             // isPaused = true;
             // timelineSlider.value = 0;
-            Conductor.instance.musicSource.time = 0;
-            Conductor.instance.musicSource.Stop();
+
+            Destroy(TimelineSongPosLine.gameObject);
+
+            Conductor.instance.Stop();
         }
         #endregion
 
