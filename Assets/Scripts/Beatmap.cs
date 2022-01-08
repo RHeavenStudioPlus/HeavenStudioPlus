@@ -7,7 +7,7 @@ namespace RhythmHeavenMania
     public class Beatmap
     {
         public float bpm;
-        public List<Entity> entities;
+        public List<Entity> entities = new List<Entity>();
 
         [Serializable]
         public class Entity : ICloneable

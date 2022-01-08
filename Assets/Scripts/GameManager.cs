@@ -15,7 +15,7 @@ namespace RhythmHeavenMania
         public static GameManager instance;
         private EventCaller eventCaller;
 
-        public Beatmap Beatmap;
+        public Beatmap Beatmap = new Beatmap();
         [HideInInspector] public List<Beatmap.Entity> playerEntities = new List<Beatmap.Entity>();
 
         public int currentEvent, currentPlayerEvent;
@@ -46,8 +46,7 @@ namespace RhythmHeavenMania
             instance = this;
         }
 
-        // before Start() since this is very important
-        private void Start()
+        public void Init()
         {
             this.transform.localScale = new Vector3(3000, 3000);
             SpriteRenderer sp = this.gameObject.AddComponent<SpriteRenderer>();
@@ -110,7 +109,7 @@ namespace RhythmHeavenMania
 
             if (currentEvent < Beatmap.entities.Count && currentEvent >= 0)
             {
-                if (Conductor.instance.songPositionInBeats >= entities[currentEvent])
+                if (Conductor.instance.songPositionInBeats >= entities[currentEvent] && Conductor.instance.GetSongPosFromBeat(Conductor.instance.songPositionInBeats) < Conductor.instance.musicSource.clip.length)
                 {
                     // allows for multiple events on the same beat to be executed on the same frame, so no more 1-frame delay
                     var entitesAtSameBeat   = Beatmap.entities.FindAll(c => c.beat == Beatmap.entities[currentEvent].beat && c.datamodel.Split('/')[0] != "gameManager");
