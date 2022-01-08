@@ -26,8 +26,6 @@ namespace RhythmHeavenMania.Editor
         {
             instance = this;
             Initializer = GetComponent<Initializer>();
-
-            MainCanvas.gameObject.SetActive(false);
         }
 
         public void Init()
@@ -36,8 +34,7 @@ namespace RhythmHeavenMania.Editor
             GameManager.instance.CursorCam.targetTexture = ScreenRenderTexture;
             Screen.texture = ScreenRenderTexture;
 
-            MainCanvas.gameObject.SetActive(true);
-
+            GameManager.instance.Init();
             Timeline.Init();
         }
     }

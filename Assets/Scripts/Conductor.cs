@@ -23,9 +23,6 @@ namespace RhythmHeavenMania
         // Current song position, in beats
         public float songPositionInBeats;
 
-        // Time that the song paused
-        private float pauseTime;
-
         // Current time of the song
         private float time;
 
@@ -41,8 +38,6 @@ namespace RhythmHeavenMania
         public bool isPlaying;
         public bool isPaused;
 
-        public float currentTime;
-
         // private AudioDspTimeKeeper timeKeeper;
 
         void Awake()
@@ -57,47 +52,48 @@ namespace RhythmHeavenMania
             secPerBeat = 60f / songBpm;
         }
 
-        public void SetBeat(float t)
+        public void SetBeat(float beat)
         {
-            float secFromBeat = secPerBeat * t;
-
-            currentTime = secFromBeat;
-            pauseTime = 0;
+            float secFromBeat = GetSongPosFromBeat(beat);
 
             if (secFromBeat < musicSource.clip.length)
                 musicSource.time = secFromBeat;
+            else
+                musicSource.time = 0;
 
-            GameManager.instance.SetCurrentEventToClosest(t);
+            GameManager.instance.SetCurrentEventToClosest(beat);
         }
 
-        public void Play()
+        public void Play(float beat)
         {
-            time = currentTime + pauseTime;
+            this.time = GetSongPosFromBeat(beat);
 
             isPlaying = true;
             isPaused = false;
 
-            musicSource.PlayScheduled(Time.time);
+            if (SongPosLessThanClipLength(time))
+            {
+                musicSource.time = time;
+                musicSource.PlayScheduled(Time.time);
+            }
+
+            GameManager.instance.SetCurrentEventToClosest(songPositionInBeats);
         }
 
         public void Pause()
         {
-            pauseTime = time;
-            currentTime = 0;
-
             isPlaying = false;
             isPaused = true;
 
             musicSource.Pause();
         }
 
-        public void Stop()
+        public void Stop(float time)
         {
-            time = 0;
+            this.time = time;
             isPlaying = false;
             isPaused = false;
 
-            GameManager.instance.SetCurrentEventToClosest(songPositionInBeats);
 
             musicSource.Stop();
         }
@@ -142,6 +138,11 @@ namespace RhythmHeavenMania
         {
             if (!musicSource.clip) return 0;
             return musicSource.clip.length / secPerBeat;
+        }
+
+        public bool SongPosLessThanClipLength(float t)
+        {
+            return t < musicSource.clip.length;
         }
     }
 }
