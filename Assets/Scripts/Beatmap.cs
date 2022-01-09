@@ -18,6 +18,7 @@ namespace RhythmHeavenMania
             public float valA;
             public int type;
             public string datamodel;
+            [Newtonsoft.Json.JsonIgnore] public Editor.TimelineEventObj eventObj;
 
             public object Clone()
             {

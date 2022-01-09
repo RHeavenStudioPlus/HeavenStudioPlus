@@ -23,9 +23,9 @@ namespace RhythmHeavenMania.Editor
         [SerializeField] private TMP_Text TimelinePlaybackBeat;
         [SerializeField] private RectTransform TimelineContent;
         [SerializeField] private RectTransform TimelineSongPosLineRef;
+        [SerializeField] private RectTransform TimelineEventObjRef;
         private RectTransform TimelineSongPosLine;
 
-        public RectTransform TestEVENTGO;
 
         #region Initializers
 
@@ -34,52 +34,27 @@ namespace RhythmHeavenMania.Editor
             for (int i = 0; i < GameManager.instance.Beatmap.entities.Count; i++)
             {
                 var entity = GameManager.instance.Beatmap.entities[i];
-
-                GameObject g = Instantiate(TestEVENTGO.gameObject, TestEVENTGO.parent);
                 var e = GameManager.instance.Beatmap.entities[i];
+
+                EventCaller.GameAction gameAction = EventCaller.instance.GetGameAction(EventCaller.instance.GetMinigame(e.datamodel.Split(0)), e.datamodel.Split(1));
+
+                GameObject g = Instantiate(TimelineEventObjRef.gameObject, TimelineEventObjRef.parent);
                 g.transform.localPosition = new Vector3(e.beat, Mathp.Round2Nearest(Random.Range(0, -205.36f), 51.34f));
                 g.transform.GetChild(1).GetComponent<TMP_Text>().text = e.datamodel.Split('/')[1];
 
-                EventCaller.GameAction gameAction = EventCaller.instance.GetGameAction(EventCaller.instance.GetMinigame(e.datamodel.Split(0)), e.datamodel.Split(1));
-                GameObject blocksHolder = g.transform.GetChild(0).gameObject;
+                TimelineEventObj eventObj = g.GetComponent<TimelineEventObj>();
+                eventObj.Icon.sprite = Editor.GameIcon(e.datamodel.Split(0));
 
                 if (gameAction != null)
                 {
-                    blocksHolder.GetComponent<RectTransform>().sizeDelta = new Vector2(gameAction.defaultLength, blocksHolder.GetComponent<RectTransform>().sizeDelta.y);
-                    if (gameAction.eventBeats != null)
-                    {
-                        if (gameAction.eventBeats.Length > 0)
-                        {
-                            for (int k = 0; k < gameAction.eventBeats.Length; k++)
-                            {
-                                var ind = gameAction.eventBeats[k];
-                                if (gameAction.defaultLength > 0)
-                                {
-                                    float length;
-
-                                    if (k + 1 >= gameAction.eventBeats.Length)
-                                        length = gameAction.defaultLength - ind;
-                                    else
-                                        length = gameAction.eventBeats[k + 1];
-
-                                    if (gameAction.resizable)
-                                    {
-                                        length = entity.length;
-                                    }
-
-                                    GameObject block = Instantiate(blocksHolder.transform.GetChild(0).gameObject, blocksHolder.transform);
-                                    block.GetComponent<RectTransform>().sizeDelta = new Vector2(length, block.GetComponent<RectTransform>().sizeDelta.y);
-                                    block.transform.localPosition = new Vector3(ind, block.transform.localPosition.y);
-                                    block.gameObject.SetActive(true);
-                                }
-                            }
-                        }
-                    }
-
-                    // g.GetComponent<RectTransform>().sizeDelta = new Vector2(gameAction.defaultLength, g.GetComponent<RectTransform>().sizeDelta.y);
+                    g.GetComponent<RectTransform>().sizeDelta = new Vector2(gameAction.defaultLength, g.GetComponent<RectTransform>().sizeDelta.y);
+                    float length = gameAction.defaultLength;
+                    eventObj.length = length;
                 }
 
                 g.SetActive(true);
+                entity.eventObj = g.GetComponent<TimelineEventObj>();
+                entity.track = (int)(g.transform.localPosition.y / 51.34f * -1);
             }
         }
 

@@ -16,6 +16,7 @@ namespace RhythmHeavenMania.Editor
         [Header("Rect")]
         [SerializeField] private RenderTexture ScreenRenderTexture;
         [SerializeField] private RawImage Screen;
+        [SerializeField] private RectTransform GridGameSelector;
 
         [Header("Components")]
         [SerializeField] private Timeline Timeline;
@@ -36,6 +37,19 @@ namespace RhythmHeavenMania.Editor
 
             GameManager.instance.Init();
             Timeline.Init();
+
+            for (int i = 0; i < EventCaller.instance.minigames.Count; i++)
+            {
+                GameObject GameIcon_ = Instantiate(GridGameSelector.GetChild(0).gameObject, GridGameSelector);
+                GameIcon_.GetComponent<Image>().sprite = GameIcon(EventCaller.instance.minigames[i].name);
+                GameIcon_.gameObject.SetActive(true);
+                GameIcon_.name = "GameIcon";
+            }
+        }
+
+        public static Sprite GameIcon(string name)
+        {
+            return Resources.Load<Sprite>($"Sprites/Editor/GameIcons/{name}");
         }
     }
 }

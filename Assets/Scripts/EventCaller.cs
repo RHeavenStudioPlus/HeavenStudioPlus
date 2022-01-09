@@ -51,16 +51,14 @@ namespace RhythmHeavenMania
             public string actionName;
             public EventCallback function;
             public bool playerAction = false;
-            public float[] eventBeats = new float[] { 0 };
             public float defaultLength;
             public bool resizable;
 
-            public GameAction(string actionName, EventCallback function, float[] eventBeats = null, float defaultLength = 1, bool playerAction = false, bool resizable = false)
+            public GameAction(string actionName, EventCallback function, float defaultLength = 1, bool playerAction = false, bool resizable = false)
             {
                 this.actionName = actionName;
                 this.function = function;
                 this.playerAction = playerAction;
-                this.eventBeats = eventBeats;
                 this.defaultLength = defaultLength;
                 this.resizable = resizable;
             }
@@ -88,37 +86,37 @@ namespace RhythmHeavenMania
                 }),
                 new MiniGame("forkLifter", "FFFFFF", new List<GameAction>()
                 {
-                    new GameAction("pea",           delegate { ForkLifter.instance.Flick(currentBeat, 0); },                    new float[] { 0, 2 },   3,      true),
-                    new GameAction("topbun",        delegate { ForkLifter.instance.Flick(currentBeat, 1); },                    new float[] { 0, 2 },   3,      true),
-                    new GameAction("burger",        delegate { ForkLifter.instance.Flick(currentBeat, 2); },                    new float[] { 0, 2 },   3,      true),
-                    new GameAction("bottombun",     delegate { ForkLifter.instance.Flick(currentBeat, 3); },                    new float[] { 0, 2 },   3,      true),
-                    new GameAction("prepare",       delegate { ForkLifter.instance.ForkLifterHand.Prepare(); },                 new float[] { 0 },      0.5f,   true),
+                    new GameAction("pea",           delegate { ForkLifter.instance.Flick(currentBeat, 0); }, 3, true),
+                    new GameAction("topbun",        delegate { ForkLifter.instance.Flick(currentBeat, 1); }, 3, true),
+                    new GameAction("burger",        delegate { ForkLifter.instance.Flick(currentBeat, 2); }, 3, true),
+                    new GameAction("bottombun",     delegate { ForkLifter.instance.Flick(currentBeat, 3); }, 3, true),
+                    new GameAction("prepare",       delegate { ForkLifter.instance.ForkLifterHand.Prepare(); }, 0.5f, true),
                     new GameAction("gulp",          delegate { ForkLifterPlayer.instance.Eat(); }),
                     new GameAction("sigh",          delegate { Jukebox.PlayOneShot("sigh"); })
                 }),
                 new MiniGame("clappyTrio", "29E7FF", new List<GameAction>()
                 {
-                    new GameAction("clap",          delegate { ClappyTrio.instance.Clap(currentBeat, currentLength); },         new float[] { 0 },      3,      true),
+                    new GameAction("clap",          delegate { ClappyTrio.instance.Clap(currentBeat, currentLength); }, 3, true),
                     new GameAction("bop",           delegate { ClappyTrio.instance.Bop(currentBeat); } ),
                     new GameAction("prepare",       delegate { ClappyTrio.instance.Prepare(0); } ),
                     new GameAction("prepare_alt",   delegate { ClappyTrio.instance.Prepare(3); } ),
                 }),
                 new MiniGame("spaceball", "00A518", new List<GameAction>()
                 {
-                    new GameAction("shoot",         delegate { Spaceball.instance.Shoot(currentBeat, false, currentType); },    new float[] { 0, 1 },      2,     true),
-                    new GameAction("shootHigh",     delegate { Spaceball.instance.Shoot(currentBeat, true, currentType); },     new float[] { 0, 2 },      3,     true),
+                    new GameAction("shoot",         delegate { Spaceball.instance.Shoot(currentBeat, false, currentType); }, 2, true),
+                    new GameAction("shootHigh",     delegate { Spaceball.instance.Shoot(currentBeat, true, currentType); }, 3, true),
                     new GameAction("costume",       delegate { Spaceball.instance.Costume(currentType); } ),
                     new GameAction("alien",         delegate { Spaceball.instance.alien.Show(currentBeat); } ),
                     new GameAction("cameraZoom",    delegate { } ),
                 }),
                 new MiniGame("karateman", "70A8D8", new List<GameAction>()
                 {
-                    new GameAction("bop",           delegate { KarateMan.instance.Bop(currentBeat, currentLength); },           new float[] { 0 },      0.5f,     true,     true),
-                    new GameAction("pot",           delegate { KarateMan.instance.Shoot(currentBeat, 0); },                     new float[] { 0, 1 },      2,     true),
-                    new GameAction("bulb",          delegate { KarateMan.instance.Shoot(currentBeat, 1); },                     new float[] { 0, 1 },      2,     true),
-                    new GameAction("rock",          delegate { KarateMan.instance.Shoot(currentBeat, 2); },                     new float[] { 0, 1 },      2,     true),
-                    new GameAction("ball",          delegate { KarateMan.instance.Shoot(currentBeat, 3); },                     new float[] { 0, 1 },      2,     true),
-                    new GameAction("kick",          delegate { KarateMan.instance.Shoot(currentBeat, 4); },                     new float[] { 0, 1, 2 },   4.5f,     true),
+                    new GameAction("bop",           delegate { KarateMan.instance.Bop(currentBeat, currentLength); }, 0.5f, true, true),
+                    new GameAction("pot",           delegate { KarateMan.instance.Shoot(currentBeat, 0); }, 2, true),
+                    new GameAction("bulb",          delegate { KarateMan.instance.Shoot(currentBeat, 1); }, 2, true),
+                    new GameAction("rock",          delegate { KarateMan.instance.Shoot(currentBeat, 2); }, 2, true),
+                    new GameAction("ball",          delegate { KarateMan.instance.Shoot(currentBeat, 3); }, 2, true),
+                    new GameAction("kick",          delegate { KarateMan.instance.Shoot(currentBeat, 4); }, 4.5f, true),
                     new GameAction("bgfxon",        delegate { KarateMan.instance.BGFXOn(); } ),
                     new GameAction("bgfxoff",       delegate { KarateMan.instance.BGFXOff(); }),
                 })

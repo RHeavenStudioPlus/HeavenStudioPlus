@@ -56,10 +56,13 @@ namespace RhythmHeavenMania
         {
             float secFromBeat = GetSongPosFromBeat(beat);
 
-            if (secFromBeat < musicSource.clip.length)
-                musicSource.time = secFromBeat;
-            else
-                musicSource.time = 0;
+            if (musicSource.clip != null)
+            {
+                if (secFromBeat < musicSource.clip.length)
+                    musicSource.time = secFromBeat;
+                else
+                    musicSource.time = 0;
+            }
 
             GameManager.instance.SetCurrentEventToClosest(beat);
         }
@@ -142,7 +145,10 @@ namespace RhythmHeavenMania
 
         public bool SongPosLessThanClipLength(float t)
         {
-            return t < musicSource.clip.length;
+            if (musicSource.clip != null)
+                return t < musicSource.clip.length;
+            else
+                return false;
         }
     }
 }
