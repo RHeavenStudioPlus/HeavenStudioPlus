@@ -109,7 +109,7 @@ namespace RhythmHeavenMania
 
             if (currentEvent < Beatmap.entities.Count && currentEvent >= 0)
             {
-                if (Conductor.instance.songPositionInBeats >= entities[currentEvent] && Conductor.instance.GetSongPosFromBeat(Conductor.instance.songPositionInBeats) < Conductor.instance.musicSource.clip.length)
+                if (Conductor.instance.songPositionInBeats >= entities[currentEvent] && SongPosLessThanClipLength(Conductor.instance.songPositionInBeats))
                 {
                     // allows for multiple events on the same beat to be executed on the same frame, so no more 1-frame delay
                     var entitesAtSameBeat   = Beatmap.entities.FindAll(c => c.beat == Beatmap.entities[currentEvent].beat && c.datamodel.Split('/')[0] != "gameManager");
@@ -143,6 +143,7 @@ namespace RhythmHeavenMania
 
         public void SetCurrentEventToClosest(float beat)
         {
+            SortEventsList();
             if (Beatmap.entities.Count > 0)
             {
                 List<float> entities = Beatmap.entities.Select(c => c.beat).ToList();
@@ -257,6 +258,14 @@ namespace RhythmHeavenMania
         {
             currentGame = game;
             CircleCursor.InnerCircle.GetComponent<SpriteRenderer>().color = Colors.Hex2RGB(GetGame(currentGame).color);
+        }
+
+        private bool SongPosLessThanClipLength(float t)
+        {
+            if (Conductor.instance.musicSource.clip != null)
+                return Conductor.instance.GetSongPosFromBeat(t) < Conductor.instance.musicSource.clip.length;
+            else
+                return true;
         }
     }
 }
