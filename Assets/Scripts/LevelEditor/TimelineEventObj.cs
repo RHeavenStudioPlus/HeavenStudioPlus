@@ -12,7 +12,7 @@ namespace RhythmHeavenMania.Editor
     {
         private float startPosX;
         private float startPosY;
-        private bool isDragging;
+        public bool isDragging;
 
         private Vector3 lastPos;
 
@@ -28,7 +28,7 @@ namespace RhythmHeavenMania.Editor
 
         private void Update()
         {
-            if (Conductor.instance.isPlaying == true || Conductor.instance.isPaused)
+            if (Conductor.instance.NotStopped())
             {
                 Cancel();
                 return;
@@ -42,26 +42,29 @@ namespace RhythmHeavenMania.Editor
                 mousePos = Input.mousePosition;
                 mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
-                PosPreview.transform.position = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY - 0.40f, 0);
-                PosPreview.transform.localPosition = new Vector3(Mathp.Round2Nearest(PosPreview.transform.localPosition.x, 0.25f), Mathp.Round2Nearest(PosPreview.transform.localPosition.y, 51.34f));
+                this.transform.position = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY - 0.40f, 0);
+                this.transform.localPosition = new Vector3(Mathp.Round2Nearest(this.transform.localPosition.x, 0.25f), Mathp.Round2Nearest(this.transform.localPosition.y, 51.34f));
 
                 if (lastPos != transform.localPosition)
                     OnMove();
 
-                lastPos = PosPreview.transform.localPosition;
+                lastPos = this.transform.localPosition;
             }
+
+            if (Input.GetMouseButtonUp(0))
+                OnUp();
         }
 
         private void OnMove()
         {
-            if (GameManager.instance.Beatmap.entities.FindAll(c => c.beat == PosPreview.transform.localPosition.x && c.track == (int)(PosPreview.transform.localPosition.y / 51.34f * -1)).Count > 0)
+            if (GameManager.instance.Beatmap.entities.FindAll(c => c.beat == this.transform.localPosition.x && c.track == (int)(this.transform.localPosition.y / 51.34f * -1)).Count > 0)
             {
-                PosPreview.GetComponent<Image>().color = Color.red;
+                // PosPreview.GetComponent<Image>().color = Color.red;
                 eligibleToMove = false;
             }
             else
             {
-                PosPreview.GetComponent<Image>().color = Color.yellow;
+                // PosPreview.GetComponent<Image>().color = Color.yellow;
                 eligibleToMove = true;
             }
         }
@@ -69,11 +72,11 @@ namespace RhythmHeavenMania.Editor
         private void OnComplete()
         {
             var entity = GameManager.instance.Beatmap.entities[enemyIndex];
-            entity.beat = PosPreview.transform.localPosition.x;
+            entity.beat = this.transform.localPosition.x;
             GameManager.instance.SortEventsList();
-            entity.track = (int)(PosPreview.transform.localPosition.y / 51.34f) * -1;
+            entity.track = (int)(this.transform.localPosition.y / 51.34f) * -1;
 
-            this.transform.localPosition = PosPreview.transform.localPosition;
+            // this.transform.localPosition = this.transform.localPosition;
             // transform.DOLocalMove(PosPreview.transform.localPosition, 0.15f).SetEase(Ease.OutExpo);
         }
 
@@ -87,18 +90,17 @@ namespace RhythmHeavenMania.Editor
         {
             Vector3 mousePos;
 
-            PosPreview = Instantiate(PosPreviewRef, PosPreviewRef.transform.parent);
+            /*PosPreview = Instantiate(PosPreviewRef, PosPreviewRef.transform.parent);
             PosPreview.sizeDelta = new Vector2(100 * transform.GetComponent<RectTransform>().sizeDelta.x, transform.GetComponent<RectTransform>().sizeDelta.y);
             PosPreview.transform.localPosition = this.transform.localPosition;
             PosPreview.GetComponent<Image>().enabled = true;
-            PosPreview.GetComponent<Image>().color = Color.yellow;
+            PosPreview.GetComponent<Image>().color = Color.yellow;*/
 
             mousePos = Input.mousePosition;
             mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-            startPosX = mousePos.x - PosPreview.transform.position.x;
-            startPosY = mousePos.y - PosPreview.transform.position.y;
+            startPosX = mousePos.x - this.transform.position.x;
+            startPosY = mousePos.y - this.transform.position.y;
             isDragging = true;
-
         }
 
         public void OnUp()

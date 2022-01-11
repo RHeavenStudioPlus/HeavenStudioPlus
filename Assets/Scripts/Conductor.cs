@@ -150,5 +150,10 @@ namespace RhythmHeavenMania
             else
                 return false;
         }
+
+        public bool NotStopped()
+        {
+            return Conductor.instance.isPlaying == true || Conductor.instance.isPaused;
+        }
     }
 }

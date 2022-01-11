@@ -43,7 +43,7 @@ namespace RhythmHeavenMania.Editor
                 GameObject GameIcon_ = Instantiate(GridGameSelector.GetChild(0).gameObject, GridGameSelector);
                 GameIcon_.GetComponent<Image>().sprite = GameIcon(EventCaller.instance.minigames[i].name);
                 GameIcon_.gameObject.SetActive(true);
-                GameIcon_.name = "GameIcon";
+                GameIcon_.name = EventCaller.instance.minigames[i].displayName;
             }
         }
 

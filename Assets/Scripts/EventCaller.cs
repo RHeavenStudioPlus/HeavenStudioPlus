@@ -34,13 +34,15 @@ namespace RhythmHeavenMania
         public class MiniGame
         {
             public string name;
+            public string displayName;
             public string color;
             public GameObject holder;
             public List<GameAction> actions = new List<GameAction>();
 
-            public MiniGame(string name, string color, List<GameAction> actions)
+            public MiniGame(string name, string displayName, string color, List<GameAction> actions)
             {
                 this.name = name;
+                this.displayName = displayName;
                 this.color = color;
                 this.actions = actions;
             }
@@ -79,12 +81,12 @@ namespace RhythmHeavenMania
             instance = this;
             minigames = new List<MiniGame>()
             {
-                new MiniGame("gameManager", "", new List<GameAction>()
+                new MiniGame("gameManager", "Game Manager", "", new List<GameAction>()
                 {
                     new GameAction("end",           delegate { Debug.Log("end"); }),
                     new GameAction("switchGame",    delegate { GameManager.instance.SwitchGame(currentSwitchGame); })
                 }),
-                new MiniGame("forkLifter", "FFFFFF", new List<GameAction>()
+                new MiniGame("forkLifter", "Fork Lifter", "FFFFFF", new List<GameAction>()
                 {
                     new GameAction("pea",           delegate { ForkLifter.instance.Flick(currentBeat, 0); }, 3, true),
                     new GameAction("topbun",        delegate { ForkLifter.instance.Flick(currentBeat, 1); }, 3, true),
@@ -94,14 +96,14 @@ namespace RhythmHeavenMania
                     new GameAction("gulp",          delegate { ForkLifterPlayer.instance.Eat(); }),
                     new GameAction("sigh",          delegate { Jukebox.PlayOneShot("sigh"); })
                 }),
-                new MiniGame("clappyTrio", "29E7FF", new List<GameAction>()
+                new MiniGame("clappyTrio", "The Clappy Trio", "29E7FF", new List<GameAction>()
                 {
                     new GameAction("clap",          delegate { ClappyTrio.instance.Clap(currentBeat, currentLength); }, 3, true),
                     new GameAction("bop",           delegate { ClappyTrio.instance.Bop(currentBeat); } ),
                     new GameAction("prepare",       delegate { ClappyTrio.instance.Prepare(0); } ),
                     new GameAction("prepare_alt",   delegate { ClappyTrio.instance.Prepare(3); } ),
                 }),
-                new MiniGame("spaceball", "00A518", new List<GameAction>()
+                new MiniGame("spaceball", "Spaceball", "00A518", new List<GameAction>()
                 {
                     new GameAction("shoot",         delegate { Spaceball.instance.Shoot(currentBeat, false, currentType); }, 2, true),
                     new GameAction("shootHigh",     delegate { Spaceball.instance.Shoot(currentBeat, true, currentType); }, 3, true),
@@ -109,7 +111,7 @@ namespace RhythmHeavenMania
                     new GameAction("alien",         delegate { Spaceball.instance.alien.Show(currentBeat); } ),
                     new GameAction("cameraZoom",    delegate { } ),
                 }),
-                new MiniGame("karateman", "70A8D8", new List<GameAction>()
+                new MiniGame("karateman", "Karate Man", "70A8D8", new List<GameAction>()
                 {
                     new GameAction("bop",           delegate { KarateMan.instance.Bop(currentBeat, currentLength); }, 0.5f, true, true),
                     new GameAction("pot",           delegate { KarateMan.instance.Shoot(currentBeat, 0); }, 2, true),

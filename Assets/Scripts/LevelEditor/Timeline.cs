@@ -26,11 +26,14 @@ namespace RhythmHeavenMania.Editor
         [SerializeField] private RectTransform TimelineEventObjRef;
         private RectTransform TimelineSongPosLine;
 
+        public static Timeline instance { get; private set; }
 
         #region Initializers
 
         public void Init()
         {
+            instance = this;
+
             for (int i = 0; i < GameManager.instance.Beatmap.entities.Count; i++)
             {
                 var entity = GameManager.instance.Beatmap.entities[i];
@@ -178,6 +181,52 @@ namespace RhythmHeavenMania.Editor
             int milliseconds = (int)(1000 * (time - minutes * 60 - seconds));
             return string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
         }
+
+        public bool CheckIfMouseInTimeline()
+        {
+            return (this.gameObject.activeSelf && RectTransformUtility.RectangleContainsScreenPoint(TimelineContent.transform.parent.gameObject.GetComponent<RectTransform>(), Input.mousePosition, Camera.main));
+        }
+        #endregion
+
+        #region Functions
+
+        public void AddEventObject(string eventName, bool dragNDrop = false)
+        {
+            GameObject g = Instantiate(TimelineEventObjRef.gameObject, TimelineEventObjRef.parent);
+            g.transform.localPosition = new Vector3(0, 0);
+            g.transform.GetChild(1).GetComponent<TMP_Text>().text = eventName.Split('/')[1];
+
+            TimelineEventObj eventObj = g.GetComponent<TimelineEventObj>();
+            eventObj.Icon.sprite = Editor.GameIcon(eventName.Split(0));
+
+            EventCaller.GameAction gameAction = EventCaller.instance.GetGameAction(EventCaller.instance.GetMinigame(eventName.Split(0)), eventName.Split(1));
+
+            if (gameAction != null)
+            {
+                g.GetComponent<RectTransform>().sizeDelta = new Vector2(gameAction.defaultLength, g.GetComponent<RectTransform>().sizeDelta.y);
+                float length = gameAction.defaultLength;
+                eventObj.length = length;
+            }
+
+            g.SetActive(true);
+
+            Beatmap.Entity entity = new Beatmap.Entity();
+            entity.datamodel = eventName;
+            entity.eventObj = eventObj;
+
+            GameManager.instance.Beatmap.entities.Add(entity);
+            GameManager.instance.SortEventsList();
+
+            g.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            if (dragNDrop)
+            {
+                eventObj.OnDown();
+            }
+            // entity.eventObj = g.GetComponent<TimelineEventObj>();
+            // entity.track = (int)(g.transform.localPosition.y / 51.34f * -1);
+        }
+
         #endregion
     }
 }
