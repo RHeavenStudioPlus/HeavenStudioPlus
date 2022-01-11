@@ -45,6 +45,8 @@ namespace RhythmHeavenMania.Editor
                 GameIcon_.gameObject.SetActive(true);
                 GameIcon_.name = EventCaller.instance.minigames[i].displayName;
             }
+
+            GridGameSelector.GetComponent<GridGameSelector>().SelectGame("Game Manager", 1);
         }
 
         public static Sprite GameIcon(string name)

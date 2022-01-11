@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using TMPro;
+using DG.Tweening;
 
 namespace RhythmHeavenMania.Editor
 {
@@ -13,6 +14,7 @@ namespace RhythmHeavenMania.Editor
         [Header("Components")]
         public GameObject GameEventSelector;
         public GameObject EventRef;
+        public GameObject CurrentSelected;
 
         [Header("Properties")]
         private EventCaller.MiniGame mg;
@@ -72,12 +74,25 @@ namespace RhythmHeavenMania.Editor
                 currentEventIndex = 0;
             }
 
+            if (currentEventIndex > 2)
+            {
+                EventRef.transform.parent.parent.transform.DOLocalMoveY((EventRef.GetComponent<RectTransform>().sizeDelta.y + 5) * (currentEventIndex - 2), 0.35f).SetEase(Ease.OutExpo);
+            }
+            else
+            {
+                EventRef.transform.parent.parent.transform.DOLocalMoveY(0, 0.35f).SetEase(Ease.OutExpo);
+            }
+
+            CurrentSelected.transform.DOLocalMoveY(EventRef.transform.parent.GetChild(currentEventIndex + 1).transform.localPosition.y, 0.35f).SetEase(Ease.OutExpo);
+
             SetColor(currentEventIndex);
         }
 
-        public void SelectGame(string gameName)
+        public void SelectGame(string gameName, int index)
         {
             DestroyEvents();
+
+            transform.GetChild(index).GetChild(0).gameObject.SetActive(true);
 
             SelectedMinigame = gameName;
 
@@ -104,6 +119,11 @@ namespace RhythmHeavenMania.Editor
 
         private void DestroyEvents()
         {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
+            }
+
             for (int i = 1; i < EventRef.transform.parent.childCount; i++)
             {
                 Destroy(EventRef.transform.parent.GetChild(i).gameObject);

@@ -11,7 +11,7 @@ namespace RhythmHeavenMania.Editor
 
         public void OnClick()
         {
-            GridGameSelector.SelectGame(this.gameObject.name);
+            GridGameSelector.SelectGame(this.gameObject.name, this.transform.GetSiblingIndex());
         }
 
         public void OnEnter()
