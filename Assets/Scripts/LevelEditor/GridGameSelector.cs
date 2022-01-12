@@ -112,7 +112,10 @@ namespace RhythmHeavenMania.Editor
 
         private void SetColor(int ind)
         {
-            for (int i = 0; i < EventRef.transform.parent.childCount; i++) EventRef.transform.parent.GetChild(i).GetComponent<TMP_Text>().color = Color.white;
+            for (int i = 0; i < EventRef.transform.parent.childCount; i++)
+            {
+                EventRef.transform.parent.GetChild(i).GetComponent<TMP_Text>().color = Color.white;
+            }
 
             EventRef.transform.parent.GetChild(ind + 1).GetComponent<TMP_Text>().color = Color.cyan;
         }
