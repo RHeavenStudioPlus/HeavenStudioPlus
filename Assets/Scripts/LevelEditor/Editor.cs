@@ -21,6 +21,8 @@ namespace RhythmHeavenMania.Editor
         [Header("Components")]
         [SerializeField] private Timeline Timeline;
 
+        public static List<TimelineEventObj> EventObjs = new List<TimelineEventObj>();
+
         public static Editor instance { get; private set; }
 
         private void Start()

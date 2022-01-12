@@ -223,8 +223,34 @@ namespace RhythmHeavenMania.Editor
             {
                 eventObj.OnDown();
             }
+
+            Editor.EventObjs.Add(eventObj);
+
             // entity.eventObj = g.GetComponent<TimelineEventObj>();
             // entity.track = (int)(g.transform.localPosition.y / 51.34f * -1);
+        }
+
+        public void DestroyEventObject(TimelineEventObj eventObj)
+        {
+            var e = GameManager.instance.Beatmap.entities.Find(c => c.eventObj == eventObj);
+            GameManager.instance.Beatmap.entities.Remove(e);
+            GameManager.instance.SortEventsList();
+            Destroy(eventObj.gameObject);
+
+            Editor.EventObjs.Remove(eventObj);
+        }
+
+        #endregion
+
+        #region Commands
+
+        public void Move()
+        { 
+        }
+
+        public void Undo()
+        {
+
         }
 
         #endregion

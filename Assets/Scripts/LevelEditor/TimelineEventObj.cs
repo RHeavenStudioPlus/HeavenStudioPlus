@@ -25,9 +25,31 @@ namespace RhythmHeavenMania.Editor
         private int enemyIndex;
         public float length;
         private bool eligibleToMove = false;
+        private bool lastVisible;
+
+        [Header("Colors")]
+        public Color NormalCol;
+        public Color SelectedCol;
+        public Color DeleteCol;
 
         private void Update()
         {
+            // Optimizations
+
+            bool visible = GetComponent<RectTransform>().IsVisibleFrom(Camera.main);
+
+            if (visible != lastVisible)
+            {
+                for (int i = 0; i < this.transform.childCount; i++)
+                {
+                    this.transform.GetChild(i).gameObject.SetActive(visible);
+                }
+            }
+
+            lastVisible = visible;
+
+            // -------------
+
             if (Conductor.instance.NotStopped())
             {
                 Cancel();
@@ -43,16 +65,25 @@ namespace RhythmHeavenMania.Editor
                 mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
                 this.transform.position = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY - 0.40f, 0);
-                this.transform.localPosition = new Vector3(Mathp.Round2Nearest(this.transform.localPosition.x, 0.25f), Mathp.Round2Nearest(this.transform.localPosition.y, 51.34f));
+                this.transform.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(this.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Mathf.Clamp(Mathp.Round2Nearest(this.transform.localPosition.y, 51.34f), -51.34f * 3, 0));
 
                 if (lastPos != transform.localPosition)
                     OnMove();
 
                 lastPos = this.transform.localPosition;
+
+                SetColor(1);
+            }
+            else
+            {
+                SetColor(0);
             }
 
             if (Input.GetMouseButtonUp(0))
                 OnUp();
+
+            if (Input.GetKeyDown(KeyCode.Delete))
+                Timeline.instance.DestroyEventObject(this);
         }
 
         private void OnMove()
@@ -109,6 +140,25 @@ namespace RhythmHeavenMania.Editor
 
             if (eligibleToMove) OnComplete();
             Cancel();
+        }
+
+        public void SetColor(int type)
+        {
+            Color c = Color.white;
+            switch (type)
+            {
+                case 0:
+                    c = NormalCol;
+                    break;
+                case 1:
+                    c = SelectedCol;
+                    break;
+                case 2:
+                    c = DeleteCol;
+                    break;
+            }
+
+            transform.GetChild(0).GetComponent<Image>().color = c;
         }
     }
 }
