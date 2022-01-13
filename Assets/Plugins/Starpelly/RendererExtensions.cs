@@ -50,4 +50,13 @@ public static class RendererExtensions
     {
         return CountCornersVisibleFrom(rectTransform, camera) > 0; // True if any corners are visible
     }
+
+    public static bool MouseIsWithin(this RectTransform rectTransform)
+    {
+        var normalizedMousePosition = new Vector2(Input.mousePosition.x / Screen.width, Input.mousePosition.y / Screen.height);
+        return normalizedMousePosition.x > rectTransform.anchorMin.x &&
+            normalizedMousePosition.x < rectTransform.anchorMax.x &&
+            normalizedMousePosition.y > rectTransform.anchorMin.y &&
+            normalizedMousePosition.y < rectTransform.anchorMax.y;
+    }
 }

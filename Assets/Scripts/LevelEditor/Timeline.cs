@@ -17,6 +17,8 @@ namespace RhythmHeavenMania.Editor
         [Header("Timeline Properties")]
         private float lastBeatPos = 0;
         private Vector2 lastMousePos;
+        public List<TimelineEventObj> eventObjs = new List<TimelineEventObj>();
+        private bool lastFrameDrag;
 
         [Header("Timeline Components")]
         [SerializeField] private RectTransform TimelineSlider;
@@ -36,7 +38,7 @@ namespace RhythmHeavenMania.Editor
 
             for (int i = 0; i < GameManager.instance.Beatmap.entities.Count; i++)
             {
-                var entity = GameManager.instance.Beatmap.entities[i];
+                /*var entity = GameManager.instance.Beatmap.entities[i];
                 var e = GameManager.instance.Beatmap.entities[i];
 
                 EventCaller.GameAction gameAction = EventCaller.instance.GetGameAction(EventCaller.instance.GetMinigame(e.datamodel.Split(0)), e.datamodel.Split(1));
@@ -57,7 +59,12 @@ namespace RhythmHeavenMania.Editor
 
                 g.SetActive(true);
                 entity.eventObj = g.GetComponent<TimelineEventObj>();
-                entity.track = (int)(g.transform.localPosition.y / 51.34f * -1);
+                entity.track = (int)(g.transform.localPosition.y / 51.34f * -1);*/
+
+                var entity = GameManager.instance.Beatmap.entities[i];
+                var e = GameManager.instance.Beatmap.entities[i];
+
+                AddEventObject(e.datamodel, false, new Vector3(e.beat, Mathp.Round2Nearest(Random.Range(0, -205.36f), 51.34f)), i);
             }
         }
 
@@ -190,10 +197,10 @@ namespace RhythmHeavenMania.Editor
 
         #region Functions
 
-        public void AddEventObject(string eventName, bool dragNDrop = false)
+        public void AddEventObject(string eventName, bool dragNDrop = false, Vector3 pos = new Vector3(), int entityId = 0)
         {
             GameObject g = Instantiate(TimelineEventObjRef.gameObject, TimelineEventObjRef.parent);
-            g.transform.localPosition = new Vector3(0, 0);
+            g.transform.localPosition = pos;
             g.transform.GetChild(1).GetComponent<TMP_Text>().text = eventName.Split('/')[1];
 
             TimelineEventObj eventObj = g.GetComponent<TimelineEventObj>();
@@ -210,24 +217,27 @@ namespace RhythmHeavenMania.Editor
 
             g.SetActive(true);
 
-            Beatmap.Entity entity = new Beatmap.Entity();
-            entity.datamodel = eventName;
-            entity.eventObj = eventObj;
+            var entity = GameManager.instance.Beatmap.entities[entityId];
+            var e = GameManager.instance.Beatmap.entities[entityId];
 
-            GameManager.instance.Beatmap.entities.Add(entity);
-            GameManager.instance.SortEventsList();
-
-            g.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            entity.eventObj = g.GetComponent<TimelineEventObj>();
+            entity.track = (int)(g.transform.localPosition.y / 51.34f * -1);
 
             if (dragNDrop)
             {
+                g.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 eventObj.OnDown();
+
+                Beatmap.Entity en = new Beatmap.Entity();
+                en.datamodel = eventName;
+                en.eventObj = eventObj;
+
+                GameManager.instance.Beatmap.entities.Add(en);
+                GameManager.instance.SortEventsList();
             }
 
             Editor.EventObjs.Add(eventObj);
-
-            // entity.eventObj = g.GetComponent<TimelineEventObj>();
-            // entity.track = (int)(g.transform.localPosition.y / 51.34f * -1);
+            eventObjs.Add(eventObj);
         }
 
         public void DestroyEventObject(TimelineEventObj eventObj)
@@ -238,6 +248,16 @@ namespace RhythmHeavenMania.Editor
             Destroy(eventObj.gameObject);
 
             Editor.EventObjs.Remove(eventObj);
+        }
+
+        public bool IsMouseAboveEvents()
+        {
+            return Timeline.instance.eventObjs.FindAll(c => c.mouseHovering == true).Count > 0;
+        }
+
+        public bool IsEventsDragging()
+        {
+            return Timeline.instance.eventObjs.FindAll(c => c.isDragging == true).Count > 0;
         }
 
         #endregion

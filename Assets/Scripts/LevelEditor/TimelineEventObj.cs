@@ -26,6 +26,8 @@ namespace RhythmHeavenMania.Editor
         public float length;
         private bool eligibleToMove = false;
         private bool lastVisible;
+        public bool selected;
+        public bool mouseHovering;
 
         [Header("Colors")]
         public Color NormalCol;
@@ -34,7 +36,9 @@ namespace RhythmHeavenMania.Editor
 
         private void Update()
         {
-            // Optimizations
+            mouseHovering = RectTransformUtility.RectangleContainsScreenPoint(GetComponent<RectTransform>(), Input.mousePosition, Camera.main);
+
+            #region Optimizations
 
             bool visible = GetComponent<RectTransform>().IsVisibleFrom(Camera.main);
 
@@ -48,7 +52,16 @@ namespace RhythmHeavenMania.Editor
 
             lastVisible = visible;
 
-            // -------------
+            #endregion
+
+            if (selected)
+            {
+                SetColor(1);
+            }
+            else
+            {
+                SetColor(0);
+            }
 
             if (Conductor.instance.NotStopped())
             {
@@ -58,7 +71,33 @@ namespace RhythmHeavenMania.Editor
 
             enemyIndex = GameManager.instance.Beatmap.entities.FindIndex(a => a.eventObj == this);
 
-            if (isDragging == true)
+            if (Input.GetMouseButtonDown(0) && Timeline.instance.IsMouseAboveEvents())
+            {
+                if (selected)
+                {
+                    Vector3 mousePos;
+                    mousePos = Input.mousePosition;
+                    mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+                    startPosX = mousePos.x - this.transform.position.x;
+                    startPosY = mousePos.y - this.transform.position.y;
+
+                    isDragging = true;
+                }
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                if (!mouseHovering && !isDragging && !BoxSelection.instance.selecting)
+                {
+                    if (!Input.GetKey(KeyCode.LeftShift))
+                    {
+                        Selections.instance.Deselect(this);
+                    }
+                }
+
+                OnUp();
+            }
+
+            if (isDragging && selected)
             {
                 Vector3 mousePos;
                 mousePos = Input.mousePosition;
@@ -71,31 +110,21 @@ namespace RhythmHeavenMania.Editor
                     OnMove();
 
                 lastPos = this.transform.localPosition;
-
-                SetColor(1);
             }
-            else
-            {
-                SetColor(0);
-            }
-
-            if (Input.GetMouseButtonUp(0))
-                OnUp();
 
             if (Input.GetKeyDown(KeyCode.Delete))
                 Timeline.instance.DestroyEventObject(this);
+
         }
 
         private void OnMove()
         {
             if (GameManager.instance.Beatmap.entities.FindAll(c => c.beat == this.transform.localPosition.x && c.track == (int)(this.transform.localPosition.y / 51.34f * -1)).Count > 0)
             {
-                // PosPreview.GetComponent<Image>().color = Color.red;
                 eligibleToMove = false;
             }
             else
             {
-                // PosPreview.GetComponent<Image>().color = Color.yellow;
                 eligibleToMove = true;
             }
         }
@@ -106,41 +135,64 @@ namespace RhythmHeavenMania.Editor
             entity.beat = this.transform.localPosition.x;
             GameManager.instance.SortEventsList();
             entity.track = (int)(this.transform.localPosition.y / 51.34f) * -1;
-
-            // this.transform.localPosition = this.transform.localPosition;
-            // transform.DOLocalMove(PosPreview.transform.localPosition, 0.15f).SetEase(Ease.OutExpo);
         }
 
-        private void Cancel()
-        {
-            if (PosPreview) Destroy(PosPreview.gameObject);
-            eligibleToMove = false;
-        }
+        #region ClickEvents
 
         public void OnDown()
         {
-            Vector3 mousePos;
+            if (!selected)
+            {
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    Selections.instance.ShiftClickSelect(this);
+                }
+                else
+                {
+                    Selections.instance.ClickSelect(this);
+                }
 
-            /*PosPreview = Instantiate(PosPreviewRef, PosPreviewRef.transform.parent);
-            PosPreview.sizeDelta = new Vector2(100 * transform.GetComponent<RectTransform>().sizeDelta.x, transform.GetComponent<RectTransform>().sizeDelta.y);
-            PosPreview.transform.localPosition = this.transform.localPosition;
-            PosPreview.GetComponent<Image>().enabled = true;
-            PosPreview.GetComponent<Image>().color = Color.yellow;*/
-
-            mousePos = Input.mousePosition;
-            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-            startPosX = mousePos.x - this.transform.position.x;
-            startPosY = mousePos.y - this.transform.position.y;
-            isDragging = true;
+                // Selector.instance.Click(this);
+            }
         }
 
         public void OnUp()
         {
-            isDragging = false;
+            if (selected)
+            {
+                isDragging = false;
 
-            if (eligibleToMove) OnComplete();
-            Cancel();
+                if (eligibleToMove)
+                {
+                    OnComplete();
+                }
+
+                Cancel();
+            }
         }
+
+        private void Cancel()
+        {
+            eligibleToMove = false;
+        }
+
+        #endregion
+
+        #region Selection
+
+        public void Select()
+        {
+            selected = true;
+        }
+
+        public void DeSelect()
+        {
+            selected = false;
+        }
+
+        #endregion
+
+        #region Extra
 
         public void SetColor(int type)
         {
@@ -160,5 +212,13 @@ namespace RhythmHeavenMania.Editor
 
             transform.GetChild(0).GetComponent<Image>().color = c;
         }
+
+        private void OnDestroy()
+        {
+            // better safety net than canada's healthcare system
+            GameManager.instance.Beatmap.entities.Remove(GameManager.instance.Beatmap.entities.Find(c => c.eventObj = this));
+        }
+
+        #endregion
     }
 }
