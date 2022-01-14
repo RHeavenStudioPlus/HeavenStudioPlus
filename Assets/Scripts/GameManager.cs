@@ -141,8 +141,12 @@ namespace RhythmHeavenMania
         private IEnumerator PlayCo(float beat)
         {
             yield return null;
+            bool paused = Conductor.instance.isPaused;
             Conductor.instance.Play(beat);
-            SetCurrentEventToClosest(beat);
+            if (!paused)
+            {
+                SetCurrentEventToClosest(beat);
+            }
         }
 
         public void Pause()

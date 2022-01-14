@@ -31,8 +31,6 @@ namespace RhythmHeavenMania.Editor
 
         [Header("Colors")]
         public Color NormalCol;
-        public Color SelectedCol;
-        public Color DeleteCol;
 
         private void Update()
         {
@@ -56,19 +54,15 @@ namespace RhythmHeavenMania.Editor
 
             #endregion
 
+            SetColor(GetTrack());
+
             if (selected)
             {
-                SetColor(1);
-
                 if (Input.GetKeyDown(KeyCode.Delete))
                 {
                     Selections.instance.Deselect(this);
                     Timeline.instance.DestroyEventObject(entity);
                 }
-            }
-            else
-            {
-                SetColor(0);
             }
 
             if (Conductor.instance.NotStopped())
@@ -137,7 +131,7 @@ namespace RhythmHeavenMania.Editor
         {
             entity.beat = this.transform.localPosition.x;
             GameManager.instance.SortEventsList();
-            entity.track = (int)(this.transform.localPosition.y / 51.34f) * -1;
+            entity.track = GetTrack();
         }
 
         #region ClickEvents
@@ -203,17 +197,25 @@ namespace RhythmHeavenMania.Editor
             switch (type)
             {
                 case 0:
-                    c = NormalCol;
+                    c = EditorTheme.theme.properties.Layer1Col.Hex2RGB();
                     break;
                 case 1:
-                    c = SelectedCol;
+                    c = EditorTheme.theme.properties.Layer2Col.Hex2RGB();
                     break;
                 case 2:
-                    c = DeleteCol;
+                    c = EditorTheme.theme.properties.Layer3Col.Hex2RGB();
+                    break;
+                case 3:
+                    c = EditorTheme.theme.properties.Layer4Col.Hex2RGB();
                     break;
             }
 
             transform.GetChild(0).GetComponent<Image>().color = c;
+        }
+
+        public int GetTrack()
+        {
+            return (int)(this.transform.localPosition.y / 51.34f) * -1;
         }
 
         private void OnDestroy()

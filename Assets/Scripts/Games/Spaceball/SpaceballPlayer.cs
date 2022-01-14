@@ -58,37 +58,7 @@ namespace RhythmHeavenMania.Games.Spaceball
         {
             bool canHit = (EligibleHits.Count > 0) && (currentHitInList < EligibleHits.Count);
 
-            if (canHit)
-            {
-                if (EligibleHits[currentHitInList].perfect)
-                {
-                    Jukebox.PlayOneShotGame("spaceball/hit");
-                    EligibleHits[currentHitInList].gameObject.GetComponent<SpaceballBall>().Holder.transform.DOLocalMove(new Vector3(Random.Range(5, 18), 0, -600), 4f).SetEase(Ease.Linear);
-                    EligibleHits[currentHitInList].gameObject.GetComponent<SpaceballBall>().Holder.transform.GetChild(0).gameObject.AddComponent<Rotate>().rotateSpeed = -245;
-
-                    EligibleHits[currentHitInList].gameObject.GetComponent<SpaceballBall>().enabled = false;
-                    EligibleHits[currentHitInList].gameObject.GetComponent<Animator>().enabled = false;
-
-                }
-                else
-                {
-                    EligibleHits[currentHitInList].gameObject.GetComponent<SpaceballBall>().Holder.transform.GetChild(0).gameObject.AddComponent<Rotate>().rotateSpeed = -55;
-
-                    EligibleHits[currentHitInList].gameObject.GetComponent<SpaceballBall>().enabled = false;
-                    EligibleHits[currentHitInList].gameObject.GetComponent<Animator>().enabled = false;
-
-                    Rigidbody2D rb = EligibleHits[currentHitInList].gameObject.AddComponent<Rigidbody2D>();
-                    rb.bodyType = RigidbodyType2D.Dynamic;
-                    rb.AddForce(transform.up * 1100);
-                    rb.AddForce(transform.right * 400);
-                    rb.gravityScale = 9;
-
-                    Jukebox.PlayOneShot("miss");
-                }
-                RemoveBall();
-            }
-            else
-                Jukebox.PlayOneShotGame("spaceball/swing");
+            Jukebox.PlayOneShotGame("spaceball/swing");
 
             anim.Play("Swing", 0, 0);
         }
@@ -96,15 +66,6 @@ namespace RhythmHeavenMania.Games.Spaceball
         public void SetSprite(int id)
         {
             PlayerSprite.sprite = PlayerSpriteSheets[costume].sprites[id];
-        }
-
-        private void RemoveBall()
-        {
-            if (currentHitInList < EligibleHits.Count)
-            {
-                EligibleHits.Remove(EligibleHits[currentHitInList]);
-                currentHitInList++;
-            }
         }
     }
 }

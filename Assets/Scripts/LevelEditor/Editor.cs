@@ -4,6 +4,8 @@ using UnityEngine;
 
 using UnityEngine.UI;
 
+using Newtonsoft.Json;
+
 namespace RhythmHeavenMania.Editor
 {
     public class Editor : MonoBehaviour
