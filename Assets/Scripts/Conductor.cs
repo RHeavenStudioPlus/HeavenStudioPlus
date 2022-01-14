@@ -80,7 +80,7 @@ namespace RhythmHeavenMania
                 musicSource.PlayScheduled(Time.time);
             }
 
-            GameManager.instance.SetCurrentEventToClosest(songPositionInBeats);
+            // GameManager.instance.SetCurrentEventToClosest(songPositionInBeats);
         }
 
         public void Pause()

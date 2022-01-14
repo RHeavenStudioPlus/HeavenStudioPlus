@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using TMPro;
 using DG.Tweening;
+using Starpelly;
 
 namespace RhythmHeavenMania.Editor
 {
@@ -114,10 +116,11 @@ namespace RhythmHeavenMania.Editor
         {
             for (int i = 0; i < EventRef.transform.parent.childCount; i++)
             {
-                EventRef.transform.parent.GetChild(i).GetComponent<TMP_Text>().color = Color.white;
+                EventRef.transform.parent.GetChild(i).GetComponent<TMP_Text>().color = EditorTheme.theme.properties.EventNormalCol.Hex2RGB();
             }
 
-            EventRef.transform.parent.GetChild(ind + 1).GetComponent<TMP_Text>().color = Color.cyan;
+            EventRef.transform.parent.GetChild(ind + 1).GetComponent<TMP_Text>().color = EditorTheme.theme.properties.EventSelectedCol.Hex2RGB();
+            CurrentSelected.GetComponent<Image>().color = EditorTheme.theme.properties.EventSelectedCol.Hex2RGB();
         }
 
         private void DestroyEvents()

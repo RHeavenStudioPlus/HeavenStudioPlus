@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
+using Starpelly;
 
 namespace RhythmHeavenMania.Editor
 {
@@ -24,6 +27,9 @@ namespace RhythmHeavenMania.Editor
         private void Start()
         {
             DrawVisual();
+
+            Color boxCol = EditorTheme.theme.properties.BoxSelectionCol.Hex2RGB();
+            boxVisual.GetComponent<Image>().color = new Color(boxCol.r, boxCol.g, boxCol.b, 0.3f);
         }
 
         private void Update()

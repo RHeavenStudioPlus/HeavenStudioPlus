@@ -4,6 +4,8 @@ using UnityEngine;
 
 using RhythmHeavenMania.Util;
 
+using DG.Tweening;
+
 namespace RhythmHeavenMania.Games.Spaceball
 {
     public class SpaceballBall : MonoBehaviour
@@ -82,6 +84,34 @@ namespace RhythmHeavenMania.Games.Spaceball
                 Jukebox.PlayOneShotGame("spaceball/fall");
                 Instantiate(Spaceball.instance.Dust, Spaceball.instance.Dust.transform.parent).SetActive(true);
                 Destroy(this.gameObject);
+            }
+
+            if (PlayerInput.Pressed())
+            {
+                if (e.perfect)
+                {
+                    Jukebox.PlayOneShotGame("spaceball/hit");
+                    Holder.transform.DOLocalMove(new Vector3(Random.Range(5, 18), 0, -600), 4f).SetEase(Ease.Linear);
+                    Holder.transform.GetChild(0).gameObject.AddComponent<Rotate>().rotateSpeed = -245;
+
+                    this.enabled = false;
+                    gameObject.GetComponent<Animator>().enabled = false;
+                }
+                else if (e.late || e.early)
+                {
+                    Holder.transform.GetChild(0).gameObject.AddComponent<Rotate>().rotateSpeed = -55;
+
+                    this.enabled = false;
+                    gameObject.GetComponent<Animator>().enabled = false;
+
+                    Rigidbody2D rb = gameObject.AddComponent<Rigidbody2D>();
+                    rb.bodyType = RigidbodyType2D.Dynamic;
+                    rb.AddForce(transform.up * 1100);
+                    rb.AddForce(transform.right * 400);
+                    rb.gravityScale = 9;
+
+                    Jukebox.PlayOneShot("miss");
+                }
             }
         }
 

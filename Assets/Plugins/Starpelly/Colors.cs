@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace Starpelly
 {
-    public class Colors
+    public static class Colors
     {
-        public static string Color2Hex(Color32 color)
+        public static string Color2Hex(this Color32 color)
         {
             string hex = color.r.ToString("X2") + color.g.ToString("X2") + color.b.ToString("X2");
             return hex;
@@ -13,7 +13,7 @@ namespace Starpelly
         /// <summary>
         /// Converts a Hexadecimal Color to an RGB Color.
         /// </summary>
-        public static Color Hex2RGB(string hex)
+        public static Color Hex2RGB(this string hex)
         {
             try
             {

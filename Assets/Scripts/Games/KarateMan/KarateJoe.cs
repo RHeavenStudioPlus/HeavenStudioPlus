@@ -70,6 +70,8 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         private void Swing()
         {
+            // you cant hit two pots at a time like this so i should fix this before a public build is eventually made.
+
             var EligibleHits = KarateMan.instance.EligibleHits;
             bool canHit = (EligibleHits.Count > 0) && (currentHitInList < EligibleHits.Count);
 
