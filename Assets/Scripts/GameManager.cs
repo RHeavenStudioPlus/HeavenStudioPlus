@@ -92,19 +92,6 @@ namespace RhythmHeavenMania
             if (!Conductor.instance.isPlaying)
                 return;
 
-            /*if (Input.GetKeyDown(KeyCode.A))
-            {
-                Conductor.instance.SetBeat(Conductor.instance.songPositionInBeats + 3);
-
-                GetGame(currentGame).holder.GetComponent<Minigame>().OnTimeChange();
-            }
-            else if (Input.GetKeyDown(KeyCode.S))
-            {
-                Conductor.instance.SetBeat(Conductor.instance.songPositionInBeats - 3);
-
-                GetGame(currentGame).holder.GetComponent<Minigame>().OnTimeChange();
-            }*/
-
             List<float> entities = Beatmap.entities.Select(c => c.beat).ToList();
 
             if (currentEvent < Beatmap.entities.Count && currentEvent >= 0)
@@ -118,23 +105,60 @@ namespace RhythmHeavenMania
                     // GameManager entities should ALWAYS execute before gameplay entities
                     for (int i = 0; i < gameManagerEntities.Count; i++)
                     {
-                        eventCaller.CallEvent(gameManagerEntities[i].datamodel);
+                        var gameManagerEntity = gameManagerEntities[i];
+                        if ((gameManagerEntity.beat + eventCaller.GetGameAction(eventCaller.GetMinigame(gameManagerEntity.datamodel.Split(0)), gameManagerEntity.datamodel.Split(1)).defaultLength) > Conductor.instance.songPositionInBeats)
+                        {
+                            eventCaller.CallEvent(gameManagerEntities[i].datamodel);
+                        }
                     }
 
                     for (int i = 0; i < entitesAtSameBeat.Count; i++)
                     {
-                        // if game isn't loaded, preload game so whatever event that would be called will still run outside if needed
-                        if (entitesAtSameBeat[i].datamodel.Split('/')[0] != currentGame && !preloadedGames.Contains(preloadedGames.Find(c => c.name == entitesAtSameBeat[i].datamodel.Split('/')[0])))
+                        var entity = entitesAtSameBeat[i];
+                        if ((entity.beat + eventCaller.GetGameAction(eventCaller.GetMinigame(entity.datamodel.Split(0)), entity.datamodel.Split(1)).defaultLength) > Conductor.instance.songPositionInBeats)
                         {
-                            PreloadGame(entitesAtSameBeat[i].datamodel.Split('/')[0]);
+                            // if game isn't loaded, preload game so whatever event that would be called will still run outside if needed
+                            if (entitesAtSameBeat[i].datamodel.Split('/')[0] != currentGame && !preloadedGames.Contains(preloadedGames.Find(c => c.name == entitesAtSameBeat[i].datamodel.Split('/')[0])))
+                            {
+                                PreloadGame(entitesAtSameBeat[i].datamodel.Split('/')[0]);
+                            }
+                            eventCaller.CallEvent(entitesAtSameBeat[i].datamodel);
                         }
-                        eventCaller.CallEvent(entitesAtSameBeat[i].datamodel);
                     }
 
                     currentEvent += entitesAtSameBeat.Count + gameManagerEntities.Count;
                 }
             }
         }
+
+        #region Play Events
+
+        public void Play(float beat)
+        {
+            StartCoroutine(PlayCo(beat));
+        }
+
+        private IEnumerator PlayCo(float beat)
+        {
+            yield return null;
+            Conductor.instance.Play(beat);
+            SetCurrentEventToClosest(beat);
+        }
+
+        public void Pause()
+        {
+            Conductor.instance.Pause();
+        }
+
+        public void Stop(float beat)
+        {
+            Conductor.instance.Stop(beat);
+            SetCurrentEventToClosest(beat);
+        }
+
+        #endregion
+
+        #region List Functions
 
         public void SortEventsList()
         {
@@ -165,13 +189,12 @@ namespace RhythmHeavenMania
                         newGame = Beatmap.entities[entities.IndexOf(Mathp.GetClosestInList(Beatmap.entities.FindAll(c => c.datamodel != "gameManager" && c.beat < Conductor.instance.songPositionInBeats).ToList().Select(c => c.beat).ToList(), beat))].datamodel.Split('/')[0];
                     }
 
-                    if (newGame != currentGame)
-                    {
-                        SwitchGame(newGame);
-                    }
+                    SetGame(newGame);
                 }
             }
         }
+
+        #endregion
 
         public void SwitchGame(string game)
         {

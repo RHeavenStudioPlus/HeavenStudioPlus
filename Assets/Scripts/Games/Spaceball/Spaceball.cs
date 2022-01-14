@@ -56,43 +56,50 @@ namespace RhythmHeavenMania.Games.Spaceball
 
         private void Update()
         {
-            var allPlayerActions = EventCaller.GetAllPlayerEntities("spaceball");
-            int currentPlayerEvent = GameManager.instance.currentPlayerEvent - EventCaller.GetAllPlayerEntitiesExceptBeforeBeat("spaceball", Conductor.instance.songPositionInBeats).Count;
-
-            if (currentPlayerEvent < allPlayerActions.Count)
+            try
             {
-                if (Conductor.instance.songPositionInBeats > allPlayerActions[currentPlayerEvent].beat - 1)
+                var allPlayerActions = EventCaller.GetAllPlayerEntities("spaceball");
+                int currentPlayerEvent = GameManager.instance.currentPlayerEvent - EventCaller.GetAllPlayerEntitiesExceptBeforeBeat("spaceball", Conductor.instance.songPositionInBeats).Count;
+
+                if (currentPlayerEvent < allPlayerActions.Count)
                 {
-                    Dispenser.GetComponent<Animator>().Play("DispenserPrepare", 0, 0);
+                    if (Conductor.instance.songPositionInBeats > allPlayerActions[currentPlayerEvent].beat - 1)
+                    {
+                        Dispenser.GetComponent<Animator>().Play("DispenserPrepare", 0, 0);
+                    }
                 }
-            }
 
-            if (currentZoomIndex < allCameraEvents.Count && currentZoomIndex >= 0)
-            {
-                if (Conductor.instance.songPositionInBeats >= allCameraEvents[currentZoomIndex].beat)
+                if (currentZoomIndex < allCameraEvents.Count && currentZoomIndex >= 0)
                 {
-                    UpdateCameraZoom();
-                    currentZoomIndex++;
+                    if (Conductor.instance.songPositionInBeats >= allCameraEvents[currentZoomIndex].beat)
+                    {
+                        UpdateCameraZoom();
+                        currentZoomIndex++;
+                    }
                 }
-            }
 
-            float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(currentZoomCamBeat, currentZoomCamLength);
+                float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(currentZoomCamBeat, currentZoomCamLength);
 
-            if (normalizedBeat > Minigame.EndTime())
-            {
-                lastCamDistance = GameManager.instance.GameCamera.transform.localPosition.z;
-            }
-            else
-            {
-                if (currentZoomCamLength <= 0)
+                if (normalizedBeat > Minigame.EndTime())
                 {
-                    GameManager.instance.GameCamera.transform.localPosition = new Vector3(0, 0, currentZoomCamDistance);
+                    lastCamDistance = GameManager.instance.GameCamera.transform.localPosition.z;
                 }
                 else
                 {
-                    float newPosZ = Mathf.Lerp(lastCamDistance, currentZoomCamDistance, normalizedBeat);
-                    GameManager.instance.GameCamera.transform.localPosition = new Vector3(0, 0, newPosZ);
+                    if (currentZoomCamLength <= 0)
+                    {
+                        GameManager.instance.GameCamera.transform.localPosition = new Vector3(0, 0, currentZoomCamDistance);
+                    }
+                    else
+                    {
+                        float newPosZ = Mathf.Lerp(lastCamDistance, currentZoomCamDistance, normalizedBeat);
+                        GameManager.instance.GameCamera.transform.localPosition = new Vector3(0, 0, newPosZ);
+                    }
                 }
+            }
+            catch (System.Exception ex)
+            {
+                // this technically isn't game breaking so oh well
             }
         }
 
