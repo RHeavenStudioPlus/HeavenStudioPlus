@@ -46,7 +46,7 @@ namespace RhythmHeavenMania.Editor
             if (Timeline.instance.CheckIfMouseInTimeline() && dragTimes < 1)
             {
                 dragTimes++;
-                Timeline.instance.AddEventObject(mg.name + "/" + mg.actions[currentEventIndex].actionName, true);
+                Timeline.instance.AddEventObject(mg.name + "/" + mg.actions[currentEventIndex].actionName, true, new Vector3(0, 0));
             }
         }
 

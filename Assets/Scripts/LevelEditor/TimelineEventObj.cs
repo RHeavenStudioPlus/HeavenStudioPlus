@@ -22,7 +22,7 @@ namespace RhythmHeavenMania.Editor
         [SerializeField] public Image Icon;
 
         [Header("Properties")]
-        private int enemyIndex;
+        private Beatmap.Entity entity;
         public float length;
         private bool eligibleToMove = false;
         private bool lastVisible;
@@ -36,6 +36,8 @@ namespace RhythmHeavenMania.Editor
 
         private void Update()
         {
+            entity = GameManager.instance.Beatmap.entities.Find(a => a.eventObj == this);
+
             mouseHovering = RectTransformUtility.RectangleContainsScreenPoint(GetComponent<RectTransform>(), Input.mousePosition, Camera.main);
 
             #region Optimizations
@@ -57,6 +59,12 @@ namespace RhythmHeavenMania.Editor
             if (selected)
             {
                 SetColor(1);
+
+                if (Input.GetKeyDown(KeyCode.Delete))
+                {
+                    Selections.instance.Deselect(this);
+                    Timeline.instance.DestroyEventObject(entity);
+                }
             }
             else
             {
@@ -69,7 +77,6 @@ namespace RhythmHeavenMania.Editor
                 return;
             }
 
-            enemyIndex = GameManager.instance.Beatmap.entities.FindIndex(a => a.eventObj == this);
 
             if (Input.GetMouseButtonDown(0) && Timeline.instance.IsMouseAboveEvents())
             {
@@ -112,9 +119,6 @@ namespace RhythmHeavenMania.Editor
                 lastPos = this.transform.localPosition;
             }
 
-            if (Input.GetKeyDown(KeyCode.Delete))
-                Timeline.instance.DestroyEventObject(this);
-
         }
 
         private void OnMove()
@@ -131,7 +135,6 @@ namespace RhythmHeavenMania.Editor
 
         private void OnComplete()
         {
-            var entity = GameManager.instance.Beatmap.entities[enemyIndex];
             entity.beat = this.transform.localPosition.x;
             GameManager.instance.SortEventsList();
             entity.track = (int)(this.transform.localPosition.y / 51.34f) * -1;
@@ -216,7 +219,7 @@ namespace RhythmHeavenMania.Editor
         private void OnDestroy()
         {
             // better safety net than canada's healthcare system
-            GameManager.instance.Beatmap.entities.Remove(GameManager.instance.Beatmap.entities.Find(c => c.eventObj = this));
+            // GameManager.instance.Beatmap.entities.Remove(GameManager.instance.Beatmap.entities.Find(c => c.eventObj = this));
         }
 
         #endregion

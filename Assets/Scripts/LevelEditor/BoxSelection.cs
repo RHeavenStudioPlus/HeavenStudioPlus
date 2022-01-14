@@ -116,7 +116,6 @@ namespace RhythmHeavenMania.Editor
                 TimelineEventObj e = GameManager.instance.Beatmap.entities[i].eventObj;
                 if (selectionBox.Contains(Camera.main.WorldToScreenPoint(e.transform.position)))
                 {
-                    print(RectTransformToScreenSpace(e.GetComponent<RectTransform>()));
                     Selections.instance.DragSelect(e);
                     selected++;
                 }

@@ -38,29 +38,6 @@ namespace RhythmHeavenMania.Editor
 
             for (int i = 0; i < GameManager.instance.Beatmap.entities.Count; i++)
             {
-                /*var entity = GameManager.instance.Beatmap.entities[i];
-                var e = GameManager.instance.Beatmap.entities[i];
-
-                EventCaller.GameAction gameAction = EventCaller.instance.GetGameAction(EventCaller.instance.GetMinigame(e.datamodel.Split(0)), e.datamodel.Split(1));
-
-                GameObject g = Instantiate(TimelineEventObjRef.gameObject, TimelineEventObjRef.parent);
-                g.transform.localPosition = new Vector3(e.beat, Mathp.Round2Nearest(Random.Range(0, -205.36f), 51.34f));
-                g.transform.GetChild(1).GetComponent<TMP_Text>().text = e.datamodel.Split('/')[1];
-
-                TimelineEventObj eventObj = g.GetComponent<TimelineEventObj>();
-                eventObj.Icon.sprite = Editor.GameIcon(e.datamodel.Split(0));
-
-                if (gameAction != null)
-                {
-                    g.GetComponent<RectTransform>().sizeDelta = new Vector2(gameAction.defaultLength, g.GetComponent<RectTransform>().sizeDelta.y);
-                    float length = gameAction.defaultLength;
-                    eventObj.length = length;
-                }
-
-                g.SetActive(true);
-                entity.eventObj = g.GetComponent<TimelineEventObj>();
-                entity.track = (int)(g.transform.localPosition.y / 51.34f * -1);*/
-
                 var entity = GameManager.instance.Beatmap.entities[i];
                 var e = GameManager.instance.Beatmap.entities[i];
 
@@ -158,13 +135,13 @@ namespace RhythmHeavenMania.Editor
                 TimelineSongPosLine.gameObject.SetActive(true);
             }
 
-            Conductor.instance.Play(time);
+            GameManager.instance.Play(time);
         }
 
         public void Pause()
         {
             // isPaused = true;
-            Conductor.instance.Pause();
+            GameManager.instance.Pause();
         }
 
         public void Stop(float time)
@@ -175,7 +152,7 @@ namespace RhythmHeavenMania.Editor
             if (TimelineSongPosLine != null)
             Destroy(TimelineSongPosLine.gameObject);
 
-            Conductor.instance.Stop(time);
+            GameManager.instance.Stop(time);
         }
         #endregion
 
@@ -217,16 +194,11 @@ namespace RhythmHeavenMania.Editor
 
             g.SetActive(true);
 
-            var entity = GameManager.instance.Beatmap.entities[entityId];
-            var e = GameManager.instance.Beatmap.entities[entityId];
-
-            entity.eventObj = g.GetComponent<TimelineEventObj>();
-            entity.track = (int)(g.transform.localPosition.y / 51.34f * -1);
-
             if (dragNDrop)
             {
-                g.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                eventObj.OnDown();
+                var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                g.transform.position = new Vector3(mousePos.x, mousePos.y, 0);
+
 
                 Beatmap.Entity en = new Beatmap.Entity();
                 en.datamodel = eventName;
@@ -234,20 +206,30 @@ namespace RhythmHeavenMania.Editor
 
                 GameManager.instance.Beatmap.entities.Add(en);
                 GameManager.instance.SortEventsList();
+
+                Selections.instance.ClickSelect(eventObj);
+                eventObj.isDragging = true;
+            }
+            else
+            {
+                var entity = GameManager.instance.Beatmap.entities[entityId];
+                var e = GameManager.instance.Beatmap.entities[entityId];
+
+                entity.eventObj = g.GetComponent<TimelineEventObj>();
+                entity.track = (int)(g.transform.localPosition.y / 51.34f * -1);
             }
 
             Editor.EventObjs.Add(eventObj);
             eventObjs.Add(eventObj);
         }
 
-        public void DestroyEventObject(TimelineEventObj eventObj)
+        public void DestroyEventObject(Beatmap.Entity entity)
         {
-            var e = GameManager.instance.Beatmap.entities.Find(c => c.eventObj == eventObj);
-            GameManager.instance.Beatmap.entities.Remove(e);
-            GameManager.instance.SortEventsList();
-            Destroy(eventObj.gameObject);
+            Editor.EventObjs.Remove(entity.eventObj);
+            GameManager.instance.Beatmap.entities.Remove(entity);
 
-            Editor.EventObjs.Remove(eventObj);
+            Destroy(entity.eventObj.gameObject);
+            GameManager.instance.SortEventsList();
         }
 
         public bool IsMouseAboveEvents()
