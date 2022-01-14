@@ -19,6 +19,7 @@ namespace RhythmHeavenMania.Editor
         private Vector2 lastMousePos;
         public List<TimelineEventObj> eventObjs = new List<TimelineEventObj>();
         private bool lastFrameDrag;
+        public int LayerCount = 4;
 
         [Header("Timeline Components")]
         [SerializeField] private RectTransform TimelineSlider;
@@ -26,6 +27,7 @@ namespace RhythmHeavenMania.Editor
         [SerializeField] private RectTransform TimelineContent;
         [SerializeField] private RectTransform TimelineSongPosLineRef;
         [SerializeField] private RectTransform TimelineEventObjRef;
+        [SerializeField] private RectTransform LayersRect;
         private RectTransform TimelineSongPosLine;
 
         public static Timeline instance { get; private set; }
@@ -41,7 +43,7 @@ namespace RhythmHeavenMania.Editor
                 var entity = GameManager.instance.Beatmap.entities[i];
                 var e = GameManager.instance.Beatmap.entities[i];
 
-                AddEventObject(e.datamodel, false, new Vector3(e.beat, Mathp.Round2Nearest(Random.Range(0, -205.36f), 51.34f)), i);
+                AddEventObject(e.datamodel, false, new Vector3(e.beat, Mathp.Round2Nearest(Random.Range(0, -LayersRect.rect.height), LayerHeight())), i);
             }
 
             TimelineSlider.GetChild(0).GetComponent<Image>().color = EditorTheme.theme.properties.BeatMarkerCol.Hex2RGB();
@@ -98,8 +100,8 @@ namespace RhythmHeavenMania.Editor
 
             if (TimelineSongPosLine != null)
             {
-                TimelineSongPosLine.transform.localPosition = new Vector3(Conductor.instance.songPositionInBeats, TimelineSlider.transform.localPosition.y);
-                TimelineSongPosLine.transform.localScale = new Vector3(1f / TimelineContent.transform.localScale.x, TimelineSlider.transform.localScale.y, 1);
+                TimelineSongPosLine.transform.localPosition = new Vector3(Conductor.instance.songPositionInBeats, TimelineSongPosLine.transform.localPosition.y);
+                TimelineSongPosLine.transform.localScale = new Vector3(1f / TimelineContent.transform.localScale.x, TimelineSongPosLine.transform.localScale.y, 1);
             }
         }
 
@@ -184,7 +186,7 @@ namespace RhythmHeavenMania.Editor
         {
             GameObject g = Instantiate(TimelineEventObjRef.gameObject, TimelineEventObjRef.parent);
             g.transform.localPosition = pos;
-            g.transform.GetChild(1).GetComponent<TMP_Text>().text = eventName.Split('/')[1];
+            g.transform.GetChild(2).GetComponent<TMP_Text>().text = eventName.Split('/')[1];
 
             TimelineEventObj eventObj = g.GetComponent<TimelineEventObj>();
             eventObj.Icon.sprite = Editor.GameIcon(eventName.Split(0));
@@ -193,7 +195,7 @@ namespace RhythmHeavenMania.Editor
 
             if (gameAction != null)
             {
-                g.GetComponent<RectTransform>().sizeDelta = new Vector2(gameAction.defaultLength, g.GetComponent<RectTransform>().sizeDelta.y);
+                g.GetComponent<RectTransform>().sizeDelta = new Vector2(gameAction.defaultLength, LayerHeight());
                 float length = gameAction.defaultLength;
                 eventObj.length = length;
             }
@@ -222,7 +224,7 @@ namespace RhythmHeavenMania.Editor
                 var e = GameManager.instance.Beatmap.entities[entityId];
 
                 entity.eventObj = g.GetComponent<TimelineEventObj>();
-                entity.track = (int)(g.transform.localPosition.y / 51.34f * -1);
+                entity.track = (int)(g.transform.localPosition.y / LayerHeight() * -1);
             }
 
             Editor.EventObjs.Add(eventObj);
@@ -246,6 +248,17 @@ namespace RhythmHeavenMania.Editor
         public bool IsEventsDragging()
         {
             return Timeline.instance.eventObjs.FindAll(c => c.isDragging == true).Count > 0;
+        }
+
+        public float SnapToLayer(float y)
+        {
+            float size = LayerHeight();
+            return Mathf.Clamp(Mathp.Round2Nearest(y, size), -size * 3, 0);
+        }
+
+        public float LayerHeight()
+        {
+            return LayersRect.rect.height / 4;
         }
 
         #endregion

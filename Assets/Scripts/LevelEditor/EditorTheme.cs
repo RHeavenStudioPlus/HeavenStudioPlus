@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Newtonsoft.Json;
+using TMPro;
+
+using Starpelly;
 
 namespace RhythmHeavenMania.Editor
 {
@@ -13,7 +16,9 @@ namespace RhythmHeavenMania.Editor
         public static Theme theme;
 
         [Header("Components")]
-        [SerializeField] private Image[] Layers;
+        [SerializeField] private Image layer;
+        [SerializeField] private Image tempoLayer;
+        [SerializeField] private Image musicLayer;
 
         private void Awake()
         {
@@ -22,11 +27,38 @@ namespace RhythmHeavenMania.Editor
 
         private void Start()
         {
+            tempoLayer.GetComponent<Image>().color = theme.properties.TempoLayerCol.Hex2RGB();
+            musicLayer.GetComponent<Image>().color = theme.properties.MusicLayerCol.Hex2RGB();
 
-            Layers[0].color = Starpelly.Colors.Hex2RGB(theme.properties.Layer1Col);
-            Layers[1].color = Starpelly.Colors.Hex2RGB(theme.properties.Layer2Col);
-            Layers[2].color = Starpelly.Colors.Hex2RGB(theme.properties.Layer3Col);
-            Layers[3].color = Starpelly.Colors.Hex2RGB(theme.properties.Layer4Col);
+            layer.gameObject.SetActive(false);
+
+            for (int i = 0; i < Timeline.instance.LayerCount; i++)
+            {
+                GameObject layer = Instantiate(this.layer.gameObject, this.layer.transform.parent);
+                layer.SetActive(true);
+                layer.transform.GetChild(0).GetComponent<TMP_Text>().text = $"Layer {i + 1}";
+
+                Color c = Color.white;
+
+                switch (i)
+                {
+                    case 0:
+                        c = theme.properties.Layer1Col.Hex2RGB();
+                        break;
+                    case 1:
+                        c = theme.properties.Layer2Col.Hex2RGB();
+                        break;
+                    case 2:
+                        c = theme.properties.Layer3Col.Hex2RGB();
+                        break;
+                    case 3:
+                        c = theme.properties.Layer4Col.Hex2RGB();
+                        break;
+                }
+
+                layer.GetComponent<Image>().color = c;
+            }
+            Destroy(layer);
         }
     }
 
