@@ -105,7 +105,7 @@ namespace RhythmHeavenMania.Editor
                 mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
                 this.transform.position = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY - 0.40f, 0);
-                this.transform.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(this.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Mathf.Clamp(Mathp.Round2Nearest(this.transform.localPosition.y, 51.34f), -51.34f * 3, 0));
+                this.transform.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(this.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(this.transform.localPosition.y));
 
                 if (lastPos != transform.localPosition)
                     OnMove();
@@ -117,7 +117,7 @@ namespace RhythmHeavenMania.Editor
 
         private void OnMove()
         {
-            if (GameManager.instance.Beatmap.entities.FindAll(c => c.beat == this.transform.localPosition.x && c.track == (int)(this.transform.localPosition.y / 51.34f * -1)).Count > 0)
+            if (GameManager.instance.Beatmap.entities.FindAll(c => c.beat == this.transform.localPosition.x && c.track == GetTrack()).Count > 0)
             {
                 eligibleToMove = false;
             }
@@ -210,12 +210,13 @@ namespace RhythmHeavenMania.Editor
                     break;
             }
 
+            // c = new Color(c.r, c.g, c.b, 0.85f);
             transform.GetChild(0).GetComponent<Image>().color = c;
         }
 
         public int GetTrack()
         {
-            return (int)(this.transform.localPosition.y / 51.34f) * -1;
+            return (int)(this.transform.localPosition.y / Timeline.instance.LayerHeight()) * -1;
         }
 
         private void OnDestroy()

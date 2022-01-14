@@ -12,6 +12,9 @@ namespace RhythmHeavenMania.Editor
         [Serializable]
         public class Properties
         {
+            public string TempoLayerCol;
+            public string MusicLayerCol;
+
             public string Layer1Col;
             public string Layer2Col;
             public string Layer3Col;

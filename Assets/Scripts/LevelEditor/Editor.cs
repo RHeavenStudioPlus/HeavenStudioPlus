@@ -53,6 +53,23 @@ namespace RhythmHeavenMania.Editor
             GridGameSelector.GetComponent<GridGameSelector>().SelectGame("Game Manager", 1);
         }
 
+        public void Update()
+        {
+            // This is buggy
+            /*if (Conductor.instance.isPlaying || Conductor.instance.isPaused)
+            {
+                GetComponent<Selections>().enabled = false;
+                GetComponent<Selector>().enabled = false;
+                GetComponent<BoxSelection>().enabled = false;
+            }
+            else
+            {
+                GetComponent<Selections>().enabled = true;
+                GetComponent<Selector>().enabled = true;
+                GetComponent<BoxSelection>().enabled = true;
+            }*/
+        }
+
         public static Sprite GameIcon(string name)
         {
             return Resources.Load<Sprite>($"Sprites/Editor/GameIcons/{name}");
