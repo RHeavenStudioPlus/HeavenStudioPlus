@@ -121,14 +121,16 @@ namespace RhythmHeavenMania.Editor
             }
 
 
-            lastBeatPos = Conductor.instance.songPositionInBeats;
 
             if (Input.GetMouseButton(1) && !Conductor.instance.isPlaying && CheckIfMouseInTimeline())
             {
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(TimelineContent, Input.mousePosition, Editor.instance.EditorCamera, out lastMousePos);
                 TimelineSlider.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(lastMousePos.x + 0.12f, 0.25f), 0, Mathf.Infinity), TimelineSlider.transform.localPosition.y);
 
-                Conductor.instance.SetBeat(TimelineSlider.transform.localPosition.x);
+                if (TimelineSlider.localPosition.x != lastBeatPos)
+                    Conductor.instance.SetBeat(TimelineSlider.transform.localPosition.x);
+
+                lastBeatPos = TimelineSlider.localPosition.x;
             }
 
             float moveSpeed = 750;
@@ -276,6 +278,10 @@ namespace RhythmHeavenMania.Editor
             g.transform.GetChild(2).GetComponent<TMP_Text>().text = eventName.Split('/')[1];
 
             TimelineEventObj eventObj = g.GetComponent<TimelineEventObj>();
+
+            if (eventName.Split(1) == "switchGame")
+            eventObj.Icon.sprite = Editor.GameIcon(eventName.Split(2));
+                else
             eventObj.Icon.sprite = Editor.GameIcon(eventName.Split(0));
 
             EventCaller.GameAction gameAction = EventCaller.instance.GetGameAction(EventCaller.instance.GetMinigame(eventName.Split(0)), eventName.Split(1));

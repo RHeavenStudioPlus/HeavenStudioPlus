@@ -176,19 +176,33 @@ namespace RhythmHeavenMania
 
                 currentEvent = entities.IndexOf(Mathp.GetClosestInList(entities, beat));
 
-                var gameSwitchs = Beatmap.entities.FindAll(c => c.datamodel.Split(1) == "switchGame" && c.beat <= beat);
+                var gameSwitchs = Beatmap.entities.FindAll(c => c.datamodel.Split(1) == "switchGame");
 
                 string newGame = Beatmap.entities[currentEvent].datamodel.Split(0);
 
                 if (gameSwitchs.Count > 0)
                 {
-                    newGame = gameSwitchs[gameSwitchs.IndexOf(gameSwitchs.Find(c => c.beat == Mathp.GetClosestInList(gameSwitchs.Select(c => c.beat).ToList(), beat)))].datamodel.Split(2);
+                    int index = gameSwitchs.FindIndex(c => c.beat == Mathp.GetClosestInList(gameSwitchs.Select(c => c.beat).ToList(), beat));
+                    var closestGameSwitch = gameSwitchs[index];
+                    if (closestGameSwitch.beat <= beat)
+                    {
+                        newGame = closestGameSwitch.datamodel.Split(2);
+                    }
+                    else if (closestGameSwitch.beat > beat)
+                    {
+                        if (index - 1 >= 0)
+                        {
+                            newGame = gameSwitchs[index - 1].datamodel.Split(2);
+                        }
+                        else
+                        {
+                            newGame = Beatmap.entities[Beatmap.entities.IndexOf(closestGameSwitch) - 1].datamodel.Split(0);
+                        }
+                    }
+                    // newGame = gameSwitchs[gameSwitchs.IndexOf(gameSwitchs.Find(c => c.beat == Mathp.GetClosestInList(gameSwitchs.Select(c => c.beat).ToList(), beat)))].datamodel.Split(2);
                 }
 
-                if (Beatmap.entities[currentEvent].datamodel.Split(1) != "switchGame" && Beatmap.entities[currentEvent].datamodel.Split(0) != "gameManager")
-                {
-                    SetGame(newGame);
-                }
+                SetGame(newGame);
             }
         }
 
