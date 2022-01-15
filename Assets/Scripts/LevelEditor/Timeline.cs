@@ -30,6 +30,12 @@ namespace RhythmHeavenMania.Editor
         [SerializeField] private RectTransform LayersRect;
         private RectTransform TimelineSongPosLine;
 
+        [Header("Timeline Playbar")]
+        [SerializeField] private Button PlayBTN;
+        [SerializeField] private Button PauseBTN;
+        [SerializeField] private Button StopBTN;
+        [SerializeField] private Button MetronomeBTN;
+
         public static Timeline instance { get; private set; }
 
         #region Initializers
@@ -51,6 +57,23 @@ namespace RhythmHeavenMania.Editor
             TimelineSlider.GetChild(2).GetComponent<TMP_Text>().color = EditorTheme.theme.properties.BeatMarkerCol.Hex2RGB();
             TimelineSlider.GetChild(3).GetComponent<TMP_Text>().color = EditorTheme.theme.properties.BeatMarkerCol.Hex2RGB();
             TimelineSongPosLineRef.GetComponent<Image>().color = EditorTheme.theme.properties.CurrentTimeMarkerCol.Hex2RGB();
+
+            PlayBTN.onClick.AddListener(delegate 
+            {
+                if (Conductor.instance.isPaused)
+                    PlayCheck(false);
+                else
+                    PlayCheck(true); 
+            });
+            PauseBTN.onClick.AddListener(delegate { PlayCheck(false); });
+            StopBTN.onClick.AddListener(delegate { PlayCheck(true); });
+
+            Tooltip.instance.AddTooltip(PlayBTN.gameObject, "Play <color=#adadad>[Space]</color>");
+            Tooltip.instance.AddTooltip(PauseBTN.gameObject, "Pause <color=#adadad>[Shift + Space]</color>");
+            Tooltip.instance.AddTooltip(StopBTN.gameObject, "Stop <color=#adadad>[Space]</color>");
+            Tooltip.instance.AddTooltip(MetronomeBTN.gameObject, "Metronome");
+
+            SetTimeButtonColors(true, false, false);
         }
 
         #endregion
@@ -92,6 +115,20 @@ namespace RhythmHeavenMania.Editor
 
                 Conductor.instance.SetBeat(TimelineSlider.transform.localPosition.x);
             }
+
+            float moveSpeed = 750;
+            if (Input.GetKey(KeyCode.LeftShift)) moveSpeed *= 2;
+
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                TimelineContent.transform.localPosition += new Vector3(moveSpeed * Time.deltaTime, 0);
+            }
+            else if (Input.GetKey(KeyCode.RightArrow))
+            {
+                TimelineContent.transform.localPosition += new Vector3(-moveSpeed * Time.deltaTime, 0);
+            }
+
+            TimelineContent.transform.localPosition = new Vector3(Mathf.Clamp(TimelineContent.transform.localPosition.x, Mathf.NegativeInfinity, 0), TimelineContent.transform.localPosition.y);
         }
 
         private void SliderControl()
@@ -144,12 +181,16 @@ namespace RhythmHeavenMania.Editor
             }
 
             GameManager.instance.Play(time);
+
+            SetTimeButtonColors(false, true, true);
         }
 
         public void Pause()
         {
             // isPaused = true;
             GameManager.instance.Pause();
+
+            SetTimeButtonColors(true, false, true);
         }
 
         public void Stop(float time)
@@ -161,6 +202,37 @@ namespace RhythmHeavenMania.Editor
             Destroy(TimelineSongPosLine.gameObject);
 
             GameManager.instance.Stop(time);
+
+            SetTimeButtonColors(true, false, false);
+        }
+
+        public void SetTimeButtonColors(bool playEnabled, bool pauseEnabled, bool stopEnabled)
+        {
+            if (playEnabled)
+            {
+                PlayBTN.transform.GetChild(0).GetComponent<Image>().color = Color.green;
+            }
+            else
+            {
+                PlayBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+            }
+
+            if (pauseEnabled)
+            {
+                PauseBTN.transform.GetChild(0).GetComponent<Image>().color = Color.blue;
+            }
+            else
+            {   PauseBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+            }
+            
+            if (stopEnabled)
+            {
+                StopBTN.transform.GetChild(0).GetComponent<Image>().color = Color.red;
+            }
+            else
+            {
+                StopBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+            }
         }
         #endregion
 
