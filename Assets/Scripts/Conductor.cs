@@ -35,8 +35,17 @@ namespace RhythmHeavenMania
         // Conductor instance
         public static Conductor instance;
 
+        // Conductor is currently playing song
         public bool isPlaying;
+        
+        // Conductor is currently paused, but not fully stopped
         public bool isPaused;
+
+        // Last reported beat based on song position
+        private float lastReportedBeat = 0f;
+
+        // Metronome tick sound enabled
+        public bool metronome = false;
 
         // private AudioDspTimeKeeper timeKeeper;
 
@@ -101,13 +110,6 @@ namespace RhythmHeavenMania
             musicSource.Stop();
         }
 
-        /*public void SetTime(float startBeat)
-        {
-            musicSource.time = GetSongPosFromBeat(startBeat);
-            songPositionInBeats = musicSource.time / secPerBeat;
-            GameManager.instance.SetCurrentEventToClosest(songPositionInBeats);
-        }*/
-
         public void Update()
         {
             if (isPlaying)
@@ -117,6 +119,19 @@ namespace RhythmHeavenMania
                 songPosition = time - firstBeatOffset;
 
                 songPositionInBeats = songPosition / secPerBeat;
+
+                if (metronome)
+                {
+                    if (songPosition > lastReportedBeat + secPerBeat)
+                    {
+                        RhythmHeavenMania.Util.Jukebox.PlayOneShot("metronome");
+                        lastReportedBeat = (songPosition - (songPosition % secPerBeat));
+                    }
+                    else if (songPosition <= lastReportedBeat)
+                    {
+                        lastReportedBeat = (songPosition - (songPosition % secPerBeat));
+                    }
+                }
             }
         }
 

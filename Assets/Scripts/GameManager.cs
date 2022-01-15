@@ -105,25 +105,18 @@ namespace RhythmHeavenMania
                     // GameManager entities should ALWAYS execute before gameplay entities
                     for (int i = 0; i < gameManagerEntities.Count; i++)
                     {
-                        var gameManagerEntity = gameManagerEntities[i];
-                        if ((gameManagerEntity.beat + eventCaller.GetGameAction(eventCaller.GetMinigame(gameManagerEntity.datamodel.Split(0)), gameManagerEntity.datamodel.Split(1)).defaultLength) > Conductor.instance.songPositionInBeats)
-                        {
-                            eventCaller.CallEvent(gameManagerEntities[i].datamodel);
-                        }
+                        eventCaller.CallEvent(gameManagerEntities[i].datamodel);
                     }
 
                     for (int i = 0; i < entitesAtSameBeat.Count; i++)
                     {
                         var entity = entitesAtSameBeat[i];
-                        if ((entity.beat + eventCaller.GetGameAction(eventCaller.GetMinigame(entity.datamodel.Split(0)), entity.datamodel.Split(1)).defaultLength) > Conductor.instance.songPositionInBeats)
+                        // if game isn't loaded, preload game so whatever event that would be called will still run outside if needed
+                        if (entitesAtSameBeat[i].datamodel.Split('/')[0] != currentGame && !preloadedGames.Contains(preloadedGames.Find(c => c.name == entitesAtSameBeat[i].datamodel.Split('/')[0])))
                         {
-                            // if game isn't loaded, preload game so whatever event that would be called will still run outside if needed
-                            if (entitesAtSameBeat[i].datamodel.Split('/')[0] != currentGame && !preloadedGames.Contains(preloadedGames.Find(c => c.name == entitesAtSameBeat[i].datamodel.Split('/')[0])))
-                            {
-                                PreloadGame(entitesAtSameBeat[i].datamodel.Split('/')[0]);
-                            }
-                            eventCaller.CallEvent(entitesAtSameBeat[i].datamodel);
+                            PreloadGame(entitesAtSameBeat[i].datamodel.Split('/')[0]);
                         }
+                        eventCaller.CallEvent(entitesAtSameBeat[i].datamodel);
                     }
 
                     currentEvent += entitesAtSameBeat.Count + gameManagerEntities.Count;
@@ -183,16 +176,17 @@ namespace RhythmHeavenMania
 
                 currentEvent = entities.IndexOf(Mathp.GetClosestInList(entities, beat));
 
-                string newGame = Beatmap.entities[currentEvent].datamodel.Split('/')[0];
+                var gameSwitchs = Beatmap.entities.FindAll(c => c.datamodel.Split(1) == "switchGame" && c.beat <= beat);
 
-                if (Beatmap.entities[currentEvent].datamodel.Split('/')[1] != "switchGame")
+                string newGame = Beatmap.entities[currentEvent].datamodel.Split(0);
+
+                if (gameSwitchs.Count > 0)
                 {
-                    if (newGame == "gameManager")
-                    {
-                        // holy shit
-                        newGame = Beatmap.entities[entities.IndexOf(Mathp.GetClosestInList(Beatmap.entities.FindAll(c => c.datamodel != "gameManager" && c.beat < Conductor.instance.songPositionInBeats).ToList().Select(c => c.beat).ToList(), beat))].datamodel.Split('/')[0];
-                    }
+                    newGame = gameSwitchs[gameSwitchs.IndexOf(gameSwitchs.Find(c => c.beat == Mathp.GetClosestInList(gameSwitchs.Select(c => c.beat).ToList(), beat)))].datamodel.Split(2);
+                }
 
+                if (Beatmap.entities[currentEvent].datamodel.Split(1) != "switchGame" && Beatmap.entities[currentEvent].datamodel.Split(0) != "gameManager")
+                {
                     SetGame(newGame);
                 }
             }
@@ -202,8 +196,12 @@ namespace RhythmHeavenMania
 
         public void SwitchGame(string game)
         {
-            if (currentGameSwitchIE != null) StopCoroutine(currentGameSwitchIE);
-            currentGameSwitchIE = StartCoroutine(SwitchGameIE(game));
+            if (game != currentGame)
+            {
+                if (currentGameSwitchIE != null)
+                    StopCoroutine(currentGameSwitchIE);
+                currentGameSwitchIE = StartCoroutine(SwitchGameIE(game));
+            }
         }
 
         IEnumerator SwitchGameIE(string game)
@@ -212,7 +210,7 @@ namespace RhythmHeavenMania
 
             SetGame(game);
 
-            yield return new WaitForSeconds(0.1666f);
+            yield return new WaitForSeconds(0.1f);
 
             this.GetComponent<SpriteRenderer>().enabled = false;
         }
