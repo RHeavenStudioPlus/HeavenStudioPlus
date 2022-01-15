@@ -28,7 +28,7 @@ namespace RhythmHeavenMania
             GameObject GameManager = new GameObject();
             GameManager.name = "GameManager";
             GameManager gameManager = GameManager.AddComponent<GameManager>();
-            if (playOnStart) gameManager.playOnStart = true;
+            gameManager.playOnStart = playOnStart;
 
             gameManager.txt = level;
             gameManager.GamesHolder = Games;
@@ -46,13 +46,19 @@ namespace RhythmHeavenMania
 
             GameObject Conductor = new GameObject();
             Conductor.name = "Conductor";
-            Conductor.AddComponent<AudioSource>().clip = music;
+            AudioSource source = Conductor.AddComponent<AudioSource>();
+            source.clip = music;
             Conductor.AddComponent<Conductor>();
+            Conductor.GetComponent<Conductor>().musicSource = source;
             // Conductor.AddComponent<AudioDspTimeKeeper>();
 
             if (editor)
             {
                 this.GetComponent<RhythmHeavenMania.Editor.Editor>().Init();
+            }
+            else
+            {
+                gameManager.Init();
             }
         }
     }

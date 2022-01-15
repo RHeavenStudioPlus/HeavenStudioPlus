@@ -90,7 +90,10 @@ namespace RhythmHeavenMania.Games.KarateMan
             switch (type)
             {
                 case 0:
-                    Jukebox.PlayOneShotGame("karateman/objectOut");
+                    if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
+                        Jukebox.PlayOneShotGame("karateman/objectOut");
+                    else
+                        Jukebox.PlayOneShotGame("karateman/offbeatObjectOut");
                     p.hitSnd = "karateman/potHit";
                     break;
                 case 1:

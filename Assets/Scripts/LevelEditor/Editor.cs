@@ -83,5 +83,13 @@ namespace RhythmHeavenMania.Editor
         {
             return Resources.Load<Sprite>($"Sprites/Editor/GameIcons/{name}");
         }
+
+        public void CopyJson()
+        {
+            string json = string.Empty;
+            json = JsonConvert.SerializeObject(GameManager.instance.Beatmap);
+
+            Debug.Log(json);
+        }
     }
 }
