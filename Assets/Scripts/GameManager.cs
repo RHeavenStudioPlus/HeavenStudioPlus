@@ -68,7 +68,10 @@ namespace RhythmHeavenMania
             eventCaller.Init();
             Conductor.instance.SetBpm(Beatmap.bpm);
 
-            if (playOnStart) StartCoroutine(Begin());
+            if (playOnStart)
+            {
+                Play(startBeat);
+            }
 
             // SetCurrentGame(eventCaller.GamesHolder.transform.GetComponentsInChildren<Transform>()[1].name);
 
@@ -77,12 +80,6 @@ namespace RhythmHeavenMania
                 SetCurrentGame(Beatmap.entities[0].datamodel.Split('/')[0]);
                 SetGame(Beatmap.entities[0].datamodel.Split('/')[0]);
             }
-        }
-
-        private IEnumerator Begin()
-        {
-            yield return new WaitForSeconds(startOffset);
-            // Conductor.instance.Play(startBeat);
         }
 
         private void Update()

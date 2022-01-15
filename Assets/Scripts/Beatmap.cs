@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace RhythmHeavenMania
 {
@@ -14,11 +15,11 @@ namespace RhythmHeavenMania
         {
             public float beat;
             public int track;
-            public float length;
-            public float valA;
-            public int type;
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float length;
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float valA;
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public int type;
             public string datamodel;
-            [Newtonsoft.Json.JsonIgnore] public Editor.TimelineEventObj eventObj;
+            [JsonIgnore] public Editor.TimelineEventObj eventObj;
 
             public object Clone()
             {

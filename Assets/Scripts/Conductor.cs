@@ -56,8 +56,6 @@ namespace RhythmHeavenMania
 
         void Start()
         {
-            musicSource = GetComponent<AudioSource>();
-
             secPerBeat = 60f / songBpm;
         }
 
