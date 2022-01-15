@@ -2758,7 +2758,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 85, y: 0}
+  m_AnchoredPosition: {x: 82.70001, y: 0}
   m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &678553526
@@ -5929,6 +5929,9 @@ MonoBehaviour:
   Screen: {fileID: 558010761}
   GridGameSelector: {fileID: 1154875943}
   Timeline: {fileID: 1861169747}
+  NewBTN: {fileID: 1683100750}
+  OpenBTN: {fileID: 0}
+  SaveBTN: {fileID: 0}
 --- !u!114 &1423699438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5941,8 +5944,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f86858990a87c764892672104bdaef1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: {fileID: 4900000, guid: 4b7512c586e16a847a5b8490bf35e852, type: 3}
-  music: {fileID: 8300000, guid: 92cf585c80f8fb843964e525aef1406c, type: 3}
+  level: {fileID: 4900000, guid: cbe1a43c8ddc790498fde2e01e66d23e, type: 3}
+  music: {fileID: 8300000, guid: 51af38323954a8d44874780ba4577fb4, type: 3}
   debugUI: 0
   playOnStart: 0
   editor: 1
@@ -6663,7 +6666,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 45, y: 0}
+  m_AnchoredPosition: {x: 42.700012, y: 0}
   m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1665554291
@@ -6903,7 +6906,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 5, y: 0}
+  m_AnchoredPosition: {x: 2.7, y: 0}
   m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1683100750

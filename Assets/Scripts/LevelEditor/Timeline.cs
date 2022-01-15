@@ -108,10 +108,10 @@ namespace RhythmHeavenMania.Editor
 
             lastBeatPos = Conductor.instance.songPositionInBeats;
 
-            if (Input.GetMouseButton(1) && !Conductor.instance.isPlaying)
+            if (Input.GetMouseButton(1) && !Conductor.instance.isPlaying && CheckIfMouseInTimeline())
             {
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(TimelineContent, Input.mousePosition, Editor.instance.EditorCamera, out lastMousePos);
-                TimelineSlider.localPosition = new Vector3(Mathp.Round2Nearest(lastMousePos.x + 0.12f, 0.25f), TimelineSlider.transform.localPosition.y);
+                TimelineSlider.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(lastMousePos.x + 0.12f, 0.25f), 0, Mathf.Infinity), TimelineSlider.transform.localPosition.y);
 
                 Conductor.instance.SetBeat(TimelineSlider.transform.localPosition.x);
             }

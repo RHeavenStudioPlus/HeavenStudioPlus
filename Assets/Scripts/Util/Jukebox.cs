@@ -46,7 +46,9 @@ namespace RhythmHeavenMania.Util
             AudioSource aus = oneShot.AddComponent<AudioSource>();
             aus.playOnAwake = false;
             Sound snd = oneShot.AddComponent<Sound>();
-            snd.clip = Resources.Load<AudioClip>($"Sfx/{name}");
+            AudioClip clip = Resources.Load<AudioClip>($"Sfx/{name}");
+            snd.clip = clip;
+            // snd.pitch = (clip.length / Conductor.instance.secPerBeat);
         }
 
         public static void PlayOneShotGame(string name)
