@@ -48,7 +48,14 @@ namespace RhythmHeavenMania.Editor
             if (Timeline.instance.CheckIfMouseInTimeline() && dragTimes < 1)
             {
                 dragTimes++;
-                Timeline.instance.AddEventObject(mg.name + "/" + mg.actions[currentEventIndex].actionName, true, new Vector3(0, 0));
+                if (currentEventIndex == 0)
+                {
+                    Timeline.instance.AddEventObject($"gameManager/switchGame/{mg.name}", true, new Vector3(0, 0));
+                }
+                else
+                {
+                    Timeline.instance.AddEventObject(mg.name + "/" + mg.actions[currentEventIndex - 1].actionName, true, new Vector3(0, 0));
+                }
             }
         }
 
@@ -69,9 +76,9 @@ namespace RhythmHeavenMania.Editor
 
             if (currentEventIndex < 0)
             {
-                currentEventIndex = mg.actions.Count - 1;
+                currentEventIndex = EventRef.transform.parent.childCount - 2;
             }
-            else if (currentEventIndex > mg.actions.Count - 1)
+            else if (currentEventIndex > EventRef.transform.parent.childCount - 2)
             {
                 currentEventIndex = 0;
             }
@@ -100,16 +107,31 @@ namespace RhythmHeavenMania.Editor
 
             mg = EventCaller.instance.minigames.Find(c => c.displayName == gameName);
 
-            for (int i = 0; i < mg.actions.Count; i++)
-            {
-                GameObject e = Instantiate(EventRef, EventRef.transform.parent);
-                e.GetComponent<TMP_Text>().text = mg.actions[i].actionName;
-                e.SetActive(true);
-            }
+            AddEvents();
 
             gameOpen = true;
             currentEventIndex = 0;
             SetColor(0);
+        }
+
+        private void AddEvents()
+        {
+            if (mg.name != "gameManager")
+            {
+                GameObject sg = Instantiate(EventRef, EventRef.transform.parent);
+                sg.GetComponent<TMP_Text>().text = "switchGame";
+                sg.SetActive(true);
+            }
+
+            for (int i = 0; i < mg.actions.Count; i++)
+            {
+                if (mg.actions[i].actionName != "switchGame")
+                {
+                    GameObject e = Instantiate(EventRef, EventRef.transform.parent);
+                    e.GetComponent<TMP_Text>().text = mg.actions[i].actionName;
+                    e.SetActive(true);
+                }
+            }
         }
 
         private void SetColor(int ind)
