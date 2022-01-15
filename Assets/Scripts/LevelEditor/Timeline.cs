@@ -20,6 +20,7 @@ namespace RhythmHeavenMania.Editor
         public List<TimelineEventObj> eventObjs = new List<TimelineEventObj>();
         private bool lastFrameDrag;
         public int LayerCount = 4;
+        public bool metronomeEnabled;
 
         [Header("Timeline Components")]
         [SerializeField] private RectTransform TimelineSlider;
@@ -67,6 +68,19 @@ namespace RhythmHeavenMania.Editor
             });
             PauseBTN.onClick.AddListener(delegate { PlayCheck(false); });
             StopBTN.onClick.AddListener(delegate { PlayCheck(true); });
+            MetronomeBTN.onClick.AddListener(delegate 
+            {
+                if (!Conductor.instance.metronome)
+                {
+                    MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = "009FC6".Hex2RGB();
+                    Conductor.instance.metronome = true; 
+                }
+                else
+                {
+                    MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+                    Conductor.instance.metronome = false;
+                }
+            });
 
             Tooltip.instance.AddTooltip(PlayBTN.gameObject, "Play <color=#adadad>[Space]</color>");
             Tooltip.instance.AddTooltip(PauseBTN.gameObject, "Pause <color=#adadad>[Shift + Space]</color>");
@@ -74,6 +88,7 @@ namespace RhythmHeavenMania.Editor
             Tooltip.instance.AddTooltip(MetronomeBTN.gameObject, "Metronome");
 
             SetTimeButtonColors(true, false, false);
+            MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
         }
 
         #endregion
