@@ -23,6 +23,11 @@ namespace RhythmHeavenMania.Editor
         [Header("Components")]
         [SerializeField] private Timeline Timeline;
 
+        [Header("Toolbar")]
+        [SerializeField] private Button NewBTN;
+        [SerializeField] private Button OpenBTN;
+        [SerializeField] private Button SaveBTN;
+
         public static List<TimelineEventObj> EventObjs = new List<TimelineEventObj>();
 
         public static Editor instance { get; private set; }
@@ -51,6 +56,10 @@ namespace RhythmHeavenMania.Editor
             }
 
             GridGameSelector.GetComponent<GridGameSelector>().SelectGame("Game Manager", 1);
+
+            Tooltip.instance.AddTooltip(NewBTN.gameObject, "New");
+            Tooltip.instance.AddTooltip(OpenBTN.gameObject, "Open");
+            Tooltip.instance.AddTooltip(SaveBTN.gameObject, "Save");
         }
 
         public void Update()

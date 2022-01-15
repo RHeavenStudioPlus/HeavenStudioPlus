@@ -7,21 +7,48 @@ namespace RhythmHeavenMania.Util
     public class Sound : MonoBehaviour
     {
         public AudioClip clip;
-        public float pitch;
+        public float pitch = 1;
 
         private AudioSource audioSource;
+
+        private int pauseTimes = 0;
+
+        private float startTime;
 
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
-            audioSource.PlayOneShot(clip);
-            StartCoroutine(play());
+            audioSource.clip = clip;
+            audioSource.pitch = pitch;
+            audioSource.PlayScheduled(Time.time);
+
+            startTime = Conductor.instance.songPosition;
         }
 
-        private IEnumerator play()
+        private void Update()
         {
-            yield return new WaitForSeconds(clip.length);
-            Destroy(this.gameObject);
+            if (Conductor.instance.isPaused && !Conductor.instance.isPlaying && pauseTimes == 0)
+            {
+                audioSource.Pause();
+                pauseTimes = 1;
+                print("paused");
+            }
+            else if (Conductor.instance.isPlaying && !Conductor.instance.isPaused && pauseTimes == 1)
+            {
+                audioSource.Play();
+                print("played");
+                pauseTimes = 0;
+            }
+
+            else if (!Conductor.instance.isPlaying && !Conductor.instance.isPaused)
+            {
+                Destroy(this.gameObject);
+            }
+
+            if (Conductor.instance.songPosition > startTime + clip.length)
+            {
+                Destroy(this.gameObject);
+            }
         }
     }
 }
