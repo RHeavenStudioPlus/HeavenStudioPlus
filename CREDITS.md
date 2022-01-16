@@ -11,6 +11,11 @@
 * Starpelly
 * flaticon.com
 
+## Fonts
+* Super_Tailx_50 (Logo fonts)
+* Christian Robertson (Roboto)
+* Nintendo (Rodin)
+
 ## Resources and Technologies
 * Original sounds by Nintendo
 * Unity
