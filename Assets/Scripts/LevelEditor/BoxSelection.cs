@@ -123,8 +123,6 @@ namespace RhythmHeavenMania.Editor
 
                 if (selectionBox.Overlaps(GetWorldRect(e.GetComponent<RectTransform>())))
                 {
-                    print(selectionBox);
-                    print(GetWorldRect(e.GetComponent<RectTransform>()));
                     Selections.instance.DragSelect(e);
                     selected++;
                 }

@@ -23,6 +23,8 @@ namespace RhythmHeavenMania.Editor
         private bool gameOpen;
         [SerializeField] private int currentEventIndex;
         private int dragTimes;
+        public float posDif;
+        public int ignoreSelectCount;
 
         private void Update()
         {
@@ -30,12 +32,17 @@ namespace RhythmHeavenMania.Editor
             {
                 if (Input.GetKeyDown(KeyCode.DownArrow))
                 {
-                    UpdateIndex(1);
+                    UpdateIndex(currentEventIndex + 1);
                 }
                 else if (Input.GetKeyDown(KeyCode.UpArrow))
                 {
-                    UpdateIndex(-1);
+                    UpdateIndex(currentEventIndex - 1);
                 }
+            }
+
+            if (Input.mouseScrollDelta.y != 0)
+            {
+                UpdateIndex(currentEventIndex - Mathf.RoundToInt(Input.mouseScrollDelta.y));
             }
         }
 
@@ -72,27 +79,67 @@ namespace RhythmHeavenMania.Editor
 
         public void UpdateIndex(int amount)
         {
-            currentEventIndex += amount;
+            currentEventIndex = amount;
+
+            EventRef.transform.parent.parent.DOKill();
+            CurrentSelected.transform.DOKill();
 
             if (currentEventIndex < 0)
             {
-                currentEventIndex = EventRef.transform.parent.childCount - 2;
+                currentEventIndex = EventRef.transform.parent.childCount - (ignoreSelectCount + 1);
             }
-            else if (currentEventIndex > EventRef.transform.parent.childCount - 2)
+            else if (currentEventIndex > EventRef.transform.parent.childCount - (ignoreSelectCount + 1))
             {
                 currentEventIndex = 0;
             }
 
             if (currentEventIndex > 2)
             {
-                EventRef.transform.parent.parent.transform.DOLocalMoveY((EventRef.GetComponent<RectTransform>().sizeDelta.y + 5) * (currentEventIndex - 2), 0.35f).SetEase(Ease.OutExpo);
+                if (EventRef.transform.parent.childCount - ignoreSelectCount - 4 > currentEventIndex)
+                {
+                    EventRef.transform.parent.parent.DOLocalMoveY((EventRef.GetComponent<RectTransform>().sizeDelta.y + 5) * (currentEventIndex - 2), 0.35f).SetEase(Ease.OutExpo);
+                }
+                else
+                {
+                    EventRef.transform.parent.parent.DOLocalMoveY((EventRef.GetComponent<RectTransform>().sizeDelta.y + 5) * (EventRef.transform.parent.childCount - 9), 0.35f).SetEase(Ease.OutExpo);
+                }
             }
             else
             {
                 EventRef.transform.parent.parent.transform.DOLocalMoveY(0, 0.35f).SetEase(Ease.OutExpo);
             }
 
-            CurrentSelected.transform.DOLocalMoveY(EventRef.transform.parent.GetChild(currentEventIndex + 1).transform.localPosition.y, 0.35f).SetEase(Ease.OutExpo);
+            for (int i = ignoreSelectCount; i < EventRef.transform.parent.childCount; i++)
+            {
+                float easeTime = 0.35f;
+                Ease ease = Ease.OutCirc;
+                int curIndex = currentEventIndex + ignoreSelectCount;
+
+                EventRef.transform.parent.GetChild(i).DOKill();
+
+                EventRef.transform.parent.GetChild(i).localPosition = new Vector3(EventRef.transform.parent.GetChild(i).localPosition.x, EventRef.transform.localPosition.y - ((i - ignoreSelectCount) * EventRef.GetComponent<RectTransform>().sizeDelta.y));
+
+                if (i < curIndex)
+                {
+                    EventRef.transform.parent.GetChild(i).transform.DOLocalMove(new Vector3
+                    (EventRef.transform.localPosition.x + (posDif),
+                    EventRef.transform.parent.GetChild(i).transform.localPosition.y), easeTime).SetEase(ease);
+                }
+                else if (i > curIndex)
+                {
+                    EventRef.transform.parent.GetChild(i).transform.DOLocalMove(new Vector3
+                    (EventRef.transform.localPosition.x + (posDif),
+                    EventRef.transform.parent.GetChild(i).transform.localPosition.y), easeTime).SetEase(ease);
+                }
+                else if (i == curIndex)
+                {
+                    EventRef.transform.parent.GetChild(i).transform.DOLocalMove(new Vector3
+                    (EventRef.transform.localPosition.x,
+                    EventRef.transform.parent.GetChild(i).transform.localPosition.y), easeTime).SetEase(ease);
+                }
+            }
+
+            CurrentSelected.transform.DOLocalMoveY(EventRef.transform.parent.GetChild(currentEventIndex + ignoreSelectCount).transform.localPosition.y, 0.35f).SetEase(Ease.OutExpo);
 
             SetColor(currentEventIndex);
         }
@@ -110,8 +157,10 @@ namespace RhythmHeavenMania.Editor
             AddEvents();
 
             gameOpen = true;
+
             currentEventIndex = 0;
-            SetColor(0);
+
+            UpdateIndex(0);
         }
 
         private void AddEvents()
@@ -136,12 +185,12 @@ namespace RhythmHeavenMania.Editor
 
         private void SetColor(int ind)
         {
-            for (int i = 0; i < EventRef.transform.parent.childCount; i++)
+            for (int i = ignoreSelectCount; i < EventRef.transform.parent.childCount; i++)
             {
                 EventRef.transform.parent.GetChild(i).GetComponent<TMP_Text>().color = EditorTheme.theme.properties.EventNormalCol.Hex2RGB();
             }
 
-            EventRef.transform.parent.GetChild(ind + 1).GetComponent<TMP_Text>().color = EditorTheme.theme.properties.EventSelectedCol.Hex2RGB();
+            EventRef.transform.parent.GetChild(ind + ignoreSelectCount).GetComponent<TMP_Text>().color = EditorTheme.theme.properties.EventSelectedCol.Hex2RGB();
             CurrentSelected.GetComponent<Image>().color = EditorTheme.theme.properties.EventSelectedCol.Hex2RGB();
         }
 
@@ -152,7 +201,7 @@ namespace RhythmHeavenMania.Editor
                 transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
             }
 
-            for (int i = 1; i < EventRef.transform.parent.childCount; i++)
+            for (int i = ignoreSelectCount; i < EventRef.transform.parent.childCount; i++)
             {
                 Destroy(EventRef.transform.parent.GetChild(i).gameObject);
             }
