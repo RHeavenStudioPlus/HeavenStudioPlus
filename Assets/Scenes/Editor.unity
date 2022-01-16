@@ -1117,7 +1117,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Select events for "Game Manager"
+  m_text: Title
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 35949c950a936b744936efd75ae436ea, type: 2}
   m_sharedMaterial: {fileID: -212896991529246517, guid: 35949c950a936b744936efd75ae436ea, type: 2}
@@ -6867,6 +6867,7 @@ MonoBehaviour:
   Screen: {fileID: 558010761}
   GridGameSelector: {fileID: 1154875943}
   Timeline: {fileID: 1861169747}
+  GameEventSelectorTitle: {fileID: 246861490}
   NewBTN: {fileID: 1683100750}
   OpenBTN: {fileID: 1665554291}
   SaveBTN: {fileID: 678553526}
