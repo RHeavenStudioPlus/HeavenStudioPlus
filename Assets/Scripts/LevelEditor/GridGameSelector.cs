@@ -79,69 +79,6 @@ namespace RhythmHeavenMania.Editor
 
         public void UpdateIndex(int amount)
         {
-            currentEventIndex = amount;
-
-            EventRef.transform.parent.parent.DOKill();
-            CurrentSelected.transform.DOKill();
-
-            if (currentEventIndex < 0)
-            {
-                currentEventIndex = EventRef.transform.parent.childCount - (ignoreSelectCount + 1);
-            }
-            else if (currentEventIndex > EventRef.transform.parent.childCount - (ignoreSelectCount + 1))
-            {
-                currentEventIndex = 0;
-            }
-
-            if (currentEventIndex > 2)
-            {
-                if (EventRef.transform.parent.childCount - ignoreSelectCount - 4 > currentEventIndex)
-                {
-                    EventRef.transform.parent.parent.DOLocalMoveY((EventRef.GetComponent<RectTransform>().sizeDelta.y + 5) * (currentEventIndex - 2), 0.35f).SetEase(Ease.OutExpo);
-                }
-                else
-                {
-                    EventRef.transform.parent.parent.DOLocalMoveY((EventRef.GetComponent<RectTransform>().sizeDelta.y + 5) * (EventRef.transform.parent.childCount - 9), 0.35f).SetEase(Ease.OutExpo);
-                }
-            }
-            else
-            {
-                EventRef.transform.parent.parent.transform.DOLocalMoveY(0, 0.35f).SetEase(Ease.OutExpo);
-            }
-
-            for (int i = ignoreSelectCount; i < EventRef.transform.parent.childCount; i++)
-            {
-                float easeTime = 0.35f;
-                Ease ease = Ease.OutCirc;
-                int curIndex = currentEventIndex + ignoreSelectCount;
-
-                EventRef.transform.parent.GetChild(i).DOKill();
-
-                EventRef.transform.parent.GetChild(i).localPosition = new Vector3(EventRef.transform.parent.GetChild(i).localPosition.x, EventRef.transform.localPosition.y - ((i - ignoreSelectCount) * EventRef.GetComponent<RectTransform>().sizeDelta.y));
-
-                if (i < curIndex)
-                {
-                    EventRef.transform.parent.GetChild(i).transform.DOLocalMove(new Vector3
-                    (EventRef.transform.localPosition.x + (posDif),
-                    EventRef.transform.parent.GetChild(i).transform.localPosition.y), easeTime).SetEase(ease);
-                }
-                else if (i > curIndex)
-                {
-                    EventRef.transform.parent.GetChild(i).transform.DOLocalMove(new Vector3
-                    (EventRef.transform.localPosition.x + (posDif),
-                    EventRef.transform.parent.GetChild(i).transform.localPosition.y), easeTime).SetEase(ease);
-                }
-                else if (i == curIndex)
-                {
-                    EventRef.transform.parent.GetChild(i).transform.DOLocalMove(new Vector3
-                    (EventRef.transform.localPosition.x,
-                    EventRef.transform.parent.GetChild(i).transform.localPosition.y), easeTime).SetEase(ease);
-                }
-            }
-
-            CurrentSelected.transform.DOLocalMoveY(EventRef.transform.parent.GetChild(currentEventIndex + ignoreSelectCount).transform.localPosition.y, 0.35f).SetEase(Ease.OutExpo);
-
-            SetColor(currentEventIndex);
         }
 
         public void SelectGame(string gameName, int index)
@@ -160,53 +97,17 @@ namespace RhythmHeavenMania.Editor
 
             currentEventIndex = 0;
 
-            UpdateIndex(0);
+            Editor.instance.SetGameEventTitle($"Select game event for {gameName}");
         }
 
         private void AddEvents()
         {
-            if (mg.name != "gameManager")
-            {
-                GameObject sg = Instantiate(EventRef, EventRef.transform.parent);
-                sg.GetComponent<TMP_Text>().text = "switchGame";
-                sg.SetActive(true);
-            }
 
-            for (int i = 0; i < mg.actions.Count; i++)
-            {
-                if (mg.actions[i].actionName != "switchGame")
-                {
-                    GameObject e = Instantiate(EventRef, EventRef.transform.parent);
-                    e.GetComponent<TMP_Text>().text = mg.actions[i].actionName;
-                    e.SetActive(true);
-                }
-            }
-        }
-
-        private void SetColor(int ind)
-        {
-            for (int i = ignoreSelectCount; i < EventRef.transform.parent.childCount; i++)
-            {
-                EventRef.transform.parent.GetChild(i).GetComponent<TMP_Text>().color = EditorTheme.theme.properties.EventNormalCol.Hex2RGB();
-            }
-
-            EventRef.transform.parent.GetChild(ind + ignoreSelectCount).GetComponent<TMP_Text>().color = EditorTheme.theme.properties.EventSelectedCol.Hex2RGB();
-            CurrentSelected.GetComponent<Image>().color = EditorTheme.theme.properties.EventSelectedCol.Hex2RGB();
         }
 
         private void DestroyEvents()
         {
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
-            }
 
-            for (int i = ignoreSelectCount; i < EventRef.transform.parent.childCount; i++)
-            {
-                Destroy(EventRef.transform.parent.GetChild(i).gameObject);
-            }
-
-            gameOpen = false;
         }
 
         #endregion

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Newtonsoft.Json;
+using TMPro;
 
 namespace RhythmHeavenMania.Editor
 {
@@ -22,6 +23,7 @@ namespace RhythmHeavenMania.Editor
 
         [Header("Components")]
         [SerializeField] private Timeline Timeline;
+        [SerializeField] private TMP_Text GameEventSelectorTitle;
 
         [Header("Toolbar")]
         [SerializeField] private Button NewBTN;
@@ -90,6 +92,11 @@ namespace RhythmHeavenMania.Editor
             json = JsonConvert.SerializeObject(GameManager.instance.Beatmap);
 
             Debug.Log(json);
+        }
+
+        public void SetGameEventTitle(string txt)
+        {
+            GameEventSelectorTitle.text = txt;
         }
     }
 }
