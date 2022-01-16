@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace RhythmHeavenMania.Editor
@@ -13,6 +14,16 @@ namespace RhythmHeavenMania.Editor
         private void Awake()
         {
             instance = this;
+        }
+
+        private void Update()
+        {
+            var buggedSelections = eventsSelected.FindAll(c => c == null);
+            if (buggedSelections.Count > 0)
+            {
+                for (int i = 0; i < buggedSelections.Count; i++)
+                Deselect(buggedSelections[i]);
+            }
         }
 
         public void ClickSelect(TimelineEventObj eventToAdd)
