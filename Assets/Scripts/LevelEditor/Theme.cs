@@ -27,6 +27,7 @@ namespace RhythmHeavenMania.Editor
             public string CurrentTimeMarkerCol;
 
             public string BoxSelectionCol;
+            public string BoxSelectionOutlineCol;
         }
     }
 }

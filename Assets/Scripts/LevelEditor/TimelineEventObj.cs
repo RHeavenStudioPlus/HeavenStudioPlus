@@ -63,6 +63,18 @@ namespace RhythmHeavenMania.Editor
                     Selections.instance.Deselect(this);
                     Timeline.instance.DestroyEventObject(entity);
                 }
+
+                transform.GetChild(3).gameObject.SetActive(true);
+
+                for (int i = 0; i < transform.GetChild(4).childCount; i++)
+                    transform.GetChild(4).GetChild(i).GetComponent<Image>().color = Color.cyan;
+            }
+            else
+            {
+                transform.GetChild(3).gameObject.SetActive(false);
+
+                for (int i = 0; i < transform.GetChild(4).childCount; i++)
+                    transform.GetChild(4).GetChild(i).GetComponent<Image>().color = new Color32(0, 0, 0, 51);
             }
 
             if (Conductor.instance.NotStopped())

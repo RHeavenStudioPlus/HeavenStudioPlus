@@ -30,6 +30,7 @@ namespace RhythmHeavenMania.Editor
 
             Color boxCol = EditorTheme.theme.properties.BoxSelectionCol.Hex2RGB();
             boxVisual.GetComponent<Image>().color = new Color(boxCol.r, boxCol.g, boxCol.b, 0.3f);
+            boxVisual.transform.GetChild(0).GetComponent<Image>().color = EditorTheme.theme.properties.BoxSelectionOutlineCol.Hex2RGB();
         }
 
         private void Update()
@@ -42,14 +43,14 @@ namespace RhythmHeavenMania.Editor
             // click
             if (Input.GetMouseButtonDown(0))
             {
-                startPosition = Input.mousePosition;
+                startPosition = MousePosition();
                 selectionBox = new Rect();
             }
 
             // dragging
             if (Input.GetMouseButton(0))
             {
-                endPosition = Input.mousePosition;
+                endPosition = MousePosition();
                 DrawVisual();
                 DrawSelection();
             }
@@ -57,7 +58,6 @@ namespace RhythmHeavenMania.Editor
             // release click
             if (Input.GetMouseButtonUp(0))
             {
-
                 startPosition = Vector2.zero;
                 endPosition = Vector2.zero;
                 DrawVisual();
@@ -85,31 +85,31 @@ namespace RhythmHeavenMania.Editor
         private void DrawSelection()
         {
             // X
-            if (Input.mousePosition.x < startPosition.x)
+            if (MousePosition().x < startPosition.x)
             {
                 // dragging left
-                selectionBox.xMin = Input.mousePosition.x;
+                selectionBox.xMin = MousePosition().x;
                 selectionBox.xMax = startPosition.x;
             }
             else
             {
                 // dragging right
                 selectionBox.xMin = startPosition.x;
-                selectionBox.xMax = Input.mousePosition.x;
+                selectionBox.xMax = MousePosition().x;
             }
 
             // Y
-            if (Input.mousePosition.y < startPosition.y)
+            if (MousePosition().y < startPosition.y)
             {
                 // dragging down
-                selectionBox.yMin = Input.mousePosition.y;
+                selectionBox.yMin = MousePosition().y;
                 selectionBox.yMax = startPosition.y;
             }
             else
             {
                 // dragging up
                 selectionBox.yMin = startPosition.y;
-                selectionBox.yMax = Input.mousePosition.y;
+                selectionBox.yMax = MousePosition().y;
             }
         }
 
@@ -120,30 +120,37 @@ namespace RhythmHeavenMania.Editor
             for (int i = 0; i < GameManager.instance.Beatmap.entities.Count; i++)
             {
                 TimelineEventObj e = GameManager.instance.Beatmap.entities[i].eventObj;
-                if (selectionBox.Contains(Camera.main.WorldToScreenPoint(e.transform.position)))
+
+                if (selectionBox.Overlaps(GetWorldRect(e.GetComponent<RectTransform>())))
                 {
+                    print(selectionBox);
+                    print(GetWorldRect(e.GetComponent<RectTransform>()));
                     Selections.instance.DragSelect(e);
                     selected++;
                 }
-
-                // I'm trying this fix this dammit
-                /*if (selectionBox.Overlaps(RectTransformToScreenSpace(e.GetComponent<RectTransform>())))
-                {
-                    print(RectTransformToScreenSpace(e.GetComponent<RectTransform>()));
-                    print(selectionBox);
-                    Selections.instance.DragSelect(e);
-                    selected++;
-                }*/
             }
 
             selecting = selected > 0;
         }
 
-        public Rect RectTransformToScreenSpace(RectTransform transform)
+        public Vector3 MousePosition()
         {
-            Vector2 sizeTemp = Vector2.Scale(transform.rect.size, transform.localScale);
-            Vector2 size = new Vector2(sizeTemp.x * 100, sizeTemp.y);
-            return new Rect((Vector2)Camera.main.WorldToScreenPoint(transform.position) - (size * 0.5f), size);
+            var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            return new Vector3(mousePos.x, mousePos.y, 0);
+        }
+
+        public Rect GetWorldRect(RectTransform rectTransform)
+        {
+            Vector3[] corners = new Vector3[4];
+            rectTransform.GetWorldCorners(corners);
+            // Get the bottom left corner.
+            Vector3 position = corners[0];
+
+            Vector2 size = new Vector2(
+                rectTransform.lossyScale.x * rectTransform.rect.size.x,
+                rectTransform.lossyScale.y * rectTransform.rect.size.y);
+
+            return new Rect(position, size);
         }
     }
 }
