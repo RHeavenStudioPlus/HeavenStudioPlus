@@ -20,7 +20,7 @@ namespace RhythmHeavenMania.Editor
         private RectTransform eventsParent;
 
         [Header("Properties")]
-        private EventCaller.MiniGame mg;
+        private Minigames.Minigame mg;
         private bool gameOpen;
         [SerializeField] private int currentEventIndex;
         private int dragTimes;

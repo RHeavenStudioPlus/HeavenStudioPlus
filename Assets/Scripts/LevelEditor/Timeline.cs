@@ -21,6 +21,7 @@ namespace RhythmHeavenMania.Editor
         private bool lastFrameDrag;
         public int LayerCount = 4;
         public bool metronomeEnabled;
+        public bool resizable;
 
         [Header("Timeline Components")]
         [SerializeField] private RectTransform TimelineSlider;
@@ -305,13 +306,28 @@ namespace RhythmHeavenMania.Editor
                 else
             eventObj.Icon.sprite = Editor.GameIcon(eventName.Split(0));
 
-            EventCaller.GameAction gameAction = EventCaller.instance.GetGameAction(EventCaller.instance.GetMinigame(eventName.Split(0)), eventName.Split(1));
+            Minigames.GameAction gameAction = EventCaller.instance.GetGameAction(EventCaller.instance.GetMinigame(eventName.Split(0)), eventName.Split(1));
 
             if (gameAction != null)
             {
-                g.GetComponent<RectTransform>().sizeDelta = new Vector2(gameAction.defaultLength, LayerHeight());
-                float length = gameAction.defaultLength;
-                eventObj.length = length;
+                if (gameAction.resizable == false)
+                {
+                    g.GetComponent<RectTransform>().sizeDelta = new Vector2(gameAction.defaultLength, LayerHeight());
+                    float length = gameAction.defaultLength;
+                    eventObj.length = length;
+                }
+                else
+                {
+                    eventObj.resizable = true;
+                    if (gameAction.defaultLength != GameManager.instance.Beatmap.entities[entityId].length)
+                    {
+                        g.GetComponent<RectTransform>().sizeDelta = new Vector2(GameManager.instance.Beatmap.entities[entityId].length, LayerHeight());
+                    }
+                    else
+                    {
+                        g.GetComponent<RectTransform>().sizeDelta = new Vector2(gameAction.defaultLength, LayerHeight());
+                    }
+                }
             }
 
             g.SetActive(true);
@@ -335,7 +351,6 @@ namespace RhythmHeavenMania.Editor
             else
             {
                 var entity = GameManager.instance.Beatmap.entities[entityId];
-                var e = GameManager.instance.Beatmap.entities[entityId];
 
                 entity.eventObj = g.GetComponent<TimelineEventObj>();
                 entity.track = (int)(g.transform.localPosition.y / LayerHeight() * -1);
@@ -361,7 +376,7 @@ namespace RhythmHeavenMania.Editor
 
         public bool IsEventsDragging()
         {
-            return Timeline.instance.eventObjs.FindAll(c => c.isDragging == true).Count > 0;
+            return eventObjs.FindAll(c => c.isDragging == true).Count > 0 || eventObjs.FindAll(c => c.resizing == true).Count > 0;
         }
 
         public float SnapToLayer(float y)

@@ -279,13 +279,13 @@ namespace RhythmHeavenMania
             preloadedGames.Add(g);
         }
 
-        public EventCaller.MiniGame GetGame(string name)
+        public Minigames.Minigame GetGame(string name)
         {
             return eventCaller.minigames.Find(c => c.name == name);
         }
 
         // never gonna use this
-        public EventCaller.MiniGame GetCurrentGame()
+        public Minigames.Minigame GetCurrentGame()
         {
             return eventCaller.minigames.Find(c => c.name == transform.GetComponentsInChildren<Transform>()[1].name);
         }

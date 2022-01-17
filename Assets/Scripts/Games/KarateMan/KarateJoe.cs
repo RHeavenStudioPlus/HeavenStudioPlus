@@ -162,15 +162,15 @@ namespace RhythmHeavenMania.Games.KarateMan
                     p.isEligible = false;
                     p.RemoveObject(currentHitInList);
                 }
-                else
-                {
-                    Jukebox.PlayOneShotGame("karateman/swingNoHit");
-                }
-                if (punchLeft)
-                    anim.Play("PunchLeft", 0, 0);
-                else
-                    anim.Play("PunchRight", 0, 0);
             }
+
+            if (!canHit)
+                Jukebox.PlayOneShotGame("karateman/swingNoHit");
+
+            if (punchLeft)
+                anim.Play("PunchLeft", 0, 0);
+            else
+                anim.Play("PunchRight", 0, 0);
         }
 
         public void HitEffectF(Vector3 pos)
