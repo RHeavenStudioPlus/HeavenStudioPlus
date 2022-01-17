@@ -35,8 +35,11 @@ namespace RhythmHeavenMania.Editor
 
         private void Update()
         {
-            if (Selections.instance.eventsSelected.Count > 0 && Timeline.instance.IsEventsDragging())
+            if (Selections.instance.eventsSelected.Count > 0 && Timeline.instance.InteractingWithEvents())
             {
+                startPosition = Vector2.zero;
+                endPosition = Vector2.zero;
+                DrawVisual();
                 return;
             }
 
@@ -45,7 +48,6 @@ namespace RhythmHeavenMania.Editor
                 startPosition = Vector2.zero;
                 endPosition = Vector2.zero;
                 DrawVisual();
-                SelectEvents();
                 return;
             }
 
@@ -126,9 +128,11 @@ namespace RhythmHeavenMania.Editor
         {
             int selected = 0;
 
+            if (!Input.GetKeyDown(KeyCode.LeftShift)) Selections.instance.DeselectAll();
             for (int i = 0; i < GameManager.instance.Beatmap.entities.Count; i++)
             {
                 TimelineEventObj e = GameManager.instance.Beatmap.entities[i].eventObj;
+
 
                 if (selectionBox.Overlaps(GetWorldRect(e.GetComponent<RectTransform>())))
                 {

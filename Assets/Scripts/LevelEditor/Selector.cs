@@ -14,5 +14,10 @@ namespace RhythmHeavenMania.Editor
         {
             instance = this;
         }
+
+        private void Update()
+        {
+
+        }
     }
 }

@@ -12,7 +12,6 @@ namespace RhythmHeavenMania.Editor
     {
         private float startPosX;
         private float startPosY;
-        public bool isDragging;
 
         private Vector3 lastPos;
         private RectTransform rectTransform;
@@ -21,6 +20,9 @@ namespace RhythmHeavenMania.Editor
         [SerializeField] private RectTransform PosPreview;
         [SerializeField] private RectTransform PosPreviewRef;
         [SerializeField] public Image Icon;
+        [SerializeField] private Image selectedImage;
+        [SerializeField] private RectTransform outline;
+        [SerializeField] private RectTransform resizeGraphic;
 
         [Header("Properties")]
         private Beatmap.Entity entity;
@@ -31,6 +33,7 @@ namespace RhythmHeavenMania.Editor
         public bool mouseHovering;
         public bool resizable;
         public bool resizing;
+        public bool moving;
 
         [Header("Colors")]
         public Color NormalCol;
@@ -41,14 +44,13 @@ namespace RhythmHeavenMania.Editor
 
             if (!resizable)
             {
-                Destroy(transform.GetChild(6).gameObject);
-                Destroy(transform.GetChild(7).gameObject);
-                Destroy(transform.GetChild(1).gameObject);
+                Destroy(resizeGraphic.gameObject);
             }
         }
 
         private void Update()
         {
+            selected = Selections.instance.eventsSelected.Contains(this);
             entity = GameManager.instance.Beatmap.entities.Find(a => a.eventObj == this);
 
             mouseHovering = RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, Camera.main);
@@ -72,6 +74,12 @@ namespace RhythmHeavenMania.Editor
 
             SetColor(GetTrack());
 
+            if (Conductor.instance.NotStopped())
+            {
+                Cancel();
+                return;
+            }
+
             if (selected)
             {
                 if (Input.GetKeyDown(KeyCode.Delete))
@@ -80,61 +88,25 @@ namespace RhythmHeavenMania.Editor
                     Timeline.instance.DestroyEventObject(entity);
                 }
 
-                transform.GetChild(3).gameObject.SetActive(true);
-
-                for (int i = 0; i < transform.GetChild(4).childCount; i++)
+                selectedImage.gameObject.SetActive(true);
+                for (int i = 0; i < outline.childCount; i++)
                 {
-                    transform.GetChild(4).GetChild(i).GetComponent<Image>().color = Color.cyan;
-                }
-
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-                Vector3[] v = new Vector3[4];
-                rectTransform.GetWorldCorners(v);
-
-                if (mouseHovering)
-                {
-                    if (mousePos.x > transform.position.x && mousePos.x < transform.position.x + 0.1f)
-                    {
-                    }
-                    else if (mousePos.x > v[3].x - 0.1f && mousePos.x < v[3].x)
-                    {
-
-                    }
+                    outline.GetChild(i).GetComponent<Image>().color = Color.cyan;
                 }
             }
             else
             {
-                transform.GetChild(3).gameObject.SetActive(false);
+                selectedImage.gameObject.SetActive(false);
 
-                for (int i = 0; i < transform.GetChild(4).childCount; i++)
-                    transform.GetChild(4).GetChild(i).GetComponent<Image>().color = new Color32(0, 0, 0, 51);
-            }
-
-            if (Conductor.instance.NotStopped())
-            {
-                Cancel();
-                return;
+                for (int i = 0; i < outline.childCount; i++)
+                    outline.GetChild(i).GetComponent<Image>().color = new Color32(0, 0, 0, 51);
             }
 
             if (!resizing)
             {
-                if (Input.GetMouseButtonDown(0) && Timeline.instance.IsMouseAboveEvents())
+                if (Input.GetMouseButtonUp(0) && Timeline.instance.CheckIfMouseInTimeline())
                 {
-                    if (selected)
-                    {
-                        Vector3 mousePos;
-                        mousePos = Input.mousePosition;
-                        mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-                        startPosX = mousePos.x - this.transform.position.x;
-                        startPosY = mousePos.y - this.transform.position.y;
-
-                        isDragging = true;
-                    }
-                }
-                else if (Input.GetMouseButtonUp(0))
-                {
-                    if (!mouseHovering && !isDragging && !BoxSelection.instance.selecting)
+                    if (!mouseHovering && !moving && !BoxSelection.instance.selecting)
                     {
                         if (!Input.GetKey(KeyCode.LeftShift))
                         {
@@ -144,11 +116,9 @@ namespace RhythmHeavenMania.Editor
 
                     OnUp();
                 }
-                if (isDragging && selected)
+                if (moving && selected)
                 {
-                    Vector3 mousePos;
-                    mousePos = Input.mousePosition;
-                    mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+                    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
                     this.transform.position = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY - 0.40f, 0);
                     this.transform.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(this.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(this.transform.localPosition.y));
@@ -161,6 +131,53 @@ namespace RhythmHeavenMania.Editor
             }
 
         }
+
+        #region ClickEvents
+
+        public void OnClick()
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                Selections.instance.ShiftClickSelect(this);
+            }
+            else
+            {
+                Selections.instance.ClickSelect(this);
+            }
+        }
+
+        public void OnDown()
+        {
+            if (!selected) return;
+
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            startPosX = mousePos.x - this.transform.position.x;
+            startPosY = mousePos.y - this.transform.position.y;
+
+            moving = true;
+        }
+
+        public void OnUp()
+        {
+            if (selected)
+            {
+                moving = false;
+
+                if (eligibleToMove)
+                {
+                    OnComplete();
+                }
+
+                Cancel();
+            }
+        }
+
+        private void Cancel()
+        {
+            eligibleToMove = false;
+        }
+
+        #endregion
 
         #region ResizeEvents
 
@@ -211,7 +228,6 @@ namespace RhythmHeavenMania.Editor
         public void DragRight()
         {
             if (!resizing) return;
-            // if (!mouseHovering) return;
 
             Vector2 sizeDelta = rectTransform.sizeDelta;
 
@@ -268,58 +284,7 @@ namespace RhythmHeavenMania.Editor
 
         #endregion
 
-        #region ClickEvents
-
-        public void OnDown()
-        {
-            if (!selected)
-            {
-                if (Input.GetKey(KeyCode.LeftShift))
-                {
-                    Selections.instance.ShiftClickSelect(this);
-                }
-                else
-                {
-                    Selections.instance.ClickSelect(this);
-                }
-
-                // Selector.instance.Click(this);
-            }
-        }
-
-        public void OnUp()
-        {
-            if (selected)
-            {
-                isDragging = false;
-
-                if (eligibleToMove)
-                {
-                    OnComplete();
-                }
-
-                Cancel();
-            }
-        }
-
-        private void Cancel()
-        {
-            eligibleToMove = false;
-        }
-
-        #endregion
-
         #region Selection
-
-        public void Select()
-        {
-            selected = true;
-        }
-
-        public void DeSelect()
-        {
-            selected = false;
-        }
 
         #endregion
 

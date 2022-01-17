@@ -337,7 +337,6 @@ namespace RhythmHeavenMania.Editor
                 var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 g.transform.position = new Vector3(mousePos.x, mousePos.y, 0);
 
-
                 Beatmap.Entity en = new Beatmap.Entity();
                 en.datamodel = eventName;
                 en.eventObj = eventObj;
@@ -346,7 +345,7 @@ namespace RhythmHeavenMania.Editor
                 GameManager.instance.SortEventsList();
 
                 Selections.instance.ClickSelect(eventObj);
-                eventObj.isDragging = true;
+                eventObj.moving = true;
             }
             else
             {
@@ -374,9 +373,9 @@ namespace RhythmHeavenMania.Editor
             return Timeline.instance.eventObjs.FindAll(c => c.mouseHovering == true).Count > 0;
         }
 
-        public bool IsEventsDragging()
+        public bool InteractingWithEvents()
         {
-            return eventObjs.FindAll(c => c.isDragging == true).Count > 0 || eventObjs.FindAll(c => c.resizing == true).Count > 0;
+            return eventObjs.FindAll(c => c.moving == true).Count > 0 || eventObjs.FindAll(c => c.resizing == true).Count > 0;
         }
 
         public float SnapToLayer(float y)

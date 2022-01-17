@@ -30,7 +30,6 @@ namespace RhythmHeavenMania.Editor
         {
             DeselectAll();
             eventsSelected.Add(eventToAdd);
-            eventToAdd.Select();
         }
 
         public void ShiftClickSelect(TimelineEventObj eventToAdd)
@@ -38,13 +37,11 @@ namespace RhythmHeavenMania.Editor
             if (!eventsSelected.Contains(eventToAdd))
             {
                 eventsSelected.Add(eventToAdd);
-                eventToAdd.Select();
             }
-            /*else
+            else
             {
                 eventsSelected.Remove(eventToAdd);
-                eventToAdd.DeSelect();
-            }*/
+            }
         }
 
         public void DragSelect(TimelineEventObj eventToAdd)
@@ -52,17 +49,11 @@ namespace RhythmHeavenMania.Editor
             if (!eventsSelected.Contains(eventToAdd))
             {
                 eventsSelected.Add(eventToAdd);
-                eventToAdd.Select();
             }
         }
 
         public void DeselectAll()
         {
-            for (int i = 0; i < eventsSelected.Count; i++)
-            {
-                eventsSelected[i].DeSelect();
-            }
-
             eventsSelected.Clear();
         }
 
@@ -71,7 +62,6 @@ namespace RhythmHeavenMania.Editor
             if (eventsSelected.Contains(eventToDeselect))
             {
                 eventsSelected.Remove(eventToDeselect);
-                eventToDeselect.DeSelect();
             }
         }
     }
