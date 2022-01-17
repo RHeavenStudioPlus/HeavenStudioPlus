@@ -92,12 +92,13 @@ namespace RhythmHeavenMania.Editor
         public void SelectGame(string gameName, int index)
         {
             mg = EventCaller.instance.minigames.Find(c => c.displayName == gameName);
-            transform.GetChild(index).GetChild(0).gameObject.SetActive(true);
             SelectedMinigame = gameName;
             gameOpen = true;
 
             DestroyEvents();
             AddEvents();
+
+            transform.GetChild(index).GetChild(0).gameObject.SetActive(true);
 
             currentEventIndex = 0;
             UpdateIndex(0, false);
