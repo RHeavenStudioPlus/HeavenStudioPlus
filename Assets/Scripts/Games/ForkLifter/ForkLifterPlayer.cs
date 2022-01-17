@@ -26,11 +26,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
         private Animator anim;
 
-        public List<Eligible> EligibleHits = new List<Eligible>();
         private int currentHitInList = 0;
-
-
-        public float timescale = 1;
 
         private int currentEarlyPeasOnFork;
         private int currentPerfectPeasOnFork;
@@ -44,15 +40,6 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
         // -----------
 
-        [System.Serializable]
-        public class Eligible
-        {
-            public Pea pea;
-            public bool early;
-            public bool perfect;
-            public bool late;
-        }
-
         private void Awake()
         {
             instance = this;
@@ -65,14 +52,12 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
         private void Update()
         {
-            Time.timeScale = timescale;
-
             if (PlayerInput.Pressed())
             {
                 Stab();
             }
 
-            if (EligibleHits.Count == 0)
+            if (ForkLifter.instance.EligibleHits.Count == 0)
             {
                 currentHitInList = 0;
             }
@@ -134,136 +119,142 @@ namespace RhythmHeavenMania.Games.ForkLifter
         public void Stab()
         {
             if (isEating) return;
-            bool canHit = (EligibleHits.Count > 0) && (currentHitInList < EligibleHits.Count);
+            var EligibleHits = ForkLifter.instance.EligibleHits;
+            bool canHit = (ForkLifter.instance.EligibleHits.Count > 0) && (currentHitInList < ForkLifter.instance.EligibleHits.Count);
 
-            if (canHit)
+            int events = ForkLifter.instance.MultipleEventsAtOnce();
+
+            for (int pt = 0; pt < events; pt++)
             {
-                GameObject pea = new GameObject();
-
-                if (EligibleHits[currentHitInList].perfect)
+                if (canHit)
                 {
-                    pea.transform.parent = perfect.transform;
-                    pea.transform.localScale = Vector2.one;
+                    GameObject pea = new GameObject();
 
-                    pea.transform.localPosition = Vector3.zero;
-
-                    for (int i = 0; i < perfect.transform.childCount; i++)
+                    if (EligibleHits[currentHitInList].perfect)
                     {
-                        perfect.transform.GetChild(i).transform.localPosition = new Vector3(0, (-1.67f - (0.15724f * i)) + 0.15724f * currentPerfectPeasOnFork);
-                    }
+                        pea.transform.parent = perfect.transform;
+                        pea.transform.localScale = Vector2.one;
 
-                    SpriteRenderer psprite = pea.AddComponent<SpriteRenderer>();
-                    psprite.sprite = ForkLifter.instance.peaHitSprites[EligibleHits[currentHitInList].pea.type];
-                    psprite.sortingOrder = 20;
-                    switch (EligibleHits[currentHitInList].pea.type)
+                        pea.transform.localPosition = Vector3.zero;
+
+                        for (int i = 0; i < perfect.transform.childCount; i++)
+                        {
+                            perfect.transform.GetChild(i).transform.localPosition = new Vector3(0, (-1.67f - (0.15724f * i)) + 0.15724f * currentPerfectPeasOnFork);
+                        }
+
+                        SpriteRenderer psprite = pea.AddComponent<SpriteRenderer>();
+                        psprite.sprite = ForkLifter.instance.peaHitSprites[EligibleHits[currentHitInList].gameObject.GetComponent<Pea>().type];
+                        psprite.sortingOrder = 20;
+                        switch (EligibleHits[currentHitInList].gameObject.GetComponent<Pea>().type)
+                        {
+                            case 0:
+                                psprite.sortingOrder = 101;
+                                break;
+                            case 1:
+                                psprite.sortingOrder = 104;
+                                break;
+                            case 2:
+                                psprite.sortingOrder = 103;
+                                break;
+                            case 3:
+                                psprite.sortingOrder = 102;
+                                break;
+                        }
+
+                        GameObject hitFXo = new GameObject();
+                        hitFXo.transform.localPosition = new Vector3(1.9969f, -3.7026f);
+                        hitFXo.transform.localScale = new Vector3(3.142196f, 3.142196f);
+                        SpriteRenderer hfxs = hitFXo.AddComponent<SpriteRenderer>();
+                        hfxs.sprite = hitFX;
+                        hfxs.sortingOrder = 100;
+                        hfxs.DOColor(new Color(1, 1, 1, 0), 0.05f).OnComplete(delegate { Destroy(hitFXo); });
+
+                        FastEffectHit(ForkLifter.instance.EligibleHits[currentHitInList].gameObject.GetComponent<Pea>().type);
+
+                        Jukebox.PlayOneShotGame("forkLifter/stab");
+
+                        currentPerfectPeasOnFork++;
+
+                        if (EligibleHits[currentHitInList].gameObject.GetComponent<Pea>().type == 1)
+                        {
+                            topbun = true;
+                        }
+                        else if (EligibleHits[currentHitInList].gameObject.GetComponent<Pea>().type == 2)
+                        {
+                            middleburger = true;
+                        }
+                        else if (EligibleHits[currentHitInList].gameObject.GetComponent<Pea>().type == 3)
+                        {
+                            bottombun = true;
+                        }
+
+                        RemovePea();
+
+                        GameProfiler.instance.IncreaseScore();
+                    }
+                    else if (EligibleHits[currentHitInList].early)
                     {
-                        case 0:
-                            psprite.sortingOrder = 101;
-                            break;
-                        case 1:
-                            psprite.sortingOrder = 104;
-                            break;
-                        case 2:
-                            psprite.sortingOrder = 103;
-                            break;
-                        case 3:
-                            psprite.sortingOrder = 102;
-                            break;
+                        pea.transform.parent = early.transform;
+                        pea.transform.localScale = Vector2.one;
+
+                        pea.transform.localPosition = Vector3.zero;
+                        pea.transform.localRotation = Quaternion.Euler(0, 0, 90);
+
+                        for (int i = 0; i < early.transform.childCount; i++)
+                        {
+                            early.transform.GetChild(i).transform.localPosition = new Vector3(0, (-1.67f - (0.15724f * i)) + 0.15724f * currentEarlyPeasOnFork);
+                        }
+
+                        SpriteRenderer psprite = pea.AddComponent<SpriteRenderer>();
+                        psprite.sprite = ForkLifter.instance.peaHitSprites[EligibleHits[currentHitInList].gameObject.GetComponent<Pea>().type];
+                        psprite.sortingOrder = 20;
+                        HitFXMiss(new Vector2(1.0424f, -4.032f), new Vector2(1.129612f, 1.129612f));
+                        HitFXMiss(new Vector2(0.771f, -3.016f), new Vector2(1.71701f, 1.71701f));
+                        HitFXMiss(new Vector2(2.598f, -2.956f), new Vector2(1.576043f, 1.576043f));
+                        HitFXMiss(new Vector2(2.551f, -3.609f), new Vector2(1.200788f, 1.200788f));
+
+                        FastEffectHit(ForkLifter.instance.EligibleHits[currentHitInList].gameObject.GetComponent<Pea>().type);
+
+                        Jukebox.PlayOneShot("miss");
+
+                        currentEarlyPeasOnFork++;
+
+                        RemovePea();
                     }
-
-                    GameObject hitFXo = new GameObject();
-                    hitFXo.transform.localPosition = new Vector3(1.9969f, -3.7026f);
-                    hitFXo.transform.localScale = new Vector3(3.142196f, 3.142196f);
-                    SpriteRenderer hfxs = hitFXo.AddComponent<SpriteRenderer>();
-                    hfxs.sprite = hitFX;
-                    hfxs.sortingOrder = 100;
-                    hfxs.DOColor(new Color(1, 1, 1, 0), 0.05f).OnComplete(delegate { Destroy(hitFXo); });
-
-                    FastEffectHit(EligibleHits[currentHitInList].pea.type);
-
-                    Jukebox.PlayOneShotGame("forkLifter/stab");
-
-                    currentPerfectPeasOnFork++;
-
-                    if (EligibleHits[currentHitInList].pea.type == 1)
+                    else if (EligibleHits[currentHitInList].late)
                     {
-                        topbun = true;
-                    }
-                    else if (EligibleHits[currentHitInList].pea.type == 2)
-                    {
-                        middleburger = true;
-                    }
-                    else if (EligibleHits[currentHitInList].pea.type == 3)
-                    {
-                        bottombun = true;
-                    }
+                        pea.transform.parent = late.transform;
+                        pea.transform.localScale = Vector2.one;
 
-                    RemovePea();
+                        pea.transform.localPosition = Vector3.zero;
+                        pea.transform.localRotation = Quaternion.Euler(0, 0, 90);
 
-                    GameProfiler.instance.IncreaseScore();
+                        for (int i = 0; i < late.transform.childCount; i++)
+                        {
+                            late.transform.GetChild(i).transform.localPosition = new Vector3(0, (-1.67f - (0.15724f * i)) + 0.15724f * currentLatePeasOnFork);
+                        }
+
+                        SpriteRenderer psprite = pea.AddComponent<SpriteRenderer>();
+                        psprite.sprite = ForkLifter.instance.peaHitSprites[EligibleHits[currentHitInList].gameObject.GetComponent<Pea>().type];
+                        psprite.sortingOrder = 20;
+                        HitFXMiss(new Vector2(1.0424f, -4.032f), new Vector2(1.129612f, 1.129612f));
+                        HitFXMiss(new Vector2(0.771f, -3.016f), new Vector2(1.71701f, 1.71701f));
+                        HitFXMiss(new Vector2(2.598f, -2.956f), new Vector2(1.576043f, 1.576043f));
+                        HitFXMiss(new Vector2(2.551f, -3.609f), new Vector2(1.200788f, 1.200788f));
+
+                        FastEffectHit(ForkLifter.instance.EligibleHits[currentHitInList].gameObject.GetComponent<Pea>().type);
+
+                        Jukebox.PlayOneShot("miss");
+
+                        currentLatePeasOnFork++;
+
+                        RemovePea();
+                    }
                 }
-                else if (EligibleHits[currentHitInList].early)
+                else
                 {
-                    pea.transform.parent = early.transform;
-                    pea.transform.localScale = Vector2.one;
-
-                    pea.transform.localPosition = Vector3.zero;
-                    pea.transform.localRotation = Quaternion.Euler(0, 0, 90);
-
-                    for (int i = 0; i < early.transform.childCount; i++)
-                    {
-                        early.transform.GetChild(i).transform.localPosition = new Vector3(0, (-1.67f - (0.15724f * i)) + 0.15724f * currentEarlyPeasOnFork);
-                    }
-
-                    SpriteRenderer psprite = pea.AddComponent<SpriteRenderer>();
-                    psprite.sprite = ForkLifter.instance.peaHitSprites[EligibleHits[currentHitInList].pea.type];
-                    psprite.sortingOrder = 20;
-                    HitFXMiss(new Vector2(1.0424f, -4.032f), new Vector2(1.129612f, 1.129612f));
-                    HitFXMiss(new Vector2(0.771f, -3.016f), new Vector2(1.71701f, 1.71701f));
-                    HitFXMiss(new Vector2(2.598f, -2.956f), new Vector2(1.576043f, 1.576043f));
-                    HitFXMiss(new Vector2(2.551f, -3.609f), new Vector2(1.200788f, 1.200788f));
-
-                    FastEffectHit(EligibleHits[currentHitInList].pea.type);
-
-                    Jukebox.PlayOneShot("miss");
-
-                    currentEarlyPeasOnFork++;
-
-                    RemovePea();
+                    Jukebox.PlayOneShotGame("forkLifter/stabnohit");
                 }
-                else if (EligibleHits[currentHitInList].late)
-                {
-                    pea.transform.parent = late.transform;
-                    pea.transform.localScale = Vector2.one;
-
-                    pea.transform.localPosition = Vector3.zero;
-                    pea.transform.localRotation = Quaternion.Euler(0, 0, 90);
-
-                    for (int i = 0; i < late.transform.childCount; i++)
-                    {
-                        late.transform.GetChild(i).transform.localPosition = new Vector3(0, (-1.67f - (0.15724f * i)) + 0.15724f * currentLatePeasOnFork);
-                    }
-
-                    SpriteRenderer psprite = pea.AddComponent<SpriteRenderer>();
-                    psprite.sprite = ForkLifter.instance.peaHitSprites[EligibleHits[currentHitInList].pea.type];
-                    psprite.sortingOrder = 20;
-                    HitFXMiss(new Vector2(1.0424f, -4.032f), new Vector2(1.129612f, 1.129612f));
-                    HitFXMiss(new Vector2(0.771f, -3.016f), new Vector2(1.71701f, 1.71701f));
-                    HitFXMiss(new Vector2(2.598f, -2.956f), new Vector2(1.576043f, 1.576043f));
-                    HitFXMiss(new Vector2(2.551f, -3.609f), new Vector2(1.200788f, 1.200788f));
-
-                    FastEffectHit(EligibleHits[currentHitInList].pea.type);
-
-                    Jukebox.PlayOneShot("miss");
-
-                    currentLatePeasOnFork++;
-
-                    RemovePea();
-                }
-            }
-            else
-            {
-                Jukebox.PlayOneShotGame("forkLifter/stabnohit");
             }
 
             anim.Play("Player_Stab", 0, 0);
@@ -297,12 +288,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
         private void RemovePea()
         {
-            if (currentHitInList < EligibleHits.Count)
-            {
-                Destroy(EligibleHits[currentHitInList].pea.gameObject);
-                EligibleHits.Remove(EligibleHits[currentHitInList]);
-                currentHitInList++;
-            }
+            ForkLifter.instance.EligibleHits[currentHitInList].gameObject.GetComponent<Pea>().RemoveObject(currentHitInList, true);
         }
     }
 }

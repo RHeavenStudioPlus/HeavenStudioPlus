@@ -38,7 +38,6 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         private void Start()
         {
-            PlayerActionInit(this.gameObject);
             anim = GetComponent<Animator>();
 
             Sprite.transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
@@ -48,6 +47,8 @@ namespace RhythmHeavenMania.Games.KarateMan
                 hitLength = 23.45f;
             else
                 hitLength = 16f;
+
+            PlayerActionInit(this.gameObject, createBeat, KarateMan.instance.EligibleHits);
         }
 
         private void Update()
@@ -65,7 +66,7 @@ namespace RhythmHeavenMania.Games.KarateMan
 
                 float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(startBeat, 1);
 
-                StateCheck(normalizedBeat, KarateMan.instance.EligibleHits);
+                StateCheck(normalizedBeat);
 
                 lastPos = Holder.transform.localPosition;
                 lastShadowX = Shadow.transform.localPosition.x;

@@ -15,6 +15,8 @@ namespace RhythmHeavenMania.Util
 
         private float startTime;
 
+        public bool relyOnBeat = true;
+
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
@@ -23,32 +25,45 @@ namespace RhythmHeavenMania.Util
             audioSource.PlayScheduled(Time.time);
 
             startTime = Conductor.instance.songPosition;
+
+            if (!relyOnBeat)
+            {
+                StartCoroutine(NotRelyOnBeatSound());
+            }
         }
 
         private void Update()
         {
-            if (Conductor.instance.isPaused && !Conductor.instance.isPlaying && pauseTimes == 0)
+            if (relyOnBeat)
             {
-                audioSource.Pause();
-                pauseTimes = 1;
-                print("paused");
-            }
-            else if (Conductor.instance.isPlaying && !Conductor.instance.isPaused && pauseTimes == 1)
-            {
-                audioSource.Play();
-                print("played");
-                pauseTimes = 0;
-            }
+                if (Conductor.instance.isPaused && !Conductor.instance.isPlaying && pauseTimes == 0)
+                {
+                    audioSource.Pause();
+                    pauseTimes = 1;
+                    print("paused");
+                }
+                else if (Conductor.instance.isPlaying && !Conductor.instance.isPaused && pauseTimes == 1)
+                {
+                    audioSource.Play();
+                    print("played");
+                    pauseTimes = 0;
+                }
 
-            else if (!Conductor.instance.isPlaying && !Conductor.instance.isPaused)
-            {
-                Destroy(this.gameObject);
+                else if (!Conductor.instance.isPlaying && !Conductor.instance.isPaused)
+                {
+                    Destroy(this.gameObject);
+                }
+                if (Conductor.instance.songPosition > startTime + clip.length)
+                {
+                    Destroy(this.gameObject);
+                }
             }
+        }
 
-            if (Conductor.instance.songPosition > startTime + clip.length)
-            {
-                Destroy(this.gameObject);
-            }
+        IEnumerator NotRelyOnBeatSound()
+        {
+            yield return new WaitForSeconds(clip.length);
+            Destroy(this.gameObject);
         }
     }
 }

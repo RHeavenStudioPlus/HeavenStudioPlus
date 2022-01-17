@@ -70,104 +70,107 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         private void Swing()
         {
-            // you cant hit two pots at a time like this so i should fix this before a public build is eventually made.
-
             var EligibleHits = KarateMan.instance.EligibleHits;
             bool canHit = (EligibleHits.Count > 0) && (currentHitInList < EligibleHits.Count);
 
             bool punchLeft = true;
 
-            if (canHit)
+            int events = KarateMan.instance.MultipleEventsAtOnce();
+
+            for (int pt = 0; pt < events; pt++)
             {
-                Pot p = EligibleHits[currentHitInList].gameObject.GetComponent<Pot>();
-
-                if (p.type == 2 || p.type == 3 || p.type == 4)
+                if (canHit)
                 {
-                    punchLeft = false;
-                }
-                else
-                {
-                    punchLeft = true;
-                }
+                    Pot p = EligibleHits[currentHitInList].gameObject.GetComponent<Pot>();
 
-                if (KarateMan.instance.EligibleHits[currentHitInList].perfect)
-                {
-                    Jukebox.PlayOneShotGame(p.hitSnd);
-                    p.Hit();
-
-                    HitEffectF(HitEffect.transform.localPosition);
-
-                    switch (p.type)
+                    if (p.type == 2 || p.type == 3 || p.type == 4)
                     {
-                        case 0:
-                            // HitParticle.Play();
-                            break;
-                        case 1:
-                            GameObject bulbHit = Instantiate(BulbHit);
-                            bulbHit.transform.parent = BulbHit.transform.parent;
-                            bulbHit.SetActive(true);
-                            Destroy(bulbHit, 0.7f);
-                            break;
-                        case 2:
-                            // RockParticle.Play();
-                            break;
-                        case 4:
-                            if (kickC != null) StopCoroutine(kickC);
-                            kickC = StartCoroutine(PrepareKick());
-                            for (int i = 0; i < 8; i++)
-                            {
-                                GameObject be = new GameObject();
-                                be.transform.localPosition = p.transform.localPosition;
-                                be.transform.parent = this.transform.parent;
-                                BarrelDestroyEffect bde = be.AddComponent<BarrelDestroyEffect>();
-
-                                switch (i)
-                                {
-                                    case 0:
-                                        bde.spriteIndex = 0;
-                                        break;
-                                    case 1:
-                                        bde.spriteIndex = 0;
-                                        break;
-                                    case 2:
-                                        bde.spriteIndex = 1;
-                                        break;
-                                    case 3:
-                                        bde.spriteIndex = 2;
-                                        break;
-                                    case 4:
-                                        bde.spriteIndex = 3;
-                                        break;
-                                    case 5:
-                                        bde.spriteIndex = 3;
-                                        break;
-                                    case 6:
-                                        bde.spriteIndex = 4;
-                                        break;
-                                    case 7:
-                                        bde.spriteIndex = 4;
-                                        break;
-                                }
-                            }
-                            break;
+                        punchLeft = false;
                     }
+                    else
+                    {
+                        punchLeft = true;
+                    }
+
+                    if (KarateMan.instance.EligibleHits[currentHitInList].perfect)
+                    {
+                        Jukebox.PlayOneShotGame(p.hitSnd);
+                        p.Hit();
+
+                        HitEffectF(HitEffect.transform.localPosition);
+
+                        switch (p.type)
+                        {
+                            case 0:
+                                // HitParticle.Play();
+                                break;
+                            case 1:
+                                GameObject bulbHit = Instantiate(BulbHit);
+                                bulbHit.transform.parent = BulbHit.transform.parent;
+                                bulbHit.SetActive(true);
+                                Destroy(bulbHit, 0.7f);
+                                break;
+                            case 2:
+                                // RockParticle.Play();
+                                break;
+                            case 4:
+                                if (kickC != null) StopCoroutine(kickC);
+                                kickC = StartCoroutine(PrepareKick());
+                                for (int i = 0; i < 8; i++)
+                                {
+                                    GameObject be = new GameObject();
+                                    be.transform.localPosition = p.transform.localPosition;
+                                    be.transform.parent = this.transform.parent;
+                                    BarrelDestroyEffect bde = be.AddComponent<BarrelDestroyEffect>();
+
+                                    switch (i)
+                                    {
+                                        case 0:
+                                            bde.spriteIndex = 0;
+                                            break;
+                                        case 1:
+                                            bde.spriteIndex = 0;
+                                            break;
+                                        case 2:
+                                            bde.spriteIndex = 1;
+                                            break;
+                                        case 3:
+                                            bde.spriteIndex = 2;
+                                            break;
+                                        case 4:
+                                            bde.spriteIndex = 3;
+                                            break;
+                                        case 5:
+                                            bde.spriteIndex = 3;
+                                            break;
+                                        case 6:
+                                            bde.spriteIndex = 4;
+                                            break;
+                                        case 7:
+                                            bde.spriteIndex = 4;
+                                            break;
+                                    }
+                                }
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Jukebox.PlayOneShot("miss");
+                        p.Miss();
+                    }
+                    p.isEligible = false;
+                    p.RemoveObject(currentHitInList);
                 }
                 else
                 {
-                    Jukebox.PlayOneShot("miss");
-                    p.Miss();
+                    Jukebox.PlayOneShotGame("karateman/swingNoHit");
                 }
-                p.isEligible = false;
-                p.RemoveObject(currentHitInList, EligibleHits);
+                if (punchLeft)
+                    anim.Play("PunchLeft", 0, 0);
+                else
+                    anim.Play("PunchRight", 0, 0);
             }
-            else
-            {
-                Jukebox.PlayOneShotGame("karateman/swingNoHit");
-            }
-            if (punchLeft)
-                anim.Play("PunchLeft", 0, 0);
-            else
-                anim.Play("PunchRight", 0, 0);
         }
 
         public void HitEffectF(Vector3 pos)

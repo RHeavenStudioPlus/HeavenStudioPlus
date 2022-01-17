@@ -14,8 +14,6 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
         [Header("References")]
         public ForkLifterHand ForkLifterHand;
-        private GameManager GameManager;
-
 
         [Header("Objects")]
         public Animator handAnim;
@@ -25,9 +23,6 @@ namespace RhythmHeavenMania.Games.ForkLifter
         public Sprite[] peaSprites;
         public Sprite[] peaHitSprites;
 
-
-        private List<Beatmap.Entity> allPlayerActions = new List<Beatmap.Entity>();
-
         private void Awake()
         {
             instance = this;
@@ -36,33 +31,6 @@ namespace RhythmHeavenMania.Games.ForkLifter
         public override void OnGameSwitch()
         {
             ForkLifterHand.CheckNextFlick();
-        }
-
-        private void Start()
-        {
-            GameManager = GameManager.instance;
-            // allPlayerActions = GameManager.Events.FindAll(c => c.eventName != "gulp" && c.eventName != "sigh" && c.eventName != "prepare" && c.eventName != "end");
-
-            /*List<Event> temp = new List<Event>();
-            for (int i = 0; i < allPlayerActions.Count; i++)
-            {
-                if (i - 1 > 0)
-                {
-                    if (Mathp.IsWithin(allPlayerActions[i - 1].spawnTime, allPlayerActions[i].spawnTime - 1f, allPlayerActions[i].spawnTime))
-                    {
-                        // do nothing lul
-                        continue;
-                    }
-                }
-                Event e = (Event)allPlayerActions[i].Clone();
-                e.spawnTime = allPlayerActions[i].spawnTime - 1;
-                e.eventName = "prepare";
-
-                temp.Add(e);
-            }
-
-            string s = JsonConvert.SerializeObject(temp);
-            print(s);*/
         }
 
         public void Flick(float beat, int type)
