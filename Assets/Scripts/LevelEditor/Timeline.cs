@@ -297,7 +297,7 @@ namespace RhythmHeavenMania.Editor
         {
             GameObject g = Instantiate(TimelineEventObjRef.gameObject, TimelineEventObjRef.parent);
             g.transform.localPosition = pos;
-            g.transform.GetChild(2).GetComponent<TMP_Text>().text = eventName.Split('/')[1];
+            g.transform.GetChild(3).GetComponent<TMP_Text>().text = eventName.Split('/')[1];
 
             TimelineEventObj eventObj = g.GetComponent<TimelineEventObj>();
 

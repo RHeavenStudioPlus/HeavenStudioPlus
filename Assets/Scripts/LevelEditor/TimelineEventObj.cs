@@ -41,8 +41,9 @@ namespace RhythmHeavenMania.Editor
 
             if (!resizable)
             {
-                Destroy(transform.GetChild(5).gameObject);
                 Destroy(transform.GetChild(6).gameObject);
+                Destroy(transform.GetChild(7).gameObject);
+                Destroy(transform.GetChild(1).gameObject);
             }
         }
 
@@ -54,7 +55,8 @@ namespace RhythmHeavenMania.Editor
 
             #region Optimizations
 
-            bool visible = GetComponent<RectTransform>().IsVisibleFrom(Camera.main);
+            // problem with long objects but im lazy right now
+            bool visible = rectTransform.IsVisibleFrom(Camera.main);
 
             if (visible != lastVisible)
             {
@@ -164,23 +166,18 @@ namespace RhythmHeavenMania.Editor
 
         public void DragEnter()
         {
-            if (selected)
-                Cursor.SetCursor(Resources.Load<Texture2D>("Cursors/horizontal_resize"), new Vector2(8, 8), CursorMode.Auto);
+            Cursor.SetCursor(Resources.Load<Texture2D>("Cursors/horizontal_resize"), new Vector2(8, 8), CursorMode.Auto);
         }
 
         public void DragExit()
         {
-            if (!resizing)
-                Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         }
 
         public void OnLeftDown()
         {
-            if (selected)
-            {
-                SetPivot(new Vector2(1, rectTransform.pivot.y));
-                resizing = true;
-            }
+            SetPivot(new Vector2(1, rectTransform.pivot.y));
+            resizing = true;
         }
 
         public void DragLeft()
@@ -207,11 +204,8 @@ namespace RhythmHeavenMania.Editor
 
         public void OnRightDown()
         {
-            if (selected)
-            {
-                SetPivot(new Vector2(0, rectTransform.pivot.y));
-                resizing = true;
-            }
+            SetPivot(new Vector2(0, rectTransform.pivot.y));
+            resizing = true;
         }
 
         public void DragRight()
@@ -352,6 +346,14 @@ namespace RhythmHeavenMania.Editor
 
             // c = new Color(c.r, c.g, c.b, 0.85f);
             transform.GetChild(0).GetComponent<Image>().color = c;
+
+            if (resizable)
+            {
+                c = new Color(0, 0, 0, 0.35f);
+                transform.GetChild(1).GetChild(0).GetComponent<Image>().color = c;
+                transform.GetChild(1).GetChild(1).GetComponent<Image>().color = c;
+                transform.GetChild(1).GetChild(2).GetComponent<Image>().color = c;
+            }
         }
 
         public int GetTrack()
