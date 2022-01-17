@@ -40,6 +40,15 @@ namespace RhythmHeavenMania.Editor
                 return;
             }
 
+            if (Conductor.instance.NotStopped())
+            {
+                startPosition = Vector2.zero;
+                endPosition = Vector2.zero;
+                DrawVisual();
+                SelectEvents();
+                return;
+            }
+
             // click
             if (Input.GetMouseButtonDown(0))
             {

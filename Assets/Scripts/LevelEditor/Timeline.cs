@@ -66,8 +66,17 @@ namespace RhythmHeavenMania.Editor
                 else
                     PlayCheck(true); 
             });
-            PauseBTN.onClick.AddListener(delegate { PlayCheck(false); });
-            StopBTN.onClick.AddListener(delegate { PlayCheck(true); });
+            PauseBTN.onClick.AddListener(delegate 
+            {
+                if (Conductor.instance.isPlaying && !Conductor.instance.isPaused)
+                PlayCheck(false); 
+            });
+            StopBTN.onClick.AddListener(delegate 
+            {
+                if (Conductor.instance.isPlaying || Conductor.instance.isPaused)
+                PlayCheck(true); 
+            });
+
             MetronomeBTN.onClick.AddListener(delegate 
             {
                 if (!Conductor.instance.metronome)
@@ -164,7 +173,7 @@ namespace RhythmHeavenMania.Editor
         {
             if (fromStart)
             {
-                if (!Conductor.instance.isPlaying)
+                if (!Conductor.instance.isPlaying && !Conductor.instance.isPaused)
                 {
                     Play(false, TimelineSlider.transform.localPosition.x);
                 }
@@ -178,9 +187,16 @@ namespace RhythmHeavenMania.Editor
             {
                 if (!Conductor.instance.isPlaying)
                 {
-                    Play(false, TimelineSongPosLine.transform.localPosition.x);
+                    if (TimelineSongPosLine == null)
+                    {
+                        Play(false, TimelineSlider.transform.localPosition.x);
+                    }
+                    else
+                    {
+                        Play(false, TimelineSongPosLine.transform.localPosition.x);
+                    }
                 }
-                else
+                else if (!Conductor.instance.isPaused)
                 {
                     Pause();
                 }

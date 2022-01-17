@@ -166,7 +166,7 @@ namespace RhythmHeavenMania
 
         public bool NotStopped()
         {
-            return Conductor.instance.isPlaying == true || Conductor.instance.isPaused;
+            return Conductor.instance.isPlaying == true || Conductor.instance.isPaused == true;
         }
     }
 }
