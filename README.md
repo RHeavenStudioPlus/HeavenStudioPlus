@@ -17,7 +17,6 @@ Rhythm Heaven Mania's game engine is [Unity 2020.3.25f1](https://unity3d.com/uni
 and programmed with [Visual Studio 2022](https://visualstudio.microsoft.com/vs/).
 
 ### Dependencies (You may or may not have to install these)
-* [Newtonsoft.Json-for-Unity](https://github.com/jilleJr/Newtonsoft.Json-for-Unity)
 * [Starpelly](https://github.com/Starpelly/Starpelly)
 * [DOTween](http://dotween.demigiant.com/)
 
