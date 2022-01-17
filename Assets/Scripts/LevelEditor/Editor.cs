@@ -57,8 +57,6 @@ namespace RhythmHeavenMania.Editor
                 GameIcon_.name = EventCaller.instance.minigames[i].displayName;
             }
 
-            GridGameSelector.GetComponent<GridGameSelector>().SelectGame("Game Manager", 1);
-
             Tooltip.instance.AddTooltip(NewBTN.gameObject, "New");
             Tooltip.instance.AddTooltip(OpenBTN.gameObject, "Open");
             Tooltip.instance.AddTooltip(SaveBTN.gameObject, "Save");
