@@ -11,39 +11,43 @@ namespace RhythmHeavenMania.Games
         public Minigame.Eligible state = new Minigame.Eligible();
         public bool isEligible;
 
-        public void PlayerActionInit(GameObject g)
+        public List<Minigame.Eligible> eligibleHitsList = new List<Minigame.Eligible>();
+
+        public void PlayerActionInit(GameObject g, float createBeat, List<Minigame.Eligible> eligibleHitsList)
         {
             state.gameObject = g;
+            state.createBeat = createBeat;
+            this.eligibleHitsList = eligibleHitsList;
         }
 
         // could possibly add support for custom early, perfect, and end times if needed.
-        public void StateCheck(float normalizedBeat, List<Minigame.Eligible> eligibleHitsList)
+        public void StateCheck(float normalizedBeat)
         {
             if (!isEligible) return;
             if (normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.PerfectTime() && lastState == 0)
             {
-                MakeEligible(true, false, false, eligibleHitsList);
+                MakeEligible(true, false, false);
                 lastState++;
             }
             // Perfect State
             else if (normalizedBeat > Minigame.PerfectTime() && normalizedBeat < Minigame.LateTime() && lastState == 1)
             {
-                MakeEligible(false, true, false, eligibleHitsList);
+                MakeEligible(false, true, false);
                 lastState++;
             }
             // Late State
             else if (normalizedBeat > Minigame.LateTime() && normalizedBeat < Minigame.EndTime() && lastState == 2)
             {
-                MakeEligible(false, false, true, eligibleHitsList);
+                MakeEligible(false, false, true);
                 lastState++;
             }
             else if (normalizedBeat < Minigame.EarlyTime() || normalizedBeat > Minigame.EndTime())
             {
-                MakeInEligible(eligibleHitsList);
+                MakeInEligible();
             }
         }
 
-        public void MakeEligible(bool early, bool perfect, bool late, List<Minigame.Eligible> eligibleHitsList)
+        public void MakeEligible(bool early, bool perfect, bool late)
         {
             if (!inList)
             {
@@ -63,7 +67,7 @@ namespace RhythmHeavenMania.Games
             }
         }
 
-        public void MakeInEligible(List<Minigame.Eligible> eligibleHitsList)
+        public void MakeInEligible()
         {
             if (!inList) return;
 
@@ -71,12 +75,13 @@ namespace RhythmHeavenMania.Games
             inList = false;
         }
 
-        public void RemoveObject(int currentHitInList, List<Minigame.Eligible> EligibleHits)
+        public void RemoveObject(int currentHitInList, bool destroyObject = false)
         {
-            if (currentHitInList < EligibleHits.Count)
+            if (currentHitInList < eligibleHitsList.Count)
             {
-                EligibleHits.Remove(EligibleHits[currentHitInList]);
+                eligibleHitsList.Remove(eligibleHitsList[currentHitInList]);
                 currentHitInList++;
+                if (destroyObject) Destroy(this.gameObject);
             }
         }
         
@@ -111,6 +116,11 @@ namespace RhythmHeavenMania.Games
             state.early = early;
             state.perfect = perfect;
             state.late = late;
+        }
+
+        private void OnDestroy()
+        {
+            MakeInEligible();
         }
     }
 }

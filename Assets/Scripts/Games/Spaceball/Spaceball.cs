@@ -34,9 +34,9 @@ namespace RhythmHeavenMania.Games.Spaceball
             for (int i = 1; i < BallsHolder.transform.childCount; i++)
                 Destroy(BallsHolder.transform.GetChild(i).gameObject);
             GameManager.instance.GameCamera.orthographic = false;
-            if (SpaceballPlayer.instance != null)
-            if (SpaceballPlayer.instance.EligibleHits.Count > 0)
-                SpaceballPlayer.instance.EligibleHits.RemoveRange(0, SpaceballPlayer.instance.EligibleHits.Count);
+
+            if (EligibleHits.Count > 0)
+                EligibleHits.RemoveRange(0, EligibleHits.Count);
         }
 
         public override void OnTimeChange()

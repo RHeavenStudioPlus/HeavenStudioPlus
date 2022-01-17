@@ -130,7 +130,6 @@ namespace RhythmHeavenMania.Editor
             }
 
 
-
             if (Input.GetMouseButton(1) && !Conductor.instance.isPlaying && CheckIfMouseInTimeline())
             {
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(TimelineContent, Input.mousePosition, Editor.instance.EditorCamera, out lastMousePos);
@@ -244,27 +243,33 @@ namespace RhythmHeavenMania.Editor
             if (playEnabled)
             {
                 PlayBTN.transform.GetChild(0).GetComponent<Image>().color = Color.green;
+                PlayBTN.enabled = true;
             }
             else
             {
                 PlayBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+                PlayBTN.enabled = false;
             }
 
             if (pauseEnabled)
             {
+                PauseBTN.enabled = true;
                 PauseBTN.transform.GetChild(0).GetComponent<Image>().color = Color.blue;
             }
             else
             {   PauseBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+                PauseBTN.enabled = false;
             }
             
             if (stopEnabled)
             {
+                StopBTN.enabled = true;
                 StopBTN.transform.GetChild(0).GetComponent<Image>().color = Color.red;
             }
             else
             {
                 StopBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+                StopBTN.enabled = false;
             }
         }
         #endregion

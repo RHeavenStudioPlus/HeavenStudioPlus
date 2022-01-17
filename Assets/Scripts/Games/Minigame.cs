@@ -16,6 +16,7 @@ namespace RhythmHeavenMania.Games
             public bool early;
             public bool perfect;
             public bool late;
+            public float createBeat;
         }
 
         // hopefully these will fix the lowbpm problem
@@ -49,6 +50,24 @@ namespace RhythmHeavenMania.Games
         public virtual void OnTimeChange()
         {
 
+        }
+
+        public int MultipleEventsAtOnce()
+        {
+            int sameTime = 0;
+            for (int i = 0; i < EligibleHits.Count; i++)
+            {
+                float createBeat = EligibleHits[i].createBeat;
+                if (EligibleHits.FindAll(c => c.createBeat == createBeat).Count > 0)
+                {
+                    sameTime += 1;
+                }
+            }
+
+            if (sameTime == 0 && EligibleHits.Count > 0)
+                sameTime = 1;
+
+            return sameTime;
         }
     }
 }
