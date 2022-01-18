@@ -29,8 +29,8 @@ namespace RhythmHeavenMania.Editor
         {
             tempoLayer.GetComponent<Image>().color = theme.properties.TempoLayerCol.Hex2RGB();
             musicLayer.GetComponent<Image>().color = theme.properties.MusicLayerCol.Hex2RGB();
-            Tooltip.instance.AddTooltip(tempoLayer.gameObject, $"Tempo Track");
-            Tooltip.instance.AddTooltip(musicLayer.gameObject, $"Music Volume Track");
+            Tooltip.AddTooltip(tempoLayer.gameObject, $"Tempo Track");
+            Tooltip.AddTooltip(musicLayer.gameObject, $"Music Volume Track");
 
 
             layer.gameObject.SetActive(false);
@@ -60,7 +60,7 @@ namespace RhythmHeavenMania.Editor
                 }
 
                 layer.GetComponent<Image>().color = c;
-                Tooltip.instance.AddTooltip(layer, $"Track {i + 1}");
+                Tooltip.AddTooltip(layer, $"Track {i + 1}");
             }
             Destroy(layer);
         }
