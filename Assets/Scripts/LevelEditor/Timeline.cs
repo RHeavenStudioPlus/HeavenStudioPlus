@@ -92,10 +92,10 @@ namespace RhythmHeavenMania.Editor
                 }
             });
 
-            Tooltip.instance.AddTooltip(PlayBTN.gameObject, "Play <color=#adadad>[Space]</color>");
-            Tooltip.instance.AddTooltip(PauseBTN.gameObject, "Pause <color=#adadad>[Shift + Space]</color>");
-            Tooltip.instance.AddTooltip(StopBTN.gameObject, "Stop <color=#adadad>[Space]</color>");
-            Tooltip.instance.AddTooltip(MetronomeBTN.gameObject, "Metronome");
+            Tooltip.AddTooltip(PlayBTN.gameObject, "Play <color=#adadad>[Space]</color>");
+            Tooltip.AddTooltip(PauseBTN.gameObject, "Pause <color=#adadad>[Shift + Space]</color>");
+            Tooltip.AddTooltip(StopBTN.gameObject, "Stop <color=#adadad>[Space]</color>");
+            Tooltip.AddTooltip(MetronomeBTN.gameObject, "Metronome");
 
             SetTimeButtonColors(true, false, false);
             MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;

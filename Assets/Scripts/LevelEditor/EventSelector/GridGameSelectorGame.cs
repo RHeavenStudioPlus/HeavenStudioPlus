@@ -11,7 +11,7 @@ namespace RhythmHeavenMania.Editor
 
         private void Start()
         {
-            Tooltip.instance.AddTooltip(this.gameObject, this.gameObject.name);
+            Tooltip.AddTooltip(this.gameObject, this.gameObject.name);
         }
 
         public void OnClick()

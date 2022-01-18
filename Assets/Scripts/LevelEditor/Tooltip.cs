@@ -5,33 +5,84 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 using TMPro;
-using RhythmHeavenMania.Common;
 
 namespace RhythmHeavenMania.Editor
 {
     public class Tooltip : MonoBehaviour
     {
+        private RectTransform rectTransform;
+        [SerializeField] private RectTransform canvasRect;
+        [SerializeField] private RectTransform background;
+        [SerializeField] private TMP_Text text;
+        [SerializeField] private CanvasGroup group;
+
         public static Tooltip instance { get; private set; }
 
         private void Awake()
         {
             instance = this;
+            rectTransform = GetComponent<RectTransform>();
+            group.alpha = 0;
         }
 
-        public void OnEnter(string tooltipText)
+        private void Update()
         {
-            this.GetComponent<Image>().enabled = true;
-            this.transform.GetChild(0).GetComponent<TMP_Text>().text = tooltipText;
-            this.transform.GetChild(0).gameObject.SetActive(true);
+            Vector2 anchoredPosition = Input.mousePosition;
+
+            if (anchoredPosition.x + background.rect.width > canvasRect.rect.width)
+            {
+                anchoredPosition.x = canvasRect.rect.width - background.rect.width;
+            }
+            if (anchoredPosition.x < 0)
+            {
+                anchoredPosition.x = 0;
+            }
+
+            if (anchoredPosition.y + background.rect.height > canvasRect.rect.height)
+            {
+                anchoredPosition.y = canvasRect.rect.height - background.rect.height;
+            }
+            if (anchoredPosition.y < 0)
+            {
+                anchoredPosition.y = 0;
+            }
+
+            rectTransform.anchoredPosition = anchoredPosition;
         }
 
-        public void OnExit()
+        public static void OnEnter(string tooltipText)
         {
-            this.GetComponent<Image>().enabled = false;
-            this.transform.GetChild(0).gameObject.SetActive(false);
+            instance.OnEnterPrivate(tooltipText);
         }
 
-        public void AddTooltip(GameObject g, string tooltipText)
+        public static void OnExit()
+        {
+            instance.OnExitPrivate();
+        }
+
+        private void OnEnterPrivate(string tooltipText)
+        {
+            group.alpha = 1;
+            SetText(tooltipText);
+        }
+
+        private void OnExitPrivate()
+        {
+            group.alpha = 0;
+        }
+
+        private void SetText(string tooltipText)
+        {
+            text.text = tooltipText;
+            text.ForceMeshUpdate();
+
+            Vector2 textSize = text.GetRenderedValues(false);
+            Vector2 paddingSize = new Vector2(8, 8);
+
+            background.sizeDelta = textSize + paddingSize;
+        }
+
+        public static void AddTooltip(GameObject g, string tooltipText)
         {
             EventTrigger et = g.AddComponent<EventTrigger>();
 

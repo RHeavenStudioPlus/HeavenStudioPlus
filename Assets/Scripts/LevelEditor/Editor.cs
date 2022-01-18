@@ -57,9 +57,9 @@ namespace RhythmHeavenMania.Editor
                 GameIcon_.name = EventCaller.instance.minigames[i].displayName;
             }
 
-            Tooltip.instance.AddTooltip(NewBTN.gameObject, "New");
-            Tooltip.instance.AddTooltip(OpenBTN.gameObject, "Open");
-            Tooltip.instance.AddTooltip(SaveBTN.gameObject, "Save");
+            Tooltip.AddTooltip(NewBTN.gameObject, "New");
+            Tooltip.AddTooltip(OpenBTN.gameObject, "Open");
+            Tooltip.AddTooltip(SaveBTN.gameObject, "Save");
         }
 
         public void Update()

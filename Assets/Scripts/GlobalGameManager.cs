@@ -39,7 +39,7 @@ namespace RhythmHeavenMania
 
             GameObject ui = new GameObject();
             ui.AddComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("tempBuildUI");
-            ui.GetComponent<SpriteRenderer>().sortingOrder = 32767;
+            ui.GetComponent<SpriteRenderer>().sortingOrder = 1000;
             ui.layer = 5;
             ui.name = "tempBuildUI";
         }
