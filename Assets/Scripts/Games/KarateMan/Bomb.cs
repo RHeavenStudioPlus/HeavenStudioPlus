@@ -12,12 +12,22 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         private float startBeat;
         private float hitBeat;
+        private float missBeat;
 
         public bool kicked;
+        private bool missed;
         private bool eligible;
 
+        public GameObject Holder;
         public GameObject RotHolder;
         private Vector3 lastRot;
+
+        public GameObject shadow;
+        private float shadowY;
+
+        [Header("Curves")]
+        [SerializeField] private AnimationCurve outCurve;
+        [SerializeField] private AnimationCurve shadowHitCurve;
 
         private void Start()
         {
@@ -29,37 +39,57 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         private void Update()
         {
+                shadow.transform.localPosition = new Vector3(Holder.transform.localPosition.x, shadow.transform.localPosition.y);
             if (!kicked)
             {
-                float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(startBeat, 2.75f);
-
-                anim.Play("BombOut", 0, normalizedBeatAnim);
-                anim.speed = 0;
-
-                float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(startBeat, 0.75f);
-
-                StateCheckNoList(normalizedBeat);
-
-                if (normalizedBeat > 1.5f)
+                if (!missed)
                 {
-                    eligible = false;
-                    // explode animation
-                    if (normalizedBeat > 4)
-                    Destroy(this.gameObject);
-                }
+                    float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(startBeat, 1.25f);
 
+                    anim.Play("BombOut", 0, normalizedBeatAnim);
+                    anim.speed = 0;
 
-                if (PlayerInput.PressedUp() && eligible)
-                {
-                    eligible = false;
-                    if (state.perfect)
+                    float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(startBeat, 0.75f);
+
+                    StateCheckNoList(normalizedBeat);
+
+                    RotHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(0, -90, outCurve.Evaluate(normalizedBeatAnim)));
+                    lastRot = RotHolder.transform.eulerAngles;
+
+                    shadowY = shadow.transform.localPosition.y;
+
+                    if (normalizedBeat > 1.5f)
                     {
-                        Hit();
+                        eligible = false;
+                        // explode animation
+                        if (normalizedBeat > 4)
+                            Destroy(this.gameObject);
                     }
-                    else
+
+
+                    if (PlayerInput.PressedUp() && eligible)
                     {
-                        Jukebox.PlayOneShot("miss");
-                        // some miss animation here or somethin
+                        eligible = false;
+                        if (state.perfect)
+                        {
+                            Hit();
+                        }
+                        else
+                        {
+                            Miss();
+                        }
+                    }
+                }
+                else
+                {
+                    float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(missBeat, 1f);
+                    anim.Play("BombMiss", 0, normalizedBeatAnim);
+                    anim.speed = 0;
+                    RotHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastRot.z, lastRot.z - 180, normalizedBeatAnim));
+
+                    if (normalizedBeatAnim > 2)
+                    {
+                        Destroy(this.gameObject);
                     }
                 }
             }
@@ -69,13 +99,16 @@ namespace RhythmHeavenMania.Games.KarateMan
                 anim.Play("BombHit", 0, normalizedBeatAnim);
                 anim.speed = 0;
 
+                RotHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastRot.z, lastRot.z - 180, normalizedBeatAnim));
+
+                shadow.transform.localPosition = new Vector3(shadow.transform.localPosition.x, Mathf.Lerp(shadowY, 0.881f, shadowHitCurve.Evaluate(normalizedBeatAnim)));
+                shadow.transform.localScale = Holder.transform.localScale;
+
                 if (normalizedBeatAnim > 1)
                 {
                     Destroy(this.gameObject);
                 }
             }
-
-            lastRot = RotHolder.transform.eulerAngles;
         }
 
         public void Hit()
@@ -86,6 +119,13 @@ namespace RhythmHeavenMania.Games.KarateMan
             hitBeat = Conductor.instance.songPositionInBeats;
             kicked = true;
             RotHolder.transform.eulerAngles = lastRot;
+        }
+
+        public void Miss()
+        {
+            missBeat = Conductor.instance.songPositionInBeats;
+            missed = true;
+            Jukebox.PlayOneShot("miss");
         }
     }
 }

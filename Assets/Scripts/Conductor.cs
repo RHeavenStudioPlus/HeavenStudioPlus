@@ -47,6 +47,8 @@ namespace RhythmHeavenMania
         // Metronome tick sound enabled
         public bool metronome = false;
 
+        private bool beat;
+
         // private AudioDspTimeKeeper timeKeeper;
 
         void Awake()
@@ -120,10 +122,9 @@ namespace RhythmHeavenMania
 
                 if (metronome)
                 {
-                    if (songPosition > lastReportedBeat + secPerBeat)
+                    if (ReportBeat(ref lastReportedBeat))
                     {
-                        RhythmHeavenMania.Util.Jukebox.PlayOneShot("metronome");
-                        lastReportedBeat = (songPosition - (songPosition % secPerBeat));
+                        Util.Jukebox.PlayOneShot("metronome");
                     }
                     else if (songPosition <= lastReportedBeat)
                     {
@@ -131,6 +132,16 @@ namespace RhythmHeavenMania
                     }
                 }
             }
+        }
+
+        public bool ReportBeat(ref float lastReportedBeat, float offset = 0)
+        {
+            bool result = songPosition > (lastReportedBeat + offset) + secPerBeat;
+            if (result == true)
+            {
+                lastReportedBeat = (songPosition - (songPosition % secPerBeat) + offset);
+            }
+            return result;
         }
 
         public float GetLoopPositionFromBeat(float startBeat, float length)
