@@ -154,6 +154,9 @@ namespace RhythmHeavenMania.Editor
                 TimelineContent.transform.localPosition += new Vector3(-moveSpeed * Time.deltaTime, 0);
             }
 
+            if (Conductor.instance.isPlaying)
+                TimelineContent.transform.localPosition = new Vector3((-Conductor.instance.songPositionInBeats * 100) + 200, TimelineContent.transform.localPosition.y);
+
             TimelineContent.transform.localPosition = new Vector3(Mathf.Clamp(TimelineContent.transform.localPosition.x, Mathf.NegativeInfinity, 0), TimelineContent.transform.localPosition.y);
         }
 

@@ -20,10 +20,12 @@ namespace RhythmHeavenMania.Games.KarateMan
         public SpriteRenderer BGSprite;
 
         private bool bgEnabled;
-        private int newBeat;
+        private float newBeat, newBeatBop;
 
         private float bopLength;
         private float bopBeat;
+
+        private float bgBeat;
 
         [System.Serializable]
         public class BGSpriteC
@@ -38,33 +40,36 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         private void Update()
         {
-
-            if (Conductor.instance.songPositionInBeats > newBeat)
+            if (Conductor.instance.ReportBeat(ref newBeat))
             {
                 if (bgEnabled)
                 {
-                    if (newBeat % 2 == 0)
+                    if (bgBeat % 2 == 0)
+                    {
                         BGSprite.sprite = BGSprites[0].Sprites[1];
+                    }
                     else
+                    {
                         BGSprite.sprite = BGSprites[0].Sprites[2];
+                    }
+                    bgBeat++;
                 }
+            }
 
+            if (Conductor.instance.ReportBeat(ref newBeatBop, bopBeat % 1))
+            {
                 if (Conductor.instance.songPositionInBeats >= bopBeat && Conductor.instance.songPositionInBeats < bopBeat + bopLength)
                 {
-                    if (KarateJoe.anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 && !KarateJoe.anim.IsInTransition(0))
-                    KarateJoe.anim.Play("Bop", 0, 0);
-
-                    print("bop");
+                    float compare = KarateJoe.anim.GetCurrentAnimatorStateInfo(0).speed;
+                    if (KarateJoe.anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= compare && !KarateJoe.anim.IsInTransition(0))
+                        KarateJoe.anim.Play("Bop", 0, 0);
                 }
-
-                newBeat++;
             }
         }
 
         public void BGFXOn()
         {
             bgEnabled = true;
-            newBeat = Mathf.RoundToInt(Conductor.instance.songPositionInBeats);
         }
 
         public void BGFXOff()
@@ -123,6 +128,16 @@ namespace RhythmHeavenMania.Games.KarateMan
         {
             bopLength = length;
             bopBeat = beat;
+        }
+
+        public void CreateBomb(Transform parent, Vector2 scale, ref GameObject shadow)
+        {
+            GameObject bomb = Instantiate(Bomb, parent);
+            bomb.SetActive(true);
+            bomb.transform.localScale = scale;
+            shadow.transform.parent = bomb.transform;
+            shadow.transform.SetAsLastSibling();
+            bomb.GetComponent<Bomb>().shadow = shadow;
         }
     }
 }

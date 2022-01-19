@@ -121,32 +121,58 @@ namespace RhythmHeavenMania.Games.KarateMan
                                     GameObject be = new GameObject();
                                     be.transform.localPosition = p.transform.localPosition;
                                     be.transform.parent = this.transform.parent;
+                                    be.transform.localScale = p.Holder.transform.localScale;
                                     BarrelDestroyEffect bde = be.AddComponent<BarrelDestroyEffect>();
+                                    Vector3 pos = be.transform.localPosition;
+                                    SpriteRenderer sprite = be.AddComponent<SpriteRenderer>();
+
+                                    bde.shadow = Instantiate(p.Shadow, transform.parent);
+                                    bde.shadow.transform.position = p.Shadow.transform.position;
+                                    bde.shadow.transform.localScale = p.Shadow.transform.lossyScale;
+                                    bde.index = i;
 
                                     switch (i)
                                     {
                                         case 0:
-                                            bde.spriteIndex = 0;
+                                            be.transform.localPosition = new Vector3(pos.x, pos.y + 1.25f);
+                                            sprite.sortingOrder = 35;
+                                            bde.spriteIndex = 3;
                                             break;
                                         case 1:
-                                            bde.spriteIndex = 0;
+                                            be.transform.localPosition = new Vector3(pos.x, pos.y + -0.55f);
+                                            sprite.sortingOrder = 31;
+                                            bde.spriteIndex = 3;
                                             break;
                                         case 2:
-                                            bde.spriteIndex = 1;
+                                            be.transform.localPosition = new Vector3(pos.x - 0.8f, pos.y + 0.45f);
+                                            sprite.sortingOrder = 32;
+                                            bde.spriteIndex = 0;
                                             break;
                                         case 3:
-                                            bde.spriteIndex = 2;
+                                            be.transform.localPosition = new Vector3(pos.x - 0.5f, pos.y + 0.45f);
+                                            sprite.sortingOrder = 33;
+                                            bde.spriteIndex = 1;
                                             break;
                                         case 4:
-                                            bde.spriteIndex = 3;
+                                            be.transform.localPosition = new Vector3(pos.x, pos.y + 0.45f);
+                                            sprite.sortingOrder = 34;
+                                            bde.spriteIndex = 2;
                                             break;
                                         case 5:
-                                            bde.spriteIndex = 3;
+                                            be.transform.localPosition = new Vector3(pos.x + 0.5f, pos.y + 0.45f);
+                                            sprite.sortingOrder = 33;
+                                            sprite.flipX = true;
+                                            bde.spriteIndex = 1;
                                             break;
                                         case 6:
-                                            bde.spriteIndex = 4;
+                                            be.transform.localPosition = new Vector3(pos.x + 0.8f, pos.y + 0.45f);
+                                            sprite.sortingOrder = 32;
+                                            sprite.flipX = true;
+                                            bde.spriteIndex = 0;
                                             break;
                                         case 7:
+                                            be.transform.localPosition = new Vector3(pos.x, pos.y + 1.25f);
+                                            sprite.sortingOrder = 39;
                                             bde.spriteIndex = 4;
                                             break;
                                     }
@@ -179,7 +205,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             hit.transform.parent = HitEffect.transform.parent;
             hit.transform.localPosition = pos;
             hit.SetActive(true);
-            Destroy(hit, 0.03f);
+            Destroy(hit, 0.06f);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace RhythmHeavenMania.Games.KarateMan
         public GameObject Holder;
         private GameObject newHolder;
         public GameObject Sprite;
-        [SerializeField] private GameObject Shadow;
+        public GameObject Shadow;
 
         public bool isThrown;
         public bool isHit = false;
@@ -24,8 +24,11 @@ namespace RhythmHeavenMania.Games.KarateMan
         private float lastShadowX;
 
         public AnimationCurve hitCurve;
+        public AnimationCurve hitCurveY;
         public AnimationCurve hitCurveX;
         public AnimationCurve missCurve;
+        public AnimationCurve shadowCurve;
+        public AnimationCurve shadowCurveScale;
 
         public int type;
         public string hitSnd;
@@ -36,6 +39,8 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         public bool kick;
 
+        public float lastPotRot;
+
         private void Start()
         {
             anim = GetComponent<Animator>();
@@ -44,9 +49,9 @@ namespace RhythmHeavenMania.Games.KarateMan
             isEligible = true;
 
             if (type == 2)
-                hitLength = 23.45f;
+                hitLength = 14f;
             else
-                hitLength = 16f;
+                hitLength = 14f;
 
             PlayerActionInit(this.gameObject, createBeat, KarateMan.instance.EligibleHits);
         }
@@ -60,7 +65,7 @@ namespace RhythmHeavenMania.Games.KarateMan
 
             if (isThrown)
             {
-                float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(startBeat, 2.15f);
+                float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(startBeat, 2.22000000002f);
                 anim.Play("PotThrow", 0, normalizedBeatAnim);
                 anim.speed = 0;
 
@@ -68,7 +73,11 @@ namespace RhythmHeavenMania.Games.KarateMan
 
                 StateCheck(normalizedBeat);
 
+                Shadow.transform.localScale = Vector3.Lerp(new Vector3(4.12f, 4.12f), new Vector3(0.34f, 0.34f), shadowCurveScale.Evaluate(normalizedBeatAnim));
+                Shadow.transform.localPosition = new Vector3(Mathf.Lerp(7.63f, -1.036f, shadowCurve.Evaluate(normalizedBeatAnim)), Mathf.Lerp(-12.26f, -2.822f, shadowCurve.Evaluate(normalizedBeatAnim)));
+
                 lastPos = Holder.transform.localPosition;
+                lastPotRot = Holder.transform.eulerAngles.z;
                 lastShadowX = Shadow.transform.localPosition.x;
                 lastRot = Holder.transform.GetChild(0).eulerAngles.z;
             }
@@ -86,14 +95,26 @@ namespace RhythmHeavenMania.Games.KarateMan
             {
                 if (isHit)
                 {
-                    float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(hitBeat, 1.15f);
+                    float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(hitBeat, 1.5f);
                     var y = Mathf.Lerp(lastPos.y, -3.27f, hitCurve.Evaluate(normalizedBeatAnim));
                     var x = Mathf.Lerp(lastPos.x, hitLength, hitCurveX.Evaluate(normalizedBeatAnim));
-                    newHolder.transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(0, 0.55f, Conductor.instance.GetLoopPositionFromBeat(hitBeat, 0.45f)));
+                    newHolder.transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(0, 0.45f, hitCurveY.Evaluate(normalizedBeatAnim)));
                     Holder.transform.localPosition = new Vector3(x, y);
                     Shadow.transform.localPosition = new Vector3(Mathf.Lerp(lastShadowX, hitLength, hitCurveX.Evaluate(normalizedBeatAnim)), Shadow.transform.localPosition.y);
+                    Holder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastPotRot, lastPotRot - 360, normalizedBeatAnim));
                     // anim.Play("PotHit", 0, normalizedBeatAnim);
                     // anim.speed = 0;
+                }
+            }
+            else
+            {
+                if (isHit)
+                {
+                    float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(hitBeat, 1.5f);
+                    newHolder.transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(0, 0.55f, Conductor.instance.GetLoopPositionFromBeat(hitBeat, 0.45f)));
+                    Holder.transform.localPosition = new Vector3(Mathf.Lerp(lastPos.x, 0.9f, normalizedBeatAnim), Mathf.Lerp(lastPos.y, -3.43f, missCurve.Evaluate(normalizedBeatAnim)));
+                    Holder.transform.GetChild(0).transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastRot, lastRot - 523.203f, normalizedBeatAnim));
+                    Shadow.transform.localPosition = new Vector3(Mathf.Lerp(lastShadowX, 0.9f, normalizedBeatAnim), Shadow.transform.localPosition.y);
                 }
             }
         }
@@ -102,31 +123,27 @@ namespace RhythmHeavenMania.Games.KarateMan
         {
             if (!kick)
             {
-                newHolder = new GameObject();
-                newHolder.transform.parent = this.gameObject.transform;
-                Holder.transform.parent = newHolder.transform;
-                Holder.transform.GetChild(0).gameObject.AddComponent<Rotate>().rotateSpeed = -7 * Conductor.instance.songBpm;
-
-                hitBeat = Conductor.instance.songPositionInBeats;
-
-                anim.enabled = false;
-                isThrown = false;
-                isHit = true;
-
-                Sprite.GetComponent<SpriteRenderer>().sortingOrder = 49;
+                NewHolder();
             }
             else if (kick)
             {
-                Instantiate(KarateMan.instance.Bomb, this.transform.parent).SetActive(true);
+                KarateMan.instance.CreateBomb(this.transform.parent, Holder.transform.localScale, ref Shadow);
 
                 Destroy(this.gameObject);
             }
+
+            hitBeat = Conductor.instance.songPositionInBeats;
+
+            anim.enabled = false;
+            isThrown = false;
+            isHit = true;
+
+            Sprite.GetComponent<SpriteRenderer>().sortingOrder = 49;
         }
 
         public void Miss()
         {
-            newHolder = new GameObject();
-            newHolder.transform.parent = this.gameObject.transform;
+            NewHolder();
             Holder.transform.parent = newHolder.transform;
 
             hitBeat = Conductor.instance.songPositionInBeats;
@@ -134,6 +151,13 @@ namespace RhythmHeavenMania.Games.KarateMan
             isThrown = false;
             anim.enabled = false;
             Sprite.GetComponent<SpriteRenderer>().sortingOrder = 49;
+        }
+
+        private void NewHolder()
+        {
+            newHolder = new GameObject();
+            newHolder.transform.parent = this.gameObject.transform;
+            Holder.transform.parent = newHolder.transform;
         }
     }
 }
