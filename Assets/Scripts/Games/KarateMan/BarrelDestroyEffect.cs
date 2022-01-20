@@ -15,6 +15,8 @@ namespace RhythmHeavenMania.Games.KarateMan
         public int spriteIndex;
         public int index;
 
+        public bool combo;
+
 
         public GameObject shadow;
 
@@ -57,6 +59,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                     yRange = Random.Range(500, 1600);
                     break;
             }
+            if (combo) yRange = Random.Range(800, 1600);
 
             rb2d.AddForce(Vector3.up * yRange);
             rb2d.AddForce(Vector3.right * Random.Range(500, 800));
