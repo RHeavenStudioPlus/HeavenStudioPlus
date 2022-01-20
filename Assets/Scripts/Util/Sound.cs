@@ -40,12 +40,10 @@ namespace RhythmHeavenMania.Util
                 {
                     audioSource.Pause();
                     pauseTimes = 1;
-                    print("paused");
                 }
                 else if (Conductor.instance.isPlaying && !Conductor.instance.isPaused && pauseTimes == 1)
                 {
                     audioSource.Play();
-                    print("played");
                     pauseTimes = 0;
                 }
 
@@ -54,6 +52,11 @@ namespace RhythmHeavenMania.Util
                     Destroy(this.gameObject);
                 }
                 if (Conductor.instance.songPosition > startTime + clip.length)
+                {
+                    Destroy(this.gameObject);
+                }
+
+                if (Conductor.instance.songPosition < startTime)
                 {
                     Destroy(this.gameObject);
                 }

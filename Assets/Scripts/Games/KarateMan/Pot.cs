@@ -41,23 +41,52 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         public float lastPotRot;
 
+        public string throwAnim;
+        public bool combo;
+        public int comboIndex;
+
+        public Vector2 endShadowThrowPos;
+
         private void Start()
         {
             anim = GetComponent<Animator>();
 
             Sprite.transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
-            isEligible = true;
 
             if (type == 2)
                 hitLength = 14f;
             else
                 hitLength = 14f;
 
-            PlayerActionInit(this.gameObject, createBeat, KarateMan.instance.EligibleHits);
+            if (combo)
+            {
+                if (comboIndex == 0)
+                {
+                    isEligible = true;
+                    PlayerActionInit(this.gameObject, createBeat, KarateMan.instance.EligibleCombos);
+                }
+                else if (comboIndex == 5)
+                {
+                    isEligible = true;
+                }
+            }
+            else
+            {
+                isEligible = true;
+                PlayerActionInit(this.gameObject, createBeat, KarateMan.instance.EligibleHits);
+            }
+
+            Sprite.GetComponent<SpriteRenderer>().enabled = false;
         }
 
         private void Update()
         {
+            if (Conductor.instance.songPositionInBeats >= createBeat)
+                Sprite.GetComponent<SpriteRenderer>().enabled = true;
+            else
+                Sprite.GetComponent<SpriteRenderer>().enabled = false;
+
+
             float time2Destroy = Conductor.instance.GetLoopPositionFromBeat(createBeat, 4);
 
             if (time2Destroy >= 1)
@@ -65,21 +94,28 @@ namespace RhythmHeavenMania.Games.KarateMan
 
             if (isThrown)
             {
-                float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(startBeat, 2.22000000002f);
-                anim.Play("PotThrow", 0, normalizedBeatAnim);
+                float animTime = 2.22000000002f;
+                float beatTime = 1f;
+                if (comboIndex == 5)
+                {
+                    animTime = 2.27777777777f;
+                }
+
+                float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(startBeat, animTime);
+                anim.Play(throwAnim, 0, normalizedBeatAnim);
                 anim.speed = 0;
 
-                float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(startBeat, 1);
-
-                StateCheck(normalizedBeat);
+                float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(startBeat, beatTime);
 
                 Shadow.transform.localScale = Vector3.Lerp(new Vector3(4.12f, 4.12f), new Vector3(0.34f, 0.34f), shadowCurveScale.Evaluate(normalizedBeatAnim));
-                Shadow.transform.localPosition = new Vector3(Mathf.Lerp(7.63f, -1.036f, shadowCurve.Evaluate(normalizedBeatAnim)), Mathf.Lerp(-12.26f, -2.822f, shadowCurve.Evaluate(normalizedBeatAnim)));
+                Shadow.transform.localPosition = new Vector3(Mathf.Lerp(7.63f, endShadowThrowPos.x, shadowCurve.Evaluate(normalizedBeatAnim)), Mathf.Lerp(-12.26f, endShadowThrowPos.y, shadowCurve.Evaluate(normalizedBeatAnim)));
 
                 lastPos = Holder.transform.localPosition;
                 lastPotRot = Holder.transform.eulerAngles.z;
                 lastShadowX = Shadow.transform.localPosition.x;
                 lastRot = Holder.transform.GetChild(0).eulerAngles.z;
+
+                StateCheck(normalizedBeat);
             }
 
             if (!isHit && !isThrown)

@@ -35,6 +35,10 @@ namespace RhythmHeavenMania.Games.KarateMan
                 Jukebox.PlayOneShotGame("karateman/punchKick4");
                 index++;
             }
+            else if (normalizedBeat >= 3)
+            {
+                Destroy(this.gameObject);
+            }
         }
     }
 }
