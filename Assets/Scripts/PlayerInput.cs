@@ -20,5 +20,21 @@ namespace RhythmHeavenMania
         {
             return Input.GetKey(KeyCode.Z);
         }
+
+
+        public static bool AltPressed()
+        {
+            return Input.GetKeyDown(KeyCode.X);
+        }
+
+        public static bool AltPressedUp()
+        {
+            return Input.GetKeyUp(KeyCode.X);
+        }
+
+        public static bool AltPressing()
+        {
+            return Input.GetKey(KeyCode.X);
+        }
     }
 }
