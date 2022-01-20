@@ -61,6 +61,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                     if (hitCombo)
                     {
                         currentComboPots[comboPotIndex].Hit();
+                        HitEffectF(currentComboPots[comboPotIndex].Holder.transform.localPosition);
                         comboPotIndex++;
                         Jukebox.PlayOneShotGame("karateman/comboHit1");
                     }
@@ -72,6 +73,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                     if (hitCombo)
                     {
                         currentComboPots[comboPotIndex].Hit();
+                        HitEffectF(currentComboPots[comboPotIndex].Holder.transform.localPosition);
                         comboPotIndex++;
                         Jukebox.PlayOneShotGame("karateman/comboHit1");
                     }
@@ -83,6 +85,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                     if (hitCombo)
                     {
                         currentComboPots[comboPotIndex].Hit();
+                        HitEffectF(currentComboPots[comboPotIndex].Holder.transform.localPosition);
                         comboPotIndex++;
                         Jukebox.PlayOneShotGame("karateman/comboHit2");
                     }
@@ -94,6 +97,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                     if (hitCombo)
                     {
                         currentComboPots[comboPotIndex].Hit();
+                        HitEffectF(currentComboPots[comboPotIndex].Holder.transform.localPosition);
                         comboPotIndex++;
                         Jukebox.PlayOneShotGame("karateman/comboHit3");
                     }
@@ -105,6 +109,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                     if (hitCombo)
                     {
                         currentComboPots[comboPotIndex].Hit();
+                        HitEffectF(currentComboPots[comboPotIndex].Holder.transform.localPosition);
                         comboPotIndex++;
                         Jukebox.PlayOneShotGame("karateman/comboHit3");
                     }
@@ -124,6 +129,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                     {
                         // fail anim
                         anim.Play("Idle");
+                        ResetCombo();
                     }
                 }
             }
@@ -172,6 +178,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                 {
                     comboBeat = EligibleHits[currentComboHitInList].createBeat;
                     hitCombo = true;
+                // Debug.Break();
                 }
                 else
                 {
@@ -196,7 +203,8 @@ namespace RhythmHeavenMania.Games.KarateMan
 
             if (currentComboPots[comboPotIndex].state.perfect)
             {
-                BarrelDestroy(currentComboPots[comboPotIndex]);
+                BarrelDestroy(currentComboPots[comboPotIndex], true);
+                HitEffectF(currentComboPots[comboPotIndex].Holder.transform.localPosition);
                 Destroy(currentComboPots[comboPotIndex].gameObject);
                 Jukebox.PlayOneShotGame("karateman/comboHit4");
             }
@@ -206,6 +214,11 @@ namespace RhythmHeavenMania.Games.KarateMan
                 currentComboPots[comboPotIndex].Miss();
             }
 
+            ResetCombo();
+        }
+
+        private void ResetCombo()
+        {
             hitCombo = false;
             inCombo = false;
             comboPotIndex = 0;
@@ -270,7 +283,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                             case 4:
                                 if (kickC != null) StopCoroutine(kickC);
                                 kickC = StartCoroutine(PrepareKick());
-                                BarrelDestroy(p);
+                                BarrelDestroy(p, false);
                                 break;
                         }
                     }
@@ -302,7 +315,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             Destroy(hit, 0.06f);
         }
 
-        private void BarrelDestroy(Pot p)
+        private void BarrelDestroy(Pot p, bool combo)
         {
             for (int i = 0; i < 8; i++)
             {
@@ -318,6 +331,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                 bde.shadow.transform.position = p.Shadow.transform.position;
                 bde.shadow.transform.localScale = p.Shadow.transform.lossyScale;
                 bde.index = i;
+                bde.combo = combo;
 
                 switch (i)
                 {
