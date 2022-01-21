@@ -22,14 +22,19 @@ namespace RhythmHeavenMania.Games.KarateMan
         public SpriteRenderer BGSprite;
 
         private bool bgEnabled;
-        private float newBeat, newBeatBop;
+        private float newBeat;
 
-        private float bopLength;
-        private float bopBeat;
+        public GameEvent bop = new GameEvent();
+        public GameEvent prepare = new GameEvent();
 
         private float bgBeat;
 
         public GameObject comboRef;
+
+        public GameObject HIT3Ref;
+
+        public Sprite[] Numbers;
+
 
         [System.Serializable]
         public class BGSpriteC
@@ -122,10 +127,10 @@ namespace RhythmHeavenMania.Games.KarateMan
 
                         MultiSound.Play(new MultiSound.Sound[]
                         {
-                                        new MultiSound.Sound("karateman/punchKick1", beat + 1f),
-                                        new MultiSound.Sound("karateman/punchKick2", beat + 1.5f),
-                                        new MultiSound.Sound("karateman/punchKick3", beat + 1.75f),
-                                        new MultiSound.Sound("karateman/punchKick4", beat + 2.25f)
+                            new MultiSound.Sound("karateman/punchKick1", beat + 1f),
+                            new MultiSound.Sound("karateman/punchKick2", beat + 1.5f),
+                            new MultiSound.Sound("karateman/punchKick3", beat + 1.75f),
+                            new MultiSound.Sound("karateman/punchKick4", beat + 2.25f)
                         });
                         break;
                 }
@@ -154,13 +159,26 @@ namespace RhythmHeavenMania.Games.KarateMan
                 }
             }
 
-            if (Conductor.instance.ReportBeat(ref newBeatBop, bopBeat % 1))
+            if (Conductor.instance.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1))
             {
-                if (Conductor.instance.songPositionInBeats >= bopBeat && Conductor.instance.songPositionInBeats < bopBeat + bopLength)
+                if (Conductor.instance.songPositionInBeats >= bop.startBeat && Conductor.instance.songPositionInBeats < bop.startBeat + bop.length)
                 {
-                    float compare = KarateJoe.anim.GetCurrentAnimatorStateInfo(0).speed;
-                    if (KarateJoe.anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= compare && !KarateJoe.anim.IsInTransition(0))
+                    if (KarateJoe.anim.IsAnimationNotPlaying())
                         KarateJoe.anim.Play("Bop", 0, 0);
+                }
+            }
+
+            if (prepare.length > 0)
+            {
+                if (Conductor.instance.songPositionInBeats >= prepare.startBeat && Conductor.instance.songPositionInBeats < prepare.startBeat + prepare.length)
+                {
+                    if (KarateJoe.anim.IsAnimationNotPlaying())
+                    KarateJoe.AnimPlay("Prepare");
+                }
+                else
+                {
+                    KarateJoe.AnimPlay("Idle");
+                    prepare.length = 0;
                 }
             }
         }
@@ -178,13 +196,38 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         public void Bop(float beat, float length)
         {
-            bopLength = length;
-            bopBeat = beat;
+            bop.length = length;
+            bop.startBeat = beat;
         }
 
         public void Hit3(float beat)
         {
             MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("karateman/hit", beat), new MultiSound.Sound("karateman/three", beat + 0.5f) });
+            GameObject hit3 = Instantiate(HIT3Ref, this.transform);
+            hit3.transform.GetChild(0).GetChild(1).GetComponent<SpriteRenderer>().sprite = Numbers[2];
+            BeatAction.New(hit3, new List<BeatAction.Action>() 
+            { 
+                new BeatAction.Action(beat + 0.5f, delegate { hit3.transform.GetChild(0).gameObject.SetActive(true); }),
+                new BeatAction.Action(beat + 4.5f, delegate { Destroy(hit3); })
+            });
+        }
+
+        public void Hit4(float beat)
+        {
+            MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("karateman/hit", beat), new MultiSound.Sound("karateman/four", beat + 0.5f) });
+            GameObject hit4 = Instantiate(HIT3Ref, this.transform);
+            hit4.transform.GetChild(0).GetChild(1).GetComponent<SpriteRenderer>().sprite = Numbers[3];
+            BeatAction.New(hit4, new List<BeatAction.Action>()
+            {
+                new BeatAction.Action(beat + 0.5f, delegate { hit4.transform.GetChild(0).gameObject.SetActive(true); }),
+                new BeatAction.Action(beat + 4.5f, delegate { Destroy(hit4); })
+            });
+        }
+
+        public void Prepare(float beat, float length)
+        {
+            prepare.startBeat = beat;
+            prepare.length = length;
         }
 
         public void CreateBomb(Transform parent, Vector2 scale, ref GameObject shadow)

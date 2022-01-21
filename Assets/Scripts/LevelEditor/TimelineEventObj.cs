@@ -64,7 +64,7 @@ namespace RhythmHeavenMania.Editor
             {
                 for (int i = 0; i < this.transform.childCount; i++)
                 {
-                    this.transform.GetChild(i).gameObject.SetActive(visible);
+                    // this.transform.GetChild(i).gameObject.SetActive(visible);
                 }
             }
 
@@ -155,6 +155,8 @@ namespace RhythmHeavenMania.Editor
             startPosY = mousePos.y - this.transform.position.y;
 
             moving = true;
+
+            OnComplete();
         }
 
         public void OnUp()
@@ -210,13 +212,14 @@ namespace RhythmHeavenMania.Editor
             sizeDelta = new Vector2(Mathf.Clamp(sizeDelta.x, 0.25f, rectTransform.localPosition.x), sizeDelta.y);
 
             rectTransform.sizeDelta = new Vector2(Mathp.Round2Nearest(sizeDelta.x, 0.25f), sizeDelta.y);
+
+            OnComplete();
         }
 
         public void OnLeftUp()
         {
             SetPivot(new Vector2(0, rectTransform.pivot.y));
             resizing = false;
-            OnComplete();
         }
 
         public void OnRightDown()
@@ -238,13 +241,13 @@ namespace RhythmHeavenMania.Editor
             sizeDelta = new Vector2(Mathf.Clamp(sizeDelta.x, 0.25f, Mathf.Infinity), sizeDelta.y);
 
             rectTransform.sizeDelta = new Vector2(Mathp.Round2Nearest(sizeDelta.x, 0.25f), sizeDelta.y);
+
+            OnComplete();
         }
 
         public void OnRightUp()
         {
             resizing = false;
-
-            OnComplete();
         }
 
         private void SetPivot(Vector2 pivot)
@@ -272,6 +275,8 @@ namespace RhythmHeavenMania.Editor
             {
                 eligibleToMove = true;
             }
+
+            OnComplete();
         }
 
         private void OnComplete()
