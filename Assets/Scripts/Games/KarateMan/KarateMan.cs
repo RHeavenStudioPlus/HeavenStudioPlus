@@ -55,8 +55,15 @@ namespace RhythmHeavenMania.Games.KarateMan
             Shoot(beat + 1f, 0, true, "PotCombo5", 4, new Vector2(0.124f, -3.123f));
             Shoot(beat + 1.5f, 4, true, "PotCombo6", 5, new Vector2(-1.333f, -2.995f));
 
-            GameObject cs = new GameObject(); cs.AddComponent<ComboSound>().startBeat = beat;
-            cs.transform.parent = this.transform.parent;
+            MultiSound.Play(new MultiSound.Sound[] 
+            {
+                new MultiSound.Sound("karateman/punchy1", beat + 1f), 
+                new MultiSound.Sound("karateman/punchy2", beat + 1.25f), 
+                new MultiSound.Sound("karateman/punchy3", beat + 1.5f), 
+                new MultiSound.Sound("karateman/punchy4", beat + 1.75f), 
+                new MultiSound.Sound("karateman/ko", beat + 2f), 
+                new MultiSound.Sound("karateman/pow", beat + 2.5f) 
+            });
         }
 
         public void Shoot(float beat, int type, bool combo = false, string throwAnim = "", int comboIndex = 0, Vector2 endShadowPos = new Vector2())
@@ -113,8 +120,13 @@ namespace RhythmHeavenMania.Games.KarateMan
                         outSnd = "karateman/barrelOutKicks";
                         p.hitSnd = "karateman/barrelBreak";
 
-                        GameObject pks = new GameObject(); pks.AddComponent<PunchKickSound>().startBeat = beat;
-                        pks.transform.parent = this.transform.parent;
+                        MultiSound.Play(new MultiSound.Sound[]
+                        {
+                                        new MultiSound.Sound("karateman/punchKick1", beat + 1f),
+                                        new MultiSound.Sound("karateman/punchKick2", beat + 1.5f),
+                                        new MultiSound.Sound("karateman/punchKick3", beat + 1.75f),
+                                        new MultiSound.Sound("karateman/punchKick4", beat + 2.25f)
+                        });
                         break;
                 }
 
@@ -168,6 +180,11 @@ namespace RhythmHeavenMania.Games.KarateMan
         {
             bopLength = length;
             bopBeat = beat;
+        }
+
+        public void Hit3(float beat)
+        {
+            MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("karateman/hit", beat), new MultiSound.Sound("karateman/three", beat + 0.5f) });
         }
 
         public void CreateBomb(Transform parent, Vector2 scale, ref GameObject shadow)

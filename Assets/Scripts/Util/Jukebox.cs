@@ -40,22 +40,28 @@ namespace RhythmHeavenMania.Util
             FindJukebox().GetComponent<AudioSource>().volume = volume;
         }
 
-        public static void PlayOneShot(string name, bool relyOnBeat = true)
+        public static void PlayOneShot(string name, float beat = -1)
         {
             GameObject oneShot = new GameObject("oneShot");
-            AudioSource aus = oneShot.AddComponent<AudioSource>();
-            aus.playOnAwake = false;
+
+            AudioSource audioSource = oneShot.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+
             Sound snd = oneShot.AddComponent<Sound>();
-            snd.relyOnBeat = relyOnBeat;
             AudioClip clip = Resources.Load<AudioClip>($"Sfx/{name}");
             snd.clip = clip;
+            snd.beat = beat;
             // snd.pitch = (clip.length / Conductor.instance.secPerBeat);
+
+            GameManager.instance.SoundObjects.Add(oneShot);
         }
 
-        public static void PlayOneShotGame(string name, bool relyOnBeat = true)
+        public static void PlayOneShotGame(string name, float beat = -1)
         {
             if (GameManager.instance.currentGame == name.Split('/')[0])
-                PlayOneShot($"games/{name}", relyOnBeat);
+            {
+                PlayOneShot($"games/{name}", beat);
+            }
         }
     }
 

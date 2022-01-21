@@ -15,50 +15,41 @@ namespace RhythmHeavenMania.Util
 
         private float startTime;
 
-        public bool relyOnBeat = true;
+        public float beat;
+
+        bool playInstant = false;
+        int playIndex = 0;
 
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
             audioSource.clip = clip;
             audioSource.pitch = pitch;
-            audioSource.PlayScheduled(Time.time);
+
+            if (beat == -1)
+            {
+                audioSource.PlayScheduled(Time.time);
+                playInstant = true;
+                playIndex++;
+            }
+            else
+            {
+                playInstant = false;
+            }
 
             startTime = Conductor.instance.songPosition;
 
-            if (!relyOnBeat)
-            {
-                StartCoroutine(NotRelyOnBeatSound());
-            }
+            StartCoroutine(NotRelyOnBeatSound());
         }
 
         private void Update()
         {
-            if (relyOnBeat)
+            if (!playInstant)
             {
-                if (Conductor.instance.isPaused && !Conductor.instance.isPlaying && pauseTimes == 0)
+                if (Conductor.instance.songPositionInBeats > beat && playIndex < 1)
                 {
-                    audioSource.Pause();
-                    pauseTimes = 1;
-                }
-                else if (Conductor.instance.isPlaying && !Conductor.instance.isPaused && pauseTimes == 1)
-                {
-                    audioSource.Play();
-                    pauseTimes = 0;
-                }
-
-                else if (!Conductor.instance.isPlaying && !Conductor.instance.isPaused)
-                {
-                    Destroy(this.gameObject);
-                }
-                if (Conductor.instance.songPosition > startTime + clip.length)
-                {
-                    Destroy(this.gameObject);
-                }
-
-                if (Conductor.instance.songPosition < startTime)
-                {
-                    Destroy(this.gameObject);
+                    audioSource.PlayScheduled(Time.time);
+                    playIndex++;
                 }
             }
         }

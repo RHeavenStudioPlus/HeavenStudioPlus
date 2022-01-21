@@ -100,7 +100,7 @@ namespace RhythmHeavenMania.Games.Spaceball
             }
 
             if (!canHit)
-                Jukebox.PlayOneShotGame("spaceball/swing", false);
+                Jukebox.PlayOneShotGame("spaceball/swing");
 
             anim.Play("Swing", 0, 0);
         }

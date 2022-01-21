@@ -12,34 +12,34 @@ namespace RhythmHeavenMania
 {
     public class GameManager : MonoBehaviour
     {
-        public static GameManager instance;
-        private EventCaller eventCaller;
-
+        [Header("Lists")]
         public Beatmap Beatmap = new Beatmap();
         [HideInInspector] public List<Beatmap.Entity> playerEntities = new List<Beatmap.Entity>();
+        private List<GameObject> preloadedGames = new List<GameObject>();
+        public List<GameObject> SoundObjects = new List<GameObject>();
 
-        public int currentEvent, currentPlayerEvent;
 
+        [Header("Components")]
         public TextAsset txt;
-
-        public float startOffset;
-
         public Camera GameCamera, CursorCam;
         public CircleCursor CircleCursor;
-
-        [Header("Games")]
-        Coroutine currentGameSwitchIE;
-        public string currentGame;
-
-        public float startBeat;
-
-        private GameObject currentGameO;
-
-        private List<GameObject> preloadedGames = new List<GameObject>();
-
         [HideInInspector] public GameObject GamesHolder;
 
+
+        [Header("Games")]
+        public string currentGame;
+        Coroutine currentGameSwitchIE;
+
+
+        [Header("Properties")]
+        public int currentEvent, currentPlayerEvent;
+        public float startOffset;
         public bool playOnStart;
+        public float startBeat;
+        private GameObject currentGameO;
+
+        public static GameManager instance { get; private set; }
+        private EventCaller eventCaller;
 
         private void Awake()
         {
@@ -137,6 +137,8 @@ namespace RhythmHeavenMania
             {
                 SetCurrentEventToClosest(beat);
             }
+
+            for (int i = 0; i < SoundObjects.Count; i++) Destroy(SoundObjects[i].gameObject);
         }
 
         public void Pause()
