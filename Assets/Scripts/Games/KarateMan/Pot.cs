@@ -116,6 +116,12 @@ namespace RhythmHeavenMania.Games.KarateMan
                 lastRot = Holder.transform.GetChild(0).eulerAngles.z;
 
                 StateCheck(normalizedBeat);
+
+                if (normalizedBeat > 1)
+                {
+                    Sprite.GetComponent<SpriteRenderer>().sortingOrder = -20;
+                    Shadow.GetComponent<SpriteRenderer>().sortingOrder = -30;
+                }
             }
 
             if (!isHit && !isThrown)

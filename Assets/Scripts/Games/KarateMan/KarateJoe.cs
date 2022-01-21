@@ -65,6 +65,10 @@ namespace RhythmHeavenMania.Games.KarateMan
                         comboPotIndex++;
                         Jukebox.PlayOneShotGame("karateman/comboHit1");
                     }
+                    else
+                    {
+                        Jukebox.PlayOneShotGame("karateman/swingNoHit");
+                    }
                     comboIndex++;
                     anim.Play("PunchLeft", 0, 0);
                 }
@@ -76,6 +80,10 @@ namespace RhythmHeavenMania.Games.KarateMan
                         HitEffectF(currentComboPots[comboPotIndex].Holder.transform.localPosition);
                         comboPotIndex++;
                         Jukebox.PlayOneShotGame("karateman/comboHit1");
+                    }
+                    else
+                    {
+                        Jukebox.PlayOneShotGame("karateman/swingNoHit_Alt");
                     }
                     comboIndex++;
                     anim.Play("PunchRight", 0, 0);
@@ -100,6 +108,10 @@ namespace RhythmHeavenMania.Games.KarateMan
                         HitEffectF(currentComboPots[comboPotIndex].Holder.transform.localPosition);
                         comboPotIndex++;
                         Jukebox.PlayOneShotGame("karateman/comboHit3");
+                    }
+                    else
+                    {
+                        Jukebox.PlayOneShotGame("karateman/comboMiss");
                     }
                     comboIndex++;
                     anim.Play("ComboKick", 0, 0);
@@ -128,7 +140,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                     else
                     {
                         // fail anim
-                        anim.Play("Idle");
+                        anim.Play("ComboMiss");
                         ResetCombo();
                     }
                 }

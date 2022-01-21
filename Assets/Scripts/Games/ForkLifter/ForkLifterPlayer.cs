@@ -254,7 +254,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
             }
 
             if (!canHit)
-                Jukebox.PlayOneShotGame("forkLifter/stabnohit", false);
+                Jukebox.PlayOneShotGame("forkLifter/stabnohit");
 
             anim.Play("Player_Stab", 0, 0);
         }

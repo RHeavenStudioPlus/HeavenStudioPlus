@@ -95,6 +95,7 @@ namespace RhythmHeavenMania
                     new GameAction("combo",         delegate { KarateMan.instance.Combo(eventCaller.currentBeat); }, 4f, true),
                     new GameAction("bgfxon",        delegate { KarateMan.instance.BGFXOn(); } ),
                     new GameAction("bgfxoff",       delegate { KarateMan.instance.BGFXOff(); }),
+                    new GameAction("hit3",          delegate { KarateMan.instance.Hit3(eventCaller.currentBeat); }),
                 })
             };
         }

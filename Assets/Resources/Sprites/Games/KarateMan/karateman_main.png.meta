@@ -176,6 +176,21 @@ TextureImporter:
   - first:
       213: 1035685740351643046
     second: karateman_fastfx_3
+  - first:
+      213: 6306676755524619996
+    second: karateman_combo_miss_0
+  - first:
+      213: -4526798831361396534
+    second: karateman_combo_miss_1
+  - first:
+      213: 1589152150856737785
+    second: karateman_combo_miss_2
+  - first:
+      213: -3126141815255192416
+    second: karateman_arm_9
+  - first:
+      213: 8740903891819718386
+    second: karateman_hand
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -1512,7 +1527,7 @@ TextureImporter:
         width: 478
         height: 621
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1520,6 +1535,111 @@ TextureImporter:
       bones: []
       spriteID: 6add89c81be7f5e00800000000000000
       internalID: 1035685740351643046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_combo_miss_0
+      rect:
+        serializedVersion: 2
+        x: 1436
+        y: 1976
+        width: 713
+        height: 517
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cde024e4811d58750800000000000000
+      internalID: 6306676755524619996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_combo_miss_1
+      rect:
+        serializedVersion: 2
+        x: 2163
+        y: 1976
+        width: 515
+        height: 517
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac0fc0762749d21c0800000000000000
+      internalID: -4526798831361396534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_combo_miss_2
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1420
+        width: 491
+        height: 552
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f32dd5267dcd0610800000000000000
+      internalID: 1589152150856737785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_arm_9
+      rect:
+        serializedVersion: 2
+        x: 2736
+        y: 3191
+        width: 205
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ac28300596bd94d0800000000000000
+      internalID: -3126141815255192416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_hand
+      rect:
+        serializedVersion: 2
+        x: 2464
+        y: 3191
+        width: 268
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f66ebf37cded4970800000000000000
+      internalID: 8740903891819718386
       vertices: []
       indices: 
       edges: []

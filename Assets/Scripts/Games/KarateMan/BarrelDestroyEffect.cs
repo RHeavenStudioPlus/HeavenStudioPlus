@@ -31,6 +31,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             // rb2d.interpolation = RigidbodyInterpolation2D.Interpolate;
 
             float yRange = 0;
+            float xRange = Random.Range(500, 800);
 
             switch (index)
             {
@@ -59,10 +60,14 @@ namespace RhythmHeavenMania.Games.KarateMan
                     yRange = Random.Range(500, 1600);
                     break;
             }
-            if (combo) yRange = Random.Range(800, 1600);
+            if (combo)
+            {
+                yRange = Random.Range(800, 1600);
+                xRange = Random.Range(200, 500);
+            }
 
             rb2d.AddForce(Vector3.up * yRange);
-            rb2d.AddForce(Vector3.right * Random.Range(500, 800));
+            rb2d.AddForce(Vector3.right * xRange);
             // this.gameObject.AddComponent<Rotate>().rotateSpeed = Random.Range(60, 450);
 
             col = this.gameObject.AddComponent<BoxCollider2D>();
