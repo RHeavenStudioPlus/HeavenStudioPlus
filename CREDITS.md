@@ -27,6 +27,10 @@
 * Newtonsoft.Json
 * DOTween
 * [Starpelly (The library)](https://github.com/Starpelly/Starpelly)
+* Some assets used with permission from:
+  * [Rhythm Heaven Remix Editor (RHRE)](https://github.com/chrislo27/RhythmHeavenRemixEditor)
+  * [RHRE SFX Database](https://github.com/chrislo27/RHRE-database)
+  * [Polyrhythm Mania](https://github.com/chrislo27/PolyrhythmMania)
 
 ## Legal Crap
 This software is licensed under GNU GPL-3.0. [LICENSE.MD](https://github.com/RhythmHeavenDevelopment/RhythmHeavenMania/blob/master/LICENSE.md)
