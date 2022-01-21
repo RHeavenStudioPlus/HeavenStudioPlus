@@ -92,6 +92,15 @@ namespace RhythmHeavenMania.Editor
             Debug.Log(json);
         }
 
+        public void DebugSave()
+        {
+            // temp
+            string path = UnityEditor.AssetDatabase.GetAssetPath(GameManager.instance.txt);
+            path = Application.dataPath.Remove(Application.dataPath.Length - 6, 6) + path;
+            System.IO.File.WriteAllText(path, JsonConvert.SerializeObject(GameManager.instance.Beatmap));
+            Debug.Log("Saved to " + path);
+        }
+
         public void SetGameEventTitle(string txt)
         {
             GameEventSelectorTitle.text = txt;

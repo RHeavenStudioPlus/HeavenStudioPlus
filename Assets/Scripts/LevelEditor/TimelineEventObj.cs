@@ -23,6 +23,8 @@ namespace RhythmHeavenMania.Editor
         [SerializeField] private Image selectedImage;
         [SerializeField] private RectTransform outline;
         [SerializeField] private RectTransform resizeGraphic;
+        [SerializeField] private RectTransform leftDrag;
+        [SerializeField] private RectTransform rightDrag;
 
         [Header("Properties")]
         private Beatmap.Entity entity;
@@ -34,6 +36,9 @@ namespace RhythmHeavenMania.Editor
         public bool resizable;
         public bool resizing;
         public bool moving;
+        private bool resizingLeft;
+        private bool resizingRight;
+        private bool inResizeRegion;
 
         [Header("Colors")]
         public Color NormalCol;
@@ -106,7 +111,7 @@ namespace RhythmHeavenMania.Editor
             {
                 if (Input.GetMouseButtonUp(0) && Timeline.instance.CheckIfMouseInTimeline())
                 {
-                    if (!mouseHovering && !moving && !BoxSelection.instance.selecting)
+                    if (Timeline.instance.eventObjs.FindAll(c => c.mouseHovering).Count == 0 && Timeline.instance.eventObjs.FindAll(c => c.moving).Count == 0 && !BoxSelection.instance.selecting && Timeline.instance.eventObjs.FindAll(c => c.resizing).Count == 0)
                     {
                         if (!Input.GetKey(KeyCode.LeftShift))
                         {
@@ -116,7 +121,8 @@ namespace RhythmHeavenMania.Editor
 
                     OnUp();
                 }
-                if (moving && selected)
+
+                if (Timeline.instance.eventObjs.FindAll(c => c.moving).Count > 0 && selected)
                 {
                     Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -129,7 +135,51 @@ namespace RhythmHeavenMania.Editor
                     lastPos = this.transform.localPosition;
                 }
             }
+            else if (resizingLeft)
+            {
+                SetPivot(new Vector2(1, rectTransform.pivot.y));
+                Vector2 sizeDelta = rectTransform.sizeDelta;
 
+                Vector2 mousePos;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, Camera.main, out mousePos);
+
+                sizeDelta = new Vector2(-mousePos.x + 0.15f, sizeDelta.y);
+                sizeDelta = new Vector2(Mathf.Clamp(sizeDelta.x, 0.25f, rectTransform.localPosition.x), sizeDelta.y);
+
+                rectTransform.sizeDelta = new Vector2(Mathp.Round2Nearest(sizeDelta.x, 0.25f), sizeDelta.y);
+                SetPivot(new Vector2(0, rectTransform.pivot.y));
+                OnComplete();
+            }
+            else if (resizingRight)
+            {
+                Vector2 sizeDelta = rectTransform.sizeDelta;
+
+                Vector2 mousePos;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, Camera.main, out mousePos);
+
+                sizeDelta = new Vector2(mousePos.x + 0.15f, sizeDelta.y);
+                sizeDelta = new Vector2(Mathf.Clamp(sizeDelta.x, 0.25f, Mathf.Infinity), sizeDelta.y);
+
+                rectTransform.sizeDelta = new Vector2(Mathp.Round2Nearest(sizeDelta.x, 0.25f), sizeDelta.y);
+                SetPivot(new Vector2(0, rectTransform.pivot.y));
+                OnComplete();
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                OnLeftUp();
+                OnRightUp();
+            }
+
+            if (resizing && selected || inResizeRegion && selected)
+            {
+                if (resizable)
+                Cursor.SetCursor(Resources.Load<Texture2D>("Cursors/horizontal_resize"), new Vector2(8, 8), CursorMode.Auto);
+            }
+            else if (Timeline.instance.eventObjs.FindAll(c => c.inResizeRegion).Count == 0 && Timeline.instance.eventObjs.FindAll(c => c.resizing).Count == 0)
+            {
+                Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+            }
         }
 
         #region ClickEvents
@@ -142,21 +192,28 @@ namespace RhythmHeavenMania.Editor
             }
             else
             {
-                Selections.instance.ClickSelect(this);
+                if (!selected)
+                {
+                    Selections.instance.ClickSelect(this);
+                }
             }
         }
 
         public void OnDown()
         {
-            if (!selected) return;
+            if (selected)
+            {
+                for (int i = 0; i < Timeline.instance.eventObjs.Count; i++)
+                {
+                    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    Timeline.instance.eventObjs[i].startPosX = mousePos.x - Timeline.instance.eventObjs[i].transform.position.x;
+                    Timeline.instance.eventObjs[i].startPosY = mousePos.y - Timeline.instance.eventObjs[i].transform.position.y;
+                }
 
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            startPosX = mousePos.x - this.transform.position.x;
-            startPosY = mousePos.y - this.transform.position.y;
+                moving = true;
 
-            moving = true;
-
-            OnComplete();
+                OnComplete();
+            }
         }
 
         public void OnUp()
@@ -185,68 +242,55 @@ namespace RhythmHeavenMania.Editor
 
         public void DragEnter()
         {
-            Cursor.SetCursor(Resources.Load<Texture2D>("Cursors/horizontal_resize"), new Vector2(8, 8), CursorMode.Auto);
+            inResizeRegion = true;
         }
 
         public void DragExit()
         {
-            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+            inResizeRegion = false;
         }
 
         public void OnLeftDown()
         {
-            SetPivot(new Vector2(1, rectTransform.pivot.y));
-            resizing = true;
-        }
-
-        public void DragLeft()
-        {
-            if (!resizing) return;
-
-            Vector2 sizeDelta = rectTransform.sizeDelta;
-
-            Vector2 mousePos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, Camera.main, out mousePos);
-
-            sizeDelta = new Vector2(-mousePos.x + 0.1f, sizeDelta.y);
-            sizeDelta = new Vector2(Mathf.Clamp(sizeDelta.x, 0.25f, rectTransform.localPosition.x), sizeDelta.y);
-
-            rectTransform.sizeDelta = new Vector2(Mathp.Round2Nearest(sizeDelta.x, 0.25f), sizeDelta.y);
-
-            OnComplete();
+            if (resizable && selected)
+            {
+                ResetResize();
+                resizing = true;
+                resizingLeft = true;
+            }
         }
 
         public void OnLeftUp()
         {
-            SetPivot(new Vector2(0, rectTransform.pivot.y));
-            resizing = false;
+            if (resizable && selected)
+            {
+                ResetResize();
+            }
         }
+
 
         public void OnRightDown()
         {
-            SetPivot(new Vector2(0, rectTransform.pivot.y));
-            resizing = true;
-        }
-
-        public void DragRight()
-        {
-            if (!resizing) return;
-
-            Vector2 sizeDelta = rectTransform.sizeDelta;
-
-            Vector2 mousePos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, Camera.main, out mousePos);
-
-            sizeDelta = new Vector2(mousePos.x, sizeDelta.y);
-            sizeDelta = new Vector2(Mathf.Clamp(sizeDelta.x, 0.25f, Mathf.Infinity), sizeDelta.y);
-
-            rectTransform.sizeDelta = new Vector2(Mathp.Round2Nearest(sizeDelta.x, 0.25f), sizeDelta.y);
-
-            OnComplete();
+            if (resizable && selected)
+            {
+                ResetResize();
+                resizing = true;
+                resizingRight = true;
+            }
         }
 
         public void OnRightUp()
         {
+            if (resizable && selected)
+            {
+                ResetResize();
+            }
+        }
+
+        private void ResetResize()
+        {
+            resizingLeft = false;
+            resizingRight = false;
             resizing = false;
         }
 

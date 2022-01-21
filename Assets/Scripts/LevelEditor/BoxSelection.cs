@@ -128,7 +128,7 @@ namespace RhythmHeavenMania.Editor
         {
             int selected = 0;
 
-            if (!Input.GetKeyDown(KeyCode.LeftShift)) Selections.instance.DeselectAll();
+            // if (!Input.GetKeyDown(KeyCode.LeftShift)) Selections.instance.DeselectAll();
             for (int i = 0; i < GameManager.instance.Beatmap.entities.Count; i++)
             {
                 TimelineEventObj e = GameManager.instance.Beatmap.entities[i].eventObj;
