@@ -70,7 +70,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                         Jukebox.PlayOneShotGame("karateman/swingNoHit");
                     }
                     comboIndex++;
-                    anim.Play("PunchLeft", 0, 0);
+                    AnimPlay("PunchLeft");
                 }
                 else if (normalizedBeat >= 1.25f && comboIndex < 2)
                 {
@@ -86,7 +86,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                         Jukebox.PlayOneShotGame("karateman/swingNoHit_Alt");
                     }
                     comboIndex++;
-                    anim.Play("PunchRight", 0, 0);
+                    AnimPlay("PunchRight");
                 }
                 else if (normalizedBeat >= 1.5f && comboIndex < 3)
                 {
@@ -98,7 +98,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                         Jukebox.PlayOneShotGame("karateman/comboHit2");
                     }
                     comboIndex++;
-                    anim.Play("ComboCrouch", 0, 0);
+                    AnimPlay("ComboCrouch");
                 }
                 else if (normalizedBeat >= 1.75f && comboIndex < 4)
                 {
@@ -114,7 +114,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                         Jukebox.PlayOneShotGame("karateman/comboMiss");
                     }
                     comboIndex++;
-                    anim.Play("ComboKick", 0, 0);
+                    AnimPlay("ComboKick");
                 }
                 else if (normalizedBeat >= 2f && comboIndex < 5)
                 {
@@ -126,7 +126,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                         Jukebox.PlayOneShotGame("karateman/comboHit3");
                     }
                     comboIndex++;
-                    anim.Play("ComboCrouchPunch", 0, 0);
+                    AnimPlay("ComboCrouchPunch");
                 }
                 else if (normalizedBeat >= 2.05f)
                 {
@@ -140,7 +140,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                     else
                     {
                         // fail anim
-                        anim.Play("ComboMiss");
+                        AnimPlay("ComboMiss");
                         ResetCombo();
                     }
                 }
@@ -159,7 +159,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                 {
                     if (kickC != null) StopCoroutine(kickC);
                     hitBarrel = false;
-                    anim.Play("Kick", 0, 0);
+                    AnimPlay("Kick");
                 }
 
                 if (Conductor.instance.songPositionInBeats > barrelBeat + 3)
@@ -167,7 +167,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                     if (kickC != null) StopCoroutine(kickC);
                     hitBarrel = false;
                     // should be inebetween for this
-                    anim.Play("Idle", 0, 0);
+                    AnimPlay("Idle");
                 }
             }
             else
@@ -244,7 +244,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             barrelBeat = Conductor.instance.songPositionInBeats;
             hitBarrel = true;
             yield return new WaitForSeconds(0.17f);
-            anim.Play("KickPrepare", 0, 0);
+            AnimPlay("KickPrepare");
         }
 
         private void Swing()
@@ -313,9 +313,9 @@ namespace RhythmHeavenMania.Games.KarateMan
                 Jukebox.PlayOneShotGame("karateman/swingNoHit");
 
             if (punchLeft)
-                anim.Play("PunchLeft", 0, 0);
+                AnimPlay("PunchLeft");
             else
-                anim.Play("PunchRight", 0, 0);
+                AnimPlay("PunchRight");
         }
 
         public void HitEffectF(Vector3 pos)
@@ -325,6 +325,12 @@ namespace RhythmHeavenMania.Games.KarateMan
             hit.transform.localPosition = pos;
             hit.SetActive(true);
             Destroy(hit, 0.06f);
+        }
+
+        public void AnimPlay(string name)
+        {
+            anim.Play(name, 0, 0);
+            anim.speed = 1;
         }
 
         private void BarrelDestroy(Pot p, bool combo)

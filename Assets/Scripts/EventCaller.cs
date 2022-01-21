@@ -52,22 +52,6 @@ namespace RhythmHeavenMania
             {
                 minigames[minigames.FindIndex(c => c.name == minigamesInBeatmap[i].name)].holder = Resources.Load<GameObject>($"Games/{minigamesInBeatmap[i].name}");
             }
-
-            for (int i = 0; i < GameManager.instance.Beatmap.entities.Count; i++)
-            {
-                string[] e = GameManager.instance.Beatmap.entities[i].datamodel.Split('/');
-                try
-                {
-                    if (minigames.Find(c => c.name == e[0]).actions.Find(c => c.actionName == e[1]).playerAction == true && e[0] != "gameManager")
-                    {
-                        GameManager.instance.playerEntities.Add(GameManager.instance.Beatmap.entities[i]);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Debug.LogWarning(GameManager.instance.Beatmap.entities[i].datamodel + " " + ex);
-                }
-            }
         }
 
         private void Update()
@@ -91,9 +75,6 @@ namespace RhythmHeavenMania
 
                 Minigames.GameAction action = game.actions.Find(c => c.actionName == details[1]);
                 action.function.Invoke();
-
-                if (action.playerAction == true)
-                    GameManager.instance.currentPlayerEvent++;
 
             }
             catch (Exception ex)

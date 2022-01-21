@@ -51,7 +51,7 @@ namespace RhythmHeavenMania.Editor
                 var entity = GameManager.instance.Beatmap.entities[i];
                 var e = GameManager.instance.Beatmap.entities[i];
 
-                AddEventObject(e.datamodel, false, new Vector3(e.beat, Mathp.Round2Nearest(Random.Range(0, -LayersRect.rect.height), LayerHeight())), i);
+                AddEventObject(e.datamodel, false, new Vector3(e.beat, -e.track * LayerHeight()), i);
             }
 
             TimelineSlider.GetChild(0).GetComponent<Image>().color = EditorTheme.theme.properties.BeatMarkerCol.Hex2RGB();
@@ -322,7 +322,7 @@ namespace RhythmHeavenMania.Editor
                 else
                 {
                     eventObj.resizable = true;
-                    if (gameAction.defaultLength != GameManager.instance.Beatmap.entities[entityId].length)
+                    if (gameAction.defaultLength != GameManager.instance.Beatmap.entities[entityId].length && dragNDrop == false)
                     {
                         g.GetComponent<RectTransform>().sizeDelta = new Vector2(GameManager.instance.Beatmap.entities[entityId].length, LayerHeight());
                     }

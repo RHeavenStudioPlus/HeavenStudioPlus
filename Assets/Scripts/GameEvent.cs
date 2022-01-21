@@ -1,0 +1,9 @@
+namespace RhythmHeavenMania
+{
+    public class GameEvent
+    {
+        public float length;
+        public float startBeat;
+        public float lastReportedBeat;
+    }
+}
