@@ -51,7 +51,7 @@ namespace RhythmHeavenMania.Editor
                 var entity = GameManager.instance.Beatmap.entities[i];
                 var e = GameManager.instance.Beatmap.entities[i];
 
-                AddEventObject(e.datamodel, false, new Vector3(e.beat, -e.track * LayerHeight()), i);
+                AddEventObject(e.datamodel, false, new Vector3(e.beat, -e.track * LayerHeight()), e, false, Starpelly.Random.Strings.RandomString(Starpelly.Enums.Strings.StringType.Alphanumeric, 128));
             }
 
             TimelineSlider.GetChild(0).GetComponent<Image>().color = EditorTheme.theme.properties.BeatMarkerCol.Hex2RGB();
@@ -296,7 +296,7 @@ namespace RhythmHeavenMania.Editor
 
         #region Functions
 
-        public void AddEventObject(string eventName, bool dragNDrop = false, Vector3 pos = new Vector3(), int entityId = 0)
+        public TimelineEventObj AddEventObject(string eventName, bool dragNDrop = false, Vector3 pos = new Vector3(), Beatmap.Entity entity = null, bool addEvent = false, string eventId = "")
         {
             GameObject g = Instantiate(TimelineEventObjRef.gameObject, TimelineEventObjRef.parent);
             g.transform.localPosition = pos;
@@ -322,9 +322,9 @@ namespace RhythmHeavenMania.Editor
                 else
                 {
                     eventObj.resizable = true;
-                    if (gameAction.defaultLength != GameManager.instance.Beatmap.entities[entityId].length && dragNDrop == false)
+                    if (gameAction.defaultLength != entity.length && dragNDrop == false)
                     {
-                        g.GetComponent<RectTransform>().sizeDelta = new Vector2(GameManager.instance.Beatmap.entities[entityId].length, LayerHeight());
+                        g.GetComponent<RectTransform>().sizeDelta = new Vector2(entity.length, LayerHeight());
                     }
                     else
                     {
@@ -340,32 +340,46 @@ namespace RhythmHeavenMania.Editor
                 var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 g.transform.position = new Vector3(mousePos.x, mousePos.y, 0);
 
-                Beatmap.Entity en = new Beatmap.Entity();
-                en.datamodel = eventName;
-                en.eventObj = eventObj;
-
-                GameManager.instance.Beatmap.entities.Add(en);
-                GameManager.instance.SortEventsList();
-
                 Selections.instance.ClickSelect(eventObj);
                 eventObj.moving = true;
             }
             else
             {
-                var entity = GameManager.instance.Beatmap.entities[entityId];
-
                 entity.eventObj = g.GetComponent<TimelineEventObj>();
                 entity.track = (int)(g.transform.localPosition.y / LayerHeight() * -1);
             }
 
+            if (addEvent)
+            {
+                if (entity == null)
+                {
+                    Beatmap.Entity en = new Beatmap.Entity();
+                    en.datamodel = eventName;
+                    en.eventObj = eventObj;
+
+                    GameManager.instance.Beatmap.entities.Add(en);
+                    GameManager.instance.SortEventsList();
+                }
+                else
+                {
+                    GameManager.instance.Beatmap.entities.Add(entity);
+                    GameManager.instance.SortEventsList();
+                }
+            }
+
             Editor.EventObjs.Add(eventObj);
             eventObjs.Add(eventObj);
+
+            eventObj.eventObjID = eventId;
+
+            return eventObj;
         }
 
         public void DestroyEventObject(Beatmap.Entity entity)
         {
             Editor.EventObjs.Remove(entity.eventObj);
             GameManager.instance.Beatmap.entities.Remove(entity);
+            Timeline.instance.eventObjs.Remove(entity.eventObj);
 
             Destroy(entity.eventObj.gameObject);
             GameManager.instance.SortEventsList();

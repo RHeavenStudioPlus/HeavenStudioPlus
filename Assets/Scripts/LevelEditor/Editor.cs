@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 using Newtonsoft.Json;
 using TMPro;
+using Starpelly;
 
 namespace RhythmHeavenMania.Editor
 {
@@ -29,6 +30,8 @@ namespace RhythmHeavenMania.Editor
         [SerializeField] private Button NewBTN;
         [SerializeField] private Button OpenBTN;
         [SerializeField] private Button SaveBTN;
+        [SerializeField] private Button UndoBTN;
+        [SerializeField] private Button RedoBTN;
 
         public static List<TimelineEventObj> EventObjs = new List<TimelineEventObj>();
 
@@ -60,6 +63,8 @@ namespace RhythmHeavenMania.Editor
             Tooltip.AddTooltip(NewBTN.gameObject, "New");
             Tooltip.AddTooltip(OpenBTN.gameObject, "Open");
             Tooltip.AddTooltip(SaveBTN.gameObject, "Save");
+            Tooltip.AddTooltip(UndoBTN.gameObject, "Undo");
+            Tooltip.AddTooltip(RedoBTN.gameObject, "Redo");
         }
 
         public void Update()
@@ -77,6 +82,40 @@ namespace RhythmHeavenMania.Editor
                 GetComponent<Selector>().enabled = true;
                 GetComponent<BoxSelection>().enabled = true;
             }*/
+
+            if (Input.GetKeyDown(KeyCode.Delete))
+            {
+                List<TimelineEventObj> ev = new List<TimelineEventObj>();
+                for (int i = 0; i < Selections.instance.eventsSelected.Count; i++) ev.Add(Selections.instance.eventsSelected[i]);
+                CommandManager.instance.Execute(new Commands.Deletion(ev));
+            }
+
+            if (CommandManager.instance.canUndo())
+                UndoBTN.transform.GetChild(0).GetComponent<Image>().color = "BE72FF".Hex2RGB();
+            else
+                UndoBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+
+            if (CommandManager.instance.canRedo())
+                RedoBTN.transform.GetChild(0).GetComponent<Image>().color = "7299FF".Hex2RGB();
+            else
+                RedoBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+
+            if (Input.GetMouseButtonUp(0) && Timeline.instance.CheckIfMouseInTimeline())
+            {
+                List<TimelineEventObj> selectedEvents = Timeline.instance.eventObjs.FindAll(c => c.selected == true && c.eligibleToMove == true);
+
+                if (selectedEvents.Count > 0)
+                {
+                    List<TimelineEventObj> result = new List<TimelineEventObj>();
+
+                    for (int i = 0; i < selectedEvents.Count; i++)
+                    {
+                        result.Add(selectedEvents[i]);
+                        selectedEvents[i].OnUp();
+                    }
+                    CommandManager.instance.Execute(new Commands.Move(result));
+                }
+            }
         }
 
         public static Sprite GameIcon(string name)

@@ -14,6 +14,7 @@ namespace RhythmHeavenMania.Editor
         private float startPosY;
 
         private Vector3 lastPos;
+        public Vector2 lastPos_;
         private RectTransform rectTransform;
 
         [Header("Components")]
@@ -27,9 +28,9 @@ namespace RhythmHeavenMania.Editor
         [SerializeField] private RectTransform rightDrag;
 
         [Header("Properties")]
-        private Beatmap.Entity entity;
+        public Beatmap.Entity entity;
         public float length;
-        private bool eligibleToMove = false;
+        public bool eligibleToMove = false;
         private bool lastVisible;
         public bool selected;
         public bool mouseHovering;
@@ -39,18 +40,24 @@ namespace RhythmHeavenMania.Editor
         private bool resizingLeft;
         private bool resizingRight;
         private bool inResizeRegion;
+        public Vector2 lastMovePos;
+        public string eventObjID;
 
         [Header("Colors")]
         public Color NormalCol;
 
         private void Start()
         {
+            lastPos_ = transform.localPosition;
+
             rectTransform = GetComponent<RectTransform>();
 
             if (!resizable)
             {
                 Destroy(resizeGraphic.gameObject);
             }
+
+            lastMovePos = transform.localPosition;
         }
 
         private void Update()
@@ -89,8 +96,8 @@ namespace RhythmHeavenMania.Editor
             {
                 if (Input.GetKeyDown(KeyCode.Delete))
                 {
-                    Selections.instance.Deselect(this);
-                    Timeline.instance.DestroyEventObject(entity);
+                    /*Selections.instance.Deselect(this);
+                    Timeline.instance.DestroyEventObject(entity);*/
                 }
 
                 selectedImage.gameObject.SetActive(true);
@@ -119,18 +126,22 @@ namespace RhythmHeavenMania.Editor
                         }
                     }
 
-                    OnUp();
+                    // OnUp();
                 }
 
                 if (Timeline.instance.eventObjs.FindAll(c => c.moving).Count > 0 && selected)
                 {
                     Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
+                    // lastPos_ = transform.localPosition;
+
                     this.transform.position = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY - 0.40f, 0);
                     this.transform.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(this.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(this.transform.localPosition.y));
 
                     if (lastPos != transform.localPosition)
+                    {
                         OnMove();
+                    }
 
                     lastPos = this.transform.localPosition;
                 }
@@ -148,7 +159,7 @@ namespace RhythmHeavenMania.Editor
 
                 rectTransform.sizeDelta = new Vector2(Mathp.Round2Nearest(sizeDelta.x, 0.25f), sizeDelta.y);
                 SetPivot(new Vector2(0, rectTransform.pivot.y));
-                OnComplete();
+                OnComplete(false);
             }
             else if (resizingRight)
             {
@@ -162,7 +173,7 @@ namespace RhythmHeavenMania.Editor
 
                 rectTransform.sizeDelta = new Vector2(Mathp.Round2Nearest(sizeDelta.x, 0.25f), sizeDelta.y);
                 SetPivot(new Vector2(0, rectTransform.pivot.y));
-                OnComplete();
+                OnComplete(false);
             }
 
             if (Input.GetMouseButtonUp(0))
@@ -203,6 +214,8 @@ namespace RhythmHeavenMania.Editor
         {
             if (selected)
             {
+                lastPos_ = transform.localPosition;
+
                 for (int i = 0; i < Timeline.instance.eventObjs.Count; i++)
                 {
                     Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -211,21 +224,25 @@ namespace RhythmHeavenMania.Editor
                 }
 
                 moving = true;
-
-                OnComplete();
+                // lastMovePos = transform.localPosition;
+                // OnComplete();
             }
         }
 
         public void OnUp()
         {
+            // lastPos_ = this.lastPos_;
+            // previousPos = this.transform.localPosition;
+
             if (selected)
             {
-                moving = false;
-
                 if (eligibleToMove)
                 {
-                    OnComplete();
+
+                    OnComplete(true);
                 }
+
+                moving = false;
 
                 Cancel();
             }
@@ -320,10 +337,10 @@ namespace RhythmHeavenMania.Editor
                 eligibleToMove = true;
             }
 
-            OnComplete();
+            OnComplete(true);
         }
 
-        private void OnComplete()
+        private void OnComplete(bool move)
         {
             entity.length = rectTransform.sizeDelta.x;
             entity.beat = this.transform.localPosition.x;
