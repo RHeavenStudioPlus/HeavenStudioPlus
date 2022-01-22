@@ -161,11 +161,11 @@ namespace RhythmHeavenMania.Editor
                 dragTimes++;
                 if (currentEventIndex == 0)
                 {
-                    Timeline.instance.AddEventObject($"gameManager/switchGame/{mg.name}", true, new Vector3(0, 0));
+                    Timeline.instance.AddEventObject($"gameManager/switchGame/{mg.name}", true, new Vector3(0, 0), null, true);
                 }
                 else
                 {
-                    Timeline.instance.AddEventObject(mg.name + "/" + mg.actions[currentEventIndex - 1].actionName, true, new Vector3(0, 0));
+                    Timeline.instance.AddEventObject(mg.name + "/" + mg.actions[currentEventIndex - 1].actionName, true, new Vector3(0, 0), null, true);
                 }
             }
         }

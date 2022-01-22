@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace RhythmHeavenMania.Editor
 {
@@ -13,11 +14,6 @@ namespace RhythmHeavenMania.Editor
         private void Awake()
         {
             instance = this;
-        }
-
-        private void Update()
-        {
-
         }
     }
 }

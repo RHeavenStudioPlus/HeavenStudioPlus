@@ -1,0 +1,75 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+using RhythmHeavenMania.Editor.Commands;
+
+namespace RhythmHeavenMania.Editor
+{
+    public class CommandManager : MonoBehaviour
+    {
+        private Stack<IAction> historyStack = new Stack<IAction>();
+        private Stack<IAction> redoHistoryStack = new Stack<IAction>();
+
+        int maxItems = 128;
+
+        public bool canUndo()
+        {
+            return historyStack.Count > 0;
+        }
+        public bool canRedo()
+        {
+            return redoHistoryStack.Count > 0;
+        }
+
+        public static CommandManager instance { get; private set; }
+
+        private void Awake()
+        {
+            instance = this;
+        }
+
+        public void Execute(IAction action)
+        {
+            action.Execute();
+            historyStack.Push(action);
+            redoHistoryStack.Clear();
+        }
+
+        public void Undo()
+        {
+            if (!canUndo()) return;
+
+            if (historyStack.Count > 0)
+            {
+                redoHistoryStack.Push(historyStack.Peek());
+                historyStack.Pop().Undo();
+            }
+        }
+
+        public void Redo()
+        {
+            if (!canRedo()) return;
+
+            if (redoHistoryStack.Count > 0)
+            {
+                historyStack.Push(redoHistoryStack.Peek());
+                redoHistoryStack.Pop().Redo();
+            }
+        }
+
+        // this is here as to not hog up memory, "max undos" basically
+        private void EnsureCapacity()
+        {
+            if (maxItems > 0)
+            {
+            }
+        }
+
+        private void Clear()
+        {
+            historyStack.Clear();
+            redoHistoryStack.Clear();
+        }
+    }
+}
