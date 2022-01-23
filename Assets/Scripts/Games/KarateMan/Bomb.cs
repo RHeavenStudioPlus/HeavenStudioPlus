@@ -35,6 +35,8 @@ namespace RhythmHeavenMania.Games.KarateMan
 
             startBeat = Conductor.instance.songPositionInBeats;
             eligible = true;
+
+            PlayerActionInit(this.gameObject, startBeat);
         }
 
         public override void OnAce()

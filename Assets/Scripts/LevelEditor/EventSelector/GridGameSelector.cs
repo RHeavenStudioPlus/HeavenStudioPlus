@@ -160,7 +160,7 @@ namespace RhythmHeavenMania.Editor
             {
                 dragTimes++;
 
-                TimelineEventObj eventObj = new TimelineEventObj();
+                TimelineEventObj eventObj;
 
                 if (currentEventIndex == 0)
                 {

@@ -78,6 +78,8 @@ namespace RhythmHeavenMania.Games.KarateMan
                 // PlayerActionInit(this.gameObject, createBeat, KarateMan.instance.EligibleHits);
             }*/
 
+            PlayerActionInit(this.gameObject, createBeat);
+
             Sprite.GetComponent<SpriteRenderer>().enabled = false;
         }
 

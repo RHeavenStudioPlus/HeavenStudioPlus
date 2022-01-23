@@ -52,11 +52,12 @@ namespace RhythmHeavenMania.Games.Spaceball
         private void Start()
         {
             allCameraEvents = EventCaller.GetAllInGameManagerList("spaceball", new string[] { "cameraZoom" });
+            GameManager.instance.GameCamera.transform.localPosition = new Vector3(0, 0, -10);
         }
 
         private void Update()
         {
-            try
+            /*try
             {
                 var allPlayerActions = EventCaller.GetAllPlayerEntities("spaceball");
                 int currentPlayerEvent = GameManager.instance.currentPlayerEvent - EventCaller.GetAllPlayerEntitiesExceptBeforeBeat("spaceball", Conductor.instance.songPositionInBeats).Count;
@@ -100,7 +101,7 @@ namespace RhythmHeavenMania.Games.Spaceball
             catch (System.Exception ex)
             {
                 // this technically isn't game breaking so oh well
-            }
+            }*/
         }
 
         private void UpdateCameraZoom()

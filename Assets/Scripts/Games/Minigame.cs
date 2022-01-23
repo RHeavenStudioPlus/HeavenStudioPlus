@@ -6,7 +6,7 @@ namespace RhythmHeavenMania.Games
 {
     public class Minigame : MonoBehaviour
     {
-        public static float earlyTime = 0.77f, perfectTime = 0.89f, lateTime = 1.09f, endTime = 1.15f;
+        public static float earlyTime = 0.84f, perfectTime = 0.91f, lateTime = 1.09f, endTime = 1.15f;
         public List<Minigame.Eligible> EligibleHits = new List<Minigame.Eligible>();
 
         [System.Serializable]

@@ -43,7 +43,7 @@ namespace RhythmHeavenMania.Games.Spaceball
 
             if (PlayerInput.Pressed())
             {
-                Swing();
+                Swing(null);
             }
         }
 
@@ -53,55 +53,16 @@ namespace RhythmHeavenMania.Games.Spaceball
             anim.Play("Idle", 0, 0);
         }
 
-        public void Swing()
+        public void Swing(SpaceballBall b)
         {
-            var EligibleHits = Spaceball.instance.EligibleHits;
-            bool canHit = (Spaceball.instance.EligibleHits.Count > 0) && (currentHitInList < Spaceball.instance.EligibleHits.Count);
-
-            int events = Spaceball.instance.MultipleEventsAtOnce();
-
-            for (int eventI = 0; eventI < events; eventI++)
+            if (b == null)
             {
-                if (canHit)
-                {
-                    SpaceballBall ball = EligibleHits[currentHitInList].gameObject.GetComponent<SpaceballBall>();
-
-                    if (EligibleHits[currentHitInList].perfect)
-                    {
-                        ball.hit = true;
-                        ball.hitBeat = Conductor.instance.songPositionInBeats;
-                        ball.hitPos = ball.Holder.transform.localPosition;
-                        ball.hitRot = ball.Holder.transform.eulerAngles.z;
-
-                        Jukebox.PlayOneShotGame("spaceball/hit");
-
-                        ball.randomEndPosX = Random.Range(40f, 55f);
-
-                        ball.anim.enabled = false;
-                    }
-                    else if (EligibleHits[currentHitInList].late || EligibleHits[currentHitInList].early)
-                    {
-                        ball.Holder.transform.GetChild(0).gameObject.AddComponent<Rotate>().rotateSpeed = -55;
-
-                        ball.enabled = false;
-                        ball.anim.enabled = false;
-
-                        Rigidbody2D rb = ball.gameObject.AddComponent<Rigidbody2D>();
-                        rb.bodyType = RigidbodyType2D.Dynamic;
-                        rb.AddForce(transform.up * 1100);
-                        rb.AddForce(transform.right * 400);
-                        rb.gravityScale = 9;
-
-                        Jukebox.PlayOneShot("miss");
-                    }
-
-                    ball.RemoveObject(currentHitInList);
-                }
-            }
-
-            if (!canHit)
                 Jukebox.PlayOneShotGame("spaceball/swing");
+            }
+            else
+            {
 
+            }
             anim.Play("Swing", 0, 0);
         }
 

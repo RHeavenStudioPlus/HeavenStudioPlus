@@ -28,15 +28,15 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
         private int currentHitInList = 0;
 
-        private int currentEarlyPeasOnFork;
-        private int currentPerfectPeasOnFork;
-        private int currentLatePeasOnFork;
+        public int currentEarlyPeasOnFork;
+        public int currentPerfectPeasOnFork;
+        public int currentLatePeasOnFork;
 
         private bool isEating = false;
 
         // Burger shit
 
-        private bool topbun, middleburger, bottombun;
+        public bool topbun, middleburger, bottombun;
 
         // -----------
 
@@ -54,7 +54,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
         {
             if (PlayerInput.Pressed())
             {
-                Stab();
+                Stab(null);
             }
 
             if (ForkLifter.instance.EligibleHits.Count == 0)
@@ -116,10 +116,10 @@ namespace RhythmHeavenMania.Games.ForkLifter
             topbun = false; middleburger = false; bottombun = false;
         }
 
-        public void Stab()
+        public void Stab(Pea p)
         {
             if (isEating) return;
-            var EligibleHits = ForkLifter.instance.EligibleHits;
+            /*var EligibleHits = ForkLifter.instance.EligibleHits;
             bool canHit = (ForkLifter.instance.EligibleHits.Count > 0) && (currentHitInList < ForkLifter.instance.EligibleHits.Count);
 
             int events = ForkLifter.instance.MultipleEventsAtOnce();
@@ -251,15 +251,17 @@ namespace RhythmHeavenMania.Games.ForkLifter
                         RemovePea();
                     }
                 }
-            }
+            }*/
 
-            if (!canHit)
+            if (p == null)
+            {
                 Jukebox.PlayOneShotGame("forkLifter/stabnohit");
+            }
 
             anim.Play("Player_Stab", 0, 0);
         }
 
-        private void FastEffectHit(int type)
+        public void FastEffectHit(int type)
         {
             GameObject hitFX2o = new GameObject();
             hitFX2o.transform.localPosition = new Vector3(0.11f, -2.15f);
@@ -274,7 +276,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
             hfx2s.DOColor(new Color(1, 1, 1, 0), 0.07f).OnComplete(delegate { Destroy(hitFX2o); });
         }
 
-        private void HitFXMiss(Vector2 pos, Vector2 size)
+        public void HitFXMiss(Vector2 pos, Vector2 size)
         {
             GameObject hitFXo = new GameObject();
             hitFXo.transform.localPosition = new Vector3(pos.x, pos.y);
@@ -283,11 +285,6 @@ namespace RhythmHeavenMania.Games.ForkLifter
             hfxs.sprite = hitFXMiss;
             hfxs.sortingOrder = 100;
             hfxs.DOColor(new Color(1, 1, 1, 0), 0.05f).OnComplete(delegate { Destroy(hitFXo); });
-        }
-
-        private void RemovePea()
-        {
-            ForkLifter.instance.EligibleHits[currentHitInList].gameObject.GetComponent<Pea>().RemoveObject(currentHitInList, true);
         }
     }
 }

@@ -15,11 +15,14 @@ namespace RhythmHeavenMania.Games
 
         private int aceTimes;
 
-        public void PlayerActionInit(GameObject g, float createBeat, List<Minigame.Eligible> eligibleHitsList)
+        private bool autoPlayEnabledOnStart;
+
+        public void PlayerActionInit(GameObject g, float createBeat)
         {
             state.gameObject = g;
             state.createBeat = createBeat;
-            this.eligibleHitsList = eligibleHitsList;
+
+            autoPlayEnabledOnStart = GameManager.instance.autoplay;
         }
 
         private void CheckForAce(float normalizedBeat)
