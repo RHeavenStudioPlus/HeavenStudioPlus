@@ -159,14 +159,18 @@ namespace RhythmHeavenMania.Editor
             if (Timeline.instance.CheckIfMouseInTimeline() && dragTimes < 1)
             {
                 dragTimes++;
+
+                TimelineEventObj eventObj = new TimelineEventObj();
+
                 if (currentEventIndex == 0)
                 {
-                    Timeline.instance.AddEventObject($"gameManager/switchGame/{mg.name}", true, new Vector3(0, 0), null, true);
+                    eventObj = Timeline.instance.AddEventObject($"gameManager/switchGame/{mg.name}", true, new Vector3(0, 0), null, true, Timeline.RandomID());
                 }
                 else
                 {
-                    Timeline.instance.AddEventObject(mg.name + "/" + mg.actions[currentEventIndex - 1].actionName, true, new Vector3(0, 0), null, true);
+                    eventObj = Timeline.instance.AddEventObject(mg.name + "/" + mg.actions[currentEventIndex - 1].actionName, true, new Vector3(0, 0), null, true, Timeline.RandomID());
                 }
+                CommandManager.instance.Execute(new Commands.Place(eventObj));
             }
         }
 

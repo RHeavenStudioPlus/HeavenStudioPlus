@@ -4,22 +4,25 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: 5181778189044111492
-    second: perfect0
+    second: PerfectIcon_0
   - first:
       213: -159972075433952791
-    second: perfect1
+    second: PerfectIcon_1
   - first:
       213: -1354652295505547112
-    second: perfect2
+    second: PerfectIcon_2
   - first:
       213: 6240004448574861874
-    second: perfect3
+    second: PerfectIcon_3
   - first:
       213: -9052558874090446877
-    second: perfect4
+    second: PerfectIcon_4
   - first:
       213: 2642146640301145710
     second: GoForAPerfect
+  - first:
+      213: -4466103494465645228
+    second: PerfectIcon_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -109,15 +112,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: perfect0
+      name: PerfectIcon_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 225
-        width: 70
-        height: 70
+        x: 4
+        y: 146
+        width: 128
+        height: 138
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -130,15 +133,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: perfect1
+      name: PerfectIcon_1
       rect:
         serializedVersion: 2
-        x: 73
-        y: 225
-        width: 70
-        height: 70
+        x: 136
+        y: 146
+        width: 128
+        height: 138
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -151,15 +154,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: perfect2
+      name: PerfectIcon_2
       rect:
         serializedVersion: 2
-        x: 145
-        y: 225
-        width: 70
-        height: 70
+        x: 268
+        y: 146
+        width: 128
+        height: 138
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -172,15 +175,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: perfect3
+      name: PerfectIcon_3
       rect:
         serializedVersion: 2
-        x: 1
-        y: 153
-        width: 70
-        height: 70
+        x: 400
+        y: 146
+        width: 128
+        height: 138
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -193,34 +196,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: perfect4
+      name: PerfectIcon_4
       rect:
         serializedVersion: 2
-        x: 73
-        y: 153
-        width: 70
-        height: 70
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3ef5781aaa9de5280800000000000000
-      internalID: -9052558874090446877
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GoForAPerfect
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 353
-        width: 270
-        height: 53
+        x: 4
+        y: 4
+        width: 128
+        height: 138
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -228,8 +210,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e6e34a3ee5acaa420800000000000000
-      internalID: 2642146640301145710
+      spriteID: 3ef5781aaa9de5280800000000000000
+      internalID: -9052558874090446877
       vertices: []
       indices: 
       edges: []

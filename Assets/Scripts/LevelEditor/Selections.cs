@@ -30,6 +30,8 @@ namespace RhythmHeavenMania.Editor
         {
             DeselectAll();
             eventsSelected.Add(eventToAdd);
+
+            // CommandManager.instance.Execute(new Commands.Selection(new List<TimelineEventObj>() { eventToAdd } ));
         }
 
         public void ShiftClickSelect(TimelineEventObj eventToAdd)

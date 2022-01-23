@@ -13,6 +13,8 @@ namespace RhythmHeavenMania.Games
 
         public List<Minigame.Eligible> eligibleHitsList = new List<Minigame.Eligible>();
 
+        private int aceTimes;
+
         public void PlayerActionInit(GameObject g, float createBeat, List<Minigame.Eligible> eligibleHitsList)
         {
             state.gameObject = g;
@@ -20,10 +22,23 @@ namespace RhythmHeavenMania.Games
             this.eligibleHitsList = eligibleHitsList;
         }
 
+        private void CheckForAce(float normalizedBeat)
+        {
+            if (aceTimes == 0)
+            {
+                if (GameManager.instance.autoplay && normalizedBeat > 0.99f)
+                {
+                    OnAce();
+                    AceVisuals();
+                    aceTimes++;
+                }
+            }
+        }
+
         // could possibly add support for custom early, perfect, and end times if needed.
         public void StateCheck(float normalizedBeat)
         {
-            if (!isEligible) return;
+            CheckForAce(normalizedBeat);
             if (normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.PerfectTime() && lastState == 0)
             {
                 MakeEligible(true, false, false);
@@ -69,6 +84,9 @@ namespace RhythmHeavenMania.Games
 
         public void MakeInEligible()
         {
+            state.early = false;
+            state.perfect = false;
+            state.late = false;
             if (!inList) return;
 
             eligibleHitsList.Remove(state);
@@ -88,6 +106,7 @@ namespace RhythmHeavenMania.Games
         // No list
         public void StateCheckNoList(float normalizedBeat)
         {
+            CheckForAce(normalizedBeat);
             if (normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.PerfectTime() && lastState == 0)
             {
                 ModifyState(true, false, false);
@@ -108,6 +127,18 @@ namespace RhythmHeavenMania.Games
             else if (normalizedBeat < Minigame.EarlyTime() || normalizedBeat > Minigame.EndTime())
             {
                 // ineligible
+            }
+        }
+
+        public virtual void OnAce()
+        {
+        }
+
+        private void AceVisuals()
+        {
+            if (Editor.Timeline.instance != null)
+            {
+                Editor.Timeline.instance.AutoplayBTN.GetComponent<Animator>().Play("Ace", 0, 0);
             }
         }
 

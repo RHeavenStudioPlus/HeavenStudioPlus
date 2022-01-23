@@ -60,11 +60,11 @@ namespace RhythmHeavenMania.Editor
                 GameIcon_.name = EventCaller.instance.minigames[i].displayName;
             }
 
-            Tooltip.AddTooltip(NewBTN.gameObject, "New");
-            Tooltip.AddTooltip(OpenBTN.gameObject, "Open");
-            Tooltip.AddTooltip(SaveBTN.gameObject, "Save");
-            Tooltip.AddTooltip(UndoBTN.gameObject, "Undo");
-            Tooltip.AddTooltip(RedoBTN.gameObject, "Redo");
+            Tooltip.AddTooltip(NewBTN.gameObject, "New <color=#adadad>[Ctrl+N]</color>");
+            Tooltip.AddTooltip(OpenBTN.gameObject, "Open <color=#adadad>[Ctrl+O]</color>");
+            Tooltip.AddTooltip(SaveBTN.gameObject, "Save Project <color=#adadad>[Ctrl+S]</color>\nSave Project As <color=#adadad>[Ctrl+Alt+S]</color>");
+            Tooltip.AddTooltip(UndoBTN.gameObject, "Undo <color=#adadad>[Ctrl+Z]</color>");
+            Tooltip.AddTooltip(RedoBTN.gameObject, "Redo <color=#adadad>[Ctrl+Y or Ctrl+Shift+Z]</color>");
         }
 
         public void Update()
@@ -100,6 +100,21 @@ namespace RhythmHeavenMania.Editor
             else
                 RedoBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
 
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                if (Input.GetKeyDown(KeyCode.Z))
+                {
+                    if (Input.GetKey(KeyCode.LeftShift))
+                        CommandManager.instance.Redo();
+                    else
+                        CommandManager.instance.Undo();
+                }
+                else if (Input.GetKeyDown(KeyCode.Y))
+                {
+                    CommandManager.instance.Redo();
+                }
+            }
+
             if (Input.GetMouseButtonUp(0) && Timeline.instance.CheckIfMouseInTimeline())
             {
                 List<TimelineEventObj> selectedEvents = Timeline.instance.eventObjs.FindAll(c => c.selected == true && c.eligibleToMove == true);
@@ -134,10 +149,12 @@ namespace RhythmHeavenMania.Editor
         public void DebugSave()
         {
             // temp
+#if UNITY_EDITOR
             string path = UnityEditor.AssetDatabase.GetAssetPath(GameManager.instance.txt);
             path = Application.dataPath.Remove(Application.dataPath.Length - 6, 6) + path;
             System.IO.File.WriteAllText(path, JsonConvert.SerializeObject(GameManager.instance.Beatmap));
             Debug.Log("Saved to " + path);
+#endif
         }
 
         public void SetGameEventTitle(string txt)

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using RhythmHeavenMania.Util;
+
 namespace RhythmHeavenMania.Games.KarateMan
 {
     public class Pot : PlayerActionObject
@@ -58,12 +60,12 @@ namespace RhythmHeavenMania.Games.KarateMan
             else
                 hitLength = 14f;
 
-            if (combo)
+            /*if (combo)
             {
                 if (comboIndex == 0)
                 {
                     isEligible = true;
-                    PlayerActionInit(this.gameObject, createBeat, KarateMan.instance.EligibleCombos);
+                    // PlayerActionInit(this.gameObject, createBeat, KarateMan.instance.EligibleCombos);
                 }
                 else if (comboIndex == 5)
                 {
@@ -73,10 +75,30 @@ namespace RhythmHeavenMania.Games.KarateMan
             else
             {
                 isEligible = true;
-                PlayerActionInit(this.gameObject, createBeat, KarateMan.instance.EligibleHits);
-            }
+                // PlayerActionInit(this.gameObject, createBeat, KarateMan.instance.EligibleHits);
+            }*/
 
             Sprite.GetComponent<SpriteRenderer>().enabled = false;
+        }
+
+        public override void OnAce()
+        {
+            if (combo)
+            {
+                if (comboIndex == 0)
+                {
+                    KarateJoe.instance.Combo(this);
+                }
+                else if (comboIndex == 5)
+                {
+                    KarateJoe.instance.ComboPow(this, true);
+                }
+            }
+            else
+            {
+                this.Hit();
+            }
+            // KarateJoe.instance.Swing(state);
         }
 
         private void Update()
@@ -116,6 +138,42 @@ namespace RhythmHeavenMania.Games.KarateMan
                 lastRot = Holder.transform.GetChild(0).eulerAngles.z;
 
                 StateCheck(normalizedBeat);
+
+                if (!combo)
+                {
+                    if (PlayerInput.Pressed())
+                    {
+                        if (state.perfect)
+                        {
+                            Hit();
+                        }
+                        else if (state.notPerfect())
+                        {
+                            Miss();
+                        }
+                    }
+                }
+                else
+                {
+                    if (comboIndex == 0)
+                    {
+                        if (PlayerInput.AltPressed())
+                        {
+                            if (state.perfect)
+                            {
+                                KarateJoe.instance.Combo(this);
+                            }
+                        }
+                    }
+                    else if (comboIndex == 5)
+                    {
+                        if (KarateJoe.instance.comboNormalizedBeat >= 2.05f)
+                        if (PlayerInput.AltPressedUp())
+                        {
+                            KarateJoe.instance.ComboPow(this);
+                        }
+                    }
+                }
 
                 if (normalizedBeat > 1)
                 {
@@ -163,9 +221,33 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         public void Hit()
         {
+            Jukebox.PlayOneShotGame(hitSnd);
+            KarateJoe.instance.Swing(this);
+
+            NewHolder();
+
+            switch (type)
+            {
+                case 0:
+                    // HitParticle.Play();
+                    break;
+                case 1:
+                    GameObject bulbHit = Instantiate(KarateJoe.instance.BulbHit);
+                    bulbHit.transform.parent = KarateJoe.instance.BulbHit.transform.parent;
+                    bulbHit.SetActive(true);
+                    Destroy(bulbHit, 0.7f);
+                    break;
+                case 2:
+                    // RockParticle.Play();
+                    break;
+                case 4:
+                    BarrelDestroy(false);
+                    break;
+            }
+
             if (!kick)
             {
-                NewHolder();
+
             }
             else if (kick)
             {
@@ -185,6 +267,8 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         public void Miss()
         {
+            Jukebox.PlayOneShot("miss");
+
             NewHolder();
             Holder.transform.parent = newHolder.transform;
 
@@ -200,6 +284,72 @@ namespace RhythmHeavenMania.Games.KarateMan
             newHolder = new GameObject();
             newHolder.transform.parent = this.gameObject.transform;
             Holder.transform.parent = newHolder.transform;
+        }
+
+        public void BarrelDestroy(bool combo)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                GameObject be = new GameObject();
+                be.transform.localPosition = Holder.transform.localPosition;
+                be.transform.parent = this.transform.parent;
+                be.transform.localScale = Holder.transform.localScale;
+                BarrelDestroyEffect bde = be.AddComponent<BarrelDestroyEffect>();
+                Vector3 pos = be.transform.localPosition;
+                SpriteRenderer sprite = be.AddComponent<SpriteRenderer>();
+
+                bde.shadow = Instantiate(Shadow, transform.parent);
+                bde.shadow.transform.position = Shadow.transform.position;
+                bde.shadow.transform.localScale = Shadow.transform.lossyScale;
+                bde.index = i;
+                bde.combo = combo;
+
+                switch (i)
+                {
+                    case 0:
+                        be.transform.localPosition = new Vector3(pos.x, pos.y + 1.25f);
+                        sprite.sortingOrder = 35;
+                        bde.spriteIndex = 3;
+                        break;
+                    case 1:
+                        be.transform.localPosition = new Vector3(pos.x, pos.y + -0.55f);
+                        sprite.sortingOrder = 31;
+                        bde.spriteIndex = 3;
+                        break;
+                    case 2:
+                        be.transform.localPosition = new Vector3(pos.x - 0.8f, pos.y + 0.45f);
+                        sprite.sortingOrder = 32;
+                        bde.spriteIndex = 0;
+                        break;
+                    case 3:
+                        be.transform.localPosition = new Vector3(pos.x - 0.5f, pos.y + 0.45f);
+                        sprite.sortingOrder = 33;
+                        bde.spriteIndex = 1;
+                        break;
+                    case 4:
+                        be.transform.localPosition = new Vector3(pos.x, pos.y + 0.45f);
+                        sprite.sortingOrder = 34;
+                        bde.spriteIndex = 2;
+                        break;
+                    case 5:
+                        be.transform.localPosition = new Vector3(pos.x + 0.5f, pos.y + 0.45f);
+                        sprite.sortingOrder = 33;
+                        sprite.flipX = true;
+                        bde.spriteIndex = 1;
+                        break;
+                    case 6:
+                        be.transform.localPosition = new Vector3(pos.x + 0.8f, pos.y + 0.45f);
+                        sprite.sortingOrder = 32;
+                        sprite.flipX = true;
+                        bde.spriteIndex = 0;
+                        break;
+                    case 7:
+                        be.transform.localPosition = new Vector3(pos.x, pos.y + 1.25f);
+                        sprite.sortingOrder = 39;
+                        bde.spriteIndex = 4;
+                        break;
+                }
+            }
         }
     }
 }
