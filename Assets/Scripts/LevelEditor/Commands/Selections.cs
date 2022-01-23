@@ -7,19 +7,31 @@ namespace RhythmHeavenMania.Editor.Commands
 {
     public class Selection : IAction
     {
+        List<TimelineEventObj> eventObjs;
+
+        public Selection(List<TimelineEventObj> eventObjs)
+        {
+            this.eventObjs = eventObjs;
+        }
+
         public void Execute()
         {
-            throw new System.NotImplementedException();
         }
 
         public void Redo()
         {
-            throw new System.NotImplementedException();
+            for (int i = 0; i < eventObjs.Count; i++)
+            {
+                Selections.instance.ShiftClickSelect(eventObjs[i]);
+            }
         }
 
         public void Undo()
         {
-            throw new System.NotImplementedException();
+            for (int i = 0; i < eventObjs.Count; i++)
+            {
+                Selections.instance.ShiftClickSelect(eventObjs[i]);
+            }
         }
     }
 
@@ -69,7 +81,6 @@ namespace RhythmHeavenMania.Editor.Commands
 
         public void Undo()
         {
-
             for (int i = 0; i < pos.Count; i++)
             {
                 EnsureEventObj(i);
@@ -86,10 +97,36 @@ namespace RhythmHeavenMania.Editor.Commands
         }
     }
 
+    public class Place : IAction
+    {
+        TimelineEventObj eventObj;
+
+        public Place(TimelineEventObj eventObj)
+        {
+            this.eventObj = eventObj;
+        }
+
+        public void Execute()
+        {
+        }
+
+        public void Redo()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Undo()
+        {
+            Selections.instance.Deselect(eventObj);
+            Timeline.instance.DestroyEventObject(eventObj.entity);
+            // Beatmap.Entity e = deletedObjs[i].entity;
+            // Timeline.instance.AddEventObject(e.datamodel, false, new Vector3(e.beat, -e.track * Timeline.instance.LayerHeight()), e, true, e.eventObj.eventObjID);
+        }
+    }
+
     public class Deletion : IAction
     {
         List<TimelineEventObj> eventObjs;
-
         List<TimelineEventObj> deletedObjs;
 
         public Deletion(List<TimelineEventObj> eventObjs)

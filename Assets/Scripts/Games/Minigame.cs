@@ -16,6 +16,8 @@ namespace RhythmHeavenMania.Games
             public bool early;
             public bool perfect;
             public bool late;
+            public bool notPerfect() { return early || late; }
+            public bool eligible() { return early || perfect || late; }
             public float createBeat;
         }
 

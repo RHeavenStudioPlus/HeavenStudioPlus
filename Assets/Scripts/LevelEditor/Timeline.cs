@@ -33,10 +33,11 @@ namespace RhythmHeavenMania.Editor
         private RectTransform TimelineSongPosLine;
 
         [Header("Timeline Playbar")]
-        [SerializeField] private Button PlayBTN;
-        [SerializeField] private Button PauseBTN;
-        [SerializeField] private Button StopBTN;
-        [SerializeField] private Button MetronomeBTN;
+        public Button PlayBTN;
+        public Button PauseBTN;
+        public Button StopBTN;
+        public Button MetronomeBTN;
+        public Button AutoplayBTN;
 
         public static Timeline instance { get; private set; }
 
@@ -51,7 +52,7 @@ namespace RhythmHeavenMania.Editor
                 var entity = GameManager.instance.Beatmap.entities[i];
                 var e = GameManager.instance.Beatmap.entities[i];
 
-                AddEventObject(e.datamodel, false, new Vector3(e.beat, -e.track * LayerHeight()), e, false, Starpelly.Random.Strings.RandomString(Starpelly.Enums.Strings.StringType.Alphanumeric, 128));
+                AddEventObject(e.datamodel, false, new Vector3(e.beat, -e.track * LayerHeight()), e, false, RandomID());
             }
 
             TimelineSlider.GetChild(0).GetComponent<Image>().color = EditorTheme.theme.properties.BeatMarkerCol.Hex2RGB();
@@ -91,14 +92,34 @@ namespace RhythmHeavenMania.Editor
                     Conductor.instance.metronome = false;
                 }
             });
+            AutoplayBTN.onClick.AddListener(delegate
+            {
+                if (!GameManager.instance.autoplay)
+                {
+                    AutoplayBTN.GetComponent<Animator>().Play("Idle", 0, 0);
+                    GameManager.instance.autoplay = true;
+                }
+                else
+                {
+                    AutoplayBTN.GetComponent<Animator>().Play("Disabled", 0, 0);
+                    GameManager.instance.autoplay = false;
+                }
+            });
 
             Tooltip.AddTooltip(PlayBTN.gameObject, "Play <color=#adadad>[Space]</color>");
             Tooltip.AddTooltip(PauseBTN.gameObject, "Pause <color=#adadad>[Shift + Space]</color>");
             Tooltip.AddTooltip(StopBTN.gameObject, "Stop <color=#adadad>[Space]</color>");
+
             Tooltip.AddTooltip(MetronomeBTN.gameObject, "Metronome");
+            Tooltip.AddTooltip(AutoplayBTN.gameObject, "Autoplay");
 
             SetTimeButtonColors(true, false, false);
             MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+        }
+
+        public static string RandomID()
+        {
+            return Starpelly.Random.Strings.RandomString(Starpelly.Enums.Strings.StringType.Alphanumeric, 128);
         }
 
         #endregion

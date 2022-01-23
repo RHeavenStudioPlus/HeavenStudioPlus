@@ -37,12 +37,14 @@ namespace RhythmHeavenMania
         public bool playOnStart;
         public float startBeat;
         private GameObject currentGameO;
+        public bool autoplay;
 
         public static GameManager instance { get; private set; }
         private EventCaller eventCaller;
 
         private void Awake()
         {
+            autoplay = true;
             instance = this;
         }
 

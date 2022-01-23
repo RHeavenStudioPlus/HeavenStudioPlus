@@ -37,9 +37,14 @@ namespace RhythmHeavenMania.Games.KarateMan
             eligible = true;
         }
 
+        public override void OnAce()
+        {
+            Hit();
+        }
+
         private void Update()
         {
-                shadow.transform.localPosition = new Vector3(Holder.transform.localPosition.x, shadow.transform.localPosition.y);
+            shadow.transform.localPosition = new Vector3(Holder.transform.localPosition.x, shadow.transform.localPosition.y);
             if (!kicked)
             {
                 if (!missed)
@@ -67,9 +72,8 @@ namespace RhythmHeavenMania.Games.KarateMan
                     }
 
 
-                    if (PlayerInput.PressedUp() && eligible)
+                    if (PlayerInput.PressedUp())
                     {
-                        eligible = false;
                         if (state.perfect)
                         {
                             Hit();
@@ -119,6 +123,9 @@ namespace RhythmHeavenMania.Games.KarateMan
             hitBeat = Conductor.instance.songPositionInBeats;
             kicked = true;
             RotHolder.transform.eulerAngles = lastRot;
+
+            KarateJoe.instance.ResetKick();
+            KarateJoe.instance.AnimPlay("Kick");
         }
 
         public void Miss()
@@ -126,6 +133,9 @@ namespace RhythmHeavenMania.Games.KarateMan
             missBeat = Conductor.instance.songPositionInBeats;
             missed = true;
             Jukebox.PlayOneShot("miss");
+
+            KarateJoe.instance.ResetKick();
+            KarateJoe.instance.AnimPlay("Kick");
         }
     }
 }

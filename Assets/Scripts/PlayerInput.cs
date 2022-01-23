@@ -8,33 +8,33 @@ namespace RhythmHeavenMania
     {
         public static bool Pressed()
         {
-            return Input.GetKeyDown(KeyCode.Z);
+            return Input.GetKeyDown(KeyCode.Z) && !GameManager.instance.autoplay && Conductor.instance.isPlaying;
         }
 
         public static bool PressedUp()
         {
-            return Input.GetKeyUp(KeyCode.Z);
+            return Input.GetKeyUp(KeyCode.Z) && !GameManager.instance.autoplay && Conductor.instance.isPlaying;
         }
 
         public static bool Pressing()
         {
-            return Input.GetKey(KeyCode.Z);
+            return Input.GetKey(KeyCode.Z) && !GameManager.instance.autoplay && Conductor.instance.isPlaying;
         }
 
 
         public static bool AltPressed()
         {
-            return Input.GetKeyDown(KeyCode.X);
+            return Input.GetKeyDown(KeyCode.X) && !GameManager.instance.autoplay && Conductor.instance.isPlaying;
         }
 
         public static bool AltPressedUp()
         {
-            return Input.GetKeyUp(KeyCode.X);
+            return Input.GetKeyUp(KeyCode.X) && !GameManager.instance.autoplay && Conductor.instance.isPlaying;
         }
 
         public static bool AltPressing()
         {
-            return Input.GetKey(KeyCode.X);
+            return Input.GetKey(KeyCode.X) && !GameManager.instance.autoplay && Conductor.instance.isPlaying;
         }
     }
 }
