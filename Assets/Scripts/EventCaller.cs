@@ -50,7 +50,7 @@ namespace RhythmHeavenMania
 
             for (int i = 0; i < minigamesInBeatmap.Count; i++)
             {
-                minigames[minigames.FindIndex(c => c.name == minigamesInBeatmap[i].name)].holder = Resources.Load<GameObject>($"Games/{minigamesInBeatmap[i].name}");
+                // minigames[minigames.FindIndex(c => c.name == minigamesInBeatmap[i].name)].holder = Resources.Load<GameObject>($"Games/{minigamesInBeatmap[i].name}");
             }
         }
 

@@ -36,9 +36,45 @@ namespace RhythmHeavenMania.Games.Spaceball
             Sprite.gameObject.transform.eulerAngles = new Vector3(0, 0, rot);
 
 
-            PlayerActionInit(this.gameObject, startBeat, Spaceball.instance.EligibleHits);
+            // PlayerActionInit(this.gameObject, startBeat, Spaceball.instance.EligibleHits);
 
             isEligible = true;
+        }
+
+        public override void OnAce()
+        {
+            this.Hit();
+        }
+
+        private void Hit()
+        {
+            hit = true;
+            hitBeat = Conductor.instance.songPositionInBeats;
+            hitPos = Holder.transform.localPosition;
+            hitRot = Holder.transform.eulerAngles.z;
+
+            Jukebox.PlayOneShotGame("spaceball/hit");
+
+            randomEndPosX = Random.Range(40f, 55f);
+
+            anim.enabled = false;
+            SpaceballPlayer.instance.Swing(this);
+        }
+
+        private void Miss()
+        {
+            Holder.transform.GetChild(0).gameObject.AddComponent<Rotate>().rotateSpeed = -55;
+
+            enabled = false;
+            anim.enabled = false;
+
+            Rigidbody2D rb = gameObject.AddComponent<Rigidbody2D>();
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            rb.AddForce(transform.up * 1100);
+            rb.AddForce(transform.right * 400);
+            rb.gravityScale = 9;
+
+            Jukebox.PlayOneShot("miss");
         }
 
         private void Update()
@@ -71,6 +107,18 @@ namespace RhythmHeavenMania.Games.Spaceball
                 float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(startBeat, beatLength);
 
                 StateCheck(normalizedBeat);
+
+                if (PlayerInput.Pressed())
+                {
+                    if (state.perfect)
+                    {
+                        Hit();
+                    }
+                    else if (state.notPerfect())
+                    {
+                        Miss();
+                    }
+                }
 
                 // too lazy to make a proper fix for this
                 float endTime = 1.2f;

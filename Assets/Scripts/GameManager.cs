@@ -84,6 +84,7 @@ namespace RhythmHeavenMania
             }
         }
 
+        // LateUpdate works a bit better but causes a bit of bugs, so remind me to fix those eventually
         private void Update()
         {
             if (Beatmap.entities.Count < 1)
@@ -255,7 +256,7 @@ namespace RhythmHeavenMania
 
             if (instantiate)
             {
-                currentGameO = Instantiate(GetGame(game).holder);
+                currentGameO = Instantiate(GetGame(game));
                 currentGameO.transform.parent = eventCaller.GamesHolder.transform;
                 currentGameO.name = game;
             }
@@ -264,8 +265,8 @@ namespace RhythmHeavenMania
 
             if (onGameSwitch)
             {
-                if (GetGame(currentGame).holder.GetComponent<Minigame>() != null)
-                    GetGame(game).holder.GetComponent<Minigame>().OnGameSwitch();
+                if (GetGame(currentGame).GetComponent<Minigame>() != null)
+                    GetGame(game).GetComponent<Minigame>().OnGameSwitch();
             }
 
             SetCurrentGame(game);
@@ -276,16 +277,21 @@ namespace RhythmHeavenMania
             if (preloadedGames.Contains(preloadedGames.Find(c => c.name == game)))
                 return;
 
-            var g = Instantiate(GetGame(game).holder);
+            var g = Instantiate(GetGame(game));
             g.transform.parent = eventCaller.GamesHolder.transform;
             g.SetActive(false);
             g.name = game;
             preloadedGames.Add(g);
         }
 
-        public Minigames.Minigame GetGame(string name)
+        public GameObject GetGame(string name)
         {
-            return eventCaller.minigames.Find(c => c.name == name);
+            return Resources.Load<GameObject>($"Games/{name}");
+        }
+
+        public Minigames.Minigame GetGameInfo(string name)
+        {
+            return EventCaller.instance.minigames.Find(c => c.name == name);
         }
 
         // never gonna use this
@@ -297,7 +303,7 @@ namespace RhythmHeavenMania
         public void SetCurrentGame(string game)
         {
             currentGame = game;
-            CircleCursor.InnerCircle.GetComponent<SpriteRenderer>().color = Colors.Hex2RGB(GetGame(currentGame).color);
+            CircleCursor.InnerCircle.GetComponent<SpriteRenderer>().color = Colors.Hex2RGB(GetGameInfo(currentGame).color);
         }
 
         private bool SongPosLessThanClipLength(float t)

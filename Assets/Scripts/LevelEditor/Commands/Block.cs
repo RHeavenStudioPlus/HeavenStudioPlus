@@ -76,6 +76,7 @@ namespace RhythmHeavenMania.Editor.Commands
             {
                 EnsureEventObj(i);
                 pos[i].eventObj.transform.localPosition = pos[i].previousPos;
+                pos[i].eventObj.entity.beat = pos[i].eventObj.transform.localPosition.x;
             }
         }
 
@@ -85,6 +86,7 @@ namespace RhythmHeavenMania.Editor.Commands
             {
                 EnsureEventObj(i);
                 pos[i].eventObj.transform.localPosition = pos[i].lastPos_;
+                pos[i].eventObj.entity.beat = pos[i].eventObj.transform.localPosition.x;
             }
         }
 
