@@ -71,16 +71,21 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
         {
             Jukebox.PlayOneShotGame("spaceSoccer/highkicktoe1_hit");
 
+            lastSpriteRot = spriteHolder.transform.eulerAngles.z;
+
             kicked.enabled = false;
             highKicked.enabled = true;
             highKicked.startBeat = Conductor.instance.songPositionInBeats;
 
             highKickCurve.KeyPoints[0].transform.position = holder.transform.position;
+            ResetState();
         }
 
         public void Toe()
         {
             Jukebox.PlayOneShotGame("spaceSoccer/highkicktoe3_hit");
+
+            lastSpriteRot = spriteHolder.transform.eulerAngles.z;
 
             highKicked.enabled = false;
             kicked.enabled = false;
@@ -90,6 +95,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             toe.startBeat = Conductor.instance.songPositionInBeats;
             
             toeCurve.KeyPoints[0].transform.position = holder.transform.position;
+            ResetState();
         }
 
         private void Update()
@@ -106,9 +112,9 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
                 if (PlayerInput.Pressed())
                 {
-                        Kick();
                     if (state.perfect)
                     {
+                        Kick();
                     }
                 }
             }
@@ -130,16 +136,16 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
                 if (PlayerInput.Pressed())
                 {
-                    if (kicker.canHighKick)
-                    {
-                        HighKick();
-                    }
-                    else if (kicker.canKick)
-                    {
-                        Kick();
-                    }
                     if (state.perfect)
                     {
+                        if (kicker.canHighKick)
+                        {
+                            HighKick();
+                        }
+                        else if (kicker.canKick)
+                        {
+                            Kick();
+                        }
                         // print(normalizedBeat);
                     }
                 }
@@ -150,6 +156,10 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 holder.transform.position = highKickCurve.GetPoint(normalizedBeatAnim);
                 spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastSpriteRot, -460f, normalizedBeatAnim));
 
+                float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(highKicked.startBeat, 1.5f);
+                StateCheck(normalizedBeat);
+                // if (state.perfect) Debug.Break();
+
                 if (PlayerInput.Pressed())
                 {
                     kickPrepare = true;
@@ -159,7 +169,10 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 {
                     if (PlayerInput.PressedUp())
                     {
-                        Toe();
+                        if (state.perfect)
+                        {
+                            Toe();
+                        }
                     }
                 }
             }

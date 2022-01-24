@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -100
   m_Sprite: {fileID: 7482667652216324306, guid: ef2fa2a75dc283e40b9d4fe1f20dc6fb, type: 3}
-  m_Color: {r: 0.43921572, g: 0.9725491, b: 0.5647059, a: 1}
+  m_Color: {r: 0.45098042, g: 1, b: 0.5803922, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -107,8 +107,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 257854180901420889}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.8686998, y: 0.3261, z: 0}
-  m_LocalScale: {x: 1.0345623, y: 1.0010417, z: 1.0151522}
+  m_LocalPosition: {x: -3.384, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 482351987616570803}
   m_RootOrder: 0
@@ -292,8 +292,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 8336007186072323660}
   handleType: 0
-  leftHandleLocalPosition: {x: -2.3238418, y: 11.478075, z: 0}
-  rightHandleLocalPosition: {x: 2.3238418, y: -11.478075, z: -0}
+  leftHandleLocalPosition: {x: -1.668371, y: 12.237039, z: 0}
+  rightHandleLocalPosition: {x: 1.668371, y: -12.237039, z: -0}
 --- !u!1 &1349843762207368530
 GameObject:
   m_ObjectHideFlags: 0
@@ -1410,6 +1410,7 @@ MonoBehaviour:
   toeCurve: {fileID: 8336007186072323660}
   dispensedBeat: 0
   dispensing: 0
+  hitTimes: 0
   canKick: 0
 --- !u!1 &4832865564766322567
 GameObject:
@@ -1951,8 +1952,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 8336007186072323660}
   handleType: 0
-  leftHandleLocalPosition: {x: -1.0425408, y: -7.0436463, z: -0}
-  rightHandleLocalPosition: {x: 1.0425408, y: 7.0436463, z: 0}
+  leftHandleLocalPosition: {x: -0.7524991, y: -7.840443, z: -0}
+  rightHandleLocalPosition: {x: 0.7524991, y: 7.840443, z: 0}
 --- !u!1 &7976131226454805035
 GameObject:
   m_ObjectHideFlags: 0
@@ -2029,8 +2030,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 6429945450899169262}
   handleType: 0
-  leftHandleLocalPosition: {x: -2.0023239, y: 9.526556, z: 0}
-  rightHandleLocalPosition: {x: 2.0023239, y: -9.526556, z: -0}
+  leftHandleLocalPosition: {x: -2.191154, y: 12.986072, z: 0}
+  rightHandleLocalPosition: {x: 2.191154, y: -12.986072, z: -0}
 --- !u!1 &8665788574861104969
 GameObject:
   m_ObjectHideFlags: 0
@@ -2241,5 +2242,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 6429945450899169262}
   handleType: 0
-  leftHandleLocalPosition: {x: -2.8676462, y: -14.786469, z: -0}
-  rightHandleLocalPosition: {x: 2.8676462, y: 14.786469, z: 0}
+  leftHandleLocalPosition: {x: -2.66308, y: -13.201346, z: -0}
+  rightHandleLocalPosition: {x: 2.66308, y: 13.201346, z: 0}
