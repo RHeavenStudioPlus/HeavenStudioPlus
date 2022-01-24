@@ -33,9 +33,19 @@ namespace RhythmHeavenMania.Games
                 {
                     OnAce();
                     AceVisuals();
-                    aceTimes++;
+                    // aceTimes++;
                 }
             }
+        }
+
+        public void ResetAce()
+        {
+            aceTimes = 0;
+        }
+
+        public void ResetState()
+        {
+            lastState = 0;
         }
 
         // could possibly add support for custom early, perfect, and end times if needed.

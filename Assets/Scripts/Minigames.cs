@@ -8,6 +8,7 @@ using RhythmHeavenMania.Games.ForkLifter;
 using RhythmHeavenMania.Games.ClappyTrio;
 using RhythmHeavenMania.Games.Spaceball;
 using RhythmHeavenMania.Games.KarateMan;
+using RhythmHeavenMania.Games.SpaceSoccer;
 
 namespace RhythmHeavenMania
 {
@@ -97,12 +98,12 @@ namespace RhythmHeavenMania
                     new GameAction("bgfxon",        delegate { KarateMan.instance.BGFXOn(); } ),
                     new GameAction("bgfxoff",       delegate { KarateMan.instance.BGFXOff(); }),
                 }),
-                /*new Minigame("spaceSoccer", "Space Soccer", "70A8D8", new List<GameAction>()
+                new Minigame("spaceSoccer", "Space Soccer", "B888F8", new List<GameAction>()
                 {
-                    new GameAction("ball dispense",     delegate { }, 2f),
-                    new GameAction("keep-up",           delegate { }, 4f, true),
-                    new GameAction("high kick-toe!",    delegate { }, 3f),
-                })*/
+                    new GameAction("ball dispense",     delegate { SpaceSoccer.instance.Dispense(eventCaller.currentBeat); }, 2f),
+                    new GameAction("keep-up",           delegate { SpaceSoccer.instance.KeepUp(eventCaller.currentBeat, eventCaller.currentLength); }, 4f, true),
+                    new GameAction("high kick-toe!",    delegate { SpaceSoccer.instance.HighKick(eventCaller.currentBeat); }, 3f),
+                })
             };
         }
     }

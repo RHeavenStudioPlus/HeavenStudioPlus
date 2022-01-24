@@ -2185,7 +2185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.15294118, g: 0.15294118, b: 0.15294118, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7940,8 +7940,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f86858990a87c764892672104bdaef1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: {fileID: 4900000, guid: cbe1a43c8ddc790498fde2e01e66d23e, type: 3}
-  music: {fileID: 8300000, guid: 51af38323954a8d44874780ba4577fb4, type: 3}
+  level: {fileID: 4900000, guid: 5e794baa94fb06d4f939aaf032fab5ea, type: 3}
+  music: {fileID: 8300000, guid: f3b9f9179bad8394a98f617bda265a62, type: 3}
   debugUI: 0
   playOnStart: 0
   editor: 1
