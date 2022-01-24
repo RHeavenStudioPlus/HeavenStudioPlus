@@ -5,5 +5,6 @@ namespace RhythmHeavenMania
         public float length;
         public float startBeat;
         public float lastReportedBeat;
+        public bool enabled;
     }
 }

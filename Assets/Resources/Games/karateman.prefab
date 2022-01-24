@@ -768,7 +768,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2035530467837460450
 Transform:
   m_ObjectHideFlags: 0
@@ -896,7 +896,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &634606877704519381
 Transform:
   m_ObjectHideFlags: 0
@@ -6164,6 +6164,7 @@ MonoBehaviour:
   BulbHit: {fileID: 7248900333007582906}
   hitBarrel: 0
   currentComboPots: []
+  comboNormalizedBeat: 0
 --- !u!95 &7248900332013002442
 Animator:
   serializedVersion: 3
@@ -6426,7 +6427,7 @@ SpriteRenderer:
   m_Size: {x: 12.8, y: 7.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &7248900332218536963
@@ -17782,7 +17783,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -300
-  m_Sprite: {fileID: 21300000, guid: cbc090e55f5f26b49b81674708ad42a6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1c02ce8c213d84d4c972dcdcbfbf535c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

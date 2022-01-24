@@ -343,7 +343,7 @@ namespace RhythmHeavenMania.Editor
                 else
                 {
                     eventObj.resizable = true;
-                    if (gameAction.defaultLength != entity.length && dragNDrop == false)
+                    if (entity != null && gameAction.defaultLength != entity.length && dragNDrop == false)
                     {
                         g.GetComponent<RectTransform>().sizeDelta = new Vector2(entity.length, LayerHeight());
                     }
