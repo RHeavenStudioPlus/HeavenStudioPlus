@@ -97,12 +97,13 @@ namespace RhythmHeavenMania
                     new GameAction("prepare",       delegate { KarateMan.instance.Prepare(eventCaller.currentBeat, eventCaller.currentLength); }, 1f, true),
                     new GameAction("bgfxon",        delegate { KarateMan.instance.BGFXOn(); } ),
                     new GameAction("bgfxoff",       delegate { KarateMan.instance.BGFXOff(); }),
+                    new GameAction("tacobell",      delegate { KarateMan.instance.Shoot(eventCaller.currentBeat, 6); }, 2),
                 }),
                 new Minigame("spaceSoccer", "Space Soccer", "B888F8", new List<GameAction>()
                 {
                     new GameAction("ball dispense",     delegate { SpaceSoccer.instance.Dispense(eventCaller.currentBeat); }, 2f),
-                    new GameAction("keep-up",           delegate { SpaceSoccer.instance.KeepUp(eventCaller.currentBeat, eventCaller.currentLength); }, 4f, true),
-                    new GameAction("high kick-toe!",    delegate { SpaceSoccer.instance.HighKick(eventCaller.currentBeat); }, 3f),
+                    new GameAction("keep-up",           delegate { }, 4f, true),
+                    new GameAction("high kick-toe!",    delegate { }, 3f),
                 })
             };
         }

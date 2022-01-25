@@ -255,7 +255,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             }
             else
             {
-                if (p.type == 2 || p.type == 3 || p.type == 4)
+                if (p.type == 2 || p.type == 3 || p.type == 4 || p.type == 6)
                 {
                     punchLeft = false;
                 }

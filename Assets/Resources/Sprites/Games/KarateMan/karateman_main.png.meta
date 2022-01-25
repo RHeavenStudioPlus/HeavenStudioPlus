@@ -212,6 +212,9 @@ TextureImporter:
   - first:
       213: 7115452968192417703
     second: karateman_num_grr
+  - first:
+      213: -6283416824598814145
+    second: karateman_tacobell
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -1820,6 +1823,27 @@ TextureImporter:
       bones: []
       spriteID: 7af9b1976ca2fb260800000000000000
       internalID: 7115452968192417703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_tacobell
+      rect:
+        serializedVersion: 2
+        x: 3496
+        y: 1932
+        width: 280
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f32231260b1dcc8a0800000000000000
+      internalID: -6283416824598814145
       vertices: []
       indices: 
       edges: []
