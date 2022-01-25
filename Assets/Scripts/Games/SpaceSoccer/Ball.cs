@@ -85,7 +85,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
         {
             if (dispensing)
             {
-                float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(dispensedBeat, 2.5f);
+                float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(dispensedBeat, 2.35f);
                 holder.transform.position = dispenseCurve.GetPoint(normalizedBeatAnim);
                 spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(0f, -1440f, normalizedBeatAnim));
 
@@ -128,9 +128,9 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             }
             else if (highKicked.enabled)
             {
-                float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(highKicked.startBeat, 1.85f);
+                float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(highKicked.startBeat, 1.8f);
                 holder.transform.position = highKickCurve.GetPoint(normalizedBeatAnim);
-                spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastSpriteRot, -460f, normalizedBeatAnim));
+                spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastSpriteRot, lastSpriteRot + 360f, normalizedBeatAnim));
 
                 // if (state.perfect) Debug.Break();
 

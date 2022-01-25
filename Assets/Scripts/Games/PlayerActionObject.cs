@@ -33,7 +33,7 @@ namespace RhythmHeavenMania.Games
                 {
                     OnAce();
                     AceVisuals();
-                    // aceTimes++;
+                    aceTimes++;
                 }
             }
         }
