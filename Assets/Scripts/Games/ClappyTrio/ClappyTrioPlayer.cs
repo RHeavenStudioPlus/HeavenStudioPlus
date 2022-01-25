@@ -6,12 +6,8 @@ using RhythmHeavenMania.Util;
 
 namespace RhythmHeavenMania.Games.ClappyTrio
 {
-    public class ClappyTrioPlayer : MonoBehaviour
+    public class ClappyTrioPlayer : PlayerActionObject
     {
-        public bool early;
-        public bool perfect;
-        public bool late;
-
         private float lastClapBeat;
         private float lastClapLength;
         [SerializeField] private bool clapVacant;
@@ -24,24 +20,30 @@ namespace RhythmHeavenMania.Games.ClappyTrio
         public bool canHit;
 
         private GameObject clapEffect;
+        int aceTimes = 0;
 
         private void Start()
         {
             clapEffect = transform.GetChild(4).GetChild(3).gameObject;
         }
 
+        public override void OnAce()
+        {
+            Clap(true);
+        }
+
         private void Update()
         {
             if (PlayerInput.Pressed())
             {
-                Clap();
+                Clap(false);
             }
 
             if (clapVacant == true)
             {
                 float normalizedBeat = (Conductor.instance.GetLoopPositionFromBeat(lastClapBeat, lastClapLength));
 
-                if (normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.PerfectTime() && lastIndex == 0)
+                /*if (normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.PerfectTime() && lastIndex == 0)
                 {
                     SetEligibility(true, false, false);
                     lastIndex++;
@@ -60,6 +62,16 @@ namespace RhythmHeavenMania.Games.ClappyTrio
                     lastClapLength = 0;
                     lastClapBeat = 0;
                     hit = false;
+                }*/
+
+                StateCheck(normalizedBeat);
+
+                if (normalizedBeat > Minigame.LateTime())
+                {
+                    clapVacant = false;
+                    lastIndex = 0;
+                    lastClapLength = 0;
+                    lastClapBeat = 0;
                 }
             }
         }
@@ -74,30 +86,17 @@ namespace RhythmHeavenMania.Games.ClappyTrio
 
         public void SetClapAvailability(float startBeat, float length)
         {
+            ResetAce();
             lastClapBeat = startBeat;
             clapVacant = true;
             lastClapLength = length;
         }
 
-        private void SetEligibility(bool early, bool perfect, bool late)
+        private void Clap(bool overrideCanHit)
         {
-            this.early = false;
-            this.perfect = false;
-            this.late = false;
+            bool canHit = state.early != true && state.late != true && state.perfect == true && hit == false;
 
-            if (early)
-                this.early = true;
-            else if (perfect)
-                this.perfect = true;
-            else if (late)
-                this.late = true;
-        }
-
-        private void Clap()
-        {
-            bool canHit = early != true && late != true && perfect == true && hit == false;
-
-            if (canHit)
+            if (canHit || overrideCanHit)
             {
                 clapEffect.SetActive(true);
                 Jukebox.PlayOneShotGame("clappyTrio/rightClap");
