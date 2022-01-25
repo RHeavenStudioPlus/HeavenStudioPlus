@@ -44,7 +44,7 @@ namespace RhythmHeavenMania
 
         private void Awake()
         {
-            // autoplay = true;
+            autoplay = true;
             instance = this;
         }
 

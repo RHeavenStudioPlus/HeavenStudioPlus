@@ -91,12 +91,12 @@ namespace RhythmHeavenMania.Editor
             }
 
             if (CommandManager.instance.canUndo())
-                UndoBTN.transform.GetChild(0).GetComponent<Image>().color = "BE72FF".Hex2RGB();
+                UndoBTN.transform.GetChild(0).GetComponent<Image>().color = "BD8CFF".Hex2RGB();
             else
                 UndoBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
 
             if (CommandManager.instance.canRedo())
-                RedoBTN.transform.GetChild(0).GetComponent<Image>().color = "7299FF".Hex2RGB();
+                RedoBTN.transform.GetChild(0).GetComponent<Image>().color = "FFD800".Hex2RGB();
             else
                 RedoBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
 

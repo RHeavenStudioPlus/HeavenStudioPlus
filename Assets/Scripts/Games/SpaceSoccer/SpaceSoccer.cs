@@ -31,12 +31,16 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
         public void Dispense(float beat)
         {
+            if (kicker.ball != null) return;
             ballDispensed = true;
 
             GameObject ball = Instantiate(ballRef, this.transform);
             Ball ball_ = ball.GetComponent<Ball>();
             ball_.dispensedBeat = beat;
             ball_.dispensing = true;
+            kicker.ball = ball_;
+            kicker.dispenserBeat = beat;
+            kicker.kickTimes = 0;
 
             MultiSound.Play(new MultiSound.Sound[]
             {
@@ -50,16 +54,6 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 new MultiSound.Sound("spaceSoccer/dispenseTumble6", beat + 1.5f),
                 new MultiSound.Sound("spaceSoccer/dispenseTumble6B", beat + 1.75f),
             });
-        }
-
-        public void KeepUp(float beat, float length)
-        {
-            kicker.KeepUp(beat, length);
-        }
-
-        public void HighKick(float beat)
-        {
-            kicker.HighKick(beat);
         }
     }
 

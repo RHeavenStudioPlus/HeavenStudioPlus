@@ -133,6 +133,10 @@ namespace RhythmHeavenMania.Games.KarateMan
                             new MultiSound.Sound("karateman/punchKick4", beat + 2.25f)
                         });
                         break;
+                    case 6:
+                        outSnd = "karateman/objectOut";
+                        p.hitSnd = "karateman/tacobell";
+                        break;
                 }
 
                 p.endShadowThrowPos = new Vector2(-1.036f, -2.822f);
