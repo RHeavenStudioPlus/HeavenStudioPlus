@@ -8,31 +8,29 @@ namespace RhythmHeavenMania.Games.KarateMan
 {
     public class KarateJoe : MonoBehaviour
     {
+
+        [Header("Components")]
         public Animator anim;
-
-        private int currentHitInList = 0;
-
         public GameObject HitEffect;
-
-        [Header("Particles")]
         public ParticleSystem HitParticle;
         public ParticleSystem RockParticle;
         public GameObject BulbHit;
+        [SerializeField] private SpriteRenderer head;
+        [SerializeField] private Sprite[] heads;
+        [SerializeField] private GameObject missEffect;
 
+        [Header("Properties")]
         public bool hitBarrel = false;
         public Coroutine kickC;
-
+        public Coroutine missC;
         private float barrelBeat;
-
         private bool inCombo;
         private bool hitCombo;
         private float comboBeat;
-
         public List<Pot> currentComboPots = new List<Pot>();
         private int comboPotIndex;
         private int currentComboHitInList;
         private int comboIndex;
-
         public float comboNormalizedBeat = 0;
 
         public static KarateJoe instance { get; set; }
@@ -293,6 +291,22 @@ namespace RhythmHeavenMania.Games.KarateMan
         {
             anim.Play(name, 0, 0);
             anim.speed = 1;
+        }
+
+        public void SetHead(int index)
+        {
+            head.sprite = heads[index];
+        }
+
+        public IEnumerator Miss()
+        {
+            // I couldn't find the sound for this
+            GameObject miss = Instantiate(missEffect, missEffect.transform.parent);
+            miss.SetActive(true);
+            SetHead(2);
+            yield return new WaitForSeconds(0.08f);
+            Destroy(miss);
+            SetHead(0);
         }
     }
 }

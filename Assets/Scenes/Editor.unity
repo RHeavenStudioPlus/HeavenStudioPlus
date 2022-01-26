@@ -7970,8 +7970,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f86858990a87c764892672104bdaef1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: {fileID: 4900000, guid: fafaeee85f4121643a0699a4de97da53, type: 3}
-  music: {fileID: 8300000, guid: a0589cdba27fb254e90da17b4804c2fe, type: 3}
+  level: {fileID: 4900000, guid: 5e794baa94fb06d4f939aaf032fab5ea, type: 3}
+  music: {fileID: 8300000, guid: f3b9f9179bad8394a98f617bda265a62, type: 3}
   debugUI: 0
   playOnStart: 0
   editor: 1
@@ -11111,15 +11111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a66fbd5ffe9b9d64da304996f1919f40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 1920
-  _height: 1080
-  _preset: 0
-  _frameRate: 60
-  _tempRT: {fileID: 0}
-  _blitter: {fileID: 0}
-  _frameCount: 0
-  _startTime: 0
-  _frameDropCount: 0
 --- !u!114 &2047408678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11132,10 +11123,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e55bddfe16e69224c8c4b4eb165695d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _frameRate: 60
-  _offlineMode: 1
-  _originalFrameRate: 0
-  _originalVSyncCount: 0
 --- !u!1 &2066632679
 GameObject:
   m_ObjectHideFlags: 0
