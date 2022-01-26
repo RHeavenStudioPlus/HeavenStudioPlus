@@ -171,6 +171,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             {
                 if ((highKicks[i].beat - 0.15f) <= Conductor.instance.songPositionInBeats && highKicks[i].beat + 1f > Conductor.instance.songPositionInBeats)
                 {
+                    print("bruh");
                     canHighKick = true;
                     canKick = false;
                     break;
