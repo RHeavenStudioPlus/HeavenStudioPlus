@@ -24,8 +24,8 @@ namespace RhythmHeavenMania.Games.KarateMan
         public Coroutine kickC;
         public Coroutine missC;
         private float barrelBeat;
-        private bool inCombo;
-        private bool hitCombo;
+        public bool inCombo;
+        public bool hitCombo;
         private float comboBeat;
         public List<Pot> currentComboPots = new List<Pot>();
         private int comboPotIndex;

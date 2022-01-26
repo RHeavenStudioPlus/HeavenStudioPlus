@@ -56,11 +56,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 564650125393930190}
   m_LocalRotation: {x: -0, y: -0, z: -0.0016571856, w: 0.9999986}
-  m_LocalPosition: {x: -3.03, y: 1.8, z: 0}
-  m_LocalScale: {x: 0.58812755, y: 0.58812755, z: 0.58812755}
+  m_LocalPosition: {x: 0.098745, y: 1.1128998, z: 0}
+  m_LocalScale: {x: 0.96952605, y: 0.96952605, z: 0.96952605}
   m_Children: []
-  m_Father: {fileID: 7248900333300803150}
-  m_RootOrder: 11
+  m_Father: {fileID: 7248900332283351267}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.19}
 --- !u!212 &868007046405604311
 SpriteRenderer:
@@ -5795,7 +5795,7 @@ Transform:
   m_Children:
   - {fileID: 8285689916985503547}
   m_Father: {fileID: 7248900333300803150}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6693302166145137461
 GameObject:
@@ -6258,6 +6258,8 @@ MonoBehaviour:
   - {fileID: 8497358629359107968, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
   missEffect: {fileID: 564650125393930190}
   hitBarrel: 0
+  inCombo: 0
+  hitCombo: 0
   currentComboPots: []
   comboNormalizedBeat: 0
 --- !u!95 &7248900332013002442
@@ -6799,7 +6801,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.0899, y: 1.1249, z: 0}
   m_LocalScale: {x: 0.6066134, y: 0.6066134, z: 0.6066134}
-  m_Children: []
+  m_Children:
+  - {fileID: 7677199528729525918}
   m_Father: {fileID: 7248900332013002293}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17734,7 +17737,6 @@ Transform:
   - {fileID: 2035530467837460450}
   - {fileID: 634606877704519381}
   - {fileID: 6013960276080899241}
-  - {fileID: 7677199528729525918}
   - {fileID: 7581330309301576633}
   m_Father: {fileID: 0}
   m_RootOrder: 0
