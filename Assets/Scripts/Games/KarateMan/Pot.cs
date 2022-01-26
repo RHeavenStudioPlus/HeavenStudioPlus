@@ -141,12 +141,17 @@ namespace RhythmHeavenMania.Games.KarateMan
                 lastShadowX = Shadow.transform.localPosition.x;
                 lastRot = Holder.transform.GetChild(0).eulerAngles.z;
 
-                if (combo && comboIndex == 0 || combo && comboIndex == 5 || !combo)
-                if (normalizedBeat >= 2 && missTimes == 0)
+                if (combo && comboIndex == 0 || !combo)
                 {
-                    if (KarateJoe.instance.missC != null) StopCoroutine(KarateJoe.instance.missC);
-                    KarateJoe.instance.missC = KarateJoe.instance.StartCoroutine(KarateJoe.instance.Miss());
-                    missTimes = 1;
+                    if (!KarateJoe.instance.hitCombo)
+                    {
+                        if (normalizedBeat >= 2 && missTimes == 0)
+                        {
+                            if (KarateJoe.instance.missC != null) StopCoroutine(KarateJoe.instance.missC);
+                            KarateJoe.instance.missC = KarateJoe.instance.StartCoroutine(KarateJoe.instance.Miss());
+                            missTimes = 1;
+                        }
+                    }
                 }
 
                 StateCheck(normalizedBeat);
