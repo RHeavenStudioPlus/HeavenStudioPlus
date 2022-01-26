@@ -22,7 +22,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
         [Header("Properties")]
         public float dispensedBeat = 0;
         public bool dispensing;
-        public int hitTimes;
+        public float hitTimes;
         private float lastSpriteRot;
         public bool canKick;
         public GameEvent kicked = new GameEvent();
@@ -38,8 +38,8 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
             dispensing = false;
             kicked.enabled = true;
-            kicked.startBeat = Conductor.instance.songPositionInBeats;
-            // kicked.startBeat = dispensedBeat + 2 + hitTimes;
+            // kicked.startBeat = Conductor.instance.songPositionInBeats;
+            kicked.startBeat = dispensedBeat + 2 + hitTimes;
 
             hitTimes++;
 
@@ -58,6 +58,8 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
         public void HighKick()
         {
+            hitTimes += 1.5f;
+
             lastSpriteRot = spriteHolder.transform.eulerAngles.z;
 
             dispensing = false;
@@ -70,6 +72,8 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
         public void Toe()
         {
+            hitTimes += 1.5f;
+
             lastSpriteRot = spriteHolder.transform.eulerAngles.z;
 
             highKicked.enabled = false;
