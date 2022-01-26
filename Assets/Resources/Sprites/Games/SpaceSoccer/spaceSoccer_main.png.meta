@@ -206,7 +206,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -281,9 +281,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 230
-        y: 296
+        y: 73
         width: 298
-        height: 266
+        height: 489
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -293,48 +293,6 @@ TextureImporter:
       bones: []
       spriteID: 6418b9fe008c13bd0800000000000000
       internalID: -2652118799199010490
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: platform_1
-      rect:
-        serializedVersion: 2
-        x: 230
-        y: 150
-        width: 298
-        height: 142
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1a59a396484621ca0800000000000000
-      internalID: -6047660829741247071
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: platform_2
-      rect:
-        serializedVersion: 2
-        x: 230
-        y: 4
-        width: 298
-        height: 142
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e464135c69d37e8e0800000000000000
-      internalID: -1664293819527379378
       vertices: []
       indices: 
       edges: []
@@ -1477,12 +1435,12 @@ TextureImporter:
       name: ball
       rect:
         serializedVersion: 2
-        x: 532
-        y: 369
-        width: 184
-        height: 193
+        x: 555
+        y: 399
+        width: 132
+        height: 132
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

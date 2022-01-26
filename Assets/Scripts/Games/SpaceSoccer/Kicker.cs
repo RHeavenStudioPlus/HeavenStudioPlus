@@ -54,6 +54,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
         public void Kick(bool hit, bool highKick = false)
         {
             kickTimes++;
+            aceTimes = 0;
 
             if (highKick)
             {
@@ -219,7 +220,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                         StateCheck(normalizedBeatPrepare);
                         CheckIfFall(normalizedBeat);
 
-                        if (PlayerInput.Pressed())
+                        if (PlayerInput.AltPressed())
                         {
                             Kick(false, true);
                         }
@@ -227,7 +228,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                     else
                     {
                         StateCheck(normalizedBeat);
-                        if (PlayerInput.PressedUp())
+                        if (PlayerInput.AltPressedUp())
                         {
                             if (state.perfect)
                             {

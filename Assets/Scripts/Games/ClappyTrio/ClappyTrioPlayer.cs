@@ -29,7 +29,11 @@ namespace RhythmHeavenMania.Games.ClappyTrio
 
         public override void OnAce()
         {
-            Clap(true);
+            if (aceTimes == 0)
+            {
+                Clap(true);
+                aceTimes++;
+            }
         }
 
         private void Update()
@@ -86,7 +90,6 @@ namespace RhythmHeavenMania.Games.ClappyTrio
 
         public void SetClapAvailability(float startBeat, float length)
         {
-            ResetAce();
             lastClapBeat = startBeat;
             clapVacant = true;
             lastClapLength = length;

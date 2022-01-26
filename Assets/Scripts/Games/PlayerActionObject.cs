@@ -13,7 +13,7 @@ namespace RhythmHeavenMania.Games
 
         public List<Minigame.Eligible> eligibleHitsList = new List<Minigame.Eligible>();
 
-        private int aceTimes;
+        public int aceTimes;
 
         private bool autoPlayEnabledOnStart;
 
@@ -33,7 +33,7 @@ namespace RhythmHeavenMania.Games
                 {
                     OnAce();
                     AceVisuals();
-                    aceTimes++;
+                    // aceTimes++;
                 }
             }
         }
@@ -46,6 +46,7 @@ namespace RhythmHeavenMania.Games
         public void ResetState()
         {
             lastState = 0;
+            ResetAce();
         }
 
         // could possibly add support for custom early, perfect, and end times if needed.

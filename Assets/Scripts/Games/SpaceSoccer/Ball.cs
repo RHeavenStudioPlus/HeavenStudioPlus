@@ -79,6 +79,14 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             toe.startBeat = Conductor.instance.songPositionInBeats;
             
             toeCurve.KeyPoints[0].transform.position = holder.transform.position;
+            if (lastKickLeft)
+            {
+                toeCurve.KeyPoints[1].transform.localPosition = new Vector3(5.39f, 0);
+            }
+            else
+            {
+                toeCurve.KeyPoints[1].transform.localPosition = new Vector3(6.49f, 0);
+            }
         }
 
         private void Update()
