@@ -49,6 +49,8 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         public Vector2 endShadowThrowPos;
 
+        private int missTimes = 0;
+
         private void Start()
         {
             anim = GetComponent<Animator>();
@@ -138,6 +140,14 @@ namespace RhythmHeavenMania.Games.KarateMan
                 lastPotRot = Holder.transform.eulerAngles.z;
                 lastShadowX = Shadow.transform.localPosition.x;
                 lastRot = Holder.transform.GetChild(0).eulerAngles.z;
+
+                if (combo && comboIndex == 0 || combo && comboIndex == 5 || !combo)
+                if (normalizedBeat >= 2 && missTimes == 0)
+                {
+                    if (KarateJoe.instance.missC != null) StopCoroutine(KarateJoe.instance.missC);
+                    KarateJoe.instance.missC = KarateJoe.instance.StartCoroutine(KarateJoe.instance.Miss());
+                    missTimes = 1;
+                }
 
                 StateCheck(normalizedBeat);
 
@@ -270,6 +280,8 @@ namespace RhythmHeavenMania.Games.KarateMan
         public void Miss()
         {
             Jukebox.PlayOneShot("miss");
+
+            KarateJoe.instance.SetHead(3);
 
             NewHolder();
             Holder.transform.parent = newHolder.transform;

@@ -76,6 +76,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             GameObject pot = Instantiate(Pot);
             pot.transform.parent = Pot.transform.parent;
 
+            KarateJoe.instance.SetHead(0);
 
             Pot p = pot.GetComponent<Pot>();
 
