@@ -90,6 +90,7 @@ namespace RhythmHeavenMania.Games.ClappyTrio
 
         public void SetClapAvailability(float startBeat, float length)
         {
+            aceTimes = 0;
             lastClapBeat = startBeat;
             clapVacant = true;
             lastClapLength = length;
