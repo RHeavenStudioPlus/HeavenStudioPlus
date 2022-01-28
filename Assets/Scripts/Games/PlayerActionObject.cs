@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using RhythmHeavenMania.Editor.Track;
+
 namespace RhythmHeavenMania.Games
 {
     public class PlayerActionObject : MonoBehaviour
@@ -150,9 +152,9 @@ namespace RhythmHeavenMania.Games
 
         private void AceVisuals()
         {
-            if (Editor.Timeline.instance != null)
+            if (Timeline.instance != null)
             {
-                Editor.Timeline.instance.AutoplayBTN.GetComponent<Animator>().Play("Ace", 0, 0);
+                Timeline.instance.AutoplayBTN.GetComponent<Animator>().Play("Ace", 0, 0);
             }
         }
 

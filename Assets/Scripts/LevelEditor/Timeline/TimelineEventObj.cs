@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Starpelly;
 using DG.Tweening;
 
-namespace RhythmHeavenMania.Editor
+namespace RhythmHeavenMania.Editor.Track
 {
     public class TimelineEventObj : MonoBehaviour
     {
@@ -41,6 +41,7 @@ namespace RhythmHeavenMania.Editor
         private bool resizingRight;
         private bool inResizeRegion;
         public Vector2 lastMovePos;
+        public bool isCreating;
         public string eventObjID;
 
         [Header("Colors")]
@@ -238,13 +239,17 @@ namespace RhythmHeavenMania.Editor
             {
                 if (eligibleToMove)
                 {
-
                     OnComplete(true);
                 }
 
                 moving = false;
 
                 Cancel();
+                if (isCreating == true)
+                {
+                    isCreating = false;
+                    CommandManager.instance.Execute(new Commands.Place(this));
+                }
             }
         }
 

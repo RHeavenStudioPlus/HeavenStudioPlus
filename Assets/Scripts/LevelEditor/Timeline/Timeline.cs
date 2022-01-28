@@ -6,13 +6,15 @@ using UnityEngine.UI;
 using TMPro;
 using Starpelly;
 
-namespace RhythmHeavenMania.Editor
+namespace RhythmHeavenMania.Editor.Track
 {
     public class Timeline : MonoBehaviour
     {
         [Header("Song Positions")]
         [SerializeField] private TMP_Text SongBeat;
         [SerializeField] private TMP_Text SongPos;
+        [SerializeField] private TMP_Text CurrentTempo;
+        [SerializeField] private RectTransform StartingBPM;
 
         [Header("Timeline Properties")]
         private float lastBeatPos = 0;
@@ -38,10 +40,18 @@ namespace RhythmHeavenMania.Editor
         public Button StopBTN;
         public Button MetronomeBTN;
         public Button AutoplayBTN;
+        public Button SelectionsBTN;
+        public Button TempoChangeBTN;
+        public Button MusicVolumeBTN;
 
         public static Timeline instance { get; private set; }
 
         #region Initializers
+
+        public void UpdateLevelInfo()
+        {
+            StartingBPM.GetChild(0).GetComponent<TMP_Text>().text = GameManager.instance.Beatmap.bpm.ToString();
+        }
 
         public void Init()
         {
@@ -106,6 +116,10 @@ namespace RhythmHeavenMania.Editor
                 }
             });
 
+            Tooltip.AddTooltip(SongBeat.gameObject, "Current Beat");
+            Tooltip.AddTooltip(SongPos.gameObject, "Current Time");
+            Tooltip.AddTooltip(CurrentTempo.gameObject, "Current Tempo (BPM)");
+
             Tooltip.AddTooltip(PlayBTN.gameObject, "Play <color=#adadad>[Space]</color>");
             Tooltip.AddTooltip(PauseBTN.gameObject, "Pause <color=#adadad>[Shift + Space]</color>");
             Tooltip.AddTooltip(StopBTN.gameObject, "Stop <color=#adadad>[Space]</color>");
@@ -113,8 +127,14 @@ namespace RhythmHeavenMania.Editor
             Tooltip.AddTooltip(MetronomeBTN.gameObject, "Metronome");
             Tooltip.AddTooltip(AutoplayBTN.gameObject, "Autoplay");
 
+            Tooltip.AddTooltip(SelectionsBTN.gameObject, "Tool: Selection <color=#adadad>[1]</color>");
+            Tooltip.AddTooltip(TempoChangeBTN.gameObject, "Tool: Tempo Change <color=#adadad>[2]</color>");
+            Tooltip.AddTooltip(MusicVolumeBTN.gameObject, "Tool: Music Volume <color=#adadad>[3]</color>");
+
             SetTimeButtonColors(true, false, false);
             MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+
+            UpdateLevelInfo();
         }
 
         public static string RandomID()
@@ -179,6 +199,20 @@ namespace RhythmHeavenMania.Editor
                 TimelineContent.transform.localPosition = new Vector3((-Conductor.instance.songPositionInBeats * 100) + 200, TimelineContent.transform.localPosition.y);
 
             TimelineContent.transform.localPosition = new Vector3(Mathf.Clamp(TimelineContent.transform.localPosition.x, Mathf.NegativeInfinity, 0), TimelineContent.transform.localPosition.y);
+
+            CurrentTempo.text = $"            = {Conductor.instance.songBpm}";
+
+            if (RectTransformUtility.RectangleContainsScreenPoint(StartingBPM, Input.mousePosition, Camera.main))
+            {
+                float increase = Input.mouseScrollDelta.y;
+                if (Input.GetKey(KeyCode.LeftControl))
+                    increase /= 100f;
+                if (Input.GetKey(KeyCode.LeftShift))
+                    increase *= 5f;
+
+                GameManager.instance.Beatmap.bpm += increase;
+                UpdateLevelInfo();
+            }
         }
 
         private void SliderControl()

@@ -8,6 +8,8 @@ using TMPro;
 
 using Starpelly;
 
+using RhythmHeavenMania.Editor.Track;
+
 namespace RhythmHeavenMania.Editor
 {
     public class EditorTheme : MonoBehaviour

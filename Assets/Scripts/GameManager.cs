@@ -32,7 +32,7 @@ namespace RhythmHeavenMania
 
 
         [Header("Properties")]
-        public int currentEvent, currentPlayerEvent;
+        public int currentEvent, currentTempoEvent;
         public float startOffset;
         public bool playOnStart;
         public float startBeat;
@@ -93,6 +93,7 @@ namespace RhythmHeavenMania
                 return;
 
             List<float> entities = Beatmap.entities.Select(c => c.beat).ToList();
+            List<float> tempoChanges = Beatmap.tempoChanges.Select(c => c.beat).ToList();
 
             if (currentEvent < Beatmap.entities.Count && currentEvent >= 0)
             {
@@ -122,6 +123,16 @@ namespace RhythmHeavenMania
                     currentEvent += entitesAtSameBeat.Count + gameManagerEntities.Count;
                 }
             }
+
+            if (currentTempoEvent < Beatmap.tempoChanges.Count && currentTempoEvent >= 0)
+            {
+                if (Conductor.instance.songPositionInBeats >= tempoChanges[currentTempoEvent])
+                {
+                    Conductor.instance.songBpm = Beatmap.tempoChanges[currentTempoEvent].tempo;
+                    Conductor.instance.timeSinceLastTempoChange = Time.time;
+                    currentTempoEvent++;
+                }
+            }
         }
 
         #region Play Events
@@ -135,6 +146,9 @@ namespace RhythmHeavenMania
         {
             yield return null;
             bool paused = Conductor.instance.isPaused;
+
+            Conductor.instance.SetBpm(Beatmap.bpm);
+
             Conductor.instance.Play(beat);
             if (!paused)
             {
@@ -162,6 +176,7 @@ namespace RhythmHeavenMania
         public void SortEventsList()
         {
             Beatmap.entities.Sort((x, y) => x.beat.CompareTo(y.beat));
+            Beatmap.tempoChanges.Sort((x, y) => x.beat.CompareTo(y.beat));
         }
 
         public void SetCurrentEventToClosest(float beat)
@@ -170,11 +185,6 @@ namespace RhythmHeavenMania
             if (Beatmap.entities.Count > 0)
             {
                 List<float> entities = Beatmap.entities.Select(c => c.beat).ToList();
-                if (playerEntities != null)
-                {
-                    List<float> entities_p = playerEntities.Select(c => c.beat).ToList();
-                    currentPlayerEvent = entities_p.IndexOf(Mathp.GetClosestInList(entities_p, beat));
-                }
 
                 currentEvent = entities.IndexOf(Mathp.GetClosestInList(entities, beat));
 
@@ -205,6 +215,13 @@ namespace RhythmHeavenMania
                 }
 
                 SetGame(newGame);
+            }
+
+            if (Beatmap.tempoChanges.Count > 0)
+            {
+                List<float> tempoChanges = Beatmap.tempoChanges.Select(c => c.beat).ToList();
+
+                currentTempoEvent = tempoChanges.IndexOf(Mathp.GetClosestInList(tempoChanges, beat));
             }
         }
 
