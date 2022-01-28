@@ -47,6 +47,8 @@ namespace RhythmHeavenMania
         // Metronome tick sound enabled
         public bool metronome = false;
 
+        public float timeSinceLastTempoChange = 0;
+
         private bool beat;
 
         // private AudioDspTimeKeeper timeKeeper;
@@ -54,11 +56,6 @@ namespace RhythmHeavenMania
         void Awake()
         {
             instance = this;
-        }
-
-        void Start()
-        {
-            secPerBeat = 60f / songBpm;
         }
 
         public void SetBeat(float beat)
@@ -79,6 +76,7 @@ namespace RhythmHeavenMania
         public void Play(float beat)
         {
             this.time = GetSongPosFromBeat(beat);
+            songPositionInBeats = GetSongPosFromBeat(beat) / secPerBeat; 
 
             isPlaying = true;
             isPaused = false;
@@ -103,22 +101,27 @@ namespace RhythmHeavenMania
         public void Stop(float time)
         {
             this.time = time;
+            songPositionInBeats = time / secPerBeat;
             isPlaying = false;
             isPaused = false;
 
 
             musicSource.Stop();
         }
+        float test;
 
         public void Update()
         {
+            secPerBeat = 60f / songBpm;
+
             if (isPlaying)
             {
                 time += Time.deltaTime * musicSource.pitch;
 
                 songPosition = time - firstBeatOffset;
 
-                songPositionInBeats = songPosition / secPerBeat;
+                songPositionInBeats += (Time.deltaTime - firstBeatOffset) / secPerBeat;
+                // songPositionInBeats = Time.deltaTime / secPerBeat;
 
                 if (metronome)
                 {

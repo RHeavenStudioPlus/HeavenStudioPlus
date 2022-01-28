@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+using RhythmHeavenMania.Editor.Track;
+
 namespace RhythmHeavenMania.Editor.Commands
 {
     public class Selection : IAction
     {
         List<TimelineEventObj> eventObjs;
+        List<TimelineEventObj> lastEventObjs;
 
         public Selection(List<TimelineEventObj> eventObjs)
         {
@@ -20,14 +23,15 @@ namespace RhythmHeavenMania.Editor.Commands
 
         public void Redo()
         {
-            for (int i = 0; i < eventObjs.Count; i++)
+            for (int i = 0; i < lastEventObjs.Count; i++)
             {
-                Selections.instance.ShiftClickSelect(eventObjs[i]);
+                Selections.instance.ShiftClickSelect(lastEventObjs[i]);
             }
         }
 
         public void Undo()
         {
+            lastEventObjs = eventObjs;
             for (int i = 0; i < eventObjs.Count; i++)
             {
                 Selections.instance.ShiftClickSelect(eventObjs[i]);
@@ -102,6 +106,7 @@ namespace RhythmHeavenMania.Editor.Commands
     public class Place : IAction
     {
         TimelineEventObj eventObj;
+        TimelineEventObj deletedObj;
 
         public Place(TimelineEventObj eventObj)
         {
@@ -114,11 +119,12 @@ namespace RhythmHeavenMania.Editor.Commands
 
         public void Redo()
         {
-            throw new System.NotImplementedException();
+            deletedObj = Timeline.instance.AddEventObject(deletedObj.entity.datamodel, false, new Vector3(deletedObj.entity.beat, -deletedObj.entity.track * Timeline.instance.LayerHeight()), deletedObj.entity, true, deletedObj.entity.eventObj.eventObjID);
         }
 
         public void Undo()
         {
+            deletedObj = eventObj;
             Selections.instance.Deselect(eventObj);
             Timeline.instance.DestroyEventObject(eventObj.entity);
             // Beatmap.Entity e = deletedObjs[i].entity;

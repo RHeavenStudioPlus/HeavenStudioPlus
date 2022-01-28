@@ -104,7 +104,16 @@ namespace RhythmHeavenMania
                     new GameAction("ball dispense",     delegate { SpaceSoccer.instance.Dispense(eventCaller.currentBeat); }, 2f),
                     new GameAction("keep-up",           delegate { }, 4f, true),
                     new GameAction("high kick-toe!",    delegate { }, 3f),
-                })
+                }),
+                /*new Minigame("djSchool", "DJ School", "B888F8", new List<GameAction>()
+                {
+                }),
+                new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
+                {
+                }),
+                new Minigame("tapTrial", "Tap Trial", "B888F8", new List<GameAction>()
+                {
+                })*/
             };
         }
     }

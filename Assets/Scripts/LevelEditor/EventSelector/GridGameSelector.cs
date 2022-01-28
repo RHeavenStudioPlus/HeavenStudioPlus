@@ -7,6 +7,8 @@ using TMPro;
 using DG.Tweening;
 using Starpelly;
 
+using RhythmHeavenMania.Editor.Track;
+
 namespace RhythmHeavenMania.Editor
 {
     public class GridGameSelector : MonoBehaviour
@@ -170,7 +172,10 @@ namespace RhythmHeavenMania.Editor
                 {
                     eventObj = Timeline.instance.AddEventObject(mg.name + "/" + mg.actions[currentEventIndex - 1].actionName, true, new Vector3(0, 0), null, true, Timeline.RandomID());
                 }
-                CommandManager.instance.Execute(new Commands.Place(eventObj));
+
+                eventObj.isCreating = true;
+
+                // CommandManager.instance.Execute(new Commands.Place(eventObj));
             }
         }
 

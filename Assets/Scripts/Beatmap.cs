@@ -9,6 +9,7 @@ namespace RhythmHeavenMania
     {
         public float bpm;
         public List<Entity> entities = new List<Entity>();
+        public List<TempoChange> tempoChanges = new List<TempoChange>();
 
         [Serializable]
         public class Entity : ICloneable
@@ -19,7 +20,20 @@ namespace RhythmHeavenMania
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float valA;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public int type;
             public string datamodel;
-            [JsonIgnore] public Editor.TimelineEventObj eventObj;
+            [JsonIgnore] public Editor.Track.TimelineEventObj eventObj;
+
+            public object Clone()
+            {
+                return this.MemberwiseClone();
+            }
+        }
+
+        [Serializable]
+        public class TempoChange : ICloneable
+        {
+            public float beat;
+            public float length;
+            public float tempo;
 
             public object Clone()
             {

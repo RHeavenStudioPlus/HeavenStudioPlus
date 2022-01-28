@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 using TMPro;
 using Starpelly;
 
+using RhythmHeavenMania.Editor.Track;
+
 namespace RhythmHeavenMania.Editor
 {
     public class Editor : MonoBehaviour
@@ -125,7 +127,10 @@ namespace RhythmHeavenMania.Editor
 
                     for (int i = 0; i < selectedEvents.Count; i++)
                     {
-                        result.Add(selectedEvents[i]);
+                        if (selectedEvents[i].isCreating == false)
+                        {
+                            result.Add(selectedEvents[i]);
+                        }
                         selectedEvents[i].OnUp();
                     }
                     CommandManager.instance.Execute(new Commands.Move(result));
