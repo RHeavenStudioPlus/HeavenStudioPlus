@@ -38,7 +38,7 @@ namespace RhythmHeavenMania.Editor
 
         public void Undo()
         {
-            if (!canUndo()) return;
+            if (!canUndo() || Conductor.instance.NotStopped()) return;
 
             if (historyStack.Count > 0)
             {
@@ -49,7 +49,7 @@ namespace RhythmHeavenMania.Editor
 
         public void Redo()
         {
-            if (!canRedo()) return;
+            if (!canRedo() || Conductor.instance.NotStopped()) return;
 
             if (redoHistoryStack.Count > 0)
             {

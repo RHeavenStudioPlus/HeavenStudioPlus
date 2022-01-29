@@ -120,7 +120,7 @@ namespace RhythmHeavenMania
 
                 songPosition = time - firstBeatOffset;
 
-                songPositionInBeats += (Time.deltaTime - firstBeatOffset) / secPerBeat;
+                songPositionInBeats += ((Time.deltaTime * musicSource.pitch) - firstBeatOffset) / secPerBeat;
                 // songPositionInBeats = Time.deltaTime / secPerBeat;
 
                 if (metronome)

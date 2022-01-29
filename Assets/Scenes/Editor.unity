@@ -4297,6 +4297,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 666273484}
+  - component: {fileID: 666273485}
   m_Layer: 5
   m_Name: TempoChange
   m_TagString: Untagged
@@ -4318,6 +4319,7 @@ RectTransform:
   - {fileID: 2127964035}
   - {fileID: 1287203020}
   - {fileID: 499528698}
+  - {fileID: 983551349}
   m_Father: {fileID: 689207020}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4326,6 +4328,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0.0876, y: 0}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &666273485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666273483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe88f36dac55f44dac7fe958fe3c228, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rectTransform: {fileID: 0}
+  tempoTXT: {fileID: 499528699}
+  raycastRect: {fileID: 983551349}
+  tempoChange:
+    beat: 0
+    length: 0
+    tempo: 0
+  hovering: 0
 --- !u!1 &678553524
 GameObject:
   m_ObjectHideFlags: 0
@@ -4511,6 +4533,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RefTempoChange: {fileID: 666273484}
+  StartingBPM: {fileID: 1199306549}
+  tempoTimelineObjs: []
 --- !u!114 &689207022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6365,6 +6389,81 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 954835803}
+  m_CullTransparentMesh: 1
+--- !u!1 &983551348
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 983551349}
+  - component: {fileID: 983551351}
+  - component: {fileID: 983551350}
+  m_Layer: 5
+  m_Name: Raycast
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &983551349
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983551348}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 666273484}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0.36, y: 33.998}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &983551350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983551348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &983551351
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983551348}
   m_CullTransparentMesh: 1
 --- !u!1 &991363086
 GameObject:
@@ -8725,7 +8824,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.02000001, y: 33.998}
+  m_SizeDelta: {x: 0.03, y: 33.998}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1287203021
 MonoBehaviour:
@@ -9340,8 +9439,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f86858990a87c764892672104bdaef1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: {fileID: 4900000, guid: fafaeee85f4121643a0699a4de97da53, type: 3}
-  music: {fileID: 8300000, guid: a0589cdba27fb254e90da17b4804c2fe, type: 3}
+  level: {fileID: 4900000, guid: ad2467f171a3aee4b9be8c26e2e1a42c, type: 3}
+  music: {fileID: 8300000, guid: 7d1a104c87e593f40a262ebbcb2a371b, type: 3}
   debugUI: 0
   playOnStart: 0
   editor: 1
@@ -11656,12 +11755,12 @@ MonoBehaviour:
   SongBeat: {fileID: 932211468}
   SongPos: {fileID: 1567318397}
   CurrentTempo: {fileID: 1783963081}
-  StartingBPM: {fileID: 1199306549}
   eventObjs: []
   LayerCount: 4
   metronomeEnabled: 0
   resizable: 0
   TimelineSlider: {fileID: 770589360}
+  TimelineGridSelect: {fileID: 238901181}
   TimelinePlaybackBeat: {fileID: 117889364}
   TimelineContent: {fileID: 1852819573}
   TimelineSongPosLineRef: {fileID: 580861938}
@@ -12795,7 +12894,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.109999985, y: 11.84}
+  m_SizeDelta: {x: 0.15, y: 11.84}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &2127964036
 MonoBehaviour:

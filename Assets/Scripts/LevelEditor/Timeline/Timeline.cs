@@ -14,7 +14,6 @@ namespace RhythmHeavenMania.Editor.Track
         [SerializeField] private TMP_Text SongBeat;
         [SerializeField] private TMP_Text SongPos;
         [SerializeField] private TMP_Text CurrentTempo;
-        [SerializeField] private RectTransform StartingBPM;
 
         [Header("Timeline Properties")]
         private float lastBeatPos = 0;
@@ -24,9 +23,42 @@ namespace RhythmHeavenMania.Editor.Track
         public int LayerCount = 4;
         public bool metronomeEnabled;
         public bool resizable;
+        private bool movingPlayback;
+        public CurrentTimelineState timelineState = new CurrentTimelineState();
+
+        public class CurrentTimelineState
+        {
+            public bool selected;
+            public bool tempoChange;
+            public bool musicVolume;
+
+            public void SetState(bool selected, bool tempoChange, bool musicVolume)
+            {
+                if (Conductor.instance.NotStopped()) return;
+
+                this.selected = selected;
+                this.tempoChange = tempoChange;
+                this.musicVolume = musicVolume;
+
+                if (selected)
+                    instance.SelectionsBTN.transform.GetChild(0).GetComponent<Image>().color = Color.white;
+                else
+                    instance.SelectionsBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+                if (tempoChange)
+                    instance.TempoChangeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.white;
+                else
+                    instance.TempoChangeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+                if (musicVolume)
+                    instance.MusicVolumeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.white;
+                else
+                    instance.MusicVolumeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+
+            }
+        }
 
         [Header("Timeline Components")]
         [SerializeField] private RectTransform TimelineSlider;
+        [SerializeField] private RectTransform TimelineGridSelect;
         [SerializeField] private TMP_Text TimelinePlaybackBeat;
         [SerializeField] private RectTransform TimelineContent;
         [SerializeField] private RectTransform TimelineSongPosLineRef;
@@ -47,11 +79,6 @@ namespace RhythmHeavenMania.Editor.Track
         public static Timeline instance { get; private set; }
 
         #region Initializers
-
-        public void UpdateLevelInfo()
-        {
-            StartingBPM.GetChild(0).GetComponent<TMP_Text>().text = GameManager.instance.Beatmap.bpm.ToString();
-        }
 
         public void Init()
         {
@@ -116,6 +143,19 @@ namespace RhythmHeavenMania.Editor.Track
                 }
             });
 
+            SelectionsBTN.onClick.AddListener(delegate
+            {
+                timelineState.SetState(true, false, false);
+            });
+            TempoChangeBTN.onClick.AddListener(delegate
+            {
+                timelineState.SetState(false, true, false);
+            });
+            MusicVolumeBTN.onClick.AddListener(delegate
+            {
+                timelineState.SetState(false, false, true);
+            });
+
             Tooltip.AddTooltip(SongBeat.gameObject, "Current Beat");
             Tooltip.AddTooltip(SongPos.gameObject, "Current Time");
             Tooltip.AddTooltip(CurrentTempo.gameObject, "Current Tempo (BPM)");
@@ -134,7 +174,7 @@ namespace RhythmHeavenMania.Editor.Track
             SetTimeButtonColors(true, false, false);
             MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
 
-            UpdateLevelInfo();
+            timelineState.SetState(true, false, false);
         }
 
         public static string RandomID()
@@ -172,7 +212,16 @@ namespace RhythmHeavenMania.Editor.Track
             }
 
 
-            if (Input.GetMouseButton(1) && !Conductor.instance.isPlaying && CheckIfMouseInTimeline())
+            if (Input.GetMouseButton(1) && !Conductor.instance.isPlaying && MouseInRectTransform(TimelineGridSelect))
+            {
+                movingPlayback = true;
+            }
+            else if (Input.GetMouseButtonUp(1))
+            {
+                movingPlayback = false;
+            }
+
+            if (movingPlayback)
             {
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(TimelineContent, Input.mousePosition, Editor.instance.EditorCamera, out lastMousePos);
                 TimelineSlider.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(lastMousePos.x + 0.12f, 0.25f), 0, Mathf.Infinity), TimelineSlider.transform.localPosition.y);
@@ -201,18 +250,6 @@ namespace RhythmHeavenMania.Editor.Track
             TimelineContent.transform.localPosition = new Vector3(Mathf.Clamp(TimelineContent.transform.localPosition.x, Mathf.NegativeInfinity, 0), TimelineContent.transform.localPosition.y);
 
             CurrentTempo.text = $"            = {Conductor.instance.songBpm}";
-
-            if (RectTransformUtility.RectangleContainsScreenPoint(StartingBPM, Input.mousePosition, Camera.main))
-            {
-                float increase = Input.mouseScrollDelta.y;
-                if (Input.GetKey(KeyCode.LeftControl))
-                    increase /= 100f;
-                if (Input.GetKey(KeyCode.LeftShift))
-                    increase *= 5f;
-
-                GameManager.instance.Beatmap.bpm += increase;
-                UpdateLevelInfo();
-            }
         }
 
         private void SliderControl()
@@ -346,6 +383,11 @@ namespace RhythmHeavenMania.Editor.Track
         public bool CheckIfMouseInTimeline()
         {
             return (this.gameObject.activeSelf && RectTransformUtility.RectangleContainsScreenPoint(TimelineContent.transform.parent.gameObject.GetComponent<RectTransform>(), Input.mousePosition, Camera.main));
+        }
+
+        public bool MouseInRectTransform(RectTransform rectTransform)
+        {
+            return (rectTransform.gameObject.activeSelf && RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, Camera.main));
         }
         #endregion
 
