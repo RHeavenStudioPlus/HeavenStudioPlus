@@ -37,11 +37,11 @@ namespace RhythmHeavenMania
             loadedScene = 0;
             fadeDuration = 0;
 
-            GameObject ui = new GameObject();
+            /*GameObject ui = new GameObject();
             ui.AddComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("tempBuildUI");
             ui.GetComponent<SpriteRenderer>().sortingOrder = 1000;
             ui.layer = 5;
-            ui.name = "tempBuildUI";
+            ui.name = "tempBuildUI";*/
         }
 
         public void Awake()

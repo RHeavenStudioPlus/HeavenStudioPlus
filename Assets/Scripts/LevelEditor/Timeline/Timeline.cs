@@ -250,6 +250,19 @@ namespace RhythmHeavenMania.Editor.Track
             TimelineContent.transform.localPosition = new Vector3(Mathf.Clamp(TimelineContent.transform.localPosition.x, Mathf.NegativeInfinity, 0), TimelineContent.transform.localPosition.y);
 
             CurrentTempo.text = $"            = {Conductor.instance.songBpm}";
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                timelineState.SetState(true, false, false);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                timelineState.SetState(false, true, false);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                timelineState.SetState(false, false, true);
+            }
         }
 
         private void SliderControl()
