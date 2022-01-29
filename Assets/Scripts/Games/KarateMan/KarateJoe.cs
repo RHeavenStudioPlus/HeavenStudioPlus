@@ -35,7 +35,7 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         public static KarateJoe instance { get; set; }
 
-        private void Start()
+        private void Awake()
         {
             instance = this;
             anim = GetComponent<Animator>();

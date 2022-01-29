@@ -79,8 +79,8 @@ namespace RhythmHeavenMania
 
             if (Beatmap.entities.Count >= 1)
             {
-                SetCurrentGame(Beatmap.entities[0].datamodel.Split('/')[0]);
-                SetGame(Beatmap.entities[0].datamodel.Split('/')[0]);
+                SetCurrentGame(Beatmap.entities[0].datamodel.Split(0));
+                SetGame(Beatmap.entities[0].datamodel.Split(0));
             }
         }
 
@@ -303,6 +303,10 @@ namespace RhythmHeavenMania
 
         public GameObject GetGame(string name)
         {
+            if (name == "gameManager")
+            {
+                name = Beatmap.entities.FindAll(c => c.datamodel.Split(0) != "gameManager").ToList()[0].datamodel.Split(0);
+            }
             return Resources.Load<GameObject>($"Games/{name}");
         }
 
