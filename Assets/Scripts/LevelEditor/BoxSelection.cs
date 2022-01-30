@@ -12,6 +12,7 @@ namespace RhythmHeavenMania.Editor
     public class BoxSelection : MonoBehaviour
     {
         [SerializeField] private RectTransform boxVisual;
+        [SerializeField] private RectTransform timelineContent;
         private Rect selectionBox;
 
         private Vector2 startPosition = Vector2.zero;
@@ -73,8 +74,8 @@ namespace RhythmHeavenMania.Editor
             {
                 startPosition = Vector2.zero;
                 endPosition = Vector2.zero;
-                DrawVisual();
                 SelectEvents();
+                DrawVisual();
             }
 
             // selecting = (selectionBox.size != Vector2.zero); -- doesn't work really
@@ -92,7 +93,8 @@ namespace RhythmHeavenMania.Editor
 
             Vector2 boxSize = new Vector2(Mathf.Abs(boxStart.x - boxEnd.x), Mathf.Abs(boxStart.y - boxEnd.y));
 
-            boxVisual.sizeDelta = boxSize;
+            // boxVisual.sizeDelta = new Vector2(boxSize.x / boxVisual.localScale.x, boxSize.y / boxVisual.localScale.y);
+            boxVisual.sizeDelta = new Vector2(boxSize.x, boxSize.y);
         }
 
         private void DrawSelection()
@@ -128,13 +130,13 @@ namespace RhythmHeavenMania.Editor
 
         private void SelectEvents()
         {
+            if (!Input.GetKey(KeyCode.LeftShift)) Selections.instance.DeselectAll();
+
             int selected = 0;
 
-            // if (!Input.GetKeyDown(KeyCode.LeftShift)) Selections.instance.DeselectAll();
             for (int i = 0; i < GameManager.instance.Beatmap.entities.Count; i++)
             {
                 TimelineEventObj e = GameManager.instance.Beatmap.entities[i].eventObj;
-
 
                 if (selectionBox.Overlaps(GetWorldRect(e.GetComponent<RectTransform>())))
                 {
@@ -149,6 +151,8 @@ namespace RhythmHeavenMania.Editor
         public Vector3 MousePosition()
         {
             var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            // var mousePos = new Vector2();
+            // RectTransformUtility.ScreenPointToLocalPointInRectangle(timelineContent, Input.mousePosition, Camera.main, out mousePos);
             return new Vector3(mousePos.x, mousePos.y, 0);
         }
 

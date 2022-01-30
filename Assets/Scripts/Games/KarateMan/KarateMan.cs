@@ -115,11 +115,17 @@ namespace RhythmHeavenMania.Games.KarateMan
                         p.hitSnd = "karateman/lightbulbHit";
                         break;
                     case 2:
-                        outSnd = "karateman/objectOut";
+                        if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
+                            outSnd = "karateman/objectOut";
+                        else
+                            outSnd = "karateman/offbeatObjectOut";
                         p.hitSnd = "karateman/rockHit";
                         break;
                     case 3:
-                        outSnd = "karateman/objectOut";
+                        if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
+                            outSnd = "karateman/objectOut";
+                        else
+                            outSnd = "karateman/offbeatObjectOut";
                         p.hitSnd = "karateman/soccerHit";
                         break;
                     case 4:

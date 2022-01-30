@@ -36,6 +36,7 @@ namespace RhythmHeavenMania.Editor
         [SerializeField] private Button RedoBTN;
         [SerializeField] private Button MusicSelectBTN;
         [SerializeField] private Button EditorSettingsBTN;
+        [SerializeField] private Button EditorThemeBTN;
 
         public static List<TimelineEventObj> EventObjs = new List<TimelineEventObj>();
 
@@ -71,6 +72,7 @@ namespace RhythmHeavenMania.Editor
             Tooltip.AddTooltip(RedoBTN.gameObject, "Redo <color=#adadad>[Ctrl+Y or Ctrl+Shift+Z]</color>");
             Tooltip.AddTooltip(MusicSelectBTN.gameObject, "Music Select");
             Tooltip.AddTooltip(EditorSettingsBTN.gameObject, "Editor Settings <color=#adadad>[Ctrl+Shift+O]</color>");
+            Tooltip.AddTooltip(EditorThemeBTN.gameObject, "Editor Theme");
         }
 
         public void Update()
