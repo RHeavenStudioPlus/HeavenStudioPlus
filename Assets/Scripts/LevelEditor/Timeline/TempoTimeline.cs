@@ -26,12 +26,12 @@ namespace RhythmHeavenMania.Editor.Track
                 Beatmap.TempoChange tempoChange = GameManager.instance.Beatmap.tempoChanges[i];
                 AddTempoChange(false, tempoChange);
             }
-
-            StartingBPM.GetChild(0).GetComponent<TMP_Text>().text = GameManager.instance.Beatmap.bpm.ToString();
         }
 
         private void Update()
         {
+            StartingBPM.GetChild(0).GetComponent<TMP_Text>().text = GameManager.instance.Beatmap.bpm.ToString();
+
             if (Timeline.instance.timelineState.tempoChange && !Conductor.instance.NotStopped())
             {
                 if (RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, Camera.main))

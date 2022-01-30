@@ -96,6 +96,24 @@ namespace RhythmHeavenMania
             }
         }
 
+        public void LoadRemix(string json)
+        {
+            SortEventsList();
+
+            Beatmap = JsonConvert.DeserializeObject<Beatmap>(json);
+            Conductor.instance.SetBpm(Beatmap.bpm);
+
+            if (Beatmap.entities.Count >= 1)
+            {
+                SetCurrentGame(Beatmap.entities[0].datamodel.Split(0));
+                SetGame(Beatmap.entities[0].datamodel.Split(0));
+            }
+            else
+            {
+                SetGame("noGame");
+            }
+        }
+
         // LateUpdate works a bit better but causes a bit of bugs, so remind me to fix those eventually
         private void Update()
         {

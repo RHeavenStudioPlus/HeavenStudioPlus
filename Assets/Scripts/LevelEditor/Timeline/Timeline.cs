@@ -80,9 +80,13 @@ namespace RhythmHeavenMania.Editor.Track
 
         #region Initializers
 
-        public void Init()
+        public void LoadRemix()
         {
-            instance = this;
+            for (int i = 0; i < eventObjs.Count; i++)
+            {
+                Destroy(eventObjs[i].gameObject);
+            }
+            eventObjs.Clear();
 
             for (int i = 0; i < GameManager.instance.Beatmap.entities.Count; i++)
             {
@@ -91,6 +95,13 @@ namespace RhythmHeavenMania.Editor.Track
 
                 AddEventObject(e.datamodel, false, new Vector3(e.beat, -e.track * LayerHeight()), e, false, RandomID());
             }
+        }
+
+        public void Init()
+        {
+            instance = this;
+
+            LoadRemix();
 
             TimelineSlider.GetChild(0).GetComponent<Image>().color = EditorTheme.theme.properties.BeatMarkerCol.Hex2RGB();
             TimelineSlider.GetChild(1).GetComponent<Image>().color = EditorTheme.theme.properties.BeatMarkerCol.Hex2RGB();
@@ -477,7 +488,6 @@ namespace RhythmHeavenMania.Editor.Track
                 }
             }
 
-            Editor.EventObjs.Add(eventObj);
             eventObjs.Add(eventObj);
 
             eventObj.eventObjID = eventId;
@@ -487,7 +497,7 @@ namespace RhythmHeavenMania.Editor.Track
 
         public void DestroyEventObject(Beatmap.Entity entity)
         {
-            Editor.EventObjs.Remove(entity.eventObj);
+            eventObjs.Remove(entity.eventObj);
             GameManager.instance.Beatmap.entities.Remove(entity);
             Timeline.instance.eventObjs.Remove(entity.eventObj);
 
