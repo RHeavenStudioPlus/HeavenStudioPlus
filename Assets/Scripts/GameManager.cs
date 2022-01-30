@@ -58,8 +58,16 @@ namespace RhythmHeavenMania
             sp.sortingOrder = 30000;
             this.gameObject.layer = 3;
 
-            string json = txt.text;
-            Beatmap = JsonConvert.DeserializeObject<Beatmap>(json);
+            if (txt != null)
+            {
+                string json = txt.text;
+                Beatmap = JsonConvert.DeserializeObject<Beatmap>(json);
+            }
+            else
+            {
+                Beatmap = new Beatmap();
+                Beatmap.bpm = 120f;
+            }
 
             SortEventsList();
 
@@ -81,6 +89,10 @@ namespace RhythmHeavenMania
             {
                 SetCurrentGame(Beatmap.entities[0].datamodel.Split(0));
                 SetGame(Beatmap.entities[0].datamodel.Split(0));
+            }
+            else
+            {
+                SetGame("noGame");
             }
         }
 
@@ -223,6 +235,10 @@ namespace RhythmHeavenMania
 
                 SetGame(newGame);
             }
+            else
+            {
+                SetGame("noGame");
+            }
 
             if (Beatmap.tempoChanges.Count > 0)
             {
@@ -285,13 +301,11 @@ namespace RhythmHeavenMania
                 currentGameO.name = game;
             }
 
-            GameCamera.orthographic = true;
-
-            if (onGameSwitch)
+            /*if (onGameSwitch)
             {
                 if (GetGame(currentGame).GetComponent<Minigame>() != null)
                     GetGame(game).GetComponent<Minigame>().OnGameSwitch();
-            }
+            }*/
 
             SetCurrentGame(game);
         }
@@ -331,7 +345,9 @@ namespace RhythmHeavenMania
         public void SetCurrentGame(string game)
         {
             currentGame = game;
-            CircleCursor.InnerCircle.GetComponent<SpriteRenderer>().color = Colors.Hex2RGB(GetGameInfo(currentGame).color);
+            if (GetGameInfo(currentGame) != null) CircleCursor.InnerCircle.GetComponent<SpriteRenderer>().color = Colors.Hex2RGB(GetGameInfo(currentGame).color);
+            else
+                CircleCursor.InnerCircle.GetComponent<SpriteRenderer>().color = Color.white;
         }
 
         private bool SongPosLessThanClipLength(float t)
