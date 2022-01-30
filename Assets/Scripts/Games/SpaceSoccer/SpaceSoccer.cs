@@ -11,6 +11,8 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
         [Header("Components")]
         [SerializeField] private GameObject ballRef;
         [SerializeField] private Kicker kicker;
+        [SerializeField] private GameObject Background;
+        [SerializeField] private Sprite[] backgroundSprite;
 
         [Header("Properties")]
         [SerializeField] private bool ballDispensed;
@@ -22,11 +24,29 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             instance = this;
         }
 
+        private void Start()
+        {
+            for (int x = 0; x < Random.Range(9, 12); x++)
+            {
+                for (int y = 0; y < Random.Range(6, 9); y++)
+                {
+                    GameObject test = new GameObject("test");
+                    test.transform.parent = Background.transform;
+                    test.AddComponent<SpriteRenderer>().sprite = backgroundSprite[Random.Range(0, 2)];
+                    test.GetComponent<SpriteRenderer>().sortingOrder = -50;
+                    test.transform.localPosition = new Vector3(Random.Range(-15f, 15f), Random.Range(-15f, 15f));
+                    test.transform.localScale = new Vector3(0.52f, 0.52f);
+                }
+            }
+        }
+
         private void Update()
         {
             if (ballDispensed)
             {
             }
+
+            
         }
 
         public void Dispense(float beat)
