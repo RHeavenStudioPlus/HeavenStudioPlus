@@ -285,7 +285,7 @@ namespace RhythmHeavenMania.Games.KarateMan
         public void Miss()
         {
             Jukebox.PlayOneShot("miss");
-
+            
             KarateJoe.instance.SetHead(3);
 
             NewHolder();

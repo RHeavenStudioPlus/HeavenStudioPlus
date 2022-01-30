@@ -143,6 +143,13 @@ namespace RhythmHeavenMania.Games.KarateMan
                         AnimPlay("ComboMiss");
                         ResetCombo();
                     }
+
+                    if (comboNormalizedBeat >= 3.5f && comboIndex < 69)
+                    {
+                        ResetCombo();
+                        AnimPlay("ComboCrouchPunchToIdle");
+                        comboIndex = 69;
+                    }
                 }
             }
             else
@@ -218,6 +225,7 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         private void ResetCombo()
         {
+            SetHead(0);
             hitCombo = false;
             inCombo = false;
             comboPotIndex = 0;
@@ -245,6 +253,7 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         public void Swing(Pot p)
         {
+            SetHead(0);
             bool punchLeft = true;
 
             if (p == null)

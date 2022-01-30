@@ -215,6 +215,9 @@ TextureImporter:
   - first:
       213: -6283416824598814145
     second: karateman_tacobell
+  - first:
+      213: 756708653002075470
+    second: karateman_combo_crouch_toIdle_leg
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -1836,7 +1839,7 @@ TextureImporter:
         width: 280
         height: 280
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1844,6 +1847,27 @@ TextureImporter:
       bones: []
       spriteID: f32231260b1dcc8a0800000000000000
       internalID: -6283416824598814145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_combo_crouch_toIdle_leg
+      rect:
+        serializedVersion: 2
+        x: 2690
+        y: 2082
+        width: 401
+        height: 409
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4d27acb28e508a00800000000000000
+      internalID: 756708653002075470
       vertices: []
       indices: 
       edges: []

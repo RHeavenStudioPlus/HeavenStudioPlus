@@ -202,13 +202,20 @@ namespace RhythmHeavenMania
                     }
                     else if (closestGameSwitch.beat > beat)
                     {
-                        if (index - 1 >= 0)
+                        if (index == 0)
                         {
-                            newGame = gameSwitchs[index - 1].datamodel.Split(2);
+                            newGame = Beatmap.entities[0].datamodel.Split(0);
                         }
                         else
                         {
-                            newGame = Beatmap.entities[Beatmap.entities.IndexOf(closestGameSwitch) - 1].datamodel.Split(0);
+                            if (index - 1 >= 0)
+                            {
+                                newGame = gameSwitchs[index - 1].datamodel.Split(2);
+                            }
+                            else
+                            {
+                                newGame = Beatmap.entities[Beatmap.entities.IndexOf(closestGameSwitch) - 1].datamodel.Split(0);
+                            }
                         }
                     }
                     // newGame = gameSwitchs[gameSwitchs.IndexOf(gameSwitchs.Find(c => c.beat == Mathp.GetClosestInList(gameSwitchs.Select(c => c.beat).ToList(), beat)))].datamodel.Split(2);
