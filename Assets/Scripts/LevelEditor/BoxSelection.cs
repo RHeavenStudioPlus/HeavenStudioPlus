@@ -20,6 +20,8 @@ namespace RhythmHeavenMania.Editor
 
         public bool selecting = false;
 
+        private bool clickedInTimeline = false;
+
         public static BoxSelection instance { get; private set; }
 
         private void Awake()
@@ -46,7 +48,7 @@ namespace RhythmHeavenMania.Editor
                 return;
             }
 
-            if (Conductor.instance.NotStopped())
+            if (Conductor.instance.NotStopped() || !Timeline.instance.timelineState.selected)
             {
                 startPosition = Vector2.zero;
                 endPosition = Vector2.zero;
@@ -57,12 +59,14 @@ namespace RhythmHeavenMania.Editor
             // click
             if (Input.GetMouseButtonDown(0))
             {
+                clickedInTimeline = Timeline.instance.CheckIfMouseInTimeline();
+
                 startPosition = MousePosition();
                 selectionBox = new Rect();
             }
 
             // dragging
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && clickedInTimeline)
             {
                 endPosition = MousePosition();
                 DrawVisual();
