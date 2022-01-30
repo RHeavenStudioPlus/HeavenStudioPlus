@@ -98,7 +98,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             if (dispensing)
             {
                 float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(dispensedBeat, 2.35f);
-                holder.transform.position = dispenseCurve.GetPoint(normalizedBeatAnim);
+                holder.transform.localPosition = dispenseCurve.GetPoint(normalizedBeatAnim);
                 spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(0f, -1440f, normalizedBeatAnim));
 
                 /*if (PlayerInput.Pressed())
@@ -112,7 +112,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             else if (kicked.enabled)
             {
                 float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(kicked.startBeat, 1.5f);
-                holder.transform.position = kickCurve.GetPoint(normalizedBeatAnim);
+                holder.transform.localPosition = kickCurve.GetPoint(normalizedBeatAnim);
                 if (!lastKickLeft)
                 {
                     spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastSpriteRot, lastSpriteRot - 360f, normalizedBeatAnim));
@@ -141,7 +141,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             else if (highKicked.enabled)
             {
                 float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(highKicked.startBeat, 1.8f);
-                holder.transform.position = highKickCurve.GetPoint(normalizedBeatAnim);
+                holder.transform.localPosition = highKickCurve.GetPoint(normalizedBeatAnim);
                 spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastSpriteRot, lastSpriteRot + 360f, normalizedBeatAnim));
 
                 // if (state.perfect) Debug.Break();
@@ -165,7 +165,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             else if (toe.enabled)
             {
                 float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(toe.startBeat, 1.85f);
-                holder.transform.position = toeCurve.GetPoint(normalizedBeatAnim);
+                holder.transform.localPosition = toeCurve.GetPoint(normalizedBeatAnim);
                 spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastSpriteRot, -860f, normalizedBeatAnim));
             }
         }

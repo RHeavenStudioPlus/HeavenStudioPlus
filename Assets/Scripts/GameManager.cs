@@ -18,18 +18,15 @@ namespace RhythmHeavenMania
         private List<GameObject> preloadedGames = new List<GameObject>();
         public List<GameObject> SoundObjects = new List<GameObject>();
 
-
         [Header("Components")]
         public TextAsset txt;
         public Camera GameCamera, CursorCam;
         public CircleCursor CircleCursor;
         [HideInInspector] public GameObject GamesHolder;
 
-
         [Header("Games")]
         public string currentGame;
         Coroutine currentGameSwitchIE;
-
 
         [Header("Properties")]
         public int currentEvent, currentTempoEvent;
@@ -38,6 +35,10 @@ namespace RhythmHeavenMania
         public float startBeat;
         private GameObject currentGameO;
         public bool autoplay;
+        public int BeatmapEntities()
+        {
+            return Beatmap.entities.Count + Beatmap.tempoChanges.Count;
+        }
 
         public static GameManager instance { get; private set; }
         private EventCaller eventCaller;

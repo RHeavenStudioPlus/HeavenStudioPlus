@@ -50,6 +50,7 @@ namespace RhythmHeavenMania.Editor
         [Header("Properties")]
         private bool changedMusic = false;
         private string currentRemixPath = "";
+        private int lastEditorObjectsCount = 0;
 
         public static Editor instance { get; private set; }
 
@@ -84,6 +85,8 @@ namespace RhythmHeavenMania.Editor
             Tooltip.AddTooltip(MusicSelectBTN.gameObject, "Music Select");
             Tooltip.AddTooltip(EditorSettingsBTN.gameObject, "Editor Settings <color=#adadad>[Ctrl+Shift+O]</color>");
             Tooltip.AddTooltip(EditorThemeBTN.gameObject, "Editor Theme");
+
+            UpdateEditorStatus(true);
         }
 
         public void Update()
@@ -173,6 +176,13 @@ namespace RhythmHeavenMania.Editor
                     SaveRemix(false);
                 }
             }
+
+            if (lastEditorObjectsCount != GameManager.instance.BeatmapEntities())
+            {
+                UpdateEditorStatus(false);
+            }
+
+            lastEditorObjectsCount = GameManager.instance.BeatmapEntities();
         }
 
         public static Sprite GameIcon(string name)
@@ -357,6 +367,12 @@ namespace RhythmHeavenMania.Editor
         }
 
         #endregion
+
+
+        private void UpdateEditorStatus(bool updateTime)
+        {
+            DiscordRPC.DiscordRPC.UpdateActivity("In Editor", $"Objects: {GameManager.instance.Beatmap.entities.Count + GameManager.instance.Beatmap.tempoChanges.Count}", updateTime);
+        }
 
         public string GetJson()
         {
