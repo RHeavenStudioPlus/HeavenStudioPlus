@@ -66,7 +66,7 @@ namespace RhythmHeavenMania.Editor.Track
             selected = Selections.instance.eventsSelected.Contains(this);
             entity = GameManager.instance.Beatmap.entities.Find(a => a.eventObj == this);
 
-            mouseHovering = RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, Camera.main);
+            mouseHovering = RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, Camera.main) && Timeline.instance.timelineState.selected;
 
             #region Optimizations
 
@@ -117,7 +117,7 @@ namespace RhythmHeavenMania.Editor.Track
 
             if (!resizing)
             {
-                if (Input.GetMouseButtonUp(0) && Timeline.instance.CheckIfMouseInTimeline())
+                if (Input.GetMouseButtonUp(0) && Timeline.instance.CheckIfMouseInTimeline() && Timeline.instance.timelineState.selected)
                 {
                     if (Timeline.instance.eventObjs.FindAll(c => c.mouseHovering).Count == 0 && Timeline.instance.eventObjs.FindAll(c => c.moving).Count == 0 && !BoxSelection.instance.selecting && Timeline.instance.eventObjs.FindAll(c => c.resizing).Count == 0)
                     {
@@ -198,22 +198,25 @@ namespace RhythmHeavenMania.Editor.Track
 
         public void OnClick()
         {
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetMouseButton(0) && Timeline.instance.timelineState.selected)
             {
-                Selections.instance.ShiftClickSelect(this);
-            }
-            else
-            {
-                if (!selected)
+                if (Input.GetKey(KeyCode.LeftShift))
                 {
-                    Selections.instance.ClickSelect(this);
+                    Selections.instance.ShiftClickSelect(this);
+                }
+                else
+                {
+                    if (!selected)
+                    {
+                        Selections.instance.ClickSelect(this);
+                    }
                 }
             }
         }
 
         public void OnDown()
         {
-            if (selected)
+            if (selected && Timeline.instance.timelineState.selected)
             {
                 lastPos_ = transform.localPosition;
 
@@ -235,7 +238,7 @@ namespace RhythmHeavenMania.Editor.Track
             // lastPos_ = this.lastPos_;
             // previousPos = this.transform.localPosition;
 
-            if (selected)
+            if (selected && Timeline.instance.timelineState.selected)
             {
                 if (eligibleToMove)
                 {

@@ -134,6 +134,7 @@ namespace RhythmHeavenMania.Editor
                 }
             }
 
+            if (Timeline.instance.timelineState.selected == true)
             if (Input.GetMouseButtonUp(0) && Timeline.instance.CheckIfMouseInTimeline())
             {
                 List<TimelineEventObj> selectedEvents = Timeline.instance.eventObjs.FindAll(c => c.selected == true && c.eligibleToMove == true);
