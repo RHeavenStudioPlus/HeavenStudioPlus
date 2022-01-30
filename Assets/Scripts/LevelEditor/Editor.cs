@@ -1,14 +1,23 @@
+using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Threading.Tasks;
 
+using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
 using Newtonsoft.Json;
 using TMPro;
 using Starpelly;
+using SFB;
 
 using RhythmHeavenMania.Editor.Track;
+using RhythmHeavenMania.Util;
+
+using System.IO.Compression;
+using System.Text;
 
 namespace RhythmHeavenMania.Editor
 {
@@ -38,7 +47,9 @@ namespace RhythmHeavenMania.Editor
         [SerializeField] private Button EditorSettingsBTN;
         [SerializeField] private Button EditorThemeBTN;
 
-        public static List<TimelineEventObj> EventObjs = new List<TimelineEventObj>();
+        [Header("Properties")]
+        private bool changedMusic = false;
+        private string currentRemixPath = "";
 
         public static Editor instance { get; private set; }
 
@@ -142,6 +153,25 @@ namespace RhythmHeavenMania.Editor
                     CommandManager.instance.Execute(new Commands.Move(result));
                 }
             }
+
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                if (Input.GetKeyDown(KeyCode.O))
+                {
+                    OpenRemix();
+                }
+                else if (Input.GetKey(KeyCode.LeftAlt))
+                {
+                    if (Input.GetKeyDown(KeyCode.S))
+                    {
+                        SaveRemix(true);
+                    }
+                }
+                else if (Input.GetKeyDown(KeyCode.S))
+                {
+                    SaveRemix(false);
+                }
+            }
         }
 
         public static Sprite GameIcon(string name)
@@ -149,12 +179,189 @@ namespace RhythmHeavenMania.Editor
             return Resources.Load<Sprite>($"Sprites/Editor/GameIcons/{name}");
         }
 
-        public void CopyJson()
+        #region Dialogs
+
+        public void SelectMusic()
+        {
+            var extensions = new[]
+            {
+                new ExtensionFilter("Music Files", "mp3", "ogg", "wav")
+            };
+
+            StandaloneFileBrowser.OpenFilePanelAsync("Open File", "", extensions, false, async (string[] paths) => 
+            {
+                if (paths.Length > 0)
+                {
+                    Conductor.instance.musicSource.clip = await LoadClip(Path.Combine(paths)); 
+                    changedMusic = true;
+                }
+            } 
+            );
+
+
+            // byte[] bytes = OggVorbis.VorbisPlugin.GetOggVorbis(Conductor.instance.musicSource.clip, 1);
+            // print(bytes.Length);
+            // OggVorbis.VorbisPlugin.Save(@"C:/Users/Braedon/Downloads/test.ogg", Conductor.instance.musicSource.clip, 1);
+        }
+
+        private async Task<AudioClip> LoadClip(string path)
+        {
+            AudioClip clip = null;
+
+            AudioType audioType = AudioType.OGGVORBIS;
+
+            // this is a bad solution but i'm lazy
+            if (path.Substring(path.Length - 3) == "ogg")
+                audioType = AudioType.OGGVORBIS;
+            else if (path.Substring(path.Length - 3) == "mp3")
+                audioType = AudioType.MPEG;
+            else if (path.Substring(path.Length - 3) == "wav")
+                audioType = AudioType.WAV;
+
+            using (UnityWebRequest uwr = UnityWebRequestMultimedia.GetAudioClip(path, audioType))
+            {
+                uwr.SendWebRequest();
+
+                try
+                {
+                    while (!uwr.isDone) await Task.Delay(5);
+
+                    if (uwr.result == UnityWebRequest.Result.ProtocolError) Debug.Log($"{uwr.error}");
+                    else
+                    {
+                        clip = DownloadHandlerAudioClip.GetContent(uwr);
+                    }
+                }
+                catch (Exception err)
+                {
+                    Debug.Log($"{err.Message}, {err.StackTrace}");
+                }
+            }
+
+            return clip;
+        }
+
+
+        public void SaveRemix(bool saveAs = true)
+        {
+            if (saveAs == true)
+            {
+                SaveRemixFilePanel();
+            }
+            else
+            {
+                if (currentRemixPath == string.Empty)
+                {
+                    SaveRemixFilePanel();
+                }
+                else
+                {
+                    SaveRemixFile(currentRemixPath);
+                }
+            }
+        }
+
+        private void SaveRemixFilePanel()
+        {
+            var extensions = new[]
+            {
+                new ExtensionFilter("Rhythm Heaven Mania Remix File", "rhmania")
+            };
+
+            StandaloneFileBrowser.SaveFilePanelAsync("Save Remix As", "", "remix_level", extensions, (string path) =>
+            {
+                if (path != String.Empty)
+                {
+                    SaveRemixFile(path);
+                }
+            });
+        }
+
+        private void SaveRemixFile(string path)
+        {
+            using (FileStream zipFile = File.Open(path, FileMode.Create))
+            {
+                using (var archive = new ZipArchive(zipFile, ZipArchiveMode.Update, true))
+                {
+                    var levelFile = archive.CreateEntry("remix.json", System.IO.Compression.CompressionLevel.NoCompression);
+                    using (var zipStream = levelFile.Open())
+                        zipStream.Write(Encoding.ASCII.GetBytes(GetJson()), 0, Encoding.ASCII.GetBytes(GetJson()).Length);
+
+                    if (changedMusic || currentRemixPath != path)
+                    {
+                        byte[] bytes = OggVorbis.VorbisPlugin.GetOggVorbis(Conductor.instance.musicSource.clip, 1);
+                        var musicFile = archive.CreateEntry("song.ogg", System.IO.Compression.CompressionLevel.NoCompression);
+                        using (var zipStream = musicFile.Open())
+                            zipStream.Write(bytes, 0, bytes.Length);
+                    }
+                }
+            }
+        }
+
+        public void OpenRemix()
+        {
+            var extensions = new[]
+            {
+                new ExtensionFilter("Rhythm Heaven Mania Remix File", "rhmania")
+            };
+
+            StandaloneFileBrowser.OpenFilePanelAsync("Open Remix", "", extensions, false, (string[] paths) =>
+            {
+                var path = Path.Combine(paths);
+
+                if (path != String.Empty)
+                {
+                    using (FileStream zipFile = File.Open(path, FileMode.Open))
+                    {
+                        using (var archive = new ZipArchive(zipFile, ZipArchiveMode.Read))
+                        {
+                            foreach (ZipArchiveEntry entry in archive.Entries)
+                            {
+                                if (entry.Name == "remix.json")
+                                {
+                                    using (var stream = entry.Open())
+                                    {
+                                        byte[] bytes;
+                                        using (var ms = new MemoryStream())
+                                        {
+                                            stream.CopyTo(ms);
+                                            bytes = ms.ToArray();
+                                            string json = Encoding.Default.GetString(bytes);
+                                            GameManager.instance.LoadRemix(json);
+                                            Timeline.instance.LoadRemix();
+                                        }
+                                    }
+                                }
+                                else if (entry.Name == "song.ogg")
+                                {
+                                    using (var stream = entry.Open())
+                                    {
+                                        byte[] bytes;
+                                        using (var ms = new MemoryStream())
+                                        {
+                                            stream.CopyTo(ms);
+                                            bytes = ms.ToArray();
+                                            Conductor.instance.musicSource.clip = OggVorbis.VorbisPlugin.ToAudioClip(bytes, "music");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    currentRemixPath = path;
+                    CommandManager.instance.Clear();
+                }
+            });
+        }
+
+        #endregion
+
+        public string GetJson()
         {
             string json = string.Empty;
             json = JsonConvert.SerializeObject(GameManager.instance.Beatmap);
-
-            Debug.Log(json);
+            return json;
         }
 
         public void DebugSave()

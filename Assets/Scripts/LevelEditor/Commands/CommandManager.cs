@@ -66,7 +66,7 @@ namespace RhythmHeavenMania.Editor
             }
         }
 
-        private void Clear()
+        public void Clear()
         {
             historyStack.Clear();
             redoHistoryStack.Clear();
