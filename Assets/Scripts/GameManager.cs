@@ -138,6 +138,7 @@ namespace RhythmHeavenMania
                     for (int i = 0; i < gameManagerEntities.Count; i++)
                     {
                         eventCaller.CallEvent(gameManagerEntities[i].datamodel);
+                        currentEvent++;
                     }
 
                     for (int i = 0; i < entitesAtSameBeat.Count; i++)
@@ -154,7 +155,7 @@ namespace RhythmHeavenMania
                         currentEvent++;
                     }
 
-                    currentEvent += gameManagerEntities.Count;
+                    // currentEvent += gameManagerEntities.Count;
                 }
             }
 
