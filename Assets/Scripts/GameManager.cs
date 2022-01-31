@@ -149,9 +149,12 @@ namespace RhythmHeavenMania
                             PreloadGame(entitesAtSameBeat[i].datamodel.Split('/')[0]);
                         }
                         eventCaller.CallEvent(entitesAtSameBeat[i].datamodel);
+
+                        // Thank you to @shshwdr for bring this to my attention
+                        currentEvent++;
                     }
 
-                    currentEvent += entitesAtSameBeat.Count + gameManagerEntities.Count;
+                    currentEvent += gameManagerEntities.Count;
                 }
             }
 

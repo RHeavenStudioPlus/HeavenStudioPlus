@@ -113,6 +113,24 @@ namespace RhythmHeavenMania
                 }),
                 new Minigame("tapTrial", "Tap Trial", "B888F8", new List<GameAction>()
                 {
+                }),
+                new Minigame("sneakySpirits", "Sneaky Spirits", "B888F8", new List<GameAction>()
+                {
+                }),
+                new Minigame("munchyMonk", "Munchy Monk", "B888F8", new List<GameAction>()
+                {
+                }),
+                new Minigame("rhythmRally", "Rhythm Rally", "B888F8", new List<GameAction>()
+                {
+                }),
+                new Minigame("airRally", "Air Rally", "B888F8", new List<GameAction>()
+                {
+                }),
+                new Minigame("ringside", "Ringside", "B888F8", new List<GameAction>()
+                {
+                }),
+                new Minigame("workingDough", "Working Dough", "B888F8", new List<GameAction>()
+                {
                 })*/
             };
         }
