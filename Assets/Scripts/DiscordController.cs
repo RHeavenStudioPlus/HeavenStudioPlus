@@ -33,7 +33,7 @@ namespace RhythmHeavenMania.DiscordRPC
 
         public void Connect()
         {
-            discord = new Discord.Discord(DiscordRPC.clientID, (System.UInt64)Discord.CreateFlags.Default);
+            discord = new Discord.Discord(DiscordRPC.clientID, (System.UInt64)Discord.CreateFlags.NoRequireDiscord);
         }
 
         public void Disconnect()
