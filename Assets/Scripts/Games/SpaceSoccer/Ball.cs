@@ -10,9 +10,10 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
     public class Ball : MonoBehaviour
     {
         [Header("Components")]
-        [SerializeField] private Kicker kicker;
+        [HideInInspector] public Kicker kicker;
         [SerializeField] private GameObject holder;
         [SerializeField] private GameObject spriteHolder;
+        [SerializeField] private GameObject kickFX;
         [Space(10)]
         [SerializeField] private BezierCurve3D dispenseCurve;
         [SerializeField] private BezierCurve3D kickCurve;
@@ -30,8 +31,13 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
         public GameEvent toe = new GameEvent();
         private bool lastKickLeft;
 
-        public void Kick()
+        private void Start()
         {
+        }
+
+        public void Kick(bool player)
+        {
+            if (player)
             Jukebox.PlayOneShotGame("spaceSoccer/ballHit");
 
             lastSpriteRot = spriteHolder.transform.eulerAngles.z;
@@ -54,6 +60,8 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 kickCurve.transform.localScale = new Vector3(1, 1);
             }
             kickCurve.KeyPoints[0].transform.position = holder.transform.position;
+
+            HitFX();
         }
 
         public void HighKick()
@@ -68,6 +76,9 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             highKicked.startBeat = Conductor.instance.songPositionInBeats;
 
             highKickCurve.KeyPoints[0].transform.position = holder.transform.position;
+
+
+            HitFX();
         }
 
         public void Toe()
@@ -81,7 +92,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
             toe.enabled = true;
             toe.startBeat = Conductor.instance.songPositionInBeats;
-            
+
             toeCurve.KeyPoints[0].transform.position = holder.transform.position;
             if (lastKickLeft)
             {
@@ -91,6 +102,9 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             {
                 toeCurve.KeyPoints[1].transform.localPosition = new Vector3(6.49f, 0);
             }
+
+
+            HitFX();
         }
 
         private void Update()
@@ -98,6 +112,10 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             if (dispensing)
             {
                 float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(dispensedBeat, 2.35f);
+
+                dispenseCurve.KeyPoints[0].transform.position = new Vector3(kicker.transform.position.x - 6f, kicker.transform.position.y - 6f);
+                dispenseCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x - 1f, kicker.transform.position.y - 6f);
+
                 holder.transform.localPosition = dispenseCurve.GetPoint(normalizedBeatAnim);
                 spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(0f, -1440f, normalizedBeatAnim));
 
@@ -112,15 +130,19 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             else if (kicked.enabled)
             {
                 float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(kicked.startBeat, 1.5f);
-                holder.transform.localPosition = kickCurve.GetPoint(normalizedBeatAnim);
+
                 if (!lastKickLeft)
                 {
+                    kickCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x + 0.5f, kicker.transform.position.y - 6f);
                     spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastSpriteRot, lastSpriteRot - 360f, normalizedBeatAnim));
                 }
                 else
                 {
+                    kickCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x - 2.5f, kicker.transform.position.y - 6f);
                     spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastSpriteRot, lastSpriteRot + 360f, normalizedBeatAnim));
                 }
+
+                holder.transform.localPosition = kickCurve.GetPoint(normalizedBeatAnim);
 
                 /*if (PlayerInput.Pressed())
                 {
@@ -141,6 +163,9 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             else if (highKicked.enabled)
             {
                 float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(highKicked.startBeat, 1.8f);
+
+                highKickCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x - 3.5f, kicker.transform.position.y - 6f);
+
                 holder.transform.localPosition = highKickCurve.GetPoint(normalizedBeatAnim);
                 spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastSpriteRot, lastSpriteRot + 360f, normalizedBeatAnim));
 
@@ -165,9 +190,28 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             else if (toe.enabled)
             {
                 float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(toe.startBeat, 1.85f);
+
+                if (!lastKickLeft)
+                {
+                    toeCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x + 0.5f, kicker.transform.position.y - 6f);
+                }
+                else
+                {
+                    toeCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x - 0.7f, kicker.transform.position.y - 6f);
+                }
+
                 holder.transform.localPosition = toeCurve.GetPoint(normalizedBeatAnim);
                 spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastSpriteRot, -860f, normalizedBeatAnim));
             }
+
+            holder.transform.position = new Vector3(holder.transform.position.x, holder.transform.position.y, kicker.transform.localPosition.z);
+        }
+
+        private void HitFX()
+        {
+            GameObject kickfx = Instantiate(kickFX.gameObject, SpaceSoccer.instance.transform);
+            kickfx.SetActive(true);
+            kickfx.transform.position = holder.transform.position;
         }
     }
 }

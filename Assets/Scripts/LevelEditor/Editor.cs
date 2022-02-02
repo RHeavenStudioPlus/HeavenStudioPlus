@@ -46,11 +46,13 @@ namespace RhythmHeavenMania.Editor
         [SerializeField] private Button MusicSelectBTN;
         [SerializeField] private Button EditorSettingsBTN;
         [SerializeField] private Button EditorThemeBTN;
+        [SerializeField] private Button FullScreenBTN;
 
         [Header("Properties")]
         private bool changedMusic = false;
         private string currentRemixPath = "";
         private int lastEditorObjectsCount = 0;
+        private bool fullscreen;
 
         public static Editor instance { get; private set; }
 
@@ -85,6 +87,7 @@ namespace RhythmHeavenMania.Editor
             Tooltip.AddTooltip(MusicSelectBTN.gameObject, "Music Select");
             Tooltip.AddTooltip(EditorSettingsBTN.gameObject, "Editor Settings <color=#adadad>[Ctrl+Shift+O]</color>");
             Tooltip.AddTooltip(EditorThemeBTN.gameObject, "Editor Theme");
+            Tooltip.AddTooltip(FullScreenBTN.gameObject, "Preview <color=#adadad>[Tab]</color>");
 
             UpdateEditorStatus(true);
         }
@@ -104,6 +107,11 @@ namespace RhythmHeavenMania.Editor
                 GetComponent<Selector>().enabled = true;
                 GetComponent<BoxSelection>().enabled = true;
             }*/
+
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                Fullscreen();
+            }
 
             if (Input.GetKeyDown(KeyCode.Delete))
             {
@@ -368,6 +376,25 @@ namespace RhythmHeavenMania.Editor
 
         #endregion
 
+        public void Fullscreen()
+        {
+            if (fullscreen == false)
+            {
+                MainCanvas.enabled = false;
+                EditorCamera.enabled = false;
+                GameManager.instance.GameCamera.targetTexture = null;
+                // GameManager.instance.GameCamera.transform.parent.GetChild(1).GetComponent<Camera>().enabled = false;
+                fullscreen = true;
+            }
+            else
+            {
+                MainCanvas.enabled = true;
+                EditorCamera.enabled = true;
+                GameManager.instance.GameCamera.targetTexture = ScreenRenderTexture;
+                // GameManager.instance.GameCamera.transform.parent.GetChild(1).GetComponent<Camera>().enabled = true;
+                fullscreen = false;
+            }
+        }
 
         private void UpdateEditorStatus(bool updateTime)
         {

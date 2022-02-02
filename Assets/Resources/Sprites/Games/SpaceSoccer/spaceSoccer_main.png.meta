@@ -7,10 +7,10 @@ TextureImporter:
     second: platform_0
   - first:
       213: -6047660829741247071
-    second: platform_1
+    second: kick_fx
   - first:
       213: -1664293819527379378
-    second: platform_2
+    second: toe_fx
   - first:
       213: -4901794926734046506
     second: kicker_head_0
@@ -206,7 +206,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -1448,6 +1448,48 @@ TextureImporter:
       bones: []
       spriteID: ff568c20fcc022cc0800000000000000
       internalID: -3737410657519639041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kick_fx
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 566
+        width: 184
+        height: 120
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a59a396484621ca0800000000000000
+      internalID: -6047660829741247071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: toe_fx
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 334
+        width: 241
+        height: 264
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e464135c69d37e8e0800000000000000
+      internalID: -1664293819527379378
       vertices: []
       indices: 
       edges: []

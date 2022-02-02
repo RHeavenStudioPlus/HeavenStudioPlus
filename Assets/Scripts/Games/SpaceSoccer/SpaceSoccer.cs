@@ -10,7 +10,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
     {
         [Header("Components")]
         [SerializeField] private GameObject ballRef;
-        [SerializeField] private Kicker kicker;
+        [SerializeField] private List<Kicker> kickers;
         [SerializeField] private GameObject Background;
         [SerializeField] private Sprite[] backgroundSprite;
 
@@ -26,7 +26,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
         private void Start()
         {
-            for (int x = 0; x < Random.Range(9, 12); x++)
+            /*for (int x = 0; x < Random.Range(9, 12); x++)
             {
                 for (int y = 0; y < Random.Range(6, 9); y++)
                 {
@@ -37,30 +37,35 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                     test.transform.localPosition = new Vector3(Random.Range(-15f, 15f), Random.Range(-15f, 15f));
                     test.transform.localScale = new Vector3(0.52f, 0.52f);
                 }
-            }
+            }*/
         }
 
         private void Update()
         {
             if (ballDispensed)
             {
-            }
-
-            
+            }        
         }
 
         public void Dispense(float beat)
         {
-            if (kicker.ball != null) return;
-            ballDispensed = true;
+            for (int i = 0; i < kickers.Count; i++)
+            {
+                Kicker kicker = kickers[i];
+                if (i == 0) kicker.player = true;
 
-            GameObject ball = Instantiate(ballRef, this.transform);
-            Ball ball_ = ball.GetComponent<Ball>();
-            ball_.dispensedBeat = beat;
-            ball_.dispensing = true;
-            kicker.ball = ball_;
-            kicker.dispenserBeat = beat;
-            kicker.kickTimes = 0;
+                if (kicker.ball != null) return;
+                ballDispensed = true;
+
+                GameObject ball = Instantiate(ballRef, transform);
+                Ball ball_ = ball.GetComponent<Ball>();
+                ball_.kicker = kicker;
+                ball_.dispensedBeat = beat;
+                ball_.dispensing = true;
+                kicker.ball = ball_;
+                kicker.dispenserBeat = beat;
+                kicker.kickTimes = 0;
+            }
 
             MultiSound.Play(new MultiSound.Sound[]
             {
