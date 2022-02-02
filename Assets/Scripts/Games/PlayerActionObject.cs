@@ -27,14 +27,15 @@ namespace RhythmHeavenMania.Games
             autoPlayEnabledOnStart = GameManager.instance.autoplay;
         }
 
-        private void CheckForAce(float normalizedBeat)
+        private void CheckForAce(float normalizedBeat, bool autoPlay = false)
         {
             if (aceTimes == 0)
             {
-                if (GameManager.instance.autoplay && normalizedBeat > 0.99f)
+                if (GameManager.instance.autoplay && normalizedBeat > 0.99f || autoPlay && normalizedBeat > 0.99f)
                 {
                     OnAce();
-                    AceVisuals();
+                    if (!autoPlay)
+                        AceVisuals();
                     // aceTimes++;
                 }
             }
@@ -52,9 +53,9 @@ namespace RhythmHeavenMania.Games
         }
 
         // could possibly add support for custom early, perfect, and end times if needed.
-        public void StateCheck(float normalizedBeat)
+        public void StateCheck(float normalizedBeat, bool autoPlay = false)
         {
-            CheckForAce(normalizedBeat);
+            CheckForAce(normalizedBeat, autoPlay);
             if (normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.PerfectTime() && lastState == 0)
             {
                 MakeEligible(true, false, false);

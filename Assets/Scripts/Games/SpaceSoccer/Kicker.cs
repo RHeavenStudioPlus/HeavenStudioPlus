@@ -15,14 +15,27 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
         public bool kickLeft;
         public float dispenserBeat;
         public int kickTimes = 0;
+        public bool player;
 
         [Header("Components")]
         private Animator anim;
         public Ball ball;
+        public Transform rightLeg;
+        public Transform leftLeg;
 
         private void Start()
         {
             anim = GetComponent<Animator>();
+            GameObject rightLeg = new GameObject();
+            rightLeg.transform.SetParent(this.transform);
+            rightLeg.transform.position = new Vector3(-0.67f, -1.48f);
+
+            GameObject leftLeg = new GameObject("leftLeg");
+            leftLeg.transform.SetParent(this.transform);
+            leftLeg.transform.position = new Vector3(0f, -1.48f);
+
+            this.rightLeg = rightLeg.transform;
+            this.leftLeg = leftLeg.transform;
         }
 
         public override void OnAce()
@@ -56,7 +69,8 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             kickTimes++;
             aceTimes = 0;
 
-            Jukebox.PlayOneShotGame("spaceSoccer/kick");
+            if (player)
+                Jukebox.PlayOneShotGame("spaceSoccer/kick");
 
             if (highKick)
             {
@@ -86,7 +100,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             if (highKick == false)
             {
                 if (ball != null && hit)
-                    ball.Kick();
+                    ball.Kick(player);
             }
             else
             {
@@ -109,14 +123,17 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 anim.Play("HighKickRight_0", 0, 0);
             }
 
-            if (ball && hit)
+            if (hit && ball)
             {
-                Jukebox.PlayOneShotGame("spaceSoccer/highkicktoe1_hit");
                 ball.HighKick();
+
+                if (player)
+                Jukebox.PlayOneShotGame("spaceSoccer/highkicktoe1_hit");
             }
             else
             {
-                Jukebox.PlayOneShotGame("spaceSoccer/highkicktoe1");
+                if (player)
+                    Jukebox.PlayOneShotGame("spaceSoccer/highkicktoe1");
             }
 
             ResetState();
@@ -133,15 +150,20 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 anim.Play("ToeRight", 0, 0);
             }
 
+            if (player)
+            {
+                if (hit && ball)
+                {
+                    Jukebox.PlayOneShotGame("spaceSoccer/highkicktoe3_hit");
+                }
+                else
+                {
+                    Jukebox.PlayOneShotGame("spaceSoccer/highkicktoe3");
+                }
+            }
+
             if (hit && ball)
-            {
-                Jukebox.PlayOneShotGame("spaceSoccer/highkicktoe3_hit");
                 ball.Toe();
-            }
-            else
-            {
-                Jukebox.PlayOneShotGame("spaceSoccer/highkicktoe3");
-            }
 
             kickPrepare = false;
             ResetState();
@@ -149,7 +171,6 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
         private void Update()
         {
-
             if (kickTimes % 2 == 0)
             {
                 kickLeft = false;
@@ -193,36 +214,42 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 if (ball.dispensing)
                 {
                     float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(ball.dispensedBeat, 2f);
-                    StateCheck(normalizedBeat);
+                    StateCheck(normalizedBeat, !player);
                     CheckIfFall(normalizedBeat);
 
-                    if (PlayerInput.Pressed())
+                    if (player)
                     {
-                        if (state.perfect)
+                        if (PlayerInput.Pressed())
                         {
-                            KickCheck(true);
-                        }
-                        else
-                        {
-                            KickCheck(false, true);
+                            if (state.perfect)
+                            {
+                                KickCheck(true);
+                            }
+                            else
+                            {
+                                KickCheck(false, true);
+                            }
                         }
                     }
                 }
                 else if (ball.kicked.enabled)
                 {
                     float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(ball.kicked.startBeat, 1f);
-                    StateCheck(normalizedBeat);
+                    StateCheck(normalizedBeat, !player);
                     CheckIfFall(normalizedBeat);
 
-                    if (PlayerInput.Pressed())
+                    if (player)
                     {
-                        if (state.perfect)
+                        if (PlayerInput.Pressed())
                         {
-                            KickCheck(true);
-                        }
-                        else
-                        {
-                            KickCheck(false, true);
+                            if (state.perfect)
+                            {
+                                KickCheck(true);
+                            }
+                            else
+                            {
+                                KickCheck(false, true);
+                            }
                         }
                     }
                 }
@@ -232,28 +259,34 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                     if (!kickPrepare)
                     {
                         float normalizedBeatPrepare = Conductor.instance.GetLoopPositionFromBeat(ball.highKicked.startBeat, 1f);
-                        StateCheck(normalizedBeatPrepare);
+                        StateCheck(normalizedBeatPrepare, !player);
                         CheckIfFall(normalizedBeat);
 
-                        if (PlayerInput.AltPressed())
+                        if (player)
                         {
-                            Kick(false, true);
+                            if (PlayerInput.AltPressed())
+                            {
+                                Kick(false, true);
+                            }
                         }
                     }
                     else
                     {
-                        StateCheck(normalizedBeat);
+                        StateCheck(normalizedBeat, !player);
                         CheckIfFall(normalizedBeat);
 
-                        if (PlayerInput.AltPressedUp())
+                        if (player)
                         {
-                            if (state.perfect)
+                            if (PlayerInput.AltPressedUp())
                             {
-                                Toe(true);
-                            }
-                            else
-                            {
-                                Toe(false);
+                                if (state.perfect)
+                                {
+                                    Toe(true);
+                                }
+                                else
+                                {
+                                    Toe(false);
+                                }
                             }
                         }
                     }
@@ -261,27 +294,33 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 else if (ball.toe.enabled)
                 {
                     float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(ball.toe.startBeat, 1.5f);
-                    StateCheck(normalizedBeat);
+                    StateCheck(normalizedBeat, !player);
                     CheckIfFall(normalizedBeat);
 
-                    if (PlayerInput.Pressed())
+                    if (player)
                     {
-                        if (state.perfect)
+                        if (PlayerInput.Pressed())
                         {
-                            KickCheck(true);
-                        }
-                        else
-                        {
-                            KickCheck(false, true);
+                            if (state.perfect)
+                            {
+                                KickCheck(true);
+                            }
+                            else
+                            {
+                                KickCheck(false, true);
+                            }
                         }
                     }
                 }
             }
             else
             {
-                if (PlayerInput.Pressed())
+                if (player)
                 {
-                    KickCheck(false, true);
+                    if (PlayerInput.Pressed())
+                    {
+                        KickCheck(false, true);
+                    }
                 }
             }
         }

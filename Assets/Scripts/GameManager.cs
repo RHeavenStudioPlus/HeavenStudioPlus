@@ -51,13 +51,13 @@ namespace RhythmHeavenMania
 
         public void Init()
         {
-            this.transform.localScale = new Vector3(3000, 3000);
+            this.transform.localScale = new Vector3(30000000, 30000000);
             SpriteRenderer sp = this.gameObject.AddComponent<SpriteRenderer>();
             sp.enabled = false;
             sp.color = Color.black;
             sp.sprite = Resources.Load<Sprite>("Sprites/GeneralPurpose/Square");
             sp.sortingOrder = 30000;
-            this.gameObject.layer = 3;
+            // this.gameObject.layer = 3;
 
             if (txt != null)
             {
