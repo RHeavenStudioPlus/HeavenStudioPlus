@@ -18,9 +18,11 @@ namespace RhythmHeavenMania
         public float secPerBeat;
 
         // Current song position, in seconds
+        private float songPos; // for Conductor use only
         public float songPosition;
 
         // Current song position, in beats
+        private float songPosBeat; // for Conductor use only
         public float songPositionInBeats;
 
         // Current time of the song
@@ -76,7 +78,7 @@ namespace RhythmHeavenMania
         public void Play(float beat)
         {
             this.time = GetSongPosFromBeat(beat);
-            songPositionInBeats = GetSongPosFromBeat(beat) / secPerBeat; 
+            songPosBeat = GetSongPosFromBeat(beat) / secPerBeat; 
 
             isPlaying = true;
             isPaused = false;
@@ -101,10 +103,12 @@ namespace RhythmHeavenMania
         public void Stop(float time)
         {
             this.time = time;
-            songPositionInBeats = time / secPerBeat;
+
+            songPosBeat = 0;
+            songPositionInBeats = 0;
+
             isPlaying = false;
             isPaused = false;
-
 
             musicSource.Stop();
         }
@@ -116,11 +120,13 @@ namespace RhythmHeavenMania
 
             if (isPlaying)
             {
-                time += Time.deltaTime * musicSource.pitch;
+                time += Time.unscaledDeltaTime * musicSource.pitch;
 
-                songPosition = time - firstBeatOffset;
+                songPos = time;
+                songPosition = songPos;
 
-                songPositionInBeats += ((Time.deltaTime * musicSource.pitch) - firstBeatOffset) / secPerBeat;
+                songPosBeat += ((Time.unscaledDeltaTime * musicSource.pitch) / secPerBeat);
+                songPositionInBeats = songPosBeat;
                 // songPositionInBeats = Time.deltaTime / secPerBeat;
 
                 if (metronome)

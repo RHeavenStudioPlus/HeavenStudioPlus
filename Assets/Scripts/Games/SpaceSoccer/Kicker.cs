@@ -56,6 +56,8 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             kickTimes++;
             aceTimes = 0;
 
+            Jukebox.PlayOneShotGame("spaceSoccer/kick");
+
             if (highKick)
             {
                 if (kickLeft)
@@ -78,30 +80,25 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                     anim.Play("KickRight", 0, 0);
                 }
             }
+
+            if (ball == null) return;
+
             if (highKick == false)
             {
-                ball.Kick();
+                if (ball != null && hit)
+                    ball.Kick();
             }
             else
             {
                 kickPrepare = true;
             }
-            Jukebox.PlayOneShotGame("spaceSoccer/kick");
+
             ResetState();
         }
 
         public void HighKick(bool hit)
         {
             kickTimes++;
-
-            if (hit)
-            {
-                Jukebox.PlayOneShotGame("spaceSoccer/highkicktoe1_hit");
-            }
-            else
-            {
-                Jukebox.PlayOneShotGame("spaceSoccer/highkicktoe1");
-            }
 
             if (kickLeft)
             {
@@ -112,21 +109,21 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 anim.Play("HighKickRight_0", 0, 0);
             }
 
-            ball.HighKick();
+            if (ball && hit)
+            {
+                Jukebox.PlayOneShotGame("spaceSoccer/highkicktoe1_hit");
+                ball.HighKick();
+            }
+            else
+            {
+                Jukebox.PlayOneShotGame("spaceSoccer/highkicktoe1");
+            }
+
             ResetState();
         }
 
         public void Toe(bool hit)
         {
-            if (hit)
-            {
-                Jukebox.PlayOneShotGame("spaceSoccer/highkicktoe3_hit");
-            }
-            else
-            {
-                Jukebox.PlayOneShotGame("spaceSoccer/highkicktoe3");
-            }
-
             if (kickLeft)
             {
                 anim.Play("ToeLeft", 0, 0);
@@ -136,13 +133,23 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 anim.Play("ToeRight", 0, 0);
             }
 
-            ball.Toe();
+            if (hit && ball)
+            {
+                Jukebox.PlayOneShotGame("spaceSoccer/highkicktoe3_hit");
+                ball.Toe();
+            }
+            else
+            {
+                Jukebox.PlayOneShotGame("spaceSoccer/highkicktoe3");
+            }
+
             kickPrepare = false;
             ResetState();
         }
 
         private void Update()
         {
+
             if (kickTimes % 2 == 0)
             {
                 kickLeft = false;
@@ -193,7 +200,11 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                     {
                         if (state.perfect)
                         {
-                            KickCheck();
+                            KickCheck(true);
+                        }
+                        else
+                        {
+                            KickCheck(false, true);
                         }
                     }
                 }
@@ -207,7 +218,11 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                     {
                         if (state.perfect)
                         {
-                            KickCheck();
+                            KickCheck(true);
+                        }
+                        else
+                        {
+                            KickCheck(false, true);
                         }
                     }
                 }
@@ -228,11 +243,17 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                     else
                     {
                         StateCheck(normalizedBeat);
+                        CheckIfFall(normalizedBeat);
+
                         if (PlayerInput.AltPressedUp())
                         {
                             if (state.perfect)
                             {
                                 Toe(true);
+                            }
+                            else
+                            {
+                                Toe(false);
                             }
                         }
                     }
@@ -247,34 +268,45 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                     {
                         if (state.perfect)
                         {
-                            KickCheck();
+                            KickCheck(true);
+                        }
+                        else
+                        {
+                            KickCheck(false, true);
                         }
                     }
                 }
             }
-
-            if (PlayerInput.Pressed())
+            else
             {
-                // Kick(false);
+                if (PlayerInput.Pressed())
+                {
+                    KickCheck(false, true);
+                }
             }
         }
 
-        private void KickCheck()
+        private void KickCheck(bool hit, bool overrideState = false)
         {
             if (canHighKick)
             {
-                HighKick(true);
+                HighKick(hit);
             }
             else if (canKick)
             {
-                Kick(true);
+                Kick(hit);
+            }
+            else if (!canKick && !canHighKick && overrideState)
+            {
+                Kick(hit);
             }
         }
 
         private void CheckIfFall(float normalizedBeat)
         {
-            if (normalizedBeat > 1.45f)
+            if (normalizedBeat > 1.05f)
             {
+                Jukebox.PlayOneShotGame("spaceSoccer/missNeutral");
                 ball = null;
                 ResetState();
             }

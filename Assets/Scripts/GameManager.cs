@@ -103,6 +103,8 @@ namespace RhythmHeavenMania
 
             Beatmap = JsonConvert.DeserializeObject<Beatmap>(json);
             Conductor.instance.SetBpm(Beatmap.bpm);
+            Stop(0);
+            SetCurrentEventToClosest(0);
 
             if (Beatmap.entities.Count >= 1)
             {
