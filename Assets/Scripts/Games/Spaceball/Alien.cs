@@ -21,7 +21,7 @@ namespace RhythmHeavenMania.Games.Spaceball
         {
             if (Conductor.instance.isPlaying && !isShowing)
             {
-                // anim.Play("AlienSwing", 0, Conductor.instance.loopPositionInAnalog * 2);
+                anim.Play("AlienSwing", 0, Conductor.instance.GetLoopPositionFromBeat(0, 1f));
                 anim.speed = 0;
             }
             else if (!Conductor.instance.isPlaying)
@@ -31,7 +31,7 @@ namespace RhythmHeavenMania.Games.Spaceball
 
             if (isShowing)
             {
-                float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(showBeat, 1f);
+                float normalizedBeat = Conductor.instance.GetPositionFromBeat(showBeat, 1f);
                 anim.Play("AlienShow", 0, normalizedBeat);
                 anim.speed = 0;
 

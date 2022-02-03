@@ -20,7 +20,7 @@ namespace RhythmHeavenMania.Games.ClappyTrio
         public bool canHit;
 
         private GameObject clapEffect;
-        int aceTimes = 0;
+        new int aceTimes = 0;
 
         private void Start()
         {
@@ -45,7 +45,7 @@ namespace RhythmHeavenMania.Games.ClappyTrio
 
             if (clapVacant == true)
             {
-                float normalizedBeat = (Conductor.instance.GetLoopPositionFromBeat(lastClapBeat, lastClapLength));
+                float normalizedBeat = (Conductor.instance.GetPositionFromBeat(lastClapBeat, lastClapLength));
 
                 /*if (normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.PerfectTime() && lastIndex == 0)
                 {

@@ -166,11 +166,11 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
         private void Update()
         {
-            float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(startBeat, 2.45f);
+            float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(startBeat, 2.45f);
             anim.Play("Flicked_Object", -1, normalizedBeatAnim);
             anim.speed = 0;
 
-            float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(startBeat, 2f);
+            float normalizedBeat = Conductor.instance.GetPositionFromBeat(startBeat, 2f);
 
             StateCheck(normalizedBeat);
 

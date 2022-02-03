@@ -50,6 +50,7 @@ namespace RhythmHeavenMania.Editor
 
         [Header("Properties")]
         private bool changedMusic = false;
+        private bool loadedMusic = false;
         private string currentRemixPath = "";
         private int lastEditorObjectsCount = 0;
         private bool fullscreen;
@@ -95,20 +96,6 @@ namespace RhythmHeavenMania.Editor
 
         public void LateUpdate()
         {
-            // This is buggy
-            /*if (Conductor.instance.isPlaying || Conductor.instance.isPaused)
-            {
-                GetComponent<Selections>().enabled = false;
-                GetComponent<Selector>().enabled = false;
-                GetComponent<BoxSelection>().enabled = false;
-            }
-            else
-            {
-                GetComponent<Selections>().enabled = true;
-                GetComponent<Selector>().enabled = true;
-                GetComponent<BoxSelection>().enabled = true;
-            }*/
-
             if (Input.GetKeyDown(KeyCode.Tab))
             {
                 Fullscreen();
@@ -147,23 +134,38 @@ namespace RhythmHeavenMania.Editor
             }
 
             if (Timeline.instance.timelineState.selected == true)
-            if (Input.GetMouseButtonUp(0))
             {
-                List<TimelineEventObj> selectedEvents = Timeline.instance.eventObjs.FindAll(c => c.selected == true && c.eligibleToMove == true);
+                if (Input.GetMouseButtonUp(0))
+                {
+                    List<TimelineEventObj> selectedEvents = Timeline.instance.eventObjs.FindAll(c => c.selected == true && c.eligibleToMove == true);
+
+                    if (selectedEvents.Count > 0)
+                    {
+                        List<TimelineEventObj> result = new List<TimelineEventObj>();
+
+                        for (int i = 0; i < selectedEvents.Count; i++)
+                        {
+                            if (selectedEvents[i].isCreating == false)
+                            {
+                                result.Add(selectedEvents[i]);
+                            }
+                            selectedEvents[i].OnUp();
+                        }
+                        CommandManager.instance.Execute(new Commands.Move(result));
+                    }
+                }
+            }
+
+            if (Input.GetMouseButtonUp(1))
+            {
+                List<TimelineEventObj> selectedEvents = Timeline.instance.eventObjs.FindAll(c => c.selected == true);
 
                 if (selectedEvents.Count > 0)
                 {
-                    List<TimelineEventObj> result = new List<TimelineEventObj>();
-
                     for (int i = 0; i < selectedEvents.Count; i++)
                     {
-                        if (selectedEvents[i].isCreating == false)
-                        {
-                            result.Add(selectedEvents[i]);
-                        }
-                        selectedEvents[i].OnUp();
+                        // EventParameterManager.instance.StartParams(selectedEvents[i].entity);
                     }
-                    CommandManager.instance.Execute(new Commands.Move(result));
                 }
             }
 
@@ -192,6 +194,14 @@ namespace RhythmHeavenMania.Editor
             }
 
             lastEditorObjectsCount = GameManager.instance.BeatmapEntities();
+
+            if (Application.isEditor)
+            {
+                if (Input.GetKeyDown(KeyCode.S))
+                {
+                    SaveRemix(false);
+                }
+            }
         }
 
         public static Sprite GameIcon(string name)
@@ -217,11 +227,6 @@ namespace RhythmHeavenMania.Editor
                 }
             } 
             );
-
-
-            // byte[] bytes = OggVorbis.VorbisPlugin.GetOggVorbis(Conductor.instance.musicSource.clip, 1);
-            // print(bytes.Length);
-            // OggVorbis.VorbisPlugin.Save(@"C:/Users/Braedon/Downloads/test.ogg", Conductor.instance.musicSource.clip, 1);
         }
 
         private async Task<AudioClip> LoadClip(string path)
@@ -301,7 +306,7 @@ namespace RhythmHeavenMania.Editor
         {
             using (FileStream zipFile = File.Open(path, FileMode.Create))
             {
-                using (var archive = new ZipArchive(zipFile, ZipArchiveMode.Update, true))
+                using (var archive = new ZipArchive(zipFile, ZipArchiveMode.Update))
                 {
                     var levelFile = archive.CreateEntry("remix.json", System.IO.Compression.CompressionLevel.NoCompression);
                     using (var zipStream = levelFile.Open())
@@ -362,6 +367,7 @@ namespace RhythmHeavenMania.Editor
                                             stream.CopyTo(ms);
                                             bytes = ms.ToArray();
                                             Conductor.instance.musicSource.clip = OggVorbis.VorbisPlugin.ToAudioClip(bytes, "music");
+                                            loadedMusic = true;
                                         }
                                     }
                                 }
@@ -408,17 +414,6 @@ namespace RhythmHeavenMania.Editor
             string json = string.Empty;
             json = JsonConvert.SerializeObject(GameManager.instance.Beatmap);
             return json;
-        }
-
-        public void DebugSave()
-        {
-            // temp
-#if UNITY_EDITOR
-            string path = UnityEditor.AssetDatabase.GetAssetPath(GameManager.instance.txt);
-            path = Application.dataPath.Remove(Application.dataPath.Length - 6, 6) + path;
-            System.IO.File.WriteAllText(path, JsonConvert.SerializeObject(GameManager.instance.Beatmap));
-            Debug.Log("Saved to " + path);
-#endif
         }
 
         public void SetGameEventTitle(string txt)

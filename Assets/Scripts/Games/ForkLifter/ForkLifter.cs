@@ -39,8 +39,9 @@ namespace RhythmHeavenMania.Games.ForkLifter
             handAnim.Play("Hand_Flick", 0, 0);
             GameObject fo = Instantiate(flickedObject);
             fo.transform.parent = flickedObject.transform.parent;
-            fo.GetComponent<Pea>().startBeat = beat;
-            fo.GetComponent<Pea>().type = type;
+            Pea pea = fo.GetComponent<Pea>();
+            pea.startBeat = beat;
+            pea.type = type;
             fo.SetActive(true);
         }
     }

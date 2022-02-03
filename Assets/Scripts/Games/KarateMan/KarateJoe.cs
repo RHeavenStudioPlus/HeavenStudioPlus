@@ -45,7 +45,7 @@ namespace RhythmHeavenMania.Games.KarateMan
         {
             if (inCombo)
             {
-                comboNormalizedBeat = Conductor.instance.GetLoopPositionFromBeat(comboBeat, 1);
+                comboNormalizedBeat = Conductor.instance.GetPositionFromBeat(comboBeat, 1);
 
                 if (hitCombo)
                 {
