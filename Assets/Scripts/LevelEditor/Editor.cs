@@ -93,7 +93,7 @@ namespace RhythmHeavenMania.Editor
             UpdateEditorStatus(true);
         }
 
-        public void Update()
+        public void LateUpdate()
         {
             // This is buggy
             /*if (Conductor.instance.isPlaying || Conductor.instance.isPaused)
@@ -147,7 +147,7 @@ namespace RhythmHeavenMania.Editor
             }
 
             if (Timeline.instance.timelineState.selected == true)
-            if (Input.GetMouseButtonUp(0) && Timeline.instance.CheckIfMouseInTimeline())
+            if (Input.GetMouseButtonUp(0))
             {
                 List<TimelineEventObj> selectedEvents = Timeline.instance.eventObjs.FindAll(c => c.selected == true && c.eligibleToMove == true);
 

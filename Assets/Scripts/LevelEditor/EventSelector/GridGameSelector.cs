@@ -156,7 +156,7 @@ namespace RhythmHeavenMania.Editor
 
         public void Drag()
         {
-            if (Conductor.instance.NotStopped()) return;
+            if (Conductor.instance.NotStopped() || !Timeline.instance.timelineState.selected) return;
 
             if (Timeline.instance.CheckIfMouseInTimeline() && dragTimes < 1)
             {
