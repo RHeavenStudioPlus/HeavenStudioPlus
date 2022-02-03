@@ -409,12 +409,12 @@ namespace RhythmHeavenMania.Editor.Track
 
         public bool CheckIfMouseInTimeline()
         {
-            return (this.gameObject.activeSelf && RectTransformUtility.RectangleContainsScreenPoint(TimelineContent.transform.parent.gameObject.GetComponent<RectTransform>(), Input.mousePosition, Camera.main));
+            return (this.gameObject.activeSelf && RectTransformUtility.RectangleContainsScreenPoint(TimelineContent.transform.parent.gameObject.GetComponent<RectTransform>(), Input.mousePosition, Editor.instance.EditorCamera));
         }
 
         public bool MouseInRectTransform(RectTransform rectTransform)
         {
-            return (rectTransform.gameObject.activeSelf && RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, Camera.main));
+            return (rectTransform.gameObject.activeSelf && RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, Editor.instance.EditorCamera));
         }
         #endregion
 
@@ -461,7 +461,7 @@ namespace RhythmHeavenMania.Editor.Track
 
             if (dragNDrop)
             {
-                var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                var mousePos = Editor.instance.EditorCamera.ScreenToWorldPoint(Input.mousePosition);
                 g.transform.position = new Vector3(mousePos.x, mousePos.y, 0);
 
                 Selections.instance.ClickSelect(eventObj);
