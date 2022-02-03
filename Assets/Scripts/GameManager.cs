@@ -133,13 +133,13 @@ namespace RhythmHeavenMania
                 if (Conductor.instance.songPositionInBeats >= entities[currentEvent] /*&& SongPosLessThanClipLength(Conductor.instance.songPositionInBeats)*/)
                 {
                     // allows for multiple events on the same beat to be executed on the same frame, so no more 1-frame delay
-                    var entitesAtSameBeat   = Beatmap.entities.FindAll(c => c.beat == Beatmap.entities[currentEvent].beat && c.datamodel.Split('/')[0] != "gameManager");
-                    var gameManagerEntities = Beatmap.entities.FindAll(c => c.beat == Beatmap.entities[currentEvent].beat && c.datamodel.Split('/')[0] == "gameManager");
+                    var entitesAtSameBeat   = Beatmap.entities.FindAll(c => c.beat == Beatmap.entities[currentEvent].beat && !EventCaller.FXOnlyGames().Contains(EventCaller.instance.GetMinigame(c.datamodel.Split('/')[0])));
+                    var fxEntities = Beatmap.entities.FindAll(c => c.beat == Beatmap.entities[currentEvent].beat && EventCaller.FXOnlyGames().Contains(EventCaller.instance.GetMinigame(c.datamodel.Split('/')[0])));
 
-                    // GameManager entities should ALWAYS execute before gameplay entities
-                    for (int i = 0; i < gameManagerEntities.Count; i++)
+                    // FX entities should ALWAYS execute before gameplay entities
+                    for (int i = 0; i < fxEntities.Count; i++)
                     {
-                        eventCaller.CallEvent(gameManagerEntities[i].datamodel);
+                        eventCaller.CallEvent(fxEntities[i].datamodel);
                         currentEvent++;
                     }
 
@@ -258,7 +258,10 @@ namespace RhythmHeavenMania
                     // newGame = gameSwitchs[gameSwitchs.IndexOf(gameSwitchs.Find(c => c.beat == Mathp.GetClosestInList(gameSwitchs.Select(c => c.beat).ToList(), beat)))].datamodel.Split(2);
                 }
 
-                SetGame(newGame);
+                if (!GetGameInfo(newGame).fxOnly)
+                {
+                    SetGame(newGame);
+                }
             }
             else
             {
@@ -351,7 +354,7 @@ namespace RhythmHeavenMania
         {
             if (name == "gameManager")
             {
-                name = Beatmap.entities.FindAll(c => c.datamodel.Split(0) != "gameManager").ToList()[0].datamodel.Split(0);
+                name = Beatmap.entities.FindAll(c => c.datamodel.Split(0) != "gameManager" || c.datamodel.Split(0) != "countIn").ToList()[0].datamodel.Split(0);
             }
             return Resources.Load<GameObject>($"Games/{name}");
         }

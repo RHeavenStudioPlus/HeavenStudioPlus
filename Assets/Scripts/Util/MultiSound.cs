@@ -9,6 +9,7 @@ namespace RhythmHeavenMania.Util
     {
         private float startBeat;
         private int index;
+        private bool game;
         public List<Sound> sounds = new List<Sound>();
 
         public class Sound
@@ -24,13 +25,14 @@ namespace RhythmHeavenMania.Util
         }
 
 
-        public static void Play(Sound[] snds)
+        public static void Play(Sound[] snds, bool game = true)
         {
             List<Sound> sounds = snds.ToList();
             GameObject gameObj = new GameObject();
             MultiSound ms = gameObj.AddComponent<MultiSound>();
             ms.sounds = sounds;
             ms.startBeat = sounds[0].beat;
+            ms.game = game;
             gameObj.name = "MultiSound";
 
             GameManager.instance.SoundObjects.Add(gameObj);
@@ -44,7 +46,11 @@ namespace RhythmHeavenMania.Util
             {
                 if (songPositionInBeats >= sounds[i].beat && index == i)
                 {
-                    Jukebox.PlayOneShotGame(sounds[i].name);
+                    if (game)
+                        Jukebox.PlayOneShotGame(sounds[i].name);
+                    else
+                        Jukebox.PlayOneShot(sounds[i].name);
+
                     index++;
                 }
             }

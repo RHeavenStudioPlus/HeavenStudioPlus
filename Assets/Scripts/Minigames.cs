@@ -22,14 +22,17 @@ namespace RhythmHeavenMania
             public string color;
             public GameObject holder;
             public bool threeD;
+            public bool fxOnly;
             public List<GameAction> actions = new List<GameAction>();
 
-            public Minigame(string name, string displayName, string color, bool threeD, List<GameAction> actions)
+            public Minigame(string name, string displayName, string color, bool threeD, bool fxOnly, List<GameAction> actions)
             {
                 this.name = name;
                 this.displayName = displayName;
                 this.color = color;
                 this.actions = actions;
+                this.threeD = threeD;
+                this.fxOnly = fxOnly;
             }
         }
 
@@ -55,12 +58,36 @@ namespace RhythmHeavenMania
         {
             eventCaller.minigames = new List<Minigame>()
             {
-                new Minigame("gameManager", "Game Manager", "", false, new List<GameAction>()
+                new Minigame("gameManager", "Game Manager", "", false, true, new List<GameAction>()
                 {
+                    new GameAction("switchGame",        delegate { GameManager.instance.SwitchGame(eventCaller.currentSwitchGame); }),
                     new GameAction("end",               delegate { Debug.Log("end"); }),
-                    new GameAction("switchGame",        delegate { GameManager.instance.SwitchGame(eventCaller.currentSwitchGame); })
+                    new GameAction("skill star",        delegate {  }, 1f, true),
                 }),
-                new Minigame("forkLifter", "Fork Lifter", "FFFFFF", false, new List<GameAction>()
+                new Minigame("countIn", "Count-Ins", "", false, true, new List<GameAction>()
+                {
+                    new GameAction("cowbell",           delegate { Jukebox.PlayOneShot("count-ins/cowbell"); }, 1f),
+                    new GameAction("one",           delegate { Jukebox.PlayOneShot("count-ins/one1"); }, 1f),
+                    new GameAction("one (alt)",           delegate { Jukebox.PlayOneShot("count-ins/one2"); }, 1f),
+                    new GameAction("two",           delegate { Jukebox.PlayOneShot("count-ins/two1"); }, 1f),
+                    new GameAction("two (alt)",           delegate { Jukebox.PlayOneShot("count-ins/two2"); }, 1f),
+                    new GameAction("three",           delegate { Jukebox.PlayOneShot("count-ins/three1"); }, 1f),
+                    new GameAction("three (alt)",           delegate { Jukebox.PlayOneShot("count-ins/three2"); }, 1f),
+                    new GameAction("four",           delegate { Jukebox.PlayOneShot("count-ins/four1"); }, 1f),
+                    new GameAction("four (alt)",           delegate { Jukebox.PlayOneShot("count-ins/four2"); }, 1f),
+                    new GameAction("and",           delegate { Jukebox.PlayOneShot("count-ins/and"); }, 0.5f),
+                    new GameAction("go!",           delegate { Jukebox.PlayOneShot("count-ins/go1"); }, 1f),
+                    new GameAction("go! (alt)",           delegate { Jukebox.PlayOneShot("count-ins/go2"); }, 1f),
+                    new GameAction("ready!",           delegate 
+                    {             
+                        MultiSound.Play(new MultiSound.Sound[]
+                        {
+                            new MultiSound.Sound("count-ins/ready1", eventCaller.currentBeat),
+                            new MultiSound.Sound("count-ins/ready2", eventCaller.currentBeat + 1f),
+                        }, false);
+                    }, 2f),
+                }),
+                new Minigame("forkLifter", "Fork Lifter", "FFFFFF", false, false, new List<GameAction>()
                 {
                     new GameAction("pea",               delegate { ForkLifter.instance.Flick(eventCaller.currentBeat, 0); }, 3),
                     new GameAction("topbun",            delegate { ForkLifter.instance.Flick(eventCaller.currentBeat, 1); }, 3),
@@ -70,14 +97,14 @@ namespace RhythmHeavenMania
                     new GameAction("gulp",              delegate { ForkLifterPlayer.instance.Eat(); }),
                     new GameAction("sigh",              delegate { Jukebox.PlayOneShot("sigh"); })
                 }),
-                new Minigame("clappyTrio", "The Clappy Trio", "29E7FF", false, new List<GameAction>()
+                new Minigame("clappyTrio", "The Clappy Trio", "29E7FF", false, false, new List<GameAction>()
                 {
                     new GameAction("clap",              delegate { ClappyTrio.instance.Clap(eventCaller.currentBeat, eventCaller.currentLength); }, 3, true),
                     new GameAction("bop",               delegate { ClappyTrio.instance.Bop(eventCaller.currentBeat); } ),
                     new GameAction("prepare",           delegate { ClappyTrio.instance.Prepare(0); } ),
                     new GameAction("prepare_alt",       delegate { ClappyTrio.instance.Prepare(3); } ),
                 }),
-                new Minigame("spaceball", "Spaceball", "00A518", false, new List<GameAction>()
+                new Minigame("spaceball", "Spaceball", "00A518", false, false, new List<GameAction>()
                 {
                     new GameAction("shoot",             delegate { Spaceball.instance.Shoot(eventCaller.currentBeat, false, eventCaller.currentType); }, 2),
                     new GameAction("shootHigh",         delegate { Spaceball.instance.Shoot(eventCaller.currentBeat, true, eventCaller.currentType); }, 3),
@@ -85,7 +112,7 @@ namespace RhythmHeavenMania
                     new GameAction("alien",             delegate { Spaceball.instance.alien.Show(eventCaller.currentBeat); } ),
                     new GameAction("cameraZoom",        delegate { }, 4, true ),
                 }),
-                new Minigame("karateman", "Karate Man", "70A8D8", false, new List<GameAction>()
+                new Minigame("karateman", "Karate Man", "70A8D8", false, false, new List<GameAction>()
                 {
                     new GameAction("bop",               delegate { KarateMan.instance.Bop(eventCaller.currentBeat, eventCaller.currentLength); }, 0.5f, true),
                     new GameAction("pot",               delegate { KarateMan.instance.Shoot(eventCaller.currentBeat, 0); }, 2),
@@ -101,13 +128,13 @@ namespace RhythmHeavenMania
                     new GameAction("bgfxoff",           delegate { KarateMan.instance.BGFXOff(); }),
                     new GameAction("tacobell",          delegate { KarateMan.instance.Shoot(eventCaller.currentBeat, 6); }, 2),
                 }),
-                new Minigame("spaceSoccer", "Space Soccer", "B888F8", false, new List<GameAction>()
+                new Minigame("spaceSoccer", "Space Soccer", "B888F8", false, false, new List<GameAction>()
                 {
                     new GameAction("ball dispense",     delegate { SpaceSoccer.instance.Dispense(eventCaller.currentBeat); }, 2f),
                     new GameAction("keep-up",           delegate { }, 4f, true),
                     new GameAction("high kick-toe!",    delegate { }, 3f),
                 }),
-                new Minigame("djSchool", "DJ School \n<color=#eb5454>[Non-Playable]</color>", "B888F8", false, new List<GameAction>()
+                new Minigame("djSchool", "DJ School \n<color=#eb5454>[Non-Playable]</color>", "B888F8", false, false, new List<GameAction>()
                 {
                     new GameAction("break c'mon ooh",   delegate { DJSchool.instance.BreakCmon(eventCaller.currentBeat);  }, 3f),
                     new GameAction("scratch-o hey",     delegate { DJSchool.instance.ScratchoHey(eventCaller.currentBeat);  }, 3f),
