@@ -352,9 +352,20 @@ namespace RhythmHeavenMania
 
         public GameObject GetGame(string name)
         {
-            if (name == "gameManager" || name == "countIn")
+            var gameInfo = GetGameInfo(name);
+            if (gameInfo != null)
             {
-                name = Beatmap.entities.FindAll(c => c.datamodel.Split(0) != "gameManager" && c.datamodel.Split(0) != "countIn").ToList()[0].datamodel.Split(0);
+                if (gameInfo.fxOnly)
+                {
+                    name = Beatmap.entities.FindAll(c => {
+                            var gameName = c.datamodel.Split(0);
+                            var newGameInfo = GetGameInfo(gameName);
+                            if (newGameInfo == null)
+                                return false;
+                            else
+                                return !newGameInfo.fxOnly;
+                        }).ToList()[0].datamodel.Split(0);
+                }
             }
             return Resources.Load<GameObject>($"Games/{name}");
         }
