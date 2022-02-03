@@ -1,0 +1,600 @@
+fileFormatVersion: 2
+guid: 51c96d61d37a84e4d93a68bdb8f63768
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 836921579124155561
+    second: turntable_0
+  - first:
+      213: -6808396579860639100
+    second: turntable_1
+  - first:
+      213: -6413161211560599989
+    second: turntable_2
+  - first:
+      213: -647411209407345727
+    second: turntable_3
+  - first:
+      213: 7096670032117368111
+    second: turntable_4
+  - first:
+      213: 6926160837623600213
+    second: turntable_5
+  - first:
+      213: -7440528176705837575
+    second: turntable_6
+  - first:
+      213: 7091854079307194003
+    second: turntable_7
+  - first:
+      213: 6419061626408863453
+    second: turntable_8
+  - first:
+      213: -60426646923268813
+    second: turntable_9
+  - first:
+      213: -6326371371039055405
+    second: turntable_10
+  - first:
+      213: 8107383951289109478
+    second: turntable_11
+  - first:
+      213: 2073874090203155938
+    second: turntable_12
+  - first:
+      213: -6215106890456281241
+    second: turntable_13
+  - first:
+      213: 5391697474062777944
+    second: turntable_14
+  - first:
+      213: 3844131486646104688
+    second: turntable_15
+  - first:
+      213: 4577315598492740499
+    second: turntable_16
+  - first:
+      213: 3398781665254508244
+    second: turntable_17
+  - first:
+      213: 8861929893788052115
+    second: turntable_18
+  - first:
+      213: 5480753857023637297
+    second: turntable_19
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: turntable_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 690
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a4ed84fdb75d9b00800000000000000
+      internalID: 836921579124155561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_1
+      rect:
+        serializedVersion: 2
+        x: 566
+        y: 690
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4821c6f0267b381a0800000000000000
+      internalID: -6808396579860639100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_2
+      rect:
+        serializedVersion: 2
+        x: 1128
+        y: 690
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4edd914bdfdff6a0800000000000000
+      internalID: -6413161211560599989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_3
+      rect:
+        serializedVersion: 2
+        x: 1690
+        y: 690
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cb4ba76feee307f0800000000000000
+      internalID: -647411209407345727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_4
+      rect:
+        serializedVersion: 2
+        x: 2252
+        y: 690
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2504806bcf6c7260800000000000000
+      internalID: 7096670032117368111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_5
+      rect:
+        serializedVersion: 2
+        x: 2814
+        y: 690
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 554d6cfd59aae1060800000000000000
+      internalID: 6926160837623600213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_6
+      rect:
+        serializedVersion: 2
+        x: 3376
+        y: 690
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f5e92e7b0fedb890800000000000000
+      internalID: -7440528176705837575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_7
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 347
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39e920cf5b35b6260800000000000000
+      internalID: 7091854079307194003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_8
+      rect:
+        serializedVersion: 2
+        x: 566
+        y: 347
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd601712a86151950800000000000000
+      internalID: 6419061626408863453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_9
+      rect:
+        serializedVersion: 2
+        x: 1128
+        y: 347
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33dab27e842592ff0800000000000000
+      internalID: -60426646923268813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_10
+      rect:
+        serializedVersion: 2
+        x: 1690
+        y: 347
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d12400b1c63438a0800000000000000
+      internalID: -6326371371039055405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_11
+      rect:
+        serializedVersion: 2
+        x: 2252
+        y: 347
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6eb4a4abfb6338070800000000000000
+      internalID: 8107383951289109478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_12
+      rect:
+        serializedVersion: 2
+        x: 2814
+        y: 347
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ed02774f71e7cc10800000000000000
+      internalID: 2073874090203155938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_13
+      rect:
+        serializedVersion: 2
+        x: 3376
+        y: 347
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76f454156318fb9a0800000000000000
+      internalID: -6215106890456281241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_14
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 4
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85ef1e5494823da40800000000000000
+      internalID: 5391697474062777944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_15
+      rect:
+        serializedVersion: 2
+        x: 566
+        y: 4
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0727f635839195530800000000000000
+      internalID: 3844131486646104688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_16
+      rect:
+        serializedVersion: 2
+        x: 1128
+        y: 4
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39ba3010944e58f30800000000000000
+      internalID: 4577315598492740499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_17
+      rect:
+        serializedVersion: 2
+        x: 1690
+        y: 4
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d60b92cae5ea2f20800000000000000
+      internalID: 3398781665254508244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_18
+      rect:
+        serializedVersion: 2
+        x: 2252
+        y: 4
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39ae6af2946ebfa70800000000000000
+      internalID: 8861929893788052115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turntable_19
+      rect:
+        serializedVersion: 2
+        x: 2814
+        y: 4
+        width: 554
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 137fe3d389c8f0c40800000000000000
+      internalID: 5480753857023637297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

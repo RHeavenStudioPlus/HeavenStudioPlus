@@ -197,7 +197,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 }
                 else
                 {
-                    toeCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x - 0.7f, kicker.transform.position.y - 6f);
+                    toeCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x - 1.0f, kicker.transform.position.y - 6f);
                 }
 
                 holder.transform.localPosition = toeCurve.GetPoint(normalizedBeatAnim);

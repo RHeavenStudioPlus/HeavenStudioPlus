@@ -33,7 +33,7 @@ namespace RhythmHeavenMania.Games.Spaceball
         {
             for (int i = 1; i < BallsHolder.transform.childCount; i++)
                 Destroy(BallsHolder.transform.GetChild(i).gameObject);
-            GameManager.instance.GameCamera.orthographic = false;
+            GameCamera.instance.camera.orthographic = false;
 
             if (EligibleHits.Count > 0)
                 EligibleHits.RemoveRange(0, EligibleHits.Count);
@@ -52,7 +52,7 @@ namespace RhythmHeavenMania.Games.Spaceball
         private void Start()
         {
             allCameraEvents = EventCaller.GetAllInGameManagerList("spaceball", new string[] { "cameraZoom" });
-            GameManager.instance.GameCamera.transform.localPosition = new Vector3(0, 0, -10);
+            GameCamera.instance.camera.transform.localPosition = new Vector3(0, 0, -10);
         }
 
         private void Update()
@@ -83,18 +83,18 @@ namespace RhythmHeavenMania.Games.Spaceball
 
                 if (normalizedBeat > Minigame.EndTime())
                 {
-                    lastCamDistance = GameManager.instance.GameCamera.transform.localPosition.z;
+                    lastCamDistance = GameCamera.instance.camera.transform.localPosition.z;
                 }
                 else
                 {
                     if (currentZoomCamLength <= 0)
                     {
-                        GameManager.instance.GameCamera.transform.localPosition = new Vector3(0, 0, currentZoomCamDistance);
+                        GameCamera.instance.camera.transform.localPosition = new Vector3(0, 0, currentZoomCamDistance);
                     }
                     else
                     {
                         float newPosZ = Mathf.Lerp(lastCamDistance, currentZoomCamDistance, normalizedBeat);
-                        GameManager.instance.GameCamera.transform.localPosition = new Vector3(0, 0, newPosZ);
+                        GameCamera.instance.camera.transform.localPosition = new Vector3(0, 0, newPosZ);
                     }
                 }
             }

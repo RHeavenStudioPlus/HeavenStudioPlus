@@ -53,6 +53,7 @@ namespace RhythmHeavenMania.Editor
         private string currentRemixPath = "";
         private int lastEditorObjectsCount = 0;
         private bool fullscreen;
+        public bool discordDuringTesting = false;
 
         public static Editor instance { get; private set; }
 
@@ -64,7 +65,7 @@ namespace RhythmHeavenMania.Editor
 
         public void Init()
         {
-            GameManager.instance.GameCamera.targetTexture = ScreenRenderTexture;
+            GameCamera.instance.camera.targetTexture = ScreenRenderTexture;
             GameManager.instance.CursorCam.targetTexture = ScreenRenderTexture;
             Screen.texture = ScreenRenderTexture;
 
@@ -382,22 +383,23 @@ namespace RhythmHeavenMania.Editor
             {
                 MainCanvas.enabled = false;
                 EditorCamera.enabled = false;
-                GameManager.instance.GameCamera.targetTexture = null;
-                // GameManager.instance.GameCamera.transform.parent.GetChild(1).GetComponent<Camera>().enabled = false;
+                GameCamera.instance.camera.targetTexture = null;
+                GameCamera.instance.camera.transform.parent.GetChild(1).GetComponent<Camera>().enabled = false;
                 fullscreen = true;
             }
             else
             {
                 MainCanvas.enabled = true;
                 EditorCamera.enabled = true;
-                GameManager.instance.GameCamera.targetTexture = ScreenRenderTexture;
-                // GameManager.instance.GameCamera.transform.parent.GetChild(1).GetComponent<Camera>().enabled = true;
+                GameCamera.instance.camera.targetTexture = ScreenRenderTexture;
+                GameCamera.instance.camera.transform.parent.GetChild(1).GetComponent<Camera>().enabled = true;
                 fullscreen = false;
             }
         }
 
         private void UpdateEditorStatus(bool updateTime)
         {
+            if (discordDuringTesting || !Application.isEditor)
             DiscordRPC.DiscordRPC.UpdateActivity("In Editor", $"Objects: {GameManager.instance.Beatmap.entities.Count + GameManager.instance.Beatmap.tempoChanges.Count}", updateTime);
         }
 
