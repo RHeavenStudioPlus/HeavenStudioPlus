@@ -15,7 +15,9 @@ namespace RhythmHeavenMania.Games.KarateMan
         public GameObject Holder;
         private GameObject newHolder;
         public GameObject Sprite;
+        private SpriteRenderer spriteComp;
         public GameObject Shadow;
+        private SpriteRenderer shadowSpriteComp;
 
         public bool isThrown;
         public bool isHit = false;
@@ -54,6 +56,8 @@ namespace RhythmHeavenMania.Games.KarateMan
         private void Start()
         {
             anim = GetComponent<Animator>();
+            spriteComp = Sprite.GetComponent<SpriteRenderer>();
+            shadowSpriteComp = Shadow.GetComponent<SpriteRenderer>();
 
             Sprite.transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
 
@@ -82,7 +86,7 @@ namespace RhythmHeavenMania.Games.KarateMan
 
             PlayerActionInit(this.gameObject, createBeat);
 
-            Sprite.GetComponent<SpriteRenderer>().enabled = false;
+            spriteComp.enabled = false;
         }
 
         public override void OnAce()
@@ -108,9 +112,9 @@ namespace RhythmHeavenMania.Games.KarateMan
         private void Update()
         {
             if (Conductor.instance.songPositionInBeats >= createBeat)
-                Sprite.GetComponent<SpriteRenderer>().enabled = true;
+                spriteComp.enabled = true;
             else
-                Sprite.GetComponent<SpriteRenderer>().enabled = false;
+                spriteComp.enabled = false;
 
 
             float time2Destroy = Conductor.instance.GetLoopPositionFromBeat(createBeat, 4);
@@ -194,8 +198,13 @@ namespace RhythmHeavenMania.Games.KarateMan
 
                 if (normalizedBeat > 1)
                 {
-                    Sprite.GetComponent<SpriteRenderer>().sortingOrder = -20;
-                    Shadow.GetComponent<SpriteRenderer>().sortingOrder = -30;
+                    spriteComp.sortingOrder = -20;
+                    shadowSpriteComp.sortingOrder = -30;
+                }
+                else
+                {
+                    // Pots closer to Joe are sorted further back.
+                    spriteComp.sortingOrder = 60 - Mathf.RoundToInt(10f * normalizedBeat);
                 }
             }
 
@@ -279,7 +288,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             isThrown = false;
             isHit = true;
 
-            Sprite.GetComponent<SpriteRenderer>().sortingOrder = 49;
+            spriteComp.sortingOrder = 49;
         }
 
         public void Miss()
@@ -295,7 +304,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             isHit = false;
             isThrown = false;
             anim.enabled = false;
-            Sprite.GetComponent<SpriteRenderer>().sortingOrder = 49;
+            spriteComp.sortingOrder = 49;
         }
 
         private void NewHolder()
