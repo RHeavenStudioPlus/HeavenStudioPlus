@@ -42,7 +42,7 @@ namespace RhythmHeavenMania
             List<Minigames.Minigame> minigamesInBeatmap = new List<Minigames.Minigame>();
             for (int i = 0; i < GameManager.instance.Beatmap.entities.Count; i++)
             {
-                if (!minigamesInBeatmap.Contains(minigames.Find(c => c.name == GameManager.instance.Beatmap.entities[i].datamodel.Split('/')[0])) && GameManager.instance.Beatmap.entities[i].datamodel.Split('/')[0] != "gameManager")
+                if (!minigamesInBeatmap.Contains(minigames.Find(c => c.name == GameManager.instance.Beatmap.entities[i].datamodel.Split('/')[0])) && !FXOnlyGames().Contains(GetMinigame(GameManager.instance.Beatmap.entities[i].datamodel.Split('/')[0])))
                 {
                     minigamesInBeatmap.Add(minigames.Find(c => c.name == GameManager.instance.Beatmap.entities[i].datamodel.Split('/')[0]));
                 }
@@ -125,6 +125,11 @@ namespace RhythmHeavenMania
         public static List<Beatmap.Entity> GetAllPlayerEntitiesExceptBeforeBeat(string gameName, float beat)
         {
             return GameManager.instance.playerEntities.FindAll(c => c.datamodel.Split('/')[0] != gameName && c.beat < beat);
+        }
+
+        public static List<Minigames.Minigame> FXOnlyGames()
+        {
+            return instance.minigames.FindAll(c => c.fxOnly == true).ToList();
         }
     }
 }

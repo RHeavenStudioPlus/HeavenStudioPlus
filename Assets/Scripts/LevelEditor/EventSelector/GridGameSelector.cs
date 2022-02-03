@@ -110,7 +110,7 @@ namespace RhythmHeavenMania.Editor
 
         private void AddEvents()
         {
-            if (mg.name != "gameManager")
+            if (!EventCaller.FXOnlyGames().Contains(EventCaller.instance.GetMinigame(mg.name)))
             {
                 GameObject sg = Instantiate(EventRef, eventsParent);
                 sg.GetComponent<TMP_Text>().text = "switchGame";
@@ -166,11 +166,39 @@ namespace RhythmHeavenMania.Editor
 
                 if (currentEventIndex == 0)
                 {
-                    eventObj = Timeline.instance.AddEventObject($"gameManager/switchGame/{mg.name}", true, new Vector3(0, 0), null, true, Timeline.RandomID());
+                    if (EventCaller.FXOnlyGames().Contains(EventCaller.instance.GetMinigame(mg.name)))
+                    {
+                        int index = currentEventIndex + 1;
+                        if (currentEventIndex - 1 > mg.actions.Count)
+                        {
+                            index = currentEventIndex;
+                        }
+                        else if (currentEventIndex - 1 < 0)
+                        {
+                            if (mg.actions[0].actionName == "switchGame")
+                                index = 1;
+                            else
+                                index = 0;
+                        }
+
+                        eventObj = Timeline.instance.AddEventObject(mg.name + "/" + mg.actions[index].actionName, true, new Vector3(0, 0), null, true, Timeline.RandomID());
+                    }
+                    else
+                        eventObj = Timeline.instance.AddEventObject($"gameManager/switchGame/{mg.name}", true, new Vector3(0, 0), null, true, Timeline.RandomID());
                 }
                 else
                 {
-                    eventObj = Timeline.instance.AddEventObject(mg.name + "/" + mg.actions[currentEventIndex - 1].actionName, true, new Vector3(0, 0), null, true, Timeline.RandomID());
+                    int index = currentEventIndex - 1;
+                    if (mg.actions[0].actionName == "switchGame")
+                    {
+                        index = currentEventIndex + 1;
+                    }
+                    else if (EventCaller.FXOnlyGames().Contains(EventCaller.instance.GetMinigame(mg.name)) && mg.actions[0].actionName != "switchGame")
+                    {
+                        index = currentEventIndex;
+                    }
+
+                    eventObj = Timeline.instance.AddEventObject(mg.name + "/" + mg.actions[index].actionName, true, new Vector3(0, 0), null, true, Timeline.RandomID());
                 }
 
                 eventObj.isCreating = true;
