@@ -7,10 +7,17 @@ namespace RhythmHeavenMania.Common
     public class FollowMouse : MonoBehaviour
     {
         public Vector2 offset;
+        public Camera cam;
+
+        private void Awake()
+        {
+            if (cam == null)
+                cam = Camera.main;
+        }
 
         private void Update()
         {
-            var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var pos = cam.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(pos.x - offset.x, pos.y - offset.y, 0);
         }
     }
