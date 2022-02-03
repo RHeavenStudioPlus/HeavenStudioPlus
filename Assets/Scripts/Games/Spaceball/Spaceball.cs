@@ -59,17 +59,6 @@ namespace RhythmHeavenMania.Games.Spaceball
         {
             /*try
             {
-                var allPlayerActions = EventCaller.GetAllPlayerEntities("spaceball");
-                int currentPlayerEvent = GameManager.instance.currentPlayerEvent - EventCaller.GetAllPlayerEntitiesExceptBeforeBeat("spaceball", Conductor.instance.songPositionInBeats).Count;
-
-                if (currentPlayerEvent < allPlayerActions.Count)
-                {
-                    if (Conductor.instance.songPositionInBeats > allPlayerActions[currentPlayerEvent].beat - 1)
-                    {
-                        Dispenser.GetComponent<Animator>().Play("DispenserPrepare", 0, 0);
-                    }
-                }
-
                 if (currentZoomIndex < allCameraEvents.Count && currentZoomIndex >= 0)
                 {
                     if (Conductor.instance.songPositionInBeats >= allCameraEvents[currentZoomIndex].beat)
@@ -79,7 +68,7 @@ namespace RhythmHeavenMania.Games.Spaceball
                     }
                 }
 
-                float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(currentZoomCamBeat, currentZoomCamLength);
+                float normalizedBeat = Conductor.instance.GetPositionFromBeat(currentZoomCamBeat, currentZoomCamLength);
 
                 if (normalizedBeat > Minigame.EndTime())
                 {
@@ -156,6 +145,11 @@ namespace RhythmHeavenMania.Games.Spaceball
             }
 
             Dispenser.GetComponent<Animator>().Play("DispenserShoot", 0, 0);
+        }
+
+        public void PrepareDispenser()
+        {
+            Dispenser.GetComponent<Animator>().Play("DispenserPrepare", 0, 0);
         }
 
         public void Costume(int type)

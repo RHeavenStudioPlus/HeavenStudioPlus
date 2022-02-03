@@ -146,20 +146,20 @@ namespace RhythmHeavenMania.Editor.Track
                 {
                     Vector3 mousePos = Editor.instance.EditorCamera.ScreenToWorldPoint(Input.mousePosition);
 
-                    // lastPos_ = transform.localPosition;
+                    lastPos_ = transform.localPosition;
 
-                    // this.transform.position = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY - 0.40f, 0);
-                    // this.transform.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(this.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(this.transform.localPosition.y));
-                    moveTemp.transform.position = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY - 0.40f, 0);
-                    moveTemp.transform.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(moveTemp.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(moveTemp.transform.localPosition.y));
+                    this.transform.position = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY - 0.40f, 0);
+                    this.transform.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(this.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(this.transform.localPosition.y));
+                    // moveTemp.transform.position = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY - 0.40f, 0);
+                    // moveTemp.transform.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(moveTemp.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(moveTemp.transform.localPosition.y));
 
-                    if (lastPos != moveTemp.transform.localPosition)
+                    if (lastPos != transform.localPosition)
                     {
                         OnMove();
-                        this.transform.DOLocalMove(new Vector3(Mathf.Clamp(Mathp.Round2Nearest(moveTemp.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(moveTemp.transform.localPosition.y)), 0.15f).SetEase(Ease.OutExpo);
+                        // this.transform.DOLocalMove(new Vector3(Mathf.Clamp(Mathp.Round2Nearest(moveTemp.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(moveTemp.transform.localPosition.y)), 0.15f).SetEase(Ease.OutExpo);
                     }
 
-                    lastPos = moveTemp.transform.localPosition;
+                    lastPos = transform.localPosition;
                 }
             }
             else if (resizingLeft)
@@ -231,20 +231,23 @@ namespace RhythmHeavenMania.Editor.Track
 
         public void OnDown()
         {
-            if (selected && Timeline.instance.timelineState.selected)
+            if (Input.GetMouseButton(0))
             {
-                lastPos_ = transform.localPosition;
-
-                for (int i = 0; i < Timeline.instance.eventObjs.Count; i++)
+                if (selected && Timeline.instance.timelineState.selected)
                 {
-                    Vector3 mousePos = Editor.instance.EditorCamera.ScreenToWorldPoint(Input.mousePosition);
-                    Timeline.instance.eventObjs[i].startPosX = mousePos.x - Timeline.instance.eventObjs[i].transform.position.x;
-                    Timeline.instance.eventObjs[i].startPosY = mousePos.y - Timeline.instance.eventObjs[i].transform.position.y;
-                }
+                    lastPos_ = transform.localPosition;
 
-                moving = true;
-                // lastMovePos = transform.localPosition;
-                // OnComplete();
+                    for (int i = 0; i < Timeline.instance.eventObjs.Count; i++)
+                    {
+                        Vector3 mousePos = Editor.instance.EditorCamera.ScreenToWorldPoint(Input.mousePosition);
+                        Timeline.instance.eventObjs[i].startPosX = mousePos.x - Timeline.instance.eventObjs[i].transform.position.x;
+                        Timeline.instance.eventObjs[i].startPosY = mousePos.y - Timeline.instance.eventObjs[i].transform.position.y;
+                    }
+
+                    moving = true;
+                    // lastMovePos = transform.localPosition;
+                    // OnComplete();
+                }
             }
         }
 

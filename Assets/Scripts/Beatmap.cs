@@ -26,6 +26,25 @@ namespace RhythmHeavenMania
             {
                 return this.MemberwiseClone();
             }
+
+            public object this[string propertyName]
+            {
+                get
+                {
+                    return typeof(Entity).GetField(propertyName).GetValue(this);
+                }
+                set
+                {
+                    try
+                    {
+                        typeof(Entity).GetField(propertyName).SetValue(this, value);
+                    }
+                    catch (Exception ex)
+                    {
+                        UnityEngine.Debug.LogError($"You probably misspelled a paramater, or defined the object type wrong. Exception log: {ex}");
+                    }
+                }
+            }
         }
 
         [Serializable]

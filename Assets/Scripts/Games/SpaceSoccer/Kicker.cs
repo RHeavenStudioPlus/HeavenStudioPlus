@@ -213,7 +213,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             {
                 if (ball.dispensing)
                 {
-                    float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(ball.dispensedBeat, 2f);
+                    float normalizedBeat = Conductor.instance.GetPositionFromBeat(ball.dispensedBeat, 2f);
                     StateCheck(normalizedBeat, !player);
                     CheckIfFall(normalizedBeat);
 
@@ -234,7 +234,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 }
                 else if (ball.kicked.enabled)
                 {
-                    float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(ball.kicked.startBeat, 1f);
+                    float normalizedBeat = Conductor.instance.GetPositionFromBeat(ball.kicked.startBeat, 1f);
                     StateCheck(normalizedBeat, !player);
                     CheckIfFall(normalizedBeat);
 
@@ -255,10 +255,10 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 }
                 else if (ball.highKicked.enabled)
                 {
-                    float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(ball.highKicked.startBeat, 1.5f);
+                    float normalizedBeat = Conductor.instance.GetPositionFromBeat(ball.highKicked.startBeat, 1.5f);
                     if (!kickPrepare)
                     {
-                        float normalizedBeatPrepare = Conductor.instance.GetLoopPositionFromBeat(ball.highKicked.startBeat, 1f);
+                        float normalizedBeatPrepare = Conductor.instance.GetPositionFromBeat(ball.highKicked.startBeat, 1f);
                         StateCheck(normalizedBeatPrepare, !player);
                         CheckIfFall(normalizedBeat);
 
@@ -293,7 +293,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 }
                 else if (ball.toe.enabled)
                 {
-                    float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(ball.toe.startBeat, 1.5f);
+                    float normalizedBeat = Conductor.instance.GetPositionFromBeat(ball.toe.startBeat, 1.5f);
                     StateCheck(normalizedBeat, !player);
                     CheckIfFall(normalizedBeat);
 

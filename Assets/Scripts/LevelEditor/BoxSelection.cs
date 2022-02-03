@@ -22,6 +22,8 @@ namespace RhythmHeavenMania.Editor
 
         private bool clickedInTimeline = false;
 
+        private TMPro.TMP_Text sizeText;
+
         public static BoxSelection instance { get; private set; }
 
         private void Awake()
@@ -36,6 +38,8 @@ namespace RhythmHeavenMania.Editor
             Color boxCol = EditorTheme.theme.properties.BoxSelectionCol.Hex2RGB();
             boxVisual.GetComponent<Image>().color = new Color(boxCol.r, boxCol.g, boxCol.b, 0.3f);
             boxVisual.transform.GetChild(0).GetComponent<Image>().color = EditorTheme.theme.properties.BoxSelectionOutlineCol.Hex2RGB();
+
+            sizeText = boxVisual.transform.GetChild(1).GetComponent<TMPro.TMP_Text>();
         }
 
         private void Update()
@@ -57,9 +61,9 @@ namespace RhythmHeavenMania.Editor
             }
 
             if (boxVisual.rect.width * boxVisual.transform.localScale.x >= 0.5f)
-                boxVisual.transform.GetChild(1).GetComponent<TMPro.TMP_Text>().text = $"{string.Format("{0:0.000}", boxVisual.rect.width * boxVisual.transform.localScale.x)}";
+                sizeText.text = $"{string.Format("{0:0.000}", boxVisual.rect.width * boxVisual.transform.localScale.x)}";
             else
-                boxVisual.transform.GetChild(1).GetComponent<TMPro.TMP_Text>().text = string.Empty; // i'm lazy
+                sizeText.text = string.Empty; // i'm lazy
 
 
             // click
@@ -162,7 +166,7 @@ namespace RhythmHeavenMania.Editor
 
         public Vector3 MousePosition()
         {
-            var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var mousePos = Editor.instance.EditorCamera.ScreenToWorldPoint(Input.mousePosition);
             // var mousePos = new Vector2();
             // RectTransformUtility.ScreenPointToLocalPointInRectangle(timelineContent, Input.mousePosition, Camera.main, out mousePos);
             return new Vector3(mousePos.x, mousePos.y, 0);

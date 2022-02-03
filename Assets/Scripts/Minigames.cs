@@ -42,13 +42,30 @@ namespace RhythmHeavenMania
             public EventCallback function;
             public float defaultLength;
             public bool resizable;
+            public List<Param> parameters;
 
-            public GameAction(string actionName, EventCallback function, float defaultLength = 1, bool resizable = false)
+            public GameAction(string actionName, EventCallback function, float defaultLength = 1, bool resizable = false, List<Param> parameters = null)
             {
                 this.actionName = actionName;
                 this.function = function;
                 this.defaultLength = defaultLength;
                 this.resizable = resizable;
+                this.parameters = parameters;
+            }
+        }
+
+        [System.Serializable]
+        public class Param
+        {
+            public string propertyName;
+            public object parameter;
+            public string propertyCaption;
+
+            public Param(string propertyName, object parameter, string propertyCaption)
+            {
+                this.propertyName = propertyName;
+                this.parameter = parameter;
+                this.propertyCaption = propertyCaption;
             }
         }
 
@@ -106,11 +123,12 @@ namespace RhythmHeavenMania
                 }),
                 new Minigame("spaceball", "Spaceball", "00A518", false, false, new List<GameAction>()
                 {
-                    new GameAction("shoot",             delegate { Spaceball.instance.Shoot(eventCaller.currentBeat, false, eventCaller.currentType); }, 2),
+                    new GameAction("shoot",             delegate { Spaceball.instance.Shoot(eventCaller.currentBeat, false, eventCaller.currentType); }, 2, false),
                     new GameAction("shootHigh",         delegate { Spaceball.instance.Shoot(eventCaller.currentBeat, true, eventCaller.currentType); }, 3),
-                    new GameAction("costume",           delegate { Spaceball.instance.Costume(eventCaller.currentType); } ),
+                    new GameAction("costume",           delegate { Spaceball.instance.Costume(eventCaller.currentType); }, 1f, false, new List<Param>() { new Param("type", new EntityTypes.Integer(0, 2), "type") } ),
                     new GameAction("alien",             delegate { Spaceball.instance.alien.Show(eventCaller.currentBeat); } ),
-                    new GameAction("cameraZoom",        delegate { }, 4, true ),
+                    new GameAction("camera",            delegate { }, 4, true ),
+                    new GameAction("prepare dispenser", delegate { Spaceball.instance.PrepareDispenser(); }, 1 ),
                 }),
                 new Minigame("karateman", "Karate Man", "70A8D8", false, false, new List<GameAction>()
                 {
@@ -139,7 +157,7 @@ namespace RhythmHeavenMania
                     new GameAction("break c'mon ooh",   delegate { DJSchool.instance.BreakCmon(eventCaller.currentBeat);  }, 3f),
                     new GameAction("scratch-o hey",     delegate { DJSchool.instance.ScratchoHey(eventCaller.currentBeat);  }, 3f),
                 }),
-                /*new Minigame("rhythmRally", "Rhythm Rally", "B888F8", true, new List<GameAction>()
+                /*new Minigame("rhythmRally", "Rhythm Rally", "B888F8", true, false, new List<GameAction>()
                 {
 
                 }),

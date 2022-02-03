@@ -117,7 +117,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                 spriteComp.enabled = false;
 
 
-            float time2Destroy = Conductor.instance.GetLoopPositionFromBeat(createBeat, 4);
+            float time2Destroy = Conductor.instance.GetPositionFromBeat(createBeat, 4);
 
             if (time2Destroy >= 1)
                 Destroy(this.gameObject);
@@ -131,11 +131,11 @@ namespace RhythmHeavenMania.Games.KarateMan
                     animTime = 2.27777777777f;
                 }
 
-                float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(startBeat, animTime);
+                float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(startBeat, animTime);
                 anim.Play(throwAnim, 0, normalizedBeatAnim);
                 anim.speed = 0;
 
-                float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(startBeat, beatTime);
+                float normalizedBeat = Conductor.instance.GetPositionFromBeat(startBeat, beatTime);
 
                 Shadow.transform.localScale = Vector3.Lerp(new Vector3(4.12f, 4.12f), new Vector3(0.34f, 0.34f), shadowCurveScale.Evaluate(normalizedBeatAnim));
                 Shadow.transform.localPosition = new Vector3(Mathf.Lerp(7.63f, endShadowThrowPos.x, shadowCurve.Evaluate(normalizedBeatAnim)), Mathf.Lerp(-12.26f, endShadowThrowPos.y, shadowCurve.Evaluate(normalizedBeatAnim)));
@@ -210,8 +210,8 @@ namespace RhythmHeavenMania.Games.KarateMan
 
             if (!isHit && !isThrown)
             {
-                float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(hitBeat, 1.5f);
-                newHolder.transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(0, 0.55f, Conductor.instance.GetLoopPositionFromBeat(hitBeat, 0.45f)));
+                float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(hitBeat, 1.5f);
+                newHolder.transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(0, 0.55f, Conductor.instance.GetPositionFromBeat(hitBeat, 0.45f)));
                 Holder.transform.localPosition = new Vector3(Mathf.Lerp(lastPos.x, 0.9f, normalizedBeatAnim), Mathf.Lerp(lastPos.y, -3.43f, missCurve.Evaluate(normalizedBeatAnim)));
                 Holder.transform.GetChild(0).transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastRot, lastRot - 523.203f, normalizedBeatAnim));
                 Shadow.transform.localPosition = new Vector3(Mathf.Lerp(lastShadowX, 0.9f, normalizedBeatAnim), Shadow.transform.localPosition.y);
@@ -221,7 +221,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             {
                 if (isHit)
                 {
-                    float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(hitBeat, 1.5f);
+                    float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(hitBeat, 1.5f);
                     var y = Mathf.Lerp(lastPos.y, -3.27f, hitCurve.Evaluate(normalizedBeatAnim));
                     var x = Mathf.Lerp(lastPos.x, hitLength, hitCurveX.Evaluate(normalizedBeatAnim));
                     newHolder.transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(0, 0.45f, hitCurveY.Evaluate(normalizedBeatAnim)));
@@ -236,8 +236,8 @@ namespace RhythmHeavenMania.Games.KarateMan
             {
                 if (isHit)
                 {
-                    float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(hitBeat, 1.5f);
-                    newHolder.transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(0, 0.55f, Conductor.instance.GetLoopPositionFromBeat(hitBeat, 0.45f)));
+                    float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(hitBeat, 1.5f);
+                    newHolder.transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(0, 0.55f, Conductor.instance.GetPositionFromBeat(hitBeat, 0.45f)));
                     Holder.transform.localPosition = new Vector3(Mathf.Lerp(lastPos.x, 0.9f, normalizedBeatAnim), Mathf.Lerp(lastPos.y, -3.43f, missCurve.Evaluate(normalizedBeatAnim)));
                     Holder.transform.GetChild(0).transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastRot, lastRot - 523.203f, normalizedBeatAnim));
                     Shadow.transform.localPosition = new Vector3(Mathf.Lerp(lastShadowX, 0.9f, normalizedBeatAnim), Shadow.transform.localPosition.y);

@@ -51,12 +51,12 @@ namespace RhythmHeavenMania.Games.KarateMan
             {
                 if (!missed)
                 {
-                    float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(startBeat, 1.25f);
+                    float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(startBeat, 1.25f);
 
                     anim.Play("BombOut", 0, normalizedBeatAnim);
                     anim.speed = 0;
 
-                    float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(startBeat, 0.75f);
+                    float normalizedBeat = Conductor.instance.GetPositionFromBeat(startBeat, 0.75f);
 
                     StateCheckNoList(normalizedBeat);
 
@@ -88,7 +88,7 @@ namespace RhythmHeavenMania.Games.KarateMan
                 }
                 else
                 {
-                    float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(missBeat, 1f);
+                    float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(missBeat, 1f);
                     anim.Play("BombMiss", 0, normalizedBeatAnim);
                     anim.speed = 0;
                     RotHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastRot.z, lastRot.z - 180, normalizedBeatAnim));
@@ -101,7 +101,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             }
             else
             {
-                float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(hitBeat, 3f);
+                float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(hitBeat, 3f);
                 anim.Play("BombHit", 0, normalizedBeatAnim);
                 anim.speed = 0;
 

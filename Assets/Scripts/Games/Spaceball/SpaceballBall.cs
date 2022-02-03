@@ -81,7 +81,7 @@ namespace RhythmHeavenMania.Games.Spaceball
         {
             if (hit)
             {
-                float nba = Conductor.instance.GetLoopPositionFromBeat(hitBeat, 14);
+                float nba = Conductor.instance.GetPositionFromBeat(hitBeat, 14);
                 Holder.transform.localPosition = Vector3.Lerp(hitPos, new Vector3(randomEndPosX, 0f, -600f), nba);
                 Holder.transform.eulerAngles = Vector3.Lerp(new Vector3(0, 0, hitRot), new Vector3(0, 0, -2260), nba);
             }
@@ -90,7 +90,7 @@ namespace RhythmHeavenMania.Games.Spaceball
                 float beatLength = 1f;
                 if (high) beatLength = 2f;
 
-                float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(startBeat, beatLength + 0.15f);
+                float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(startBeat, beatLength + 0.15f);
                 // print(normalizedBeatAnim + " " + Time.frameCount);
 
                 if (high)
@@ -104,7 +104,7 @@ namespace RhythmHeavenMania.Games.Spaceball
 
                 anim.speed = 0;
 
-                float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(startBeat, beatLength);
+                float normalizedBeat = Conductor.instance.GetPositionFromBeat(startBeat, beatLength);
 
                 StateCheck(normalizedBeat);
 

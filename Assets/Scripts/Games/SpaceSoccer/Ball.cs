@@ -111,7 +111,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
         {
             if (dispensing)
             {
-                float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(dispensedBeat, 2.35f);
+                float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(dispensedBeat, 2.35f);
 
                 dispenseCurve.KeyPoints[0].transform.position = new Vector3(kicker.transform.position.x - 6f, kicker.transform.position.y - 6f);
                 dispenseCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x - 1f, kicker.transform.position.y - 6f);
@@ -129,7 +129,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             }
             else if (kicked.enabled)
             {
-                float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(kicked.startBeat, 1.5f);
+                float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(kicked.startBeat, 1.5f);
 
                 if (!lastKickLeft)
                 {
@@ -162,7 +162,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             }
             else if (highKicked.enabled)
             {
-                float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(highKicked.startBeat, 1.8f);
+                float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(highKicked.startBeat, 1.8f);
 
                 highKickCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x - 3.5f, kicker.transform.position.y - 6f);
 
@@ -189,7 +189,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             }
             else if (toe.enabled)
             {
-                float normalizedBeatAnim = Conductor.instance.GetLoopPositionFromBeat(toe.startBeat, 1.85f);
+                float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(toe.startBeat, 1.85f);
 
                 if (!lastKickLeft)
                 {
