@@ -34,7 +34,7 @@ namespace RhythmHeavenMania.Editor.Track
 
             if (Timeline.instance.timelineState.tempoChange && !Conductor.instance.NotStopped())
             {
-                if (RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, Camera.main))
+                if (RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, Editor.instance.EditorCamera))
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
@@ -45,7 +45,7 @@ namespace RhythmHeavenMania.Editor.Track
                     }
                 }
 
-                if (RectTransformUtility.RectangleContainsScreenPoint(StartingBPM, Input.mousePosition, Camera.main))
+                if (RectTransformUtility.RectangleContainsScreenPoint(StartingBPM, Input.mousePosition, Editor.instance.EditorCamera))
                 {
                     float increase = Input.mouseScrollDelta.y;
                     if (Input.GetKey(KeyCode.LeftControl))
@@ -82,7 +82,7 @@ namespace RhythmHeavenMania.Editor.Track
 
             if (create == true)
             {
-                tempoChange.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x + 0.08f, tempoChange.transform.position.y);
+                tempoChange.transform.position = new Vector3(Editor.instance.EditorCamera.ScreenToWorldPoint(Input.mousePosition).x + 0.08f, tempoChange.transform.position.y);
                 tempoChange.transform.localPosition = new Vector3(Starpelly.Mathp.Round2Nearest(tempoChange.transform.localPosition.x, 0.25f), tempoChange.transform.localPosition.y);
 
                 Beatmap.TempoChange tempoC = new Beatmap.TempoChange();

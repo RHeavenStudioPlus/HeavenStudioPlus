@@ -14,11 +14,18 @@ namespace RhythmHeavenMania.Common
         private Vector3 lastCamPos;
         public float textureUnitSizeX;
 
+        public Camera cam;
         public bool sprite = true;
+
+        private void Awake()
+        {
+            if (cam == null)
+                cam = Camera.main;
+        }
 
         private void Start()
         {
-            camTransform = Camera.main.transform;
+            camTransform = cam.transform;
             lastCamPos = camTransform.position;
             /*if (sprite)
             {

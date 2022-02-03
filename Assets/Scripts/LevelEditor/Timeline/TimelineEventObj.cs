@@ -64,7 +64,7 @@ namespace RhythmHeavenMania.Editor.Track
             moveTemp = new GameObject();
             moveTemp.transform.SetParent(this.transform.parent);
 
-            bool visible = rectTransform.IsVisibleFrom(Camera.main);
+            bool visible = rectTransform.IsVisibleFrom(Editor.instance.EditorCamera);
             for (int i = 0; i < this.transform.childCount; i++)
             {
                 if (i != 4)
@@ -77,12 +77,12 @@ namespace RhythmHeavenMania.Editor.Track
             selected = Selections.instance.eventsSelected.Contains(this);
             entity = GameManager.instance.Beatmap.entities.Find(a => a.eventObj == this);
 
-            mouseHovering = RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, Camera.main) && Timeline.instance.timelineState.selected;
+            mouseHovering = RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, Editor.instance.EditorCamera) && Timeline.instance.timelineState.selected;
 
             #region Optimizations
 
             // problem with long objects but im lazy right now
-            bool visible = rectTransform.IsVisibleFrom(Camera.main);
+            bool visible = rectTransform.IsVisibleFrom(Editor.instance.EditorCamera);
 
             if (visible != lastVisible)
             {
@@ -144,7 +144,7 @@ namespace RhythmHeavenMania.Editor.Track
 
                 if (Timeline.instance.eventObjs.FindAll(c => c.moving).Count > 0 && selected)
                 {
-                    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    Vector3 mousePos = Editor.instance.EditorCamera.ScreenToWorldPoint(Input.mousePosition);
 
                     // lastPos_ = transform.localPosition;
 
@@ -168,7 +168,7 @@ namespace RhythmHeavenMania.Editor.Track
                 Vector2 sizeDelta = rectTransform.sizeDelta;
 
                 Vector2 mousePos;
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, Camera.main, out mousePos);
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, Editor.instance.EditorCamera, out mousePos);
 
                 sizeDelta = new Vector2(-mousePos.x + 0.15f, sizeDelta.y);
                 sizeDelta = new Vector2(Mathf.Clamp(sizeDelta.x, 0.25f, rectTransform.localPosition.x), sizeDelta.y);
@@ -182,7 +182,7 @@ namespace RhythmHeavenMania.Editor.Track
                 Vector2 sizeDelta = rectTransform.sizeDelta;
 
                 Vector2 mousePos;
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, Camera.main, out mousePos);
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, Editor.instance.EditorCamera, out mousePos);
 
                 sizeDelta = new Vector2(mousePos.x + 0.15f, sizeDelta.y);
                 sizeDelta = new Vector2(Mathf.Clamp(sizeDelta.x, 0.25f, Mathf.Infinity), sizeDelta.y);
@@ -237,7 +237,7 @@ namespace RhythmHeavenMania.Editor.Track
 
                 for (int i = 0; i < Timeline.instance.eventObjs.Count; i++)
                 {
-                    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    Vector3 mousePos = Editor.instance.EditorCamera.ScreenToWorldPoint(Input.mousePosition);
                     Timeline.instance.eventObjs[i].startPosX = mousePos.x - Timeline.instance.eventObjs[i].transform.position.x;
                     Timeline.instance.eventObjs[i].startPosY = mousePos.y - Timeline.instance.eventObjs[i].transform.position.y;
                 }
