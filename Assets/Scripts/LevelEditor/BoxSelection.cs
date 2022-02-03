@@ -56,6 +56,12 @@ namespace RhythmHeavenMania.Editor
                 return;
             }
 
+            if (boxVisual.rect.width * boxVisual.transform.localScale.x >= 0.5f)
+                boxVisual.transform.GetChild(1).GetComponent<TMPro.TMP_Text>().text = $"{string.Format("{0:0.000}", boxVisual.rect.width * boxVisual.transform.localScale.x)}";
+            else
+                boxVisual.transform.GetChild(1).GetComponent<TMPro.TMP_Text>().text = string.Empty; // i'm lazy
+
+
             // click
             if (Input.GetMouseButtonDown(0))
             {
@@ -91,6 +97,8 @@ namespace RhythmHeavenMania.Editor
         {
             Vector2 boxStart = startPosition;
             Vector2 boxEnd = endPosition;
+
+            // boxEnd = new Vector2(Mathf.Clamp(boxEnd.x, -5.78f, Mathf.Infinity), boxEnd.y);
 
             Vector2 boxCenter = (boxStart + boxEnd) / 2;
             boxVisual.position = boxCenter;
@@ -134,7 +142,7 @@ namespace RhythmHeavenMania.Editor
 
         private void SelectEvents()
         {
-            if (!Input.GetKey(KeyCode.LeftShift)) Selections.instance.DeselectAll();
+            if (!Input.GetKey(KeyCode.LeftShift) && !Timeline.instance.InteractingWithEvents()) Selections.instance.DeselectAll();
 
             int selected = 0;
 

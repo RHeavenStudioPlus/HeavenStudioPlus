@@ -75,6 +75,7 @@ namespace RhythmHeavenMania.Editor.Track
         public Button SelectionsBTN;
         public Button TempoChangeBTN;
         public Button MusicVolumeBTN;
+        public Slider PlaybackSpeed;
 
         public static Timeline instance { get; private set; }
 
@@ -181,6 +182,8 @@ namespace RhythmHeavenMania.Editor.Track
             Tooltip.AddTooltip(SelectionsBTN.gameObject, "Tool: Selection <color=#adadad>[1]</color>");
             Tooltip.AddTooltip(TempoChangeBTN.gameObject, "Tool: Tempo Change <color=#adadad>[2]</color>");
             Tooltip.AddTooltip(MusicVolumeBTN.gameObject, "Tool: Music Volume <color=#adadad>[3]</color>");
+
+            Tooltip.AddTooltip(PlaybackSpeed.gameObject, "The preview's playback speed. Right click to reset to 1.0");
 
             SetTimeButtonColors(true, false, false);
             MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
@@ -524,6 +527,23 @@ namespace RhythmHeavenMania.Editor.Track
         public float LayerHeight()
         {
             return LayersRect.rect.height / 4;
+        }
+
+        public void SetPlaybackSpeed(float speed)
+        {
+            float spd = Mathp.Round2Nearest(speed, 0.25f);
+            PlaybackSpeed.transform.GetChild(3).GetComponent<TMP_Text>().text = $"Playback Speed: {spd}x";
+            Conductor.instance.musicSource.pitch = spd;
+            PlaybackSpeed.value = spd;
+        }
+
+        public void ResetPlaybackSpeed()
+        {
+            if (Input.GetMouseButton(1))
+            {
+                PlaybackSpeed.transform.GetChild(3).GetComponent<TMP_Text>().text = $"Playback Speed: 1.0x";
+                PlaybackSpeed.value = 1f;
+            }
         }
 
         #endregion

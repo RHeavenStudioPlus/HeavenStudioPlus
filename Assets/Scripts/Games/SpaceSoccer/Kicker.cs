@@ -343,7 +343,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
         private void CheckIfFall(float normalizedBeat)
         {
-            if (normalizedBeat > 1.05f)
+            if (normalizedBeat > 1.05f && !GameManager.instance.autoplay)
             {
                 Jukebox.PlayOneShotGame("spaceSoccer/missNeutral");
                 ball = null;

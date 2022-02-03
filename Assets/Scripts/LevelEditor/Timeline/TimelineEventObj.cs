@@ -26,6 +26,7 @@ namespace RhythmHeavenMania.Editor.Track
         [SerializeField] private RectTransform resizeGraphic;
         [SerializeField] private RectTransform leftDrag;
         [SerializeField] private RectTransform rightDrag;
+        private GameObject moveTemp;
 
         [Header("Properties")]
         public Beatmap.Entity entity;
@@ -59,6 +60,16 @@ namespace RhythmHeavenMania.Editor.Track
             }
 
             lastMovePos = transform.localPosition;
+
+            moveTemp = new GameObject();
+            moveTemp.transform.SetParent(this.transform.parent);
+
+            bool visible = rectTransform.IsVisibleFrom(Camera.main);
+            for (int i = 0; i < this.transform.childCount; i++)
+            {
+                if (i != 4)
+                    this.transform.GetChild(i).gameObject.SetActive(visible);
+            }
         }
 
         private void Update()
@@ -77,7 +88,8 @@ namespace RhythmHeavenMania.Editor.Track
             {
                 for (int i = 0; i < this.transform.childCount; i++)
                 {
-                    // this.transform.GetChild(i).gameObject.SetActive(visible);
+                    if (transform.GetChild(i).gameObject != selectedImage)
+                        this.transform.GetChild(i).gameObject.SetActive(visible);
                 }
             }
 
@@ -86,12 +98,6 @@ namespace RhythmHeavenMania.Editor.Track
             #endregion
 
             SetColor(GetTrack());
-
-            if (Conductor.instance.NotStopped())
-            {
-                Cancel();
-                return;
-            }
 
             if (selected)
             {
@@ -115,9 +121,15 @@ namespace RhythmHeavenMania.Editor.Track
                     outline.GetChild(i).GetComponent<Image>().color = new Color32(0, 0, 0, 51);
             }
 
+            if (Conductor.instance.NotStopped())
+            {
+                Cancel();
+                return;
+            }
+
             if (!resizing)
             {
-                if (Input.GetMouseButtonUp(0) && Timeline.instance.CheckIfMouseInTimeline() && Timeline.instance.timelineState.selected)
+                if (Input.GetMouseButtonUp(0) && Timeline.instance.timelineState.selected)
                 {
                     if (Timeline.instance.eventObjs.FindAll(c => c.mouseHovering).Count == 0 && Timeline.instance.eventObjs.FindAll(c => c.moving).Count == 0 && !BoxSelection.instance.selecting && Timeline.instance.eventObjs.FindAll(c => c.resizing).Count == 0)
                     {
@@ -136,15 +148,18 @@ namespace RhythmHeavenMania.Editor.Track
 
                     // lastPos_ = transform.localPosition;
 
-                    this.transform.position = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY - 0.40f, 0);
-                    this.transform.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(this.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(this.transform.localPosition.y));
+                    // this.transform.position = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY - 0.40f, 0);
+                    // this.transform.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(this.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(this.transform.localPosition.y));
+                    moveTemp.transform.position = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY - 0.40f, 0);
+                    moveTemp.transform.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(moveTemp.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(moveTemp.transform.localPosition.y));
 
-                    if (lastPos != transform.localPosition)
+                    if (lastPos != moveTemp.transform.localPosition)
                     {
                         OnMove();
+                        this.transform.DOLocalMove(new Vector3(Mathf.Clamp(Mathp.Round2Nearest(moveTemp.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(moveTemp.transform.localPosition.y)), 0.15f).SetEase(Ease.OutExpo);
                     }
 
-                    lastPos = this.transform.localPosition;
+                    lastPos = moveTemp.transform.localPosition;
                 }
             }
             else if (resizingLeft)
