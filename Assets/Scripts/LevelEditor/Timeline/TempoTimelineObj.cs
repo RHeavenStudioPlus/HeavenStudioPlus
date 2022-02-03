@@ -35,7 +35,7 @@ namespace RhythmHeavenMania.Editor.Track
         {
             if (Timeline.instance.timelineState.tempoChange && !Conductor.instance.NotStopped())
             {
-                if (RectTransformUtility.RectangleContainsScreenPoint(raycastRect, Input.mousePosition, Camera.main))
+                if (RectTransformUtility.RectangleContainsScreenPoint(raycastRect, Input.mousePosition, Editor.instance.EditorCamera))
                 {
                     float newTempo = Input.mouseScrollDelta.y;
 
@@ -48,7 +48,7 @@ namespace RhythmHeavenMania.Editor.Track
 
                     if (Input.GetMouseButtonDown(0))
                     {
-                        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        Vector3 mousePos = Editor.instance.EditorCamera.ScreenToWorldPoint(Input.mousePosition);
                         startPosX = mousePos.x - transform.position.x;
                         moving = true;
                         lastPosX = transform.localPosition.x;
@@ -68,7 +68,7 @@ namespace RhythmHeavenMania.Editor.Track
 
                 if (moving)
                 {
-                    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    Vector3 mousePos = Editor.instance.EditorCamera.ScreenToWorldPoint(Input.mousePosition);
 
                     transform.position = new Vector3(mousePos.x - startPosX, transform.position.y, 0);
                     transform.localPosition = new Vector3(Mathf.Clamp(Starpelly.Mathp.Round2Nearest(transform.localPosition.x, 0.25f), 0, Mathf.Infinity), transform.localPosition.y);
