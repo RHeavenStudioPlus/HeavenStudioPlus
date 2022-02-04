@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using RhythmHeavenMania.Editor.Track;
+
 namespace RhythmHeavenMania.Editor
 {
     public class EventParameterManager : MonoBehaviour
     {
         [Header("General References")]
         [SerializeField] private GameObject eventSelector;
+        [SerializeField] private GridGameSelector gridGameSelector;
 
         [Header("Property Prefabs")]
         [SerializeField] private GameObject IntegerP;
 
         public Beatmap.Entity entity;
+
+        private bool active;
 
         public static EventParameterManager instance { get; set; }
 
@@ -21,8 +26,29 @@ namespace RhythmHeavenMania.Editor
             instance = this;
         }
 
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (!Timeline.instance.MouseInRectTransform(Editor.instance.eventSelectorBG) && active)
+                {
+                    Disable();
+                }
+            }
+        }
+
+        public void Disable()
+        {
+            active = false;
+            eventSelector.SetActive(true);
+
+            DestroyParams();
+            Editor.instance.SetGameEventTitle($"Select game event for {gridGameSelector.SelectedMinigame}");
+        }
+
         public void StartParams(Beatmap.Entity entity)
         {
+            active = true;
             AddParams(entity);
         }
 
@@ -39,10 +65,7 @@ namespace RhythmHeavenMania.Editor
 
                 Editor.instance.SetGameEventTitle($"Properties for {entity.datamodel}");
 
-                for (int i = 1; i < transform.childCount; i++)
-                {
-                    Destroy(transform.GetChild(i).gameObject);
-                }
+                DestroyParams();
 
                 for (int i = 0; i < action.parameters.Count; i++)
                 {
@@ -52,6 +75,8 @@ namespace RhythmHeavenMania.Editor
 
                     AddParam(propertyName, param, caption);
                 }
+
+                active = true;
             }
         }
 
@@ -71,6 +96,15 @@ namespace RhythmHeavenMania.Editor
 
             var property = input.GetComponent<EventPropertyPrefab>();
             property.SetProperties(propertyName, type, caption);
+        }
+
+        private void DestroyParams()
+        {
+            active = false;
+            for (int i = 1; i < transform.childCount; i++)
+            {
+                Destroy(transform.GetChild(i).gameObject);
+            }
         }
     }
 }

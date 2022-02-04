@@ -3160,6 +3160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   caption: {fileID: 5490985}
   slider: {fileID: 2067224779}
+  inputField: {fileID: 1182082595}
   parameterManager: {fileID: 830452354}
 --- !u!1 &411779173
 GameObject:
@@ -6970,6 +6971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventSelector: {fileID: 1056099131}
+  gridGameSelector: {fileID: 1154875947}
   IntegerP: {fileID: 396879232}
   entity:
     beat: 0
@@ -9428,14 +9430,14 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
+  m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 2
   m_RegexValue: 
   m_GlobalPointSize: 14
   m_CharacterLimit: 0
@@ -11140,6 +11142,7 @@ MonoBehaviour:
   ScreenRenderTexture: {fileID: 8400000, guid: d3f3d6ca32122da4d9e3a8e7aa2ede16, type: 2}
   Screen: {fileID: 558010761}
   GridGameSelector: {fileID: 1154875943}
+  eventSelectorBG: {fileID: 110654310}
   Timeline: {fileID: 1861169747}
   GameEventSelectorTitle: {fileID: 246861490}
   NewBTN: {fileID: 1683100750}
@@ -15217,19 +15220,7 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 396879234}
-        m_TargetAssemblyTypeName: RhythmHeavenMania.Editor.EventPropertyPrefab, Assembly-CSharp
-        m_MethodName: TestChange
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &2127582756
 GameObject:
   m_ObjectHideFlags: 0

@@ -135,7 +135,7 @@ namespace RhythmHeavenMania.Editor.Track
                     {
                         if (!Input.GetKey(KeyCode.LeftShift))
                         {
-                            Selections.instance.Deselect(this);
+                            // Selections.instance.Deselect(this);
                         }
                     }
 
@@ -248,6 +248,10 @@ namespace RhythmHeavenMania.Editor.Track
                     // lastMovePos = transform.localPosition;
                     // OnComplete();
                 }
+            }
+            else if (Input.GetMouseButton(1))
+            {
+                EventParameterManager.instance.StartParams(entity);
             }
         }
 

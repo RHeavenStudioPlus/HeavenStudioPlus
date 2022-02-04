@@ -473,8 +473,11 @@ namespace RhythmHeavenMania.Editor.Track
                 entity.track = (int)(g.transform.localPosition.y / LayerHeight() * -1);
             }
 
+
             if (addEvent)
             {
+                Beatmap.Entity tempEntity = entity;
+
                 if (entity == null)
                 {
                     Beatmap.Entity en = new Beatmap.Entity();
@@ -483,11 +486,31 @@ namespace RhythmHeavenMania.Editor.Track
 
                     GameManager.instance.Beatmap.entities.Add(en);
                     GameManager.instance.SortEventsList();
+
+                    tempEntity = en;
                 }
                 else
                 {
                     GameManager.instance.Beatmap.entities.Add(entity);
                     GameManager.instance.SortEventsList();
+                }
+
+                // default param value
+                var game = EventCaller.instance.GetMinigame(eventName.Split(0));
+                var ep = EventCaller.instance.GetGameAction(game, eventName.Split(1)).parameters;
+
+                if (ep != null)
+                {
+                    for (int i = 0; i < ep.Count; i++)
+                    {
+                        object returnVal = ep[i].parameter;
+                        if (ep[i].parameter.GetType() == typeof(EntityTypes.Integer))
+                        {
+                            returnVal = ((EntityTypes.Integer)ep[i].parameter).val;
+                        }
+
+                        tempEntity[ep[i].propertyName] = returnVal;
+                    }
                 }
             }
 
@@ -500,6 +523,9 @@ namespace RhythmHeavenMania.Editor.Track
 
         public void DestroyEventObject(Beatmap.Entity entity)
         {
+            if (EventParameterManager.instance.entity == entity)
+                EventParameterManager.instance.Disable();
+
             eventObjs.Remove(entity.eventObj);
             GameManager.instance.Beatmap.entities.Remove(entity);
             Timeline.instance.eventObjs.Remove(entity.eventObj);
