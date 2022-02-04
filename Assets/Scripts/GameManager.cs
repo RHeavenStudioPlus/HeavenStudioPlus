@@ -293,6 +293,7 @@ namespace RhythmHeavenMania
             this.GetComponent<SpriteRenderer>().enabled = true;
 
             SetGame(game);
+            GameCamera.transform.localPosition = new Vector3(GameCamera.transform.localPosition.x, GameCamera.transform.localPosition.y, -10);
 
             yield return new WaitForSeconds(0.1f);
 

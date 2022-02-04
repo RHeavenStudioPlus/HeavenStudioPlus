@@ -8,6 +8,9 @@ namespace RhythmHeavenMania.Games.RhythmRally
     {
         public Transform cameraPos;
 
+        public GameObject ball;
+        public NaughtyBezierCurves.BezierCurve3D curve3D;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -20,6 +23,8 @@ namespace RhythmHeavenMania.Games.RhythmRally
         // Update is called once per frame
         void Update()
         {
+            ball.transform.position = curve3D.GetPoint(Mathf.Clamp(Conductor.instance.GetPositionFromBeat(0, 2f), 0, 1));
+            ball.transform.GetChild(0).transform.position = new Vector3(ball.transform.position.x, -0.399f, ball.transform.position.z);
         }
     }
 }
