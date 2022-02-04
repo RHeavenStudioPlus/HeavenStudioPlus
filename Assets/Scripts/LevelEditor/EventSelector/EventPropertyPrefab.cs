@@ -26,10 +26,16 @@ namespace RhythmHeavenMania.Editor
 
             slider.minValue = integer.min;
             slider.maxValue = integer.max;
+
+            slider.value = Mathf.RoundToInt(System.Convert.ToSingle(parameterManager.entity[propertyName]));
+            inputField.text = slider.value.ToString();
+
+            slider.onValueChanged.AddListener(delegate { TestChange(); });
         }
 
         public void TestChange()
         {
+            print("bru");
             inputField.text = slider.value.ToString();
             parameterManager.entity[propertyName] = (int)slider.value;
         }

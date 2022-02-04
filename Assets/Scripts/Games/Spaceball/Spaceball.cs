@@ -51,13 +51,14 @@ namespace RhythmHeavenMania.Games.Spaceball
 
         private void Start()
         {
-            allCameraEvents = EventCaller.GetAllInGameManagerList("spaceball", new string[] { "cameraZoom" });
-            GameCamera.instance.camera.transform.localPosition = new Vector3(0, 0, -10);
+            allCameraEvents = EventCaller.GetAllInGameManagerList("spaceball", new string[] { "camera" });
+
+            UpdateCameraZoom(); // can't believe this shit actually works
         }
 
         private void Update()
         {
-            /*try
+            if (allCameraEvents.Count > 0)
             {
                 if (currentZoomIndex < allCameraEvents.Count && currentZoomIndex >= 0)
                 {
@@ -72,11 +73,11 @@ namespace RhythmHeavenMania.Games.Spaceball
 
                 if (normalizedBeat > Minigame.EndTime())
                 {
-                    lastCamDistance = GameCamera.instance.camera.transform.localPosition.z;
+                    // lastCamDistance = GameCamera.instance.camera.transform.localPosition.z;
                 }
                 else
                 {
-                    if (currentZoomCamLength <= 0)
+                    if (currentZoomCamLength < 0)
                     {
                         GameCamera.instance.camera.transform.localPosition = new Vector3(0, 0, currentZoomCamDistance);
                     }
@@ -87,10 +88,6 @@ namespace RhythmHeavenMania.Games.Spaceball
                     }
                 }
             }
-            catch (System.Exception ex)
-            {
-                // this technically isn't game breaking so oh well
-            }*/
         }
 
         private void UpdateCameraZoom()
@@ -120,6 +117,11 @@ namespace RhythmHeavenMania.Games.Spaceball
                 else
                     currentZoomCamDistance = dist;
             }
+        }
+
+        public void OverrideCurrentZoom()
+        {
+            // lastCamDistance = GameCamera.instance.camera.transform.localPosition.z;
         }
 
         public void Shoot(float beat, bool high, int type)

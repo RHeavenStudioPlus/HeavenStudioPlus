@@ -127,7 +127,7 @@ namespace RhythmHeavenMania
                     new GameAction("shootHigh",         delegate { Spaceball.instance.Shoot(eventCaller.currentBeat, true, eventCaller.currentType); }, 3),
                     new GameAction("costume",           delegate { Spaceball.instance.Costume(eventCaller.currentType); }, 1f, false, new List<Param>() { new Param("type", new EntityTypes.Integer(0, 2), "type") } ),
                     new GameAction("alien",             delegate { Spaceball.instance.alien.Show(eventCaller.currentBeat); } ),
-                    new GameAction("camera",            delegate { }, 4, true ),
+                    new GameAction("camera",            delegate { Spaceball.instance.OverrideCurrentZoom(); }, 4, true, new List<Param>() { new Param("valA", new EntityTypes.Integer(1, 320, 10), "zoom") } ),
                     new GameAction("prepare dispenser", delegate { Spaceball.instance.PrepareDispenser(); }, 1 ),
                 }),
                 new Minigame("karateman", "Karate Man", "70A8D8", false, false, new List<GameAction>()

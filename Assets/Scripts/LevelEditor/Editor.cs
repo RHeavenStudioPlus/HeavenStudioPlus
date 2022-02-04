@@ -32,6 +32,7 @@ namespace RhythmHeavenMania.Editor
         [SerializeField] private RenderTexture ScreenRenderTexture;
         [SerializeField] private RawImage Screen;
         [SerializeField] private RectTransform GridGameSelector;
+        public RectTransform eventSelectorBG;
 
         [Header("Components")]
         [SerializeField] private Timeline Timeline;
@@ -133,7 +134,7 @@ namespace RhythmHeavenMania.Editor
                 }
             }
 
-            if (Timeline.instance.timelineState.selected == true)
+            if (Timeline.instance.timelineState.selected)
             {
                 if (Input.GetMouseButtonUp(0))
                 {
@@ -152,19 +153,6 @@ namespace RhythmHeavenMania.Editor
                             selectedEvents[i].OnUp();
                         }
                         CommandManager.instance.Execute(new Commands.Move(result));
-                    }
-                }
-            }
-
-            if (Input.GetMouseButtonUp(1))
-            {
-                List<TimelineEventObj> selectedEvents = Timeline.instance.eventObjs.FindAll(c => c.selected == true);
-
-                if (selectedEvents.Count > 0)
-                {
-                    for (int i = 0; i < selectedEvents.Count; i++)
-                    {
-                        // EventParameterManager.instance.StartParams(selectedEvents[i].entity);
                     }
                 }
             }
