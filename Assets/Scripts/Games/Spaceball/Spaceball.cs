@@ -27,6 +27,8 @@ namespace RhythmHeavenMania.Games.Spaceball
 
         public Alien alien;
 
+        private EasingFunction.Ease lastEase;
+
         public static Spaceball instance { get; set; }
 
         public override void OnGameSwitch()
@@ -51,7 +53,17 @@ namespace RhythmHeavenMania.Games.Spaceball
 
         private void Start()
         {
-            allCameraEvents = EventCaller.GetAllInGameManagerList("spaceball", new string[] { "camera" });
+            var camEvents = EventCaller.GetAllInGameManagerList("spaceball", new string[] { "camera" });
+            List<Beatmap.Entity> tempEvents = new List<Beatmap.Entity>();
+            for (int i = 0; i < camEvents.Count; i++)
+            {
+                if (camEvents[i].beat + camEvents[i].beat >= Conductor.instance.songPositionInBeats)
+                {
+                    tempEvents.Add(camEvents[i]);
+                }
+            }
+
+            allCameraEvents = tempEvents;
 
             UpdateCameraZoom(); // can't believe this shit actually works
         }
@@ -71,21 +83,32 @@ namespace RhythmHeavenMania.Games.Spaceball
 
                 float normalizedBeat = Conductor.instance.GetPositionFromBeat(currentZoomCamBeat, currentZoomCamLength);
 
-                if (normalizedBeat > Minigame.EndTime())
+                if (normalizedBeat >= 0)
                 {
-                    // lastCamDistance = GameCamera.instance.camera.transform.localPosition.z;
-                }
-                else
-                {
-                    if (currentZoomCamLength < 0)
+                    if (normalizedBeat > Minigame.EndTime())
                     {
-                        GameCamera.instance.camera.transform.localPosition = new Vector3(0, 0, currentZoomCamDistance);
+                        // lastCamDistance = GameCamera.instance.camera.transform.localPosition.z;
                     }
                     else
                     {
-                        float newPosZ = Mathf.Lerp(lastCamDistance, currentZoomCamDistance, normalizedBeat);
-                        GameCamera.instance.camera.transform.localPosition = new Vector3(0, 0, newPosZ);
+                        if (currentZoomCamLength < 0)
+                        {
+                            GameCamera.instance.camera.transform.localPosition = new Vector3(0, 0, currentZoomCamDistance);
+                        }
+                        else
+                        {
+                            EasingFunction.Ease ease = EasingFunction.Ease.EaseInOutCirc;
+                            EasingFunction.Function func = EasingFunction.GetEasingFunction(lastEase);
+
+                            float newPosZ = func(lastCamDistance, currentZoomCamDistance, normalizedBeat);
+                            GameCamera.instance.camera.transform.localPosition = new Vector3(0, 0, newPosZ);
+                        }
                     }
+                }
+                else
+                {
+                    // ?
+                    GameCamera.instance.camera.transform.localPosition = new Vector3(0, 0, -10f);
                 }
             }
         }
@@ -116,6 +139,8 @@ namespace RhythmHeavenMania.Games.Spaceball
                     currentZoomCamDistance = 0;
                 else
                     currentZoomCamDistance = dist;
+
+                lastEase = allCameraEvents[currentZoomIndex].ease;
             }
         }
 

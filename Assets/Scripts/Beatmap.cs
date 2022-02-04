@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
+using RhythmHeavenMania.Util;
+
 namespace RhythmHeavenMania
 {
     [Serializable]
@@ -19,6 +21,7 @@ namespace RhythmHeavenMania
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float length;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float valA;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public int type;
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public EasingFunction.Ease ease;
             public string datamodel;
             [JsonIgnore] public Editor.Track.TimelineEventObj eventObj;
 

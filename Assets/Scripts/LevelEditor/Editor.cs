@@ -53,7 +53,7 @@ namespace RhythmHeavenMania.Editor
         private bool changedMusic = false;
         private bool loadedMusic = false;
         private string currentRemixPath = "";
-        private int lastEditorObjectsCount = 0;
+        private string remixName = "";
         private bool fullscreen;
         public bool discordDuringTesting = false;
 
@@ -175,13 +175,6 @@ namespace RhythmHeavenMania.Editor
                     SaveRemix(false);
                 }
             }
-
-            if (lastEditorObjectsCount != GameManager.instance.BeatmapEntities())
-            {
-                UpdateEditorStatus(false);
-            }
-
-            lastEditorObjectsCount = GameManager.instance.BeatmapEntities();
 
             if (Application.isEditor)
             {
@@ -308,6 +301,9 @@ namespace RhythmHeavenMania.Editor
                             zipStream.Write(bytes, 0, bytes.Length);
                     }
                 }
+
+                currentRemixPath = path;
+                UpdateEditorStatus(false);
             }
         }
 
@@ -364,6 +360,8 @@ namespace RhythmHeavenMania.Editor
                     }
 
                     currentRemixPath = path;
+                    remixName = Path.GetFileName(path);
+                    UpdateEditorStatus(false);
                     CommandManager.instance.Clear();
                 }
             });
@@ -394,7 +392,7 @@ namespace RhythmHeavenMania.Editor
         private void UpdateEditorStatus(bool updateTime)
         {
             if (discordDuringTesting || !Application.isEditor)
-            DiscordRPC.DiscordRPC.UpdateActivity("In Editor", $"Objects: {GameManager.instance.Beatmap.entities.Count + GameManager.instance.Beatmap.tempoChanges.Count}", updateTime);
+            DiscordRPC.DiscordRPC.UpdateActivity("In Editor", $"{remixName}", updateTime);
         }
 
         public string GetJson()
