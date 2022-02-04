@@ -64,6 +64,7 @@ namespace RhythmHeavenMania.Util
         public enum Ease
         {
             Linear = 0,
+            Instant,
             EaseInQuad,
             EaseOutQuad,
             EaseInOutQuad,
@@ -106,6 +107,11 @@ namespace RhythmHeavenMania.Util
         public static float Linear(float start, float end, float value)
         {
             return Mathf.Lerp(start, end, value);
+        }
+
+        public static float Instant(float start, float end, float value)
+        {
+            return Mathf.Lerp(end, end, value);
         }
 
         public static float Spring(float start, float end, float value)
@@ -773,6 +779,11 @@ namespace RhythmHeavenMania.Util
         /// <returns>The easing function</returns>
         public static Function GetEasingFunction(Ease easingFunction)
         {
+            if (easingFunction == Ease.Instant)
+            {
+                return Instant;
+            }
+
             if (easingFunction == Ease.EaseInQuad)
             {
                 return EaseInQuad;
