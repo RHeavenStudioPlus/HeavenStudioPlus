@@ -14,6 +14,7 @@ namespace RhythmHeavenMania.Editor
 
         [Header("Property Prefabs")]
         [SerializeField] private GameObject IntegerP;
+        [SerializeField] private GameObject DropdownP;
 
         public Beatmap.Entity entity;
 
@@ -88,6 +89,10 @@ namespace RhythmHeavenMania.Editor
             {
                 prefab = IntegerP;
             }
+            else if (type.GetType() == typeof(RhythmHeavenMania.Util.EasingFunction.Ease))
+            {
+                prefab = DropdownP;
+            }
 
             GameObject input = Instantiate(prefab);
             input.transform.SetParent(this.gameObject.transform);
@@ -101,7 +106,7 @@ namespace RhythmHeavenMania.Editor
         private void DestroyParams()
         {
             active = false;
-            for (int i = 1; i < transform.childCount; i++)
+            for (int i = 2; i < transform.childCount; i++)
             {
                 Destroy(transform.GetChild(i).gameObject);
             }
