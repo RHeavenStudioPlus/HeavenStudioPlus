@@ -9,6 +9,10 @@ namespace RhythmHeavenMania.Util
         public AudioClip clip;
         public float pitch = 1;
 
+        // For use with PlayOneShotScheduled
+        public bool scheduled;
+        public double scheduledTime;
+
         private AudioSource audioSource;
 
         private int pauseTimes = 0;
@@ -26,7 +30,7 @@ namespace RhythmHeavenMania.Util
             audioSource.clip = clip;
             audioSource.pitch = pitch;
 
-            if (beat == -1)
+            if (beat == -1 && !scheduled)
             {
                 audioSource.PlayScheduled(Time.time);
                 playInstant = true;
@@ -39,12 +43,21 @@ namespace RhythmHeavenMania.Util
 
             startTime = Conductor.instance.songPosition;
 
-            StartCoroutine(NotRelyOnBeatSound());
+            if (!scheduled)
+                StartCoroutine(NotRelyOnBeatSound());
         }
 
         private void Update()
         {
-            if (!playInstant)
+            if (scheduled)
+            {
+                if (AudioSettings.dspTime > scheduledTime)
+                {
+                    StartCoroutine(NotRelyOnBeatSound());
+                    playIndex++;
+                }
+            }
+            else if (!playInstant)
             {
                 if (Conductor.instance.songPositionInBeats > beat && playIndex < 1)
                 {
