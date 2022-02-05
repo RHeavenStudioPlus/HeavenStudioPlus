@@ -30,15 +30,6 @@ namespace RhythmHeavenMania.Games.ClappyTrio
             instance = this;
         }
 
-        public override void OnGameSwitch()
-        {
-            // for (int i = 0; i < Lion.Count; i++)
-            // {
-            //     SetFace(i, 0);
-            // }
-            // PlayAnimationAll("Idle");
-        }
-
         private void Start()
         {
             float maxWidth = 9.2f;
@@ -66,18 +57,6 @@ namespace RhythmHeavenMania.Games.ClappyTrio
                     ClappyTrioPlayer = lion.AddComponent<ClappyTrioPlayer>();
                 }
             }
-
-            /*LionMiddle = Instantiate(LionLeft, LionLeft.transform.parent);
-            LionMiddle.transform.localPosition = new Vector3(3.1f, 0);
-
-            LionPlayer = Instantiate(LionLeft, LionLeft.transform.parent);
-            LionPlayer.transform.localPosition = new Vector3(6.2f, 0);
-            ClappyTrioPlayer = LionPlayer.AddComponent<ClappyTrioPlayer>();
-
-
-            lionHeadLeft = LionLeft.transform.GetChild(1).GetComponent<SpriteRenderer>();
-            lionHeadMiddle = LionMiddle.transform.GetChild(1).GetComponent<SpriteRenderer>();
-            lionHeadPlayer = LionPlayer.transform.GetChild(1).GetComponent<SpriteRenderer>();*/
         }
 
         private void Update()
@@ -124,35 +103,6 @@ namespace RhythmHeavenMania.Games.ClappyTrio
                         break;
                     }
                 }
-
-                /*if (songPosBeat > lastClapStart && songPosBeat < lastClapStart + 1 && clapIndex == 0)
-                {
-                    Debug.Log(Conductor.instance.songPositionInBeats);
-                    SetFace(0, 4);
-                    Lion[0].GetComponent<Animator>().Play("Clap", 0, 0);
-                    Jukebox.PlayOneShotGame("clappyTrio/leftClap");
-
-                    clapIndex++;
-                }
-                else if (songPosBeat > lastClapStart + currentClappingLength && songPosBeat < lastClapStart + (currentClappingLength * 2) && clapIndex == 1)
-                {
-                    Debug.Log(Conductor.instance.songPositionInBeats);
-                    SetFace(1, 4);
-                    Lion[1].GetComponent<Animator>().Play("Clap", 0, 0);
-                    Jukebox.PlayOneShotGame("clappyTrio/middleClap");
-
-                    clapIndex++;
-                }
-                else if (songPosBeat > lastClapStart + (currentClappingLength * 2 - 0.35f) && clapIndex == 2)
-                {
-                    Debug.Log(Conductor.instance.songPositionInBeats);
-                    ClappyTrioPlayer.SetClapAvailability(lastClapStart + (currentClappingLength * 2 - 0.35f));
-
-                    clapIndex = 0;
-                    isClapping = false;
-                    currentClappingLength = 0;
-                    ClappyTrioPlayer.clapStarted = false;
-                }*/
             }
         }
 
