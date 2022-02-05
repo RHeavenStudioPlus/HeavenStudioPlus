@@ -51,7 +51,7 @@ namespace RhythmHeavenMania.Util
         {
             if (scheduled)
             {
-                if (AudioSettings.dspTime > scheduledTime)
+                if (AudioSettings.dspTime > scheduledTime && playIndex < 1)
                 {
                     StartCoroutine(NotRelyOnBeatSound());
                     playIndex++;
