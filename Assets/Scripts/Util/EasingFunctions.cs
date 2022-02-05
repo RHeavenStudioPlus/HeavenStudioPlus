@@ -111,6 +111,7 @@ namespace RhythmHeavenMania.Util
 
         public static float Instant(float start, float end, float value)
         {
+            // this is lazy
             return Mathf.Lerp(end, end, value);
         }
 
