@@ -38,35 +38,9 @@ namespace RhythmHeavenMania.Games.ClappyTrio
 
         private void Update()
         {
-            if (PlayerInput.Pressed())
-            {
-                Clap(false);
-            }
-
             if (clapVacant == true)
             {
                 float normalizedBeat = (Conductor.instance.GetPositionFromBeat(lastClapBeat, lastClapLength));
-
-                /*if (normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.PerfectTime() && lastIndex == 0)
-                {
-                    SetEligibility(true, false, false);
-                    lastIndex++;
-                }
-                else if (normalizedBeat > Minigame.PerfectTime() && normalizedBeat < Minigame.LateTime() && lastIndex == 1)
-                {
-                    SetEligibility(false, true, false);
-                    // Clap();
-                    lastIndex++;
-                }
-                else if (normalizedBeat > Minigame.LateTime() && lastIndex == 2)
-                {
-                    SetEligibility(false, false, true);
-                    clapVacant = false;
-                    lastIndex = 0;
-                    lastClapLength = 0;
-                    lastClapBeat = 0;
-                    hit = false;
-                }*/
 
                 StateCheck(normalizedBeat);
 
@@ -78,15 +52,13 @@ namespace RhythmHeavenMania.Games.ClappyTrio
                     lastClapBeat = 0;
                 }
             }
-        }
 
-        /*public void ClearLog()
-        {
-            var assembly = System.Reflection.Assembly.GetAssembly(typeof(UnityEditor.Editor));
-            var type = assembly.GetType("UnityEditor.LogEntries");
-            var method = type.GetMethod("Clear");
-            method.Invoke(new object(), null);
-        }*/
+            if (PlayerInput.Pressed())
+            {
+                Clap(false);
+            }
+
+        }
 
         public void SetClapAvailability(float startBeat, float length)
         {
