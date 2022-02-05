@@ -22,7 +22,8 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
             // SCHEDULING zoom sound so it lines up with when it meets the fork.
             var currentDspTime = AudioSettings.dspTime;
-            var zoomStartTime = currentDspTime + (double)(Conductor.instance.secPerBeat * 2) - 0.317;
+            var cond = Conductor.instance;
+            var zoomStartTime = currentDspTime + (double)(cond.secPerBeat * 2 / cond.musicSource.pitch) - 0.317;
             Jukebox.PlayOneShotScheduledGame("forkLifter/zoomFast", (double)zoomStartTime);
 
             GetComponentInChildren<SpriteRenderer>().sprite = ForkLifter.instance.peaSprites[type];
