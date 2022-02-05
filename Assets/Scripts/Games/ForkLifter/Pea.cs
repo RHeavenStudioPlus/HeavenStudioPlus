@@ -19,7 +19,13 @@ namespace RhythmHeavenMania.Games.ForkLifter
         private void Start()
         {
             anim = GetComponent<Animator>();
-            Jukebox.PlayOneShotGame("forkLifter/zoom");
+
+            // SCHEDULING zoom sound so it lines up with when it meets the fork.
+            var currentDspTime = AudioSettings.dspTime;
+            var cond = Conductor.instance;
+            var zoomStartTime = currentDspTime + (double)(cond.secPerBeat * 2 / cond.musicSource.pitch) - 0.317;
+            Jukebox.PlayOneShotScheduledGame("forkLifter/zoomFast", (double)zoomStartTime);
+
             GetComponentInChildren<SpriteRenderer>().sprite = ForkLifter.instance.peaSprites[type];
 
             for (int i = 0; i < transform.GetChild(0).childCount; i++)

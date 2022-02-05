@@ -57,11 +57,39 @@ namespace RhythmHeavenMania.Util
             GameManager.instance.SoundObjects.Add(oneShot);
         }
 
+        public static void PlayOneShotScheduled(string name, double targetTime)
+        {
+            GameObject oneShot = new GameObject("oneShotScheduled");
+
+            var audioSource = oneShot.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+
+            var snd = oneShot.AddComponent<Sound>();
+
+            var clip = Resources.Load<AudioClip>($"Sfx/{name}");
+            audioSource.clip = clip;
+            snd.clip = clip;
+            
+            snd.scheduled = true;
+            snd.scheduledTime = targetTime;
+            audioSource.PlayScheduled(targetTime);
+            
+            GameManager.instance.SoundObjects.Add(oneShot);
+        }
+
         public static void PlayOneShotGame(string name, float beat = -1)
         {
             if (GameManager.instance.currentGame == name.Split('/')[0])
             {
                 PlayOneShot($"games/{name}", beat);
+            }
+        }
+
+        public static void PlayOneShotScheduledGame(string name, double targetTime)
+        {
+            if (GameManager.instance.currentGame == name.Split('/')[0])
+            {
+                PlayOneShotScheduled($"games/{name}", targetTime);
             }
         }
     }

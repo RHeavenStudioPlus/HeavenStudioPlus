@@ -189,6 +189,14 @@ namespace RhythmHeavenMania.Editor.Track
             MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
 
             timelineState.SetState(true, false, false);
+
+            AutoBtnUpdate();
+        }
+
+        public void AutoBtnUpdate()
+        {
+            var animName = GameManager.instance.autoplay ? "Idle" : "Disabled";
+            AutoplayBTN.GetComponent<Animator>().Play(animName, 0, 0);
         }
 
         public static string RandomID()
