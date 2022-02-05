@@ -27,8 +27,7 @@
 * Newtonsoft.Json
 * DOTween
 * [Starpelly (The library)](https://github.com/Starpelly/Starpelly)
-* Some assets used with permission from:
-  * [RHRE SFX Database](https://github.com/chrislo27/RHRE-database)
+* [RHRE SFX Database](https://github.com/chrislo27/RHRE-database)
 * [StandaloneFileBrowser](https://github.com/gkngkc/UnityStandaloneFileBrowser)
 * [NaughtyBezierCurves](https://github.com/dbrizov/NaughtyBezierCurves)
 * [VorbisPlugin](https://github.com/khindemit/unity-wrapper-vorbis)
