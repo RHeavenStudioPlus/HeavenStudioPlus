@@ -44,7 +44,7 @@ namespace RhythmHeavenMania.Games.DJSchool
                     {
                         Hold(true);
                     }
-                    else if (state.notPerfect())
+                    else
                     {
                         Hold(false);
                     }
@@ -64,7 +64,7 @@ namespace RhythmHeavenMania.Games.DJSchool
                     {
                         Swipe();
                     }
-                    else if (state.notPerfect())
+                    else
                     {
                         UnHold();
                     }
@@ -89,6 +89,8 @@ namespace RhythmHeavenMania.Games.DJSchool
 
         public void UnHold()
         {
+            isHolding = false;
+
             anim.speed = -1;
             anim.Play("Hold", 0, 0);
 
