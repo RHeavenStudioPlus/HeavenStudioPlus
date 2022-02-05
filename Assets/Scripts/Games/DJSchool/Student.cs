@@ -83,12 +83,16 @@ namespace RhythmHeavenMania.Games.DJSchool
             {
                 FlashFX(true);
             }
+
+            // Settings.GetMusicMixer().audioMixer.FindSnapshot("DJSchool_Hold").TransitionTo(0.15f);
         }
 
         public void UnHold()
         {
             anim.speed = -1;
             anim.Play("Hold", 0, 0);
+
+            // Settings.GetMusicMixer().audioMixer.FindSnapshot("Main").TransitionTo(0.15f);
         }
 
         public void Swipe()
@@ -104,6 +108,8 @@ namespace RhythmHeavenMania.Games.DJSchool
             TurnTable.GetComponent<Animator>().Play("Student_Turntable_Swipe", 0, 0);
 
             Instantiate(slamFX).SetActive(true);
+
+            // Settings.GetMusicMixer().audioMixer.FindSnapshot("Main").TransitionTo(0.15f);
         }
 
         private void FlashFX(bool inverse)

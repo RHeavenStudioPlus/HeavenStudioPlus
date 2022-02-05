@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace RhythmHeavenMania
 {
@@ -50,6 +51,7 @@ namespace RhythmHeavenMania
             source.clip = music;
             Conductor.AddComponent<Conductor>();
             Conductor.GetComponent<Conductor>().musicSource = source;
+            source.outputAudioMixerGroup = Settings.GetMusicMixer();
             // Conductor.AddComponent<AudioDspTimeKeeper>();
 
             if (editor)
