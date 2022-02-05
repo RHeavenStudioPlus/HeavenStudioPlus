@@ -45,6 +45,7 @@ namespace RhythmHeavenMania.Util
             GameObject oneShot = new GameObject("oneShot");
 
             AudioSource audioSource = oneShot.AddComponent<AudioSource>();
+            //audioSource.outputAudioMixerGroup = Settings.GetSFXMixer();
             audioSource.playOnAwake = false;
 
             Sound snd = oneShot.AddComponent<Sound>();
