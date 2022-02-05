@@ -12,10 +12,6 @@ namespace RhythmHeavenMania.Games.ClappyTrio
         private float lastClapLength;
         [SerializeField] private bool clapVacant;
 
-        private int lastIndex;
-
-        private bool hit;
-
         public bool clapStarted = false;
         public bool canHit;
 
@@ -44,10 +40,9 @@ namespace RhythmHeavenMania.Games.ClappyTrio
 
                 StateCheck(normalizedBeat);
 
-                if (normalizedBeat > Minigame.LateTime())
+                if (normalizedBeat > Minigame.EndTime())
                 {
                     clapVacant = false;
-                    lastIndex = 0;
                     lastClapLength = 0;
                     lastClapBeat = 0;
                 }
@@ -66,13 +61,13 @@ namespace RhythmHeavenMania.Games.ClappyTrio
             lastClapBeat = startBeat;
             clapVacant = true;
             lastClapLength = length;
+
+            ResetState();
         }
 
         private void Clap(bool overrideCanHit)
         {
-            bool canHit = state.early != true && state.late != true && state.perfect == true && hit == false;
-
-            if (canHit || overrideCanHit)
+            if (state.early || state.perfect || overrideCanHit)
             {
                 clapEffect.SetActive(true);
                 Jukebox.PlayOneShotGame("clappyTrio/rightClap");
