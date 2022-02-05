@@ -152,8 +152,9 @@ namespace RhythmHeavenMania
                     new GameAction("keep-up",           delegate { }, 4f, true),
                     new GameAction("high kick-toe!",    delegate { }, 3f),
                 }),
-                new Minigame("djSchool", "DJ School \n<color=#eb5454>[Non-Playable]</color>", "B888F8", false, false, new List<GameAction>()
+                new Minigame("djSchool", "DJ School \n<color=#eb5454>[Non-Playable]</color>", "008c97", false, false, new List<GameAction>()
                 {
+                    new GameAction("bop",               delegate { DJSchool.instance.Bop(eventCaller.currentBeat, eventCaller.currentLength);  }, 0.5f, true),
                     new GameAction("break c'mon ooh",   delegate { DJSchool.instance.BreakCmon(eventCaller.currentBeat);  }, 3f),
                     new GameAction("scratch-o hey",     delegate { DJSchool.instance.ScratchoHey(eventCaller.currentBeat);  }, 3f),
                 }),
