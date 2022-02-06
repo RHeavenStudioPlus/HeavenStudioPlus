@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 using RhythmHeavenMania.Util;
@@ -8,6 +9,7 @@ namespace RhythmHeavenMania.Games.DJSchool
     {
         [Header("Components")]
         [SerializeField] private Student student;
+        [SerializeField] private GameObject djYellow;
 
         [Header("Properties")]
         public GameEvent bop = new GameEvent();
@@ -55,6 +57,13 @@ namespace RhythmHeavenMania.Games.DJSchool
                 new MultiSound.Sound("djSchool/ooh", beat + 2f),
             });
 
+            BeatAction.New(djYellow, new List<BeatAction.Action>()
+            {
+                new BeatAction.Action(beat, delegate { djYellow.GetComponent<Animator>().Play("BreakCmon", 0, 0); }),
+                new BeatAction.Action(beat + 1f, delegate { djYellow.GetComponent<Animator>().Play("BreakCmon", 0, 0); }),
+                new BeatAction.Action(beat + 2f, delegate { djYellow.GetComponent<Animator>().Play("Hold", 0, 0); }),
+            });
+            
             student.holdBeat = beat;
             student.ResetState();
         }
@@ -66,6 +75,13 @@ namespace RhythmHeavenMania.Games.DJSchool
                 new MultiSound.Sound("djSchool/scratchoHey1",   beat),
                 new MultiSound.Sound("djSchool/scratchoHey2", beat + 1f),
                 new MultiSound.Sound("djSchool/hey", beat + 2f),
+            });
+
+            BeatAction.New(djYellow, new List<BeatAction.Action>()
+            {
+                new BeatAction.Action(beat, delegate { djYellow.GetComponent<Animator>().Play("Scratcho", 0, 0); }),
+                new BeatAction.Action(beat + 1f, delegate { djYellow.GetComponent<Animator>().Play("Scratcho2", 0, 0); }),
+                new BeatAction.Action(beat + 2.05f, delegate { djYellow.GetComponent<Animator>().Play("Hey", 0, 0); }),
             });
 
             student.swipeBeat = beat;

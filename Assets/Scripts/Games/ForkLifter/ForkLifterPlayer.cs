@@ -34,6 +34,8 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
         private bool isEating = false;
 
+        public int hitOnFrame;
+
         // Burger shit
 
         public bool topbun, middleburger, bottombun;
@@ -50,12 +52,15 @@ namespace RhythmHeavenMania.Games.ForkLifter
             anim = GetComponent<Animator>();
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             if (PlayerInput.Pressed())
             {
+                hitOnFrame = 0;
                 Stab(null);
             }
+
+            print(hitOnFrame);
 
             if (ForkLifter.instance.EligibleHits.Count == 0)
             {
@@ -118,7 +123,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
         public void Stab(Pea p)
         {
-            if (isEating) return;
+            if (isEating || hitOnFrame > 0) return;
 
             if (p == null)
             {

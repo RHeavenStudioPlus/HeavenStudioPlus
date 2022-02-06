@@ -180,7 +180,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
             StateCheck(normalizedBeat);
 
-            if (PlayerInput.Pressed())
+            if (PlayerInput.Pressed() && ForkLifterPlayer.instance.hitOnFrame == 0)
             {
                 if (state.perfect)
                 {
@@ -194,6 +194,8 @@ namespace RhythmHeavenMania.Games.ForkLifter
                 {
                     Late();
                 }
+
+                ForkLifterPlayer.instance.hitOnFrame++;
             }
 
             if (normalizedBeat > 1.35f)

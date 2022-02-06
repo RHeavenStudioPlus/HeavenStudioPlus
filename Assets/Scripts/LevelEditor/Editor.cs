@@ -295,11 +295,13 @@ namespace RhythmHeavenMania.Editor
 
                     if (changedMusic || currentRemixPath != path)
                     {
-                        byte[] bytes = OggVorbis.VorbisPlugin.GetOggVorbis(Conductor.instance.musicSource.clip, 1);
-                        var musicFile = archive.CreateEntry("song.ogg", System.IO.Compression.CompressionLevel.NoCompression);
-                        using (var zipStream = musicFile.Open())
-                            zipStream.Write(bytes, 0, bytes.Length);
+                        // this gets rid of the music file for some reason, someone remind me to find a fix for this soon
                     }
+
+                    byte[] bytes = OggVorbis.VorbisPlugin.GetOggVorbis(Conductor.instance.musicSource.clip, 1);
+                    var musicFile = archive.CreateEntry("song.ogg", System.IO.Compression.CompressionLevel.NoCompression);
+                    using (var zipStream = musicFile.Open())
+                        zipStream.Write(bytes, 0, bytes.Length);
                 }
 
                 currentRemixPath = path;
