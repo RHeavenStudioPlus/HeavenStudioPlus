@@ -24,6 +24,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
         public float dispensedBeat = 0;
         public bool dispensing;
         public float hitTimes;
+        public float highKickSwing = 0f;
         private float lastSpriteRot;
         public bool canKick;
         public GameEvent kicked = new GameEvent();
@@ -66,7 +67,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
         public void HighKick()
         {
-            hitTimes += 1.5f;
+            hitTimes += GetHighKickLength(false);
 
             lastSpriteRot = spriteHolder.transform.eulerAngles.z;
 
@@ -83,7 +84,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
         public void Toe()
         {
-            hitTimes += 1.5f;
+            hitTimes += GetHighKickLength(true);
 
             lastSpriteRot = spriteHolder.transform.eulerAngles.z;
 
@@ -162,7 +163,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             }
             else if (highKicked.enabled)
             {
-                float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(highKicked.startBeat, 1.8f);
+                float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(highKicked.startBeat, GetHighKickLength(false) + 0.3f);
 
                 highKickCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x - 3.5f, kicker.transform.position.y - 6f);
 
@@ -189,7 +190,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             }
             else if (toe.enabled)
             {
-                float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(toe.startBeat, 1.85f);
+                float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(toe.startBeat, GetHighKickLength(true) + 0.35f);
 
                 if (!lastKickLeft)
                 {
@@ -212,6 +213,25 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             GameObject kickfx = Instantiate(kickFX.gameObject, SpaceSoccer.instance.transform);
             kickfx.SetActive(true);
             kickfx.transform.position = holder.transform.position;
+        }
+
+        public float GetHighKickLength(bool fromToe)
+        {
+            if (highKickSwing == 0f)
+            {
+                return 1.5f;
+            }
+            else
+            {
+                if (fromToe)
+                {
+                    return 2f - (1f - highKickSwing);
+                }
+                else
+                {
+                    return 2f - highKickSwing;
+                }
+            }
         }
     }
 }
