@@ -48,6 +48,12 @@ namespace RhythmHeavenMania.Editor
                     inputField.text = slider.value.ToString();
                     parameterManager.entity[propertyName] = (int)slider.value;
                 });
+
+                inputField.onEndEdit.AddListener(delegate
+                {
+                    slider.value = Mathf.RoundToInt(System.Convert.ToSingle(System.Convert.ToSingle(inputField.text)));
+                    parameterManager.entity[propertyName] = (int)slider.value;
+                });
             }
             else if (objType == typeof(EntityTypes.Float))
             {

@@ -21,11 +21,18 @@ namespace RhythmHeavenMania.Editor
 
         private bool active;
 
+        private int childCountAtStart;
+
         public static EventParameterManager instance { get; set; }
 
         private void Awake()
         {
             instance = this;
+        }
+
+        private void Start()
+        {
+            childCountAtStart = transform.childCount;
         }
 
         private void Update()
@@ -113,7 +120,7 @@ namespace RhythmHeavenMania.Editor
         private void DestroyParams()
         {
             active = false;
-            for (int i = 2; i < transform.childCount; i++)
+            for (int i = childCountAtStart; i < transform.childCount; i++)
             {
                 Destroy(transform.GetChild(i).gameObject);
             }
