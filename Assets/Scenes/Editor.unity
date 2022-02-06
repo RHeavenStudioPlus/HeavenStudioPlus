@@ -11798,7 +11798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: {fileID: 0}
-  music: {fileID: 0}
+  music: {fileID: 8300000, guid: c0b3e65059fb3cd49aa056342f2246c8, type: 3}
   debugUI: 0
   playOnStart: 0
   editor: 1
@@ -17111,7 +17111,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 45
   m_Viewport: {fileID: 9172948791288181729}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 9172948790907700978}
