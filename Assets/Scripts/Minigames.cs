@@ -150,7 +150,7 @@ namespace RhythmHeavenMania
                 {
                     new GameAction("ball dispense",     delegate { SpaceSoccer.instance.Dispense(eventCaller.currentBeat); }, 2f),
                     new GameAction("keep-up",           delegate { }, 4f, true),
-                    new GameAction("high kick-toe!",    delegate { }, 3f),
+                    new GameAction("high kick-toe!",    delegate { }, 3f, false, new List<Param>() { new Param("valA", new EntityTypes.Float(0, 1), "swing") }),
                 }),
                 new Minigame("djSchool", "DJ School \n<color=#eb5454>[Non-Playable]</color>", "008c97", false, false, new List<GameAction>()
                 {

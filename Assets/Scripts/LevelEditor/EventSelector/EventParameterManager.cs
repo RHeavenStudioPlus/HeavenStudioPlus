@@ -14,6 +14,7 @@ namespace RhythmHeavenMania.Editor
 
         [Header("Property Prefabs")]
         [SerializeField] private GameObject IntegerP;
+        [SerializeField] private GameObject FloatP;
         [SerializeField] private GameObject DropdownP;
 
         public Beatmap.Entity entity;
@@ -85,11 +86,17 @@ namespace RhythmHeavenMania.Editor
         {
             GameObject prefab = IntegerP;
 
-            if (type.GetType() == typeof(EntityTypes.Integer))
+            var objType = type.GetType();
+
+            if (objType == typeof(EntityTypes.Integer))
             {
                 prefab = IntegerP;
             }
-            else if (type.GetType() == typeof(RhythmHeavenMania.Util.EasingFunction.Ease))
+            else if (objType == typeof(EntityTypes.Float))
+            {
+                prefab = FloatP;
+            }
+            else if (objType == typeof(RhythmHeavenMania.Util.EasingFunction.Ease))
             {
                 prefab = DropdownP;
             }

@@ -201,6 +201,9 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 {
                     canHighKick = true;
                     canKick = false;
+
+                    if (ball)
+                        ball.highKickSwing = highKicks[i].valA;
                     break;
                 }
                 else
@@ -255,7 +258,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 }
                 else if (ball.highKicked.enabled)
                 {
-                    float normalizedBeat = Conductor.instance.GetPositionFromBeat(ball.highKicked.startBeat, 1.5f);
+                    float normalizedBeat = Conductor.instance.GetPositionFromBeat(ball.highKicked.startBeat, ball.GetHighKickLength(false));
                     if (!kickPrepare)
                     {
                         float normalizedBeatPrepare = Conductor.instance.GetPositionFromBeat(ball.highKicked.startBeat, 1f);
@@ -293,7 +296,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 }
                 else if (ball.toe.enabled)
                 {
-                    float normalizedBeat = Conductor.instance.GetPositionFromBeat(ball.toe.startBeat, 1.5f);
+                    float normalizedBeat = Conductor.instance.GetPositionFromBeat(ball.toe.startBeat, ball.GetHighKickLength(true));
                     StateCheck(normalizedBeat, !player);
                     CheckIfFall(normalizedBeat);
 

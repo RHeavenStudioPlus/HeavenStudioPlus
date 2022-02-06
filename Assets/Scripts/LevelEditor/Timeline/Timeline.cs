@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using TMPro;
 using Starpelly;
@@ -78,6 +79,15 @@ namespace RhythmHeavenMania.Editor.Track
         public Slider PlaybackSpeed;
 
         public static Timeline instance { get; private set; }
+
+        private bool userIsEditingInputField
+        {
+            get
+            {
+                var selectedGO = EventSystem.current.currentSelectedGameObject;
+                return selectedGO != null && (selectedGO.GetComponent<InputField>() != null || selectedGO.GetComponent<TMP_InputField>() != null);
+            }
+        }
 
         #region Initializers
 
@@ -273,15 +283,15 @@ namespace RhythmHeavenMania.Editor.Track
 
             CurrentTempo.text = $"            = {Conductor.instance.songBpm}";
 
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.Alpha1) && !userIsEditingInputField)
             {
                 timelineState.SetState(true, false, false);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            else if (Input.GetKeyDown(KeyCode.Alpha2) && !userIsEditingInputField)
             {
                 timelineState.SetState(false, true, false);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            else if (Input.GetKeyDown(KeyCode.Alpha3) && !userIsEditingInputField)
             {
                 timelineState.SetState(false, false, true);
             }
@@ -512,9 +522,15 @@ namespace RhythmHeavenMania.Editor.Track
                     for (int i = 0; i < ep.Count; i++)
                     {
                         object returnVal = ep[i].parameter;
-                        if (ep[i].parameter.GetType() == typeof(EntityTypes.Integer))
+
+                        var propertyType = returnVal.GetType();
+                        if (propertyType == typeof(EntityTypes.Integer))
                         {
                             returnVal = ((EntityTypes.Integer)ep[i].parameter).val;
+                        }
+                        else if (propertyType == typeof(EntityTypes.Float))
+                        {
+                            returnVal = ((EntityTypes.Float)ep[i].parameter).val;
                         }
 
                         tempEntity[ep[i].propertyName] = returnVal;

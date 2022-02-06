@@ -31,7 +31,9 @@ namespace RhythmHeavenMania.Editor
             this.propertyName = propertyName;
             this.caption.text = caption;
 
-            if (type.GetType() == typeof(EntityTypes.Integer))
+            var objType = type.GetType();
+
+            if (objType == typeof(EntityTypes.Integer))
             {
                 var integer = ((EntityTypes.Integer)type);
 
@@ -47,7 +49,29 @@ namespace RhythmHeavenMania.Editor
                     parameterManager.entity[propertyName] = (int)slider.value;
                 });
             }
-            else if (type.GetType() == typeof(EasingFunction.Ease))
+            else if (objType == typeof(EntityTypes.Float))
+            {
+                var fl = ((EntityTypes.Float)type);
+
+                slider.minValue = fl.min;
+                slider.maxValue = fl.max;
+
+                slider.value = System.Convert.ToSingle(parameterManager.entity[propertyName]);
+                inputField.text = slider.value.ToString("G4"); // G4 = Display no more than 4 decimal places.
+
+                slider.onValueChanged.AddListener(delegate 
+                {
+                    inputField.text = slider.value.ToString("G4");
+                    parameterManager.entity[propertyName] = (float)System.Math.Round(slider.value, 4);
+                });
+
+                inputField.onEndEdit.AddListener(delegate 
+                {
+                    slider.value = (float)System.Math.Round(System.Convert.ToSingle(inputField.text), 4);
+                    parameterManager.entity[propertyName] = slider.value;
+                });
+            }
+            else if (objType == typeof(EasingFunction.Ease))
             {
                 List<TMP_Dropdown.OptionData> dropDownData = new List<TMP_Dropdown.OptionData>();
                 for (int i = 0; i < System.Enum.GetValues(typeof(EasingFunction.Ease)).Length; i++)
