@@ -19,5 +19,19 @@ namespace RhythmHeavenMania
                 this.max = max;
             }
         }
+
+        public struct Float
+        {
+            public float min;
+            public float val;
+            public float max;
+
+            public Float(float min, float max, float val = 0f)
+            {
+                this.min = min;
+                this.val = val;
+                this.max = max;
+            }
+        }
     }
 }
