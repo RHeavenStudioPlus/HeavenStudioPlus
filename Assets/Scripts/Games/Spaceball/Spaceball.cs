@@ -97,7 +97,6 @@ namespace RhythmHeavenMania.Games.Spaceball
                         }
                         else
                         {
-                            EasingFunction.Ease ease = EasingFunction.Ease.EaseInOutCirc;
                             EasingFunction.Function func = EasingFunction.GetEasingFunction(lastEase);
 
                             float newPosZ = func(lastCamDistance, currentZoomCamDistance, normalizedBeat);

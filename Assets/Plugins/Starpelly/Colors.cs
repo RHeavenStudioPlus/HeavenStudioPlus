@@ -4,9 +4,10 @@ namespace Starpelly
 {
     public static class Colors
     {
-        public static string Color2Hex(this Color32 color)
+        public static string Color2Hex(this Color color)
         {
-            string hex = color.r.ToString("X2") + color.g.ToString("X2") + color.b.ToString("X2");
+            Color32 col = (Color32)color;
+            string hex = col.r.ToString("X2") + col.g.ToString("X2") + col.b.ToString("X2");
             return hex;
         }
 

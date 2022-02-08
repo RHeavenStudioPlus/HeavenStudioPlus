@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
+
 using Newtonsoft.Json;
 
 using RhythmHeavenMania.Util;
@@ -20,8 +22,13 @@ namespace RhythmHeavenMania
             public int track;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float length;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float valA;
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float valB;
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float valC;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public int type;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public EasingFunction.Ease ease;
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public Color colorA;
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public Color colorB;
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public Color colorC;
             public string datamodel;
             [JsonIgnore] public Editor.Track.TimelineEventObj eventObj;
 

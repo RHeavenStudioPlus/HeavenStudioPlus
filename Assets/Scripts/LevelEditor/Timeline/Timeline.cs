@@ -244,7 +244,7 @@ namespace RhythmHeavenMania.Editor.Track
             }
 
 
-            if (Input.GetMouseButton(1) && !Conductor.instance.isPlaying && MouseInRectTransform(TimelineGridSelect))
+            if (Input.GetMouseButton(1) && !Conductor.instance.isPlaying && Editor.MouseInRectTransform(TimelineGridSelect))
             {
                 movingPlayback = true;
             }
@@ -428,11 +428,6 @@ namespace RhythmHeavenMania.Editor.Track
         public bool CheckIfMouseInTimeline()
         {
             return (this.gameObject.activeSelf && RectTransformUtility.RectangleContainsScreenPoint(TimelineContent.transform.parent.gameObject.GetComponent<RectTransform>(), Input.mousePosition, Editor.instance.EditorCamera));
-        }
-
-        public bool MouseInRectTransform(RectTransform rectTransform)
-        {
-            return (rectTransform.gameObject.activeSelf && RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, Editor.instance.EditorCamera));
         }
         #endregion
 

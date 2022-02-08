@@ -73,6 +73,8 @@ namespace RhythmHeavenMania
             }
 
             GameManager.instance.SetCurrentEventToClosest(beat);
+            songPosBeat = beat;
+            songPositionInBeats = songPosBeat;
         }
 
         public void Play(float beat)

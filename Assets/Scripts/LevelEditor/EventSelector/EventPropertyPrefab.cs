@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using TMPro;
+using Starpelly;
 
 using RhythmHeavenMania.Util;
 
@@ -23,8 +24,14 @@ namespace RhythmHeavenMania.Editor
         [Space(10)]
         public TMP_Dropdown dropdown;
 
-        private string propertyName;
+        [Header("Color")]
+        [Space(10)]
+        public Button ColorBTN;
+        public RectTransform ColorTable;
+        public bool colorTableActive;
+        public ColorPreview colorPreview;
 
+        private string propertyName;
 
         public void SetProperties(string propertyName, object type, string caption)
         {
@@ -96,6 +103,40 @@ namespace RhythmHeavenMania.Editor
                 {
                     parameterManager.entity[propertyName] = (EasingFunction.Ease)dropdown.value;
                 });
+            }
+            else if (objType == typeof(Color))
+            {
+                colorPreview.colorPicker.onColorChanged += delegate
+                {
+                    parameterManager.entity[propertyName] = (Color)colorPreview.colorPicker.color;
+                };
+
+                Color paramCol = (Color)parameterManager.entity[propertyName];
+
+                ColorBTN.onClick.AddListener(delegate
+                {
+                    ColorTable.gameObject.SetActive(true);
+                    colorTableActive = true;
+                    colorPreview.ChangeColor(paramCol);
+                });
+
+                colorPreview.ChangeColor(paramCol);
+                ColorTable.gameObject.SetActive(false);
+            }
+        }
+
+        private void Update()
+        {
+            if (colorTableActive)
+            {
+                if (!Editor.MouseInRectTransform(ColorTable))
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        ColorTable.gameObject.SetActive(false);
+                        colorTableActive = false;
+                    }
+                }
             }
         }
     }
