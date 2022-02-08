@@ -51,6 +51,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
             pea.transform.parent = ForkLifterPlayer.instance.perfect.transform;
             pea.transform.localScale = Vector2.one;
+            pea.transform.localRotation = Quaternion.Euler(0, 0, 0);
 
             pea.transform.localPosition = Vector3.zero;
 
@@ -198,7 +199,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
                 ForkLifterPlayer.instance.hitOnFrame++;
             }
 
-            if (normalizedBeat > 1.35f)
+            if (normalizedBeat > Minigame.EndTime())
             {
                 Jukebox.PlayOneShot("audience/disappointed");
                 Destroy(this.gameObject);
