@@ -23,6 +23,7 @@ namespace RhythmHeavenMania
         public Camera GameCamera, CursorCam;
         public CircleCursor CircleCursor;
         [HideInInspector] public GameObject GamesHolder;
+        public Games.Global.Flash fade;
 
         [Header("Games")]
         public string currentGame;
@@ -35,6 +36,9 @@ namespace RhythmHeavenMania
         public float startBeat;
         private GameObject currentGameO;
         public bool autoplay;
+
+        public event Action<float> onBeatChanged;
+
         public int BeatmapEntities()
         {
             return Beatmap.entities.Count + Beatmap.tempoChanges.Count;
@@ -57,7 +61,10 @@ namespace RhythmHeavenMania
             sp.color = Color.black;
             sp.sprite = Resources.Load<Sprite>("Sprites/GeneralPurpose/Square");
             sp.sortingOrder = 30000;
-            // this.gameObject.layer = 3;
+            this.gameObject.layer = 3;
+
+            GameObject fade = new GameObject();
+            this.fade = fade.AddComponent<Games.Global.Flash>();
 
             if (txt != null)
             {
@@ -177,6 +184,7 @@ namespace RhythmHeavenMania
         public void Play(float beat)
         {
             StartCoroutine(PlayCo(beat));
+            onBeatChanged?.Invoke(beat);
         }
 
         private IEnumerator PlayCo(float beat)
@@ -204,6 +212,7 @@ namespace RhythmHeavenMania
         {
             Conductor.instance.Stop(beat);
             SetCurrentEventToClosest(beat);
+            onBeatChanged?.Invoke(beat);
         }
 
         #endregion
@@ -219,6 +228,7 @@ namespace RhythmHeavenMania
         public void SetCurrentEventToClosest(float beat)
         {
             SortEventsList();
+            onBeatChanged?.Invoke(beat);
             if (Beatmap.entities.Count > 0)
             {
                 List<float> entities = Beatmap.entities.Select(c => c.beat).ToList();

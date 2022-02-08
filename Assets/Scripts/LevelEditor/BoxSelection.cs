@@ -146,7 +146,7 @@ namespace RhythmHeavenMania.Editor
 
         private void SelectEvents()
         {
-            if (!Input.GetKey(KeyCode.LeftShift) && !Timeline.instance.InteractingWithEvents() && !Timeline.instance.MouseInRectTransform(Editor.instance.eventSelectorBG)) Selections.instance.DeselectAll();
+            if (!Input.GetKey(KeyCode.LeftShift) && !Timeline.instance.InteractingWithEvents() && Editor.instance.canSelect) Selections.instance.DeselectAll();
 
             int selected = 0;
 

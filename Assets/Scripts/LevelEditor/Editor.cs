@@ -56,6 +56,7 @@ namespace RhythmHeavenMania.Editor
         private string remixName = "";
         private bool fullscreen;
         public bool discordDuringTesting = false;
+        public bool canSelect = true;
 
         public static Editor instance { get; private set; }
 
@@ -63,6 +64,7 @@ namespace RhythmHeavenMania.Editor
         {
             instance = this;
             Initializer = GetComponent<Initializer>();
+            canSelect = true;
         }
 
         public void Init()
@@ -134,7 +136,7 @@ namespace RhythmHeavenMania.Editor
                 }
             }
 
-            if (Timeline.instance.timelineState.selected)
+            if (Timeline.instance.timelineState.selected && Editor.instance.canSelect)
             {
                 if (Input.GetMouseButtonUp(0))
                 {
@@ -407,6 +409,11 @@ namespace RhythmHeavenMania.Editor
         public void SetGameEventTitle(string txt)
         {
             GameEventSelectorTitle.text = txt;
+        }
+
+        public static bool MouseInRectTransform(RectTransform rectTransform)
+        {
+            return (rectTransform.gameObject.activeSelf && RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, Editor.instance.EditorCamera));
         }
     }
 }

@@ -9,11 +9,8 @@ namespace RhythmHeavenMania
     public class EventCaller : MonoBehaviour
     {
         public Transform GamesHolder;
-        public float currentBeat;
-        public float currentLength;
-        public float currentValA;
+        public Beatmap.Entity currentEntity = new Beatmap.Entity();
         public string currentSwitchGame;
-        public int currentType;
 
         public delegate void EventCallback();
 
@@ -37,6 +34,8 @@ namespace RhythmHeavenMania
         {
             instance = this;
 
+            currentEntity = new Beatmap.Entity();
+
             Minigames.Init(this);
 
             List<Minigames.Minigame> minigamesInBeatmap = new List<Minigames.Minigame>();
@@ -57,7 +56,7 @@ namespace RhythmHeavenMania
         private void Update()
         {
             if (GameManager.instance.currentEvent >= 0 && GameManager.instance.currentEvent < GameManager.instance.Beatmap.entities.Count)
-            currentBeat = GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].beat;
+            currentEntity.beat = GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].beat;
         }
 
         public void CallEvent(string event_)
@@ -67,9 +66,7 @@ namespace RhythmHeavenMania
 
             try
             {
-                currentLength = GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].length;
-                currentType = GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].type;
-                currentValA = GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].valA;
+                currentEntity = (Beatmap.Entity)GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].Clone();
 
                 if (details.Length > 2) currentSwitchGame = details[2];
 

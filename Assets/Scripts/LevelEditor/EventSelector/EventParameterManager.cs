@@ -16,12 +16,15 @@ namespace RhythmHeavenMania.Editor
         [SerializeField] private GameObject IntegerP;
         [SerializeField] private GameObject FloatP;
         [SerializeField] private GameObject DropdownP;
+        [SerializeField] private GameObject ColorP;
 
         public Beatmap.Entity entity;
 
         private bool active;
 
         private int childCountAtStart;
+
+        public bool canDisable = true;
 
         public static EventParameterManager instance { get; set; }
 
@@ -39,7 +42,7 @@ namespace RhythmHeavenMania.Editor
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if (!Timeline.instance.MouseInRectTransform(Editor.instance.eventSelectorBG) && active)
+                if (canDisable && active)
                 {
                     Disable();
                 }
@@ -106,6 +109,10 @@ namespace RhythmHeavenMania.Editor
             else if (objType == typeof(RhythmHeavenMania.Util.EasingFunction.Ease))
             {
                 prefab = DropdownP;
+            }
+            else if (objType == typeof(Color))
+            {
+                prefab = ColorP;
             }
 
             GameObject input = Instantiate(prefab);
