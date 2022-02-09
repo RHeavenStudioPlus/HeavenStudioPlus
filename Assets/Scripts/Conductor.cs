@@ -157,7 +157,7 @@ namespace RhythmHeavenMania
 
         public float GetLoopPositionFromBeat(float beatOffset, float length)
         {
-            return Mathf.Repeat(songPositionInBeats + beatOffset, length);
+            return Mathf.Repeat((songPositionInBeats / length) + beatOffset, 1);
         }
 
         public float GetPositionFromBeat(float startBeat, float length)
