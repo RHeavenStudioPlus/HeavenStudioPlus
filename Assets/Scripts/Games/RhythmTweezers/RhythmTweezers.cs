@@ -10,7 +10,8 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
     public class RhythmTweezers : Minigame
     {
         public GameObject Vegetable;
-        public GameObject Tweezers;
+        public Animator VegetableAnimator;
+        public Tweezers Tweezers;
 
         [SerializeField] private GameObject HairsHolder;
 

@@ -10,10 +10,12 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
     {
         public int hitOnFrame;
         private Animator anim;
+        private Animator vegetableAnim;
 
         private void Start()
         {
             anim = GetComponent<Animator>();
+            vegetableAnim = RhythmTweezers.instance.VegetableAnimator;
         }
 
         private void LateUpdate()

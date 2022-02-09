@@ -7,13 +7,19 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
     public class Hair : PlayerActionObject
     {
         public float createBeat;
+        private Tweezers tweezers;
+
+        private void Awake()
+        {
+            tweezers = RhythmTweezers.instance.Tweezers;
+        }
 
         private void Update()
         {
             float stateBeat = Conductor.instance.GetPositionFromBeat(createBeat, 4f);
             StateCheck(stateBeat);
 
-            if (PlayerInput.Pressed() && RhythmTweezers.instance.Tweezers.GetComponent<Tweezers>().hitOnFrame == 0)
+            if (PlayerInput.Pressed() && tweezers.hitOnFrame == 0)
             {
                 if (state.perfect)
                 {
@@ -24,7 +30,6 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
 
         public void Ace()
         {
-            Tweezers tweezers = RhythmTweezers.instance.Tweezers.GetComponent<Tweezers>();
             tweezers.Pluck(true, this);
 
             tweezers.hitOnFrame++;
