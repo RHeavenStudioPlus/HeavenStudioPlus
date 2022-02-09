@@ -187,7 +187,10 @@ namespace RhythmHeavenMania
                     new GameAction("break c'mon ooh",   delegate { DJSchool.instance.BreakCmon(eventCaller.currentEntity.beat);  }, 3f),
                     new GameAction("scratch-o hey",     delegate { DJSchool.instance.ScratchoHey(eventCaller.currentEntity.beat);  }, 3f),
                 }),
-                /*new Minigame("rhythmRally", "Rhythm Rally", "B888F8", true, false, new List<GameAction>()
+                /*new Minigame("rhythmTweezers", "VeggieTales", "008c97", false, false, new List<GameAction>()
+                {
+                }),
+                new Minigame("rhythmRally", "Rhythm Rally", "B888F8", true, false, new List<GameAction>()
                 {
 
                 }),
