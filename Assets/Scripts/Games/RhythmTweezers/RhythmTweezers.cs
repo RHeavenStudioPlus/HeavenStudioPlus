@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using Starpelly;
+using DG.Tweening;
 
 using RhythmHeavenMania.Util;
 
@@ -9,16 +12,22 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
     // use PlayerActionObject for the actual tweezers but this isn't playable rn so IDC
     public class RhythmTweezers : Minigame
     {
+        public Transform VegetableHolder;
         public GameObject Vegetable;
         public Animator VegetableAnimator;
         public Tweezers Tweezers;
+        public GameObject hairBase;
 
         [SerializeField] private GameObject HairsHolder;
+        [NonSerialized] public int hairsLeft = 0;
 
-        public float tweezersBeatOffset;
-        public Vector2 tweezersRotOffset;
-        public float rotSpd;
-        public float offset;
+        public float beatInterval = 4f;
+        float intervalStartBeat;
+        bool intervalStarted;
+        public float tweezerBeatOffset = 0f;
+
+        Tween transitionTween;
+        bool transitioning = false;
 
         public static RhythmTweezers instance { get; set; }
 
@@ -27,39 +36,108 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
             instance = this;
         }
 
-        private void Start()
+        public void SpawnHair(float beat)
         {
-            float beat = 0;
-            float offset = 0f;
-            BeatAction.New(HairsHolder, new List<BeatAction.Action>()
+            // End transition early if the next hair is a lil early.
+            StopTransitionIfActive();
+
+            // If interval hasn't started, assume this is the first hair of the interval.
+            if (!intervalStarted)
             {
-                new BeatAction.Action(beat + offset,      delegate { SpawnHair(beat + offset); }),
-                new BeatAction.Action(beat + 1f + offset, delegate { SpawnHair(beat + 1f + offset); }),
-                new BeatAction.Action(beat + 2f + offset, delegate 
-                {
-                    SpawnHair(beat + 2f + offset); 
-                }),
-                new BeatAction.Action(beat + 3f + offset, delegate { SpawnHair(beat + 3f + offset); }),
-            });
+                SetIntervalStart(beat, beatInterval);
+            }
+
+            Jukebox.PlayOneShotGame("rhythmTweezers/shortAppear", beat);
+            Hair hair = Instantiate(hairBase, HairsHolder.transform).GetComponent<Hair>();
+            hair.gameObject.SetActive(true);
+
+            float rot = -58f + 116 * Mathp.Normalize(beat, intervalStartBeat, intervalStartBeat + beatInterval - 1f);
+            hair.transform.eulerAngles = new Vector3(0, 0, rot);
+            hair.createBeat = beat;
+            hairsLeft++;
         }
 
-        private void SpawnHair(float beat)
+        public void SetIntervalStart(float beat, float interval = 4f)
         {
-            Jukebox.PlayOneShotGame("rhythmTweezers/shortAppear", beat);
-            GameObject hair = Instantiate(HairsHolder.transform.GetChild(0).gameObject, HairsHolder.transform);
-            hair.SetActive(true);
+            // End transition early if the interval starts a lil early.
+            StopTransitionIfActive();
 
-            float rot = ((offset / 3f) * (beat * 2f)) - offset;
+            intervalStartBeat = beat;
+            beatInterval = interval;
+            intervalStarted = true;
+            hairsLeft = 0;
+        }
 
-            hair.transform.eulerAngles = new Vector3(0, 0, rot);
-            hair.GetComponent<Hair>().createBeat = beat;
+        const float vegDupeOffset = 16.7f;
+        public void NextVegetable(float beat)
+        {
+            transitioning = true;
+
+            Jukebox.PlayOneShotGame("rhythmTweezers/register", beat);
+
+            // Move both vegetables to the left by vegDupeOffset, then reset their positions.
+            // On position reset, reset state of core vegetable.
+            transitionTween = VegetableHolder.DOLocalMoveX(-vegDupeOffset, Conductor.instance.secPerBeat * 0.5f)
+                .OnComplete(() => {
+
+                var holderPos = VegetableHolder.localPosition;
+                VegetableHolder.localPosition = new Vector3(0f, holderPos.y, holderPos.z);
+
+                ResetVegetable();
+                transitioning = false;
+                intervalStarted = false;
+
+            }).SetEase(Ease.InOutSine);
         }
 
         private void Update()
         {
-            float normalizedBeat = Conductor.instance.GetLoopPositionFromBeat(tweezersBeatOffset, rotSpd);
-            float rot = Mathf.Lerp(tweezersRotOffset.x, tweezersRotOffset.y, normalizedBeat);
-            Tweezers.transform.eulerAngles = new Vector3(0, 0, rot);
+            if (!Conductor.instance.isPlaying && !Conductor.instance.isPaused && intervalStarted)
+            {
+                StopTransitionIfActive();
+                ResetVegetable();
+                intervalStarted = false;
+            }
+        }
+
+        private void LateUpdate()
+        {
+            // Set tweezer angle.
+            var tweezerAngle = -180f;
+            
+            if (intervalStarted)
+            {
+                var tweezerTime = Conductor.instance.songPositionInBeats - beatInterval - tweezerBeatOffset;
+                var unclampedAngle = -58f + 116 * Mathp.Normalize(tweezerTime, intervalStartBeat, intervalStartBeat + beatInterval - 1f);
+                tweezerAngle = Mathf.Clamp(unclampedAngle, -180f, 180f);
+            }
+
+            Tweezers.transform.eulerAngles = new Vector3(0, 0, tweezerAngle);
+
+            // Set tweezer to follow vegetable.
+            var currentTweezerPos = Tweezers.transform.localPosition;
+            Tweezers.transform.localPosition = new Vector3(currentTweezerPos.x, Vegetable.transform.localPosition.y + 1f, currentTweezerPos.z);
+        }
+
+        private void ResetVegetable()
+        {
+            foreach (Transform t in HairsHolder.transform)
+            {
+                var go = t.gameObject;
+                if (go != hairBase)
+                    GameObject.Destroy(go);
+            }
+
+            VegetableAnimator.Play("Idle", 0, 0);
+        }
+
+        private void StopTransitionIfActive()
+        {
+            if (transitioning)
+            {
+                if (transitionTween != null)
+                    transitionTween.Kill(true);
+            }
         }
     }
 }
