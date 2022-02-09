@@ -35,9 +35,17 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
 
             if (ace)
             {
-                RhythmTweezers.instance.Vegetable.GetComponent<Animator>().Play("Hop", 0, 0);
+                var game = RhythmTweezers.instance;
+
                 Jukebox.PlayOneShotGame($"rhythmTweezers/shortPluck{Random.Range(1, 21)}");
                 Destroy(hair.gameObject);
+
+                game.hairsLeft--;
+
+                if (game.hairsLeft <= 0)
+                    vegetableAnim.Play("HopFinal", 0, 0);
+                else
+                    vegetableAnim.Play("Hop", 0, 0);
             }
         }
     }
