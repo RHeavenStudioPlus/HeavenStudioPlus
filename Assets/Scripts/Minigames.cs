@@ -184,13 +184,20 @@ namespace RhythmHeavenMania
                 new Minigame("djSchool", "DJ School \n<color=#eb5454>[Non-Playable]</color>", "008c97", false, false, new List<GameAction>()
                 {
                     new GameAction("bop",               delegate { DJSchool.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length);  }, 0.5f, true),
-                    new GameAction("break c'mon ooh",   delegate { DJSchool.instance.BreakCmon(eventCaller.currentEntity.beat);  }, 3f),
-                    new GameAction("scratch-o hey",     delegate { DJSchool.instance.ScratchoHey(eventCaller.currentEntity.beat);  }, 3f),
+                    new GameAction("and stop ooh",      delegate { DJSchool.instance.AndStop(eventCaller.currentEntity.beat);  }, 2.5f),
+                    new GameAction("break c'mon ooh",   delegate { DJSchool.instance.BreakCmon(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);  }, 3f, false, new List<Param>()
+                    {
+                        new Param("type", new EntityTypes.Integer(0, 2, 0), "Type"),
+                    }),
+                    new GameAction("scratch-o hey",     delegate { DJSchool.instance.ScratchoHey(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);  }, 3f, false, new List<Param>()
+                    {
+                        new Param("type", new EntityTypes.Integer(0, 2, 0), "Type"),
+                    }),
                 }),
-                /*new Minigame("rhythmTweezers", "VeggieTales", "008c97", false, false, new List<GameAction>()
+                new Minigame("rhythmTweezers", "VeggieTales", "008c97", false, false, new List<GameAction>()
                 {
                 }),
-                new Minigame("rhythmRally", "Rhythm Rally", "B888F8", true, false, new List<GameAction>()
+                /*new Minigame("rhythmRally", "Rhythm Rally", "B888F8", true, false, new List<GameAction>()
                 {
 
                 }),
