@@ -160,8 +160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d5579033013148498d767bb11e43f60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EligibleHits: []
-  currentHitInList: 0
   costume: 0
   PlayerSprite: {fileID: 6584942080188713330}
   PlayerSpriteSheets:
@@ -728,10 +726,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49dd9168d46a2ad41a47802c26b5dbb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inList: 0
+  lastState: 0
+  state:
+    gameObject: {fileID: 0}
+    early: 0
+    perfect: 0
+    late: 0
+    createBeat: 0
+  isEligible: 0
+  eligibleHitsList: []
+  aceTimes: 0
   startBeat: 0
+  anim: {fileID: 0}
   high: 0
   Holder: {fileID: 6584942078379596565}
   Sprite: {fileID: 6584942078979342752}
+  hit: 0
+  hitBeat: 0
+  hitPos: {x: 0, y: 0, z: 0}
+  hitRot: 0
+  randomEndPosX: 0
 --- !u!1 &6584942079616426642
 GameObject:
   m_ObjectHideFlags: 0
