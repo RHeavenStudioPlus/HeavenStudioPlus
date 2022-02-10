@@ -93,13 +93,6 @@ AnimationClip:
     path: Torso
     classID: 212
     script: {fileID: 0}
-  - curve:
-    - time: 0
-      value: {fileID: 9103593749776465035, guid: 0df5efc655895e943b8d6771eea1306b, type: 3}
-    attribute: m_Sprite
-    path: Head
-    classID: 212
-    script: {fileID: 0}
   m_SampleRate: 30
   m_WrapMode: 0
   m_Bounds:
@@ -128,19 +121,11 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
-    - serializedVersion: 2
-      path: 130111906
-      attribute: 0
-      script: {fileID: 0}
-      typeID: 212
-      customType: 23
-      isPPtrCurve: 1
     pptrCurveMapping:
     - {fileID: -1076822054609707624, guid: 15a4d1a63a113d64ab903fd38f759b6d, type: 3}
     - {fileID: 8141265415314385592, guid: 15a4d1a63a113d64ab903fd38f759b6d, type: 3}
     - {fileID: 85121438970637506, guid: 15a4d1a63a113d64ab903fd38f759b6d, type: 3}
     - {fileID: 5628735845299456583, guid: 15a4d1a63a113d64ab903fd38f759b6d, type: 3}
-    - {fileID: 9103593749776465035, guid: 0df5efc655895e943b8d6771eea1306b, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
