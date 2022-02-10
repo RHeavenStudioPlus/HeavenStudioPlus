@@ -166,6 +166,11 @@ namespace RhythmHeavenMania
             return a;
         }
 
+        public float GetPositionFromMargin(float targetBeat, float margin)
+        {
+            return GetPositionFromBeat(targetBeat - margin, margin);
+        }
+
         public float GetSongPosFromBeat(float beat)
         {
             return secPerBeat * beat;
