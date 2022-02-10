@@ -19,7 +19,7 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
         public GameObject hairBase;
         public GameObject longHairBase;
 
-        [SerializeField] private GameObject HairsHolder;
+        public GameObject HairsHolder;
         [NonSerialized] public int hairsLeft = 0;
 
         public float beatInterval = 4f;
@@ -79,13 +79,17 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
 
         public void SetIntervalStart(float beat, float interval = 4f)
         {
-            // End transition early if the interval starts a lil early.
-            StopTransitionIfActive();
+            // Don't do these things if the interval was already started.
+            if (!intervalStarted)
+            {
+                // End transition early if the interval starts a lil early.
+                StopTransitionIfActive();
+                hairsLeft = 0;
+                intervalStarted = true;
+            }
 
             intervalStartBeat = beat;
             beatInterval = interval;
-            intervalStarted = true;
-            hairsLeft = 0;
         }
 
         const float vegDupeOffset = 16.7f;
@@ -136,7 +140,9 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
 
             // Set tweezer to follow vegetable.
             var currentTweezerPos = Tweezers.transform.localPosition;
-            Tweezers.transform.localPosition = new Vector3(currentTweezerPos.x, Vegetable.transform.localPosition.y + 1f, currentTweezerPos.z);
+            var vegetablePos = Vegetable.transform.localPosition;
+            var vegetableHolderPos = VegetableHolder.transform.localPosition;
+            Tweezers.transform.localPosition = new Vector3(vegetableHolderPos.x, vegetablePos.y + 1f, currentTweezerPos.z);
         }
 
         private void ResetVegetable()
@@ -145,7 +151,9 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
             {
                 var go = t.gameObject;
                 if (go != hairBase)
+                {
                     GameObject.Destroy(go);
+                }
             }
 
             VegetableAnimator.Play("Idle", 0, 0);
