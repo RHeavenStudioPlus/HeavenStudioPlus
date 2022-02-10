@@ -17,6 +17,7 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
         public Animator VegetableAnimator;
         public Tweezers Tweezers;
         public GameObject hairBase;
+        public GameObject longHairBase;
 
         [SerializeField] private GameObject HairsHolder;
         [NonSerialized] public int hairsLeft = 0;
@@ -49,6 +50,25 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
 
             Jukebox.PlayOneShotGame("rhythmTweezers/shortAppear", beat);
             Hair hair = Instantiate(hairBase, HairsHolder.transform).GetComponent<Hair>();
+            hair.gameObject.SetActive(true);
+
+            float rot = -58f + 116 * Mathp.Normalize(beat, intervalStartBeat, intervalStartBeat + beatInterval - 1f);
+            hair.transform.eulerAngles = new Vector3(0, 0, rot);
+            hair.createBeat = beat;
+            hairsLeft++;
+        }
+
+        public void SpawnLongHair(float beat)
+        {
+            StopTransitionIfActive();
+
+            if (!intervalStarted)
+            {
+                SetIntervalStart(beat, beatInterval);
+            }
+
+            Jukebox.PlayOneShotGame("rhythmTweezers/longAppear", beat);
+            LongHair hair = Instantiate(longHairBase, HairsHolder.transform).GetComponent<LongHair>();
             hair.gameObject.SetActive(true);
 
             float rot = -58f + 116 * Mathp.Normalize(beat, intervalStartBeat, intervalStartBeat + beatInterval - 1f);
