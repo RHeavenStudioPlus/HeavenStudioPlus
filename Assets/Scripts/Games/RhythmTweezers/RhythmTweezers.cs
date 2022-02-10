@@ -18,14 +18,21 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
         public Tweezers Tweezers;
         public GameObject hairBase;
         public GameObject longHairBase;
+        public GameObject pluckedHairBase;
 
         public GameObject HairsHolder;
+        public GameObject DroppedHairsHolder;
         [NonSerialized] public int hairsLeft = 0;
 
         public float beatInterval = 4f;
         float intervalStartBeat;
         bool intervalStarted;
         public float tweezerBeatOffset = 0f;
+
+        public Sprite pluckedHairSprite;
+        public Sprite missedHairSprite;
+
+        [NonSerialized] public int eyeSize = 0;
 
         Tween transitionTween;
         bool transitioning = false;
@@ -149,14 +156,17 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
         {
             foreach (Transform t in HairsHolder.transform)
             {
-                var go = t.gameObject;
-                if (go != hairBase && go != longHairBase)
-                {
-                    GameObject.Destroy(go);
-                }
+                GameObject.Destroy(t.gameObject);
+            }
+
+            foreach (Transform t in DroppedHairsHolder.transform)
+            {
+                GameObject.Destroy(t.gameObject);
             }
 
             VegetableAnimator.Play("Idle", 0, 0);
+
+            eyeSize = 0;
         }
 
         private void StopTransitionIfActive()
