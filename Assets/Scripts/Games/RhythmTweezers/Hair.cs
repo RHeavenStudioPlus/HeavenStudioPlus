@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace RhythmHeavenMania.Games.RhythmTweezers
 {
     public class Hair : PlayerActionObject
     {
         public float createBeat;
+        public GameObject hairSprite;
+        public GameObject stubbleSprite;
+        public GameObject missedSprite;
         private RhythmTweezers game;
         private Tweezers tweezers;
+        private bool plucked;
 
         private void Awake()
         {
@@ -18,14 +23,20 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
 
         private void Update()
         {
-            float stateBeat = Conductor.instance.GetPositionFromBeat(createBeat + game.tweezerBeatOffset, game.beatInterval);
+            if (plucked) return;
+
+            float stateBeat = Conductor.instance.GetPositionFromMargin(createBeat + game.tweezerBeatOffset + game.beatInterval, 1f);
             StateCheck(stateBeat);
 
-            if (PlayerInput.Pressed() && tweezers.hitOnFrame == 0)
+            if (PlayerInput.Pressed())
             {
                 if (state.perfect)
                 {
                     Ace();
+                }
+                else if (state.notPerfect())
+                {
+                    Miss();
                 }
             }
         }
@@ -33,8 +44,20 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
         public void Ace()
         {
             tweezers.Pluck(true, this);
-
             tweezers.hitOnFrame++;
+            plucked = true;
+        }
+
+        public void Miss()
+        {
+            tweezers.Pluck(false, this);
+            tweezers.hitOnFrame++;
+            plucked = true;
+        }
+
+        public override void OnAce()
+        {
+            Ace();
         }
     }
 }

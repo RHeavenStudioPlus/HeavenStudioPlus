@@ -150,7 +150,7 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
             foreach (Transform t in HairsHolder.transform)
             {
                 var go = t.gameObject;
-                if (go != hairBase)
+                if (go != hairBase && go != longHairBase)
                 {
                     GameObject.Destroy(go);
                 }
