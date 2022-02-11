@@ -58,6 +58,7 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
             Jukebox.PlayOneShotGame("rhythmTweezers/shortAppear", beat);
             Hair hair = Instantiate(hairBase, HairsHolder.transform).GetComponent<Hair>();
             hair.gameObject.SetActive(true);
+            hair.GetComponent<Animator>().Play("SmallAppear", 0, 0);
 
             float rot = -58f + 116 * Mathp.Normalize(beat, intervalStartBeat, intervalStartBeat + beatInterval - 1f);
             hair.transform.eulerAngles = new Vector3(0, 0, rot);
@@ -77,6 +78,7 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
             Jukebox.PlayOneShotGame("rhythmTweezers/longAppear", beat);
             LongHair hair = Instantiate(longHairBase, HairsHolder.transform).GetComponent<LongHair>();
             hair.gameObject.SetActive(true);
+            hair.GetComponent<Animator>().Play("LongAppear", 0, 0);
 
             float rot = -58f + 116 * Mathp.Normalize(beat, intervalStartBeat, intervalStartBeat + beatInterval - 1f);
             hair.transform.eulerAngles = new Vector3(0, 0, rot);
