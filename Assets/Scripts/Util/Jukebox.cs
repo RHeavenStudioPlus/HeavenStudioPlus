@@ -40,7 +40,7 @@ namespace RhythmHeavenMania.Util
             FindJukebox().GetComponent<AudioSource>().volume = volume;
         }
 
-        public static void PlayOneShot(string name, float beat = -1)
+        public static AudioSource PlayOneShot(string name, float beat = -1)
         {
             GameObject oneShot = new GameObject("oneShot");
 
@@ -55,9 +55,11 @@ namespace RhythmHeavenMania.Util
             // snd.pitch = (clip.length / Conductor.instance.secPerBeat);
 
             GameManager.instance.SoundObjects.Add(oneShot);
+
+            return audioSource;
         }
 
-        public static void PlayOneShotScheduled(string name, double targetTime)
+        public static AudioSource PlayOneShotScheduled(string name, double targetTime)
         {
             GameObject oneShot = new GameObject("oneShotScheduled");
 
@@ -75,22 +77,28 @@ namespace RhythmHeavenMania.Util
             audioSource.PlayScheduled(targetTime);
             
             GameManager.instance.SoundObjects.Add(oneShot);
+
+            return audioSource;
         }
 
-        public static void PlayOneShotGame(string name, float beat = -1)
+        public static AudioSource PlayOneShotGame(string name, float beat = -1)
         {
             if (GameManager.instance.currentGame == name.Split('/')[0])
             {
-                PlayOneShot($"games/{name}", beat);
+                return PlayOneShot($"games/{name}", beat);
             }
+
+            return null;
         }
 
-        public static void PlayOneShotScheduledGame(string name, double targetTime)
+        public static AudioSource PlayOneShotScheduledGame(string name, double targetTime)
         {
             if (GameManager.instance.currentGame == name.Split('/')[0])
             {
-                PlayOneShotScheduled($"games/{name}", targetTime);
+                return PlayOneShotScheduled($"games/{name}", targetTime);
             }
+
+            return null;
         }
     }
 
