@@ -79,21 +79,26 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
 
         public void LongPluck(bool ace, LongHair hair)
         {
-            anim.Play("Tweezers_Pluck", 0, 0);
-
-            if (hitOnFrame > 0) return;
+            DropHeldHair();
 
             if (ace)
             {
-                float beat = Conductor.instance.songPositionInBeats;
-                MultiSound.Play(new MultiSound.Sound[]
-                {
-                    new MultiSound.Sound($"rhythmTweezers/longPull{UnityEngine.Random.Range(1, 5)}", beat),
-                    new MultiSound.Sound("rhythmTweezers/longPullEnd", beat + 0.5f),
-                });
+                hair.hairSprite.SetActive(false);
+                hair.stubbleSprite.SetActive(true);
 
-                Destroy(hair.gameObject);
+                game.hairsLeft--;
+                game.eyeSize = Mathf.Clamp(game.eyeSize + 1, 0, 10);
+
+                if (game.hairsLeft <= 0)
+                    vegetableAnim.Play("HopFinal", 0, 0);
+                else
+                    vegetableAnim.Play("Hop" + game.eyeSize.ToString(), 0, 0);
+
+                anim.Play("Tweezers_Pluck_Success", 0, 0);
             }
+
+            pluckingThisFrame = true;
+            holdingHair = true;
         }
 
         public void DropHeldHair()
@@ -110,6 +115,7 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
 
             // Make the hair spin.
             // (The prefab has a Rigidbody2D component already so that it falls)
+            droppedHair.GetComponent<Rigidbody2D>().interpolation = RigidbodyInterpolation2D.Interpolate;
             droppedHair.GetComponent<Rigidbody2D>().angularVelocity = UnityEngine.Random.Range(-120f, 120f);
 
             holdingHair = false;
