@@ -16,6 +16,7 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
         private bool pluckingThisFrame;
         private bool holdingHair;
         public SpriteRenderer heldHairSprite;
+        public Transform tweezerSpriteTrans;
 
         private void Start()
         {
@@ -83,8 +84,12 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
 
             if (ace)
             {
+                Jukebox.PlayOneShotGame("rhythmTweezers/longPullEnd");
+
                 hair.hairSprite.SetActive(false);
                 hair.stubbleSprite.SetActive(true);
+                // Making transparent instead of disabling because animators are silly.
+                hair.loop.GetComponent<SpriteRenderer>().color = Color.clear;
 
                 game.hairsLeft--;
                 game.eyeSize = Mathf.Clamp(game.eyeSize + 1, 0, 10);

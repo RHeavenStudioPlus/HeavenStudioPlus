@@ -13,52 +13,100 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
         public GameObject stubbleSprite;
         private RhythmTweezers game;
         private Tweezers tweezers;
-
-        private bool isHolding = false;
-        private float holdBeat = 0f;
+        private Animator anim;
+        private int pluckState = 0;
 
         public GameObject holder;
+        public GameObject loop;
+
+        private AudioSource pullSound;
 
         private void Awake()
         {
             game = RhythmTweezers.instance;
+            anim = GetComponent<Animator>();
             tweezers = game.Tweezers;
         }
 
         private void Update()
         {
-            float stateBeat = Conductor.instance.GetPositionFromBeat(createBeat + game.tweezerBeatOffset, game.beatInterval);
-            StateCheck(stateBeat);
+            float stateBeat;
 
-            if (PlayerInput.Pressed() && tweezers.hitOnFrame == 0)
+            switch (pluckState)
             {
-                if (state.perfect)
-                {
-                    Jukebox.PlayOneShotGame($"rhythmTweezers/longPull{UnityEngine.Random.Range(1, 5)}");
-                    isHolding = true;
-                    holdBeat = Conductor.instance.songPositionInBeats;
-                }
+                // Able to be held.
+                case 0:
+                    stateBeat = Conductor.instance.GetPositionFromMargin(createBeat + game.tweezerBeatOffset + game.beatInterval, 1f);
+                    StateCheck(stateBeat);
+
+                    if (PlayerInput.Pressed())
+                    {
+                        if (state.perfect)
+                        {
+                            pullSound = Jukebox.PlayOneShotGame($"rhythmTweezers/longPull{UnityEngine.Random.Range(1, 5)}");
+                            pluckState = 1;
+                            ResetState();
+                        }
+                        else if (state.notPerfect())
+                        {
+                            // I don't know what happens if you mess up here.
+                            pluckState = -1;
+                        }
+                    }
+                    break;
+                
+                // In held state. Able to be released.
+                case 1:
+                    stateBeat = Conductor.instance.GetPositionFromMargin(createBeat + game.tweezerBeatOffset + game.beatInterval + 0.5f, 1f);
+                    StateCheck(stateBeat);
+
+                    if (PlayerInput.PressedUp())
+                    {
+                        // It's possible to release earlier than earlyTime,
+                        // and the hair will automatically be released before lateTime,
+                        // so standard state checking isn't applied here
+                        // (though StateCheck is still used for autoplay).
+                        if (stateBeat >= Minigame.perfectTime)
+                        {
+                            Ace();
+                        }
+                        else
+                        {
+                            var normalized = Conductor.instance.GetPositionFromBeat(createBeat + game.tweezerBeatOffset + game.beatInterval, 0.5f);
+                            // Hair gets released early and returns whoops.
+                            anim.Play("LoopPullReverse", 0, normalized);
+                            tweezers.anim.Play("Idle", 0, 0);
+
+                            if (pullSound != null)
+                                pullSound.Stop();
+
+                            pluckState = -1;
+                        }
+                    }
+                    break;
+                
+                // Released or missed. Can't be held or released.
+                default:
+                    break;
             }
 
-            if (isHolding && Conductor.instance.songPositionInBeats >= holdBeat + 0.5f)
+            if (pluckState == 1)
             {
-                Destroy(holder.transform.GetChild(0).gameObject);
-                isHolding = false;
-                Ace();
-            }
+                var hairDirection = tweezers.tweezerSpriteTrans.position - holder.transform.position;
+                holder.transform.rotation = Quaternion.FromToRotation(Vector3.down, hairDirection);
 
-
-            if (isHolding)
-            {
-                holder.transform.eulerAngles = new Vector3(0, 0, tweezers.transform.eulerAngles.z * 1.056f);
-                holder.transform.GetChild(0).transform.localScale = Vector2.one / holder.transform.localScale;
-
-                float normalizedBeat = Conductor.instance.GetPositionFromBeat(holdBeat, 0.5f);
-                GetComponent<Animator>().Play("LoopPull", 0, normalizedBeat);
+                float normalizedBeat = Conductor.instance.GetPositionFromBeat(createBeat + game.tweezerBeatOffset + game.beatInterval, 0.5f);
+                anim.Play("LoopPull", 0, normalizedBeat);
                 tweezers.anim.Play("Tweezers_LongPluck", 0, normalizedBeat);
                 // float angleBetweenTweezersAndHair = angleBtw2Points(tweezers.transform.position, holder.transform.position);
                 // holder.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angleBetweenTweezersAndHair));
+
+                // Auto-release if holding at release time.
+                if (normalizedBeat >= 1f)
+                    Ace();
             }
+
+            loop.transform.localScale = Vector2.one / holder.transform.localScale;
         }
 
 
@@ -69,10 +117,27 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
 
         public void Ace()
         {
-            Jukebox.PlayOneShotGame("rhythmTweezers/longPullEnd");
             tweezers.LongPluck(true, this);
-
             tweezers.hitOnFrame++;
+
+            if (pullSound != null)
+                pullSound.Stop();
+
+            pluckState = -1;
+        }
+
+        public override void OnAce()
+        {
+            if (pluckState == 0)
+            {
+                pullSound = Jukebox.PlayOneShotGame($"rhythmTweezers/longPull{UnityEngine.Random.Range(1, 5)}");
+                pluckState = 1;
+                ResetState();
+            }
+            else if (pluckState == 1)
+            {
+                Ace();
+            }
         }
     }
 }
