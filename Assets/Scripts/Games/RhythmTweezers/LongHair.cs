@@ -92,14 +92,13 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
 
             if (pluckState == 1)
             {
-                var hairDirection = tweezers.tweezerSpriteTrans.position - holder.transform.position;
+                Vector3 tst = tweezers.tweezerSpriteTrans.position;
+                var hairDirection = new Vector3(tst.x + 0.173f, tst.y) - holder.transform.position;
                 holder.transform.rotation = Quaternion.FromToRotation(Vector3.down, hairDirection);
 
                 float normalizedBeat = Conductor.instance.GetPositionFromBeat(createBeat + game.tweezerBeatOffset + game.beatInterval, 0.5f);
                 anim.Play("LoopPull", 0, normalizedBeat);
                 tweezers.anim.Play("Tweezers_LongPluck", 0, normalizedBeat);
-                // float angleBetweenTweezersAndHair = angleBtw2Points(tweezers.transform.position, holder.transform.position);
-                // holder.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angleBetweenTweezersAndHair));
 
                 // Auto-release if holding at release time.
                 if (normalizedBeat >= 1f)
@@ -107,12 +106,6 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
             }
 
             loop.transform.localScale = Vector2.one / holder.transform.localScale;
-        }
-
-
-        float angleBtw2Points(Vector3 a, Vector3 b)
-        {
-            return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
         }
 
         public void Ace()
