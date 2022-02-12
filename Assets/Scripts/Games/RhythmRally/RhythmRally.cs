@@ -7,6 +7,8 @@ namespace RhythmHeavenMania.Games.RhythmRally
 {
     public class RhythmRally : Minigame
     {
+        public Transform renderQuadTrans;
+
         public Transform cameraPos;
 
         public GameObject ball;
@@ -27,10 +29,10 @@ namespace RhythmHeavenMania.Games.RhythmRally
         // Start is called before the first frame update
         void Start()
         {
-            GameCamera.instance.camera.transform.position = cameraPos.position;
-            GameCamera.instance.camera.transform.rotation = cameraPos.rotation;
-            GameCamera.instance.camera.fieldOfView = 41f;
-            GameCamera.instance.camera.backgroundColor = Color.white;
+            var cam = GameCamera.instance.camera;
+            var camHeight = 2f * cam.orthographicSize;
+            var camWidth = camHeight * cam.aspect;
+            renderQuadTrans.localScale = new Vector3(camWidth, camHeight, 1f);
 
             playerAnim.Play("Idle", 0, 0);
             opponentAnim.Play("Idle", 0, 0);
