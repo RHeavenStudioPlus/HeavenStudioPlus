@@ -93,7 +93,7 @@ namespace RhythmHeavenMania.Games.DJSchool
             MultiSound.Play(new MultiSound.Sound[]
             {
                 new MultiSound.Sound(sounds[0],   beat),
-                new MultiSound.Sound(sounds[1], beat + 1f - 0.030f/Conductor.instance.secPerBeat),
+                new MultiSound.Sound(sounds[1], beat + 1f - (0.030f/Conductor.instance.secPerBeat)*Conductor.instance.musicSource.pitch),
                 new MultiSound.Sound(sounds[2], beat + 2f),
             });
 
@@ -120,7 +120,7 @@ namespace RhythmHeavenMania.Games.DJSchool
             MultiSound.Play(new MultiSound.Sound[]
             {
                 new MultiSound.Sound("djSchool/andStop1",   beat),
-                new MultiSound.Sound("djSchool/andStop2",   beat + .5f - 0.1200f/Conductor.instance.secPerBeat),
+                new MultiSound.Sound("djSchool/andStop2",   beat + .5f - (0.1200f/Conductor.instance.secPerBeat)*Conductor.instance.musicSource.pitch),
                 new MultiSound.Sound("djSchool/oohAlt",     beat + 1.5f),
             });
 
@@ -161,8 +161,8 @@ namespace RhythmHeavenMania.Games.DJSchool
                 new MultiSound.Sound(sounds[0],   beat),
                 new MultiSound.Sound(sounds[1], beat + .25f),
                 new MultiSound.Sound(sounds[2], beat + .5f),
-                new MultiSound.Sound(sounds[3], beat + 1f - 0.0500f/Conductor.instance.secPerBeat),
-                new MultiSound.Sound(sounds[4], beat + 2f - 0.070f/Conductor.instance.secPerBeat),
+                new MultiSound.Sound(sounds[3], beat + 1f - (0.0500f/Conductor.instance.secPerBeat)*Conductor.instance.musicSource.pitch),
+                new MultiSound.Sound(sounds[4], beat + 2f - (0.070f/Conductor.instance.secPerBeat)*Conductor.instance.musicSource.pitch),
             });
 
             BeatAction.New(djYellow, new List<BeatAction.Action>()
