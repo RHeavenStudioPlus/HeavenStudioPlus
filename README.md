@@ -4,7 +4,11 @@
 
 (WIP) Fully playable, open source recreation of every rhythm heaven minigame with a built in level editor.
 
-[Discord Server](https://discord.gg/NKPYwGMqH6)
+<p>
+  <a href="https://discord.com/invite/NKPYwGMqH6">
+    <img src="https://img.shields.io/discord/936512454291234827?color=5865F2&label=Rhythm%20Heaven%20Mania&logo=discord&logoColor=white" alt="Discord">
+  </a>
+</p>
 
 [Full Progress and games list](https://docs.google.com/spreadsheets/d/1Z-HbLKg88Z68dGMGXOut97ew9giVdouMdmActkaSjK4/edit?usp=sharing)
 
