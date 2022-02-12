@@ -71,7 +71,7 @@ namespace RhythmHeavenMania.Editor.Track
                     Vector3 mousePos = Editor.instance.EditorCamera.ScreenToWorldPoint(Input.mousePosition);
 
                     transform.position = new Vector3(mousePos.x - startPosX, transform.position.y, 0);
-                    transform.localPosition = new Vector3(Mathf.Clamp(Starpelly.Mathp.Round2Nearest(transform.localPosition.x, 0.25f), 0, Mathf.Infinity), transform.localPosition.y);
+                    transform.localPosition = new Vector3(Mathf.Clamp(Starpelly.Mathp.Round2Nearest(transform.localPosition.x, Timeline.SnapInterval()), 0, Mathf.Infinity), transform.localPosition.y);
                 }
                 if (Input.GetMouseButtonUp(0))
                 {
