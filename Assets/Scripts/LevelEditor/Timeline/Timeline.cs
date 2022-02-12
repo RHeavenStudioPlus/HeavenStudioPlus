@@ -26,6 +26,9 @@ namespace RhythmHeavenMania.Editor.Track
         public bool resizable;
         private bool movingPlayback;
         public CurrentTimelineState timelineState = new CurrentTimelineState();
+        public float snapInterval = 0.25f; // 4/4
+
+        public static float SnapInterval() { return instance.snapInterval; }
 
         public class CurrentTimelineState
         {
@@ -256,7 +259,7 @@ namespace RhythmHeavenMania.Editor.Track
             if (movingPlayback)
             {
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(TimelineContent, Input.mousePosition, Editor.instance.EditorCamera, out lastMousePos);
-                TimelineSlider.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(lastMousePos.x + 0.12f, 0.25f), 0, Mathf.Infinity), TimelineSlider.transform.localPosition.y);
+                TimelineSlider.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(lastMousePos.x + 0.12f, Timeline.SnapInterval()), 0, Mathf.Infinity), TimelineSlider.transform.localPosition.y);
 
                 if (TimelineSlider.localPosition.x != lastBeatPos)
                     Conductor.instance.SetBeat(TimelineSlider.transform.localPosition.x);
@@ -576,7 +579,7 @@ namespace RhythmHeavenMania.Editor.Track
 
         public void SetPlaybackSpeed(float speed)
         {
-            float spd = Mathp.Round2Nearest(speed, 0.25f);
+            float spd = Mathp.Round2Nearest(speed, Timeline.SnapInterval());
             PlaybackSpeed.transform.GetChild(3).GetComponent<TMP_Text>().text = $"Playback Speed: {spd}x";
             Conductor.instance.musicSource.pitch = spd;
             PlaybackSpeed.value = spd;

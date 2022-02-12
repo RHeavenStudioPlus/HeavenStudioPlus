@@ -7559,7 +7559,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 5, y: -5}
-  m_SizeDelta: {x: 32, y: 32}
+  m_SizeDelta: {x: 42, y: 42}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &781200687
 MonoBehaviour:
@@ -15655,6 +15655,7 @@ MonoBehaviour:
   LayerCount: 4
   metronomeEnabled: 0
   resizable: 0
+  snapInterval: 0.25
   TimelineSlider: {fileID: 770589360}
   TimelineGridSelect: {fileID: 238901181}
   TimelinePlaybackBeat: {fileID: 117889364}
