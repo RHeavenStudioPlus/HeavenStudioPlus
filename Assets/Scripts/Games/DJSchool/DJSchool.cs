@@ -93,7 +93,7 @@ namespace RhythmHeavenMania.Games.DJSchool
             MultiSound.Play(new MultiSound.Sound[]
             {
                 new MultiSound.Sound(sounds[0],   beat),
-                new MultiSound.Sound(sounds[1], beat + 1f),
+                new MultiSound.Sound(sounds[1], beat + 1f - 0.030f/Conductor.instance.secPerBeat),
                 new MultiSound.Sound(sounds[2], beat + 2f),
             });
 
@@ -120,7 +120,7 @@ namespace RhythmHeavenMania.Games.DJSchool
             MultiSound.Play(new MultiSound.Sound[]
             {
                 new MultiSound.Sound("djSchool/andStop1",   beat),
-                new MultiSound.Sound("djSchool/andStop2",   beat + 0.35f),
+                new MultiSound.Sound("djSchool/andStop2",   beat + .5f - 0.1200f/Conductor.instance.secPerBeat),
                 new MultiSound.Sound("djSchool/oohAlt",     beat + 1.5f),
             });
 
@@ -145,22 +145,24 @@ namespace RhythmHeavenMania.Games.DJSchool
 
             if (type == 0)
             {
-                sounds = new string[] { "djSchool/scratchoHey1", "djSchool/scratchoHey2", "djSchool/hey" };
+                sounds = new string[] { "djSchool/scratchoHey1", "djSchool/scratchoHey2", "djSchool/scratchoHey3", "djSchool/scratchoHey4", "djSchool/hey" };
             }
             else if (type == 1)
             {
-                sounds = new string[] { "djSchool/scratchoHeyAlt1", "djSchool/scratchoHeyAlt2", "djSchool/heyAlt" };
+                sounds = new string[] { "djSchool/scratchoHeyAlt1", "djSchool/scratchoHeyAlt2", "djSchool/scratchoHeyAlt3", "djSchool/scratchoHeyAlt4", "djSchool/heyAlt" };
             }
             else if (type == 2)
             {
-                sounds = new string[] { "djSchool/scratchoHeyLoud1", "djSchool/scratchoHeyLoud2", "djSchool/heyLoud" };
+                sounds = new string[] { "djSchool/scratchoHeyLoud1", "djSchool/scratchoHeyLoud2", "djSchool/scratchoHeyLoud3", "djSchool/scratchoHeyLoud4", "djSchool/heyLoud" };
             }
 
             MultiSound.Play(new MultiSound.Sound[]
             {
                 new MultiSound.Sound(sounds[0],   beat),
-                new MultiSound.Sound(sounds[1], beat + 1f),
-                new MultiSound.Sound(sounds[2], beat + 2f),
+                new MultiSound.Sound(sounds[1], beat + .25f),
+                new MultiSound.Sound(sounds[2], beat + .5f),
+                new MultiSound.Sound(sounds[3], beat + 1f - 0.0500f/Conductor.instance.secPerBeat),
+                new MultiSound.Sound(sounds[4], beat + 2f - 0.070f/Conductor.instance.secPerBeat),
             });
 
             BeatAction.New(djYellow, new List<BeatAction.Action>()
