@@ -149,7 +149,7 @@ namespace RhythmHeavenMania.Editor.Track
                     lastPos_ = transform.localPosition;
 
                     this.transform.position = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY - 0.40f, 0);
-                    this.transform.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(this.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(this.transform.localPosition.y));
+                    this.transform.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(this.transform.localPosition.x, Timeline.SnapInterval()), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(this.transform.localPosition.y));
                     // moveTemp.transform.position = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY - 0.40f, 0);
                     // moveTemp.transform.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(moveTemp.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(moveTemp.transform.localPosition.y));
 
@@ -171,9 +171,9 @@ namespace RhythmHeavenMania.Editor.Track
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, Editor.instance.EditorCamera, out mousePos);
 
                 sizeDelta = new Vector2(-mousePos.x + 0.15f, sizeDelta.y);
-                sizeDelta = new Vector2(Mathf.Clamp(sizeDelta.x, 0.25f, rectTransform.localPosition.x), sizeDelta.y);
+                sizeDelta = new Vector2(Mathf.Clamp(sizeDelta.x, Timeline.SnapInterval(), rectTransform.localPosition.x), sizeDelta.y);
 
-                rectTransform.sizeDelta = new Vector2(Mathp.Round2Nearest(sizeDelta.x, 0.25f), sizeDelta.y);
+                rectTransform.sizeDelta = new Vector2(Mathp.Round2Nearest(sizeDelta.x, Timeline.SnapInterval()), sizeDelta.y);
                 SetPivot(new Vector2(0, rectTransform.pivot.y));
                 OnComplete(false);
             }
@@ -185,9 +185,9 @@ namespace RhythmHeavenMania.Editor.Track
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, Editor.instance.EditorCamera, out mousePos);
 
                 sizeDelta = new Vector2(mousePos.x + 0.15f, sizeDelta.y);
-                sizeDelta = new Vector2(Mathf.Clamp(sizeDelta.x, 0.25f, Mathf.Infinity), sizeDelta.y);
+                sizeDelta = new Vector2(Mathf.Clamp(sizeDelta.x, Timeline.SnapInterval(), Mathf.Infinity), sizeDelta.y);
 
-                rectTransform.sizeDelta = new Vector2(Mathp.Round2Nearest(sizeDelta.x, 0.25f), sizeDelta.y);
+                rectTransform.sizeDelta = new Vector2(Mathp.Round2Nearest(sizeDelta.x, Timeline.SnapInterval()), sizeDelta.y);
                 SetPivot(new Vector2(0, rectTransform.pivot.y));
                 OnComplete(false);
             }

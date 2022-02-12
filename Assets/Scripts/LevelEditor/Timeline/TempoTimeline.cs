@@ -83,7 +83,7 @@ namespace RhythmHeavenMania.Editor.Track
             if (create == true)
             {
                 tempoChange.transform.position = new Vector3(Editor.instance.EditorCamera.ScreenToWorldPoint(Input.mousePosition).x + 0.08f, tempoChange.transform.position.y);
-                tempoChange.transform.localPosition = new Vector3(Starpelly.Mathp.Round2Nearest(tempoChange.transform.localPosition.x, 0.25f), tempoChange.transform.localPosition.y);
+                tempoChange.transform.localPosition = new Vector3(Starpelly.Mathp.Round2Nearest(tempoChange.transform.localPosition.x, Timeline.SnapInterval()), tempoChange.transform.localPosition.y);
 
                 Beatmap.TempoChange tempoC = new Beatmap.TempoChange();
                 tempoC.beat = tempoChange.transform.localPosition.x;

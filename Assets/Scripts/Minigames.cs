@@ -204,12 +204,12 @@ namespace RhythmHeavenMania
                     new GameAction("set tweezer delay",     delegate { RhythmTweezers.instance.tweezerBeatOffset = eventCaller.currentEntity.length; }, 1f, true),
                     new GameAction("reset tweezer delay",   delegate { RhythmTweezers.instance.tweezerBeatOffset = 0f; }, 0.5f),
                 }),
-                /*
+                
                 new Minigame("rhythmRally", "Rhythm Rally", "B888F8", true, false, new List<GameAction>()
                 {
 
                 }),
-                new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
+                /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
                 }),
                 new Minigame("tapTrial", "Tap Trial", "B888F8", new List<GameAction>()
