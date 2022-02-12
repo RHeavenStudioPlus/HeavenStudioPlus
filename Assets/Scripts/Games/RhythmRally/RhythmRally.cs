@@ -29,6 +29,8 @@ namespace RhythmHeavenMania.Games.RhythmRally
         // Start is called before the first frame update
         void Start()
         {
+            renderQuadTrans.gameObject.SetActive(true);
+            
             var cam = GameCamera.instance.camera;
             var camHeight = 2f * cam.orthographicSize;
             var camWidth = camHeight * cam.aspect;
