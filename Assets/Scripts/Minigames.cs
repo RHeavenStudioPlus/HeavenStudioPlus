@@ -11,6 +11,7 @@ using RhythmHeavenMania.Games.KarateMan;
 using RhythmHeavenMania.Games.SpaceSoccer;
 using RhythmHeavenMania.Games.DJSchool;
 using RhythmHeavenMania.Games.RhythmTweezers;
+using RhythmHeavenMania.Games.RhythmRally;
 
 namespace RhythmHeavenMania
 {
@@ -207,7 +208,7 @@ namespace RhythmHeavenMania
                 
                 new Minigame("rhythmRally", "Rhythm Rally", "B888F8", true, false, new List<GameAction>()
                 {
-
+                    new GameAction("bop",                   delegate { RhythmRally.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 0.5f, true),
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
