@@ -201,7 +201,18 @@ namespace RhythmHeavenMania
                     new GameAction("start interval",        delegate { RhythmTweezers.instance.SetIntervalStart(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 4f, true),
                     new GameAction("short hair",            delegate { RhythmTweezers.instance.SpawnHair(eventCaller.currentEntity.beat); }, 0.5f),
                     new GameAction("long hair",             delegate { RhythmTweezers.instance.SpawnLongHair(eventCaller.currentEntity.beat); }, 0.5f),
-                    new GameAction("next vegetable",        delegate { RhythmTweezers.instance.NextVegetable(eventCaller.currentEntity.beat); }, 0.5f),
+                    new GameAction("next vegetable",        delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.NextVegetable(e.beat, e.type, e.colorA, e.colorB); }, 0.5f, false, new List<Param>() 
+                    {
+                        new Param("type", new EntityTypes.Integer(0, 1), "Type"),
+                        new Param("colorA", RhythmTweezers.defaultOnionColor, "Onion Color"),
+                        new Param("colorB", RhythmTweezers.defaultPotatoColor, "Potato Color")
+                    } ),
+                    new GameAction("change vegetable",        delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.ChangeVegetableImmediate(e.type, e.colorA, e.colorB); }, 0.5f, false, new List<Param>() 
+                    {
+                        new Param("type", new EntityTypes.Integer(0, 1), "Type"),
+                        new Param("colorA", RhythmTweezers.defaultOnionColor, "Onion Color"),
+                        new Param("colorB", RhythmTweezers.defaultPotatoColor, "Potato Color")
+                    } ),
                     new GameAction("set tweezer delay",     delegate { RhythmTweezers.instance.tweezerBeatOffset = eventCaller.currentEntity.length; }, 1f, true),
                     new GameAction("reset tweezer delay",   delegate { RhythmTweezers.instance.tweezerBeatOffset = 0f; }, 0.5f),
                 }),
