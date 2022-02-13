@@ -12,8 +12,10 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
     // use PlayerActionObject for the actual tweezers but this isn't playable rn so IDC
     public class RhythmTweezers : Minigame
     {
+        [Header("References")]
         public Transform VegetableHolder;
-        public GameObject Vegetable;
+        public SpriteRenderer Vegetable;
+        public SpriteRenderer VegetableDupe;
         public Animator VegetableAnimator;
         public Tweezers Tweezers;
         public GameObject hairBase;
@@ -24,18 +26,42 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
         public GameObject DroppedHairsHolder;
         [NonSerialized] public int hairsLeft = 0;
 
+        [Header("Variables")]
         public float beatInterval = 4f;
         float intervalStartBeat;
         bool intervalStarted;
         public float tweezerBeatOffset = 0f;
 
+        [Header("Sprites")]
         public Sprite pluckedHairSprite;
         public Sprite missedHairSprite;
+        public Sprite onionSprite;
+        public Sprite potatoSprite;
 
         [NonSerialized] public int eyeSize = 0;
 
         Tween transitionTween;
         bool transitioning = false;
+
+        private static Color _defaultOnionColor;
+        public static Color defaultOnionColor
+        {
+            get
+            {
+                ColorUtility.TryParseHtmlString("#C89600", out _defaultOnionColor);
+                return _defaultOnionColor;
+            }
+        }
+
+        private static Color _defaultPotatoColor;
+        public static Color defaultPotatoColor
+        {
+            get
+            {
+                ColorUtility.TryParseHtmlString("#FFDC00", out _defaultPotatoColor);
+                return _defaultPotatoColor;
+            }
+        }
 
         public static RhythmTweezers instance { get; set; }
 
@@ -102,11 +128,17 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
         }
 
         const float vegDupeOffset = 16.7f;
-        public void NextVegetable(float beat)
+        public void NextVegetable(float beat, int type, Color onionColor, Color potatoColor)
         {
             transitioning = true;
 
             Jukebox.PlayOneShotGame("rhythmTweezers/register", beat);
+
+            Sprite nextVeggieSprite = type == 0 ? onionSprite : potatoSprite;
+            Color nextColor = type == 0 ? onionColor : potatoColor;
+
+            VegetableDupe.sprite = nextVeggieSprite;
+            VegetableDupe.color = nextColor;
 
             // Move both vegetables to the left by vegDupeOffset, then reset their positions.
             // On position reset, reset state of core vegetable.
@@ -116,11 +148,27 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
                 var holderPos = VegetableHolder.localPosition;
                 VegetableHolder.localPosition = new Vector3(0f, holderPos.y, holderPos.z);
 
+                Vegetable.sprite = nextVeggieSprite;
+                Vegetable.color = nextColor;
+
                 ResetVegetable();
                 transitioning = false;
                 intervalStarted = false;
 
             }).SetEase(Ease.InOutSine);
+        }
+
+        public void ChangeVegetableImmediate(int type, Color onionColor, Color potatoColor)
+        {
+            StopTransitionIfActive();
+            
+            Sprite newSprite = type == 0 ? onionSprite : potatoSprite;
+            Color newColor = type == 0 ? onionColor : potatoColor;
+
+            Vegetable.sprite = newSprite;
+            Vegetable.color = newColor;
+            VegetableDupe.sprite = newSprite;
+            VegetableDupe.color = newColor;
         }
 
         private void Update()

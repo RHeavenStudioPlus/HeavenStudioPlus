@@ -1018,7 +1018,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 848710030467426981, guid: 27e9694e644a6914d9047c1029955365, type: 3}
-  m_Color: {r: 0.8679245, g: 0.6164698, b: 0, a: 1}
+  m_Color: {r: 0.78431374, g: 0.5882353, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2182,7 +2182,8 @@ MonoBehaviour:
   EligibleHits: []
   firstEnable: 0
   VegetableHolder: {fileID: 2852202173104472746}
-  Vegetable: {fileID: 3177931334588542204}
+  Vegetable: {fileID: 6331401567023014501}
+  VegetableDupe: {fileID: 9096051369561297840}
   VegetableAnimator: {fileID: 3603513546661280919}
   Tweezers: {fileID: 3391455012319192365}
   hairBase: {fileID: 4104508031135416673}
@@ -2194,6 +2195,8 @@ MonoBehaviour:
   tweezerBeatOffset: 0
   pluckedHairSprite: {fileID: 3562159510210354730, guid: 8b24cfccb5b27054bbfccc7d7a912b73, type: 3}
   missedHairSprite: {fileID: -2343768176336248091, guid: 8b24cfccb5b27054bbfccc7d7a912b73, type: 3}
+  onionSprite: {fileID: 848710030467426981, guid: 27e9694e644a6914d9047c1029955365, type: 3}
+  potatoSprite: {fileID: -6820761741098029108, guid: 27e9694e644a6914d9047c1029955365, type: 3}
 --- !u!1 &5813499711658895222
 GameObject:
   m_ObjectHideFlags: 0
@@ -2632,7 +2635,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 848710030467426981, guid: 27e9694e644a6914d9047c1029955365, type: 3}
-  m_Color: {r: 0.8679245, g: 0.6164698, b: 0, a: 1}
+  m_Color: {r: 0.78431374, g: 0.5882353, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
