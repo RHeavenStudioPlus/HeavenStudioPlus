@@ -258,7 +258,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 }
                 else if (ball.highKicked.enabled)
                 {
-                    float normalizedBeat = Conductor.instance.GetPositionFromBeat(ball.highKicked.startBeat, ball.GetHighKickLength(false));
+                    float normalizedBeat = Conductor.instance.GetPositionFromMargin(ball.highKicked.startBeat + ball.GetHighKickLength(false), 1f);
                     if (!kickPrepare)
                     {
                         float normalizedBeatPrepare = Conductor.instance.GetPositionFromBeat(ball.highKicked.startBeat, 1f);
@@ -296,7 +296,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 }
                 else if (ball.toe.enabled)
                 {
-                    float normalizedBeat = Conductor.instance.GetPositionFromBeat(ball.toe.startBeat, ball.GetHighKickLength(true));
+                    float normalizedBeat = Conductor.instance.GetPositionFromMargin(ball.toe.startBeat + ball.GetHighKickLength(true), 1f);
                     StateCheck(normalizedBeat, !player);
                     CheckIfFall(normalizedBeat);
 
@@ -346,7 +346,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
         private void CheckIfFall(float normalizedBeat)
         {
-            if (normalizedBeat > 1.05f && !GameManager.instance.autoplay)
+            if (normalizedBeat > Minigame.LateTime() && !GameManager.instance.autoplay)
             {
                 Jukebox.PlayOneShotGame("spaceSoccer/missNeutral");
                 ball = null;
