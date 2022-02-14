@@ -8,6 +8,8 @@ namespace RhythmHeavenMania.Games.KarateMan
 {
     public class KarateMan : Minigame
     {
+        const float hitVoiceOffset = 0.042f;
+
         public GameObject Pot, Bomb;
         public KarateJoe KarateJoe;
 
@@ -153,6 +155,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             }
         }
 
+        List<Beatmap.Entity> cuedVoices = new List<Beatmap.Entity>(); // "Hit" voices cued in advance are stored here so they aren't called multiple times in Update().
         private void Update()
         {
             if (Conductor.instance.ReportBeat(ref newBeat))
@@ -193,6 +196,19 @@ namespace RhythmHeavenMania.Games.KarateMan
                     prepare.length = 0;
                 }
             }
+
+            // Call "hit" voice slightly early to account for sound offset.
+            var hitVoiceEvents = GameManager.instance.Beatmap.entities.FindAll(c => c.datamodel == "karateman/hit3" || c.datamodel == "karateman/hit4");
+            for (int i = 0; i < hitVoiceEvents.Count; i++)
+            {
+                var hitEvent = hitVoiceEvents[i];
+                var timeToEvent = hitEvent.beat - Conductor.instance.songPositionInBeats;
+                if (timeToEvent <= 1f && timeToEvent > 0f && !cuedVoices.Contains(hitEvent))
+                {
+                    cuedVoices.Add(hitEvent);
+                    MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("karateman/hit", hitEvent.beat - hitVoiceOffset * Conductor.instance.songBpm / 60f) });
+                }
+            }
         }
 
         public void BGFXOn()
@@ -214,7 +230,7 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         public void Hit3(float beat)
         {
-            MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("karateman/hit", beat), new MultiSound.Sound("karateman/three", beat + 0.5f) });
+            MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("karateman/three", beat + 0.5f) });
             GameObject hit3 = Instantiate(HIT3Ref, this.transform);
             hit3.transform.GetChild(0).GetChild(1).GetComponent<SpriteRenderer>().sprite = Numbers[2];
             BeatAction.New(hit3, new List<BeatAction.Action>() 
@@ -226,7 +242,7 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         public void Hit4(float beat)
         {
-            MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("karateman/hit", beat), new MultiSound.Sound("karateman/four", beat + 0.5f) });
+            MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("karateman/four", beat + 0.5f) });
             GameObject hit4 = Instantiate(HIT3Ref, this.transform);
             hit4.transform.GetChild(0).GetChild(1).GetComponent<SpriteRenderer>().sprite = Numbers[3];
             BeatAction.New(hit4, new List<BeatAction.Action>()
