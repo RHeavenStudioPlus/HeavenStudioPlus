@@ -37,14 +37,16 @@ namespace NaughtyBezierCurves.Editor
             EditorGUILayout.PropertyField(this.leftHandleLocalPosition);
             if (EditorGUI.EndChangeCheck())
             {
-                this.rightHandleLocalPosition.vector3Value = -this.leftHandleLocalPosition.vector3Value;
+                if (this.handleType.enumValueIndex == (int)BezierPoint3D.HandleType.Connected)
+                    this.rightHandleLocalPosition.vector3Value = -this.leftHandleLocalPosition.vector3Value;
             }
 
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(this.rightHandleLocalPosition);
             if (EditorGUI.EndChangeCheck())
             {
-                this.leftHandleLocalPosition.vector3Value = -this.rightHandleLocalPosition.vector3Value;
+                if (this.handleType.enumValueIndex == (int)BezierPoint3D.HandleType.Connected)
+                    this.leftHandleLocalPosition.vector3Value = -this.rightHandleLocalPosition.vector3Value;
             }
 
             this.serializedObject.ApplyModifiedProperties();
