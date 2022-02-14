@@ -217,9 +217,13 @@ namespace RhythmHeavenMania
                     new GameAction("reset tweezer delay",   delegate { RhythmTweezers.instance.tweezerBeatOffset = 0f; }, 0.5f),
                 }),
                 
-                new Minigame("rhythmRally", "Rhythm Rally", "B888F8", true, false, new List<GameAction>()
+                new Minigame("rhythmRally", "Rhythm Rally \n<color=#eb5454>[WIP don't use]</color>", "B888F8", true, false, new List<GameAction>()
                 {
                     new GameAction("bop",                   delegate { RhythmRally.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 0.5f, true),
+                    new GameAction("rally",                 delegate { RhythmRally.instance.Serve(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.Normal); }, 4f, true),
+                    new GameAction("slow rally",                 delegate { RhythmRally.instance.Serve(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.Slow); }, 8f, true),
+                    new GameAction("fast rally",    delegate { RhythmRally.instance.PrepareFastRally(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.Fast); }, 6f),
+                    new GameAction("superfast rally",    delegate { RhythmRally.instance.PrepareFastRally(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.SuperFast); }, 12f),
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
