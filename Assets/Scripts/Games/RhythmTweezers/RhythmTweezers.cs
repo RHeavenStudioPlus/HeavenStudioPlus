@@ -204,6 +204,9 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
 
         private void ResetVegetable()
         {
+            // If the tweezers happen to be holding a hair, drop it immediately so it can be destroyed below.
+            Tweezers.DropHeldHair();
+
             foreach (Transform t in HairsHolder.transform)
             {
                 GameObject.Destroy(t.gameObject);
