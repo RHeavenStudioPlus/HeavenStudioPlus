@@ -226,6 +226,10 @@ namespace RhythmHeavenMania
                     new GameAction("superfast rally",    delegate { RhythmRally.instance.PrepareFastRally(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.SuperFast); }, 12f),
                     new GameAction("pose",    delegate { RhythmRally.instance.Pose(); }, 0.5f),
                 }),
+                new Minigame("builtToScaleDS", "Built To Scale (DS) \n<color=#eb5454>[WIP don't use]</color>", "B888F8", true, false, new List<GameAction>()
+                {
+                    
+                }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
                 }),
