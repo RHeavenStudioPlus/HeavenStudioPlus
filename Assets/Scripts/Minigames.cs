@@ -224,6 +224,7 @@ namespace RhythmHeavenMania
                     new GameAction("slow rally",                 delegate { RhythmRally.instance.Serve(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.Slow); }, 8f, true),
                     new GameAction("fast rally",    delegate { RhythmRally.instance.PrepareFastRally(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.Fast); }, 6f),
                     new GameAction("superfast rally",    delegate { RhythmRally.instance.PrepareFastRally(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.SuperFast); }, 12f),
+                    new GameAction("pose",    delegate { RhythmRally.instance.Pose(); }, 0.5f),
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
