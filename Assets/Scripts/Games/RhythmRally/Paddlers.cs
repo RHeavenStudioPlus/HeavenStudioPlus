@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using DG.Tweening;
+
 using RhythmHeavenMania.Util;
 
 namespace RhythmHeavenMania.Games.RhythmRally
@@ -72,6 +74,7 @@ namespace RhythmHeavenMania.Games.RhythmRally
 
             playerAnim.Play("Swing", 0, 0);
             MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("rhythmRally/Return", hitBeat), new MultiSound.Sound("rhythmRally/ReturnBounce", bounceBeat) });
+            BounceFX(bounceBeat);
         }
 
         void Miss()
@@ -91,6 +94,20 @@ namespace RhythmHeavenMania.Games.RhythmRally
             }
 
             MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("rhythmRally/Whistle", whistleBeat) });
+        }
+
+        public void BounceFX(float bounceBeat)
+        {
+            BeatAction.New(this.gameObject, new List<BeatAction.Action>()
+            {
+                new BeatAction.Action(bounceBeat, delegate
+                {
+                    GameObject ballHitFX2 = Instantiate(RhythmRally.instance.ballHitFX.gameObject, RhythmRally.instance.gameObject.transform);
+                    ballHitFX2.SetActive(true);
+                    ballHitFX2.transform.position = new Vector3(ballHitFX2.transform.position.x, ballHitFX2.transform.position.y, RhythmRally.instance.ball.transform.position.z);
+                    ballHitFX2.GetComponent<SpriteRenderer>().DOColor(new Color(0, 0, 0, 0), 0.65f).SetEase(Ease.OutExpo).OnComplete(delegate { Destroy(ballHitFX2); });
+                })
+            });
         }
 
         public override void OnAce()

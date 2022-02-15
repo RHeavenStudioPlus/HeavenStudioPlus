@@ -21,6 +21,7 @@ namespace RhythmHeavenMania.Games.RhythmRally
         public GameObject ballShadow;
         public BezierCurve3D serveCurve;
         public BezierCurve3D returnCurve;
+        public GameObject ballHitFX;
 
 
         [Header("Animators")]
@@ -34,6 +35,7 @@ namespace RhythmHeavenMania.Games.RhythmRally
         public bool served;
         public float serveBeat;
         public float targetBeat;
+        private bool inPose;
 
         public Paddlers paddlers;
 
@@ -140,7 +142,9 @@ namespace RhythmHeavenMania.Games.RhythmRally
                 if (!missed)
                 {
                     float curveHeight = 1f;
-                    if (rallySpeed == RallySpeed.Fast && !served && hitPosition1 >= 1f)
+                    if (rallySpeed == RallySpeed.Fast && served)
+                        curveHeight = 0.5f;
+                    else if (rallySpeed == RallySpeed.Fast && !served && hitPosition1 >= 1f)
                         curveHeight = 2f;
                     else if (rallySpeed == RallySpeed.Slow)
                         curveHeight = 3f;
@@ -179,7 +183,7 @@ namespace RhythmHeavenMania.Games.RhythmRally
                     readyToPrep = timeBeforeNextHit <= 1f;
 
                 // Paddler ready animation.
-                if (readyToPrep && !opponentServing)
+                if (readyToPrep && !opponentServing && !inPose)
                 {
                     if (served)
                     {
@@ -204,7 +208,7 @@ namespace RhythmHeavenMania.Games.RhythmRally
             // Paddler bop animation.
             if (cond.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1))
             {
-                if (currentBeat >= bop.startBeat && currentBeat < bop.startBeat + bop.length)
+                if (currentBeat >= bop.startBeat && currentBeat < bop.startBeat + bop.length && !inPose)
                 {
                     if (!playerPrepping && (playerAnim.IsAnimationNotPlaying() || playerState.IsName("Idle") || playerState.IsName("Beat")))
                         playerAnim.Play("Beat", 0, 0);
@@ -254,8 +258,17 @@ namespace RhythmHeavenMania.Games.RhythmRally
 
             opponentAnim.Play("Swing", 0, 0);
             MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("rhythmRally/Serve", serveBeat), new MultiSound.Sound("rhythmRally/ServeBounce", bounceBeat) });
+            paddlers.BounceFX(bounceBeat);
 
             paddlers.ResetState();
+        }
+
+        public void Pose()
+        {
+            playerAnim.Play("Pose", 0, 0);
+            opponentAnim.Play("Pose", 0, 0);
+            ball.gameObject.SetActive(false); // temporary solution, should realistically just fall down
+            inPose = true;
         }
 
         public void PrepareFastRally(float beat, RallySpeed speedChange)
