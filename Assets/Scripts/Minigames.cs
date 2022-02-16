@@ -12,6 +12,7 @@ using RhythmHeavenMania.Games.SpaceSoccer;
 using RhythmHeavenMania.Games.DJSchool;
 using RhythmHeavenMania.Games.RhythmTweezers;
 using RhythmHeavenMania.Games.RhythmRally;
+using RhythmHeavenMania.Games.BuiltToScaleDS;
 
 namespace RhythmHeavenMania
 {
@@ -196,7 +197,7 @@ namespace RhythmHeavenMania
                         new Param("type", new EntityTypes.Integer(0, 2, 0), "Type"),
                     }),
                 }),
-                new Minigame("rhythmTweezers", "Rhythm Tweezers \n<color=#eb5454>[WIP don't use]</color>", "98b389", false, false, new List<GameAction>()
+                new Minigame("rhythmTweezers", "Rhythm Tweezers", "98b389", false, false, new List<GameAction>()
                 {
                     new GameAction("start interval",        delegate { RhythmTweezers.instance.SetIntervalStart(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 4f, true),
                     new GameAction("short hair",            delegate { RhythmTweezers.instance.SpawnHair(eventCaller.currentEntity.beat); }, 0.5f),
@@ -228,7 +229,7 @@ namespace RhythmHeavenMania
                 }),
                 new Minigame("builtToScaleDS", "Built To Scale (DS) \n<color=#eb5454>[WIP don't use]</color>", "B888F8", true, false, new List<GameAction>()
                 {
-                    
+                    new GameAction("spawn blocks",          delegate { }, 1f, true)
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
