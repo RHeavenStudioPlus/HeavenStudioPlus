@@ -98,6 +98,7 @@ namespace RhythmHeavenMania.Games.BuiltToScaleDS
                 shootingThisFrame = true;
                 Shoot();
                 SpawnObject(BTSObject.FlyingRod);
+                Jukebox.PlayOneShotGame("builtToScaleDS/Boing");
             }
 
             if (!shootingThisFrame)

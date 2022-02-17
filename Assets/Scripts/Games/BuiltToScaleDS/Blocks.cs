@@ -36,7 +36,7 @@ namespace RhythmHeavenMania.Games.BuiltToScaleDS
                 game.shooterAnim.Play("Windup", 0, 0);
             }
 
-            float stateBeat = Conductor.instance.GetPositionFromMargin(createBeat + (createLength * 4.5f), 1f);
+            float stateBeat = Conductor.instance.GetPositionFromMargin(hitBeat, 2f);
             StateCheck(stateBeat);
 
             if (PlayerInput.Pressed())
@@ -51,9 +51,19 @@ namespace RhythmHeavenMania.Games.BuiltToScaleDS
                 }
             }
 
-            if (moving && anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f)
+            if (moving)
             {
-                game.SetBlockTime(this, createBeat, createLength);
+                var sinkBeat = hitBeat + (createLength * 2f);
+
+                if (currentBeat < sinkBeat)
+                {
+                    game.SetBlockTime(this, createBeat, createLength);
+                }
+                else
+                {
+                    moving = false;
+                    Jukebox.PlayOneShotGame("builtToScaleDS/Sink");
+                }
             }
         }
 
