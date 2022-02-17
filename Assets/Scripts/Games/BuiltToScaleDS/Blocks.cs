@@ -87,6 +87,8 @@ namespace RhythmHeavenMania.Games.BuiltToScaleDS
             game.Shoot();
             game.SpawnObject(BuiltToScaleDS.BTSObject.MissPieces);
             Destroy(gameObject);
+
+            Jukebox.PlayOneShotGame("builtToScaleDS/Crumble");
         }
 
         public override void OnAce()
