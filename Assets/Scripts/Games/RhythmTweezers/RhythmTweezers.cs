@@ -17,6 +17,7 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
         public SpriteRenderer Vegetable;
         public SpriteRenderer VegetableDupe;
         public Animator VegetableAnimator;
+        public SpriteRenderer bg;
         public Tweezers Tweezers;
         public GameObject hairBase;
         public GameObject longHairBase;
@@ -42,6 +43,7 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
 
         Tween transitionTween;
         bool transitioning = false;
+        Tween bgColorTween;
 
         private static Color _defaultOnionColor;
         public static Color defaultOnionColor
@@ -60,6 +62,16 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
             {
                 ColorUtility.TryParseHtmlString("#FFDC00", out _defaultPotatoColor);
                 return _defaultPotatoColor;
+            }
+        }
+
+        private static Color _defaultBgColor;
+        public static Color defaultBgColor
+        {
+            get
+            {
+                ColorUtility.TryParseHtmlString("#D8FFC1", out _defaultBgColor);
+                return _defaultBgColor;
             }
         }
 
@@ -169,6 +181,29 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
             Vegetable.color = newColor;
             VegetableDupe.sprite = newSprite;
             VegetableDupe.color = newColor;
+        }
+
+        public void ChangeBackgroundColor(Color color, float beats)
+        {
+            var seconds = Conductor.instance.secPerBeat * beats;
+
+            if (bgColorTween != null)
+                bgColorTween.Kill(true);
+
+            if (seconds == 0)
+            {
+                bg.color = color;
+            }
+            else
+            {
+                bgColorTween = bg.DOColor(color, seconds);
+            }
+        }
+
+        public void FadeBackgroundColor(Color start, Color end, float beats)
+        {
+            ChangeBackgroundColor(start, 0f);
+            ChangeBackgroundColor(end, beats);
         }
 
         private void Update()

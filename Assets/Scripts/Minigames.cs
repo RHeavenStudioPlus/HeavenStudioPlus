@@ -216,6 +216,15 @@ namespace RhythmHeavenMania
                     } ),
                     new GameAction("set tweezer delay",     delegate { RhythmTweezers.instance.tweezerBeatOffset = eventCaller.currentEntity.length; }, 1f, true),
                     new GameAction("reset tweezer delay",   delegate { RhythmTweezers.instance.tweezerBeatOffset = 0f; }, 0.5f),
+                    new GameAction("set background color",        delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.ChangeBackgroundColor(e.colorA, 0f); }, 0.5f, false, new List<Param>() 
+                    {
+                        new Param("colorA", RhythmTweezers.defaultBgColor, "Background Color")
+                    } ),
+                    new GameAction("fade background color",        delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.FadeBackgroundColor(e.colorA, e.colorB, e.length); }, 1f, true, new List<Param>() 
+                    {
+                        new Param("colorA", Color.white, "Start Color"),
+                        new Param("colorB", RhythmTweezers.defaultBgColor, "End Color")
+                    } ),
                 }),
                 
                 new Minigame("rhythmRally", "Rhythm Rally \n<color=#eb5454>[WIP don't use]</color>", "B888F8", true, false, new List<GameAction>()
