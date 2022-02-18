@@ -74,7 +74,7 @@ namespace RhythmHeavenMania.Games.BuiltToScaleDS
                 var ev = blockEvents[i];
                 if (spawnedBlockEvents.Contains(ev)) continue; // Don't spawn the same blocks multiple times.
 
-                var spawnBeat = ev.beat - (ev.length * 0.5f);
+                var spawnBeat = ev.beat - ev.length;
                 if (currentBeat > spawnBeat && currentBeat < ev.beat + ev.length)
                 {
                     SpawnBlocks(spawnBeat, ev.length);
@@ -125,18 +125,21 @@ namespace RhythmHeavenMania.Games.BuiltToScaleDS
         const int blockFramesPerSecond = 24;
         const int blockHitFrame = 39;
         const int blockTotalFrames = 80;
+        const int spawnFrameOffset = -3;
         List<int> criticalFrames = new List<int> { 7, 15, 23, 31, 39, 47 };
         public void SetBlockTime(Blocks blocks, float spawnBeat, float length)
         {
+            float spawnTimeOffset = (float)spawnFrameOffset / (float)blockFramesPerSecond;
+
             float secondsPerFrame = 1f / blockFramesPerSecond;
             float secondsToHitFrame = secondsPerFrame * blockHitFrame;
 
             float secondsPerBeat = Conductor.instance.secPerBeat;
-            float secondsToHitBeat = secondsPerBeat * 4.5f * length;
+            float secondsToHitBeat = secondsPerBeat * 5f * length + spawnTimeOffset;
 
             float speedMult = secondsToHitFrame / secondsToHitBeat;
 
-            float secondsPastSpawnTime = secondsPerBeat * (Conductor.instance.songPositionInBeats - spawnBeat);
+            float secondsPastSpawnTime = secondsPerBeat * (Conductor.instance.songPositionInBeats - spawnBeat) + spawnTimeOffset;
             float framesPastSpawnTime = blockFramesPerSecond * speedMult * secondsPastSpawnTime;
             
             // The only way I could deal with Unity's interpolation shenanigans without having a stroke.
