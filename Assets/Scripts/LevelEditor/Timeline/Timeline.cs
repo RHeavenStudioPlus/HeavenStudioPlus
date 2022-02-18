@@ -64,7 +64,7 @@ namespace RhythmHeavenMania.Editor.Track
         [SerializeField] private RectTransform TimelineSlider;
         [SerializeField] private RectTransform TimelineGridSelect;
         [SerializeField] private TMP_Text TimelinePlaybackBeat;
-        [SerializeField] private RectTransform TimelineContent;
+        public RectTransform TimelineContent;
         [SerializeField] private RectTransform TimelineSongPosLineRef;
         [SerializeField] private RectTransform TimelineEventObjRef;
         [SerializeField] private RectTransform LayersRect;
