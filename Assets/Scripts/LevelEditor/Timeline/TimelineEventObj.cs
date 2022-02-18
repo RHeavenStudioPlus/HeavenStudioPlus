@@ -83,14 +83,13 @@ namespace RhythmHeavenMania.Editor.Track
 
             // thank you to @chrislo27 for suggesting the fix for this.
             // only renders blocks if they're in view of the timeline viewport
-            bool visible = rectTransform.IsVisibleFrom(Editor.instance.EditorCamera);
             var leftSide = rectTransform.localPosition.x;
             var rightSide = leftSide + rectTransform.sizeDelta.x;
 
             var timelineLeftSide = (Timeline.instance.TimelineContent.localPosition.x / 100f) * -1;
             var timelineRightSide = timelineLeftSide + 10.563f; // what a magic number, i'm sure I could calculate this but I'm lazy
 
-            visible = (rightSide >= timelineLeftSide && leftSide <= timelineRightSide);
+            bool visible = (rightSide >= timelineLeftSide && leftSide <= timelineRightSide);
 
 
             if (visible != lastVisible)
