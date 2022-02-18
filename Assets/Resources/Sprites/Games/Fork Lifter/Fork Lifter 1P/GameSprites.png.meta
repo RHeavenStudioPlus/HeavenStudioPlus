@@ -104,6 +104,9 @@ TextureImporter:
   - first:
       213: -1034245189476724474
     second: fast_green2
+  - first:
+      213: -3488482804671198197
+    second: eat_fingers
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -873,7 +876,7 @@ TextureImporter:
         width: 102
         height: 46
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -894,7 +897,7 @@ TextureImporter:
         width: 102
         height: 46
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -902,6 +905,27 @@ TextureImporter:
       bones: []
       spriteID: 6015596da7f95a1f0800000000000000
       internalID: -1034245189476724474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: eat_fingers
+      rect:
+        serializedVersion: 2
+        x: 778
+        y: 706
+        width: 156
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0cc3863f5b669fc0800000000000000
+      internalID: -3488482804671198197
       vertices: []
       indices: 
       edges: []
