@@ -24,7 +24,7 @@ namespace RhythmHeavenMania.Games.BuiltToScaleDS
         {
             if (!moving) return;
 
-            var windupBeat = createBeat + (createLength * 3.5f);
+            var windupBeat = createBeat + (createLength * 4f);
             var hitBeat = windupBeat + createLength;
             var currentBeat = Conductor.instance.songPositionInBeats;
 
