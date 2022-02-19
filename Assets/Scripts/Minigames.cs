@@ -13,6 +13,7 @@ using RhythmHeavenMania.Games.DJSchool;
 using RhythmHeavenMania.Games.RhythmTweezers;
 using RhythmHeavenMania.Games.RhythmRally;
 using RhythmHeavenMania.Games.BuiltToScaleDS;
+using RhythmHeavenMania.Games.TapTrial;
 
 namespace RhythmHeavenMania
 {
@@ -240,10 +241,10 @@ namespace RhythmHeavenMania
                 {
                     new GameAction("spawn blocks",          delegate { }, 1f, true)
                 }),
-                /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
+                new Minigame("tapTrial", "Tap Trial", "B888F8", false, false, new List<GameAction>()
                 {
                 }),
-                new Minigame("tapTrial", "Tap Trial", "B888F8", new List<GameAction>()
+                /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
                 }),
                 new Minigame("sneakySpirits", "Sneaky Spirits", "B888F8", new List<GameAction>()
