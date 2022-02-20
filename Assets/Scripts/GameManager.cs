@@ -34,7 +34,7 @@ namespace RhythmHeavenMania
         public float startOffset;
         public bool playOnStart;
         public float startBeat;
-        private GameObject currentGameO;
+        [NonSerialized] public GameObject currentGameO;
         public bool autoplay;
 
         public event Action<float> onBeatChanged;
