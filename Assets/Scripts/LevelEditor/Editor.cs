@@ -134,6 +134,14 @@ namespace RhythmHeavenMania.Editor
                 {
                     CommandManager.instance.Redo();
                 }
+
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    if (Input.GetKeyDown(KeyCode.D))
+                    {
+                        ToggleDebugCam();
+                    }
+                }
             }
 
             if (Timeline.instance.timelineState.selected && Editor.instance.canSelect)
@@ -414,6 +422,19 @@ namespace RhythmHeavenMania.Editor
         public static bool MouseInRectTransform(RectTransform rectTransform)
         {
             return (rectTransform.gameObject.activeSelf && RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, Editor.instance.EditorCamera));
+        }
+
+        public void ToggleDebugCam()
+        {
+            var game = GameManager.instance.currentGameO;
+
+            if (game != null)
+            {
+                foreach(FreeCam c in game.GetComponentsInChildren<FreeCam>(true))
+                {
+                    c.enabled = !c.enabled;
+                }
+            }
         }
     }
 }
