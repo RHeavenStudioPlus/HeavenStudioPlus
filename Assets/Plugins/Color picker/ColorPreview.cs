@@ -40,4 +40,9 @@ public class ColorPreview : MonoBehaviour
         if (colorPicker != null)
             colorPicker.onColorChanged -= OnColorChanged;
     }
+
+    public void SetColorFromTMP()
+    {
+        SetColorFromHex(hex.text);
+    }
 }

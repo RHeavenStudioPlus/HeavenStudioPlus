@@ -150,7 +150,7 @@ namespace RhythmHeavenMania
                     new GameAction("shootHigh",             delegate { Spaceball.instance.Shoot(eventCaller.currentEntity.beat, true, eventCaller.currentEntity.type); }, 3),
                     new GameAction("costume",               delegate { Spaceball.instance.Costume(eventCaller.currentEntity.type); }, 1f, false, new List<Param>() 
                     {
-                        new Param("type", new EntityTypes.Integer(0, 2), "Type") 
+                        new Param("type", Spaceball.CostumeType.Standard, "Type") 
                     } ),
                     new GameAction("alien",                 delegate { Spaceball.instance.alien.Show(eventCaller.currentEntity.beat); } ),
                     new GameAction("camera",                delegate { Spaceball.instance.OverrideCurrentZoom(); }, 4, true, new List<Param>() 
@@ -205,13 +205,13 @@ namespace RhythmHeavenMania
                     new GameAction("long hair",             delegate { RhythmTweezers.instance.SpawnLongHair(eventCaller.currentEntity.beat); }, 0.5f),
                     new GameAction("next vegetable",        delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.NextVegetable(e.beat, e.type, e.colorA, e.colorB); }, 0.5f, false, new List<Param>() 
                     {
-                        new Param("type", new EntityTypes.Integer(0, 1), "Type"),
+                        new Param("type", RhythmTweezers.VegetableType.Onion, "Type"),
                         new Param("colorA", RhythmTweezers.defaultOnionColor, "Onion Color"),
                         new Param("colorB", RhythmTweezers.defaultPotatoColor, "Potato Color")
                     } ),
                     new GameAction("change vegetable",      delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.ChangeVegetableImmediate(e.type, e.colorA, e.colorB); }, 0.5f, false, new List<Param>() 
                     {
-                        new Param("type", new EntityTypes.Integer(0, 1), "Type"),
+                        new Param("type", RhythmTweezers.VegetableType.Onion, "Type"),
                         new Param("colorA", RhythmTweezers.defaultOnionColor, "Onion Color"),
                         new Param("colorB", RhythmTweezers.defaultPotatoColor, "Potato Color")
                     } ),
