@@ -9,6 +9,7 @@
 ## Art
 * Ko Takeuchi
 * Starpelly
+* Megaminerzero
 * flaticon.com
 
 ## Fonts
