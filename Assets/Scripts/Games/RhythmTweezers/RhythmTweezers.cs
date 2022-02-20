@@ -12,6 +12,12 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
     // use PlayerActionObject for the actual tweezers but this isn't playable rn so IDC
     public class RhythmTweezers : Minigame
     {
+        public enum VegetableType
+        {
+            Onion,
+            Potato
+        }
+
         [Header("References")]
         public Transform VegetableHolder;
         public SpriteRenderer Vegetable;

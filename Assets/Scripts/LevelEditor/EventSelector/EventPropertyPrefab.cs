@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 using TMPro;
 using Starpelly;
@@ -84,12 +85,12 @@ namespace RhythmHeavenMania.Editor
                     parameterManager.entity[propertyName] = slider.value;
                 });
             }
-            else if (objType == typeof(EasingFunction.Ease))
+            else if (objType.IsEnum)
             {
                 List<TMP_Dropdown.OptionData> dropDownData = new List<TMP_Dropdown.OptionData>();
-                for (int i = 0; i < System.Enum.GetValues(typeof(EasingFunction.Ease)).Length; i++)
+                for (int i = 0; i < System.Enum.GetValues(objType).Length; i++)
                 {
-                    string name = System.Enum.GetNames(typeof(EasingFunction.Ease))[i];
+                    string name = System.Enum.GetNames(objType)[i];
                     TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData();
 
                     optionData.text = name;
@@ -97,11 +98,11 @@ namespace RhythmHeavenMania.Editor
                     dropDownData.Add(optionData);
                 }
                 dropdown.AddOptions(dropDownData);
-                dropdown.value = ((int)(EasingFunction.Ease)parameterManager.entity[propertyName]);
+                dropdown.value = ((int)Enum.Parse(objType, parameterManager.entity[propertyName].ToString()));
 
                 dropdown.onValueChanged.AddListener(delegate 
                 {
-                    parameterManager.entity[propertyName] = (EasingFunction.Ease)dropdown.value;
+                    parameterManager.entity[propertyName] = Enum.ToObject(objType, dropdown.value);
                 });
             }
             else if (objType == typeof(Color))
