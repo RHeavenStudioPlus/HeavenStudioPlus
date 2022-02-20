@@ -16,6 +16,9 @@ namespace RhythmHeavenMania.Games.DJSchool
         public float holdBeat;
         public float swipeBeat;
         public bool isHolding;
+        public bool shouldBeHolding;
+        public bool eligible;
+        public bool missed;
 
         [Header("Components")]
         [SerializeField] private SpriteRenderer flash;
@@ -24,49 +27,88 @@ namespace RhythmHeavenMania.Games.DJSchool
         [SerializeField] private GameObject TurnTable;
         [SerializeField] private GameObject slamFX;
 
+        private Animator tableAnim;
+
+        private DJSchool game;
+
         private void Start()
         {
+            game = DJSchool.instance;
             anim = GetComponent<Animator>();
-            TurnTable.GetComponent<Animator>().speed = 0;
+            tableAnim = TurnTable.GetComponent<Animator>();
+            tableAnim.speed = 0;
         }
 
         private void Update()
         {
-            if (!isHolding)
+            float beatToUse = shouldBeHolding ? swipeBeat : holdBeat;
+            float normalizedBeat = Conductor.instance.GetPositionFromMargin(beatToUse + 2, 1);
+
+            if (eligible)
             {
-                float normalizedBeatHold = Conductor.instance.GetPositionFromBeat(holdBeat, 2);
+                StateCheck(normalizedBeat);
 
-                StateCheck(normalizedBeatHold);
-
-                if (PlayerInput.Pressed())
+                if (normalizedBeat > Minigame.LateTime())
                 {
-                    if (state.perfect)
+                    eligible = false;
+                    missed = true;
+
+                    if (shouldBeHolding)
                     {
-                        Hold(true);
+                        shouldBeHolding = false;
                     }
                     else
                     {
-                        Hold(false);
+                        shouldBeHolding = true;
+                        game.SetDJYellowHead(3);
                     }
                 }
             }
-            else if (isHolding)
+
+            if (!isHolding)
             {
-                float normalizedBeatSwipe = Conductor.instance.GetPositionFromBeat(swipeBeat, 2);
-
-                StateCheck(normalizedBeatSwipe);
-
-                print(normalizedBeatSwipe); ;
-
-                if (PlayerInput.PressedUp())
+                if (PlayerInput.Pressed())
                 {
-                    if (state.perfect)
+                    if (!shouldBeHolding && state.perfect && eligible)
                     {
-                        Swipe();
+                        Hold(true);
+                        eligible = false;
                     }
                     else
                     {
-                        UnHold();
+                        if (!shouldBeHolding)
+                            eligible = false;
+
+                        Hold(false);
+
+                        missed = true;
+                        game.SetDJYellowHead(3, true);
+                    }
+                }
+            }
+            else
+            {
+                if (PlayerInput.PressedUp())
+                {
+                    if (shouldBeHolding && state.perfect && eligible)
+                    {
+                        Swipe(true);
+                        eligible = false;
+                    }
+                    else
+                    {
+                        if (shouldBeHolding)
+                        {
+                            Swipe(false);
+                            eligible = false;
+                        }
+                        else
+                        {
+                            UnHold();
+                        }
+
+                        missed = true;
+                        game.SetDJYellowHead(3);
                     }
                 }
             }
@@ -75,6 +117,13 @@ namespace RhythmHeavenMania.Games.DJSchool
         public void Hold(bool ace)
         {
             isHolding = true;
+            
+            if (ace)
+            {
+                missed = false;
+                shouldBeHolding = true;
+                game.SetDJYellowHead(1);
+            }
 
             Jukebox.PlayOneShotGame("djSchool/recordStop");
             anim.Play("Hold", 0, 0);
@@ -91,27 +140,49 @@ namespace RhythmHeavenMania.Games.DJSchool
         {
             isHolding = false;
 
-            anim.speed = -1;
-            anim.Play("Hold", 0, 0);
+            anim.Play("Unhold", 0, 0);
 
             // Settings.GetMusicMixer().audioMixer.FindSnapshot("Main").TransitionTo(0.15f);
         }
 
-        public void Swipe()
+        public void Swipe(bool ace)
         {
             isHolding = false;
+            
+            if (ace)
+            {
+                missed = false;
+                shouldBeHolding = false;
+                Jukebox.PlayOneShotGame("djSchool/recordSwipe");
+                FlashFX(false);
+            }
+            else
+            {
+                // Missed record swipe sound should play here.
+            }
 
-            Jukebox.PlayOneShotGame("djSchool/recordSwipe");
             anim.Play("Swipe", 0, 0);
 
-            FlashFX(false);
-
-            TurnTable.GetComponent<Animator>().speed = 1;
-            TurnTable.GetComponent<Animator>().Play("Student_Turntable_Swipe", 0, 0);
+            tableAnim.speed = 1;
+            tableAnim.Play("Student_Turntable_Swipe", 0, 0);
 
             Instantiate(slamFX).SetActive(true);
 
             // Settings.GetMusicMixer().audioMixer.FindSnapshot("Main").TransitionTo(0.15f);
+        }
+
+        public override void OnAce()
+        {
+            if (!shouldBeHolding)
+            {
+                Hold(true);
+            }
+            else
+            {
+                Swipe(true);
+            }
+
+            eligible = false;
         }
 
         private void FlashFX(bool inverse)
