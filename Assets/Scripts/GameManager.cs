@@ -124,8 +124,8 @@ namespace RhythmHeavenMania
             }
         }
 
-        // LateUpdate works a bit better but causes a bit of bugs, so remind me to fix those eventually
-        private void LateUpdate()
+        // LateUpdate works a bit better(?) but causes some bugs (like issues with bop animations).
+        private void Update()
         {
             if (Beatmap.entities.Count < 1)
                 return;
