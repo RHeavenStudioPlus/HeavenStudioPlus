@@ -16,7 +16,7 @@
 [Full Progress and games list](https://docs.google.com/spreadsheets/d/1Z-HbLKg88Z68dGMGXOut97ew9giVdouMdmActkaSjK4/edit?usp=sharing)
 
 ![image](https://user-images.githubusercontent.com/24588691/147578029-c0ca76eb-34a4-48ad-a27e-480cc3966b38.png)
-![image](https://user-images.githubusercontent.com/24588691/151109983-a4475df0-5669-4ccc-a2fb-2a2587b28820.png)
+![image](https://user-images.githubusercontent.com/40370440/154824159-07800021-9264-4293-92cf-d3f6e0155f5b.png)
 
 
 ## Self-Building
