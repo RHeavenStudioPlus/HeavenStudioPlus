@@ -106,7 +106,7 @@ namespace RhythmHeavenMania.Editor
             {
                 prefab = FloatP;
             }
-            else if (objType == typeof(RhythmHeavenMania.Util.EasingFunction.Ease))
+            else if (objType.IsEnum)
             {
                 prefab = DropdownP;
             }

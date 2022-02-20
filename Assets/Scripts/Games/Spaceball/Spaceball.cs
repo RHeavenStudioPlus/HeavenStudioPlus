@@ -8,6 +8,12 @@ namespace RhythmHeavenMania.Games.Spaceball
 {
     public class Spaceball : Minigame
     {
+        public enum CostumeType {
+            Standard,
+            Bunny,
+            SphereHead
+        }
+
         public GameObject Ball;
         public GameObject BallsHolder;
 
