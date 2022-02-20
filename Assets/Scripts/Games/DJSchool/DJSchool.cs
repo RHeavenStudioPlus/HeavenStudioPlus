@@ -7,6 +7,13 @@ namespace RhythmHeavenMania.Games.DJSchool
 {
     public class DJSchool : Minigame
     {
+        public enum DJVoice
+        {
+            Standard,
+            Cool,
+            Hyped
+        }
+
         [Header("Components")]
         [SerializeField] private Student student;
         [SerializeField] private GameObject djYellow;
@@ -32,9 +39,11 @@ namespace RhythmHeavenMania.Games.DJSchool
 
         private void Update()
         {
-            if (Conductor.instance.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1))
+            var cond = Conductor.instance;
+
+            if (cond.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1))
             {
-                if (Conductor.instance.songPositionInBeats >= bop.startBeat && Conductor.instance.songPositionInBeats < bop.startBeat + bop.length)
+                if (cond.songPositionInBeats >= bop.startBeat && cond.songPositionInBeats < bop.startBeat + bop.length)
                 {
                     if (student.anim.IsAnimationNotPlaying())
                     {
@@ -49,6 +58,12 @@ namespace RhythmHeavenMania.Games.DJSchool
                     }
                     if (djYellowAnim.IsAnimationNotPlaying())
                     {
+                        var yellowState = djYellowAnim.GetCurrentAnimatorStateInfo(0);
+                        if (yellowState.IsName("Hey"))
+                        {
+                            PostScratchoFace();
+                        }
+
                         if (djYellowHolding)
                         {
                             djYellowAnim.Play("HoldBop", 0, 0);
@@ -75,20 +90,18 @@ namespace RhythmHeavenMania.Games.DJSchool
 
             string[] sounds = new string[] { };
 
-            if (type == 0)
+            switch (type)
             {
-                sounds = new string[] { "djSchool/breakCmon1", "djSchool/breakCmon2", "djSchool/ooh" };
+                case 0:
+                    sounds = new string[] { "djSchool/breakCmon1", "djSchool/breakCmon2", "djSchool/ooh" };
+                    break;
+                case 1:
+                    sounds = new string[] { "djSchool/breakCmonAlt1", "djSchool/breakCmonAlt2", "djSchool/oohAlt" };
+                    break;
+                case 2:
+                    sounds = new string[] { "djSchool/breakCmonLoud1", "djSchool/breakCmonLoud2", "djSchool/oohLoud" };
+                    break;
             }
-            else if (type == 1)
-            {
-                sounds = new string[] { "djSchool/breakCmonAlt1", "djSchool/breakCmonAlt2", "djSchool/oohAlt" };
-            }
-            else if (type == 2)
-            {
-                SetDJYellowHead(2);
-                sounds = new string[] { "djSchool/breakCmonLoud1", "djSchool/breakCmonLoud2", "djSchool/oohLoud" };
-            }
-
 
             MultiSound.Play(new MultiSound.Sound[]
             {
@@ -105,11 +118,11 @@ namespace RhythmHeavenMania.Games.DJSchool
                 { 
                     djYellow.GetComponent<Animator>().Play("Hold", 0, 0); 
                     djYellowHolding = true;
-                    SetDJYellowHead(1);
                 }),
             });
             
             student.holdBeat = beat;
+            student.eligible = true;
             student.ResetState();
         }
 
@@ -131,11 +144,11 @@ namespace RhythmHeavenMania.Games.DJSchool
                 {
                     djYellow.GetComponent<Animator>().Play("Hold", 0, 0);
                     djYellowHolding = true;
-                    SetDJYellowHead(1);
                 }),
             });
 
             student.holdBeat = beat - 0.5f;
+            student.eligible = true;
             student.ResetState();
         }
 
@@ -177,12 +190,44 @@ namespace RhythmHeavenMania.Games.DJSchool
             });
 
             student.swipeBeat = beat;
+            student.eligible = true;
             student.ResetState();
         }
 
-        private void SetDJYellowHead(int type)
+        public void SetDJYellowHead(int type, bool resetAfterBeats = false)
         {
             headSprite.sprite = headSprites[type];
+
+            if (resetAfterBeats)
+            {
+                BeatAction.New(djYellow, new List<BeatAction.Action>()
+                {
+                    new BeatAction.Action(Mathf.Floor(Conductor.instance.songPositionInBeats) + 2f, delegate 
+                    { 
+                        var yellowState = djYellowAnim.GetCurrentAnimatorStateInfo(0);
+                        if (yellowState.IsName("Idle")
+                            || yellowState.IsName("IdleBop")
+                            || yellowState.IsName("IdleBop2")
+                            || yellowState.IsName("BreakCmon"))
+                        {
+                            SetDJYellowHead(0);
+                        }
+                    })
+                });
+            }
+        }
+
+        public void PostScratchoFace()
+        {
+            if (student.missed)
+            {
+                student.missed = false;
+                SetDJYellowHead(3, true);
+            }
+            else
+            {
+                SetDJYellowHead(2, true);
+            }
         }
     }
 }

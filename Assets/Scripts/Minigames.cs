@@ -191,11 +191,11 @@ namespace RhythmHeavenMania
                     new GameAction("and stop ooh",          delegate { DJSchool.instance.AndStop(eventCaller.currentEntity.beat);  }, 2.5f),
                     new GameAction("break c'mon ooh",       delegate { DJSchool.instance.BreakCmon(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);  }, 3f, false, new List<Param>()
                     {
-                        new Param("type", new EntityTypes.Integer(0, 2, 0), "Type"),
+                        new Param("type", DJSchool.DJVoice.Standard, "Voice"),
                     }),
                     new GameAction("scratch-o hey",         delegate { DJSchool.instance.ScratchoHey(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);  }, 3f, false, new List<Param>()
                     {
-                        new Param("type", new EntityTypes.Integer(0, 2, 0), "Type"),
+                        new Param("type", DJSchool.DJVoice.Standard, "Voice"),
                     }),
                 }),
                 new Minigame("rhythmTweezers", "Rhythm Tweezers", "98b389", false, false, new List<GameAction>()
