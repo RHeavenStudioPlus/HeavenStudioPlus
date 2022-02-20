@@ -85,9 +85,9 @@ namespace RhythmHeavenMania.Games.Spaceball
 
                 if (normalizedBeat >= 0)
                 {
-                    if (normalizedBeat > Minigame.EndTime())
+                    if (normalizedBeat > 1)
                     {
-                        // lastCamDistance = GameCamera.instance.camera.transform.localPosition.z;
+                        GameCamera.instance.camera.transform.localPosition = new Vector3(0, 0, currentZoomCamDistance);
                     }
                     else
                     {
