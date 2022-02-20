@@ -125,7 +125,7 @@ namespace RhythmHeavenMania
         }
 
         // LateUpdate works a bit better but causes a bit of bugs, so remind me to fix those eventually
-        private void Update()
+        private void LateUpdate()
         {
             if (Beatmap.entities.Count < 1)
                 return;

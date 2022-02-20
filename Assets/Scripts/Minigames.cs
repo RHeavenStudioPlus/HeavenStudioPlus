@@ -13,6 +13,7 @@ using RhythmHeavenMania.Games.DJSchool;
 using RhythmHeavenMania.Games.RhythmTweezers;
 using RhythmHeavenMania.Games.RhythmRally;
 using RhythmHeavenMania.Games.BuiltToScaleDS;
+using RhythmHeavenMania.Games.TapTrial;
 
 namespace RhythmHeavenMania
 {
@@ -208,7 +209,7 @@ namespace RhythmHeavenMania
                         new Param("colorA", RhythmTweezers.defaultOnionColor, "Onion Color"),
                         new Param("colorB", RhythmTweezers.defaultPotatoColor, "Potato Color")
                     } ),
-                    new GameAction("change vegetable",        delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.ChangeVegetableImmediate(e.type, e.colorA, e.colorB); }, 0.5f, false, new List<Param>() 
+                    new GameAction("change vegetable",      delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.ChangeVegetableImmediate(e.type, e.colorA, e.colorB); }, 0.5f, false, new List<Param>() 
                     {
                         new Param("type", new EntityTypes.Integer(0, 1), "Type"),
                         new Param("colorA", RhythmTweezers.defaultOnionColor, "Onion Color"),
@@ -216,34 +217,39 @@ namespace RhythmHeavenMania
                     } ),
                     new GameAction("set tweezer delay",     delegate { RhythmTweezers.instance.tweezerBeatOffset = eventCaller.currentEntity.length; }, 1f, true),
                     new GameAction("reset tweezer delay",   delegate { RhythmTweezers.instance.tweezerBeatOffset = 0f; }, 0.5f),
-                    new GameAction("set background color",        delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.ChangeBackgroundColor(e.colorA, 0f); }, 0.5f, false, new List<Param>() 
+                    new GameAction("set background color",  delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.ChangeBackgroundColor(e.colorA, 0f); }, 0.5f, false, new List<Param>() 
                     {
                         new Param("colorA", RhythmTweezers.defaultBgColor, "Background Color")
                     } ),
-                    new GameAction("fade background color",        delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.FadeBackgroundColor(e.colorA, e.colorB, e.length); }, 1f, true, new List<Param>() 
+                    new GameAction("fade background color", delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.FadeBackgroundColor(e.colorA, e.colorB, e.length); }, 1f, true, new List<Param>() 
                     {
                         new Param("colorA", Color.white, "Start Color"),
                         new Param("colorB", RhythmTweezers.defaultBgColor, "End Color")
                     } ),
                 }),
                 
-                new Minigame("rhythmRally", "Rhythm Rally \n<color=#eb5454>[WIP don't use]</color>", "B888F8", true, false, new List<GameAction>()
+                new Minigame("rhythmRally", "Rhythm Rally \n<color=#eb5454>[WIP don't use]</color>", "00e700", true, false, new List<GameAction>()
                 {
                     new GameAction("bop",                   delegate { RhythmRally.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 0.5f, true),
                     new GameAction("rally",                 delegate { RhythmRally.instance.Serve(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.Normal); }, 4f, true),
-                    new GameAction("slow rally",                 delegate { RhythmRally.instance.Serve(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.Slow); }, 8f, true),
-                    new GameAction("fast rally",    delegate { RhythmRally.instance.PrepareFastRally(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.Fast); }, 6f),
-                    new GameAction("superfast rally",    delegate { RhythmRally.instance.PrepareFastRally(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.SuperFast); }, 12f),
-                    new GameAction("pose",    delegate { RhythmRally.instance.Pose(); }, 0.5f),
+                    new GameAction("slow rally",            delegate { RhythmRally.instance.Serve(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.Slow); }, 8f, true),
+                    new GameAction("fast rally",            delegate { RhythmRally.instance.PrepareFastRally(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.Fast); }, 6f),
+                    new GameAction("superfast rally",       delegate { RhythmRally.instance.PrepareFastRally(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.SuperFast); }, 12f),
+                    new GameAction("pose",                  delegate { RhythmRally.instance.Pose(); }, 0.5f),
                 }),
                 new Minigame("builtToScaleDS", "Built To Scale (DS) \n<color=#eb5454>[WIP don't use]</color>", "B888F8", true, false, new List<GameAction>()
                 {
                     new GameAction("spawn blocks",          delegate { }, 1f, true)
                 }),
-                /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
+                new Minigame("tapTrial", "Tap Trial", "93ffb3", false, false, new List<GameAction>()
                 {
+                    new GameAction("tap",                   delegate { TapTrial.instance.Tap(eventCaller.currentEntity.beat); }, 1.5f, false),
+                    new GameAction("double tap",            delegate { TapTrial.instance.DoubleTap(eventCaller.currentEntity.beat); }, 2.0f, false),
+                    new GameAction("triple tap",            delegate { TapTrial.instance.TripleTap(eventCaller.currentEntity.beat); }, 4.0f, false),
+                    new GameAction("jump tap",              delegate { TapTrial.instance.JumpTap(eventCaller.currentEntity.beat); }, 2.0f, false),
+                    new GameAction("final jump tap",        delegate { TapTrial.instance.FinalJumpTap(eventCaller.currentEntity.beat); }, 2.0f, false),
                 }),
-                new Minigame("tapTrial", "Tap Trial", "B888F8", new List<GameAction>()
+                /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
                 }),
                 new Minigame("sneakySpirits", "Sneaky Spirits", "B888F8", new List<GameAction>()
