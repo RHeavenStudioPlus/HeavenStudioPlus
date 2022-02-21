@@ -113,17 +113,13 @@ namespace RhythmHeavenMania.Games.DJSchool
             BeatAction.New(djYellow, new List<BeatAction.Action>()
             {
                 new BeatAction.Action(beat, delegate { djYellow.GetComponent<Animator>().Play("BreakCmon", 0, 0); }),
-                new BeatAction.Action(beat + 1f, delegate { djYellow.GetComponent<Animator>().Play("BreakCmon", 0, 0); }),
+                new BeatAction.Action(beat + 1f, delegate { djYellow.GetComponent<Animator>().Play("BreakCmon", 0, 0); SetupCue(beat, false); }),
                 new BeatAction.Action(beat + 2f, delegate 
                 { 
                     djYellow.GetComponent<Animator>().Play("Hold", 0, 0); 
                     djYellowHolding = true;
                 }),
             });
-            
-            student.holdBeat = beat;
-            student.eligible = true;
-            student.ResetState();
         }
 
         public void AndStop(float beat)
@@ -139,17 +135,13 @@ namespace RhythmHeavenMania.Games.DJSchool
 
             BeatAction.New(djYellow, new List<BeatAction.Action>()
             {
-                new BeatAction.Action(beat + 0.5f, delegate { djYellow.GetComponent<Animator>().Play("BreakCmon", 0, 0); }),
+                new BeatAction.Action(beat + 0.5f, delegate { djYellow.GetComponent<Animator>().Play("BreakCmon", 0, 0); SetupCue(beat - 0.5f, false); }),
                 new BeatAction.Action(beat + 1.5f, delegate
                 {
                     djYellow.GetComponent<Animator>().Play("Hold", 0, 0);
                     djYellowHolding = true;
                 }),
             });
-
-            student.holdBeat = beat - 0.5f;
-            student.eligible = true;
-            student.ResetState();
         }
 
         public void ScratchoHey(float beat, int type)
@@ -181,15 +173,22 @@ namespace RhythmHeavenMania.Games.DJSchool
             BeatAction.New(djYellow, new List<BeatAction.Action>()
             {
                 new BeatAction.Action(beat, delegate { djYellow.GetComponent<Animator>().Play("Scratcho", 0, 0); }),
-                new BeatAction.Action(beat + 1f, delegate { djYellow.GetComponent<Animator>().Play("Scratcho2", 0, 0); }),
+                new BeatAction.Action(beat + 1f, delegate { djYellow.GetComponent<Animator>().Play("Scratcho2", 0, 0); SetupCue(beat, true); }),
                 new BeatAction.Action(beat + 2.05f, delegate 
                 { 
                     djYellow.GetComponent<Animator>().Play("Hey", 0, 0);
                     djYellowHolding = false;
                 }),
             });
+        }
 
-            student.swipeBeat = beat;
+        void SetupCue(float beat, bool swipe)
+        {
+            if (swipe)
+                student.swipeBeat = beat;
+            else
+                student.holdBeat = beat;
+            
             student.eligible = true;
             student.ResetState();
         }
