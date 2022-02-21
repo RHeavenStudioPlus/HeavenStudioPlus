@@ -71,6 +71,7 @@ namespace RhythmHeavenMania.Games.DJSchool
                         else
                         {
                             // there is no sprite for the alternate idle bop, oh well
+                            // test message
                             djYellowAnim.Play("IdleBop", 0, 0);
                         }
                     }
