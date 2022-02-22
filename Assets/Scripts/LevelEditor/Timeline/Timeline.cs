@@ -68,6 +68,7 @@ namespace RhythmHeavenMania.Editor.Track
         [SerializeField] private RectTransform TimelineSongPosLineRef;
         [SerializeField] private RectTransform TimelineEventObjRef;
         [SerializeField] private RectTransform LayersRect;
+        public TempoTimeline TempoInfo;
         private RectTransform TimelineSongPosLine;
 
         [Header("Timeline Playbar")]
@@ -83,7 +84,7 @@ namespace RhythmHeavenMania.Editor.Track
 
         public static Timeline instance { get; private set; }
 
-        private bool userIsEditingInputField
+        public bool userIsEditingInputField
         {
             get
             {

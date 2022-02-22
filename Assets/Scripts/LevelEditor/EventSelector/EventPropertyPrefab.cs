@@ -71,12 +71,13 @@ namespace RhythmHeavenMania.Editor
                 slider.maxValue = fl.max;
 
                 slider.value = System.Convert.ToSingle(parameterManager.entity[propertyName]);
-                inputField.text = slider.value.ToString("G4"); // G4 = Display no more than 4 decimal places.
+                inputField.text = slider.value.ToString("G");
 
                 slider.onValueChanged.AddListener(delegate 
                 {
-                    inputField.text = slider.value.ToString("G4");
-                    parameterManager.entity[propertyName] = (float)System.Math.Round(slider.value, 4);
+                    var newValue = (float)System.Math.Round(slider.value, 4);
+                    inputField.text = newValue.ToString("G");
+                    parameterManager.entity[propertyName] = newValue;
                 });
 
                 inputField.onEndEdit.AddListener(delegate 
