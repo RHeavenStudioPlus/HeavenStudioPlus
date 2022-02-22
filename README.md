@@ -13,7 +13,7 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-(Full Progress and games list to be set up)
+[Progress spreadsheet](https://docs.google.com/spreadsheets/d/1NXxIeL4nsdjChrxAZTPpk20QOKEdQWGbXIhT4TclB6k/edit?usp=sharing)
 
 ![image](https://user-images.githubusercontent.com/40370440/155040498-07365bd4-a0eb-40ef-839e-2c5dcfc5141f.png)
 ![image](https://user-images.githubusercontent.com/40370440/154824159-07800021-9264-4293-92cf-d3f6e0155f5b.png)
