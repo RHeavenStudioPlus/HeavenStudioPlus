@@ -1,15 +1,16 @@
-# Credits for Rhythm Heaven Mania
+# Credits for Heaven Studio
 
-## Developed by
-* [Boxsubmus](https://boxsubmus.com)
+## Based on [Rhythm Heaven Mania](https://github.com/RhythmHeavenDevelopment/RhythmHeavenMania) developed by [Boxsubmus](https://boxsubmus.com)
 
 ## Programming
-* Starpelly
 * Megaminerzero
+* Starpelly (Rhythm Heaven Mania programming)
 
 ## Art
-* Ko Takeuchi
-* Starpelly
+* Ko Takeuchi - Base Rhythm Heaven art
+* Starpelly - Rhythm Heaven Mania art and UI
+* Katelyn1118 - UI
+* OctaHeart - Logo
 * flaticon.com
 
 ## Fonts
@@ -21,10 +22,12 @@
 * Original sounds by Nintendo
 * Unity
 * Adobe Photoshop 2022
+* GIMP
 * Roboto Font
 * Rodin Font
 * C#
 * Visual Studio 2022
+* Visual Studio Code
 * Newtonsoft.Json
 * DOTween
 * [Starpelly (The library)](https://github.com/Starpelly/Starpelly)
@@ -33,5 +36,5 @@
 * [NaughtyBezierCurves](https://github.com/dbrizov/NaughtyBezierCurves)
 * [VorbisPlugin](https://github.com/khindemit/unity-wrapper-vorbis)
 
-## Legal Crap
-This software is licensed under GNU GPL-3.0. [LICENSE.MD](https://github.com/RhythmHeavenDevelopment/RhythmHeavenMania/blob/master/LICENSE.md)
+## Legal Info
+This software is licensed under GNU GPL-3.0. [LICENSE.MD](https://github.com/jakobwcrowe/HeavenStudio/blob/master/LICENSE.md)
