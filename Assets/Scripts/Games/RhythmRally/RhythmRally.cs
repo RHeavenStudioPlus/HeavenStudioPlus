@@ -19,8 +19,10 @@ namespace RhythmHeavenMania.Games.RhythmRally
         [Header("Ball and curve info")]
         public GameObject ball;
         public GameObject ballShadow;
+        public TrailRenderer ballTrail;
         public BezierCurve3D serveCurve;
         public BezierCurve3D returnCurve;
+        public BezierCurve3D tossCurve;
         public GameObject ballHitFX;
 
 
@@ -33,8 +35,11 @@ namespace RhythmHeavenMania.Games.RhythmRally
         public bool started;
         public bool missed;
         public bool served;
+        public bool tossing;
         public float serveBeat;
         public float targetBeat;
+        public float tossBeat;
+        public float tossLength;
         private bool inPose;
 
         public Paddlers paddlers;
@@ -152,6 +157,13 @@ namespace RhythmHeavenMania.Games.RhythmRally
                     curveToUse.transform.localScale = new Vector3(1f, curveHeight, 1f);
                     ball.transform.position = curveToUse.GetPoint(Mathf.Clamp(curvePosition, 0, 1));
                 }
+                else
+                {
+                    if (tossing)
+                    {
+                        TossUpdate(tossBeat, tossLength);
+                    }
+                }
 
                 // TODO: Make conditional so ball shadow only appears when over table.
                 ballShadow.transform.position = new Vector3(ball.transform.position.x, -0.399f, ball.transform.position.z);
@@ -195,12 +207,32 @@ namespace RhythmHeavenMania.Games.RhythmRally
                     {
                         opponentPrepping = true;
                         if ((opponentState.IsName("Swing") && opponentAnim.IsAnimationNotPlaying()) || (!opponentState.IsName("Swing") && !opponentState.IsName("Ready1")))
+                        {
                             opponentAnim.Play("Ready1");
+
+                            // Toss ball if it fell off the table.
+                            if (missed && !tossing)
+                            {
+                                float tossHeight = 3f;
+
+                                if (rallySpeed == RallySpeed.Slow || rallySpeed == RallySpeed.Fast)
+                                    tossHeight = 6f;
+
+                                Toss(hitBeat + beatDur1, beatDur2, tossHeight);
+                            }
+                        }
                         
                         // If player never swung and is still in ready state, snap them out of it.
                         if (missed && playerState.IsName("Ready1"))
                             playerAnim.Play("Beat");
                     }
+                }
+            }
+            else
+            {
+                if (tossing)
+                {
+                    TossUpdate(tossBeat, tossLength);
                 }
             }
 
@@ -213,7 +245,7 @@ namespace RhythmHeavenMania.Games.RhythmRally
                     if (!playerPrepping && (playerAnim.IsAnimationNotPlaying() || playerState.IsName("Idle") || playerState.IsName("Beat")))
                         playerAnim.Play("Beat", 0, 0);
 
-                    if (!opponentPrepping && !opponentServing && (opponentAnim.IsAnimationNotPlaying() || opponentState.IsName("Idle") || opponentState.IsName("Beat")))
+                    if (!opponentPrepping && !opponentServing && !tossing && (opponentAnim.IsAnimationNotPlaying() || opponentState.IsName("Idle") || opponentState.IsName("Beat")))
                         opponentAnim.Play("Beat", 0, 0);
                 }
             }
@@ -233,6 +265,7 @@ namespace RhythmHeavenMania.Games.RhythmRally
             missed = false;
             started = true;
             opponentServing = true;
+            tossing = false;
             
             serveBeat = beat;
             rallySpeed = speed;
@@ -261,6 +294,39 @@ namespace RhythmHeavenMania.Games.RhythmRally
             paddlers.BounceFX(bounceBeat);
 
             paddlers.ResetState();
+        }
+
+        public void Toss(float beat, float length, float height, bool firstToss = false)
+        {
+            tossCurve.transform.localScale = new Vector3(1f, height, 1f);
+            tossBeat = beat;
+            tossLength = length;
+            tossing = true;
+
+            if (firstToss)
+            {
+                opponentAnim.Play("Ready1");
+                Jukebox.PlayOneShotGame("rhythmRally/Whistle");
+            }
+
+            StartCoroutine(TossTrailCo());
+        }
+
+        // Hide the trail for one frame to avoid shenanigans when teleporting the ball.
+        IEnumerator TossTrailCo()
+        {
+            ballTrail.emitting = false;
+            TossUpdate(tossBeat, tossLength);
+
+            yield return null;
+
+            ballTrail.emitting = true;
+        }
+
+        private void TossUpdate(float beat, float duration)
+        {
+            var tossPosition = Conductor.instance.GetPositionFromBeat(beat, duration);
+            ball.transform.position = tossCurve.GetPoint(Mathf.Clamp(tossPosition, 0, 1));
         }
 
         public void Pose()
