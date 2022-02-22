@@ -70,8 +70,7 @@ namespace RhythmHeavenMania.Games.DJSchool
                         }
                         else
                         {
-                            // there is no sprite for the alternate idle bop, oh well
-                            // test message
+                            // todo: split between left and right bop based on beat
                             djYellowAnim.Play("IdleBop", 0, 0);
                         }
                     }
