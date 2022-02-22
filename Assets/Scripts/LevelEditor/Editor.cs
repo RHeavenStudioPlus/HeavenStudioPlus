@@ -281,7 +281,7 @@ namespace RhythmHeavenMania.Editor
         {
             var extensions = new[]
             {
-                new ExtensionFilter("Rhythm Heaven Mania Remix File", "rhmania")
+                new ExtensionFilter("Heaven Studio Remix File", "tengoku")
             };
 
             StandaloneFileBrowser.SaveFilePanelAsync("Save Remix As", "", "remix_level", extensions, (string path) =>
@@ -323,7 +323,7 @@ namespace RhythmHeavenMania.Editor
         {
             var extensions = new[]
             {
-                new ExtensionFilter("Rhythm Heaven Mania Remix File", "rhmania")
+                new ExtensionFilter("Heaven Studio Remix File", new string[] { "tengoku", "rhmania" })
             };
 
             StandaloneFileBrowser.OpenFilePanelAsync("Open Remix", "", extensions, false, (string[] paths) =>

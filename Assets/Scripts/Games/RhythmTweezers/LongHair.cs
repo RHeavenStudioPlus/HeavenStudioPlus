@@ -39,7 +39,7 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
                     stateBeat = Conductor.instance.GetPositionFromMargin(createBeat + game.tweezerBeatOffset + game.beatInterval, 1f);
                     StateCheck(stateBeat);
 
-                    if (PlayerInput.Pressed())
+                    if (PlayerInput.Pressed(true))
                     {
                         if (state.perfect)
                         {
@@ -60,7 +60,7 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
                     stateBeat = Conductor.instance.GetPositionFromMargin(createBeat + game.tweezerBeatOffset + game.beatInterval + 0.5f, 1f);
                     StateCheck(stateBeat);
 
-                    if (PlayerInput.PressedUp())
+                    if (PlayerInput.PressedUp(true))
                     {
                         // It's possible to release earlier than earlyTime,
                         // and the hair will automatically be released before lateTime,

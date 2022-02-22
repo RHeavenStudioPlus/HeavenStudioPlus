@@ -28,7 +28,7 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
             float stateBeat = Conductor.instance.GetPositionFromMargin(createBeat + game.tweezerBeatOffset + game.beatInterval, 1f);
             StateCheck(stateBeat);
 
-            if (PlayerInput.Pressed())
+            if (PlayerInput.Pressed(true))
             {
                 if (state.perfect)
                 {
