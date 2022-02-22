@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 using TMPro;
 using Starpelly;
@@ -13,13 +14,17 @@ namespace RhythmHeavenMania.Editor.Track
         [Header("Components")]
         private RectTransform rectTransform;
         [SerializeField] private RectTransform RefTempoChange;
-        [SerializeField] private RectTransform StartingBPM;
+        public TMP_InputField StartingBPM;
+        private RectTransform StartingBPMRect;
 
         public List<TempoTimelineObj> tempoTimelineObjs = new List<TempoTimelineObj>();
+
+        private bool firstUpdate;
 
         private void Start()
         {
             rectTransform = this.GetComponent<RectTransform>();
+            StartingBPMRect = StartingBPM.GetComponent<RectTransform>();
 
             for (int i = 0; i < GameManager.instance.Beatmap.tempoChanges.Count; i++)
             {
@@ -30,7 +35,14 @@ namespace RhythmHeavenMania.Editor.Track
 
         private void Update()
         {
-            StartingBPM.GetChild(0).GetComponent<TMP_Text>().text = GameManager.instance.Beatmap.bpm.ToString();
+            if (!firstUpdate)
+            {
+                UpdateStartingBPMText();
+                firstUpdate = true;
+            }
+
+            if (Timeline.instance.userIsEditingInputField)
+                return;
 
             if (Timeline.instance.timelineState.tempoChange && !Conductor.instance.NotStopped())
             {
@@ -45,7 +57,7 @@ namespace RhythmHeavenMania.Editor.Track
                     }
                 }
 
-                if (RectTransformUtility.RectangleContainsScreenPoint(StartingBPM, Input.mousePosition, Editor.instance.EditorCamera))
+                if (RectTransformUtility.RectangleContainsScreenPoint(StartingBPMRect, Input.mousePosition, Editor.instance.EditorCamera))
                 {
                     float increase = Input.mouseScrollDelta.y;
                     if (Input.GetKey(KeyCode.LeftControl))
@@ -53,19 +65,42 @@ namespace RhythmHeavenMania.Editor.Track
                     if (Input.GetKey(KeyCode.LeftShift))
                         increase *= 5f;
 
-                    GameManager.instance.Beatmap.bpm += increase;
-                    StartingBPM.transform.GetChild(0).GetComponent<TMP_Text>().text = GameManager.instance.Beatmap.bpm.ToString();
+                    if (increase != 0f)
+                    {
+                        GameManager.instance.Beatmap.bpm += increase;
+                        UpdateStartingBPMText();
+                    }
                 }
+            }
+        }
 
-                StartingBPM.GetComponent<Image>().enabled = true;
-                StartingBPM.GetComponent<Button>().enabled = true;
-            }
-            else
+        public void UpdateStartingBPMText()
+        {
+            StartingBPM.text = GameManager.instance.Beatmap.bpm.ToString("G");
+        }
+
+        public void UpdateStartingBPMFromText()
+        {
+            // Failsafe against empty string.
+            if (String.IsNullOrEmpty(StartingBPM.text))
+                StartingBPM.text = "120";
+            
+            var newBPM = Convert.ToSingle(StartingBPM.text);
+
+            // Failsafe against negative BPM.
+            if (newBPM < 1f)
             {
-                StartingBPM.GetComponent<Image>().enabled = false;
-                StartingBPM.GetComponent<Button>().enabled = false;
-                StartingBPM.GetComponent<Button>().targetGraphic.color = Color.white;
+                StartingBPM.text = "120";
+                newBPM = 100;
             }
+
+            // Limit decimal places to 4.
+            newBPM = (float)System.Math.Round(newBPM, 4);
+
+            GameManager.instance.Beatmap.bpm = newBPM;
+
+            // In case the newBPM ended up differing from the inputted string.
+            UpdateStartingBPMText();
         }
 
         private void AddTempoChange(bool create, Beatmap.TempoChange tempoChange_ = null)

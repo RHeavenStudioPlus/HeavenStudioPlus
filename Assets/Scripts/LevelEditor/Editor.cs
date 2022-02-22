@@ -350,6 +350,7 @@ namespace RhythmHeavenMania.Editor
                                             string json = Encoding.Default.GetString(bytes);
                                             GameManager.instance.LoadRemix(json);
                                             Timeline.instance.LoadRemix();
+                                            Timeline.instance.TempoInfo.UpdateStartingBPMText();
                                         }
                                     }
                                 }
