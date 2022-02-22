@@ -28,7 +28,7 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
 
         private void LateUpdate()
         {
-            if (PlayerInput.Pressed())
+            if (PlayerInput.Pressed(true))
             {
                 if (!pluckingThisFrame) // Did you do a successful pluck earlier in the frame?
                 {
