@@ -4,7 +4,7 @@ namespace RhythmHeavenMania.DiscordRPC
 {
     public class DiscordRPC : MonoBehaviour
     {
-        public static long clientID = 937480118518042675;
+        public static long clientID = 945877725984477205;
 
         private static void DiscordControllerCheck()
         {
