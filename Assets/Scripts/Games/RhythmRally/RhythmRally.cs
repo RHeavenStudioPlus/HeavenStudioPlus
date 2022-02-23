@@ -306,7 +306,6 @@ namespace RhythmHeavenMania.Games.RhythmRally
             if (firstToss)
             {
                 opponentAnim.Play("Ready1");
-                Jukebox.PlayOneShotGame("rhythmRally/Whistle");
             }
 
             StartCoroutine(TossTrailCo());
@@ -327,6 +326,11 @@ namespace RhythmHeavenMania.Games.RhythmRally
         {
             var tossPosition = Conductor.instance.GetPositionFromBeat(beat, duration);
             ball.transform.position = tossCurve.GetPoint(Mathf.Clamp(tossPosition, 0, 1));
+        }
+
+        public void PlayWhistle()
+        {
+            Jukebox.PlayOneShotGame("rhythmRally/Whistle");
         }
 
         public void Pose()
