@@ -228,7 +228,7 @@ namespace RhythmHeavenMania
                     } ),
                 }),
                 
-                new Minigame("rhythmRally", "Rhythm Rally \n<color=#eb5454>[WIP don't use]</color>", "00e700", true, false, new List<GameAction>()
+                new Minigame("rhythmRally", "Rhythm Rally \n<color=#eb5454>[WIP don't use]</color>", "FFFFFF", true, false, new List<GameAction>()
                 {
                     new GameAction("bop",                   delegate { RhythmRally.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 0.5f, true),
                     new GameAction("toss ball",             delegate { RhythmRally.instance.Toss(eventCaller.currentEntity.beat, eventCaller.currentEntity.length, 6f, true); }, 2f),
@@ -238,11 +238,11 @@ namespace RhythmHeavenMania
                     new GameAction("superfast rally",       delegate { RhythmRally.instance.PrepareFastRally(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.SuperFast); }, 12f),
                     new GameAction("pose",                  delegate { RhythmRally.instance.Pose(); }, 0.5f),
                 }),
-                new Minigame("builtToScaleDS", "Built To Scale (DS) \n<color=#eb5454>[WIP don't use]</color>", "B888F8", true, false, new List<GameAction>()
+                new Minigame("builtToScaleDS", "Built To Scale (DS) \n<color=#eb5454>[WIP don't use]</color>", "00BB00", true, false, new List<GameAction>()
                 {
                     new GameAction("spawn blocks",          delegate { }, 1f, true)
                 }),
-                new Minigame("tapTrial", "Tap Trial", "93ffb3", false, false, new List<GameAction>()
+                new Minigame("tapTrial", "Tap Trial \n<color=#eb5454>[WIP don't use]</color>", "93ffb3", false, false, new List<GameAction>()
                 {
                     new GameAction("tap",                   delegate { TapTrial.instance.Tap(eventCaller.currentEntity.beat); }, 1.5f, false),
                     new GameAction("double tap",            delegate { TapTrial.instance.DoubleTap(eventCaller.currentEntity.beat); }, 2.0f, false),

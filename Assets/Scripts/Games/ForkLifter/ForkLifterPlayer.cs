@@ -60,7 +60,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
                 Stab(null);
             }
 
-            print(hitOnFrame);
+            // print(hitOnFrame);
 
             if (ForkLifter.instance.EligibleHits.Count == 0)
             {
