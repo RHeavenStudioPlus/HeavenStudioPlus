@@ -57,7 +57,7 @@ namespace RhythmHeavenMania.DiscordRPC
                 Assets =
                 {
                         LargeImage = "logo",
-                        LargeText = "Rhythm Heaven Mania is based on the Rhythm Heaven series that attempts to recreate every minigame with customizability!"
+                        LargeText = "Together now!"
                 },
                 Instance = true,
             };
