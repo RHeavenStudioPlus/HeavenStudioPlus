@@ -303,7 +303,6 @@ namespace RhythmHeavenMania
             this.GetComponent<SpriteRenderer>().enabled = true;
 
             SetGame(game);
-            GameCamera.transform.localPosition = new Vector3(GameCamera.transform.localPosition.x, GameCamera.transform.localPosition.y, -10);
 
             yield return new WaitForSeconds(0.1f);
 
@@ -347,6 +346,8 @@ namespace RhythmHeavenMania
             }*/
 
             SetCurrentGame(game);
+
+            ResetCamera();
         }
 
         private void PreloadGame(string game)
@@ -406,6 +407,11 @@ namespace RhythmHeavenMania
                 return Conductor.instance.GetSongPosFromBeat(t) < Conductor.instance.musicSource.clip.length;
             else
                 return true;
+        }
+
+        public void ResetCamera()
+        {
+            GameCamera.transform.localPosition = new Vector3(0, 0, -10);
         }
     }
 }
