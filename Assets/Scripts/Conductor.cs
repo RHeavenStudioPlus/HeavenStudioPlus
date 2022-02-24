@@ -79,16 +79,17 @@ namespace RhythmHeavenMania
 
         public void Play(float beat)
         {
-            this.time = GetSongPosFromBeat(beat);
-            songPosBeat = GetSongPosFromBeat(beat) / secPerBeat; 
+            var startPos = GetSongPosFromBeat(beat);
+            this.time = startPos - firstBeatOffset;
+            songPosBeat = time / secPerBeat; 
 
             isPlaying = true;
             isPaused = false;
 
-            if (SongPosLessThanClipLength(time))
+            if (SongPosLessThanClipLength(startPos))
             {
-                musicSource.time = time;
-                musicSource.PlayScheduled(Time.time);
+                musicSource.time = startPos;
+                musicSource.PlayScheduled(AudioSettings.dspTime);
             }
 
             // GameManager.instance.SetCurrentEventToClosest(songPositionInBeats);
@@ -122,12 +123,14 @@ namespace RhythmHeavenMania
 
             if (isPlaying)
             {
-                time += Time.unscaledDeltaTime * musicSource.pitch;
+                var dt = Time.unscaledDeltaTime * musicSource.pitch;
+
+                time += dt;
 
                 songPos = time;
                 songPosition = songPos;
 
-                songPosBeat += ((Time.unscaledDeltaTime * musicSource.pitch) / secPerBeat);
+                songPosBeat += (dt / secPerBeat);
                 songPositionInBeats = songPosBeat;
                 // songPositionInBeats = Time.deltaTime / secPerBeat;
 

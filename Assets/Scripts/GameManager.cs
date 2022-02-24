@@ -75,6 +75,7 @@ namespace RhythmHeavenMania
             {
                 Beatmap = new Beatmap();
                 Beatmap.bpm = 120f;
+                Beatmap.firstBeatOffset = 0f;
             }
 
             SortEventsList();
@@ -85,6 +86,7 @@ namespace RhythmHeavenMania
             eventCaller.GamesHolder = GamesHolder.transform;
             eventCaller.Init();
             Conductor.instance.SetBpm(Beatmap.bpm);
+            Conductor.instance.firstBeatOffset = Beatmap.firstBeatOffset;
 
             if (playOnStart)
             {
@@ -110,6 +112,7 @@ namespace RhythmHeavenMania
 
             Beatmap = JsonConvert.DeserializeObject<Beatmap>(json);
             Conductor.instance.SetBpm(Beatmap.bpm);
+            Conductor.instance.firstBeatOffset = Beatmap.firstBeatOffset;
             Stop(0);
             SetCurrentEventToClosest(0);
 
@@ -193,6 +196,7 @@ namespace RhythmHeavenMania
             bool paused = Conductor.instance.isPaused;
 
             Conductor.instance.SetBpm(Beatmap.bpm);
+            Conductor.instance.firstBeatOffset = Beatmap.firstBeatOffset;
 
             Conductor.instance.Play(beat);
             if (!paused)

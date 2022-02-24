@@ -16,6 +16,7 @@ namespace RhythmHeavenMania.Editor.Track
         [SerializeField] private RectTransform RefTempoChange;
         public TMP_InputField StartingBPM;
         private RectTransform StartingBPMRect;
+        public TMP_InputField FirstBeatOffset;
 
         public List<TempoTimelineObj> tempoTimelineObjs = new List<TempoTimelineObj>();
 
@@ -38,6 +39,7 @@ namespace RhythmHeavenMania.Editor.Track
             if (!firstUpdate)
             {
                 UpdateStartingBPMText();
+                UpdateOffsetText();
                 firstUpdate = true;
             }
 
@@ -79,6 +81,11 @@ namespace RhythmHeavenMania.Editor.Track
             StartingBPM.text = GameManager.instance.Beatmap.bpm.ToString("G");
         }
 
+        public void UpdateOffsetText()
+        {
+            FirstBeatOffset.text = (GameManager.instance.Beatmap.firstBeatOffset * 1000f).ToString("G");
+        }
+
         public void UpdateStartingBPMFromText()
         {
             // Failsafe against empty string.
@@ -101,6 +108,23 @@ namespace RhythmHeavenMania.Editor.Track
 
             // In case the newBPM ended up differing from the inputted string.
             UpdateStartingBPMText();
+        }
+
+        public void UpdateOffsetFromText()
+        {
+            // Failsafe against empty string.
+            if (String.IsNullOrEmpty(FirstBeatOffset.text))
+                FirstBeatOffset.text = "0";
+            
+            // Convert ms to s.
+            var newOffset = Convert.ToSingle(FirstBeatOffset.text) / 1000f;
+
+            // Limit decimal places to 4.
+            newOffset = (float)System.Math.Round(newOffset, 4);
+
+            GameManager.instance.Beatmap.firstBeatOffset = newOffset;
+
+            UpdateOffsetText();
         }
 
         private void AddTempoChange(bool create, Beatmap.TempoChange tempoChange_ = null)
