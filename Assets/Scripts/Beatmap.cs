@@ -30,6 +30,7 @@ namespace RhythmHeavenMania
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public Color colorA;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public Color colorB;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public Color colorC;
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float swing;
             public string datamodel;
             [JsonIgnore] public Editor.Track.TimelineEventObj eventObj;
 

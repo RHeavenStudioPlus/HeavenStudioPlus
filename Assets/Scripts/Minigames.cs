@@ -182,7 +182,7 @@ namespace RhythmHeavenMania
                     new GameAction("keep-up",               delegate { }, 4f, true),
                     new GameAction("high kick-toe!",        delegate { }, 3f, false, new List<Param>() 
                     {
-                        new Param("valA", new EntityTypes.Float(0, 1), "Swing") 
+                        new Param("swing", new EntityTypes.Float(0, 1), "Swing") 
                     }),
                 }),
                 new Minigame("djSchool", "DJ School \n<color=#eb5454>[Non-Playable]</color>", "008c97", false, false, new List<GameAction>()
