@@ -14,7 +14,7 @@ namespace RhythmHeavenMania.Games.BuiltToScaleDS
 
         [Header("Camera")]
         public Transform renderQuadTrans;
-        public Transform cameraPos;
+        public Transform camPivot;
 
         [Header("References")]
         public SkinnedMeshRenderer environmentRenderer;
