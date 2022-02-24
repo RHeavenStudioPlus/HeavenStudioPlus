@@ -14,6 +14,7 @@ namespace RhythmHeavenMania
         public float bpm;
         public List<Entity> entities = new List<Entity>();
         public List<TempoChange> tempoChanges = new List<TempoChange>();
+        public float firstBeatOffset;
 
         [Serializable]
         public class Entity : ICloneable

@@ -160,7 +160,7 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
 
             // Move both vegetables to the left by vegDupeOffset, then reset their positions.
             // On position reset, reset state of core vegetable.
-            transitionTween = VegetableHolder.DOLocalMoveX(-vegDupeOffset, Conductor.instance.secPerBeat * 0.5f)
+            transitionTween = VegetableHolder.DOLocalMoveX(-vegDupeOffset, Conductor.instance.secPerBeat * 0.5f / Conductor.instance.musicSource.pitch)
                 .OnComplete(() => {
 
                 var holderPos = VegetableHolder.localPosition;
