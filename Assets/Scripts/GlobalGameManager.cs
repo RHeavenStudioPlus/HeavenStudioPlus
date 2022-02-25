@@ -49,7 +49,7 @@ namespace RhythmHeavenMania
             Init();
             DontDestroyOnLoad(this.gameObject);
             instance = this;
-            Starpelly.OS.Windows.ChangeWindowTitle($"Rhythm Heaven Mania DEMO");
+            Starpelly.OS.Windows.ChangeWindowTitle($"Heaven Studio DEMO");
         }
 
         public static GameObject CreateFade()
