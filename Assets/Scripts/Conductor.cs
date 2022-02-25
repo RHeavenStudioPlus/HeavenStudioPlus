@@ -111,7 +111,7 @@ namespace RhythmHeavenMania
                     if (musicStartTime < 0f)
                     {
                         musicSource.time = startPos;
-                        musicSource.PlayScheduled(AudioSettings.dspTime - firstBeatOffset);
+                        musicSource.PlayScheduled(AudioSettings.dspTime - firstBeatOffset / musicSource.pitch);
                     }
                     else
                     {
