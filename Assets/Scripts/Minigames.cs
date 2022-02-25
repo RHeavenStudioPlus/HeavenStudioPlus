@@ -185,7 +185,7 @@ namespace RhythmHeavenMania
                         new Param("swing", new EntityTypes.Float(0, 1), "Swing") 
                     }),
                 }),
-                new Minigame("djSchool", "DJ School \n<color=#eb5454>[Non-Playable]</color>", "008c97", false, false, new List<GameAction>()
+                new Minigame("djSchool", "DJ School", "008c97", false, false, new List<GameAction>()
                 {
                     new GameAction("bop",                   delegate { DJSchool.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length);  }, 0.5f, true),
                     new GameAction("and stop ooh",          delegate { DJSchool.instance.AndStop(eventCaller.currentEntity.beat);  }, 2.5f),
