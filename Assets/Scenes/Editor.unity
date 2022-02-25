@@ -636,7 +636,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 44197994}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 9557e460670800e458d7bb141135de55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -670,19 +670,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 44197997}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1265865542}
-        m_TargetAssemblyTypeName: RhythmHeavenMania.Editor.TempoFinder, Assembly-CSharp
-        m_MethodName: TapBPM
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  tempoFinder: {fileID: 1265865542}
 --- !u!114 &44197997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6951,7 +6940,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 704039020}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.033
+  m_Size: 0.033000004
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -13019,7 +13008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tempoFinder: {fileID: 1265865540}
-  BPMText: {fileID: 565525424}
+  bpmText: {fileID: 565525426}
 --- !u!1 &1271528576
 GameObject:
   m_ObjectHideFlags: 0
