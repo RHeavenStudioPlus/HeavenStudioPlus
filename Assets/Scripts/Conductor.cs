@@ -79,8 +79,24 @@ namespace RhythmHeavenMania
 
         public void Play(float beat)
         {
+            bool negativeOffset = firstBeatOffset < 0f;
+            bool negativeStartTime = false;
+
             var startPos = GetSongPosFromBeat(beat);
-            this.time = startPos - firstBeatOffset;
+            if (negativeOffset)
+            {
+                time = startPos;
+            }
+            else
+            {
+                negativeStartTime = startPos - firstBeatOffset < 0f;
+
+                if (negativeStartTime)
+                    time = startPos - firstBeatOffset;
+                else
+                    time = startPos;
+            }
+
             songPosBeat = time / secPerBeat; 
 
             isPlaying = true;
@@ -88,8 +104,34 @@ namespace RhythmHeavenMania
 
             if (SongPosLessThanClipLength(startPos))
             {
-                musicSource.time = startPos;
-                musicSource.PlayScheduled(AudioSettings.dspTime);
+                if (negativeOffset)
+                {
+                    var musicStartTime = startPos + firstBeatOffset;
+
+                    if (musicStartTime < 0f)
+                    {
+                        musicSource.time = startPos;
+                        musicSource.PlayScheduled(AudioSettings.dspTime - firstBeatOffset);
+                    }
+                    else
+                    {
+                        musicSource.time = musicStartTime;
+                        musicSource.PlayScheduled(AudioSettings.dspTime);
+                    }
+                }
+                else
+                {
+                    if (negativeStartTime)
+                    {
+                        musicSource.time = startPos;
+                    }  
+                    else
+                    {
+                        musicSource.time = startPos + firstBeatOffset;
+                    }
+
+                    musicSource.PlayScheduled(AudioSettings.dspTime);
+                }
             }
 
             // GameManager.instance.SetCurrentEventToClosest(songPositionInBeats);
