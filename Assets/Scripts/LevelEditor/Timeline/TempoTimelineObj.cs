@@ -56,6 +56,7 @@ namespace RhythmHeavenMania.Editor.Track
                     else if (Input.GetMouseButtonDown(1))
                     {
                         GameManager.instance.Beatmap.tempoChanges.Remove(tempoChange);
+                        transform.parent.GetComponent<TempoTimeline>().tempoTimelineObjs.Remove(this);
                         Destroy(this.gameObject);
                     }
 
