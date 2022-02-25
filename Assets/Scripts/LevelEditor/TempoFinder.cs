@@ -9,7 +9,7 @@ namespace RhythmHeavenMania.Editor
         [SerializeField] private GameObject tempoFinder;
         private bool pressed;
         private float timePressed;
-        [SerializeField] private GameObject BPMText;
+        [SerializeField] private BPMText bpmText;
         private void Awake() 
         {
             pressed = false;
@@ -20,7 +20,7 @@ namespace RhythmHeavenMania.Editor
             if(tempoFinder.activeSelf) {
                 tempoFinder.SetActive(false);
                 timePressed = 0;
-                BPMText.GetComponent<BPMText>().ResetText();
+                bpmText.ResetText();
             } else {
                 tempoFinder.SetActive(true);
             }
@@ -35,7 +35,7 @@ namespace RhythmHeavenMania.Editor
             if(pressed)
             {
                 pressed = false;
-                BPMText.GetComponent<BPMText>().ChangeText(timePressed);
+                bpmText.ChangeText(timePressed);
                 timePressed = 0;
             }
         }
