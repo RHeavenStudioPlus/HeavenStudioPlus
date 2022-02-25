@@ -106,6 +106,72 @@ namespace RhythmHeavenMania
                 }),
                 new Minigame("countIn", "Count-Ins", "", false, true, new List<GameAction>()
                 {
+                    new GameAction("4 beat count-in",       delegate
+                    {
+                        MultiSound.Play(new MultiSound.Sound[]
+                        {
+                            new MultiSound.Sound("count-ins/one1", eventCaller.currentEntity.beat),
+                            new MultiSound.Sound("count-ins/two1", eventCaller.currentEntity.beat + 1f),
+                            new MultiSound.Sound("count-ins/three1", eventCaller.currentEntity.beat + 2f),
+                            new MultiSound.Sound("count-ins/four1", eventCaller.currentEntity.beat + 3f)
+                        }, false);
+                    }, 4f),
+                    new GameAction("4 beat count-in (alt)", delegate
+                    {
+                        MultiSound.Play(new MultiSound.Sound[]
+                        {
+                            new MultiSound.Sound("count-ins/one2", eventCaller.currentEntity.beat),
+                            new MultiSound.Sound("count-ins/two2", eventCaller.currentEntity.beat + 1f),
+                            new MultiSound.Sound("count-ins/three2", eventCaller.currentEntity.beat + 2f),
+                            new MultiSound.Sound("count-ins/four2", eventCaller.currentEntity.beat + 3f)
+                        }, false);
+                    }, 4f),
+                    new GameAction("4 beat count-in (cowbell)", delegate
+                    {
+                        MultiSound.Play(new MultiSound.Sound[]
+                        {
+                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat),
+                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat + 1f),
+                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat + 2f),
+                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat + 3f)
+                        }, false);
+                    }, 4f),
+                    new GameAction("8 beat count-in",       delegate
+                    {
+                        MultiSound.Play(new MultiSound.Sound[]
+                        {
+                            new MultiSound.Sound("count-ins/one1", eventCaller.currentEntity.beat),
+                            new MultiSound.Sound("count-ins/two1", eventCaller.currentEntity.beat + 2f),
+                            new MultiSound.Sound("count-ins/one1", eventCaller.currentEntity.beat + 4f),
+                            new MultiSound.Sound("count-ins/two1", eventCaller.currentEntity.beat + 5f),
+                            new MultiSound.Sound("count-ins/three1", eventCaller.currentEntity.beat + 6f),
+                            new MultiSound.Sound("count-ins/four1", eventCaller.currentEntity.beat + 7f)
+                        }, false);
+                    }, 8f),
+                    new GameAction("8 beat count-in (alt)", delegate
+                    {
+                        MultiSound.Play(new MultiSound.Sound[]
+                        {
+                            new MultiSound.Sound("count-ins/one2", eventCaller.currentEntity.beat),
+                            new MultiSound.Sound("count-ins/two2", eventCaller.currentEntity.beat + 2f),
+                            new MultiSound.Sound("count-ins/one2", eventCaller.currentEntity.beat + 4f),
+                            new MultiSound.Sound("count-ins/two2", eventCaller.currentEntity.beat + 5f),
+                            new MultiSound.Sound("count-ins/three2", eventCaller.currentEntity.beat + 6f),
+                            new MultiSound.Sound("count-ins/four2", eventCaller.currentEntity.beat + 7f)
+                        }, false);
+                    }, 8f),
+                    new GameAction("8 beat count-in (cowbell)", delegate
+                    {
+                        MultiSound.Play(new MultiSound.Sound[]
+                        {
+                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat),
+                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat + 2f),
+                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat + 4f),
+                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat + 5f),
+                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat + 6f),
+                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat + 7f)
+                        }, false);
+                    }, 8f),
                     new GameAction("cowbell",               delegate { Jukebox.PlayOneShot("count-ins/cowbell"); }, 1f),
                     new GameAction("one",                   delegate { Jukebox.PlayOneShot("count-ins/one1"); }, 1f),
                     new GameAction("one (alt)",             delegate { Jukebox.PlayOneShot("count-ins/one2"); }, 1f),
