@@ -16,13 +16,20 @@ namespace RhythmHeavenMania.Games.KarateMan
             Custom = 3
         }
 
-        public Color[] LightBulbColors = new Color[]
+        public Color[] LightBulbColors;
+
+        public enum BackgroundType
         {
-            new Color(0, 0, 0, 0),
-            new Color(2, 207, 255),
-            new Color(233, 233, 0),
-            new Color(0, 0, 0, 0)
-        };
+            Yellow = 0,
+            Fushia = 1,
+            Blue = 2,
+            Red = 3,
+            Orange = 4,
+            Pink = 5,
+            Custom = 6
+        }
+
+        public Color[] BackgroundColors;
 
         const float hitVoiceOffset = 0.042f;
 
@@ -34,13 +41,14 @@ namespace RhythmHeavenMania.Games.KarateMan
         public static KarateMan instance { get; set; }
 
         public Sprite[] ObjectSprites;
-        public Sprite[] ObjectBottomSprites;
         public Sprite[] BarrelSprites;
 
         public List<BGSpriteC> BGSprites;
         public SpriteRenderer BGSprite;
+        public SpriteRenderer BGFXSprite;
 
-        private bool bgEnabled;
+        public Color BGColor;
+
         private float newBeat;
 
         public GameEvent bop = new GameEvent();
@@ -64,6 +72,13 @@ namespace RhythmHeavenMania.Games.KarateMan
         private void Awake()
         {
             instance = this;
+            BGColor = BackgroundColors[0];
+        }
+
+        public override void OnGameSwitch()
+        {
+            base.OnGameSwitch();
+            SetBackgroundColor(BGColor);
         }
 
         public void Combo(float beat)
@@ -181,15 +196,15 @@ namespace RhythmHeavenMania.Games.KarateMan
         {
             if (Conductor.instance.ReportBeat(ref newBeat))
             {
-                if (bgEnabled)
+                if (BGFXSprite.enabled)
                 {
                     if (bgBeat % 2 == 0)
                     {
-                        BGSprite.sprite = BGSprites[0].Sprites[1];
+                        BGFXSprite.sprite = BGSprites[0].Sprites[0];
                     }
                     else
                     {
-                        BGSprite.sprite = BGSprites[0].Sprites[2];
+                        BGFXSprite.sprite = BGSprites[0].Sprites[1];
                     }
                     bgBeat++;
                 }
@@ -234,13 +249,19 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         public void BGFXOn()
         {
-            bgEnabled = true;
+            BGFXSprite.enabled = true;
         }
 
         public void BGFXOff()
         {
-            bgEnabled = false;
-            BGSprite.sprite = BGSprites[0].Sprites[0];
+            BGFXSprite.enabled = false;
+        }
+
+        public void SetBackgroundColor(Color color)
+        {
+            Debug.Log("THE COLOR IS " + color.ToString());
+            BGColor = color;
+            BGSprite.color = color;
         }
 
         public void Bop(float beat, float length)

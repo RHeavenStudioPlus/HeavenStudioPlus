@@ -249,6 +249,16 @@ namespace RhythmHeavenMania
                     new GameAction("prepare",               delegate { KarateMan.instance.Prepare(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 1f, true),
                     new GameAction("bgfxon",                delegate { KarateMan.instance.BGFXOn(); } ),
                     new GameAction("bgfxoff",               delegate { KarateMan.instance.BGFXOff(); }),
+                    new GameAction("set background color",  delegate {
+                        var e = eventCaller.currentEntity;
+                        var c = KarateMan.instance.BackgroundColors[e.type];
+                        if(e.type == 6) c = e.colorA;
+                        KarateMan.instance.SetBackgroundColor(c);
+                    }, 1f, false, new List<Param>()
+                    {
+                        new Param("type", KarateMan.BackgroundType.Yellow, "Type"),
+                        new Param("colorA", new Color(), "Custom Color")
+                    }),
                     new GameAction("tacobell",              delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 6); }, 2),
                 }),
                 new Minigame("spaceSoccer", "Space Soccer", "B888F8", false, false, new List<GameAction>()
