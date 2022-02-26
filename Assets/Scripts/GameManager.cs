@@ -109,6 +109,7 @@ namespace RhythmHeavenMania
             Beatmap = new Beatmap();
             Beatmap.bpm = 120f;
             Beatmap.firstBeatOffset = 0f;
+            Conductor.instance.musicSource.clip = null;
         }
 
         public void LoadRemix(string json = "")
