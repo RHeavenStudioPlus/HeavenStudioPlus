@@ -144,29 +144,11 @@ namespace RhythmHeavenMania.Editor.Track
 
             MetronomeBTN.onClick.AddListener(delegate 
             {
-                if (!Conductor.instance.metronome)
-                {
-                    MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = "009FC6".Hex2RGB();
-                    Conductor.instance.metronome = true; 
-                }
-                else
-                {
-                    MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
-                    Conductor.instance.metronome = false;
-                }
+                MetronomeToggle();
             });
             AutoplayBTN.onClick.AddListener(delegate
             {
-                if (!GameManager.instance.autoplay)
-                {
-                    AutoplayBTN.GetComponent<Animator>().Play("Idle", 0, 0);
-                    GameManager.instance.autoplay = true;
-                }
-                else
-                {
-                    AutoplayBTN.GetComponent<Animator>().Play("Disabled", 0, 0);
-                    GameManager.instance.autoplay = false;
-                }
+                AutoPlayToggle();
             });
 
             SelectionsBTN.onClick.AddListener(delegate
@@ -190,8 +172,8 @@ namespace RhythmHeavenMania.Editor.Track
             Tooltip.AddTooltip(PauseBTN.gameObject, "Pause <color=#adadad>[Shift + Space]</color>");
             Tooltip.AddTooltip(StopBTN.gameObject, "Stop <color=#adadad>[Space]</color>");
 
-            Tooltip.AddTooltip(MetronomeBTN.gameObject, "Metronome");
-            Tooltip.AddTooltip(AutoplayBTN.gameObject, "Autoplay");
+            Tooltip.AddTooltip(MetronomeBTN.gameObject, "Metronome <color=#adadad>[M]</color>");
+            Tooltip.AddTooltip(AutoplayBTN.gameObject, "Autoplay <color=#adadad>[A]</color>");
 
             Tooltip.AddTooltip(SelectionsBTN.gameObject, "Tool: Selection <color=#adadad>[1]</color>");
             Tooltip.AddTooltip(TempoChangeBTN.gameObject, "Tool: Tempo Change <color=#adadad>[2]</color>");
@@ -211,6 +193,35 @@ namespace RhythmHeavenMania.Editor.Track
         {
             var animName = GameManager.instance.autoplay ? "Idle" : "Disabled";
             AutoplayBTN.GetComponent<Animator>().Play(animName, 0, 0);
+        }
+
+        public void AutoPlayToggle()
+        {
+            if (!GameManager.instance.autoplay)
+            {
+                AutoplayBTN.GetComponent<Animator>().Play("Idle", 0, 0);
+                GameManager.instance.autoplay = true;
+            }
+            else
+            {
+                AutoplayBTN.GetComponent<Animator>().Play("Disabled", 0, 0);
+                GameManager.instance.autoplay = false;
+            }
+        }
+
+
+        public void MetronomeToggle()
+        {
+            if (!Conductor.instance.metronome)
+            {
+                MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = "009FC6".Hex2RGB();
+                Conductor.instance.metronome = true;
+            }
+            else
+            {
+                MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+                Conductor.instance.metronome = false;
+            }
         }
 
         public static string RandomID()
@@ -245,6 +256,16 @@ namespace RhythmHeavenMania.Editor.Track
                 {
                     PlayCheck(true);
                 }
+            }
+
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                AutoPlayToggle();
+            }
+
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                MetronomeToggle();
             }
 
 
