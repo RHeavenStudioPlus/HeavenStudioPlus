@@ -15,7 +15,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
         [SerializeField] private Sprite[] backgroundSprite;
 
         [Header("Properties")]
-        [SerializeField] private bool ballDispensed;
+        [SerializeField] private bool ballDispensed; //unused
 
         public static SpaceSoccer instance { get; private set; }
 
