@@ -319,6 +319,14 @@ namespace RhythmHeavenMania.Editor
             }
         }
 
+        public void NewRemix()
+        {
+            GameManager.instance.LoadRemix("");
+            Timeline.instance.LoadRemix();
+            Timeline.instance.TempoInfo.UpdateStartingBPMText();
+            Timeline.instance.TempoInfo.UpdateOffsetText();
+        }
+
         public void OpenRemix()
         {
             var extensions = new[]
