@@ -15,9 +15,11 @@ namespace RhythmHeavenMania.Games.KarateMan
         public GameObject Holder;
         private GameObject newHolder;
         public GameObject Sprite;
+        public GameObject BulbLightSprite;
         private SpriteRenderer spriteComp;
         public GameObject Shadow;
         private SpriteRenderer shadowSpriteComp;
+        private SpriteRenderer bulbLightSpriteComp;
 
         public bool isThrown;
         public bool isHit = false;
@@ -58,8 +60,10 @@ namespace RhythmHeavenMania.Games.KarateMan
             anim = GetComponent<Animator>();
             spriteComp = Sprite.GetComponent<SpriteRenderer>();
             shadowSpriteComp = Shadow.GetComponent<SpriteRenderer>();
+            bulbLightSpriteComp = BulbLightSprite.GetComponent<SpriteRenderer>();
 
             Sprite.transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
+            BulbLightSprite.transform.eulerAngles = Sprite.transform.eulerAngles;
 
             if (type == 2)
                 hitLength = 14f;
@@ -199,12 +203,15 @@ namespace RhythmHeavenMania.Games.KarateMan
                 if (normalizedBeat > 1)
                 {
                     spriteComp.sortingOrder = -20;
+                    bulbLightSpriteComp.sortingOrder = -20;
                     shadowSpriteComp.sortingOrder = -30;
                 }
                 else
                 {
                     // Pots closer to Joe are sorted further back.
-                    spriteComp.sortingOrder = 60 - Mathf.RoundToInt(10f * normalizedBeat);
+                    int newOrder = 60 - Mathf.RoundToInt(10f * normalizedBeat);
+                    spriteComp.sortingOrder = newOrder;
+                    bulbLightSpriteComp.sortingOrder = newOrder;
                 }
             }
 
@@ -289,6 +296,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             isHit = true;
 
             spriteComp.sortingOrder = 49;
+            bulbLightSpriteComp.sortingOrder = 49;
         }
 
         public void Miss()
@@ -305,6 +313,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             isThrown = false;
             anim.enabled = false;
             spriteComp.sortingOrder = 49;
+            bulbLightSpriteComp.sortingOrder = 49;
         }
 
         private void NewHolder()

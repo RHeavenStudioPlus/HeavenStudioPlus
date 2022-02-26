@@ -8,6 +8,22 @@ namespace RhythmHeavenMania.Games.KarateMan
 {
     public class KarateMan : Minigame
     {
+        public enum LightBulbType
+        {
+            Normal = 0,
+            Blue = 1,
+            Yellow = 2,
+            Custom = 3
+        }
+
+        public Color[] LightBulbColors = new Color[]
+        {
+            new Color(0, 0, 0, 0),
+            new Color(2, 207, 255),
+            new Color(233, 233, 0),
+            new Color(0, 0, 0, 0)
+        };
+
         const float hitVoiceOffset = 0.042f;
 
         public GameObject Pot, Bomb;
@@ -18,6 +34,7 @@ namespace RhythmHeavenMania.Games.KarateMan
         public static KarateMan instance { get; set; }
 
         public Sprite[] ObjectSprites;
+        public Sprite[] ObjectBottomSprites;
         public Sprite[] BarrelSprites;
 
         public List<BGSpriteC> BGSprites;
@@ -73,7 +90,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             });
         }
 
-        public void Shoot(float beat, int type, bool combo = false, string throwAnim = "", int comboIndex = 0, Vector2 endShadowPos = new Vector2())
+        public void Shoot(float beat, int type, bool combo = false, string throwAnim = "", int comboIndex = 0, Vector2 endShadowPos = new Vector2(), UnityEngine.Color tint = default)
         {
             GameObject pot = Instantiate(Pot);
             pot.transform.parent = Pot.transform.parent;
@@ -115,6 +132,10 @@ namespace RhythmHeavenMania.Games.KarateMan
                     case 1:
                         outSnd = "karateman/lightbulbOut";
                         p.hitSnd = "karateman/lightbulbHit";
+                        if (tint != default && tint != Color.black) {
+                            p.BulbLightSprite.SetActive(true);
+                            p.BulbLightSprite.GetComponent<SpriteRenderer>().color = tint;
+                        }
                         break;
                     case 2:
                         if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
