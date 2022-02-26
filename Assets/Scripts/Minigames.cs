@@ -230,9 +230,15 @@ namespace RhythmHeavenMania
                 {
                     new GameAction("bop",                   delegate { KarateMan.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 0.5f, true),
                     new GameAction("pot",                   delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 0); }, 2),
-                    new GameAction("bulb",                  delegate { var e = eventCaller.currentEntity; KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 1, tint: e.colorA); }, 2, false, new List<Param>()
+                    new GameAction("bulb",                  delegate {
+                        var e = eventCaller.currentEntity;
+                        var c = KarateMan.instance.LightBulbColors[e.type];
+                        if(e.type == 3) c = e.colorA;
+                        KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 1, tint: c);
+                    }, 2, false, new List<Param>()
                     {
-                        new Param("colorA", Color.white, "Light Bulb Color")
+                        new Param("type", KarateMan.LightBulbType.Normal, "Type"),
+                        new Param("colorA", new Color(), "Custom Color")
                     }),
                     new GameAction("rock",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 2); }, 2),
                     new GameAction("ball",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 3); }, 2),

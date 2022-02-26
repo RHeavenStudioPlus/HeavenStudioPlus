@@ -8,6 +8,22 @@ namespace RhythmHeavenMania.Games.KarateMan
 {
     public class KarateMan : Minigame
     {
+        public enum LightBulbType
+        {
+            Normal = 0,
+            Blue = 1,
+            Yellow = 2,
+            Custom = 3
+        }
+
+        public Color[] LightBulbColors = new Color[]
+        {
+            new Color(0, 0, 0, 0),
+            new Color(2, 207, 255),
+            new Color(233, 233, 0),
+            new Color(0, 0, 0, 0)
+        };
+
         const float hitVoiceOffset = 0.042f;
 
         public GameObject Pot, Bomb;
@@ -116,10 +132,9 @@ namespace RhythmHeavenMania.Games.KarateMan
                     case 1:
                         outSnd = "karateman/lightbulbOut";
                         p.hitSnd = "karateman/lightbulbHit";
-                        SpriteRenderer sr = p.BottomSprite.GetComponent<SpriteRenderer>();
                         if (tint != default && tint != Color.black) {
-                            sr.sprite = ObjectBottomSprites[type];
-                            sr.color = tint;
+                            p.BulbLightSprite.SetActive(true);
+                            p.BulbLightSprite.GetComponent<SpriteRenderer>().color = tint;
                         }
                         break;
                     case 2:
