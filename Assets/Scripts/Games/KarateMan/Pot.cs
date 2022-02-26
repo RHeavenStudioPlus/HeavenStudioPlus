@@ -15,6 +15,7 @@ namespace RhythmHeavenMania.Games.KarateMan
         public GameObject Holder;
         private GameObject newHolder;
         public GameObject Sprite;
+        public GameObject BottomSprite;
         private SpriteRenderer spriteComp;
         public GameObject Shadow;
         private SpriteRenderer shadowSpriteComp;
@@ -60,6 +61,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             shadowSpriteComp = Shadow.GetComponent<SpriteRenderer>();
 
             Sprite.transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
+            BottomSprite.transform.eulerAngles = Sprite.transform.eulerAngles;
 
             if (type == 2)
                 hitLength = 14f;

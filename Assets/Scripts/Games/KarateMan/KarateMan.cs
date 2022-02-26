@@ -18,6 +18,7 @@ namespace RhythmHeavenMania.Games.KarateMan
         public static KarateMan instance { get; set; }
 
         public Sprite[] ObjectSprites;
+        public Sprite[] ObjectBottomSprites;
         public Sprite[] BarrelSprites;
 
         public List<BGSpriteC> BGSprites;
@@ -73,7 +74,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             });
         }
 
-        public void Shoot(float beat, int type, bool combo = false, string throwAnim = "", int comboIndex = 0, Vector2 endShadowPos = new Vector2())
+        public void Shoot(float beat, int type, bool combo = false, string throwAnim = "", int comboIndex = 0, Vector2 endShadowPos = new Vector2(), UnityEngine.Color tint = default)
         {
             GameObject pot = Instantiate(Pot);
             pot.transform.parent = Pot.transform.parent;
@@ -115,6 +116,11 @@ namespace RhythmHeavenMania.Games.KarateMan
                     case 1:
                         outSnd = "karateman/lightbulbOut";
                         p.hitSnd = "karateman/lightbulbHit";
+                        SpriteRenderer sr = p.BottomSprite.GetComponent<SpriteRenderer>();
+                        if (tint != default && tint != Color.black) {
+                            sr.sprite = ObjectBottomSprites[type];
+                            sr.color = tint;
+                        }
                         break;
                     case 2:
                         if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
