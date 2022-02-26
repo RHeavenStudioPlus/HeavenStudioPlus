@@ -233,8 +233,8 @@ namespace RhythmHeavenMania
                     new GameAction("bulb",                  delegate {
                         var e = eventCaller.currentEntity;
                         var c = KarateMan.instance.LightBulbColors[e.type];
-                        if(e.type == 3) c = e.colorA;
-                        KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 1, tint: c);
+                        if(e.type == (int)KarateMan.LightBulbType.Custom) c = e.colorA;
+                        KarateMan.instance.Shoot(e.beat, 1, tint: c);
                     }, 2, false, new List<Param>()
                     {
                         new Param("type", KarateMan.LightBulbType.Normal, "Type"),
@@ -252,7 +252,8 @@ namespace RhythmHeavenMania
                     new GameAction("set background color",  delegate {
                         var e = eventCaller.currentEntity;
                         var c = KarateMan.instance.BackgroundColors[e.type];
-                        if(e.type == 6) c = e.colorA;
+                        if(e.type == (int)KarateMan.BackgroundType.Custom) c = e.colorA;
+                        Debug.Log("type - " + e.type.ToString());
                         KarateMan.instance.SetBackgroundColor(c);
                     }, 1f, false, new List<Param>()
                     {

@@ -10,25 +10,24 @@ namespace RhythmHeavenMania.Games.KarateMan
     {
         public enum LightBulbType
         {
-            Normal = 0,
-            Blue = 1,
-            Yellow = 2,
-            Custom = 3
+            Normal,
+            Blue,
+            Yellow,
+            Custom 
         }
-
-        public Color[] LightBulbColors;
 
         public enum BackgroundType
         {
-            Yellow = 0,
-            Fushia = 1,
-            Blue = 2,
-            Red = 3,
-            Orange = 4,
-            Pink = 5,
-            Custom = 6
+            Yellow,
+            Fushia,
+            Blue,
+            Red,
+            Orange,
+            Pink,
+            Custom
         }
 
+        public Color[] LightBulbColors;
         public Color[] BackgroundColors;
 
         const float hitVoiceOffset = 0.042f;
