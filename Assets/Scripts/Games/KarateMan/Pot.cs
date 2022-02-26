@@ -116,10 +116,14 @@ namespace RhythmHeavenMania.Games.KarateMan
         private void Update()
         {
             if (Conductor.instance.songPositionInBeats >= createBeat)
+            {
                 spriteComp.enabled = true;
+                shadowSpriteComp.color = Color.Lerp(KarateMan.instance.BGColor, new Color(35 / 255, 75 / 255, 1 / 255), 0.25f);
+            }
             else
+            {
                 spriteComp.enabled = false;
-
+            }
 
             float time2Destroy = Conductor.instance.GetPositionFromBeat(createBeat, 4);
 

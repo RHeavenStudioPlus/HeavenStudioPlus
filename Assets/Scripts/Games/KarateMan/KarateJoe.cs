@@ -18,6 +18,7 @@ namespace RhythmHeavenMania.Games.KarateMan
         [SerializeField] private SpriteRenderer head;
         [SerializeField] private Sprite[] heads;
         [SerializeField] private GameObject missEffect;
+        [SerializeField] private SpriteRenderer[] shadows;
 
         [Header("Properties")]
         public bool hitBarrel = false;
@@ -167,6 +168,11 @@ namespace RhythmHeavenMania.Games.KarateMan
                 {
                     Swing(null);
                 }
+            }
+
+            for(int i=0;i < shadows.Length; i++)
+            {
+                shadows[i].color = Color.Lerp(KarateMan.instance.BGColor, new Color(35 / 255, 75 / 255, 1 / 255), 0.25f);
             }
         }
 
