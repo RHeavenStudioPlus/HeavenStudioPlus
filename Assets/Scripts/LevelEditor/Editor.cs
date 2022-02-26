@@ -319,9 +319,9 @@ namespace RhythmHeavenMania.Editor
             }
         }
 
-        public void NewRemix()
+        public void LoadRemix(string json = "")
         {
-            GameManager.instance.LoadRemix("");
+            GameManager.instance.LoadRemix(json);
             Timeline.instance.LoadRemix();
             Timeline.instance.TempoInfo.UpdateStartingBPMText();
             Timeline.instance.TempoInfo.UpdateOffsetText();
@@ -356,10 +356,7 @@ namespace RhythmHeavenMania.Editor
                                             stream.CopyTo(ms);
                                             bytes = ms.ToArray();
                                             string json = Encoding.Default.GetString(bytes);
-                                            GameManager.instance.LoadRemix(json);
-                                            Timeline.instance.LoadRemix();
-                                            Timeline.instance.TempoInfo.UpdateStartingBPMText();
-                                            Timeline.instance.TempoInfo.UpdateOffsetText();
+                                            LoadRemix(json);
                                         }
                                     }
                                 }

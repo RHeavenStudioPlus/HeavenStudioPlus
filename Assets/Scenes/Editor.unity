@@ -16386,8 +16386,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1423699437}
         m_TargetAssemblyTypeName: RhythmHeavenMania.Editor.Editor, Assembly-CSharp
-        m_MethodName: NewRemix
-        m_Mode: 1
+        m_MethodName: LoadRemix
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
