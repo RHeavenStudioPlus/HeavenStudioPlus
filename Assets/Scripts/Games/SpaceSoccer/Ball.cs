@@ -27,7 +27,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
         public float nextAnimBeat;
         public float highKickSwing = 0f;
         private float lastSpriteRot;
-        public bool canKick;
+        public bool canKick; //unused
         private bool lastKickLeft;
 
         public void Init(Kicker kicker, float dispensedBeat)
@@ -39,7 +39,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
             if(currentBeat - dispensedBeat < 2f) //check if ball is currently being dispensed (should only be false if starting in the middle of the remix)
             {
-                Debug.Log("Dispensing");
+                //Debug.Log("Dispensing");
                 state = State.Dispensing;
                 startBeat = dispensedBeat;
                 nextAnimBeat = startBeat + GetAnimLength(State.Dispensing);
@@ -74,7 +74,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 }
                 if (highKicks[i].beat > currentBeat)
                 {
-                    Debug.Log("Setting state to kicked");
+                    //Debug.Log("Setting state to kicked");
                     state = State.Kicked;
                     float relativeBeat = currentBeat - dispensedBeat;
                     startBeat = dispensedBeat + (int)(relativeBeat - 0.1); //this makes the startBeat be for the kick that is currently in progress, but it won't play the kicker's animation for that kick. the -0.1 makes it so that if playback is started right when the kicker kicks, it still plays the kicker's animation.
@@ -87,7 +87,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                     highKickSwing = highKicks[i].swing;
                     if (highKicks[i].beat + GetAnimLength(State.HighKicked) > currentBeat)
                     {
-                        Debug.Log("Setting state to high kick");
+                        //Debug.Log("Setting state to high kick");
                         state = State.HighKicked;
                         float relativeBeat = highKicks[i].beat - dispensedBeat;
                         startBeat = dispensedBeat + Mathf.Ceil(relativeBeat); //there is a chance this makes startBeat later than the current beat, but it shouldn't matter too much. It would only happen if the user places the high kicks incorrectly.
@@ -97,7 +97,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                     }
                     else
                     {
-                        Debug.Log("Setting state to toe");
+                        //Debug.Log("Setting state to toe");
                         state = State.Toe;
                         float relativeBeat = Mathf.Ceil(highKicks[i].beat - dispensedBeat) + GetAnimLength(State.HighKicked); //there is a chance this makes startBeat later than the current beat, but it shouldn't matter too much. It would only happen if the user places the high kicks incorrectly.
                         startBeat = dispensedBeat + relativeBeat;
@@ -107,15 +107,16 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                     }
                 }
             }
-            if(state == State.Dispensing) //if the for loop didn't set the state
+            if(state == 0) //if the for loop didn't set the state
             {
-                Debug.Log("Defaulting to kicked state");
+                //Debug.Log("Defaulting to kicked state");
                 state = State.Kicked;
                 float relativeBeat = currentBeat - dispensedBeat;
                 startBeat = dispensedBeat + (int)(relativeBeat - 0.1); //this makes the startBeat be for the kick that is currently in progress, but it won't play the kicker's animation for that kick. the -0.1 makes it so that if playback is started right when the kicker kicks, it still plays the kicker's animation.
                 nextAnimBeat = startBeat + GetAnimLength(State.Kicked);
                 kicker.kickTimes = (int)(relativeBeat - 0.1) - numHighKicks - 1;
             }
+            Update(); //make sure the ball is in the right place
         }
 
         public void Kick(bool player)
@@ -177,7 +178,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
         private void Update()
         {
-            switch (state)
+            switch (state) //handle animations
             {
                 case State.Dispensing:
                     {
