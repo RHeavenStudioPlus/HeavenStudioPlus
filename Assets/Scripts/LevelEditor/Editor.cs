@@ -169,7 +169,11 @@ namespace RhythmHeavenMania.Editor
 
             if (Input.GetKey(KeyCode.LeftControl))
             {
-                if (Input.GetKeyDown(KeyCode.O))
+                if (Input.GetKeyDown(KeyCode.N))
+                {
+                    LoadRemix("");
+                }
+                else if (Input.GetKeyDown(KeyCode.O))
                 {
                     OpenRemix();
                 }
