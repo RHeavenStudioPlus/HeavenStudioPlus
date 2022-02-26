@@ -35,8 +35,14 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             this.kicker = kicker;
             kicker.ball = this;
             kicker.dispenserBeat = dispensedBeat;
+            float currentBeat = Conductor.instance.songPositionInBeats;
+
+            if(currentBeat - dispensedBeat < 2f) //check if ball is currently being dispensed (should only be false if starting in the middle of the remix)
+            {
+                Debug.Log("Dispensing");
                 state = State.Dispensing;
                 startBeat = dispensedBeat;
+                nextAnimBeat = startBeat + GetAnimLength(State.Dispensing);
                 kicker.kickTimes = 0;
                 if (kicker.player)
                 {
@@ -53,6 +59,63 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                     new MultiSound.Sound("spaceSoccer/dispenseTumble6B",dispensedBeat + 1.75f),
                     });
                 }
+                return;
+            }
+
+            List<Beatmap.Entity> highKicks = GameManager.instance.Beatmap.entities.FindAll(c => c.datamodel == "spaceSoccer/high kick-toe!");
+            int numHighKicks = 0;
+            //determine what state the ball was in for the previous kick.
+            for(int i = 0; i < highKicks.Count; i++)
+            {
+                if (highKicks[i].beat + highKicks[i].length <= currentBeat)
+                {
+                    numHighKicks++;
+                    continue;
+                }
+                if (highKicks[i].beat > currentBeat)
+                {
+                    Debug.Log("Setting state to kicked");
+                    state = State.Kicked;
+                    float relativeBeat = currentBeat - dispensedBeat;
+                    startBeat = dispensedBeat + (int)(relativeBeat - 0.1); //this makes the startBeat be for the kick that is currently in progress, but it won't play the kicker's animation for that kick. the -0.1 makes it so that if playback is started right when the kicker kicks, it still plays the kicker's animation.
+                    nextAnimBeat = startBeat + GetAnimLength(State.Kicked);
+                    kicker.kickTimes = (int)(relativeBeat - 0.1) - numHighKicks - 1; //every high kick has 2 kicks in the same time a regular keep-up does 3 kicks.
+                    break;
+                }
+                else
+                {
+                    highKickSwing = highKicks[i].swing;
+                    if (highKicks[i].beat + GetAnimLength(State.HighKicked) > currentBeat)
+                    {
+                        Debug.Log("Setting state to high kick");
+                        state = State.HighKicked;
+                        float relativeBeat = highKicks[i].beat - dispensedBeat;
+                        startBeat = dispensedBeat + Mathf.Ceil(relativeBeat); //there is a chance this makes startBeat later than the current beat, but it shouldn't matter too much. It would only happen if the user places the high kicks incorrectly.
+                        nextAnimBeat = startBeat + GetAnimLength(State.HighKicked);
+                        kicker.kickTimes = Mathf.CeilToInt(relativeBeat) - numHighKicks - 1;
+                        break;
+                    }
+                    else
+                    {
+                        Debug.Log("Setting state to toe");
+                        state = State.Toe;
+                        float relativeBeat = Mathf.Ceil(highKicks[i].beat - dispensedBeat) + GetAnimLength(State.HighKicked); //there is a chance this makes startBeat later than the current beat, but it shouldn't matter too much. It would only happen if the user places the high kicks incorrectly.
+                        startBeat = dispensedBeat + relativeBeat;
+                        nextAnimBeat = startBeat + GetAnimLength(State.Toe);
+                        kicker.kickTimes = (int)(relativeBeat - GetAnimLength(State.HighKicked)) - numHighKicks;
+                        break;
+                    }
+                }
+            }
+            if(state == State.Dispensing) //if the for loop didn't set the state
+            {
+                Debug.Log("Defaulting to kicked state");
+                state = State.Kicked;
+                float relativeBeat = currentBeat - dispensedBeat;
+                startBeat = dispensedBeat + (int)(relativeBeat - 0.1); //this makes the startBeat be for the kick that is currently in progress, but it won't play the kicker's animation for that kick. the -0.1 makes it so that if playback is started right when the kicker kicks, it still plays the kicker's animation.
+                nextAnimBeat = startBeat + GetAnimLength(State.Kicked);
+                kicker.kickTimes = (int)(relativeBeat - 0.1) - numHighKicks - 1;
+            }
         }
 
         public void Kick(bool player)
