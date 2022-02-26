@@ -73,9 +73,7 @@ namespace RhythmHeavenMania
             }
             else
             {
-                Beatmap = new Beatmap();
-                Beatmap.bpm = 120f;
-                Beatmap.firstBeatOffset = 0f;
+                NewRemix();
             }
 
             SortEventsList();
@@ -106,11 +104,25 @@ namespace RhythmHeavenMania
             }
         }
 
-        public void LoadRemix(string json)
+        public void NewRemix()
+        {
+            Beatmap = new Beatmap();
+            Beatmap.bpm = 120f;
+            Beatmap.firstBeatOffset = 0f;
+        }
+
+        public void LoadRemix(string json = "")
         {
             SortEventsList();
 
-            Beatmap = JsonConvert.DeserializeObject<Beatmap>(json);
+            if (json != "")
+            {
+                Beatmap = JsonConvert.DeserializeObject<Beatmap>(json);
+            }
+            else
+            {
+                NewRemix();
+            }
             Conductor.instance.SetBpm(Beatmap.bpm);
             Conductor.instance.firstBeatOffset = Beatmap.firstBeatOffset;
             Stop(0);
