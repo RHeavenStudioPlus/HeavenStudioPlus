@@ -13,7 +13,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
         public bool canHighKick;
         private bool kickPrepare = false;
         public bool kickLeft;
-        public float dispenserBeat;
+        public float dispenserBeat; //unused
         public int kickTimes = 0;
         public bool player;
 
@@ -40,7 +40,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
         public override void OnAce()
         {
-            if (ball.highKicked.enabled)
+            if (ball.state == Ball.State.HighKicked)
             {
                 if (!kickPrepare)
                 {
@@ -83,7 +83,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                     anim.Play("HighKickRight_0", 0, 0);
                 }
             }
-            else if (!highKick)
+            else
             {
                 if (kickLeft)
                 {
@@ -214,106 +214,113 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
             if (ball)
             {
-                if (ball.dispensing)
+                switch (ball.state)
                 {
-                    float normalizedBeat = Conductor.instance.GetPositionFromBeat(ball.dispensedBeat, 2f);
-                    StateCheck(normalizedBeat, !player);
-                    CheckIfFall(normalizedBeat);
-
-                    if (player)
-                    {
-                        if (PlayerInput.Pressed())
+                    case Ball.State.Dispensing:
                         {
-                            if (state.perfect)
-                            {
-                                KickCheck(true);
-                            }
-                            else
-                            {
-                                KickCheck(false, true);
-                            }
-                        }
-                    }
-                }
-                else if (ball.kicked.enabled)
-                {
-                    float normalizedBeat = Conductor.instance.GetPositionFromBeat(ball.kicked.startBeat, 1f);
-                    StateCheck(normalizedBeat, !player);
-                    CheckIfFall(normalizedBeat);
+                            float normalizedBeat = Conductor.instance.GetPositionFromBeat(ball.startBeat, ball.GetAnimLength(Ball.State.Dispensing));
+                            StateCheck(normalizedBeat, !player);
+                            CheckIfFall(normalizedBeat);
 
-                    if (player)
-                    {
-                        if (PlayerInput.Pressed())
-                        {
-                            if (state.perfect)
+                            if (player)
                             {
-                                KickCheck(true);
-                            }
-                            else
-                            {
-                                KickCheck(false, true);
-                            }
-                        }
-                    }
-                }
-                else if (ball.highKicked.enabled)
-                {
-                    float normalizedBeat = Conductor.instance.GetPositionFromMargin(ball.highKicked.startBeat + ball.GetHighKickLength(false), 1f);
-                    if (!kickPrepare)
-                    {
-                        float normalizedBeatPrepare = Conductor.instance.GetPositionFromBeat(ball.highKicked.startBeat, 1f);
-                        StateCheck(normalizedBeatPrepare, !player);
-                        CheckIfFall(normalizedBeat);
-
-                        if (player)
-                        {
-                            if (PlayerInput.AltPressed())
-                            {
-                                Kick(false, true);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        StateCheck(normalizedBeat, !player);
-                        CheckIfFall(normalizedBeat);
-
-                        if (player)
-                        {
-                            if (PlayerInput.AltPressedUp())
-                            {
-                                if (state.perfect)
+                                if (PlayerInput.Pressed())
                                 {
-                                    Toe(true);
-                                }
-                                else
-                                {
-                                    Toe(false);
+                                    if (state.perfect)
+                                    {
+                                        KickCheck(true);
+                                    }
+                                    else
+                                    {
+                                        KickCheck(false, true);
+                                    }
                                 }
                             }
+                            break;
                         }
-                    }
-                }
-                else if (ball.toe.enabled)
-                {
-                    float normalizedBeat = Conductor.instance.GetPositionFromMargin(ball.toe.startBeat + ball.GetHighKickLength(true), 1f);
-                    StateCheck(normalizedBeat, !player);
-                    CheckIfFall(normalizedBeat);
-
-                    if (player)
-                    {
-                        if (PlayerInput.Pressed())
+                    case Ball.State.Kicked:
                         {
-                            if (state.perfect)
+                            float normalizedBeat = Conductor.instance.GetPositionFromBeat(ball.startBeat, ball.GetAnimLength(Ball.State.Kicked));
+                            StateCheck(normalizedBeat, !player);
+                            CheckIfFall(normalizedBeat);
+
+                            if (player)
                             {
-                                KickCheck(true);
+                                if (PlayerInput.Pressed())
+                                {
+                                    if (state.perfect)
+                                    {
+                                        KickCheck(true);
+                                    }
+                                    else
+                                    {
+                                        KickCheck(false, true);
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    case Ball.State.HighKicked:
+                        {
+                            float normalizedBeat = Conductor.instance.GetPositionFromMargin(ball.startBeat + ball.GetAnimLength(Ball.State.HighKicked), 1f);
+                            if (!kickPrepare)
+                            {
+                                float normalizedBeatPrepare = Conductor.instance.GetPositionFromBeat(ball.startBeat, 1f);
+                                StateCheck(normalizedBeatPrepare, !player);
+                                CheckIfFall(normalizedBeat);
+
+                                if (player)
+                                {
+                                    if (PlayerInput.AltPressed())
+                                    {
+                                        Kick(false, true);
+                                    }
+                                }
                             }
                             else
                             {
-                                KickCheck(false, true);
+                                StateCheck(normalizedBeat, !player);
+                                CheckIfFall(normalizedBeat);
+
+                                if (player)
+                                {
+                                    if (PlayerInput.AltPressedUp())
+                                    {
+                                        if (state.perfect)
+                                        {
+                                            Toe(true);
+                                        }
+                                        else
+                                        {
+                                            Toe(false);
+                                        }
+                                    }
+                                }
                             }
+                            break;
                         }
-                    }
+                    case Ball.State.Toe:
+                        {
+                            float normalizedBeat = Conductor.instance.GetPositionFromMargin(ball.startBeat + ball.GetAnimLength(Ball.State.Toe), 1f);
+                            StateCheck(normalizedBeat, !player);
+                            CheckIfFall(normalizedBeat);
+
+                            if (player)
+                            {
+                                if (PlayerInput.Pressed())
+                                {
+                                    if (state.perfect)
+                                    {
+                                        KickCheck(true);
+                                    }
+                                    else
+                                    {
+                                        KickCheck(false, true);
+                                    }
+                                }
+                            }
+                            break;
+                        }
                 }
             }
             else
@@ -326,6 +333,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                     }
                 }
             }
+
         }
 
         private void KickCheck(bool hit, bool overrideState = false)
