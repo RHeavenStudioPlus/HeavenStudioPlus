@@ -254,7 +254,7 @@ namespace RhythmHeavenMania
                         var c = KarateMan.instance.BackgroundColors[e.type];
                         if(e.type == (int)KarateMan.BackgroundType.Custom) c = e.colorA;
                         KarateMan.instance.SetBackgroundColor(e.type, e.type2, c, e.colorB);
-                    }, 1f, false, new List<Param>()
+                    }, 0.5f, false, new List<Param>()
                     {
                         new Param("type", KarateMan.BackgroundType.Yellow, "Background Type"),
                         new Param("type2", KarateMan.ShadowType.Tinted, "Shadow Type"),
