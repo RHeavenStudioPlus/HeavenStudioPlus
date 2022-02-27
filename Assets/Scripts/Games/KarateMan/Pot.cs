@@ -118,7 +118,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             if (Conductor.instance.songPositionInBeats >= createBeat)
             {
                 spriteComp.enabled = true;
-                shadowSpriteComp.color = Color.Lerp(KarateMan.instance.BGColor, new Color(35 / 255, 75 / 255, 1 / 255), 0.25f);
+                shadowSpriteComp.color = KarateMan.instance.GetShadowColor();
             }
             else
             {

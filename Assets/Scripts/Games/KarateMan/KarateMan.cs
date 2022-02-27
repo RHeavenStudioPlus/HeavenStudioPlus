@@ -29,6 +29,7 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         public Color[] LightBulbColors;
         public Color[] BackgroundColors;
+        public static Color ShadowBlendColor = new Color(195f / 255f, 48f / 255f, 2f / 255f);
 
         const float hitVoiceOffset = 0.042f;
 
@@ -307,6 +308,13 @@ namespace RhythmHeavenMania.Games.KarateMan
             shadow.transform.parent = bomb.transform;
             shadow.transform.SetAsLastSibling();
             bomb.GetComponent<Bomb>().shadow = shadow;
+        }
+
+        public Color GetShadowColor()
+        {
+            var col = Color.LerpUnclamped(KarateMan.instance.BGColor, KarateMan.ShadowBlendColor, 0.45f);
+
+            return col;
         }
     }
 }
