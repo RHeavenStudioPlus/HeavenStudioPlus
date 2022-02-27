@@ -162,7 +162,7 @@ namespace RhythmHeavenMania
                     // FX entities should ALWAYS execute before gameplay entities
                     for (int i = 0; i < fxEntities.Count; i++)
                     {
-                        eventCaller.CallEvent(fxEntities[i].datamodel);
+                        eventCaller.CallEvent(fxEntities[i]);
                         currentEvent++;
                     }
 
@@ -174,7 +174,7 @@ namespace RhythmHeavenMania
                         {
                             PreloadGame(entitesAtSameBeat[i].datamodel.Split('/')[0]);
                         }
-                        eventCaller.CallEvent(entitesAtSameBeat[i].datamodel);
+                        eventCaller.CallEvent(entitesAtSameBeat[i]);
 
                         // Thank you to @shshwdr for bring this to my attention
                         currentEvent++;
