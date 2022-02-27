@@ -201,7 +201,7 @@ namespace RhythmHeavenMania
                     new GameAction("bottombun",             delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 3); }, 3),
                     new GameAction("prepare",               delegate { ForkLifter.instance.ForkLifterHand.Prepare(); }, 0.5f),
                     new GameAction("gulp",                  delegate { ForkLifterPlayer.instance.Eat(); }),
-                    new GameAction("sigh",                  delegate { Jukebox.PlayOneShot("sigh"); })
+                    new GameAction("sigh",                  delegate { Jukebox.PlayOneShot("games/forkLifter/sigh"); })
                 }),
                 new Minigame("clappyTrio", "The Clappy Trio", "29E7FF", false, false, new List<GameAction>()
                 {
@@ -270,7 +270,7 @@ namespace RhythmHeavenMania
                     new GameAction("keep-up",               delegate { }, 4f, true),
                     new GameAction("high kick-toe!",        delegate { }, 3f, false, new List<Param>() 
                     {
-                        new Param("swing", new EntityTypes.Float(0, 1), "Swing") 
+                        new Param("swing", new EntityTypes.Float(0, 1, 0.5f), "Swing") 
                     }),
                 }),
                 new Minigame("djSchool", "DJ School", "008c97", false, false, new List<GameAction>()
