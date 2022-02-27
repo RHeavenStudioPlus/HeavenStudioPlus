@@ -11,13 +11,13 @@ namespace RhythmHeavenMania.Games
         public bool inList = false;
         public int lastState;
         public Minigame.Eligible state = new Minigame.Eligible();
-        public bool isEligible;
 
         public List<Minigame.Eligible> eligibleHitsList = new List<Minigame.Eligible>();
 
-        public int aceTimes;
-
-        private bool autoPlayEnabledOnStart;
+        //the variables below seem to be mostly unused (they are never used in any meaningful way)
+        public int aceTimes; //always set to 0 no matter what (also, the one time it's used doesn't seem to make sense)
+        public bool isEligible; //value never used for anything
+        private bool autoPlayEnabledOnStart; //value never used for anything
 
         public void PlayerActionInit(GameObject g, float createBeat)
         {
@@ -31,7 +31,7 @@ namespace RhythmHeavenMania.Games
         {
             if (aceTimes == 0)
             {
-                if (GameManager.instance.autoplay && normalizedBeat > 0.99f || autoPlay && normalizedBeat > 0.99f)
+                if ((GameManager.instance.autoplay || autoPlay) && normalizedBeat > 0.99f)
                 {
                     OnAce();
                     if (!autoPlay)
