@@ -172,7 +172,7 @@ namespace RhythmHeavenMania.Games.KarateMan
 
             for(int i=0;i < shadows.Length; i++)
             {
-                shadows[i].color = Color.Lerp(KarateMan.instance.BGColor, new Color(35 / 255, 75 / 255, 1 / 255), 0.25f);
+                shadows[i].color = KarateMan.instance.GetShadowColor();
             }
         }
 
