@@ -203,7 +203,11 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                     canKick = false;
 
                     if (ball)
+                    {
                         ball.highKickSwing = highKicks[i].swing;
+                        if (ball.highKickSwing == 0f)
+                            ball.highKickSwing = 0.5f;
+                    }
                     break;
                 }
                 else

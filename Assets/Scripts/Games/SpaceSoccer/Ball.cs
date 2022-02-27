@@ -85,6 +85,9 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 else
                 {
                     highKickSwing = highKicks[i].swing;
+                    if (highKickSwing == 0f)
+                        highKickSwing = 0.5f;
+
                     if (highKicks[i].beat + GetAnimLength(State.HighKicked) > currentBeat)
                     {
                         //Debug.Log("Setting state to high kick");
