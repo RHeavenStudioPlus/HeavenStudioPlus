@@ -252,13 +252,15 @@ namespace RhythmHeavenMania
                     new GameAction("set background color",  delegate {
                         var e = eventCaller.currentEntity;
                         var c = KarateMan.instance.BackgroundColors[e.type];
+                        Debug.Log("TYPE=" + e.type.ToString() + ", SHADOW=" + e.type2.ToString());
                         if(e.type == (int)KarateMan.BackgroundType.Custom) c = e.colorA;
-                        Debug.Log("type - " + e.type.ToString());
-                        KarateMan.instance.SetBackgroundColor(c);
+                        KarateMan.instance.SetBackgroundColor(e.type, e.type2, c, e.colorB);
                     }, 1f, false, new List<Param>()
                     {
-                        new Param("type", KarateMan.BackgroundType.Yellow, "Type"),
-                        new Param("colorA", new Color(), "Custom Color")
+                        new Param("type", KarateMan.BackgroundType.Yellow, "Background Type"),
+                        new Param("type2", KarateMan.ShadowType.Tinted, "Shadow Type"),
+                        new Param("colorA", new Color(), "Custom Background Color"),
+                        new Param("colorB", new Color(), "Custom Shadow Color")
                     }),
                     new GameAction("tacobell",              delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 6); }, 2),
                 }),

@@ -27,8 +27,15 @@ namespace RhythmHeavenMania.Games.KarateMan
             Custom
         }
 
+        public enum ShadowType
+        {
+            Tinted,
+            Custom
+        }
+
         public Color[] LightBulbColors;
         public Color[] BackgroundColors;
+        public Color[] ShadowColors;
         public static Color ShadowBlendColor = new Color(195f / 255f, 48f / 255f, 2f / 255f);
 
         const float hitVoiceOffset = 0.042f;
@@ -47,7 +54,11 @@ namespace RhythmHeavenMania.Games.KarateMan
         public SpriteRenderer BGSprite;
         public SpriteRenderer BGFXSprite;
 
+        public BackgroundType BGType = BackgroundType.Yellow;
         public Color BGColor;
+
+        public ShadowType Shadow = ShadowType.Tinted;
+        public Color ShadowColor = Color.black;
 
         private float newBeat;
 
@@ -72,13 +83,15 @@ namespace RhythmHeavenMania.Games.KarateMan
         private void Awake()
         {
             instance = this;
+            BGType = 0;
             BGColor = BackgroundColors[0];
+            Shadow = 0;
         }
 
         public override void OnGameSwitch()
         {
             base.OnGameSwitch();
-            SetBackgroundColor(BGColor);
+            SetBackgroundColor((int)BGType, (int)Shadow, BGColor, ShadowColor);
         }
 
         public void Combo(float beat)
@@ -257,11 +270,13 @@ namespace RhythmHeavenMania.Games.KarateMan
             BGFXSprite.enabled = false;
         }
 
-        public void SetBackgroundColor(Color color)
+        public void SetBackgroundColor(int type, int shadowType, Color backgroundColor, Color shadowColor)
         {
-            Debug.Log("THE COLOR IS " + color.ToString());
-            BGColor = color;
-            BGSprite.color = color;
+            BGType = (BackgroundType)type;
+            BGColor = backgroundColor;
+            BGSprite.color = backgroundColor;
+            Shadow = (ShadowType)shadowType;
+            ShadowColor = shadowColor;
         }
 
         public void Bop(float beat, float length)
@@ -312,9 +327,16 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         public Color GetShadowColor()
         {
-            var col = Color.LerpUnclamped(KarateMan.instance.BGColor, KarateMan.ShadowBlendColor, 0.45f);
-
-            return col;
+            if(Shadow == ShadowType.Custom)
+            {
+                return ShadowColor;
+            }
+            else if(BGType < BackgroundType.Custom)
+            {
+                return ShadowColors[(int)BGType];
+            }
+            
+            return Color.LerpUnclamped(BGColor, ShadowBlendColor, 0.45f);
         }
     }
 }
