@@ -252,7 +252,6 @@ namespace RhythmHeavenMania
                     new GameAction("set background color",  delegate {
                         var e = eventCaller.currentEntity;
                         var c = KarateMan.instance.BackgroundColors[e.type];
-                        Debug.Log("TYPE=" + e.type.ToString() + ", SHADOW=" + e.type2.ToString());
                         if(e.type == (int)KarateMan.BackgroundType.Custom) c = e.colorA;
                         KarateMan.instance.SetBackgroundColor(e.type, e.type2, c, e.colorB);
                     }, 1f, false, new List<Param>()
