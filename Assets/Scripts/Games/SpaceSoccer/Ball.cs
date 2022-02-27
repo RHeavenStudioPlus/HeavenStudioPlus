@@ -9,6 +9,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 {
     public class Ball : MonoBehaviour
     {
+        public enum State { Dispensing, Kicked, HighKicked, Toe };
         [Header("Components")]
         [HideInInspector] public Kicker kicker;
         [SerializeField] private GameObject holder;
@@ -21,19 +22,101 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
         [SerializeField] private BezierCurve3D toeCurve;
 
         [Header("Properties")]
-        public float dispensedBeat = 0;
-        public bool dispensing;
-        public float hitTimes;
+        public float startBeat;
+        public State state;
+        public float nextAnimBeat;
         public float highKickSwing = 0f;
         private float lastSpriteRot;
-        public bool canKick;
-        public GameEvent kicked = new GameEvent();
-        public GameEvent highKicked = new GameEvent();
-        public GameEvent toe = new GameEvent();
+        public bool canKick; //unused
         private bool lastKickLeft;
 
-        private void Start()
+        public void Init(Kicker kicker, float dispensedBeat)
         {
+            this.kicker = kicker;
+            kicker.ball = this;
+            kicker.dispenserBeat = dispensedBeat;
+            float currentBeat = Conductor.instance.songPositionInBeats;
+
+            if(currentBeat - dispensedBeat < 2f) //check if ball is currently being dispensed (should only be false if starting in the middle of the remix)
+            {
+                //Debug.Log("Dispensing");
+                state = State.Dispensing;
+                startBeat = dispensedBeat;
+                nextAnimBeat = startBeat + GetAnimLength(State.Dispensing);
+                kicker.kickTimes = 0;
+                if (kicker.player)
+                {
+                    MultiSound.Play(new MultiSound.Sound[]
+                    {
+                    new MultiSound.Sound("spaceSoccer/dispenseNoise",   dispensedBeat),
+                    new MultiSound.Sound("spaceSoccer/dispenseTumble1", dispensedBeat + 0.25f),
+                    new MultiSound.Sound("spaceSoccer/dispenseTumble2", dispensedBeat + 0.5f),
+                    new MultiSound.Sound("spaceSoccer/dispenseTumble2B",dispensedBeat + 0.5f),
+                    new MultiSound.Sound("spaceSoccer/dispenseTumble3", dispensedBeat + 0.75f),
+                    new MultiSound.Sound("spaceSoccer/dispenseTumble4", dispensedBeat + 1f),
+                    new MultiSound.Sound("spaceSoccer/dispenseTumble5", dispensedBeat + 1.25f),
+                    new MultiSound.Sound("spaceSoccer/dispenseTumble6", dispensedBeat + 1.5f),
+                    new MultiSound.Sound("spaceSoccer/dispenseTumble6B",dispensedBeat + 1.75f),
+                    });
+                }
+                return;
+            }
+
+            List<Beatmap.Entity> highKicks = GameManager.instance.Beatmap.entities.FindAll(c => c.datamodel == "spaceSoccer/high kick-toe!");
+            int numHighKicks = 0;
+            //determine what state the ball was in for the previous kick.
+            for(int i = 0; i < highKicks.Count; i++)
+            {
+                if (highKicks[i].beat + highKicks[i].length <= currentBeat)
+                {
+                    numHighKicks++;
+                    continue;
+                }
+                if (highKicks[i].beat > currentBeat)
+                {
+                    //Debug.Log("Setting state to kicked");
+                    state = State.Kicked;
+                    float relativeBeat = currentBeat - dispensedBeat;
+                    startBeat = dispensedBeat + (int)(relativeBeat - 0.1); //this makes the startBeat be for the kick that is currently in progress, but it won't play the kicker's animation for that kick. the -0.1 makes it so that if playback is started right when the kicker kicks, it still plays the kicker's animation.
+                    nextAnimBeat = startBeat + GetAnimLength(State.Kicked);
+                    kicker.kickTimes = (int)(relativeBeat - 0.1) - numHighKicks - 1; //every high kick has 2 kicks in the same time a regular keep-up does 3 kicks.
+                    break;
+                }
+                else
+                {
+                    highKickSwing = highKicks[i].swing;
+                    if (highKicks[i].beat + GetAnimLength(State.HighKicked) > currentBeat)
+                    {
+                        //Debug.Log("Setting state to high kick");
+                        state = State.HighKicked;
+                        float relativeBeat = highKicks[i].beat - dispensedBeat;
+                        startBeat = dispensedBeat + Mathf.Ceil(relativeBeat); //there is a chance this makes startBeat later than the current beat, but it shouldn't matter too much. It would only happen if the user places the high kicks incorrectly.
+                        nextAnimBeat = startBeat + GetAnimLength(State.HighKicked);
+                        kicker.kickTimes = Mathf.CeilToInt(relativeBeat) - numHighKicks - 1;
+                        break;
+                    }
+                    else
+                    {
+                        //Debug.Log("Setting state to toe");
+                        state = State.Toe;
+                        float relativeBeat = Mathf.Ceil(highKicks[i].beat - dispensedBeat) + GetAnimLength(State.HighKicked); //there is a chance this makes startBeat later than the current beat, but it shouldn't matter too much. It would only happen if the user places the high kicks incorrectly.
+                        startBeat = dispensedBeat + relativeBeat;
+                        nextAnimBeat = startBeat + GetAnimLength(State.Toe);
+                        kicker.kickTimes = (int)(relativeBeat - GetAnimLength(State.HighKicked)) - numHighKicks;
+                        break;
+                    }
+                }
+            }
+            if(state == 0) //if the for loop didn't set the state
+            {
+                //Debug.Log("Defaulting to kicked state");
+                state = State.Kicked;
+                float relativeBeat = currentBeat - dispensedBeat;
+                startBeat = dispensedBeat + (int)(relativeBeat - 0.1); //this makes the startBeat be for the kick that is currently in progress, but it won't play the kicker's animation for that kick. the -0.1 makes it so that if playback is started right when the kicker kicks, it still plays the kicker's animation.
+                nextAnimBeat = startBeat + GetAnimLength(State.Kicked);
+                kicker.kickTimes = (int)(relativeBeat - 0.1) - numHighKicks - 1;
+            }
+            Update(); //make sure the ball is in the right place
         }
 
         public void Kick(bool player)
@@ -43,12 +126,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
             lastSpriteRot = spriteHolder.transform.eulerAngles.z;
 
-            dispensing = false;
-            kicked.enabled = true;
-            // kicked.startBeat = Conductor.instance.songPositionInBeats;
-            kicked.startBeat = dispensedBeat + 2 + hitTimes;
-
-            hitTimes++;
+            SetState(State.Kicked);
 
             lastKickLeft = kicker.kickLeft;
 
@@ -67,14 +145,9 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
         public void HighKick()
         {
-            hitTimes += GetHighKickLength(false);
-
             lastSpriteRot = spriteHolder.transform.eulerAngles.z;
 
-            dispensing = false;
-            kicked.enabled = false;
-            highKicked.enabled = true;
-            highKicked.startBeat = Conductor.instance.songPositionInBeats;
+            SetState(State.HighKicked);
 
             highKickCurve.KeyPoints[0].transform.position = holder.transform.position;
 
@@ -84,15 +157,10 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
         public void Toe()
         {
-            hitTimes += GetHighKickLength(true);
 
             lastSpriteRot = spriteHolder.transform.eulerAngles.z;
 
-            highKicked.enabled = false;
-            kicked.enabled = false;
-
-            toe.enabled = true;
-            toe.startBeat = Conductor.instance.songPositionInBeats;
+            SetState(State.Toe);
 
             toeCurve.KeyPoints[0].transform.position = holder.transform.position;
             if (lastKickLeft)
@@ -110,99 +178,106 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
         private void Update()
         {
-            if (dispensing)
+            switch (state) //handle animations
             {
-                float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(dispensedBeat, 2.35f);
-
-                dispenseCurve.KeyPoints[0].transform.position = new Vector3(kicker.transform.position.x - 6f, kicker.transform.position.y - 6f);
-                dispenseCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x - 1f, kicker.transform.position.y - 6f);
-
-                holder.transform.localPosition = dispenseCurve.GetPoint(normalizedBeatAnim);
-                spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(0f, -1440f, normalizedBeatAnim));
-
-                /*if (PlayerInput.Pressed())
-                {
-                    if (state.perfect)
+                case State.Dispensing:
                     {
-                        Kick();
+                        float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(startBeat, 2.35f);
+
+                        dispenseCurve.KeyPoints[0].transform.position = new Vector3(kicker.transform.position.x - 6f, kicker.transform.position.y - 6f);
+                        dispenseCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x - 1f, kicker.transform.position.y - 6f);
+
+                        holder.transform.localPosition = dispenseCurve.GetPoint(normalizedBeatAnim);
+                        spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(0f, -1440f, normalizedBeatAnim));
+
+                        /*if (PlayerInput.Pressed())
+                        {
+                            if (state.perfect)
+                            {
+                                Kick();
+                            }
+                        }*/
+                        break;
                     }
-                }*/
-            }
-            else if (kicked.enabled)
-            {
-                float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(kicked.startBeat, 1.5f);
-
-                if (!lastKickLeft)
-                {
-                    kickCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x + 0.5f, kicker.transform.position.y - 6f);
-                    spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastSpriteRot, lastSpriteRot - 360f, normalizedBeatAnim));
-                }
-                else
-                {
-                    kickCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x - 2.5f, kicker.transform.position.y - 6f);
-                    spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastSpriteRot, lastSpriteRot + 360f, normalizedBeatAnim));
-                }
-
-                holder.transform.localPosition = kickCurve.GetPoint(normalizedBeatAnim);
-
-                /*if (PlayerInput.Pressed())
-                {
-                    if (state.perfect)
+                case State.Kicked:
                     {
-                        if (kicker.canHighKick)
+                        float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(startBeat, 1.5f);
+
+                        if (!lastKickLeft)
                         {
-                            HighKick();
+                            kickCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x + 0.5f, kicker.transform.position.y - 6f);
+                            spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastSpriteRot, lastSpriteRot - 360f, normalizedBeatAnim));
                         }
-                        else if (kicker.canKick)
+                        else
                         {
-                            Kick();
+                            kickCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x - 2.5f, kicker.transform.position.y - 6f);
+                            spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastSpriteRot, lastSpriteRot + 360f, normalizedBeatAnim));
                         }
-                        // print(normalizedBeat);
+
+                        holder.transform.localPosition = kickCurve.GetPoint(normalizedBeatAnim);
+
+                        /*if (PlayerInput.Pressed())
+                        {
+                            if (state.perfect)
+                            {
+                                if (kicker.canHighKick)
+                                {
+                                    HighKick();
+                                }
+                                else if (kicker.canKick)
+                                {
+                                    Kick();
+                                }
+                                // print(normalizedBeat);
+                            }
+                        }*/
+                        break;
                     }
-                }*/
-            }
-            else if (highKicked.enabled)
-            {
-                float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(highKicked.startBeat, GetHighKickLength(false) + 0.3f);
-
-                highKickCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x - 3.5f, kicker.transform.position.y - 6f);
-
-                holder.transform.localPosition = highKickCurve.GetPoint(normalizedBeatAnim);
-                spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastSpriteRot, lastSpriteRot + 360f, normalizedBeatAnim));
-
-                // if (state.perfect) Debug.Break();
-
-                /*if (PlayerInput.Pressed())
-                {
-                    kickPrepare = true;
-                    kicker.Kick(this);
-                }
-                if (kickPrepare)
-                {
-                    if (PlayerInput.PressedUp())
+                case State.HighKicked:
                     {
-                        if (state.perfect)
+                        float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(startBeat, GetAnimLength(State.HighKicked) + 0.3f);
+
+                        highKickCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x - 3.5f, kicker.transform.position.y - 6f);
+
+                        holder.transform.localPosition = highKickCurve.GetPoint(normalizedBeatAnim);
+                        spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastSpriteRot, lastSpriteRot + 360f, normalizedBeatAnim));
+
+                        // if (state.perfect) Debug.Break();
+
+                        /*if (PlayerInput.Pressed())
                         {
-                            Toe();
+                            kickPrepare = true;
+                            kicker.Kick(this);
                         }
+                        if (kickPrepare)
+                        {
+                            if (PlayerInput.PressedUp())
+                            {
+                                if (state.perfect)
+                                {
+                                    Toe();
+                                }
+                            }
+                        }*/
+                        break;
                     }
-                }*/
-            }
-            else if (toe.enabled)
-            {
-                float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(toe.startBeat, GetHighKickLength(true) + 0.35f);
+                case State.Toe:
+                    {
+                        float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(startBeat, GetAnimLength(State.Toe) + 0.35f);
 
-                if (!lastKickLeft)
-                {
-                    toeCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x + 0.5f, kicker.transform.position.y - 6f);
-                }
-                else
-                {
-                    toeCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x - 1.0f, kicker.transform.position.y - 6f);
-                }
+                        if (!lastKickLeft)
+                        {
+                            toeCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x + 0.5f, kicker.transform.position.y - 6f);
+                        }
+                        else
+                        {
+                            toeCurve.KeyPoints[1].transform.position = new Vector3(kicker.transform.position.x - 1.0f, kicker.transform.position.y - 6f);
+                        }
 
-                holder.transform.localPosition = toeCurve.GetPoint(normalizedBeatAnim);
-                spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastSpriteRot, -860f, normalizedBeatAnim));
+                        holder.transform.localPosition = toeCurve.GetPoint(normalizedBeatAnim);
+                        spriteHolder.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(lastSpriteRot, -860f, normalizedBeatAnim));
+                        break;
+                    }
             }
 
             holder.transform.position = new Vector3(holder.transform.position.x, holder.transform.position.y, kicker.transform.localPosition.z);
@@ -215,22 +290,28 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
             kickfx.transform.position = holder.transform.position;
         }
 
-        public float GetHighKickLength(bool fromToe)
+        private void SetState(State newState)
         {
-            if (highKickSwing == 0f)
+            state = newState;
+            startBeat = nextAnimBeat;
+            nextAnimBeat += GetAnimLength(newState);
+        }
+
+        public float GetAnimLength(State anim)
+        {
+            switch(anim)
             {
-                return 1.5f;
-            }
-            else
-            {
-                if (fromToe)
-                {
-                    return 2f - (1f - highKickSwing);
-                }
-                else
-                {
+                case State.Dispensing:
+                    return 2f;
+                case State.Kicked:
+                    return 1f;
+                case State.HighKicked:
                     return 2f - highKickSwing;
-                }
+                case State.Toe:
+                    return 2f - (1f - highKickSwing);
+                default:
+                    Debug.LogError("Ball has invalid state. State number: " + (int)anim);
+                    return 0f;
             }
         }
     }

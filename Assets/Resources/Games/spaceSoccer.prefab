@@ -1386,9 +1386,9 @@ MonoBehaviour:
     perfect: 0
     late: 0
     createBeat: 0
-  isEligible: 0
   eligibleHitsList: []
   aceTimes: 0
+  isEligible: 0
   canKick: 0
   canHighKick: 0
   kickLeft: 0
@@ -2004,7 +2004,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6448989353494316845
 Transform:
   m_ObjectHideFlags: 0
@@ -2044,9 +2044,10 @@ MonoBehaviour:
   kickCurve: {fileID: 1507665286932590801}
   highKickCurve: {fileID: 5471456891558289981}
   toeCurve: {fileID: 8336007186072323660}
-  dispensedBeat: 0
-  dispensing: 0
-  hitTimes: 0
+  startBeat: 0
+  state: 0
+  nextAnimBeat: 0
+  highKickSwing: 0
   canKick: 0
 --- !u!1 &4365805729759623217
 GameObject:
@@ -3886,9 +3887,9 @@ MonoBehaviour:
     perfect: 0
     late: 0
     createBeat: 0
-  isEligible: 0
   eligibleHitsList: []
   aceTimes: 0
+  isEligible: 0
   canKick: 0
   canHighKick: 0
   kickLeft: 0
