@@ -41,9 +41,11 @@ namespace RhythmHeavenMania
             List<Minigames.Minigame> minigamesInBeatmap = new List<Minigames.Minigame>();
             for (int i = 0; i < GameManager.instance.Beatmap.entities.Count; i++)
             {
-                if (!minigamesInBeatmap.Contains(minigames.Find(c => c.name == GameManager.instance.Beatmap.entities[i].datamodel.Split('/')[0])) && !FXOnlyGames().Contains(GetMinigame(GameManager.instance.Beatmap.entities[i].datamodel.Split('/')[0])))
+                //go through every entity in the timeline and add the game that they're from to the minigamesInBeatmap list (ignore entities from FX only categories, i.e. Game Manager and Count-Ins)
+                Minigames.Minigame game = GetMinigame(GameManager.instance.Beatmap.entities[i].datamodel.Split('/')[0]);
+                if (!minigamesInBeatmap.Contains(game) && !FXOnlyGames().Contains(game))
                 {
-                    minigamesInBeatmap.Add(minigames.Find(c => c.name == GameManager.instance.Beatmap.entities[i].datamodel.Split('/')[0]));
+                    minigamesInBeatmap.Add(game);
                 }
             }
 
@@ -55,18 +57,16 @@ namespace RhythmHeavenMania
 
         private void Update()
         {
-            if (GameManager.instance.currentEvent >= 0 && GameManager.instance.currentEvent < GameManager.instance.Beatmap.entities.Count)
-            currentEntity.beat = GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].beat;
+            
         }
 
-        public void CallEvent(string event_)
+        public void CallEvent(Beatmap.Entity entity)
         {
-            string[] details = event_.Split('/');
+            string[] details = entity.datamodel.Split('/');
             Minigames.Minigame game = minigames.Find(c => c.name == details[0]);
-
             try
             {
-                currentEntity = (Beatmap.Entity)GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].Clone();
+                currentEntity = entity;
 
                 if (details.Length > 2) currentSwitchGame = details[2];
 
