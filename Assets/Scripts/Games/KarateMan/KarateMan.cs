@@ -10,19 +10,33 @@ namespace RhythmHeavenMania.Games.KarateMan
     {
         public enum LightBulbType
         {
-            Normal = 0,
-            Blue = 1,
-            Yellow = 2,
-            Custom = 3
+            Normal,
+            Blue,
+            Yellow,
+            Custom 
         }
 
-        public Color[] LightBulbColors = new Color[]
+        public enum BackgroundType
         {
-            new Color(0, 0, 0, 0),
-            new Color(2, 207, 255),
-            new Color(233, 233, 0),
-            new Color(0, 0, 0, 0)
-        };
+            Yellow,
+            Fushia,
+            Blue,
+            Red,
+            Orange,
+            Pink,
+            Custom
+        }
+
+        public enum ShadowType
+        {
+            Tinted,
+            Custom
+        }
+
+        public Color[] LightBulbColors;
+        public Color[] BackgroundColors;
+        public Color[] ShadowColors;
+        public static Color ShadowBlendColor = new Color(195f / 255f, 48f / 255f, 2f / 255f);
 
         const float hitVoiceOffset = 0.042f;
 
@@ -34,13 +48,18 @@ namespace RhythmHeavenMania.Games.KarateMan
         public static KarateMan instance { get; set; }
 
         public Sprite[] ObjectSprites;
-        public Sprite[] ObjectBottomSprites;
         public Sprite[] BarrelSprites;
 
         public List<BGSpriteC> BGSprites;
         public SpriteRenderer BGSprite;
+        public SpriteRenderer BGFXSprite;
 
-        private bool bgEnabled;
+        public BackgroundType BGType = BackgroundType.Yellow;
+        public Color BGColor;
+
+        public ShadowType Shadow = ShadowType.Tinted;
+        public Color ShadowColor = Color.black;
+
         private float newBeat;
 
         public GameEvent bop = new GameEvent();
@@ -64,6 +83,15 @@ namespace RhythmHeavenMania.Games.KarateMan
         private void Awake()
         {
             instance = this;
+            BGType = 0;
+            BGColor = BackgroundColors[0];
+            Shadow = 0;
+        }
+
+        public override void OnGameSwitch()
+        {
+            base.OnGameSwitch();
+            SetBackgroundColor((int)BGType, (int)Shadow, BGColor, ShadowColor);
         }
 
         public void Combo(float beat)
@@ -181,15 +209,15 @@ namespace RhythmHeavenMania.Games.KarateMan
         {
             if (Conductor.instance.ReportBeat(ref newBeat))
             {
-                if (bgEnabled)
+                if (BGFXSprite.enabled)
                 {
                     if (bgBeat % 2 == 0)
                     {
-                        BGSprite.sprite = BGSprites[0].Sprites[1];
+                        BGFXSprite.sprite = BGSprites[0].Sprites[0];
                     }
                     else
                     {
-                        BGSprite.sprite = BGSprites[0].Sprites[2];
+                        BGFXSprite.sprite = BGSprites[0].Sprites[1];
                     }
                     bgBeat++;
                 }
@@ -234,13 +262,21 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         public void BGFXOn()
         {
-            bgEnabled = true;
+            BGFXSprite.enabled = true;
         }
 
         public void BGFXOff()
         {
-            bgEnabled = false;
-            BGSprite.sprite = BGSprites[0].Sprites[0];
+            BGFXSprite.enabled = false;
+        }
+
+        public void SetBackgroundColor(int type, int shadowType, Color backgroundColor, Color shadowColor)
+        {
+            BGType = (BackgroundType)type;
+            BGColor = backgroundColor;
+            BGSprite.color = backgroundColor;
+            Shadow = (ShadowType)shadowType;
+            ShadowColor = shadowColor;
         }
 
         public void Bop(float beat, float length)
@@ -287,6 +323,20 @@ namespace RhythmHeavenMania.Games.KarateMan
             shadow.transform.parent = bomb.transform;
             shadow.transform.SetAsLastSibling();
             bomb.GetComponent<Bomb>().shadow = shadow;
+        }
+
+        public Color GetShadowColor()
+        {
+            if(Shadow == ShadowType.Custom)
+            {
+                return ShadowColor;
+            }
+            else if(BGType < BackgroundType.Custom)
+            {
+                return ShadowColors[(int)BGType];
+            }
+            
+            return Color.LerpUnclamped(BGColor, ShadowBlendColor, 0.45f);
         }
     }
 }
