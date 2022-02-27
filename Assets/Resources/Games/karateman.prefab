@@ -17775,6 +17775,13 @@ MonoBehaviour:
   - {r: 1, g: 0.58431375, b: 0.3137255, a: 1}
   - {r: 0.9607844, g: 0.7725491, b: 0.78823537, a: 1}
   - {r: 0, g: 0, b: 0, a: 0}
+  ShadowColors:
+  - {r: 0.84313726, g: 0.52156866, b: 0.23137255, a: 1}
+  - {r: 0.88235295, g: 0.41960785, b: 0.5294118, a: 1}
+  - {r: 0.3137255, g: 0.31764707, b: 0.40784317, a: 1}
+  - {r: 0, g: 0, b: 0, a: 1}
+  - {r: 0.454902, g: 0.19607845, b: 0.121568635, a: 1}
+  - {r: 0.654902, g: 0.4156863, b: 0.45882356, a: 1}
   Pot: {fileID: 7248900332380919981}
   Bomb: {fileID: 1878496493894552565}
   KarateJoe: {fileID: 7248900332013002443}
@@ -17799,7 +17806,10 @@ MonoBehaviour:
     - {fileID: 21300000, guid: f05694d1ff974fe4387e487d025edede, type: 3}
   BGSprite: {fileID: 7248900333330862853}
   BGFXSprite: {fileID: 7037067448840752386}
+  BGType: 0
   BGColor: {r: 0.94117653, g: 0.91372555, b: 0.43921572, a: 1}
+  Shadow: 0
+  ShadowColor: {r: 0, g: 0, b: 0, a: 0}
   comboRef: {fileID: 1174851578296134715}
   HIT3Ref: {fileID: 6398113137460299953}
   Numbers:
@@ -17859,7 +17869,7 @@ Transform:
   m_GameObject: {fileID: 7248900333330862855}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 600, y: 600, z: 1}
+  m_LocalScale: {x: 300, y: 300, z: 1}
   m_Children: []
   m_Father: {fileID: 7248900332961029735}
   m_RootOrder: 0
