@@ -57,8 +57,7 @@ namespace RhythmHeavenMania
 
         private void Update()
         {
-            if (GameManager.instance.currentEvent >= 0 && GameManager.instance.currentEvent < GameManager.instance.Beatmap.entities.Count)
-            currentEntity.beat = GameManager.instance.Beatmap.entities[GameManager.instance.currentEvent].beat;
+            
         }
 
         public void CallEvent(Beatmap.Entity entity)
