@@ -6257,6 +6257,10 @@ MonoBehaviour:
   - {fileID: 3379959602278205485, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
   - {fileID: 8497358629359107968, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
   missEffect: {fileID: 564650125393930190}
+  shadows:
+  - {fileID: 7248900332856218914}
+  - {fileID: 7248900333476518146}
+  - {fileID: 4233113091070337915}
   hitBarrel: 0
   inCombo: 0
   hitCombo: 0
@@ -17442,6 +17446,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7248900333330862852}
+  - {fileID: 8701843541313247389}
   m_Father: {fileID: 7248900333300803150}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17762,6 +17767,21 @@ MonoBehaviour:
   - {r: 0.007843138, g: 0.8117647, b: 1, a: 1}
   - {r: 233, g: 233, b: 0, a: 1}
   - {r: 0, g: 0, b: 0, a: 0}
+  BackgroundColors:
+  - {r: 0.9411765, g: 0.9137255, b: 0.4392157, a: 1}
+  - {r: 0.99607843, g: 0.60784316, b: 0.98039216, a: 1}
+  - {r: 0.42745098, g: 0.6666667, b: 0.8784314, a: 1}
+  - {r: 1, g: 0.09411766, b: 0, a: 1}
+  - {r: 1, g: 0.58431375, b: 0.3137255, a: 1}
+  - {r: 0.9607844, g: 0.7725491, b: 0.78823537, a: 1}
+  - {r: 0, g: 0, b: 0, a: 0}
+  ShadowColors:
+  - {r: 0.84313726, g: 0.52156866, b: 0.23137255, a: 1}
+  - {r: 0.88235295, g: 0.41960785, b: 0.5294118, a: 1}
+  - {r: 0.3137255, g: 0.31764707, b: 0.40784317, a: 1}
+  - {r: 0, g: 0, b: 0, a: 1}
+  - {r: 0.454902, g: 0.19607845, b: 0.121568635, a: 1}
+  - {r: 0.654902, g: 0.4156863, b: 0.45882356, a: 1}
   Pot: {fileID: 7248900332380919981}
   Bomb: {fileID: 1878496493894552565}
   KarateJoe: {fileID: 7248900332013002443}
@@ -17774,14 +17794,6 @@ MonoBehaviour:
   - {fileID: 8671423413994339737, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
   - {fileID: -6341196331951941137, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
   - {fileID: -6283416824598814145, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  ObjectBottomSprites:
-  - {fileID: 0}
-  - {fileID: 21300000, guid: 2dcc4a0e0420a8e4097445cac4b2e1ab, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   BarrelSprites:
   - {fileID: 6524922379630696755, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
   - {fileID: 1156572009758090512, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
@@ -17790,10 +17802,14 @@ MonoBehaviour:
   - {fileID: 5805539206011318834, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
   BGSprites:
   - Sprites:
-    - {fileID: 21300000, guid: 1c02ce8c213d84d4c972dcdcbfbf535c, type: 3}
     - {fileID: 21300000, guid: 72431c7c58f54e848bcb7527635bb72b, type: 3}
     - {fileID: 21300000, guid: f05694d1ff974fe4387e487d025edede, type: 3}
   BGSprite: {fileID: 7248900333330862853}
+  BGFXSprite: {fileID: 7037067448840752386}
+  BGType: 0
+  BGColor: {r: 0.94117653, g: 0.91372555, b: 0.43921572, a: 1}
+  Shadow: 0
+  ShadowColor: {r: 0, g: 0, b: 0, a: 0}
   comboRef: {fileID: 1174851578296134715}
   HIT3Ref: {fileID: 6398113137460299953}
   Numbers:
@@ -17853,7 +17869,7 @@ Transform:
   m_GameObject: {fileID: 7248900333330862855}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 300, y: 300, z: 1}
   m_Children: []
   m_Father: {fileID: 7248900332961029735}
   m_RootOrder: 0
@@ -17898,8 +17914,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -300
-  m_Sprite: {fileID: 21300000, guid: 1c02ce8c213d84d4c972dcdcbfbf535c, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 7482667652216324306, guid: ef2fa2a75dc283e40b9d4fe1f20dc6fb, type: 3}
+  m_Color: {r: 0.94117653, g: 0.91372555, b: 0.43921572, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -18347,3 +18363,85 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flickerInterval: 0.1
+--- !u!1 &8963803634876878173
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8701843541313247389}
+  - component: {fileID: 7037067448840752386}
+  m_Layer: 0
+  m_Name: FX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8701843541313247389
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8963803634876878173}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7248900332961029735}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &7037067448840752386
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8963803634876878173}
+  m_Enabled: 0
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -299
+  m_Sprite: {fileID: 21300000, guid: 72431c7c58f54e848bcb7527635bb72b, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 12.8, y: 7.2}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0

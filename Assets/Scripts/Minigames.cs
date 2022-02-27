@@ -233,8 +233,8 @@ namespace RhythmHeavenMania
                     new GameAction("bulb",                  delegate {
                         var e = eventCaller.currentEntity;
                         var c = KarateMan.instance.LightBulbColors[e.type];
-                        if(e.type == 3) c = e.colorA;
-                        KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 1, tint: c);
+                        if(e.type == (int)KarateMan.LightBulbType.Custom) c = e.colorA;
+                        KarateMan.instance.Shoot(e.beat, 1, tint: c);
                     }, 2, false, new List<Param>()
                     {
                         new Param("type", KarateMan.LightBulbType.Normal, "Type"),
@@ -249,6 +249,18 @@ namespace RhythmHeavenMania
                     new GameAction("prepare",               delegate { KarateMan.instance.Prepare(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 1f, true),
                     new GameAction("bgfxon",                delegate { KarateMan.instance.BGFXOn(); } ),
                     new GameAction("bgfxoff",               delegate { KarateMan.instance.BGFXOff(); }),
+                    new GameAction("set background color",  delegate {
+                        var e = eventCaller.currentEntity;
+                        var c = KarateMan.instance.BackgroundColors[e.type];
+                        if(e.type == (int)KarateMan.BackgroundType.Custom) c = e.colorA;
+                        KarateMan.instance.SetBackgroundColor(e.type, e.type2, c, e.colorB);
+                    }, 0.5f, false, new List<Param>()
+                    {
+                        new Param("type", KarateMan.BackgroundType.Yellow, "Background Type"),
+                        new Param("type2", KarateMan.ShadowType.Tinted, "Shadow Type"),
+                        new Param("colorA", new Color(), "Custom Background Color"),
+                        new Param("colorB", new Color(), "Custom Shadow Color")
+                    }),
                     new GameAction("tacobell",              delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 6); }, 2),
                 }),
                 new Minigame("spaceSoccer", "Space Soccer", "B888F8", false, false, new List<GameAction>()
