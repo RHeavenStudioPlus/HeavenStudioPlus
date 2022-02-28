@@ -19,7 +19,7 @@ namespace RhythmHeavenMania.Games.KarateMan
         public enum BackgroundType
         {
             Yellow,
-            Fushia,
+            Fuchsia,
             Blue,
             Red,
             Orange,
