@@ -108,8 +108,11 @@ namespace RhythmHeavenMania.Games.KarateMan
         private IEnumerator FadeOut()
         {
             yield return new WaitForSeconds(Conductor.instance.secPerBeat * 3);
+            var shadowSprite = shadow.GetComponent<SpriteRenderer>();
+            var fadeColor = shadowSprite.color;
+            fadeColor.a = 0;
             SpriteRenderer.DOColor(new Color(1, 1, 1, 0), Conductor.instance.secPerBeat * 3).OnComplete(delegate { Destroy(this.gameObject); });
-            shadow.GetComponent<SpriteRenderer>().DOColor(new Color(1, 1, 1, 0), Conductor.instance.secPerBeat * 3).OnComplete(delegate { Destroy(shadow); });
+            shadowSprite.DOColor(fadeColor, Conductor.instance.secPerBeat * 3).OnComplete(delegate { Destroy(shadow); });
         }
     }
 }
