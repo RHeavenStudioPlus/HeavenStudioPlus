@@ -48,6 +48,7 @@ namespace RhythmHeavenMania.Editor
         [SerializeField] private Button EditorSettingsBTN;
         [SerializeField] private Button EditorThemeBTN;
         [SerializeField] private Button FullScreenBTN;
+        [SerializeField] private Button TempoFinderBTN;
 
         [Header("Properties")]
         private bool changedMusic = false;
@@ -93,6 +94,7 @@ namespace RhythmHeavenMania.Editor
             Tooltip.AddTooltip(EditorSettingsBTN.gameObject, "Editor Settings <color=#adadad>[Ctrl+Shift+O]</color>");
             Tooltip.AddTooltip(EditorThemeBTN.gameObject, "Editor Theme");
             Tooltip.AddTooltip(FullScreenBTN.gameObject, "Preview <color=#adadad>[Tab]</color>");
+            Tooltip.AddTooltip(TempoFinderBTN.gameObject, "Tempo Finder");
 
             UpdateEditorStatus(true);
         }
