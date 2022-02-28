@@ -190,12 +190,15 @@ namespace RhythmHeavenMania
             }
         }
 
-        public bool ReportBeat(ref float lastReportedBeat, float offset = 0)
+        public bool ReportBeat(ref float lastReportedBeat, float offset = 0, bool shiftBeatToOffset = false)
         {
             bool result = songPosition > (lastReportedBeat + offset) + secPerBeat;
             if (result == true)
             {
-                lastReportedBeat = (songPosition - (songPosition % secPerBeat) + offset);
+                lastReportedBeat = (songPosition - (songPosition % secPerBeat));
+
+                if (!shiftBeatToOffset)
+                    lastReportedBeat += offset;
             }
             return result;
         }
