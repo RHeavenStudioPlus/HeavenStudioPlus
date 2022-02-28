@@ -113,7 +113,7 @@ Transform:
   m_LocalScale: {x: 2.166603, y: 2.22111, z: 1}
   m_Children: []
   m_Father: {fileID: 2907041458994465612}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2108081423830504772
 SpriteRenderer:
@@ -236,6 +236,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6892e03a2f2994b48a4b076fdfae805d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inList: 0
+  lastState: 0
+  state:
+    gameObject: {fileID: 0}
+    early: 0
+    perfect: 0
+    late: 0
+    createBeat: 0
+  eligibleHitsList: []
+  aceTimes: 0
+  isEligible: 0
+  triggersAutoplay: 1
+  nextBeat: 0
 --- !u!1 &335036550381843476
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,6 +577,62 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1588738713562392816
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5208471493270040557}
+  - component: {fileID: 6245594884647355465}
+  m_Layer: 0
+  m_Name: Tap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &5208471493270040557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588738713562392816}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6495189186508343095}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6245594884647355465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588738713562392816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01f0b70cc14be2e47998a680099e7986, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inList: 0
+  lastState: 0
+  state:
+    gameObject: {fileID: 0}
+    early: 0
+    perfect: 0
+    late: 0
+    createBeat: 0
+  eligibleHitsList: []
+  aceTimes: 0
+  isEligible: 0
+  triggersAutoplay: 1
+  startBeat: 0
 --- !u!1 &2036719006303025046
 GameObject:
   m_ObjectHideFlags: 0
@@ -876,6 +945,7 @@ Transform:
   - {fileID: 2447600723971154318}
   - {fileID: 6128063303297303287}
   - {fileID: 7656869706203293275}
+  - {fileID: 6495189186508343095}
   - {fileID: 6660332389952895749}
   - {fileID: 7667021380834212371}
   - {fileID: 7618359020666823781}
@@ -897,6 +967,7 @@ MonoBehaviour:
   EligibleHits: []
   firstEnable: 0
   player: {fileID: 3802388599767290996}
+  tap: {fileID: 1588738713562392816}
 --- !u!1 &3076910857648561258
 GameObject:
   m_ObjectHideFlags: 0
@@ -926,7 +997,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2907041458994465612}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8011646622740663204
 SpriteRenderer:
@@ -1666,7 +1737,7 @@ Transform:
   m_LocalScale: {x: 2.136603, y: 2.2011096, z: 1}
   m_Children: []
   m_Father: {fileID: 2907041458994465612}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6120332165088402499
 SpriteRenderer:
@@ -2164,3 +2235,34 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &8537406413473122392
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6495189186508343095}
+  m_Layer: 0
+  m_Name: Beats
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6495189186508343095
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8537406413473122392}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5208471493270040557}
+  m_Father: {fileID: 2907041458994465612}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
