@@ -14,6 +14,7 @@ using RhythmHeavenMania.Games.RhythmTweezers;
 using RhythmHeavenMania.Games.RhythmRally;
 using RhythmHeavenMania.Games.BuiltToScaleDS;
 using RhythmHeavenMania.Games.TapTrial;
+using RhythmHeavenMania.Games.CropStomp;
 
 namespace RhythmHeavenMania
 {
@@ -337,6 +338,10 @@ namespace RhythmHeavenMania
                     new GameAction("triple tap",            delegate { TapTrial.instance.TripleTap(eventCaller.currentEntity.beat); }, 4.0f, false),
                     new GameAction("jump tap",              delegate { TapTrial.instance.JumpTap(eventCaller.currentEntity.beat); }, 2.0f, false),
                     new GameAction("final jump tap",        delegate { TapTrial.instance.FinalJumpTap(eventCaller.currentEntity.beat); }, 2.0f, false),
+                }),
+                new Minigame("cropStomp", "Crop Stomp \n<color=#eb5454>[WIP don't use]</color>", "BFDEA6", false, false, new List<GameAction>()
+                {
+                    new GameAction("start marching",        delegate { CropStomp.instance.StartMarching(eventCaller.currentEntity.beat); }, 0.5f, false),
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
