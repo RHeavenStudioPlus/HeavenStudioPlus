@@ -47,36 +47,39 @@ namespace RhythmHeavenMania.Games.ForkLifter
         {
             ForkLifterPlayer.instance.Stab(this);
 
-            GameObject pea = new GameObject();
-
-            pea.transform.parent = ForkLifterPlayer.instance.perfect.transform;
-            pea.transform.localScale = Vector2.one;
-            pea.transform.localRotation = Quaternion.Euler(0, 0, 0);
-
-            pea.transform.localPosition = Vector3.zero;
-
-            for (int i = 0; i < ForkLifterPlayer.instance.perfect.transform.childCount; i++)
+            if (ForkLifterPlayer.instance.currentPerfectPeasOnFork < 4)
             {
-                ForkLifterPlayer.instance.perfect.transform.GetChild(i).transform.localPosition = new Vector3(0, (-1.67f - (0.15724f * i)) + 0.15724f * ForkLifterPlayer.instance.currentPerfectPeasOnFork);
-            }
+                GameObject pea = new GameObject();
 
-            SpriteRenderer psprite = pea.AddComponent<SpriteRenderer>();
-            psprite.sprite = ForkLifter.instance.peaHitSprites[type];
-            psprite.sortingOrder = 20;
-            switch (type)
-            {
-                case 0:
-                    psprite.sortingOrder = 101;
-                    break;
-                case 1:
-                    psprite.sortingOrder = 104;
-                    break;
-                case 2:
-                    psprite.sortingOrder = 103;
-                    break;
-                case 3:
-                    psprite.sortingOrder = 102;
-                    break;
+                pea.transform.parent = ForkLifterPlayer.instance.perfect.transform;
+                pea.transform.localScale = Vector2.one;
+                pea.transform.localRotation = Quaternion.Euler(0, 0, 0);
+
+                pea.transform.localPosition = Vector3.zero;
+
+                for (int i = 0; i < ForkLifterPlayer.instance.perfect.transform.childCount; i++)
+                {
+                    ForkLifterPlayer.instance.perfect.transform.GetChild(i).transform.localPosition = new Vector3(0, (-1.67f - (0.15724f * i)) + 0.15724f * ForkLifterPlayer.instance.currentPerfectPeasOnFork);
+                }
+
+                SpriteRenderer psprite = pea.AddComponent<SpriteRenderer>();
+                psprite.sprite = ForkLifter.instance.peaHitSprites[type];
+                psprite.sortingOrder = 20;
+                switch (type)
+                {
+                    case 0:
+                        psprite.sortingOrder = 101;
+                        break;
+                    case 1:
+                        psprite.sortingOrder = 104;
+                        break;
+                    case 2:
+                        psprite.sortingOrder = 103;
+                        break;
+                    case 3:
+                        psprite.sortingOrder = 102;
+                        break;
+                }
             }
 
             GameObject hitFXo = new GameObject();
