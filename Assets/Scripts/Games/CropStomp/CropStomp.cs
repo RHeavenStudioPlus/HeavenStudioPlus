@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 using RhythmHeavenMania.Util;
 
@@ -18,6 +19,7 @@ namespace RhythmHeavenMania.Games.CropStomp
         private float marchOffset;
         private int currentMarchBeat;
         private int stepCount;
+        private bool isStepping;
 
         public bool isMarching => marchStartBeat != -1f && Conductor.instance.isPlaying;
 
@@ -26,6 +28,9 @@ namespace RhythmHeavenMania.Games.CropStomp
         public SpriteRenderer grass;
         public Transform grassTrans;
         public Transform scrollingHolder;
+        public Farmer farmer;
+
+        private Tween shakeTween;
 
         public static CropStomp instance;
 
@@ -58,10 +63,18 @@ namespace RhythmHeavenMania.Games.CropStomp
                 // Step.
                 if (currentMarchBeat % 2 != 0)
                 {
-                    stepCount += 1;
-                    var stepAnim = (stepCount % 2 != 0 ? "StepFront" : "StepBack");
-                    
-                    legsAnim.Play(stepAnim, 0, 0);
+                    // Don't step if already stomped.
+                    if (!isStepping)
+                    {
+                        stepCount += 1;
+                        var stepAnim = (stepCount % 2 != 0 ? "StepFront" : "StepBack");
+                        
+                        legsAnim.Play(stepAnim, 0, 0);
+
+                        isStepping = true;
+                    }
+
+                    Jukebox.PlayOneShotGame("cropStomp/hmm");
                 }
                 // Lift.
                 else
@@ -71,6 +84,8 @@ namespace RhythmHeavenMania.Games.CropStomp
 
                     var farmerPos = farmerTrans.localPosition;
                     farmerTrans.localPosition = new Vector3(farmerPos.x - stepDistance, farmerPos.y, farmerPos.z);
+
+                    isStepping = false;
                 }
             }
 
@@ -94,6 +109,30 @@ namespace RhythmHeavenMania.Games.CropStomp
             marchOffset = (marchStartBeat % 1) * Conductor.instance.secPerBeat / Conductor.instance.musicSource.pitch;
             currentMarchBeat = 0;
             stepCount = 0;
+
+            farmer.nextStompBeat = beat;
+        }
+
+        public void Stomp()
+        {
+            // Don't increment step counter if autostep stepped already.
+            if (!isStepping)
+                stepCount += 1;
+
+            var stompAnim = (stepCount % 2 != 0 ? "StompFront" : "StompBack");
+            
+            legsAnim.Play(stompAnim, 0, 0);
+
+            Jukebox.PlayOneShotGame("cropStomp/stomp");
+
+            if (shakeTween != null)
+                shakeTween.Kill(true);
+            
+            var camTrans = GameCamera.instance.transform;
+            camTrans.localPosition = new Vector3(camTrans.localPosition.x, 0.75f, camTrans.localPosition.z);
+            camTrans.DOLocalMoveY(0f, 0.5f).SetEase(Ease.OutElastic, 1f);
+
+            isStepping = true;
         }
     }
 }
