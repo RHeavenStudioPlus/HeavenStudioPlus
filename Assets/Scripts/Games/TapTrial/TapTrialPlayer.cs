@@ -24,7 +24,7 @@ namespace RhythmHeavenMania.Games.TapTrial
 
         public void Tap(bool hit)
         {
-            Jukebox.PlayOneShotGame("tapTrial/tap");
+            Jukebox.PlayOneShotGame("tapTrial/tonk");
             anim.Play("Tap", 0, 0);
         }
     }
