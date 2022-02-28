@@ -19,7 +19,7 @@ namespace RhythmHeavenMania.Games.CropStomp
         private int currentMarchBeat;
         private int stepCount;
 
-        public bool isMarching => marchStartBeat != -1f;
+        public bool isMarching => marchStartBeat != -1f && Conductor.instance.isPlaying;
 
         public Animator legsAnim;
         public Transform farmerTrans;
