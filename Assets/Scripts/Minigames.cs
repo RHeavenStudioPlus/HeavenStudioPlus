@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 using RhythmHeavenMania.Util;
 
@@ -326,6 +327,15 @@ namespace RhythmHeavenMania
                     new GameAction("fast rally",            delegate { RhythmRally.instance.PrepareFastRally(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.Fast); }, 6f),
                     new GameAction("superfast rally",       delegate { RhythmRally.instance.PrepareFastRally(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.SuperFast); }, 12f),
                     new GameAction("pose",                  delegate { RhythmRally.instance.Pose(); }, 0.5f),
+                    new GameAction("camera",                delegate {
+                        var e = eventCaller.currentEntity;
+                        var rotation = new Vector3(0, e.valA, 0);
+                        RhythmRally.instance.ChangeCameraAngle(rotation, e.length, (Ease)e.type, (RotateMode)e.type2);
+                    }, 4, true, new List<Param>() {
+                        new Param("valA", new EntityTypes.Integer(-360, 360, 0), "Angle"),
+                        new Param("type", Ease.Linear, "Ease"),
+                        new Param("type2", RotateMode.Fast, "Rotation Mode")
+                    } ),
                 }),
                 new Minigame("builtToScaleDS", "Built To Scale (DS) \n<color=#eb5454>[WIP don't use]</color>", "00BB00", true, false, new List<GameAction>()
                 {

@@ -27,7 +27,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 6509993024069972873}
+  - {fileID: 5472155158897914726}
   - {fileID: 3078425781313688086}
   - {fileID: 4228713593463920381}
   - {fileID: 4959957736091286558}
@@ -231,6 +231,37 @@ TrailRenderer:
   m_MinVertexDistance: 0
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!1 &1501271021389222783
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5472155158897914726}
+  m_Layer: 10
+  m_Name: CameraPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5472155158897914726
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501271021389222783}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6509993024069972873}
+  m_Father: {fileID: 4631944531018638297}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1668061868608559892
 GameObject:
   m_ObjectHideFlags: 0
@@ -831,9 +862,9 @@ MonoBehaviour:
     perfect: 0
     late: 0
     createBeat: 0
-  isEligible: 0
   eligibleHitsList: []
   aceTimes: 0
+  isEligible: 0
 --- !u!1 &3340141389927785323
 GameObject:
   m_ObjectHideFlags: 0
@@ -1008,7 +1039,7 @@ Transform:
   m_LocalPosition: {x: -1.86, y: 2.2, z: -3.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4631944531018638297}
+  m_Father: {fileID: 5472155158897914726}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 20.97, y: 27.3, z: 0}
 --- !u!20 &6268063764140376526
@@ -1709,6 +1740,7 @@ MonoBehaviour:
   firstEnable: 0
   renderQuadTrans: {fileID: 743597382397742394}
   cameraPos: {fileID: 6509993024069972873}
+  cameraPivot: {fileID: 5472155158897914726}
   ball: {fileID: 1668061868608559892}
   ballShadow: {fileID: 7207398029238753263}
   ballTrail: {fileID: 4238313091838702597}
@@ -2048,14 +2080,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cebeb8610d89fb34688750080a285ddb, type: 3}
---- !u!4 &397144130134918796 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cebeb8610d89fb34688750080a285ddb, type: 3}
-  m_PrefabInstance: {fileID: 146447278275535207}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1065418898597387318 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: cebeb8610d89fb34688750080a285ddb, type: 3}
+  m_PrefabInstance: {fileID: 146447278275535207}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &397144130134918796 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cebeb8610d89fb34688750080a285ddb, type: 3}
   m_PrefabInstance: {fileID: 146447278275535207}
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &4559734961269837672
@@ -2702,14 +2734,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cebeb8610d89fb34688750080a285ddb, type: 3}
---- !u!4 &7291063904195614871 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cebeb8610d89fb34688750080a285ddb, type: 3}
-  m_PrefabInstance: {fileID: 7108288251017691004}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2075964892847120759 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9109367605909020171, guid: cebeb8610d89fb34688750080a285ddb, type: 3}
+  m_PrefabInstance: {fileID: 7108288251017691004}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7291063904195614871 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cebeb8610d89fb34688750080a285ddb, type: 3}
   m_PrefabInstance: {fileID: 7108288251017691004}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &7954728381481796141 stripped

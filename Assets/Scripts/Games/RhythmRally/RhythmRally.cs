@@ -13,7 +13,7 @@ namespace RhythmHeavenMania.Games.RhythmRally
 
         [Header("Camera")]
         public Transform renderQuadTrans;
-        public Transform cameraPos;
+        public Transform cameraPivot;
 
 
         [Header("Ball and curve info")]
@@ -339,6 +339,11 @@ namespace RhythmHeavenMania.Games.RhythmRally
             opponentAnim.Play("Pose", 0, 0);
             ball.gameObject.SetActive(false); // temporary solution, should realistically just fall down
             inPose = true;
+        }
+
+        public void ChangeCameraAngle(Vector3 rotation, float length, Ease ease, RotateMode rotateMode)
+        {
+            cameraPivot.DORotate(rotation, length * Conductor.instance.secPerBeat, rotateMode).SetEase(ease);
         }
 
         public void PrepareFastRally(float beat, RallySpeed speedChange)
