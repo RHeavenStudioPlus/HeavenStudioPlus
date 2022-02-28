@@ -275,7 +275,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
                                 if (player)
                                 {
-                                    if (PlayerInput.AltPressed())
+                                    if (PlayerInput.Pressed() || PlayerInput.AltPressed())
                                     {
                                         Kick(false, true);
                                     }
@@ -288,7 +288,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
 
                                 if (player)
                                 {
-                                    if (PlayerInput.AltPressedUp())
+                                    if (PlayerInput.PressedUp() || PlayerInput.AltPressedUp())
                                     {
                                         if (state.perfect)
                                         {
