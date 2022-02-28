@@ -330,6 +330,7 @@ MonoBehaviour:
   grass: {fileID: 6072388044625575886}
   grassTrans: {fileID: 9053856824134827426}
   scrollingHolder: {fileID: 3229117913716202416}
+  farmer: {fileID: 2943047049103139379}
 --- !u!1 &5813499711658895222
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,6 +640,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2890674062888421961}
+  - component: {fileID: 2943047049103139379}
   m_Layer: 0
   m_Name: FarmerHolder
   m_TagString: Untagged
@@ -662,6 +664,31 @@ Transform:
   m_Father: {fileID: 3229117913716202416}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2943047049103139379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8284146705987220773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55894391661380d42b64a4793d3befb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inList: 0
+  lastState: 0
+  state:
+    gameObject: {fileID: 0}
+    early: 0
+    perfect: 0
+    late: 0
+    createBeat: 0
+  eligibleHitsList: []
+  aceTimes: 0
+  isEligible: 0
+  triggersAutoplay: 0
+  nextStompBeat: 0
 --- !u!1 &8897652086585911321
 GameObject:
   m_ObjectHideFlags: 0
@@ -687,7 +714,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8897652086585911321}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.47, y: -0.02, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2890674062888421961}
@@ -733,7 +760,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 2952886495766980894, guid: 2deb728f30830dd438f91e9a4dff8cd4, type: 3}
+  m_Sprite: {fileID: -6951489029472693398, guid: 2deb728f30830dd438f91e9a4dff8cd4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.25490198}
   m_FlipX: 0
   m_FlipY: 0
