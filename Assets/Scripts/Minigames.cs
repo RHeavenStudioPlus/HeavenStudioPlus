@@ -330,9 +330,10 @@ namespace RhythmHeavenMania
                     new GameAction("camera",                delegate {
                         var e = eventCaller.currentEntity;
                         var rotation = new Vector3(0, e.valA, 0);
-                        RhythmRally.instance.ChangeCameraAngle(rotation, e.length, (Ease)e.type, (RotateMode)e.type2);
+                        RhythmRally.instance.ChangeCameraAngle(rotation, e.valB, e.length, (Ease)e.type, (RotateMode)e.type2);
                     }, 4, true, new List<Param>() {
                         new Param("valA", new EntityTypes.Integer(-360, 360, 0), "Angle"),
+                        new Param("valB", new EntityTypes.Float(0.5f, 4f, 1), "Zoom"),
                         new Param("type", Ease.Linear, "Ease"),
                         new Param("type2", RotateMode.Fast, "Rotation Mode")
                     } ),
