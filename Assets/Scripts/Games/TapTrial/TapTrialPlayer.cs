@@ -1,5 +1,7 @@
 using UnityEngine;
 
+using RhythmHeavenMania.Util;
+
 namespace RhythmHeavenMania.Games.TapTrial
 {
     public class TapTrialPlayer : MonoBehaviour
@@ -10,6 +12,20 @@ namespace RhythmHeavenMania.Games.TapTrial
         private void Start()
         {
             anim = GetComponent<Animator>();
+        }
+
+        private void Update()
+        {
+            if (PlayerInput.Pressed())
+            {
+                Tap(false);
+            }
+        }
+
+        public void Tap(bool hit)
+        {
+            Jukebox.PlayOneShotGame("tapTrial/tap");
+            anim.Play("Tap", 0, 0);
         }
     }
 }
