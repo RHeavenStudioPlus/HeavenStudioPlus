@@ -865,6 +865,7 @@ MonoBehaviour:
   eligibleHitsList: []
   aceTimes: 0
   isEligible: 0
+  triggersAutoplay: 1
 --- !u!1 &3340141389927785323
 GameObject:
   m_ObjectHideFlags: 0
@@ -1739,7 +1740,6 @@ MonoBehaviour:
   EligibleHits: []
   firstEnable: 0
   renderQuadTrans: {fileID: 743597382397742394}
-  cameraPos: {fileID: 6509993024069972873}
   cameraPivot: {fileID: 5472155158897914726}
   ball: {fileID: 1668061868608559892}
   ballShadow: {fileID: 7207398029238753263}

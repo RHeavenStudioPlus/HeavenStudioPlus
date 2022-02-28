@@ -341,9 +341,11 @@ namespace RhythmHeavenMania.Games.RhythmRally
             inPose = true;
         }
 
-        public void ChangeCameraAngle(Vector3 rotation, float length, Ease ease, RotateMode rotateMode)
+        public void ChangeCameraAngle(Vector3 rotation, float camZoom, float length, Ease ease, RotateMode rotateMode)
         {
-            cameraPivot.DORotate(rotation, length * Conductor.instance.secPerBeat, rotateMode).SetEase(ease);
+            var len = length * Conductor.instance.secPerBeat;
+            cameraPivot.DORotate(rotation, len, rotateMode).SetEase(ease);
+            cameraPivot.DOScale(camZoom, len).SetEase(ease);
         }
 
         public void PrepareFastRally(float beat, RallySpeed speedChange)
