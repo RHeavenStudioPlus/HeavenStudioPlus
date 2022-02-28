@@ -19,6 +19,8 @@ namespace RhythmHeavenMania.Games
         public bool isEligible; //value never used for anything
         private bool autoPlayEnabledOnStart; //value never used for anything
 
+        public bool triggersAutoplay = true;
+
         public void PlayerActionInit(GameObject g, float createBeat)
         {
             state.gameObject = g;
@@ -31,7 +33,7 @@ namespace RhythmHeavenMania.Games
         {
             if (aceTimes == 0)
             {
-                if ((GameManager.instance.autoplay || autoPlay) && normalizedBeat > 0.99f)
+                if (triggersAutoplay && (GameManager.instance.autoplay || autoPlay) && normalizedBeat > 0.99f)
                 {
                     OnAce();
                     if (!autoPlay)
