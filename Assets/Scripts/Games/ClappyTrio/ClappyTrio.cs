@@ -150,6 +150,19 @@ namespace RhythmHeavenMania.Games.ClappyTrio
             PlayAnimationAll("Bop");
         }
 
+        public void ChangeLionCount(int lions)
+        {
+            for(int i=1; i<lionCount; i++)
+            {
+                Destroy(Lion[i]);
+            }
+            Lion.RemoveRange(1, lionCount - 1);
+            lionCount = lions;
+            SetFace(0, 0);
+            Start();
+            PlayAnimationAll("Idle");
+        }
+
         private void PlayAnimationAll(string anim)
         {
             for (int i = 0; i < Lion.Count; i++)
