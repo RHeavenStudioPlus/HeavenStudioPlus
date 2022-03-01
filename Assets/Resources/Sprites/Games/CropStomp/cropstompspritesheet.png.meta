@@ -143,6 +143,9 @@ TextureImporter:
   - first:
       213: -4992756854309309685
     second: grass
+  - first:
+      213: -1892295281007449625
+    second: arms_4
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -361,7 +364,7 @@ TextureImporter:
       name: arms_0
       rect:
         serializedVersion: 2
-        x: 278
+        x: 225
         y: 248
         width: 66
         height: 68
@@ -382,7 +385,7 @@ TextureImporter:
       name: arms_1
       rect:
         serializedVersion: 2
-        x: 55
+        x: 3
         y: 248
         width: 80
         height: 68
@@ -403,9 +406,9 @@ TextureImporter:
       name: arms_2
       rect:
         serializedVersion: 2
-        x: 139
+        x: 87
         y: 248
-        width: 66
+        width: 65
         height: 68
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -424,9 +427,9 @@ TextureImporter:
       name: arms_3
       rect:
         serializedVersion: 2
-        x: 209
+        x: 156
         y: 248
-        width: 65
+        width: 66
         height: 68
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -445,7 +448,7 @@ TextureImporter:
       name: veggie_0
       rect:
         serializedVersion: 2
-        x: 347
+        x: 364
         y: 248
         width: 49
         height: 68
@@ -466,7 +469,7 @@ TextureImporter:
       name: veggie_1
       rect:
         serializedVersion: 2
-        x: 400
+        x: 417
         y: 248
         width: 48
         height: 68
@@ -487,7 +490,7 @@ TextureImporter:
       name: veggie_2
       rect:
         serializedVersion: 2
-        x: 452
+        x: 469
         y: 248
         width: 49
         height: 68
@@ -508,9 +511,9 @@ TextureImporter:
       name: mole_0
       rect:
         serializedVersion: 2
-        x: 505
+        x: 521
         y: 248
-        width: 48
+        width: 49
         height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -529,7 +532,7 @@ TextureImporter:
       name: mole_1
       rect:
         serializedVersion: 2
-        x: 557
+        x: 574
         y: 248
         width: 48
         height: 48
@@ -1214,6 +1217,48 @@ TextureImporter:
       bones: []
       spriteID: b033ff0081a26bab0800000000000000
       internalID: -4992756854309309685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mole_2
+      rect:
+        serializedVersion: 2
+        x: 626
+        y: 248
+        width: 49
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a984659a980848540800000000000000
+      internalID: 5009270014282713242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arms_4
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 248
+        width: 65
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e9276db7773db5e0800000000000000
+      internalID: -1892295281007449625
       vertices: []
       indices: 
       edges: []
