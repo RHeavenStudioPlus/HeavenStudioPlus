@@ -32,30 +32,24 @@ namespace RhythmHeavenMania.Games.ClappyTrio
 
         private void Start()
         {
-            float maxWidth = 9.2f;
-            float minus = 0;
+            float startPos = -3.066667f;
+            float maxWidth = 12.266668f;
 
-            float newSpacing = maxWidth / lionCount;
-
-            if (lionCount > 3)
+            for (int i = 0; i < lionCount; i++)
             {
-                Lion[0].transform.localPosition = new Vector3(-1.5f, 0);
-                maxWidth = 6.2f;
-                minus = 1.5f;
-            }
+                GameObject lion;
+                if (i == 0)
+                    lion = Lion[0];
+                else
+                    lion = Instantiate(Lion[0], Lion[0].transform.parent);
 
-            for (int i = 1; i < lionCount; i++)
-            {
-                GameObject lion = Instantiate(Lion[0], Lion[0].transform.parent);
+                lion.transform.localPosition = new Vector3(startPos + ((maxWidth / (lionCount + 1)) * (i + 1)), 0);
 
-                // lion.transform.localPosition = new Vector3(Lion[0].transform.localPosition.x + (1.0333f * lionCount) - i, 0);
-                lion.transform.localPosition = new Vector3((newSpacing) * (i) - minus, 0);
-                Lion.Add(lion);
+                if (i > 0)
+                    Lion.Add(lion);
 
                 if (i == lionCount - 1)
-                {
                     ClappyTrioPlayer = lion.AddComponent<ClappyTrioPlayer>();
-                }
             }
         }
 
@@ -86,8 +80,7 @@ namespace RhythmHeavenMania.Games.ClappyTrio
                             isClapping = false;
                             currentClappingLength = 0;
                             ClappyTrioPlayer.clapStarted = false;
-                        }
-                        else
+                        } else
                         {
                             SetFace(i, 4);
                             Lion[i].GetComponent<Animator>().Play("Clap", 0, 0);
@@ -135,8 +128,7 @@ namespace RhythmHeavenMania.Games.ClappyTrio
                 {
                     SetFace(i, 1);
                 }
-            }
-            else
+            } else
             {
                 var a = EventCaller.GetAllInGameManagerList("clappyTrio", new string[] { "clap" });
                 var b = a.FindAll(c => c.beat < beat);
@@ -148,8 +140,7 @@ namespace RhythmHeavenMania.Games.ClappyTrio
                         if (i == Lion.Count - 1)
                         {
                             SetFace(i, 0);
-                        }
-                        else
+                        } else
                         {
                             SetFace(i, 2);
                         }
@@ -157,6 +148,19 @@ namespace RhythmHeavenMania.Games.ClappyTrio
                 }
             }
             PlayAnimationAll("Bop");
+        }
+
+        public void ChangeLionCount(int lions)
+        {
+            for(int i=1; i<lionCount; i++)
+            {
+                Destroy(Lion[i]);
+            }
+            Lion.RemoveRange(1, lionCount - 1);
+            lionCount = lions;
+            SetFace(0, 0);
+            Start();
+            PlayAnimationAll("Idle");
         }
 
         private void PlayAnimationAll(string anim)
