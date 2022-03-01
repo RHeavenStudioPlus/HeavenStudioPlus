@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using NaughtyBezierCurves;
 using DG.Tweening;
 
 using RhythmHeavenMania.Util;
@@ -35,6 +36,7 @@ namespace RhythmHeavenMania.Games.CropStomp
         public Transform scrollingHolder;
         public Transform veggieHolder;
         public Farmer farmer;
+        public BezierCurve3D pickCurve;
 
         private Tween shakeTween;
 
