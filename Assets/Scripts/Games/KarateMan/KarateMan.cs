@@ -39,7 +39,8 @@ namespace RhythmHeavenMania.Games.KarateMan
         public enum BackgroundFXType
         {
             None,
-            Sunburst
+            Sunburst,
+            Rings
         }
 
         public enum ShadowType
@@ -227,13 +228,14 @@ namespace RhythmHeavenMania.Games.KarateMan
             {
                 if (BGFXSprite.enabled)
                 {
+                    var type = (int)BGFXType - 1;
                     if (bgBeat % 2 == 0)
                     {
-                        BGFXSprite.sprite = BGSprites[0].Sprites[0];
+                        BGFXSprite.sprite = BGSprites[type].Sprites[0];
                     }
                     else
                     {
-                        BGFXSprite.sprite = BGSprites[0].Sprites[1];
+                        BGFXSprite.sprite = BGSprites[type].Sprites[1];
                     }
                     bgBeat++;
                 }
@@ -279,14 +281,15 @@ namespace RhythmHeavenMania.Games.KarateMan
         public void SetBackgroundFX(BackgroundFXType type)
         {
             BGFXType = type;
-            
-            if(BGFXType == BackgroundFXType.None)
+
+            if (BGFXType == BackgroundFXType.None)
             {
                 BGFXSprite.enabled = false;
             }
             else
             {
                 BGFXSprite.enabled = true;
+                BGFXSprite.sprite = BGSprites[(int)type - 1].Sprites[0];
             }
         }
 

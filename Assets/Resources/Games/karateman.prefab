@@ -370,9 +370,10 @@ MonoBehaviour:
     perfect: 0
     late: 0
     createBeat: 0
-  isEligible: 0
   eligibleHitsList: []
   aceTimes: 0
+  isEligible: 0
+  triggersAutoplay: 1
   kicked: 0
   Holder: {fileID: 279641605354570890}
   RotHolder: {fileID: 7503168023327542540}
@@ -7019,9 +7020,10 @@ MonoBehaviour:
     perfect: 0
     late: 0
     createBeat: 0
-  isEligible: 0
   eligibleHitsList: []
   aceTimes: 0
+  isEligible: 0
+  triggersAutoplay: 1
   startBeat: 0
   createBeat: 0
   anim: {fileID: 0}
@@ -17804,9 +17806,13 @@ MonoBehaviour:
   - Sprites:
     - {fileID: 21300000, guid: 72431c7c58f54e848bcb7527635bb72b, type: 3}
     - {fileID: 21300000, guid: f05694d1ff974fe4387e487d025edede, type: 3}
+  - Sprites:
+    - {fileID: 21300000, guid: 02bb4d7e097a4524db553cfabcdbcf10, type: 3}
+    - {fileID: 21300000, guid: c19e325e2bac3e44d9464debd23372c5, type: 3}
   BGSprite: {fileID: 7248900333330862853}
   BGFXSprite: {fileID: 7037067448840752386}
   BGType: 0
+  BGFXType: 0
   BGColor: {r: 0.94117653, g: 0.91372555, b: 0.43921572, a: 1}
   Shadow: 0
   ShadowColor: {r: 0, g: 0, b: 0, a: 0}
