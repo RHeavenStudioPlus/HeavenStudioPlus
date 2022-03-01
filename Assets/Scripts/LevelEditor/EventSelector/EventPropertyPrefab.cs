@@ -102,21 +102,26 @@ namespace RhythmHeavenMania.Editor
             else if (objType.IsEnum)
             {
                 List<TMP_Dropdown.OptionData> dropDownData = new List<TMP_Dropdown.OptionData>();
-                for (int i = 0; i < System.Enum.GetValues(objType).Length; i++)
+                var vals = Enum.GetValues(objType);
+                var selected = 0;
+                for (int i = 0; i < vals.Length; i++)
                 {
-                    string name = System.Enum.GetNames(objType)[i];
+                    string name = Enum.GetNames(objType)[i];
                     TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData();
 
                     optionData.text = name;
 
                     dropDownData.Add(optionData);
+
+                    if ((int)vals.GetValue(i) == (int)parameterManager.entity[propertyName])
+                        selected = i;
                 }
                 dropdown.AddOptions(dropDownData);
-                dropdown.value = ((int)Enum.Parse(objType, parameterManager.entity[propertyName].ToString()));
-
+                dropdown.value = selected;
+                
                 dropdown.onValueChanged.AddListener(delegate 
                 {
-                    parameterManager.entity[propertyName] = Enum.ToObject(objType, dropdown.value);
+                    parameterManager.entity[propertyName] = (int)Enum.GetValues(objType).GetValue(dropdown.value);
                 });
             }
             else if (objType == typeof(Color))
