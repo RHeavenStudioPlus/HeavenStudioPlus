@@ -25,6 +25,7 @@ namespace RhythmHeavenMania
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float valA;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float valB;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float valC;
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public bool toggle;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public int type;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public int type2;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public EasingFunction.Ease ease;

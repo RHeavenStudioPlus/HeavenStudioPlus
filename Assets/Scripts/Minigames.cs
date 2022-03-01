@@ -105,6 +105,13 @@ namespace RhythmHeavenMania
                         new Param("valB", new EntityTypes.Float(0, 1, 0), "End Opacity"),
                         new Param("ease", EasingFunction.Ease.Linear, "Ease")
                     } ),
+                    new GameAction("toggle inputs",            delegate
+                    {
+                        GameManager.instance.ToggleInputs(eventCaller.currentEntity.toggle);
+                    }, 0.5f, true, new List<Param>()
+                    {
+                        new Param("toggle", true, "Enable Inputs")
+                    }),
                 }),
                 new Minigame("countIn", "Count-Ins", "", false, true, new List<GameAction>()
                 {
