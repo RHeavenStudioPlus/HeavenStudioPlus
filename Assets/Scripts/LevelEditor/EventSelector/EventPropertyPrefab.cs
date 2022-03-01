@@ -99,11 +99,11 @@ namespace RhythmHeavenMania.Editor
                     dropDownData.Add(optionData);
                 }
                 dropdown.AddOptions(dropDownData);
-                dropdown.value = ((int)Enum.Parse(objType, parameterManager.entity[propertyName].ToString()));
+                dropdown.value = Array.IndexOf(Enum.GetValues(objType), Enum.GetValues(objType).GetValue((int)parameterManager.entity[propertyName]));
 
                 dropdown.onValueChanged.AddListener(delegate 
                 {
-                    parameterManager.entity[propertyName] = Enum.ToObject(objType, dropdown.value);
+                    parameterManager.entity[propertyName] = (int)Enum.GetValues(objType).GetValue(dropdown.value);
                 });
             }
             else if (objType == typeof(Color))
