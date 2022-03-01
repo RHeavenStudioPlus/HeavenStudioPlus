@@ -10,6 +10,15 @@ namespace RhythmHeavenMania.Games.ForkLifter
 {
     public class ForkLifter : Minigame
     {
+
+        public enum FlickType
+        {
+            Pea,
+            TopBun,
+            Burger,
+            BottomBun
+        }
+
         public static ForkLifter instance;
 
         [Header("References")]
