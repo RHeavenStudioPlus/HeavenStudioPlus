@@ -21,6 +21,10 @@ namespace RhythmHeavenMania.Editor
         public Slider slider;
         public TMP_InputField inputField;
 
+        [Header("Boolean")]
+        [Space(10)]
+        public Toggle toggle;
+
         [Header("Dropdown")]
         [Space(10)]
         public TMP_Dropdown dropdown;
@@ -84,6 +88,15 @@ namespace RhythmHeavenMania.Editor
                 {
                     slider.value = (float)System.Math.Round(System.Convert.ToSingle(inputField.text), 4);
                     parameterManager.entity[propertyName] = slider.value;
+                });
+            }
+            else if(type is bool)
+            {
+                toggle.isOn = (bool)type;
+
+                toggle.onValueChanged.AddListener(delegate
+                {
+                    parameterManager.entity[propertyName] = toggle.isOn;
                 });
             }
             else if (objType.IsEnum)

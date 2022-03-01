@@ -15,6 +15,7 @@ namespace RhythmHeavenMania.Editor
         [Header("Property Prefabs")]
         [SerializeField] private GameObject IntegerP;
         [SerializeField] private GameObject FloatP;
+        [SerializeField] private GameObject BooleanP;
         [SerializeField] private GameObject DropdownP;
         [SerializeField] private GameObject ColorP;
 
@@ -105,6 +106,10 @@ namespace RhythmHeavenMania.Editor
             else if (objType == typeof(EntityTypes.Float))
             {
                 prefab = FloatP;
+            }
+            else if(type is bool)
+            {
+                prefab = BooleanP;
             }
             else if (objType.IsEnum)
             {
