@@ -120,7 +120,7 @@ namespace RhythmHeavenMania.Editor
 
             for (int i = 0; i < mg.actions.Count; i++)
             {
-                if (mg.actions[i].actionName == "switchGame") continue;
+                if (mg.actions[i].actionName == "switchGame" || mg.actions[i].hidden) continue;
                 GameObject g = Instantiate(EventRef, eventsParent);
                 g.GetComponent<TMP_Text>().text = mg.actions[i].actionName;
                 g.SetActive(true);

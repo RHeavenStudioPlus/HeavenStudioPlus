@@ -49,14 +49,20 @@ namespace RhythmHeavenMania
             public float defaultLength;
             public bool resizable;
             public List<Param> parameters;
+            public bool hidden;
 
-            public GameAction(string actionName, EventCallback function, float defaultLength = 1, bool resizable = false, List<Param> parameters = null)
+            /* If you want to add additional arguments to GameAction, leave `bool hidden = false` as the last parameter
+             * You can specify an action as hidden by adding `hidden: value` as the final parameter in your call
+             * (Even if you haven't used all prior arguments)
+             */
+            public GameAction(string actionName, EventCallback function, float defaultLength = 1, bool resizable = false, List<Param> parameters = null, bool hidden = false)
             {
                 this.actionName = actionName;
                 this.function = function;
                 this.defaultLength = defaultLength;
                 this.resizable = resizable;
                 this.parameters = parameters;
+                this.hidden = hidden;
             }
         }
 
@@ -235,7 +241,13 @@ namespace RhythmHeavenMania
                 new Minigame("karateman", "Karate Man", "70A8D8", false, false, new List<GameAction>()
                 {
                     new GameAction("bop",                   delegate { KarateMan.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 0.5f, true),
-                    new GameAction("pot",                   delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 0); }, 2),
+                    new GameAction("hit",                   delegate
+                    {
+                        KarateMan.instance.Shoot(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);
+                    }, 2, false, new List<Param>()
+                    {
+                        new Param("type", KarateMan.HitType.Pot, "Object")
+                    }),
                     new GameAction("bulb",                  delegate {
                         var e = eventCaller.currentEntity;
                         var c = KarateMan.instance.LightBulbColors[e.type];
@@ -246,8 +258,6 @@ namespace RhythmHeavenMania
                         new Param("type", KarateMan.LightBulbType.Normal, "Type"),
                         new Param("colorA", new Color(), "Custom Color")
                     }),
-                    new GameAction("rock",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 2); }, 2),
-                    new GameAction("ball",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 3); }, 2),
                     new GameAction("kick",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 4); }, 4.5f),
                     new GameAction("combo",                 delegate { KarateMan.instance.Combo(eventCaller.currentEntity.beat); }, 4f),
                     new GameAction("hit3",                  delegate { KarateMan.instance.Hit3(eventCaller.currentEntity.beat); }),
@@ -267,7 +277,11 @@ namespace RhythmHeavenMania
                         new Param("colorA", new Color(), "Custom Background Color"),
                         new Param("colorB", new Color(), "Custom Shadow Color")
                     }),
-                    new GameAction("tacobell",              delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 6); }, 2),
+                    // These are still here for backwards-compatibility but are hidden in the editor
+                    new GameAction("pot",                   delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 0); }, 2, hidden: true),
+                    new GameAction("rock",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 2); }, 2, hidden: true),
+                    new GameAction("ball",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 3); }, 2, hidden: true),
+                    new GameAction("tacobell",              delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 6); }, 2, hidden: true),
                 }),
                 new Minigame("spaceSoccer", "Space Soccer", "B888F8", false, false, new List<GameAction>()
                 {

@@ -8,6 +8,15 @@ namespace RhythmHeavenMania.Games.KarateMan
 {
     public class KarateMan : Minigame
     {
+
+        public enum HitType
+        {
+            Pot = 0,
+            Rock = 2,
+            Ball = 3,
+            TacoBell = 6
+        }
+
         public enum LightBulbType
         {
             Normal,
