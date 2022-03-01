@@ -267,11 +267,18 @@ namespace RhythmHeavenMania
                     }),
                     new GameAction("kick",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 4); }, 4.5f),
                     new GameAction("combo",                 delegate { KarateMan.instance.Combo(eventCaller.currentEntity.beat); }, 4f),
-                    new GameAction("hit3",                  delegate { KarateMan.instance.Hit3(eventCaller.currentEntity.beat); }),
-                    new GameAction("hit4",                  delegate { KarateMan.instance.Hit4(eventCaller.currentEntity.beat); }),
+                    new GameAction("hit3",                  delegate
+                    {
+                        var e = eventCaller.currentEntity;
+                        if(e.toggle)
+                            KarateMan.instance.Hit4(e.beat);
+                        else
+                            KarateMan.instance.Hit3(e.beat);
+                    }, 1f, false, new List<Param>()
+                    {
+                        new Param("toggle", false, "Hit 4")
+                    }),
                     new GameAction("prepare",               delegate { KarateMan.instance.Prepare(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 1f, true),
-                    new GameAction("bgfxon",                delegate { KarateMan.instance.BGFXOn(); } ),
-                    new GameAction("bgfxoff",               delegate { KarateMan.instance.BGFXOff(); }),
                     new GameAction("set background color",  delegate {
                         var e = eventCaller.currentEntity;
                         var c = KarateMan.instance.BackgroundColors[e.type];
@@ -282,13 +289,25 @@ namespace RhythmHeavenMania
                         new Param("type", KarateMan.BackgroundType.Yellow, "Background Type"),
                         new Param("type2", KarateMan.ShadowType.Tinted, "Shadow Type"),
                         new Param("colorA", new Color(), "Custom Background Color"),
-                        new Param("colorB", new Color(), "Custom Shadow Color")
+                        new Param("colorB", new Color(), "Custom Shadow Color"),
+
+                    }),
+                    new GameAction("set background fx",  delegate {
+                        KarateMan.instance.SetBackgroundFX((KarateMan.BackgroundFXType)eventCaller.currentEntity.type);
+                    }, 0.5f, false, new List<Param>()
+                    {
+                        new Param("type", KarateMan.BackgroundFXType.None, "FX Type")
+
                     }),
                     // These are still here for backwards-compatibility but are hidden in the editor
                     new GameAction("pot",                   delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 0); }, 2, hidden: true),
                     new GameAction("rock",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 2); }, 2, hidden: true),
                     new GameAction("ball",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 3); }, 2, hidden: true),
                     new GameAction("tacobell",              delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 6); }, 2, hidden: true),
+                    new GameAction("hit4",                  delegate { KarateMan.instance.Hit4(eventCaller.currentEntity.beat); }, hidden: true),
+                    new GameAction("bgfxon",                delegate { KarateMan.instance.SetBackgroundFX(KarateMan.BackgroundFXType.Sunburst); }, hidden: true),
+                    new GameAction("bgfxoff",               delegate { KarateMan.instance.SetBackgroundFX(KarateMan.BackgroundFXType.None); }, hidden: true),
+
                 }),
                 new Minigame("spaceSoccer", "Space Soccer", "B888F8", false, false, new List<GameAction>()
                 {
