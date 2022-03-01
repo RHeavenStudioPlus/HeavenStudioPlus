@@ -9,7 +9,7 @@ namespace RhythmHeavenMania.Editor
     {
         public EventParameterManager eventParameterManager;
 
-        // this is fucking retarded
+        // this is programmed on duct tape https://youtu.be/zMWA0ipQ94w?t=868
         private void LateUpdate()
         {
             eventParameterManager.canDisable = true;
