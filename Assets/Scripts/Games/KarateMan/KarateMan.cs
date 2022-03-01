@@ -36,6 +36,12 @@ namespace RhythmHeavenMania.Games.KarateMan
             Custom
         }
 
+        public enum BackgroundFXType
+        {
+            None,
+            Sunburst
+        }
+
         public enum ShadowType
         {
             Tinted,
@@ -64,6 +70,7 @@ namespace RhythmHeavenMania.Games.KarateMan
         public SpriteRenderer BGFXSprite;
 
         public BackgroundType BGType = BackgroundType.Yellow;
+        public BackgroundFXType BGFXType = BackgroundFXType.None;
         public Color BGColor;
 
         public ShadowType Shadow = ShadowType.Tinted;
@@ -269,14 +276,18 @@ namespace RhythmHeavenMania.Games.KarateMan
             }
         }
 
-        public void BGFXOn()
+        public void SetBackgroundFX(BackgroundFXType type)
         {
-            BGFXSprite.enabled = true;
-        }
-
-        public void BGFXOff()
-        {
-            BGFXSprite.enabled = false;
+            BGFXType = type;
+            
+            if(BGFXType == BackgroundFXType.None)
+            {
+                BGFXSprite.enabled = false;
+            }
+            else
+            {
+                BGFXSprite.enabled = true;
+            }
         }
 
         public void SetBackgroundColor(int type, int shadowType, Color backgroundColor, Color shadowColor)
