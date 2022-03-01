@@ -635,8 +635,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 1367185960650937854}
   handleType: 0
-  leftHandleLocalPosition: {x: 0, y: 0, z: 0}
-  rightHandleLocalPosition: {x: -0, y: -0, z: -0}
+  leftHandleLocalPosition: {x: 0, y: -5, z: 0}
+  rightHandleLocalPosition: {x: -0, y: 5, z: -0}
 --- !u!1 &5386007714129059416
 GameObject:
   m_ObjectHideFlags: 0
