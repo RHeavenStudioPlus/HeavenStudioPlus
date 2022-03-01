@@ -214,9 +214,19 @@ namespace RhythmHeavenMania
             return a;
         }
 
+        public float GetBeatFromPosition(float position, float startBeat, float length)
+        {
+            return Mathp.DeNormalize(position, startBeat, startBeat + length);
+        }
+
         public float GetPositionFromMargin(float targetBeat, float margin)
         {
             return GetPositionFromBeat(targetBeat - margin, margin);
+        }
+
+        public float GetBeatFromPositionAndMargin(float position, float targetBeat, float margin)
+        {
+            return GetBeatFromPosition(position, targetBeat - margin, margin);
         }
 
         public float GetSongPosFromBeat(float beat)

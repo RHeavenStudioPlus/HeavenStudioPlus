@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using DG.Tweening;
 
 using RhythmHeavenMania.Util;
@@ -23,11 +24,16 @@ namespace RhythmHeavenMania.Games.CropStomp
 
         public bool isMarching => marchStartBeat != -1f && Conductor.instance.isPlaying;
 
+        [NonSerialized] public bool isFlicking;
+
+        public GameObject baseVeggie;
         public Animator legsAnim;
+        public Animator bodyAnim;
         public Transform farmerTrans;
         public SpriteRenderer grass;
         public Transform grassTrans;
         public Transform scrollingHolder;
+        public Transform veggieHolder;
         public Farmer farmer;
 
         private Tween shakeTween;
@@ -47,6 +53,48 @@ namespace RhythmHeavenMania.Games.CropStomp
             var borderRight = grassSprite.rect.xMax - grassSprite.border.z;
             var borderWidthPixels = borderRight - borderLeft;
             grassWidth = borderWidthPixels / grassSprite.pixelsPerUnit;
+
+            // Initialize vegetables.
+            var cond = Conductor.instance;
+            var entities = GameManager.instance.Beatmap.entities;
+
+            // Find the beat of the closest "start marching" event.
+            // If not found, default to current beat.
+            float startBeat = cond.songPositionInBeats;
+
+            var marchStarts = entities.FindAll(m => m.datamodel == "cropStomp/start marching");
+            for (int i = 0; i < marchStarts.Count; i++)
+            {
+                var sampleBeat = marchStarts[i].beat;
+                if (cond.songPositionInBeats < sampleBeat)
+                {
+                    startBeat = sampleBeat;
+                }
+            }
+
+            // Spawn veggies.
+            var vegEvents = entities.FindAll(v => v.datamodel == "cropStomp/veggies");
+
+            for (int i = 0; i < vegEvents.Count; i++)
+            {
+                var vegBeat = vegEvents[i].beat;
+                var vegLength = vegEvents[i].length;
+
+                // Only consider veggie events that aren't past the start point.
+                if (startBeat < vegBeat + vegLength)
+                {
+                    int veggiesInEvent = Mathf.CeilToInt(vegLength + 1) / 2;
+
+                    for (int b = 0; b < veggiesInEvent; b++)
+                    {
+                        var targetVeggieBeat = vegBeat + 2f * b;
+                        if (startBeat < targetVeggieBeat)
+                        {
+                            SpawnVeggie(targetVeggieBeat, startBeat);
+                        }
+                    }
+                }
+            }
         }
 
         private void Update()
@@ -103,6 +151,21 @@ namespace RhythmHeavenMania.Games.CropStomp
             grassTrans.localPosition = new Vector3(newGrassX, grassPos.y, grassPos.z);
         }
 
+        private void LateUpdate()
+        {
+            if (!isMarching)
+                return;
+
+            if (PlayerInput.PressedUp())
+            {
+                // Don't play raise animation if successfully flicked.
+                if (!isFlicking)
+                    bodyAnim.Play("Raise");
+            }
+
+            isFlicking = false;
+        }
+
         public void StartMarching(float beat)
         {
             marchStartBeat = beat;
@@ -133,6 +196,18 @@ namespace RhythmHeavenMania.Games.CropStomp
             camTrans.DOLocalMoveY(0f, 0.5f).SetEase(Ease.OutElastic, 1f);
 
             isStepping = true;
+        }
+
+        private void SpawnVeggie(float beat, float startBeat)
+        {
+            var newVeggie = GameObject.Instantiate(baseVeggie, veggieHolder).GetComponent<Veggie>();
+
+            newVeggie.targetBeat = beat;
+
+            var veggieX = (beat - startBeat) * -stepDistance / 2f;
+            newVeggie.transform.localPosition = new Vector3(veggieX, 0f, 0f);
+
+            newVeggie.gameObject.SetActive(true);
         }
     }
 }

@@ -38,13 +38,19 @@ namespace RhythmHeavenMania.Games.CropStomp
                 if (state.perfect)
                 {
                     game.Stomp();
+                    game.bodyAnim.Play("Stomp", 0, 0);
                     nextStompBeat += 2f;
                     ResetState();
                 }
                 else if (state.notPerfect())
                 {
+                    game.bodyAnim.Play("Crouch", 0, 0);
                     nextStompBeat += 2f;
                     ResetState();
+                }
+                else
+                {
+                    game.bodyAnim.Play("Crouch", 0, 0);
                 }
             }
         }
