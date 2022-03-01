@@ -6,38 +6,39 @@ namespace RhythmHeavenMania
 {
     public class PlayerInput
     {
+
         public static bool Pressed(bool includeDPad = false)
         {
             bool keyDown = Input.GetKeyDown(KeyCode.Z) || (includeDPad && GetAnyDirectionDown());
-            return keyDown && !GameManager.instance.autoplay && Conductor.instance.isPlaying;
+            return keyDown && !GameManager.instance.autoplay && Conductor.instance.isPlaying && GameManager.instance.canInput ;
         }
 
         public static bool PressedUp(bool includeDPad = false)
         {
             bool keyUp = Input.GetKeyUp(KeyCode.Z) || (includeDPad && GetAnyDirectionUp());
-            return keyUp && !GameManager.instance.autoplay && Conductor.instance.isPlaying;
+            return keyUp && !GameManager.instance.autoplay && Conductor.instance.isPlaying && GameManager.instance.canInput;
         }
 
         public static bool Pressing(bool includeDPad = false)
         {
             bool pressing = Input.GetKey(KeyCode.Z) || (includeDPad && GetAnyDirection());
-            return pressing && !GameManager.instance.autoplay && Conductor.instance.isPlaying;
+            return pressing && !GameManager.instance.autoplay && Conductor.instance.isPlaying && GameManager.instance.canInput;
         }
 
 
         public static bool AltPressed()
         {
-            return Input.GetKeyDown(KeyCode.X) && !GameManager.instance.autoplay && Conductor.instance.isPlaying;
+            return Input.GetKeyDown(KeyCode.X) && !GameManager.instance.autoplay && Conductor.instance.isPlaying && GameManager.instance.canInput;
         }
 
         public static bool AltPressedUp()
         {
-            return Input.GetKeyUp(KeyCode.X) && !GameManager.instance.autoplay && Conductor.instance.isPlaying;
+            return Input.GetKeyUp(KeyCode.X) && !GameManager.instance.autoplay && Conductor.instance.isPlaying && GameManager.instance.canInput;
         }
 
         public static bool AltPressing()
         {
-            return Input.GetKey(KeyCode.X) && !GameManager.instance.autoplay && Conductor.instance.isPlaying;
+            return Input.GetKey(KeyCode.X) && !GameManager.instance.autoplay && Conductor.instance.isPlaying && GameManager.instance.canInput;
         }
 
         public static bool GetAnyDirectionDown()

@@ -36,6 +36,7 @@ namespace RhythmHeavenMania
         public float startBeat;
         [NonSerialized] public GameObject currentGameO;
         public bool autoplay;
+        public bool canInput = true;
 
         public event Action<float> onBeatChanged;
 
@@ -195,10 +196,16 @@ namespace RhythmHeavenMania
             }
         }
 
+        public void ToggleInputs(bool inputs)
+        {
+            canInput = inputs;
+        }
+
         #region Play Events
 
         public void Play(float beat)
         {
+            canInput = true;
             StartCoroutine(PlayCo(beat));
             onBeatChanged?.Invoke(beat);
         }
