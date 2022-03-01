@@ -50,20 +50,24 @@ namespace RhythmHeavenMania.Editor
             rectTransform.anchoredPosition = anchoredPosition;
         }
 
-        public static void OnEnter(string tooltipText)
+        public static void OnEnter(string tooltipText, string altTooltipText)
         {
-            instance.OnEnterPrivate(tooltipText);
+            instance.OnEnterPrivate(tooltipText, altTooltipText);
         }
 
         public static void OnExit()
         {
             instance.OnExitPrivate();
+            Editor.instance.tooltipText.text = "";
+            Editor.instance.tooltipText.ForceMeshUpdate();
         }
 
-        private void OnEnterPrivate(string tooltipText)
+        private void OnEnterPrivate(string tooltipText, string altTooltipText)
         {
             group.alpha = 1;
             SetText(tooltipText);
+            Editor.instance.tooltipText.text = altTooltipText.Replace("\n","");
+            Editor.instance.tooltipText.ForceMeshUpdate();
         }
 
         private void OnExitPrivate()
@@ -82,13 +86,16 @@ namespace RhythmHeavenMania.Editor
             background.sizeDelta = textSize + paddingSize;
         }
 
-        public static void AddTooltip(GameObject g, string tooltipText)
+        public static void AddTooltip(GameObject g, string tooltipText, string altTooltipText = "")
         {
+            if (altTooltipText == "")
+                altTooltipText = tooltipText;
+
             EventTrigger et = g.AddComponent<EventTrigger>();
 
             EventTrigger.Entry pointerEnter = new EventTrigger.Entry();
             pointerEnter.eventID = EventTriggerType.PointerEnter;
-            pointerEnter.callback.AddListener((data) => { OnEnter(tooltipText); });
+            pointerEnter.callback.AddListener((data) => { OnEnter(tooltipText, altTooltipText); });
 
             EventTrigger.Entry pointerExit = new EventTrigger.Entry();
             pointerExit.eventID = EventTriggerType.PointerExit;

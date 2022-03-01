@@ -72,12 +72,14 @@ namespace RhythmHeavenMania
             public string propertyName;
             public object parameter;
             public string propertyCaption;
+            public string tooltip;
 
-            public Param(string propertyName, object parameter, string propertyCaption)
+            public Param(string propertyName, object parameter, string propertyCaption, string tooltip = "")
             {
                 this.propertyName = propertyName;
                 this.parameter = parameter;
                 this.propertyCaption = propertyCaption;
+                this.tooltip = tooltip;
             }
         }
 
