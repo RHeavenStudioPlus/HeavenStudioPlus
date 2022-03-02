@@ -26,7 +26,7 @@ namespace RhythmHeavenMania
         public Games.Global.Flash fade;
 
         [Header("Games")]
-        public string currentGame;
+        public Minigame currentGame;
         Coroutine currentGameSwitchIE;
 
         [Header("Properties")]
@@ -157,25 +157,29 @@ namespace RhythmHeavenMania
                 if (Conductor.instance.songPositionInBeats >= entities[currentEvent] /*&& SongPosLessThanClipLength(Conductor.instance.songPositionInBeats)*/)
                 {
                     // allows for multiple events on the same beat to be executed on the same frame, so no more 1-frame delay
-                    var entitesAtSameBeat   = Beatmap.entities.FindAll(c => c.beat == Beatmap.entities[currentEvent].beat && !EventCaller.FXOnlyGames().Contains(EventCaller.instance.GetMinigame(c.datamodel.Split('/')[0])));
+                    var entitiesAtSameBeat   = Beatmap.entities.FindAll(c => c.beat == Beatmap.entities[currentEvent].beat && !EventCaller.FXOnlyGames().Contains(EventCaller.instance.GetMinigame(c.datamodel.Split('/')[0])));
                     var fxEntities = Beatmap.entities.FindAll(c => c.beat == Beatmap.entities[currentEvent].beat && EventCaller.FXOnlyGames().Contains(EventCaller.instance.GetMinigame(c.datamodel.Split('/')[0])));
 
                     // FX entities should ALWAYS execute before gameplay entities
                     for (int i = 0; i < fxEntities.Count; i++)
                     {
-                        eventCaller.CallEvent(fxEntities[i]);
+                        eventCaller.CallEvent(fxEntities[i], true);
                         currentEvent++;
                     }
 
-                    for (int i = 0; i < entitesAtSameBeat.Count; i++)
+                    for (int i = 0; i < entitiesAtSameBeat.Count; i++)
                     {
-                        var entity = entitesAtSameBeat[i];
+                        var entity = entitiesAtSameBeat[i];
                         // if game isn't loaded, preload game so whatever event that would be called will still run outside if needed
-                        if (entitesAtSameBeat[i].datamodel.Split('/')[0] != currentGame && !preloadedGames.Contains(preloadedGames.Find(c => c.name == entitesAtSameBeat[i].datamodel.Split('/')[0])))
+                        if (entitiesAtSameBeat[i].datamodel.Split('/')[0] != currentGame && !preloadedGames.Contains(preloadedGames.Find(c => c.name == entitiesAtSameBeat[i].datamodel.Split('/')[0])))
                         {
-                            PreloadGame(entitesAtSameBeat[i].datamodel.Split('/')[0]);
+                            //PreloadGame(entitesAtSameBeat[i].datamodel.Split('/')[0]);
+                            eventCaller.CallEvent(entitiesAtSameBeat[i], false);
                         }
-                        eventCaller.CallEvent(entitesAtSameBeat[i]);
+                        else
+                        {
+                            eventCaller.CallEvent(entitiesAtSameBeat[i], true);
+                        }
 
                         // Thank you to @shshwdr for bring this to my attention
                         currentEvent++;
@@ -362,7 +366,6 @@ namespace RhythmHeavenMania
                 currentGameO.transform.parent = eventCaller.GamesHolder.transform;
                 currentGameO.name = game;
             }
-
             /*if (onGameSwitch)
             {
                 if (GetGame(currentGame).GetComponent<Minigame>() != null)
@@ -370,6 +373,9 @@ namespace RhythmHeavenMania
             }*/
 
             SetCurrentGame(game);
+            Minigame miniGame = currentGameO.GetComponent<Minigame>();
+            if (miniGame != null)
+                miniGame.OnGameSwitch();
 
             ResetCamera();
         }
@@ -411,13 +417,23 @@ namespace RhythmHeavenMania
             return EventCaller.instance.minigames.Find(c => c.name == name);
         }
 
-        // never gonna use this
-        public Minigames.Minigame GetCurrentGame()
+        public Minigames.Minigame GetGameInfo(Minigame game)
         {
-            return eventCaller.minigames.Find(c => c.name == transform.GetComponentsInChildren<Transform>()[1].name);
+            if (game == null)
+                return null;
+            return GetGameInfo(game.name);
+        }
+        
+        public string GetCurrentGameName()
+        {
+            if(currentGame == null)
+            {
+                return "noGame";
+            }
+            return currentGame.name;
         }
 
-        public void SetCurrentGame(string game)
+        public void SetCurrentGame(Minigame game)
         {
             currentGame = game;
             if (GetGameInfo(currentGame) != null) CircleCursor.InnerCircle.GetComponent<SpriteRenderer>().color = Colors.Hex2RGB(GetGameInfo(currentGame).color);

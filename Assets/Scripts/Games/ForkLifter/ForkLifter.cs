@@ -39,6 +39,7 @@ namespace RhythmHeavenMania.Games.ForkLifter
 
         public override void OnGameSwitch()
         {
+            base.OnGameSwitch();
             ForkLifterHand.CheckNextFlick();
         }
 
