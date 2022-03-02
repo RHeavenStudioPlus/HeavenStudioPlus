@@ -121,113 +121,71 @@ namespace RhythmHeavenMania
                 }),
                 new Minigame("countIn", "Count-Ins", "", false, true, new List<GameAction>()
                 {
-                    new GameAction("4 beat count-in",       delegate
+                    new GameAction("4 beat count-in",       delegate { var e = eventCaller.currentEntity; SoundEffects.FourBeatCountIn(e.beat, e.length / 4f, e.type); }, 4f, true, new List<Param>()
                     {
-                        MultiSound.Play(new MultiSound.Sound[]
-                        {
-                            new MultiSound.Sound("count-ins/one1", eventCaller.currentEntity.beat),
-                            new MultiSound.Sound("count-ins/two1", eventCaller.currentEntity.beat + 1f),
-                            new MultiSound.Sound("count-ins/three1", eventCaller.currentEntity.beat + 2f),
-                            new MultiSound.Sound("count-ins/four1", eventCaller.currentEntity.beat + 3f)
-                        }, false);
-                    }, 4f),
-                    new GameAction("4 beat count-in (alt)", delegate
+                        new Param("type", SoundEffects.CountInType.Normal, "Type")
+                    }),
+                    new GameAction("8 beat count-in",       delegate { var e = eventCaller.currentEntity; SoundEffects.EightBeatCountIn(e.beat, e.length / 8f, e.type); }, 8f, true, new List<Param>()
                     {
-                        MultiSound.Play(new MultiSound.Sound[]
-                        {
-                            new MultiSound.Sound("count-ins/one2", eventCaller.currentEntity.beat),
-                            new MultiSound.Sound("count-ins/two2", eventCaller.currentEntity.beat + 1f),
-                            new MultiSound.Sound("count-ins/three2", eventCaller.currentEntity.beat + 2f),
-                            new MultiSound.Sound("count-ins/four2", eventCaller.currentEntity.beat + 3f)
-                        }, false);
-                    }, 4f),
-                    new GameAction("4 beat count-in (cowbell)", delegate
+                        new Param("type", SoundEffects.CountInType.Normal, "Type")
+                    }),
+                    new GameAction("count",                 delegate { var e = eventCaller.currentEntity; SoundEffects.Count(e.type, e.toggle); }, 1f, false, new List<Param>()
                     {
-                        MultiSound.Play(new MultiSound.Sound[]
-                        {
-                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat),
-                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat + 1f),
-                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat + 2f),
-                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat + 3f)
-                        }, false);
-                    }, 4f),
-                    new GameAction("8 beat count-in",       delegate
+                        new Param("type", SoundEffects.CountNumbers.One, "Number"),
+                        new Param("toggle", false, "Alt")
+                    }),
+                    new GameAction("cowbell",               delegate { SoundEffects.Cowbell(); }, 1f),        
+                    new GameAction("ready!",                delegate { var e = eventCaller.currentEntity; SoundEffects.Ready(e.beat, e.length / 2f); }, 2f, true),
+                    new GameAction("and",                   delegate {SoundEffects.And(); }, 0.5f),
+                    new GameAction("go!",                   delegate { SoundEffects.Go(eventCaller.currentEntity.toggle); }, 1f, false, new List<Param>()
                     {
-                        MultiSound.Play(new MultiSound.Sound[]
-                        {
-                            new MultiSound.Sound("count-ins/one1", eventCaller.currentEntity.beat),
-                            new MultiSound.Sound("count-ins/two1", eventCaller.currentEntity.beat + 2f),
-                            new MultiSound.Sound("count-ins/one1", eventCaller.currentEntity.beat + 4f),
-                            new MultiSound.Sound("count-ins/two1", eventCaller.currentEntity.beat + 5f),
-                            new MultiSound.Sound("count-ins/three1", eventCaller.currentEntity.beat + 6f),
-                            new MultiSound.Sound("count-ins/four1", eventCaller.currentEntity.beat + 7f)
-                        }, false);
-                    }, 8f),
-                    new GameAction("8 beat count-in (alt)", delegate
-                    {
-                        MultiSound.Play(new MultiSound.Sound[]
-                        {
-                            new MultiSound.Sound("count-ins/one2", eventCaller.currentEntity.beat),
-                            new MultiSound.Sound("count-ins/two2", eventCaller.currentEntity.beat + 2f),
-                            new MultiSound.Sound("count-ins/one2", eventCaller.currentEntity.beat + 4f),
-                            new MultiSound.Sound("count-ins/two2", eventCaller.currentEntity.beat + 5f),
-                            new MultiSound.Sound("count-ins/three2", eventCaller.currentEntity.beat + 6f),
-                            new MultiSound.Sound("count-ins/four2", eventCaller.currentEntity.beat + 7f)
-                        }, false);
-                    }, 8f),
-                    new GameAction("8 beat count-in (cowbell)", delegate
-                    {
-                        MultiSound.Play(new MultiSound.Sound[]
-                        {
-                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat),
-                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat + 2f),
-                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat + 4f),
-                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat + 5f),
-                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat + 6f),
-                            new MultiSound.Sound("count-ins/cowbell", eventCaller.currentEntity.beat + 7f)
-                        }, false);
-                    }, 8f),
-                    new GameAction("cowbell",               delegate { Jukebox.PlayOneShot("count-ins/cowbell"); }, 1f),
-                    new GameAction("one",                   delegate { Jukebox.PlayOneShot("count-ins/one1"); }, 1f),
-                    new GameAction("one (alt)",             delegate { Jukebox.PlayOneShot("count-ins/one2"); }, 1f),
-                    new GameAction("two",                   delegate { Jukebox.PlayOneShot("count-ins/two1"); }, 1f),
-                    new GameAction("two (alt)",             delegate { Jukebox.PlayOneShot("count-ins/two2"); }, 1f),
-                    new GameAction("three",                 delegate { Jukebox.PlayOneShot("count-ins/three1"); }, 1f),
-                    new GameAction("three (alt)",           delegate { Jukebox.PlayOneShot("count-ins/three2"); }, 1f),
-                    new GameAction("four",                  delegate { Jukebox.PlayOneShot("count-ins/four1"); }, 1f),
-                    new GameAction("four (alt)",            delegate { Jukebox.PlayOneShot("count-ins/four2"); }, 1f),
-                    new GameAction("and",                   delegate { Jukebox.PlayOneShot("count-ins/and"); }, 0.5f),
-                    new GameAction("go!",                   delegate { Jukebox.PlayOneShot("count-ins/go1"); }, 1f),
-                    new GameAction("go! (alt)",             delegate { Jukebox.PlayOneShot("count-ins/go2"); }, 1f),
-                    new GameAction("ready!",                delegate
-                    {
-                        MultiSound.Play(new MultiSound.Sound[]
-                        {
-                            new MultiSound.Sound("count-ins/ready1", eventCaller.currentEntity.beat),
-                            new MultiSound.Sound("count-ins/ready2", eventCaller.currentEntity.beat + 1f),
-                        }, false);
-                    }, 2f),
+                        new Param("toggle", false, "Alt")
+                    }),
+                    // These are still here for backwards-compatibility but are hidden in the editor
+                    new GameAction("4 beat count-in (alt)",     delegate { var e = eventCaller.currentEntity;  SoundEffects.FourBeatCountIn(e.beat, e.length, 1); }, 4f, hidden: true),
+                    new GameAction("4 beat count-in (cowbell)", delegate { var e = eventCaller.currentEntity;  SoundEffects.FourBeatCountIn(e.beat, e.length, 2); }, 4f, hidden: true),
+                    new GameAction("8 beat count-in (alt)",     delegate { var e = eventCaller.currentEntity;  SoundEffects.EightBeatCountIn(e.beat, e.length, 1); }, 4f, hidden: true),
+                    new GameAction("8 beat count-in (cowbell)", delegate { var e = eventCaller.currentEntity;  SoundEffects.EightBeatCountIn(e.beat, e.length, 2); }, 4f, hidden: true),
+                    new GameAction("one",                       delegate { SoundEffects.Count(0, false); }, 1f, hidden: true),
+                    new GameAction("one (alt)",                 delegate { SoundEffects.Count(0, true); }, 1f, hidden: true),
+                    new GameAction("two",                       delegate { SoundEffects.Count(1, false); }, 1f, hidden: true),
+                    new GameAction("two (alt)",                 delegate { SoundEffects.Count(1, true); }, 1f, hidden: true),
+                    new GameAction("three",                     delegate { SoundEffects.Count(2, false); }, 1f, hidden: true),
+                    new GameAction("three (alt)",               delegate { SoundEffects.Count(2, true); }, 1f, hidden: true),
+                    new GameAction("four",                      delegate { SoundEffects.Count(3, false); }, 1f, hidden: true),
+                    new GameAction("four (alt)",                delegate { SoundEffects.Count(3, true); }, 1f, hidden: true),
+                    new GameAction("go! (alt)",                 delegate { SoundEffects.Go(true); }, 1f, hidden: true),
                 }),
                 new Minigame("forkLifter", "Fork Lifter", "FFFFFF", false, false, new List<GameAction>()
                 {
-                    new GameAction("pea",                   delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 0); }, 3),
-                    new GameAction("topbun",                delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 1); }, 3),
-                    new GameAction("burger",                delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 2); }, 3),
-                    new GameAction("bottombun",             delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 3); }, 3),
+                    new GameAction("flick",                 delegate { var e = eventCaller.currentEntity; ForkLifter.instance.Flick(e.beat, e.type); }, 3, false, new List<Param>()
+                    {
+                        new Param("type", ForkLifter.FlickType.Pea, "Object")
+                    }),
                     new GameAction("prepare",               delegate { ForkLifter.instance.ForkLifterHand.Prepare(); }, 0.5f),
                     new GameAction("gulp",                  delegate { ForkLifterPlayer.instance.Eat(); }),
-                    new GameAction("sigh",                  delegate { Jukebox.PlayOneShot("games/forkLifter/sigh"); })
+                    new GameAction("sigh",                  delegate { Jukebox.PlayOneShot("games/forkLifter/sigh"); }),
+                    // These are still here for backwards-compatibility but are hidden in the editor
+                    new GameAction("pea",                   delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 0); }, 3, hidden: true),
+                    new GameAction("topbun",                delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 1); }, 3, hidden: true),
+                    new GameAction("burger",                delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 2); }, 3, hidden: true),
+                    new GameAction("bottombun",             delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 3); }, 3, hidden: true),
+
                 }),
                 new Minigame("clappyTrio", "The Clappy Trio", "29E7FF", false, false, new List<GameAction>()
                 {
                     new GameAction("clap",                  delegate { ClappyTrio.instance.Clap(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 3, true),
                     new GameAction("bop",                   delegate { ClappyTrio.instance.Bop(eventCaller.currentEntity.beat); } ),
-                    new GameAction("prepare",               delegate { ClappyTrio.instance.Prepare(0); } ),
-                    new GameAction("prepare_alt",           delegate { ClappyTrio.instance.Prepare(3); } ),
+                    new GameAction("prepare",               delegate { ClappyTrio.instance.Prepare(eventCaller.currentEntity.toggle ? 3 : 0); }, parameters: new List<Param>()
+                    {
+                        new Param("toggle", false, "Alt")
+                    }),
                     new GameAction("change lion count",     delegate { ClappyTrio.instance.ChangeLionCount((int)eventCaller.currentEntity.valA); }, 0.5f, false, new List<Param>()
                     {
                         new Param("valA", new EntityTypes.Integer(1, 8, 3), "Lion Count")
                     }),
+                    // This is still here for backwards-compatibility but is hidden in the editor
+                    new GameAction("prepare_alt",           delegate { ClappyTrio.instance.Prepare(3); }, hidden: true),
                 }),
                 new Minigame("spaceball", "Spaceball", "00A518", false, false, new List<GameAction>()
                 {
@@ -321,10 +279,14 @@ namespace RhythmHeavenMania
                 new Minigame("djSchool", "DJ School", "008c97", false, false, new List<GameAction>()
                 {
                     new GameAction("bop",                   delegate { DJSchool.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length);  }, 0.5f, true),
-                    new GameAction("and stop ooh",          delegate { DJSchool.instance.AndStop(eventCaller.currentEntity.beat);  }, 2.5f),
-                    new GameAction("break c'mon ooh",       delegate { DJSchool.instance.BreakCmon(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);  }, 3f, false, new List<Param>()
+                    new GameAction("and stop ooh",          delegate { var e = eventCaller.currentEntity; DJSchool.instance.AndStop(e.beat, e.toggle);  }, 2.5f, false, new List<Param>()
+                    {
+                        new Param("toggle", true, "Ooh")
+                    }),
+                    new GameAction("break c'mon ooh",       delegate { var e = eventCaller.currentEntity; DJSchool.instance.BreakCmon(e.beat, e.type, e.toggle);  }, 3f, false, new List<Param>()
                     {
                         new Param("type", DJSchool.DJVoice.Standard, "Voice"),
+                        new Param("toggle", true, "Ooh")
                     }),
                     new GameAction("scratch-o hey",         delegate { DJSchool.instance.ScratchoHey(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);  }, 3f, false, new List<Param>()
                     {
