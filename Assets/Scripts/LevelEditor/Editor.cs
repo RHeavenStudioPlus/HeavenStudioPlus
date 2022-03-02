@@ -50,6 +50,9 @@ namespace RhythmHeavenMania.Editor
         [SerializeField] private Button FullScreenBTN;
         [SerializeField] private Button TempoFinderBTN;
 
+        [Header("Tooltip")]
+        public TMP_Text tooltipText;
+
         [Header("Properties")]
         private bool changedMusic = false;
         private bool loadedMusic = false;

@@ -72,12 +72,14 @@ namespace RhythmHeavenMania
             public string propertyName;
             public object parameter;
             public string propertyCaption;
+            public string tooltip;
 
-            public Param(string propertyName, object parameter, string propertyCaption)
+            public Param(string propertyName, object parameter, string propertyCaption, string tooltip = "")
             {
                 this.propertyName = propertyName;
                 this.parameter = parameter;
                 this.propertyCaption = propertyCaption;
+                this.tooltip = tooltip;
             }
         }
 
@@ -123,23 +125,23 @@ namespace RhythmHeavenMania
                 {
                     new GameAction("4 beat count-in",       delegate { var e = eventCaller.currentEntity; SoundEffects.FourBeatCountIn(e.beat, e.length / 4f, e.type); }, 4f, true, new List<Param>()
                     {
-                        new Param("type", SoundEffects.CountInType.Normal, "Type")
+                        new Param("type", SoundEffects.CountInType.Normal, "Type", "The sounds to play for the count-in")
                     }),
                     new GameAction("8 beat count-in",       delegate { var e = eventCaller.currentEntity; SoundEffects.EightBeatCountIn(e.beat, e.length / 8f, e.type); }, 8f, true, new List<Param>()
                     {
-                        new Param("type", SoundEffects.CountInType.Normal, "Type")
+                        new Param("type", SoundEffects.CountInType.Normal, "Type", "The sounds to play for the count-in")
                     }),
                     new GameAction("count",                 delegate { var e = eventCaller.currentEntity; SoundEffects.Count(e.type, e.toggle); }, 1f, false, new List<Param>()
                     {
-                        new Param("type", SoundEffects.CountNumbers.One, "Number"),
-                        new Param("toggle", false, "Alt")
+                        new Param("type", SoundEffects.CountNumbers.One, "Number", "The sound to play"),
+                        new Param("toggle", false, "Alt", "Whether or not the alternate version should be played")
                     }),
                     new GameAction("cowbell",               delegate { SoundEffects.Cowbell(); }, 1f),        
                     new GameAction("ready!",                delegate { var e = eventCaller.currentEntity; SoundEffects.Ready(e.beat, e.length / 2f); }, 2f, true),
                     new GameAction("and",                   delegate {SoundEffects.And(); }, 0.5f),
                     new GameAction("go!",                   delegate { SoundEffects.Go(eventCaller.currentEntity.toggle); }, 1f, false, new List<Param>()
                     {
-                        new Param("toggle", false, "Alt")
+                        new Param("toggle", false, "Alt", "Whether or not the alternate version should be played")
                     }),
                     // These are still here for backwards-compatibility but are hidden in the editor
                     new GameAction("4 beat count-in (alt)",     delegate { var e = eventCaller.currentEntity;  SoundEffects.FourBeatCountIn(e.beat, e.length, 1); }, 4f, hidden: true),
@@ -160,7 +162,7 @@ namespace RhythmHeavenMania
                 {
                     new GameAction("flick",                 delegate { var e = eventCaller.currentEntity; ForkLifter.instance.Flick(e.beat, e.type); }, 3, false, new List<Param>()
                     {
-                        new Param("type", ForkLifter.FlickType.Pea, "Object")
+                        new Param("type", ForkLifter.FlickType.Pea, "Object", "The object to be flicked")
                     }),
                     new GameAction("prepare",               delegate { ForkLifter.instance.ForkLifterHand.Prepare(); }, 0.5f),
                     new GameAction("gulp",                  delegate { ForkLifterPlayer.instance.Eat(); }),
@@ -178,11 +180,11 @@ namespace RhythmHeavenMania
                     new GameAction("bop",                   delegate { ClappyTrio.instance.Bop(eventCaller.currentEntity.beat); } ),
                     new GameAction("prepare",               delegate { ClappyTrio.instance.Prepare(eventCaller.currentEntity.toggle ? 3 : 0); }, parameters: new List<Param>()
                     {
-                        new Param("toggle", false, "Alt")
+                        new Param("toggle", false, "Alt", "Whether or not the alternate version should be played")
                     }),
                     new GameAction("change lion count",     delegate { ClappyTrio.instance.ChangeLionCount((int)eventCaller.currentEntity.valA); }, 0.5f, false, new List<Param>()
                     {
-                        new Param("valA", new EntityTypes.Integer(1, 8, 3), "Lion Count")
+                        new Param("valA", new EntityTypes.Integer(1, 8, 3), "Lion Count", "The amount of lions")
                     }),
                     // This is still here for backwards-compatibility but is hidden in the editor
                     new GameAction("prepare_alt",           delegate { ClappyTrio.instance.Prepare(3); }, hidden: true),
@@ -193,13 +195,13 @@ namespace RhythmHeavenMania
                     new GameAction("shootHigh",             delegate { Spaceball.instance.Shoot(eventCaller.currentEntity.beat, true, eventCaller.currentEntity.type); }, 3),
                     new GameAction("costume",               delegate { Spaceball.instance.Costume(eventCaller.currentEntity.type); }, 1f, false, new List<Param>() 
                     {
-                        new Param("type", Spaceball.CostumeType.Standard, "Type") 
+                        new Param("type", Spaceball.CostumeType.Standard, "Type", "The costume to change to") 
                     } ),
                     new GameAction("alien",                 delegate { Spaceball.instance.alien.Show(eventCaller.currentEntity.beat); } ),
                     new GameAction("camera",                delegate { Spaceball.instance.OverrideCurrentZoom(); }, 4, true, new List<Param>() 
                     {
-                        new Param("valA", new EntityTypes.Integer(1, 320, 10), "Zoom"),
-                        new Param("ease", EasingFunction.Ease.Linear, "Ease") 
+                        new Param("valA", new EntityTypes.Integer(1, 320, 10), "Zoom", "The camera's zoom level (Lower value = Zoomed in)"),
+                        new Param("ease", EasingFunction.Ease.Linear, "Ease", "The easing function to use while zooming") 
                     } ),
                     new GameAction("prepare dispenser",     delegate { Spaceball.instance.PrepareDispenser(); }, 1 ),
                 }),
@@ -211,7 +213,7 @@ namespace RhythmHeavenMania
                         KarateMan.instance.Shoot(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);
                     }, 2, false, new List<Param>()
                     {
-                        new Param("type", KarateMan.HitType.Pot, "Object")
+                        new Param("type", KarateMan.HitType.Pot, "Object", "The object to fire")
                     }),
                     new GameAction("bulb",                  delegate {
                         var e = eventCaller.currentEntity;
@@ -220,8 +222,8 @@ namespace RhythmHeavenMania
                         KarateMan.instance.Shoot(e.beat, 1, tint: c);
                     }, 2, false, new List<Param>()
                     {
-                        new Param("type", KarateMan.LightBulbType.Normal, "Type"),
-                        new Param("colorA", new Color(), "Custom Color")
+                        new Param("type", KarateMan.LightBulbType.Normal, "Type", "The preset bulb type. Yellow is used for kicks while Blue is used for combos"),
+                        new Param("colorA", new Color(), "Custom Color", "The color to use when the bulb type is set to Custom")
                     }),
                     new GameAction("kick",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 4); }, 4.5f),
                     new GameAction("combo",                 delegate { KarateMan.instance.Combo(eventCaller.currentEntity.beat); }, 4f),
@@ -234,7 +236,7 @@ namespace RhythmHeavenMania
                             KarateMan.instance.Hit3(e.beat);
                     }, 1f, false, new List<Param>()
                     {
-                        new Param("toggle", false, "Hit 4")
+                        new Param("toggle", false, "Hit 4", "Whether or not the \"hit 4!\" sound should be played instead")
                     }),
                     new GameAction("prepare",               delegate { KarateMan.instance.Prepare(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 1f, true),
                     new GameAction("set background color",  delegate {
@@ -244,17 +246,17 @@ namespace RhythmHeavenMania
                         KarateMan.instance.SetBackgroundColor(e.type, e.type2, c, e.colorB);
                     }, 0.5f, false, new List<Param>()
                     {
-                        new Param("type", KarateMan.BackgroundType.Yellow, "Background Type"),
-                        new Param("type2", KarateMan.ShadowType.Tinted, "Shadow Type"),
-                        new Param("colorA", new Color(), "Custom Background Color"),
-                        new Param("colorB", new Color(), "Custom Shadow Color"),
+                        new Param("type", KarateMan.BackgroundType.Yellow, "Background Type", "The preset background type"),
+                        new Param("type2", KarateMan.ShadowType.Tinted, "Shadow Type", "The shadow type. If Tinted doesn't work with your background color try Custom"),
+                        new Param("colorA", new Color(), "Custom Background Color", "The background color to use when background type is set to Custom"),
+                        new Param("colorB", new Color(), "Custom Shadow Color", "The shadow color to use when shadow type is set to Custom"),
 
                     }),
                     new GameAction("set background fx",  delegate {
                         KarateMan.instance.SetBackgroundFX((KarateMan.BackgroundFXType)eventCaller.currentEntity.type);
                     }, 0.5f, false, new List<Param>()
                     {
-                        new Param("type", KarateMan.BackgroundFXType.None, "FX Type")
+                        new Param("type", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed")
 
                     }),
                     // These are still here for backwards-compatibility but are hidden in the editor
@@ -273,7 +275,7 @@ namespace RhythmHeavenMania
                     new GameAction("keep-up",               delegate { }, 4f, true),
                     new GameAction("high kick-toe!",        delegate { }, 3f, false, new List<Param>() 
                     {
-                        new Param("swing", new EntityTypes.Float(0, 1, 0.5f), "Swing") 
+                        new Param("swing", new EntityTypes.Float(0, 1, 0.5f), "Swing", "The amount of swing") 
                     }),
                 }),
                 new Minigame("djSchool", "DJ School", "008c97", false, false, new List<GameAction>()
@@ -281,16 +283,16 @@ namespace RhythmHeavenMania
                     new GameAction("bop",                   delegate { DJSchool.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length);  }, 0.5f, true),
                     new GameAction("and stop ooh",          delegate { var e = eventCaller.currentEntity; DJSchool.instance.AndStop(e.beat, e.toggle);  }, 2.5f, false, new List<Param>()
                     {
-                        new Param("toggle", true, "Ooh")
+                        new Param("toggle", true, "Ooh", "Whether or not the \"ooh\" sound should be played")
                     }),
                     new GameAction("break c'mon ooh",       delegate { var e = eventCaller.currentEntity; DJSchool.instance.BreakCmon(e.beat, e.type, e.toggle);  }, 3f, false, new List<Param>()
                     {
-                        new Param("type", DJSchool.DJVoice.Standard, "Voice"),
-                        new Param("toggle", true, "Ooh")
+                        new Param("type", DJSchool.DJVoice.Standard, "Voice", "The voice line to play"),
+                        new Param("toggle", true, "Ooh", "Whether or not the \"ooh\" sound should be played")
                     }),
                     new GameAction("scratch-o hey",         delegate { DJSchool.instance.ScratchoHey(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);  }, 3f, false, new List<Param>()
                     {
-                        new Param("type", DJSchool.DJVoice.Standard, "Voice"),
+                        new Param("type", DJSchool.DJVoice.Standard, "Voice", "The voice line to play"),
                     }),
                 }),
                 new Minigame("rhythmTweezers", "Rhythm Tweezers", "98b389", false, false, new List<GameAction>()
@@ -300,26 +302,26 @@ namespace RhythmHeavenMania
                     new GameAction("long hair",             delegate { RhythmTweezers.instance.SpawnLongHair(eventCaller.currentEntity.beat); }, 0.5f),
                     new GameAction("next vegetable",        delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.NextVegetable(e.beat, e.type, e.colorA, e.colorB); }, 0.5f, false, new List<Param>() 
                     {
-                        new Param("type", RhythmTweezers.VegetableType.Onion, "Type"),
-                        new Param("colorA", RhythmTweezers.defaultOnionColor, "Onion Color"),
-                        new Param("colorB", RhythmTweezers.defaultPotatoColor, "Potato Color")
+                        new Param("type", RhythmTweezers.VegetableType.Onion, "Type", "The vegetable to switch to"),
+                        new Param("colorA", RhythmTweezers.defaultOnionColor, "Onion Color", "The color of the onion"),
+                        new Param("colorB", RhythmTweezers.defaultPotatoColor, "Potato Color", "The color of the potato")
                     } ),
                     new GameAction("change vegetable",      delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.ChangeVegetableImmediate(e.type, e.colorA, e.colorB); }, 0.5f, false, new List<Param>() 
                     {
-                        new Param("type", RhythmTweezers.VegetableType.Onion, "Type"),
-                        new Param("colorA", RhythmTweezers.defaultOnionColor, "Onion Color"),
-                        new Param("colorB", RhythmTweezers.defaultPotatoColor, "Potato Color")
+                        new Param("type", RhythmTweezers.VegetableType.Onion, "Type", "The vegetable to switch to"),
+                        new Param("colorA", RhythmTweezers.defaultOnionColor, "Onion Color", "The color of the onion"),
+                        new Param("colorB", RhythmTweezers.defaultPotatoColor, "Potato Color", "The color of the potato")
                     } ),
                     new GameAction("set tweezer delay",     delegate { RhythmTweezers.instance.tweezerBeatOffset = eventCaller.currentEntity.length; }, 1f, true),
                     new GameAction("reset tweezer delay",   delegate { RhythmTweezers.instance.tweezerBeatOffset = 0f; }, 0.5f),
                     new GameAction("set background color",  delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.ChangeBackgroundColor(e.colorA, 0f); }, 0.5f, false, new List<Param>() 
                     {
-                        new Param("colorA", RhythmTweezers.defaultBgColor, "Background Color")
+                        new Param("colorA", RhythmTweezers.defaultBgColor, "Background Color", "The background color to change to")
                     } ),
                     new GameAction("fade background color", delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.FadeBackgroundColor(e.colorA, e.colorB, e.length); }, 1f, true, new List<Param>() 
                     {
-                        new Param("colorA", Color.white, "Start Color"),
-                        new Param("colorB", RhythmTweezers.defaultBgColor, "End Color")
+                        new Param("colorA", Color.white, "Start Color", "The starting color in the fade"),
+                        new Param("colorB", RhythmTweezers.defaultBgColor, "End Color", "The ending color in the fade")
                     } ),
                 }),
                 
@@ -338,10 +340,10 @@ namespace RhythmHeavenMania
                         var rotation = new Vector3(0, e.valA, 0);
                         RhythmRally.instance.ChangeCameraAngle(rotation, e.valB, e.length, (Ease)e.type, (RotateMode)e.type2);
                     }, 4, true, new List<Param>() {
-                        new Param("valA", new EntityTypes.Integer(-360, 360, 0), "Angle"),
-                        new Param("valB", new EntityTypes.Float(0.5f, 4f, 1), "Zoom"),
-                        new Param("type", Ease.Linear, "Ease"),
-                        new Param("type2", RotateMode.Fast, "Rotation Mode")
+                        new Param("valA", new EntityTypes.Integer(-360, 360, 0), "Angle", "The rotation of the camera around the center of the table"),
+                        new Param("valB", new EntityTypes.Float(0.5f, 4f, 1), "Zoom", "The camera's level of zoom (Lower value = Zoomed in)"),
+                        new Param("type", Ease.Linear, "Ease", "The easing function to use"),
+                        new Param("type2", RotateMode.Fast, "Rotation Mode", "The rotation mode to use")
                     } ),
                 }),
                 new Minigame("builtToScaleDS", "Built To Scale (DS) \n<color=#eb5454>[WIP don't use]</color>", "00BB00", true, false, new List<GameAction>()

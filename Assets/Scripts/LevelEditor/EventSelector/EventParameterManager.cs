@@ -85,15 +85,16 @@ namespace RhythmHeavenMania.Editor
                     object param = action.parameters[i].parameter;
                     string caption = action.parameters[i].propertyCaption;
                     string propertyName = action.parameters[i].propertyName;
+                    string tooltip = action.parameters[i].tooltip;
 
-                    AddParam(propertyName, param, caption);
+                    AddParam(propertyName, param, caption, tooltip);
                 }
 
                 active = true;
             }
         }
 
-        private void AddParam(string propertyName, object type, string caption)
+        private void AddParam(string propertyName, object type, string caption, string tooltip = "")
         {
             GameObject prefab = IntegerP;
 
@@ -124,6 +125,11 @@ namespace RhythmHeavenMania.Editor
             input.transform.SetParent(this.gameObject.transform);
             input.SetActive(true);
             input.transform.localScale = Vector2.one;
+
+            if(tooltip != "")
+            {
+                Tooltip.AddTooltip(input, "", tooltip);
+            }
 
             var property = input.GetComponent<EventPropertyPrefab>();
             property.SetProperties(propertyName, type, caption);
