@@ -44,22 +44,43 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
         {
             
         }
+        
 
         public void Dispense(float beat)
         {
+            ballDispensed = true;
             for (int i = 0; i < kickers.Count; i++)
             {
                 Kicker kicker = kickers[i];
                 if (i == 0) kicker.player = true;
 
                 if (kicker.ball != null) return;
-                ballDispensed = true;
 
                 GameObject ball = Instantiate(ballRef, transform);
                 ball.SetActive(true);
                 Ball ball_ = ball.GetComponent<Ball>();
                 ball_.Init(kicker, beat);
+                if (kicker.player)
+                {
+                    DispenseSound(beat);
+                }
             }
+        }
+
+        public static void DispenseSound(float beat)
+        {
+            MultiSound.Play(new MultiSound.Sound[]
+                {
+                new MultiSound.Sound("games/spaceSoccer/dispenseNoise",   beat),
+                new MultiSound.Sound("games/spaceSoccer/dispenseTumble1", beat + 0.25f),
+                new MultiSound.Sound("games/spaceSoccer/dispenseTumble2", beat + 0.5f),
+                new MultiSound.Sound("games/spaceSoccer/dispenseTumble2B",beat + 0.5f),
+                new MultiSound.Sound("games/spaceSoccer/dispenseTumble3", beat + 0.75f),
+                new MultiSound.Sound("games/spaceSoccer/dispenseTumble4", beat + 1f),
+                new MultiSound.Sound("games/spaceSoccer/dispenseTumble5", beat + 1.25f),
+                new MultiSound.Sound("games/spaceSoccer/dispenseTumble6", beat + 1.5f),
+                new MultiSound.Sound("games/spaceSoccer/dispenseTumble6B",beat + 1.75f),
+                }, false);
         }
     }
 
