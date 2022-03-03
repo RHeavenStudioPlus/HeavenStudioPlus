@@ -370,10 +370,7 @@ MonoBehaviour:
   - {fileID: -4174758508601275437, guid: 2deb728f30830dd438f91e9a4dff8cd4, type: 3}
   - {fileID: -2961287720435529803, guid: 2deb728f30830dd438f91e9a4dff8cd4, type: 3}
   - {fileID: 5598513160068558425, guid: 2deb728f30830dd438f91e9a4dff8cd4, type: 3}
-  moleSprites:
-  - {fileID: -7342873356196823606, guid: 2deb728f30830dd438f91e9a4dff8cd4, type: 3}
-  - {fileID: -4112523241890619114, guid: 2deb728f30830dd438f91e9a4dff8cd4, type: 3}
-  - {fileID: 3862573926363885855, guid: 2deb728f30830dd438f91e9a4dff8cd4, type: 3}
+  moleAnim: {fileID: 0}
   veggieSprite: {fileID: 8249654647796258422}
   veggieTrans: {fileID: 1306622253208457060}
   curve: {fileID: 2637729749686440137}
@@ -565,10 +562,7 @@ MonoBehaviour:
   - {fileID: -4174758508601275437, guid: 2deb728f30830dd438f91e9a4dff8cd4, type: 3}
   - {fileID: -2961287720435529803, guid: 2deb728f30830dd438f91e9a4dff8cd4, type: 3}
   - {fileID: 5598513160068558425, guid: 2deb728f30830dd438f91e9a4dff8cd4, type: 3}
-  moleSprites:
-  - {fileID: -7342873356196823606, guid: 2deb728f30830dd438f91e9a4dff8cd4, type: 3}
-  - {fileID: -4112523241890619114, guid: 2deb728f30830dd438f91e9a4dff8cd4, type: 3}
-  - {fileID: 3862573926363885855, guid: 2deb728f30830dd438f91e9a4dff8cd4, type: 3}
+  moleAnim: {fileID: 2805600228006371650}
   veggieSprite: {fileID: 7928308337446182332}
   veggieTrans: {fileID: 5592378564678122777}
   curve: {fileID: 7648030253694337683}
@@ -583,6 +577,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1524379417701275016}
   - component: {fileID: 7928308337446182332}
+  - component: {fileID: 2805600228006371650}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -655,6 +650,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &2805600228006371650
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3829333311673839566}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7fc5aeec00556a148af1e396e27c0f0b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3948884045839928685
 GameObject:
   m_ObjectHideFlags: 0

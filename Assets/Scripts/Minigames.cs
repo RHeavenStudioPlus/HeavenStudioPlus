@@ -358,7 +358,7 @@ namespace RhythmHeavenMania
                     new GameAction("jump tap",              delegate { TapTrial.instance.JumpTap(eventCaller.currentEntity.beat); }, 2.0f, false),
                     new GameAction("final jump tap",        delegate { TapTrial.instance.FinalJumpTap(eventCaller.currentEntity.beat); }, 2.0f, false),
                 }),
-                new Minigame("cropStomp", "Crop Stomp \n<color=#eb5454>[WIP don't use]</color>", "BFDEA6", false, false, new List<GameAction>()
+                new Minigame("cropStomp", "Crop Stomp", "BFDEA6", false, false, new List<GameAction>()
                 {
                     new GameAction("start marching",        delegate { CropStomp.instance.StartMarching(eventCaller.currentEntity.beat); }, 2f, false),
                     new GameAction("veggies",               delegate { }, 4f, true),

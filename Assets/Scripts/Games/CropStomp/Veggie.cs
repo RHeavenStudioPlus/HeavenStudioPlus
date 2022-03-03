@@ -14,7 +14,7 @@ namespace RhythmHeavenMania.Games.CropStomp
 
         public bool isMole;
         public Sprite[] veggieSprites;
-        public Sprite[] moleSprites;
+        public Animator moleAnim;
         public SpriteRenderer veggieSprite;
         public Transform veggieTrans;
         public BezierCurve3D curve;
@@ -43,7 +43,6 @@ namespace RhythmHeavenMania.Games.CropStomp
             }
             else
             {
-                veggieSprite.sprite = moleSprites[0];
                 pickTime = 1.5f;
             }
         }
@@ -121,6 +120,18 @@ namespace RhythmHeavenMania.Games.CropStomp
                         veggieState = -1;
                         boinked = true;
 
+                        curve.transform.localScale = Vector3.one; // Return curve to normal size in the case of mole curves.
+
+                        var key1 = curve.KeyPoints[0];
+                        var key1Pos = key1.Position;
+                        key1.Position = new Vector3(key1Pos.x, veggieTrans.position.y, key1Pos.z);
+
+                        var key2 = curve.KeyPoints[1];
+                        var key2Pos = key2.Position;
+                        key2.Position = new Vector3(key2Pos.x, veggieTrans.position.y + 2f, key2Pos.z);
+
+                        pickedBeat = cond.songPositionInBeats;
+
                         Jukebox.PlayOneShot("miss");
 
                         MissedUpdate();
@@ -132,15 +143,36 @@ namespace RhythmHeavenMania.Games.CropStomp
             }
         }
 
+        bool moleLaughing;
         private void MissedUpdate()
         {
             if (boinked)
             {
+                float fallPosition = Conductor.instance.GetPositionFromBeat(pickedBeat, 1f);
+                fallPosition = Mathf.Clamp(fallPosition, 0, 1);
+                veggieTrans.position = curve.GetPoint(fallPosition);
 
+                if (fallPosition < 1f)
+                {
+                    var rotSpeed = isMole ? pickedRotationSpeed : -pickedRotationSpeed;
+                    veggieTrans.rotation = Quaternion.Euler(0, 0, veggieTrans.rotation.eulerAngles.z + (rotSpeed * Time.deltaTime));
+                }
+                else
+                {
+                    veggieTrans.rotation = Quaternion.Euler(0, 0, 180f);
+                }
             }
             else
             {
-
+                if (isMole && !moleLaughing)
+                {
+                    var distDiff = transform.position.x - game.farmerTrans.position.x;
+                    if (distDiff > 1.5f)
+                    {
+                        moleAnim.Play("Chuckle", 0, 0);
+                        moleLaughing = true;
+                    }
+                }
             }
         }
 
@@ -191,6 +223,10 @@ namespace RhythmHeavenMania.Games.CropStomp
                 {
                     new BeatAction.Action(targetBeat - 0.5f, delegate { Jukebox.PlayOneShotGame("cropStomp/veggieOh"); })
                 });
+            }
+            else
+            {
+                moleAnim.Play("Idle", 0, 0);
             }
 
             var veggieScale = veggieTrans.localScale;
