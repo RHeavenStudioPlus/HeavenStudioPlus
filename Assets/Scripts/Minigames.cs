@@ -362,6 +362,7 @@ namespace RhythmHeavenMania
                 {
                     new GameAction("start marching",        delegate { CropStomp.instance.StartMarching(eventCaller.currentEntity.beat); }, 2f, false),
                     new GameAction("veggies",               delegate { }, 4f, true),
+                    new GameAction("mole",               delegate { }, 2f, false),
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {

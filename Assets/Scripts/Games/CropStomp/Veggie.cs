@@ -18,10 +18,12 @@ namespace RhythmHeavenMania.Games.CropStomp
         public SpriteRenderer veggieSprite;
         public Transform veggieTrans;
         public BezierCurve3D curve;
+        private BezierCurve3D hitCurve;
 
         public float targetBeat;
         private float stompedBeat;
         private float pickedBeat;
+        private float pickTime = 1f;
         private int veggieState = 0;
         private bool boinked; // Player got barely when trying to pick.
 
@@ -38,6 +40,11 @@ namespace RhythmHeavenMania.Games.CropStomp
             if (!isMole)
             {
                 veggieSprite.sprite = veggieSprites[UnityEngine.Random.Range(0, veggieSprites.Length)];
+            }
+            else
+            {
+                veggieSprite.sprite = moleSprites[0];
+                pickTime = 1.5f;
             }
         }
 
@@ -97,7 +104,8 @@ namespace RhythmHeavenMania.Games.CropStomp
                 {
                     veggieState = -1;
                     
-                    Jukebox.PlayOneShotGame("cropStomp/veggieMiss");
+                    if (!isMole)
+                        Jukebox.PlayOneShotGame("cropStomp/veggieMiss");
 
                     return;
                 }
@@ -138,14 +146,18 @@ namespace RhythmHeavenMania.Games.CropStomp
 
         private void PickedUpdate()
         {
-            float pickPosition = Conductor.instance.GetPositionFromBeat(pickedBeat, 1f);
+            float pickPosition = Conductor.instance.GetPositionFromBeat(pickedBeat, pickTime);
             pickPosition = Mathf.Clamp(pickPosition, 0, 1);
-            veggieTrans.position = game.pickCurve.GetPoint(pickPosition);
+            veggieTrans.position = hitCurve.GetPoint(pickPosition);
 
-            veggieTrans.rotation = Quaternion.Euler(0, 0, veggieTrans.rotation.eulerAngles.z + (pickedRotationSpeed * Time.deltaTime));
+            var rotSpeed = isMole ? -pickedRotationSpeed : pickedRotationSpeed;
+            veggieTrans.rotation = Quaternion.Euler(0, 0, veggieTrans.rotation.eulerAngles.z + (rotSpeed * Time.deltaTime));
 
-            var veggieScale = Mathf.Min(1.5f - pickPosition, 1f);
-            veggieTrans.localScale = Vector2.one * veggieScale;
+            if (!isMole)
+            {
+                var veggieScale = Mathf.Min(1.5f - pickPosition, 1f);
+                veggieTrans.localScale = Vector2.one * veggieScale;
+            }
         }
 
         private void StompVeggie(bool autoTriggered)
@@ -211,10 +223,23 @@ namespace RhythmHeavenMania.Games.CropStomp
                 BeatAction.New(gameObject, new List<BeatAction.Action>()
                 {
                     new BeatAction.Action(pickedBeat + 0.5f, delegate { veggieSprite.sortingOrder = -1; }),
-                    new BeatAction.Action(pickedBeat + 1f, delegate { GameObject.Destroy(gameObject); })
+                    new BeatAction.Action(pickedBeat + pickTime, delegate { GameObject.Destroy(gameObject); })
                 });
 
                 Jukebox.PlayOneShotGame("cropStomp/veggieKay");
+
+                hitCurve = game.pickCurve;
+            }
+            else
+            {
+                BeatAction.New(gameObject, new List<BeatAction.Action>()
+                {
+                    new BeatAction.Action(pickedBeat + pickTime, delegate { GameObject.Destroy(gameObject); })
+                });
+
+                Jukebox.PlayOneShotGame("cropStomp/GEUH");
+
+                hitCurve = game.moleCurve;
             }
 
             if (squashTween != null)
