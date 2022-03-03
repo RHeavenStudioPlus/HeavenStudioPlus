@@ -12,6 +12,7 @@ namespace RhythmHeavenMania.Games.CropStomp
     public class CropStomp : Minigame
     {
         const float stepDistance = 2.115f;
+        public static float[] moleSoundOffsets = new float[]{ 0.134f, 0.05f, 0.061f };
 
         float scrollRate => stepDistance / (Conductor.instance.secPerBeat * 2f / Conductor.instance.musicSource.pitch);
         float grassWidth;
@@ -23,7 +24,7 @@ namespace RhythmHeavenMania.Games.CropStomp
         private int stepCount;
         private bool isStepping;
 
-        public bool isMarching => marchStartBeat != -1f && Conductor.instance.isPlaying;
+        public bool isMarching => marchStartBeat != -1f;
 
         [NonSerialized] public bool isFlicking;
 
@@ -49,7 +50,7 @@ namespace RhythmHeavenMania.Games.CropStomp
             instance = this;
         }
 
-        private async void Start()
+        private void Start()
         {
             // Finding grass sprite width for grass scrolling.
             var grassSprite = grass.sprite;
@@ -115,12 +116,31 @@ namespace RhythmHeavenMania.Games.CropStomp
             }
         }
 
+        List<Beatmap.Entity> cuedMoleSounds = new List<Beatmap.Entity>();
         private void Update()
         {
-            if (!isMarching)
+            var cond = Conductor.instance;
+
+            if (!cond.isPlaying)
                 return;
 
-            var cond = Conductor.instance;
+            // Mole sounds.
+            var moleEvents = GameManager.instance.Beatmap.entities.FindAll(m => m.datamodel == "cropStomp/mole");
+            for (int i = 0; i < moleEvents.Count; i++)
+            {
+                var moleEvent = moleEvents[i];
+                var timeToEvent = moleEvent.beat - cond.songPositionInBeats;
+                if (timeToEvent <= 3f && timeToEvent > 0f && !cuedMoleSounds.Contains(moleEvent))
+                {
+                    cuedMoleSounds.Add(moleEvent);
+                    MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("cropStomp/moleNyeh", (moleEvent.beat - 2f) - moleSoundOffsets[0] * Conductor.instance.songBpm / 60f),
+                                                            new MultiSound.Sound("cropStomp/moleHeh1", (moleEvent.beat - 1.5f) - moleSoundOffsets[1] * Conductor.instance.songBpm / 60f),
+                                                            new MultiSound.Sound("cropStomp/moleHeh2", (moleEvent.beat - 1f) - moleSoundOffsets[2] * Conductor.instance.songBpm / 60f) });
+                }
+            }
+
+            if (!isMarching)
+                return;
 
             if (cond.ReportBeat(ref newBeat, marchOffset, true))
             {

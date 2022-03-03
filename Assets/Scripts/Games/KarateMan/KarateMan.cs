@@ -291,6 +291,9 @@ namespace RhythmHeavenMania.Games.KarateMan
                 }
             }
 
+            if (!Conductor.instance.isPlaying)
+                return;
+
             // Call "hit" voice slightly early to account for sound offset.
             var hitVoiceEvents = GameManager.instance.Beatmap.entities.FindAll(c => c.datamodel == "karateman/hit3" || c.datamodel == "karateman/hit4");
             for (int i = 0; i < hitVoiceEvents.Count; i++)
