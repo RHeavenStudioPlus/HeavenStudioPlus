@@ -28,6 +28,7 @@ namespace RhythmHeavenMania.Games.CropStomp
         [NonSerialized] public bool isFlicking;
 
         public GameObject baseVeggie;
+        public GameObject baseMole;
         public Animator legsAnim;
         public Animator bodyAnim;
         public Transform farmerTrans;
@@ -37,6 +38,7 @@ namespace RhythmHeavenMania.Games.CropStomp
         public Transform veggieHolder;
         public Farmer farmer;
         public BezierCurve3D pickCurve;
+        public BezierCurve3D moleCurve;
 
         private Tween shakeTween;
 
@@ -47,7 +49,7 @@ namespace RhythmHeavenMania.Games.CropStomp
             instance = this;
         }
 
-        private void Start()
+        private async void Start()
         {
             // Finding grass sprite width for grass scrolling.
             var grassSprite = grass.sprite;
@@ -75,9 +77,11 @@ namespace RhythmHeavenMania.Games.CropStomp
                 }
             }
 
-            // Spawn veggies.
+            // Veggie and mole events.
             var vegEvents = entities.FindAll(v => v.datamodel == "cropStomp/veggies");
+            var moleEvents = entities.FindAll(m => m.datamodel == "cropStomp/mole");
 
+            // Spawn veggies.
             for (int i = 0; i < vegEvents.Count; i++)
             {
                 var vegBeat = vegEvents[i].beat;
@@ -93,9 +97,20 @@ namespace RhythmHeavenMania.Games.CropStomp
                         var targetVeggieBeat = vegBeat + 2f * b;
                         if (startBeat < targetVeggieBeat)
                         {
-                            SpawnVeggie(targetVeggieBeat, startBeat);
+                            SpawnVeggie(targetVeggieBeat, startBeat, false);
                         }
                     }
+                }
+            }
+
+            // Spawn moles.
+            for (int i = 0; i < moleEvents.Count; i++)
+            {
+                var moleBeat = moleEvents[i].beat;
+
+                if (startBeat < moleBeat)
+                {
+                    SpawnVeggie(moleBeat, startBeat, true);
                 }
             }
         }
@@ -201,9 +216,9 @@ namespace RhythmHeavenMania.Games.CropStomp
             isStepping = true;
         }
 
-        private void SpawnVeggie(float beat, float startBeat)
+        private void SpawnVeggie(float beat, float startBeat, bool isMole)
         {
-            var newVeggie = GameObject.Instantiate(baseVeggie, veggieHolder).GetComponent<Veggie>();
+            var newVeggie = GameObject.Instantiate(isMole ? baseMole : baseVeggie, veggieHolder).GetComponent<Veggie>();
 
             newVeggie.targetBeat = beat;
 
