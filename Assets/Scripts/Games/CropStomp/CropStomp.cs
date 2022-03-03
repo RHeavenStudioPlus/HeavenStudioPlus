@@ -68,9 +68,10 @@ namespace RhythmHeavenMania.Games.CropStomp
             for (int i = 0; i < marchStarts.Count; i++)
             {
                 var sampleBeat = marchStarts[i].beat;
-                if (cond.songPositionInBeats < sampleBeat)
+                if (cond.songPositionInBeats <= sampleBeat + 0.25f) // 0.25-beat buffer in case the start marching event is directly next to the game switch event.
                 {
                     startBeat = sampleBeat;
+                    break;
                 }
             }
 
