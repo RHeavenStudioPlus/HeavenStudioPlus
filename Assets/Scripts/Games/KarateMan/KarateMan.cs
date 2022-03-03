@@ -14,9 +14,10 @@ namespace RhythmHeavenMania.Games.KarateMan
             Pot = 0,
             Rock = 2,
             Ball = 3,
-            CookingPot = 7,
-            Alien = 8,
-            TacoBell = 6,
+            CookingPot = 6,
+            Alien = 7,
+
+            TacoBell = 999
         }
 
         public enum LightBulbType
@@ -68,6 +69,7 @@ namespace RhythmHeavenMania.Games.KarateMan
         public Sprite[] ObjectSprites;
         public Sprite[] BarrelSprites;
         public Sprite[] CookingPotSprites;
+        public Sprite[] OtherSprites;
 
         public List<BGSpriteC> BGSprites;
         public SpriteRenderer BGSprite;
@@ -155,7 +157,9 @@ namespace RhythmHeavenMania.Games.KarateMan
             p.createBeat = beat;
             p.isThrown = true;
             p.type = type;
-            p.Sprite.GetComponent<SpriteRenderer>().sprite = ObjectSprites[type];
+
+            if(type <= ObjectSprites.Length)
+                p.Sprite.GetComponent<SpriteRenderer>().sprite = ObjectSprites[type];
 
             if (combo)
             {
@@ -219,21 +223,22 @@ namespace RhythmHeavenMania.Games.KarateMan
                             outSnd = "karateman/objectOut";
                         else
                             outSnd = "karateman/offbeatObjectOut";
-                        p.hitSnd = "karateman/tacobell";
+                        p.hitSnd = "karateman/cookingPot";
                         break;
                     case 7:
                         if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
                             outSnd = "karateman/objectOut";
                         else
                             outSnd = "karateman/offbeatObjectOut";
-                        p.hitSnd = "karateman/cookingPot";
+                        p.hitSnd = "karateman/alienHit";
                         break;
-                    case 8:
+                    case 999:
+                        p.Sprite.GetComponent<SpriteRenderer>().sprite = OtherSprites[0];
                         if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
                             outSnd = "karateman/objectOut";
                         else
                             outSnd = "karateman/offbeatObjectOut";
-                        p.hitSnd = "karateman/alienHit";
+                        p.hitSnd = "karateman/tacobell";
                         break;
                 }
 
