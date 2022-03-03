@@ -71,7 +71,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             else
                 hitLength = 14f;
 
-            if (type == 7)
+            if (type == 6)
                 CookingPotLid.SetActive(true);
 
             /*if (combo)
@@ -284,10 +284,13 @@ namespace RhythmHeavenMania.Games.KarateMan
                 case 4:
                     BarrelDestroy(false);
                     break;
-                case 7:
+                case 6:
                     // TODO: Rock destroy particle effect
                     CookingPotLid.SetActive(false);
                     CookingPotDestroy();
+                    break;
+                case 999:
+                    Jukebox.PlayOneShotGame("karateman/rockHit");
                     break;
             }
 
