@@ -20,6 +20,14 @@ namespace RhythmHeavenMania.Games.KarateMan
             TacoBell = 999
         }
 
+        public enum HitThree
+        {
+            HitTwo,
+            HitThree,
+            HitThreeAlt,
+            HitFour
+        }
+
         public enum LightBulbType
         {
             Normal,
@@ -303,7 +311,9 @@ namespace RhythmHeavenMania.Games.KarateMan
                 if (timeToEvent <= 1f && timeToEvent > 0f && !cuedVoices.Contains(hitEvent))
                 {
                     cuedVoices.Add(hitEvent);
-                    MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("karateman/hit", hitEvent.beat - hitVoiceOffset * Conductor.instance.songBpm / 60f) });
+                    var sound = "karateman/hit";
+                    if (hitEvent.type == (int)KarateMan.HitThree.HitThreeAlt) sound += "Alt";
+                    MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound(sound, hitEvent.beat - hitVoiceOffset * Conductor.instance.songBpm / 60f) });
                 }
             }
         }
@@ -338,9 +348,16 @@ namespace RhythmHeavenMania.Games.KarateMan
             bop.startBeat = beat;
         }
 
-        public void Hit3(float beat)
+        public void Hit2(float beat)
         {
-            MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("karateman/three", beat + 0.5f) });
+            MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("karateman/two", beat + 0.5f) });
+        }
+
+        public void Hit3(float beat, bool alt = false)
+        {
+            var sound = "karateman/three";
+            if (alt) sound += "Alt";
+            MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound(sound, beat + 0.5f) });
             GameObject hit3 = Instantiate(HIT3Ref, this.transform);
             hit3.transform.GetChild(0).GetChild(1).GetComponent<SpriteRenderer>().sprite = Numbers[2];
             BeatAction.New(hit3, new List<BeatAction.Action>() 
