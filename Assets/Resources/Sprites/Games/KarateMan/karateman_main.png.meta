@@ -218,6 +218,15 @@ TextureImporter:
   - first:
       213: 756708653002075470
     second: karateman_combo_crouch_toIdle_leg
+  - first:
+      213: 6243727673011286339
+    second: karateman_cookingpot
+  - first:
+      213: 561377664857987667
+    second: karateman_cookingpot_lid
+  - first:
+      213: -8767211005568948338
+    second: karateman_alien
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -1868,6 +1877,69 @@ TextureImporter:
       bones: []
       spriteID: e4d27acb28e508a00800000000000000
       internalID: 756708653002075470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_cookingpot
+      rect:
+        serializedVersion: 2
+        x: 3502
+        y: 1466
+        width: 294
+        height: 155
+      alignment: 9
+      pivot: {x: 0.48875457, y: 0.6137561}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3413d18ec3d26a650800000000000000
+      internalID: 6243727673011286339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_cookingpot_lid
+      rect:
+        serializedVersion: 2
+        x: 3520
+        y: 1752
+        width: 257
+        height: 121
+      alignment: 9
+      pivot: {x: 0.4871356, y: 0.34517047}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35ad2ba030a6ac700800000000000000
+      internalID: 561377664857987667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_alien
+      rect:
+        serializedVersion: 2
+        x: 3478
+        y: 1114
+        width: 276
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5005042, y: 0.48580885}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e87ea268a0c945680800000000000000
+      internalID: -8767211005568948338
       vertices: []
       indices: 
       edges: []
