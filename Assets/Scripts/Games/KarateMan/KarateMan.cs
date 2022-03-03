@@ -14,7 +14,9 @@ namespace RhythmHeavenMania.Games.KarateMan
             Pot = 0,
             Rock = 2,
             Ball = 3,
-            TacoBell = 6
+            CookingPot = 7,
+            Alien = 8,
+            TacoBell = 6,
         }
 
         public enum LightBulbType
@@ -65,6 +67,7 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         public Sprite[] ObjectSprites;
         public Sprite[] BarrelSprites;
+        public Sprite[] CookingPotSprites;
 
         public List<BGSpriteC> BGSprites;
         public SpriteRenderer BGSprite;
@@ -83,6 +86,8 @@ namespace RhythmHeavenMania.Games.KarateMan
         public GameEvent prepare = new GameEvent();
 
         private float bgBeat;
+
+        public ParticleSystem potHitEffect;
 
         public GameObject comboRef;
 
@@ -210,8 +215,25 @@ namespace RhythmHeavenMania.Games.KarateMan
                         });
                         break;
                     case 6:
-                        outSnd = "karateman/objectOut";
+                        if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
+                            outSnd = "karateman/objectOut";
+                        else
+                            outSnd = "karateman/offbeatObjectOut";
                         p.hitSnd = "karateman/tacobell";
+                        break;
+                    case 7:
+                        if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
+                            outSnd = "karateman/objectOut";
+                        else
+                            outSnd = "karateman/offbeatObjectOut";
+                        p.hitSnd = "karateman/cookingPot";
+                        break;
+                    case 8:
+                        if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
+                            outSnd = "karateman/objectOut";
+                        else
+                            outSnd = "karateman/offbeatObjectOut";
+                        p.hitSnd = "karateman/alienHit";
                         break;
                 }
 
