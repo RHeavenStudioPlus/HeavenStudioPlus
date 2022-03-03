@@ -230,13 +230,16 @@ namespace RhythmHeavenMania
                     new GameAction("hit3",                  delegate
                     {
                         var e = eventCaller.currentEntity;
-                        if(e.toggle)
-                            KarateMan.instance.Hit4(e.beat);
-                        else
-                            KarateMan.instance.Hit3(e.beat);
+                        switch ((KarateMan.HitThree)e.type)
+                        {
+                            case KarateMan.HitThree.HitTwo: KarateMan.instance.Hit2(e.beat); break;
+                            case KarateMan.HitThree.HitThreeAlt: KarateMan.instance.Hit3(e.beat, true); break;
+                            case KarateMan.HitThree.HitFour: KarateMan.instance.Hit4(e.beat); break;
+                            default: KarateMan.instance.Hit3(e.beat); break;
+                        }
                     }, 1f, false, new List<Param>()
                     {
-                        new Param("toggle", false, "Hit 4", "Whether or not the \"hit 4!\" sound should be played instead")
+                        new Param("type", KarateMan.HitThree.HitThree, "Type", "What should be called out")
                     }),
                     new GameAction("prepare",               delegate { KarateMan.instance.Prepare(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 1f, true),
                     new GameAction("set background color",  delegate {

@@ -270,7 +270,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             switch (type)
             {
                 case 0:
-                    KarateMan.instance.potHitEffect.Play();
+                    if(!combo) KarateMan.instance.potHitEffect.Play();
                     break;
                 case 1:
                     GameObject bulbHit = Instantiate(KarateJoe.instance.BulbHit);
