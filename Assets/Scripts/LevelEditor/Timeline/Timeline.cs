@@ -173,7 +173,7 @@ namespace RhythmHeavenMania.Editor.Track
             Tooltip.AddTooltip(StopBTN.gameObject, "Stop <color=#adadad>[Space]</color>");
 
             Tooltip.AddTooltip(MetronomeBTN.gameObject, "Metronome <color=#adadad>[M]</color>");
-            Tooltip.AddTooltip(AutoplayBTN.gameObject, "Autoplay <color=#adadad>[A]</color>");
+            Tooltip.AddTooltip(AutoplayBTN.gameObject, "Autoplay <color=#adadad>[P]</color>");
 
             Tooltip.AddTooltip(SelectionsBTN.gameObject, "Tool: Selection <color=#adadad>[1]</color>");
             Tooltip.AddTooltip(TempoChangeBTN.gameObject, "Tool: Tempo Change <color=#adadad>[2]</color>");
@@ -258,7 +258,7 @@ namespace RhythmHeavenMania.Editor.Track
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.P))
             {
                 AutoPlayToggle();
             }
@@ -292,11 +292,11 @@ namespace RhythmHeavenMania.Editor.Track
             float moveSpeed = 750;
             if (Input.GetKey(KeyCode.LeftShift)) moveSpeed *= 2;
 
-            if (Input.GetKey(KeyCode.LeftArrow))
+            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
             {
                 TimelineContent.transform.localPosition += new Vector3(moveSpeed * Time.deltaTime, 0);
             }
-            else if (Input.GetKey(KeyCode.RightArrow))
+            else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
             {
                 TimelineContent.transform.localPosition += new Vector3(-moveSpeed * Time.deltaTime, 0);
             }
