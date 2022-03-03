@@ -16,6 +16,7 @@ namespace RhythmHeavenMania.Games.CropStomp
 
         float scrollRate => stepDistance / (Conductor.instance.secPerBeat * 2f / Conductor.instance.musicSource.pitch);
         float grassWidth;
+        float dotsWidth = 19.2f;
 
         private float newBeat = -1f; // So that marching can happen on beat 0.
         private float marchStartBeat = -1f;
@@ -35,6 +36,7 @@ namespace RhythmHeavenMania.Games.CropStomp
         public Transform farmerTrans;
         public SpriteRenderer grass;
         public Transform grassTrans;
+        public Transform dotsTrans;
         public Transform scrollingHolder;
         public Transform veggieHolder;
         public Farmer farmer;
@@ -187,6 +189,14 @@ namespace RhythmHeavenMania.Games.CropStomp
             newGrassX = (newGrassX % (grassWidth * 4.5f));
 
             grassTrans.localPosition = new Vector3(newGrassX, grassPos.y, grassPos.z);
+
+            // Dots scroll
+            var dotsPos = dotsTrans.localPosition;
+
+            var newDotsX = dotsPos.x + (scrollRate * Time.deltaTime);
+            newDotsX = (newDotsX % dotsWidth);
+
+            dotsTrans.localPosition = new Vector3(newDotsX, dotsPos.y, dotsPos.z);
         }
 
         private void LateUpdate()
