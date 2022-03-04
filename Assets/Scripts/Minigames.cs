@@ -17,6 +17,7 @@ using RhythmHeavenMania.Games.BuiltToScaleDS;
 using RhythmHeavenMania.Games.TapTrial;
 using RhythmHeavenMania.Games.CropStomp;
 using RhythmHeavenMania.Games.WizardsWaltz;
+using RhythmHeavenMania.Games.MrUpbeat;
 
 namespace RhythmHeavenMania
 {
@@ -372,6 +373,10 @@ namespace RhythmHeavenMania
                 {
                     new GameAction("start interval",        delegate { WizardsWaltz.instance.SetIntervalStart(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 4f, true),
                     new GameAction("plant",        delegate { WizardsWaltz.instance.SpawnFlower(eventCaller.currentEntity.beat); }, 0.5f, false),
+                }),
+                new Minigame("mrUpbeat", "Mr. Upbeat \n<color=#eb5454>[WIP don't use]</color>", "FFFFFF", false, false, new List<GameAction>()
+                {
+                    new GameAction("go",        delegate { }, 4f, true),
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
