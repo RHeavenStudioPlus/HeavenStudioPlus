@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4485966734002228350}
+  - component: {fileID: 1614535701461294964}
   - component: {fileID: 2897060438308778760}
   m_Layer: 0
   m_Name: AntennaLight
@@ -31,6 +32,25 @@ Transform:
   m_Father: {fileID: 1039565176908573975}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1614535701461294964
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089093179602596564}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e6e4ddc5d5e73a246b2032b4e92596c9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!212 &2897060438308778760
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -91,6 +111,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1584121333826078951}
+  - component: {fileID: 2256168985014220240}
   m_Layer: 0
   m_Name: Holder
   m_TagString: Untagged
@@ -114,6 +135,25 @@ Transform:
   m_Father: {fileID: 862280508089709600}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &2256168985014220240
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488695648487991734}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a5f93a456c442bc458973d17286581d9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3862020474253857803
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,6 +493,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7248900333300803150}
+  - component: {fileID: 8728962026160321644}
   m_Layer: 0
   m_Name: mrUpbeat
   m_TagString: Untagged
@@ -477,6 +518,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8728962026160321644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7248900333300803145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a258517e5332c824a8b81a03036fc2a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EligibleHits: []
+  firstEnable: 0
+  metronome: {fileID: 3862020474253857803}
+  animator: {fileID: 2256168985014220240}
+  blipAnimator: {fileID: 1614535701461294964}
+  shadows: []
 --- !u!1 &8412912829583803381
 GameObject:
   m_ObjectHideFlags: 0
