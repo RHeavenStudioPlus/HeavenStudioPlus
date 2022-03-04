@@ -16,6 +16,7 @@ using RhythmHeavenMania.Games.RhythmRally;
 using RhythmHeavenMania.Games.BuiltToScaleDS;
 using RhythmHeavenMania.Games.TapTrial;
 using RhythmHeavenMania.Games.CropStomp;
+using RhythmHeavenMania.Games.WizardsWaltz;
 
 namespace RhythmHeavenMania
 {
@@ -366,6 +367,11 @@ namespace RhythmHeavenMania
                     new GameAction("start marching",        delegate { CropStomp.instance.StartMarching(eventCaller.currentEntity.beat); }, 2f, false),
                     new GameAction("veggies",               delegate { }, 4f, true),
                     new GameAction("mole",               delegate { }, 2f, false),
+                }),
+                new Minigame("wizardsWaltz", "Wizard's Waltz \n<color=#adadad>(Mahou Tsukai)</color>", "FFEF9C", false, false, new List<GameAction>()
+                {
+                    new GameAction("start interval",        delegate { WizardsWaltz.instance.SetIntervalStart(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 4f, true),
+                    new GameAction("plant",        delegate { WizardsWaltz.instance.SpawnFlower(eventCaller.currentEntity.beat); }, 0.5f, false),
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
