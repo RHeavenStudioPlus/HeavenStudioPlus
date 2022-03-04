@@ -57,6 +57,16 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
             animator.Play("Hit", 0, 0);
         }
 
+        public void IdlePlant()
+        {
+            animator.Play("IdlePlant", 0, 0);
+        }
+
+        public void IdleFlower()
+        {
+            animator.Play("IdleFlower", 0, 0);
+        }
+
         public void Eat()
         {
             animator.Play("Eat", 0, 0);
