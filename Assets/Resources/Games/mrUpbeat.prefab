@@ -533,9 +533,8 @@ MonoBehaviour:
   EligibleHits: []
   firstEnable: 0
   metronome: {fileID: 3862020474253857803}
-  animator: {fileID: 2256168985014220240}
-  blipAnimator: {fileID: 1614535701461294964}
-  shadows: []
+  man: {fileID: 8160414645038680372}
+  nextBeat: 0
 --- !u!1 &8412912829583803381
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,6 +626,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 862280508089709600}
+  - component: {fileID: 8160414645038680372}
   m_Layer: 0
   m_Name: MrUpbeat
   m_TagString: Untagged
@@ -650,6 +650,35 @@ Transform:
   m_Father: {fileID: 7248900333300803150}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8160414645038680372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8472146464158439961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4fa18aec69a2e949a7e2d4e33bdd2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inList: 0
+  lastState: 0
+  state:
+    gameObject: {fileID: 0}
+    early: 0
+    perfect: 0
+    late: 0
+    createBeat: 0
+  eligibleHitsList: []
+  aceTimes: 0
+  isEligible: 0
+  triggersAutoplay: 1
+  game: {fileID: 8728962026160321644}
+  animator: {fileID: 2256168985014220240}
+  blipAnimator: {fileID: 1614535701461294964}
+  shadows: []
+  stepTimes: 0
 --- !u!1 &8963803634876878173
 GameObject:
   m_ObjectHideFlags: 0
