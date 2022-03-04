@@ -105,7 +105,7 @@ namespace RhythmHeavenMania.Editor
             currentEventIndex = 0;
             UpdateIndex(0, false);
 
-            Editor.instance.SetGameEventTitle($"Select game event for {gameName}");
+            Editor.instance.SetGameEventTitle($"Select game event for {gameName.Replace("\n", "")}");
         }
 
         private void AddEvents()

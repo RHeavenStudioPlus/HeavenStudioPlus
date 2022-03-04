@@ -1,5 +1,100 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1194608921018870769
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5068490343008965940}
+  - component: {fileID: 7265463465499129635}
+  - component: {fileID: 9147818320159898070}
+  m_Layer: 0
+  m_Name: Wizard
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5068490343008965940
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194608921018870769}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7248900333300803150}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &7265463465499129635
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194608921018870769}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 6626715444242248344, guid: affa77f4c5206f444a79fbd5d03c0aa4, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.875, y: 1.6875}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &9147818320159898070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194608921018870769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d323f90f8c1dd54da6d53d21013cf5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7248900333300803145
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,7 +104,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7248900333300803150}
-  - component: {fileID: 7248900333300803151}
+  - component: {fileID: 4376227386272826112}
   m_Layer: 0
   m_Name: wizardsWaltz
   m_TagString: Untagged
@@ -29,10 +124,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8701843541313247389}
+  - {fileID: 5068490343008965940}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7248900333300803151
+--- !u!114 &4376227386272826112
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,78 +137,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7248900333300803145}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7c69b76f8c0a85489aa15813dfef687, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f2919d01c742294387031de86ef710b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   EligibleHits: []
   firstEnable: 0
-  LightBulbColors:
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0.007843138, g: 0.8117647, b: 1, a: 1}
-  - {r: 233, g: 233, b: 0, a: 1}
-  - {r: 0, g: 0, b: 0, a: 0}
-  BackgroundColors:
-  - {r: 0.9411765, g: 0.9137255, b: 0.4392157, a: 1}
-  - {r: 0.99607843, g: 0.60784316, b: 0.98039216, a: 1}
-  - {r: 0.42745098, g: 0.6666667, b: 0.8784314, a: 1}
-  - {r: 1, g: 0.09411766, b: 0, a: 1}
-  - {r: 1, g: 0.58431375, b: 0.3137255, a: 1}
-  - {r: 0.9607844, g: 0.7725491, b: 0.78823537, a: 1}
-  - {r: 0, g: 0, b: 0, a: 0}
-  ShadowColors:
-  - {r: 0.84313726, g: 0.52156866, b: 0.23137255, a: 1}
-  - {r: 0.88235295, g: 0.41960785, b: 0.5294118, a: 1}
-  - {r: 0.3137255, g: 0.31764707, b: 0.40784317, a: 1}
-  - {r: 0, g: 0, b: 0, a: 1}
-  - {r: 0.454902, g: 0.19607845, b: 0.121568635, a: 1}
-  - {r: 0.654902, g: 0.4156863, b: 0.45882356, a: 1}
-  Pot: {fileID: 0}
-  Bomb: {fileID: 0}
-  KarateJoe: {fileID: 0}
-  EligibleCombos: []
-  ObjectSprites:
-  - {fileID: 8050164209934277894, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  - {fileID: 5443719295599431979, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  - {fileID: -4108414130637688947, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  - {fileID: -3530312539838775474, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  - {fileID: 8671423413994339737, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  - {fileID: -6341196331951941137, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  - {fileID: 6243727673011286339, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  - {fileID: -8767211005568948338, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  - {fileID: -6283416824598814145, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  BarrelSprites:
-  - {fileID: 6524922379630696755, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  - {fileID: 1156572009758090512, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  - {fileID: -7998309181045564909, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  - {fileID: -7906004722935515527, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  - {fileID: 5805539206011318834, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  CookingPotSprites:
-  - {fileID: 6243727673011286339, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  - {fileID: 561377664857987667, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  OtherSprites:
-  - {fileID: -6283416824598814145, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  BGSprites:
-  - Sprites:
-    - {fileID: 21300000, guid: 72431c7c58f54e848bcb7527635bb72b, type: 3}
-    - {fileID: 21300000, guid: f05694d1ff974fe4387e487d025edede, type: 3}
-  - Sprites:
-    - {fileID: 21300000, guid: 02bb4d7e097a4524db553cfabcdbcf10, type: 3}
-    - {fileID: 21300000, guid: c19e325e2bac3e44d9464debd23372c5, type: 3}
-  BGSprite: {fileID: 0}
-  BGFXSprite: {fileID: 7037067448840752386}
-  BGType: 0
-  BGFXType: 0
-  BGColor: {r: 0.94117653, g: 0.91372555, b: 0.43921572, a: 1}
-  Shadow: 0
-  ShadowColor: {r: 0, g: 0, b: 0, a: 0}
-  potHitEffect: {fileID: 0}
-  comboRef: {fileID: 0}
-  HIT3Ref: {fileID: 0}
-  Numbers:
-  - {fileID: -6652173421999817615, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  - {fileID: 1726704843289908573, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  - {fileID: 8853733407125453983, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-  - {fileID: -715771857855404744, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
+  wizard: {fileID: 9147818320159898070}
 --- !u!1 &8963803634876878173
 GameObject:
   m_ObjectHideFlags: 0
