@@ -7,6 +7,7 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
 {
     public class Wizard : MonoBehaviour
     {
+        public Animator animator;
         public GameObject shadow;
 
         private WizardsWaltz game;
@@ -34,8 +35,18 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
             shadow.transform.localScale = new Vector3(scale, scale, 1);
         }
 
+        private void LateUpdate()
+        {
+            if (PlayerInput.Pressed(true))
+            {
+                animator.Play("Magic", 0, 0);
+            }
+        }
+
         public void Magic(Plant plant, bool hit)
         {
+            animator.Play("Magic", 0, 0);
+
             if(plant == null)
             {
                 // TODO: Play empty A press sound
