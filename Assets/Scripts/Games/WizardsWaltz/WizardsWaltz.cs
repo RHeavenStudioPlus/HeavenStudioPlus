@@ -12,6 +12,7 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
     {
         [Header("References")]
         public Wizard wizard;
+        public Girl girl;
         public GameObject plantHolder;
         public GameObject plantBase;
 
@@ -62,12 +63,12 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
             var songPos = Conductor.instance.songPositionInBeats;
             var am = (beatInterval / 2f);
             var x = Mathf.Sin(Mathf.PI * songPos / am) * 6;
-            var y = -2.5f + Mathf.Cos(Mathf.PI * songPos / am) * 1.5f;
-            var scale = 1 - Mathf.Cos(Mathf.PI * songPos / am) * 0.25f;
+            var y = -3.5f + Mathf.Cos(Mathf.PI * songPos / am) * 2f;
+            var scale = 1 - Mathf.Cos(Mathf.PI * songPos / am) * 0.35f;
             var xscale = scale;
-            if (y > -2.5f) xscale *= -1;
+            if (y > -3.5f) xscale *= -1;
 
-            plant.transform.localPosition = new Vector3(x, y, -scale);
+            plant.transform.localPosition = new Vector3(x, y, scale * 2);
             plant.transform.localScale = new Vector3(xscale, scale, 1);
 
             plant.gameObject.SetActive(true);
