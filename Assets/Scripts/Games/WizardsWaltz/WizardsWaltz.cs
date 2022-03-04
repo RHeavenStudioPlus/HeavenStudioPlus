@@ -4,10 +4,20 @@ using UnityEngine;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.WizardWaltz
+namespace RhythmHeavenMania.Games.WizardsWaltz
 {
     public class WizardsWaltz : Minigame
     {
+
+        public Wizard wizard;
+
+        public static WizardsWaltz instance;
+
+        private void Awake()
+        {
+            instance = this;
+        }
+
         // Start is called before the first frame update
         void Start()
         {
