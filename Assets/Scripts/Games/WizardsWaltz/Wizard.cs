@@ -7,6 +7,7 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
 {
     public class Wizard : MonoBehaviour
     {
+        public Animator animator;
         public GameObject shadow;
 
         private WizardsWaltz game;
@@ -22,11 +23,11 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
             songPos = Conductor.instance.songPositionInBeats;
             var am = game.beatInterval / 2f;
             var x = Mathf.Sin(Mathf.PI * songPos / am) * 6;
-            var y = Mathf.Cos(Mathf.PI * songPos / am) * 1.5f;
-            var scale = 1 - Mathf.Cos(Mathf.PI * songPos / am) * 0.25f;
+            var y = Mathf.Cos(Mathf.PI * songPos / am) * 2f;
+            var scale = 1 - Mathf.Cos(Mathf.PI * songPos / am) * 0.35f;
             
-            transform.position = new Vector3(x, 2 + y, -scale);
-            shadow.transform.position = new Vector3(x, -2.5f + y, -scale + 0.1f);
+            transform.position = new Vector3(x, 1f + y, scale * 2);
+            shadow.transform.position = new Vector3(x, -3.5f + y, scale * 2 + 0.1f);
 
             var xscale = scale;
             if (y > 0) xscale *= -1;
@@ -34,8 +35,23 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
             shadow.transform.localScale = new Vector3(scale, scale, 1);
         }
 
+        private void LateUpdate()
+        {
+            if (PlayerInput.Pressed(true))
+            {
+                animator.Play("Magic", 0, 0);
+            }
+        }
+
+        public void Idle()
+        {
+            animator.Play("Idle", 0, 0);
+        }
+
         public void Magic(Plant plant, bool hit)
         {
+            animator.Play("Magic", 0, 0);
+
             if(plant == null)
             {
                 // TODO: Play empty A press sound
@@ -45,11 +61,13 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
             {
                 Jukebox.PlayOneShotGame("wizardsWaltz/grow");
                 plant.Bloom();
+                game.girl.Happy();
             }
             else
             {
                 Jukebox.PlayOneShot("miss");
                 plant.Eat();
+                game.girl.Sad();
             }
         }
 

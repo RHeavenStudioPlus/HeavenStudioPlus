@@ -8,6 +8,7 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
     public class Plant : PlayerActionObject
     {
         public Animator animator;
+        public SpriteRenderer spriteRenderer;
         public float createBeat;
 
         private WizardsWaltz game;
@@ -21,6 +22,7 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
 
         private void Start()
         {
+            spriteRenderer.sortingOrder = (int)Math.Round((transform.position.z - 2) * 1000);
             animator.Play("Appear", 0, 0);
         }
 
@@ -53,6 +55,16 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
         public void Bloom()
         {
             animator.Play("Hit", 0, 0);
+        }
+
+        public void IdlePlant()
+        {
+            animator.Play("IdlePlant", 0, 0);
+        }
+
+        public void IdleFlower()
+        {
+            animator.Play("IdleFlower", 0, 0);
         }
 
         public void Eat()
