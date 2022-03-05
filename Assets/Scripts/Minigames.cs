@@ -330,7 +330,7 @@ namespace RhythmHeavenMania
                     } ),
                 }),
                 
-                new Minigame("rhythmRally", "Rhythm Rally \n<color=#eb5454>[WIP don't use]</color>", "FFFFFF", true, false, new List<GameAction>()
+                new Minigame("rhythmRally", "Rhythm Rally", "FFFFFF", true, false, new List<GameAction>()
                 {
                     new GameAction("bop",                   delegate { RhythmRally.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 0.5f, true),
                     new GameAction("whistle",               delegate { RhythmRally.instance.PlayWhistle(); }, 0.5f),
