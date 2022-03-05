@@ -53,7 +53,7 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
 
                 MagicFX magic = Instantiate(fxBase, fxHolder.transform).GetComponent<MagicFX>();
 
-                magic.transform.position = new Vector3(x, 0.5f + y, scale * 2);
+                magic.transform.position = new Vector3(x, 0.5f + y, 0);
                 magic.transform.localScale = wizard.gameObject.transform.localScale;
                 magic.gameObject.SetActive(true);
             }
@@ -86,14 +86,15 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
             var songPos = Conductor.instance.songPositionInBeats;
             var am = (beatInterval / 2f);
             var x = Mathf.Sin(Mathf.PI * songPos / am) * 6;
-            var y = -3.5f + Mathf.Cos(Mathf.PI * songPos / am) * 2f;
+            var y = -3f + Mathf.Cos(Mathf.PI * songPos / am) * 1.5f;
             var scale = 1 - Mathf.Cos(Mathf.PI * songPos / am) * 0.35f;
             var xscale = scale;
             if (y > -3.5f) xscale *= -1;
 
-            plant.transform.localPosition = new Vector3(x, y, scale * 2);
+            plant.transform.localPosition = new Vector3(x, y, 0);
             plant.transform.localScale = new Vector3(xscale, scale, 1);
 
+            plant.order = (int)Math.Round((scale - 1) * 1000);
             plant.gameObject.SetActive(true);
 
             plant.createBeat = beat;
