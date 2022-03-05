@@ -16,69 +16,79 @@ namespace RhythmHeavenMania.Games.MrUpbeat
         public Animator blipAnimator;
         public GameObject[] shadows;
 
+        public float targetBeat = 0.25f;
         public int stepTimes = 0;
+        private bool stepped = false;
 
         public GameEvent blip = new GameEvent();
 
         private void Update()
         {
-            float normalizedBeat = Conductor.instance.GetPositionFromBeat(game.nextBeat, 0.5f);
+            float normalizedBeat = Conductor.instance.GetPositionFromMargin(targetBeat, 0.5f);
             StateCheck(normalizedBeat);
-            CheckIfFall(normalizedBeat);
 
-            if (PlayerInput.Pressed(true))
+            if(game.canGo && normalizedBeat > Minigame.LateTime())
+            {
+                //Fall();
+                targetBeat += 100f;
+                return;
+            }
+
+            if (PlayerInput.Pressed())
             {
                 if (state.perfect)
                 {
                     Step();
-                } else if (state.notPerfect())
+                }
+                else if(state.notPerfect())
                 {
                     Fall();
+                }
+                else
+                {
+                    Step();
                 }
             }
         }
 
-        public void ProgressBeat()
-        {
-            game.nextBeat += 1f;
-            Blip();
-        }
-
         public override void OnAce()
         {
+            if (!game.canGo) return;
+            
             Step();
+        }
+
+        public void Idle()
+        {
+            stepTimes = 0;
+            transform.localScale = new Vector3(1, 1);
+            animator.Play("Idle", 0, 0);
         }
 
         public void Step()
         {
-            if (!game.canGo) return;
-
             stepTimes++;
 
+            animator.Play("Step", 0, 0);
             Jukebox.PlayOneShotGame("mrUpbeat/step");
 
             if (stepTimes % 2 == 1)
+            {
+                shadows[0].SetActive(false);
+                shadows[1].SetActive(true);
                 transform.localScale = new Vector3(-1, 1);
-            else
+            } else
+            {
+                shadows[0].SetActive(true);
+                shadows[1].SetActive(false);
                 transform.localScale = new Vector3(1, 1);
-
-            ProgressBeat();
+            }
         }
 
         public void Fall()
         {
-            if (!game.canGo) return;
-
+            animator.Play("Fall", 0, 0);
             Jukebox.PlayOneShot("miss");
-        }
-
-        private void CheckIfFall(float normalizedBeat)
-        {
-            if (normalizedBeat > Minigame.LateTime())
-            {
-                Fall();
-                ProgressBeat();
-            }
         }
 
         public void Blip()
