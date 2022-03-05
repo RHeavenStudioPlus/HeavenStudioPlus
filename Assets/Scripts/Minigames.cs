@@ -376,7 +376,8 @@ namespace RhythmHeavenMania
                 }),
                 new Minigame("mrUpbeat", "Mr. Upbeat \n<color=#eb5454>[WIP don't use]</color>", "FFFFFF", false, false, new List<GameAction>()
                 {
-                    new GameAction("go",        delegate { }, 4f, true),
+                    new GameAction("prepare",               delegate { MrUpbeat.instance.SetInterval(eventCaller.currentEntity.beat); }, 0.5f, true),
+                    new GameAction("go",                    delegate { MrUpbeat.instance.Go(eventCaller.currentEntity.beat);  }, 4f, true),
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
