@@ -26,11 +26,11 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
             songPos = Conductor.instance.songPositionInBeats;
             var am = game.beatInterval / 2f;
             var x = Mathf.Sin(Mathf.PI * songPos / am) * 6;
-            var y = Mathf.Cos(Mathf.PI * songPos / am) * 2f;
+            var y = Mathf.Cos(Mathf.PI * songPos / am) * 1.5f;
             var scale = 1 - Mathf.Cos(Mathf.PI * songPos / am) * 0.35f;
             
-            transform.position = new Vector3(x, 1f + y, scale * 2);
-            shadow.transform.position = new Vector3(x, -3.5f + y, scale * 2 + 0.1f);
+            transform.position = new Vector3(x, 1.5f + y, 0);
+            shadow.transform.position = new Vector3(x, -3f + y, 0);
 
             var xscale = scale;
             if (y > 0) xscale *= -1;
