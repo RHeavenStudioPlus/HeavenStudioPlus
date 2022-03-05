@@ -10,6 +10,9 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
         public Animator animator;
         public GameObject shadow;
 
+        private float newBeat = 0;
+        private int beats = 0;
+
         private WizardsWaltz game;
         private float songPos;
 

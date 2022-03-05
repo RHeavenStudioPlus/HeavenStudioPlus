@@ -15,7 +15,10 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
         public Girl girl;
         public GameObject plantHolder;
         public GameObject plantBase;
+        public GameObject fxHolder;
+        public GameObject fxBase;
 
+        private int timer = 0;
         public float beatInterval = 4f;
         float intervalStartBeat;
         bool intervalStarted;
@@ -36,6 +39,26 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
             {
                 intervalStarted = false;
             }
+        }
+
+        private void FixedUpdate()
+        {
+            if (timer % 8 == 0 || UnityEngine.Random.Range(0,8) == 0)
+            {
+                var songPos = Conductor.instance.songPositionInBeats;
+                var am = beatInterval / 2f;
+                var x = Mathf.Sin(Mathf.PI * songPos / am) * 6 + UnityEngine.Random.Range(-0.5f, 0.5f);
+                var y = Mathf.Cos(Mathf.PI * songPos / am) * 2f + UnityEngine.Random.Range(-0.5f, 0.5f); ;
+                var scale = 1 - Mathf.Cos(Mathf.PI * songPos / am) * 0.35f + UnityEngine.Random.Range(-0.2f, 0.2f); ;
+
+                MagicFX magic = Instantiate(fxBase, fxHolder.transform).GetComponent<MagicFX>();
+
+                magic.transform.position = new Vector3(x, 0.5f + y, scale * 2);
+                magic.transform.localScale = wizard.gameObject.transform.localScale;
+                magic.gameObject.SetActive(true);
+            }
+
+            timer++;
         }
 
         public void SetIntervalStart(float beat, float interval = 4f)
