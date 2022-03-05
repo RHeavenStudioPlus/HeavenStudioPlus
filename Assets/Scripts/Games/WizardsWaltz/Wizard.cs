@@ -43,6 +43,7 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
             if (PlayerInput.Pressed(true))
             {
                 animator.Play("Magic", 0, 0);
+                Jukebox.PlayOneShotGame("wizardsWaltz/wand");
             }
         }
 
