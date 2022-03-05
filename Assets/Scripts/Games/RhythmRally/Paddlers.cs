@@ -93,6 +93,8 @@ namespace RhythmHeavenMania.Games.RhythmRally
                 whistleBeat = game.targetBeat + 0.5f;
             }
 
+            game.ball.SetActive(false);
+
             MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("rhythmRally/Whistle", whistleBeat) });
         }
 

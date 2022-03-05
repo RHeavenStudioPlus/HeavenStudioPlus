@@ -155,7 +155,7 @@ namespace RhythmHeavenMania.Games.RhythmRally
                         curveHeight = 3f;
 
                     curveToUse.transform.localScale = new Vector3(1f, curveHeight, 1f);
-                    ball.transform.position = curveToUse.GetPoint(Mathf.Clamp(curvePosition, 0, 1));
+                    ball.transform.position = curveToUse.GetPoint(Mathf.Max(0, curvePosition));
                 }
                 else
                 {
@@ -261,6 +261,9 @@ namespace RhythmHeavenMania.Games.RhythmRally
 
         public void Serve(float beat, RallySpeed speed)
         {
+            if (!ball.activeSelf)
+                ball.SetActive(true);
+
             served = true;
             missed = false;
             started = true;
@@ -308,6 +311,9 @@ namespace RhythmHeavenMania.Games.RhythmRally
                 opponentAnim.Play("Ready1");
             }
 
+            if (!ball.activeSelf)
+                ball.SetActive(true);
+
             StartCoroutine(TossTrailCo());
         }
 
@@ -337,7 +343,7 @@ namespace RhythmHeavenMania.Games.RhythmRally
         {
             playerAnim.Play("Pose", 0, 0);
             opponentAnim.Play("Pose", 0, 0);
-            ball.gameObject.SetActive(false); // temporary solution, should realistically just fall down
+            ball.SetActive(false); // temporary solution, should realistically just fall down
             inPose = true;
         }
 
