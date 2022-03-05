@@ -15,6 +15,8 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
         private bool hit = false;
         private bool passed = false;
 
+        public int order = 0;
+
         private void Awake()
         {
             game = WizardsWaltz.instance;
@@ -22,7 +24,7 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
 
         private void Start()
         {
-            spriteRenderer.sortingOrder = (int)Math.Round((transform.position.z - 2) * 1000);
+            spriteRenderer.sortingOrder = order;
             animator.Play("Appear", 0, 0);
         }
 
