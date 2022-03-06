@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using System;
 using Starpelly;
@@ -33,6 +34,15 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
             instance = this;
         }
 
+        private void Start()
+        {
+            List<float> starts = GameManager.instance.Beatmap.entities.FindAll(c => c.datamodel == "wizardsWaltz/start interval").Select(c => c.beat).ToList();
+
+            var nextInterval = starts.IndexOf(Mathp.GetClosestInList(starts, Conductor.instance.songPositionInBeats));
+            wizardBeatOffset = starts[nextInterval];
+            Debug.Log(wizardBeatOffset);
+        }
+
         private void Update()
         {
             if (!Conductor.instance.isPlaying && !Conductor.instance.isPaused && intervalStarted)
@@ -45,15 +55,15 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
         {
             if (timer % 8 == 0 || UnityEngine.Random.Range(0,8) == 0)
             {
-                var songPos = Conductor.instance.songPositionInBeats;
+                var songPos = Conductor.instance.songPositionInBeats - wizardBeatOffset;
                 var am = beatInterval / 2f;
                 var x = Mathf.Sin(Mathf.PI * songPos / am) * 6 + UnityEngine.Random.Range(-0.5f, 0.5f);
-                var y = Mathf.Cos(Mathf.PI * songPos / am) * 2f + UnityEngine.Random.Range(-0.5f, 0.5f); ;
+                var y = Mathf.Cos(Mathf.PI * songPos / am) * 0.5f + UnityEngine.Random.Range(-0.5f, 0.5f);
                 var scale = 1 - Mathf.Cos(Mathf.PI * songPos / am) * 0.35f + UnityEngine.Random.Range(-0.2f, 0.2f); ;
 
                 MagicFX magic = Instantiate(fxBase, fxHolder.transform).GetComponent<MagicFX>();
 
-                magic.transform.position = new Vector3(x, 0.5f + y, 0);
+                magic.transform.position = new Vector3(x, 2f + y, 0);
                 magic.transform.localScale = wizard.gameObject.transform.localScale;
                 magic.gameObject.SetActive(true);
             }
@@ -70,6 +80,7 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
                 intervalStarted = true;
             }
 
+            wizardBeatOffset = beat;
             intervalStartBeat = beat;
             beatInterval = interval;
         }
@@ -83,7 +94,7 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
             Jukebox.PlayOneShotGame("wizardsWaltz/plant", beat);
             Plant plant = Instantiate(plantBase, plantHolder.transform).GetComponent<Plant>();
 
-            var songPos = Conductor.instance.songPositionInBeats;
+            var songPos = Conductor.instance.songPositionInBeats - wizardBeatOffset;
             var am = (beatInterval / 2f);
             var x = Mathf.Sin(Mathf.PI * songPos / am) * 6;
             var y = -3f + Mathf.Cos(Mathf.PI * songPos / am) * 1.5f;
