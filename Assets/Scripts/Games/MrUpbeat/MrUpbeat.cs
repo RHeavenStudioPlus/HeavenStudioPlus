@@ -13,9 +13,9 @@ namespace RhythmHeavenMania.Games.MrUpbeat
         [Header("References")]
         public GameObject metronome;
         public UpbeatMan man;
+        public GameObject bt;
 
         public GameEvent beat = new GameEvent();
-        public GameEvent offbeat = new GameEvent();
         public bool canGo = false;
         public int beatCount = 0;
 
@@ -31,12 +31,14 @@ namespace RhythmHeavenMania.Games.MrUpbeat
             canGo = false;
             man.stepTimes = 0;
             SetInterval(0);
+            var pos = Conductor.instance.songPositionInBeats;
+            StartCoroutine(Upbeat(pos - Mathf.Round(pos)));
         }
 
         private void Update()
         {
             List<Beatmap.Entity> gos = GameManager.instance.Beatmap.entities.FindAll(c => c.datamodel == "mrUpbeat/go");
-            for(int i=0; i<gos.Count; i++)
+            for (int i = 0; i < gos.Count; i++)
             {
                 if ((gos[i].beat - 0.15f) <= Conductor.instance.songPositionInBeats && (gos[i].beat + gos[i].length) - 0.15f > Conductor.instance.songPositionInBeats)
                 {
@@ -53,27 +55,24 @@ namespace RhythmHeavenMania.Games.MrUpbeat
                 metronome.transform.eulerAngles = new Vector3(0, 0, 270 - Mathf.Cos(Mathf.PI * Conductor.instance.songPositionInBeats) * 75);
             }
 
-            if (Conductor.instance.ReportBeat(ref beat.lastReportedBeat) && canGo)
+            if (Conductor.instance.ReportBeat(ref beat.lastReportedBeat))
             {
-                if(beatCount % 2 == 0)
-                    Jukebox.PlayOneShotGame("mrUpbeat/metronomeRight");
-                else
-                    Jukebox.PlayOneShotGame("mrUpbeat/metronomeLeft");
+                StartCoroutine(Upbeat());
+                if (canGo)
+                {
+                    if (beatCount % 2 == 0)
+                        Jukebox.PlayOneShotGame("mrUpbeat/metronomeRight");
+                    else
+                        Jukebox.PlayOneShotGame("mrUpbeat/metronomeLeft");
 
-                beatCount++;
-            }
-
-            if (Conductor.instance.ReportBeat(ref offbeat.lastReportedBeat, 0.25f, true))
-            {
-                man.Blip();
-                if(canGo) man.targetBeat = offbeat.lastReportedBeat + 1f;
+                    Beat(Mathf.Round(Conductor.instance.songPositionInBeats));
+                }
             }
         }
 
         public void SetInterval(float beat)
         {
             beatCount = 0;
-            offbeat.startBeat = beat;
             man.targetBeat = beat + 320f;
             man.Idle();
         }
@@ -82,7 +81,23 @@ namespace RhythmHeavenMania.Games.MrUpbeat
         {
             beatCount = 0;
         }
-       
 
+
+        public void Beat(float beat)
+        {
+            beatCount++;
+
+            GameObject _beat = Instantiate(bt);
+            _beat.transform.parent = bt.transform.parent;
+            _beat.SetActive(true);
+            UpbeatStep s = _beat.GetComponent<UpbeatStep>();
+            s.startBeat = beat;
+        }
+
+        private IEnumerator Upbeat(float offset = 0)
+        {
+            yield return new WaitForSeconds(Conductor.instance.secPerBeat * 0.5f - offset);
+            man.Blip();
+        }
     }
 }

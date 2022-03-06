@@ -8,7 +8,7 @@ using RhythmHeavenMania.Util;
 
 namespace RhythmHeavenMania.Games.MrUpbeat
 {
-    public class UpbeatMan : PlayerActionObject
+    public class UpbeatMan : MonoBehaviour
     {
         [Header("References")]
         public MrUpbeat game;
@@ -19,46 +19,16 @@ namespace RhythmHeavenMania.Games.MrUpbeat
         public float targetBeat = 0.25f;
         public int stepTimes = 0;
         private bool stepped = false;
+        private bool onGround = false;
 
         public GameEvent blip = new GameEvent();
 
         private void Update()
         {
-            float normalizedBeat = Conductor.instance.GetPositionFromMargin(targetBeat, 0.5f);
-            StateCheck(normalizedBeat);
-
-            if(game.canGo && normalizedBeat > Minigame.LateTime())
-            {
-                if ((game.beatCount % 2 == 0 && stepTimes % 2 == 0) || (game.beatCount % 2 == 1 && stepTimes % 2 == 1))
-                {
-                    Fall();
-                }
-                targetBeat += 100f;
-                return;
-            }
-
             if (PlayerInput.Pressed())
             {
-                if (state.perfect)
-                {
-                    Step();
-                }
-                else if(state.notPerfect())
-                {
-                    Fall();
-                }
-                else
-                {
-                    Step();
-                }
+                Step();
             }
-        }
-
-        public override void OnAce()
-        {
-            if (!game.canGo) return;
-            
-            Step();
         }
 
         public void Idle()
@@ -75,6 +45,29 @@ namespace RhythmHeavenMania.Games.MrUpbeat
             animator.Play("Step", 0, 0);
             Jukebox.PlayOneShotGame("mrUpbeat/step");
 
+            onGround = false;
+            CheckShadows();
+        }
+
+        public void Fall()
+        {
+            animator.Play("Fall", 0, 0);
+            Jukebox.PlayOneShot("miss");
+            shadows[0].SetActive(false);
+            shadows[1].SetActive(false);
+            onGround = true;
+        }
+
+        public void Blip()
+        {
+            Jukebox.PlayOneShotGame("mrUpbeat/blip");
+            blipAnimator.Play("Blip", 0, 0);
+        }
+
+        private void CheckShadows()
+        {
+            if (onGround) return;
+
             if (stepTimes % 2 == 1)
             {
                 shadows[0].SetActive(false);
@@ -86,18 +79,6 @@ namespace RhythmHeavenMania.Games.MrUpbeat
                 shadows[1].SetActive(false);
                 transform.localScale = new Vector3(1, 1);
             }
-        }
-
-        public void Fall()
-        {
-            animator.Play("Fall", 0, 0);
-            Jukebox.PlayOneShot("miss");
-        }
-
-        public void Blip()
-        {
-            Jukebox.PlayOneShotGame("mrUpbeat/blip");
-            blipAnimator.Play("Blip", 0, 0);
         }
        
 

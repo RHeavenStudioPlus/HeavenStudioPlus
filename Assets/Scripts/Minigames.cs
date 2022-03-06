@@ -374,7 +374,7 @@ namespace RhythmHeavenMania
                     new GameAction("start interval",        delegate { WizardsWaltz.instance.SetIntervalStart(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 4f, true),
                     new GameAction("plant",        delegate { WizardsWaltz.instance.SpawnFlower(eventCaller.currentEntity.beat); }, 0.5f, false),
                 }),
-                new Minigame("mrUpbeat", "Mr. Upbeat \n<color=#eb5454>[WIP don't use]</color>", "FFFFFF", false, false, new List<GameAction>()
+                new Minigame("mrUpbeat", "Mr. Upbeat", "FFFFFF", false, false, new List<GameAction>()
                 {
                     new GameAction("prepare",               delegate { MrUpbeat.instance.SetInterval(eventCaller.currentEntity.beat); }, 0.5f, true),
                     new GameAction("go",                    delegate { MrUpbeat.instance.Go(eventCaller.currentEntity.beat);  }, 4f, true),

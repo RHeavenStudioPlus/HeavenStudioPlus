@@ -61,10 +61,10 @@ TextureImporter:
     second: mrupbeat_fall_1
   - first:
       213: -5599596391108488658
-    second: mrupbeat_fall_2
+    second: mrupbeat_shadow_fall
   - first:
       213: -1109266650601169752
-    second: mrupbeat_fall_2
+    second: mrupbeat_shadow_fall
   - first:
       213: -3983884386284601651
     second: mrupbeat_fall_3
@@ -593,6 +593,27 @@ TextureImporter:
       bones: []
       spriteID: dcef749124666b8c0800000000000000
       internalID: -3983884386284601651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_shadow_fall
+      rect:
+        serializedVersion: 2
+        x: 353
+        y: 209
+        width: 102
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e225b6e00cc3a42b0800000000000000
+      internalID: -5599596391108488658
       vertices: []
       indices: 
       edges: []

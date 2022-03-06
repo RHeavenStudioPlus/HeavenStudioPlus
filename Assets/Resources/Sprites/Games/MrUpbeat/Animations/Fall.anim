@@ -116,6 +116,25 @@ AnimationClip:
     path: Body/FallFX
     classID: 1
     script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: Body/ShadowFall
+    classID: 1
+    script: {fileID: 0}
   m_PPtrCurves:
   - curve:
     - time: 0
@@ -123,7 +142,7 @@ AnimationClip:
     - time: 0.016666668
       value: {fileID: 7267509016467870925, guid: 2781bda31bd88924b9bc88f6c301b1d9, type: 3}
     - time: 0.033333335
-      value: {fileID: -5599596391108488658, guid: 2781bda31bd88924b9bc88f6c301b1d9, type: 3}
+      value: {fileID: 4385344229349358626, guid: 2781bda31bd88924b9bc88f6c301b1d9, type: 3}
     - time: 0.05
       value: {fileID: -3983884386284601651, guid: 2781bda31bd88924b9bc88f6c301b1d9, type: 3}
     attribute: m_Sprite
@@ -168,6 +187,13 @@ AnimationClip:
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
+      path: 326924850
+      attribute: 2086281974
+      script: {fileID: 0}
+      typeID: 1
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
       path: 2073732236
       attribute: 0
       script: {fileID: 0}
@@ -184,7 +210,7 @@ AnimationClip:
     pptrCurveMapping:
     - {fileID: 910123527689434379, guid: 2781bda31bd88924b9bc88f6c301b1d9, type: 3}
     - {fileID: 7267509016467870925, guid: 2781bda31bd88924b9bc88f6c301b1d9, type: 3}
-    - {fileID: -5599596391108488658, guid: 2781bda31bd88924b9bc88f6c301b1d9, type: 3}
+    - {fileID: 4385344229349358626, guid: 2781bda31bd88924b9bc88f6c301b1d9, type: 3}
     - {fileID: -3983884386284601651, guid: 2781bda31bd88924b9bc88f6c301b1d9, type: 3}
     - {fileID: 442070513753258848, guid: 2781bda31bd88924b9bc88f6c301b1d9, type: 3}
     - {fileID: -1641719250182597347, guid: 2781bda31bd88924b9bc88f6c301b1d9, type: 3}
@@ -365,6 +391,25 @@ AnimationClip:
       m_RotationOrder: 4
     attribute: m_IsActive
     path: Body/FallFX
+    classID: 1
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: Body/ShadowFall
     classID: 1
     script: {fileID: 0}
   m_EulerEditorCurves: []
