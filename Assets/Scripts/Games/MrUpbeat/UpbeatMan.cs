@@ -29,7 +29,10 @@ namespace RhythmHeavenMania.Games.MrUpbeat
 
             if(game.canGo && normalizedBeat > Minigame.LateTime())
             {
-                //Fall();
+                if ((game.beatCount % 2 == 0 && stepTimes % 2 == 0) || (game.beatCount % 2 == 1 && stepTimes % 2 == 1))
+                {
+                    Fall();
+                }
                 targetBeat += 100f;
                 return;
             }
