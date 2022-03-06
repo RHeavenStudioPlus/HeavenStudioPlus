@@ -38,9 +38,11 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
         {
             List<float> starts = GameManager.instance.Beatmap.entities.FindAll(c => c.datamodel == "wizardsWaltz/start interval").Select(c => c.beat).ToList();
 
-            var nextInterval = starts.IndexOf(Mathp.GetClosestInList(starts, Conductor.instance.songPositionInBeats));
-            wizardBeatOffset = starts[nextInterval];
-            Debug.Log(wizardBeatOffset);
+            if (starts.Count > 0)
+            {
+                var nextInterval = starts.IndexOf(Mathp.GetClosestInList(starts, Conductor.instance.songPositionInBeats));
+                wizardBeatOffset = starts[nextInterval];
+            }
         }
 
         private void Update()
