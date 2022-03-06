@@ -82,6 +82,13 @@ namespace RhythmHeavenMania.Games.MrUpbeat
             beatCount = 0;
         }
 
+        public void Ding(bool applause)
+        {
+            if(applause)
+                Jukebox.PlayOneShotGame("mrUpbeat/applause");
+            else
+                Jukebox.PlayOneShotGame("mrUpbeat/ding");
+        }
 
         public void Beat(float beat)
         {
