@@ -10,6 +10,19 @@ namespace RhythmHeavenMania.Games.DrummingPractice
 {
     public class DrummingPractice : Minigame
     {
+        public enum MiiType
+        {
+            GuestA,
+            GuestB,
+            GuestC,
+            GuestD,
+            GuestE,
+            GuestF,
+            Matt,
+            Tsunku,
+            Marshal
+        }
+
         [Header("References")]
         public SpriteRenderer backgroundGradient;
         public Drummer player;
@@ -30,19 +43,7 @@ namespace RhythmHeavenMania.Games.DrummingPractice
         // TODO: Move this to OnGameSwitch() when functional?
         private void Start()
         {
-            player.mii = UnityEngine.Random.Range(0, player.miiFaces.Count);
-            do
-            {
-                leftDrummer.mii = UnityEngine.Random.Range(0, leftDrummer.miiFaces.Count);
-            }
-            while (leftDrummer.mii == player.mii);
-            do
-            {
-                rightDrummer.mii = UnityEngine.Random.Range(0, rightDrummer.miiFaces.Count);
-            }
-            while (rightDrummer.mii == leftDrummer.mii || rightDrummer.mii == player.mii);
-
-            SetFaces(0);
+            SetMiis(UnityEngine.Random.Range(0, player.miiFaces.Count));
         }
 
         private void Update()
@@ -92,6 +93,32 @@ namespace RhythmHeavenMania.Games.DrummingPractice
             player.SetFace(type);
             leftDrummer.SetFace(type);
             rightDrummer.SetFace(type);
+        }
+
+        public void SetMiis(int playerFace, bool all = false)
+        {
+            player.mii = playerFace;
+
+            if (all)
+            {
+                leftDrummer.mii = playerFace;
+                rightDrummer.mii = playerFace;
+            }
+            else
+            {
+                do
+                {
+                    leftDrummer.mii = UnityEngine.Random.Range(0, leftDrummer.miiFaces.Count);
+                }
+                while (leftDrummer.mii == player.mii);
+                do
+                {
+                    rightDrummer.mii = UnityEngine.Random.Range(0, rightDrummer.miiFaces.Count);
+                }
+                while (rightDrummer.mii == leftDrummer.mii || rightDrummer.mii == player.mii);
+            }
+
+            SetFaces(0);
         }
 
     }
