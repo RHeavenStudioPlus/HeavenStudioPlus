@@ -26,7 +26,7 @@ namespace RhythmHeavenMania
         public Games.Global.Flash fade;
 
         [Header("Games")]
-        public Minigame currentGame;
+        public string currentGame;
         Coroutine currentGameSwitchIE;
 
         [Header("Properties")]
@@ -372,10 +372,10 @@ namespace RhythmHeavenMania
                     GetGame(game).GetComponent<Minigame>().OnGameSwitch();
             }*/
 
-            SetCurrentGame(game);
             Minigame miniGame = currentGameO.GetComponent<Minigame>();
             if (miniGame != null)
                 miniGame.OnGameSwitch();
+            SetCurrentGame(game);
 
             ResetCamera();
         }
@@ -417,23 +417,7 @@ namespace RhythmHeavenMania
             return EventCaller.instance.minigames.Find(c => c.name == name);
         }
 
-        public Minigames.Minigame GetGameInfo(Minigame game)
-        {
-            if (game == null)
-                return null;
-            return GetGameInfo(game.name);
-        }
-        
-        public string GetCurrentGameName()
-        {
-            if(currentGame == null)
-            {
-                return "noGame";
-            }
-            return currentGame.name;
-        }
-
-        public void SetCurrentGame(Minigame game)
+        public void SetCurrentGame(string game)
         {
             currentGame = game;
             if (GetGameInfo(currentGame) != null) CircleCursor.InnerCircle.GetComponent<SpriteRenderer>().color = Colors.Hex2RGB(GetGameInfo(currentGame).color);
