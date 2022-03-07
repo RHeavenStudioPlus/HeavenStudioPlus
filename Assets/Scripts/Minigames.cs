@@ -18,6 +18,7 @@ using RhythmHeavenMania.Games.TapTrial;
 using RhythmHeavenMania.Games.CropStomp;
 using RhythmHeavenMania.Games.WizardsWaltz;
 using RhythmHeavenMania.Games.MrUpbeat;
+using RhythmHeavenMania.Games.DrummingPractice;
 
 namespace RhythmHeavenMania
 {
@@ -382,6 +383,17 @@ namespace RhythmHeavenMania
                     {
                         new Param("toggle", false, "Applause")
                     }),
+                }),
+                new Minigame("drummingPractice", "Drumming Practice", "2BCF33", false, false, new List<GameAction>()
+                {
+                    new GameAction("bop",                   delegate { var e = eventCaller.currentEntity; DrummingPractice.instance.SetBop(e.beat, e.length); }, 0.5f, true),
+                    new GameAction("drum",                  delegate { DrummingPractice.instance.Prepare(eventCaller.currentEntity.beat); }, 2f),
+                    new GameAction("set mii",               delegate { var e = eventCaller.currentEntity; DrummingPractice.instance.SetMiis(e.type, e.toggle); }, 0.5f, parameters: new List<Param>()
+                    {
+                        new Param("type", DrummingPractice.MiiType.GuestA, "Mii", "The Mii that the player will control"),
+                        new Param("toggle", false, "Set All", "Whether all Miis should be set")
+                    }),
+
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
