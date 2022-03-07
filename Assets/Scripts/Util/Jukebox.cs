@@ -40,7 +40,7 @@ namespace RhythmHeavenMania.Util
             FindJukebox().GetComponent<AudioSource>().volume = volume;
         }
 
-        public static AudioSource PlayOneShot(string name, float beat = -1)
+        public static AudioSource PlayOneShot(string name, float beat = -1, float pitch = 1f, bool looping = false)
         {
             GameObject oneShot = new GameObject("oneShot");
 
@@ -52,6 +52,8 @@ namespace RhythmHeavenMania.Util
             AudioClip clip = Resources.Load<AudioClip>($"Sfx/{name}");
             snd.clip = clip;
             snd.beat = beat;
+            snd.pitch = pitch;
+            snd.looping = looping;
             // snd.pitch = (clip.length / Conductor.instance.secPerBeat);
 
             GameManager.instance.SoundObjects.Add(oneShot);
@@ -59,7 +61,7 @@ namespace RhythmHeavenMania.Util
             return audioSource;
         }
 
-        public static AudioSource PlayOneShotScheduled(string name, double targetTime)
+        public static AudioSource PlayOneShotScheduled(string name, double targetTime, float pitch = 1f, bool looping = false)
         {
             GameObject oneShot = new GameObject("oneShotScheduled");
 
@@ -71,6 +73,8 @@ namespace RhythmHeavenMania.Util
             var clip = Resources.Load<AudioClip>($"Sfx/{name}");
             audioSource.clip = clip;
             snd.clip = clip;
+            snd.pitch = pitch;
+            snd.looping = looping;
             
             snd.scheduled = true;
             snd.scheduledTime = targetTime;
@@ -81,24 +85,29 @@ namespace RhythmHeavenMania.Util
             return audioSource;
         }
 
-        public static AudioSource PlayOneShotGame(string name, float beat = -1)
+        public static AudioSource PlayOneShotGame(string name, float beat = -1, float pitch = 1f, bool looping = false)
         {
             if (GameManager.instance.currentGame == name.Split('/')[0])
             {
-                return PlayOneShot($"games/{name}", beat);
+                return PlayOneShot($"games/{name}", beat, pitch, looping);
             }
 
             return null;
         }
 
-        public static AudioSource PlayOneShotScheduledGame(string name, double targetTime)
+        public static AudioSource PlayOneShotScheduledGame(string name, double targetTime, float pitch = 1f, bool looping = false)
         {
             if (GameManager.instance.currentGame == name.Split('/')[0])
             {
-                return PlayOneShotScheduled($"games/{name}", targetTime);
+                return PlayOneShotScheduled($"games/{name}", targetTime, pitch, looping);
             }
 
             return null;
+        }
+
+        public static void KillLoop(AudioSource source, float fadeTime)
+        {
+            source.GetComponent<Sound>().KillLoop(fadeTime);
         }
     }
 
