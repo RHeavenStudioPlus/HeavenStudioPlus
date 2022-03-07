@@ -9,6 +9,7 @@ namespace RhythmHeavenMania.Games.DrummingPractice
     public class DrummerHit : PlayerActionObject
     {
         public float startBeat;
+        public bool applause = true;
         private bool hit = false;
         private bool hasHit = false;
 
@@ -35,8 +36,8 @@ namespace RhythmHeavenMania.Games.DrummingPractice
             if (!hit && Conductor.instance.GetPositionFromBeat(startBeat, 1) >= 1)
             {
                 Jukebox.PlayOneShotGame("drummingPractice/drum");
-                DrummingPractice.instance.leftDrummer.Hit(true);
-                DrummingPractice.instance.rightDrummer.Hit(true);
+                DrummingPractice.instance.leftDrummer.Hit(true, false);
+                DrummingPractice.instance.rightDrummer.Hit(true, false);
                 hit = true;
                 if (hasHit) CleanUp();
             }
@@ -60,7 +61,7 @@ namespace RhythmHeavenMania.Games.DrummingPractice
         {
             if (!hasHit)
             {
-                DrummingPractice.instance.player.Hit(_hit);
+                DrummingPractice.instance.player.Hit(_hit, applause, true);
                 DrummingPractice.instance.SetFaces(_hit ? 1 : 2);
 
                 hasHit = true;
