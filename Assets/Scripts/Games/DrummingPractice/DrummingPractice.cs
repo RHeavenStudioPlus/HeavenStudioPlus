@@ -70,7 +70,7 @@ namespace RhythmHeavenMania.Games.DrummingPractice
             rightDrummer.Bop();
         }
 
-        public void Prepare(float beat)
+        public void Prepare(float beat, bool applause)
         {
             int type = count % 2;
             player.Prepare(type);
@@ -86,6 +86,7 @@ namespace RhythmHeavenMania.Games.DrummingPractice
             hit.SetActive(true);
             DrummerHit h = hit.GetComponent<DrummerHit>();
             h.startBeat = beat;
+            h.applause = applause;
         }
 
         public void SetFaces(int type)
