@@ -25,7 +25,7 @@ namespace RhythmHeavenMania.Util
         }
 
 
-        public static void Play(Sound[] snds, bool game = true)
+        public static MultiSound Play(Sound[] snds, bool game = true)
         {
             List<Sound> sounds = snds.ToList();
             GameObject gameObj = new GameObject();
@@ -36,6 +36,7 @@ namespace RhythmHeavenMania.Util
             gameObj.name = "MultiSound";
 
             GameManager.instance.SoundObjects.Add(gameObj);
+            return ms;
         }
 
         private void Update()
@@ -57,8 +58,14 @@ namespace RhythmHeavenMania.Util
 
             if (songPositionInBeats >= (sounds[sounds.Count - 1].beat))
             {
-                Destroy(this.gameObject);
+                Delete();
             }
+        }
+
+        public void Delete()
+        {
+            GameManager.instance.SoundObjects.Remove(gameObject);
+            Destroy(gameObject);
         }
     }
 }
