@@ -70,7 +70,13 @@ namespace RhythmHeavenMania.Util
         IEnumerator NotRelyOnBeatSound()
         {
             yield return new WaitForSeconds(clip.length);
-            Destroy(this.gameObject);
+            Delete();
+        }
+
+        public void Delete()
+        {
+            GameManager.instance.SoundObjects.Remove(gameObject);
+            Destroy(gameObject);
         }
     }
 }
