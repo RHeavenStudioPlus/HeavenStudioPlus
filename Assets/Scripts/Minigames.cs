@@ -383,6 +383,10 @@ namespace RhythmHeavenMania
                         new Param("toggle", false, "Applause")
                     }),
                 }),
+                new Minigame("drummingPractice", "Drumming Practice \n<color=#eb5454>[WIP don't use]</color>", "2BCF33", false, false, new List<GameAction>()
+                {
+                    
+                }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
                 }),
