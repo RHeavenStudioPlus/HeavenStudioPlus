@@ -109,6 +109,10 @@ namespace RhythmHeavenMania.Util
 
         public static void KillLoop(AudioSource source, float fadeTime)
         {
+            // Safeguard against previously-destroyed sounds.
+            if (source == null)
+                return;
+
             source.GetComponent<Sound>().KillLoop(fadeTime);
         }
     }
