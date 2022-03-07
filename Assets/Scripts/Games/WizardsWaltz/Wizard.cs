@@ -23,14 +23,14 @@ namespace RhythmHeavenMania.Games.WizardsWaltz
 
         void Update()
         {
-            songPos = Conductor.instance.songPositionInBeats;
+            songPos = Conductor.instance.songPositionInBeats - game.wizardBeatOffset;
             var am = game.beatInterval / 2f;
             var x = Mathf.Sin(Mathf.PI * songPos / am) * 6;
-            var y = Mathf.Cos(Mathf.PI * songPos / am) * 1.5f;
+            var y = Mathf.Cos(Mathf.PI * songPos / am);
             var scale = 1 - Mathf.Cos(Mathf.PI * songPos / am) * 0.35f;
             
-            transform.position = new Vector3(x, 1.5f + y, 0);
-            shadow.transform.position = new Vector3(x, -3f + y, 0);
+            transform.position = new Vector3(x, 3f - y * 0.5f, 0);
+            shadow.transform.position = new Vector3(x, -3f + y * 1.5f, 0);
 
             var xscale = scale;
             if (y > 0) xscale *= -1;
