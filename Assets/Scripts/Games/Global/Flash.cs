@@ -27,7 +27,6 @@ namespace RhythmHeavenMania.Games.Global
         private void Start()
         {
             this.gameObject.transform.SetParent(GameManager.instance.gameObject.transform);
-            this.gameObject.layer = 3;
             this.gameObject.transform.localScale = new Vector3(1, 1);
 
             spriteRenderer = this.gameObject.AddComponent<SpriteRenderer>();

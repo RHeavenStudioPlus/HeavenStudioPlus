@@ -62,7 +62,6 @@ namespace RhythmHeavenMania
             sp.color = Color.black;
             sp.sprite = Resources.Load<Sprite>("Sprites/GeneralPurpose/Square");
             sp.sortingOrder = 30000;
-            this.gameObject.layer = 3;
 
             GameObject fade = new GameObject();
             this.fade = fade.AddComponent<Games.Global.Flash>();
