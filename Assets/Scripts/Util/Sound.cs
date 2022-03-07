@@ -8,6 +8,7 @@ namespace RhythmHeavenMania.Util
     {
         public AudioClip clip;
         public float pitch = 1;
+        public float volume = 1;
 
         // For use with PlayOneShotScheduled
         public bool scheduled;
@@ -31,6 +32,7 @@ namespace RhythmHeavenMania.Util
             audioSource = GetComponent<AudioSource>();
             audioSource.clip = clip;
             audioSource.pitch = pitch;
+            audioSource.volume = volume;
             audioSource.loop = looping;
 
             if (beat == -1 && !scheduled)
