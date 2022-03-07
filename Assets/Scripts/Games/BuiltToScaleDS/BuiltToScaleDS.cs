@@ -184,5 +184,16 @@ namespace RhythmHeavenMania.Games.BuiltToScaleDS
             shooterAnim.Play("Shoot", 0, 0);
             elevatorAnim.Play("MakeRod", 0, 0);
         }
+
+        public void PlayPiano(float beat, float length, int semiTones)
+        {
+            var pianoPitch = Mathf.Pow(2f, (1f / 12f) * semiTones);
+            var pianoSource = Jukebox.PlayOneShotGame("builtToScaleDS/Piano", -1, pianoPitch, true);
+
+            BeatAction.New(gameObject, new List<BeatAction.Action>()
+            {
+                new BeatAction.Action(beat + length, delegate { Jukebox.KillLoop(pianoSource, 0.1f); })
+            });
+        }
     }
 }
