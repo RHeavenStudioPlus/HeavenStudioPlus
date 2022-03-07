@@ -18,6 +18,7 @@ using RhythmHeavenMania.Games.TapTrial;
 using RhythmHeavenMania.Games.CropStomp;
 using RhythmHeavenMania.Games.WizardsWaltz;
 using RhythmHeavenMania.Games.MrUpbeat;
+using RhythmHeavenMania.Games.DrummingPractice;
 
 namespace RhythmHeavenMania
 {
@@ -383,9 +384,11 @@ namespace RhythmHeavenMania
                         new Param("toggle", false, "Applause")
                     }),
                 }),
-                new Minigame("drummingPractice", "Drumming Practice \n<color=#eb5454>[WIP don't use]</color>", "2BCF33", false, false, new List<GameAction>()
+                new Minigame("drummingPractice", "Drumming Practice", "2BCF33", false, false, new List<GameAction>()
                 {
-                    
+                    new GameAction("bop",                   delegate { var e = eventCaller.currentEntity; DrummingPractice.instance.SetBop(e.beat, e.length); }, 0.5f, true),
+                    new GameAction("drum",                  delegate { DrummingPractice.instance.Prepare(eventCaller.currentEntity.beat); }, 2f),
+
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
