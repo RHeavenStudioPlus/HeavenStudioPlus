@@ -230,6 +230,7 @@ namespace RhythmHeavenMania
         public void Pause()
         {
             Conductor.instance.Pause();
+            KillAllSounds();
         }
 
         public void Stop(float beat)
@@ -244,6 +245,8 @@ namespace RhythmHeavenMania
         {
             for (int i = 0; i < SoundObjects.Count; i++)
                 Destroy(SoundObjects[i].gameObject);
+            
+            SoundObjects.Clear();
         }
 
         #endregion
