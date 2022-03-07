@@ -14,7 +14,18 @@ namespace RhythmHeavenMania.Games.KarateMan
             Pot = 0,
             Rock = 2,
             Ball = 3,
-            TacoBell = 6
+            CookingPot = 6,
+            Alien = 7,
+
+            TacoBell = 999
+        }
+
+        public enum HitThree
+        {
+            HitTwo,
+            HitThree,
+            HitThreeAlt,
+            HitFour
         }
 
         public enum LightBulbType
@@ -65,6 +76,8 @@ namespace RhythmHeavenMania.Games.KarateMan
 
         public Sprite[] ObjectSprites;
         public Sprite[] BarrelSprites;
+        public Sprite[] CookingPotSprites;
+        public Sprite[] OtherSprites;
 
         public List<BGSpriteC> BGSprites;
         public SpriteRenderer BGSprite;
@@ -83,6 +96,8 @@ namespace RhythmHeavenMania.Games.KarateMan
         public GameEvent prepare = new GameEvent();
 
         private float bgBeat;
+
+        public ParticleSystem potHitEffect;
 
         public GameObject comboRef;
 
@@ -150,7 +165,9 @@ namespace RhythmHeavenMania.Games.KarateMan
             p.createBeat = beat;
             p.isThrown = true;
             p.type = type;
-            p.Sprite.GetComponent<SpriteRenderer>().sprite = ObjectSprites[type];
+
+            if(type <= ObjectSprites.Length)
+                p.Sprite.GetComponent<SpriteRenderer>().sprite = ObjectSprites[type];
 
             if (combo)
             {
@@ -210,7 +227,25 @@ namespace RhythmHeavenMania.Games.KarateMan
                         });
                         break;
                     case 6:
-                        outSnd = "karateman/objectOut";
+                        if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
+                            outSnd = "karateman/objectOut";
+                        else
+                            outSnd = "karateman/offbeatObjectOut";
+                        p.hitSnd = "karateman/cookingPot";
+                        break;
+                    case 7:
+                        if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
+                            outSnd = "karateman/objectOut";
+                        else
+                            outSnd = "karateman/offbeatObjectOut";
+                        p.hitSnd = "karateman/alienHit";
+                        break;
+                    case 999:
+                        p.Sprite.GetComponent<SpriteRenderer>().sprite = OtherSprites[0];
+                        if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
+                            outSnd = "karateman/objectOut";
+                        else
+                            outSnd = "karateman/offbeatObjectOut";
                         p.hitSnd = "karateman/tacobell";
                         break;
                 }
@@ -264,6 +299,9 @@ namespace RhythmHeavenMania.Games.KarateMan
                 }
             }
 
+            if (!Conductor.instance.isPlaying)
+                return;
+
             // Call "hit" voice slightly early to account for sound offset.
             var hitVoiceEvents = GameManager.instance.Beatmap.entities.FindAll(c => c.datamodel == "karateman/hit3" || c.datamodel == "karateman/hit4");
             for (int i = 0; i < hitVoiceEvents.Count; i++)
@@ -273,7 +311,9 @@ namespace RhythmHeavenMania.Games.KarateMan
                 if (timeToEvent <= 1f && timeToEvent > 0f && !cuedVoices.Contains(hitEvent))
                 {
                     cuedVoices.Add(hitEvent);
-                    MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("karateman/hit", hitEvent.beat - hitVoiceOffset * Conductor.instance.songBpm / 60f) });
+                    var sound = "karateman/hit";
+                    if (hitEvent.type == (int)KarateMan.HitThree.HitThreeAlt) sound += "Alt";
+                    MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound(sound, hitEvent.beat - hitVoiceOffset * Conductor.instance.songBpm / 60f) });
                 }
             }
         }
@@ -308,9 +348,16 @@ namespace RhythmHeavenMania.Games.KarateMan
             bop.startBeat = beat;
         }
 
-        public void Hit3(float beat)
+        public void Hit2(float beat)
         {
-            MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("karateman/three", beat + 0.5f) });
+            MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("karateman/two", beat + 0.5f) });
+        }
+
+        public void Hit3(float beat, bool alt = false)
+        {
+            var sound = "karateman/three";
+            if (alt) sound += "Alt";
+            MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound(sound, beat + 0.5f) });
             GameObject hit3 = Instantiate(HIT3Ref, this.transform);
             hit3.transform.GetChild(0).GetChild(1).GetComponent<SpriteRenderer>().sprite = Numbers[2];
             BeatAction.New(hit3, new List<BeatAction.Action>() 

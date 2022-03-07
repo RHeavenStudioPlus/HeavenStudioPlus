@@ -56,7 +56,7 @@ namespace RhythmHeavenMania.Editor
             eventSelector.SetActive(true);
 
             DestroyParams();
-            Editor.instance.SetGameEventTitle($"Select game event for {gridGameSelector.SelectedMinigame}");
+            Editor.instance.SetGameEventTitle($"Select game event for {gridGameSelector.SelectedMinigame.Replace("\n", "")}");
         }
 
         public void StartParams(Beatmap.Entity entity)

@@ -23,6 +23,7 @@ namespace RhythmHeavenMania.Games.RhythmRally
         public BezierCurve3D serveCurve;
         public BezierCurve3D returnCurve;
         public BezierCurve3D tossCurve;
+        public BezierCurve3D missCurve;
         public GameObject ballHitFX;
 
 
@@ -39,6 +40,7 @@ namespace RhythmHeavenMania.Games.RhythmRally
         public float serveBeat;
         public float targetBeat;
         public float tossBeat;
+        public float missBeat;
         public float tossLength;
         private bool inPose;
 
@@ -146,22 +148,34 @@ namespace RhythmHeavenMania.Games.RhythmRally
 
                 if (!missed)
                 {
-                    float curveHeight = 1f;
-                    if (rallySpeed == RallySpeed.Fast && served)
-                        curveHeight = 0.5f;
+                    float curveHeight = 1.25f;
+                    if ((rallySpeed == RallySpeed.Fast && served) || rallySpeed == RallySpeed.SuperFast)
+                        curveHeight = 0.75f;
                     else if (rallySpeed == RallySpeed.Fast && !served && hitPosition1 >= 1f)
                         curveHeight = 2f;
                     else if (rallySpeed == RallySpeed.Slow)
                         curveHeight = 3f;
 
                     curveToUse.transform.localScale = new Vector3(1f, curveHeight, 1f);
-                    ball.transform.position = curveToUse.GetPoint(Mathf.Clamp(curvePosition, 0, 1));
+                    ball.transform.position = curveToUse.GetPoint(Mathf.Max(0, curvePosition));
+
+                    // Make ball inactive before it passes through the floor.
+                    if (curvePosition > 1.05f)
+                        ball.SetActive(false);
                 }
                 else
                 {
                     if (tossing)
                     {
                         TossUpdate(tossBeat, tossLength);
+                    }
+                    else
+                    {
+                        var missPosition = cond.GetPositionFromBeat(missBeat, 1f);
+                        ball.transform.position = missCurve.GetPoint(Mathf.Max(0, missPosition));
+
+                        if (missPosition > 1f)
+                            ball.SetActive(false);
                     }
                 }
 
@@ -189,10 +203,19 @@ namespace RhythmHeavenMania.Games.RhythmRally
 
                 // Check if paddler should do ready animation.
                 bool readyToPrep;
-                if (rallySpeed == RallySpeed.Slow || (!served && rallySpeed == RallySpeed.Fast))
-                    readyToPrep = timeBeforeNextHit <= 2f;
-                else
-                    readyToPrep = timeBeforeNextHit <= 1f;
+                switch (rallySpeed)
+                {
+                    case RallySpeed.Slow:
+                    case RallySpeed.Fast:
+                        readyToPrep = timeBeforeNextHit <= 2f;
+                        break;
+                    case RallySpeed.SuperFast:
+                        readyToPrep = timeBeforeNextHit <= 0.5f;
+                        break;
+                    default:
+                        readyToPrep = timeBeforeNextHit <= 1f;
+                        break;
+                }
 
                 // Paddler ready animation.
                 if (readyToPrep && !opponentServing && !inPose)
@@ -261,6 +284,12 @@ namespace RhythmHeavenMania.Games.RhythmRally
 
         public void Serve(float beat, RallySpeed speed)
         {
+            if (!ball.activeSelf)
+                ball.SetActive(true);
+
+            if (!ballTrail.gameObject.activeSelf)
+                ballTrail.gameObject.SetActive(true);
+
             served = true;
             missed = false;
             started = true;
@@ -298,6 +327,9 @@ namespace RhythmHeavenMania.Games.RhythmRally
 
         public void Toss(float beat, float length, float height, bool firstToss = false)
         {
+            // Hide trail while tossing to prevent weirdness while teleporting ball.
+            ballTrail.gameObject.SetActive(false);
+
             tossCurve.transform.localScale = new Vector3(1f, height, 1f);
             tossBeat = beat;
             tossLength = length;
@@ -308,24 +340,17 @@ namespace RhythmHeavenMania.Games.RhythmRally
                 opponentAnim.Play("Ready1");
             }
 
-            StartCoroutine(TossTrailCo());
-        }
-
-        // Hide the trail for one frame to avoid shenanigans when teleporting the ball.
-        IEnumerator TossTrailCo()
-        {
-            ballTrail.emitting = false;
-            TossUpdate(tossBeat, tossLength);
-
-            yield return null;
-
-            ballTrail.emitting = true;
+            if (!ball.activeSelf)
+                ball.SetActive(true);
         }
 
         private void TossUpdate(float beat, float duration)
         {
             var tossPosition = Conductor.instance.GetPositionFromBeat(beat, duration);
             ball.transform.position = tossCurve.GetPoint(Mathf.Clamp(tossPosition, 0, 1));
+
+            if (tossPosition > 1.05f)
+                ball.SetActive(false);
         }
 
         public void PlayWhistle()
@@ -337,7 +362,7 @@ namespace RhythmHeavenMania.Games.RhythmRally
         {
             playerAnim.Play("Pose", 0, 0);
             opponentAnim.Play("Pose", 0, 0);
-            ball.gameObject.SetActive(false); // temporary solution, should realistically just fall down
+            ball.SetActive(false); // temporary solution, should realistically just fall down
             inPose = true;
         }
 
