@@ -82,7 +82,7 @@ namespace RhythmHeavenMania
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("Event not found! May be spelled wrong or it is not implemented." + ex);
+                Debug.LogWarning("Event not found! May be spelled wrong or it is not implemented.\n" + ex);
             }
         }
 
