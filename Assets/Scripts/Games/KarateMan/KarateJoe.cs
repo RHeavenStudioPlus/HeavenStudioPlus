@@ -12,8 +12,6 @@ namespace RhythmHeavenMania.Games.KarateMan
         [Header("Components")]
         public Animator anim;
         public GameObject HitEffect;
-        public ParticleSystem HitParticle;
-        public ParticleSystem RockParticle;
         public GameObject BulbHit;
         [SerializeField] private SpriteRenderer head;
         [SerializeField] private Sprite[] heads;
@@ -268,7 +266,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             }
             else
             {
-                if (p.type == 2 || p.type == 3 || p.type == 4 || p.type == 6)
+                if (p.type == 2 || p.type == 3 || p.type == 4 || p.type == 6 || p.type == 999)
                 {
                     punchLeft = false;
                 }

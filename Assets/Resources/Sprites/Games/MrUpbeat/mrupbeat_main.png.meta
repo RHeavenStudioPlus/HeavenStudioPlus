@@ -1,0 +1,636 @@
+fileFormatVersion: 2
+guid: 2781bda31bd88924b9bc88f6c301b1d9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1641719250182597347
+    second: mrupbeat_head_normal
+  - first:
+      213: -8183512427754159168
+    second: mrupbeat_head_blink
+  - first:
+      213: 442070513753258848
+    second: mrupbeat_head_shocked
+  - first:
+      213: 5270992882044302245
+    second: mrupbeat_miss_fx
+  - first:
+      213: -5250114464775084564
+    second: mrupbeat_shadow_left
+  - first:
+      213: 3055091234304763100
+    second: mrupbeat_shadow_right
+  - first:
+      213: 2456994601062741431
+    second: mrupbeat_smear_fx_0
+  - first:
+      213: -4427745735040970447
+    second: mrupbeat_smear_fx_1
+  - first:
+      213: 6628280856970766740
+    second: mrupbeat_smear_fx_2
+  - first:
+      213: -2366435525580190300
+    second: mrupbeat_antenna
+  - first:
+      213: 823626875365731854
+    second: mrupbeat_antenna_light_0
+  - first:
+      213: -8285671563859703850
+    second: mrupbeat_antenna_light_1
+  - first:
+      213: -1808759476897028762
+    second: mrupbeat_antenna_light_2
+  - first:
+      213: 2029327923406227844
+    second: mrupbeat_metronome
+  - first:
+      213: 684874922003494188
+    second: mrupbeat_step_0
+  - first:
+      213: -2016408372270893465
+    second: mrupbeat_step_1
+  - first:
+      213: -4373096660332669510
+    second: mrupbeat_step_2
+  - first:
+      213: 910123527689434379
+    second: mrupbeat_fall_0
+  - first:
+      213: 7267509016467870925
+    second: mrupbeat_fall_1
+  - first:
+      213: -5599596391108488658
+    second: mrupbeat_fall_2
+  - first:
+      213: -1109266650601169752
+    second: mrupbeat_fall_3
+  - first:
+      213: -3983884386284601651
+    second: mrupbeat_fall_4
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 48
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: mrupbeat_head_normal
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 449
+        width: 62
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1512f74a017739e0800000000000000
+      internalID: -1641719250182597347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_head_blink
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 449
+        width: 62
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c308b81ec25e6e80800000000000000
+      internalID: -8183512427754159168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_head_shocked
+      rect:
+        serializedVersion: 2
+        x: 345
+        y: 449
+        width: 62
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06bffe14acc822600800000000000000
+      internalID: 442070513753258848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_miss_fx
+      rect:
+        serializedVersion: 2
+        x: 409
+        y: 449
+        width: 102
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a3fcdb6914562940800000000000000
+      internalID: 5270992882044302245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_shadow_left
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 369
+        width: 94
+        height: 77
+      alignment: 9
+      pivot: {x: 0.46770754, y: 0.18134259}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce5e0f8e5b8d327b0800000000000000
+      internalID: -5250114464775084564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_shadow_right
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 369
+        width: 94
+        height: 77
+      alignment: 9
+      pivot: {x: 0.8090567, y: 0.16817167}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd425218a4dd56a20800000000000000
+      internalID: 3055091234304763100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_smear_fx_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 105
+        width: 110
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b5b56b629ff81220800000000000000
+      internalID: 2456994601062741431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_smear_fx_1
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 98
+        width: 70
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 131d12396bc7d82c0800000000000000
+      internalID: -4427745735040970447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_smear_fx_2
+      rect:
+        serializedVersion: 2
+        x: 185
+        y: 97
+        width: 46
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 499a34f32526cfb50800000000000000
+      internalID: 6628280856970766740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_antenna
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 113
+        width: 54
+        height: 45
+      alignment: 9
+      pivot: {x: 0.5925926, y: 0.51111114}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ad8de96d6bb82fd0800000000000000
+      internalID: -2366435525580190300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_antenna_light_0
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 113
+        width: 46
+        height: 45
+      alignment: 9
+      pivot: {x: 0.7173913, y: 0.51111114}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0ea3a5874c1e6b00800000000000000
+      internalID: 823626875365731854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_antenna_light_1
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 113
+        width: 46
+        height: 45
+      alignment: 9
+      pivot: {x: 0.7173913, y: 0.51111114}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d7469eac91630d80800000000000000
+      internalID: -8285671563859703850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_antenna_light_2
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 113
+        width: 46
+        height: 45
+      alignment: 9
+      pivot: {x: 0.7173913, y: 0.51111114}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6656e67c6def5e6e0800000000000000
+      internalID: -1808759476897028762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_metronome
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1
+        width: 414
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5770048, y: 0.50376165}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 489c8679efe992c10800000000000000
+      internalID: 2029327923406227844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_step_0
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 225
+        width: 102
+        height: 86
+      alignment: 9
+      pivot: {x: 0.42319235, y: 0.1975449}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c257799ec1a218900800000000000000
+      internalID: 684874922003494188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_step_1
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 313
+        width: 102
+        height: 93
+      alignment: 9
+      pivot: {x: 0.42973134, y: 0.1378374}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7667ba0d4474404e0800000000000000
+      internalID: -2016408372270893465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_step_2
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 409
+        width: 102
+        height: 101
+      alignment: 9
+      pivot: {x: 0.44062924, y: 0.14561266}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab59c60d1c3af43c0800000000000000
+      internalID: -4373096660332669510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_fall_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 433
+        width: 110
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0577a1c68861ac00800000000000000
+      internalID: 910123527689434379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_fall_1
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 361
+        width: 110
+        height: 69
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc4148012f06bd460800000000000000
+      internalID: 7267509016467870925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_fall_2
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 289
+        width: 110
+        height: 69
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e225b6e00cc3a42b0800000000000000
+      internalID: -5599596391108488658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_fall_3
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 225
+        width: 110
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8acdab1cbd71b90f0800000000000000
+      internalID: -1109266650601169752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mrupbeat_fall_4
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 161
+        width: 110
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dcef749124666b8c0800000000000000
+      internalID: -3983884386284601651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

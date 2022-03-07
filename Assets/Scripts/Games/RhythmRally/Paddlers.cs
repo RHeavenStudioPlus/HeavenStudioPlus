@@ -27,7 +27,9 @@ namespace RhythmHeavenMania.Games.RhythmRally
         {
             if (!game.served || game.missed || !game.started) return;
 
-            float stateBeat = Conductor.instance.GetPositionFromMargin(game.targetBeat, 1f);
+            var cond = Conductor.instance;
+
+            float stateBeat = cond.GetPositionFromMargin(game.targetBeat, 1f);
             StateCheck(stateBeat);
 
             if (PlayerInput.Pressed())
@@ -41,6 +43,10 @@ namespace RhythmHeavenMania.Games.RhythmRally
                     Miss();
                     Jukebox.PlayOneShot("miss");
                     playerAnim.Play("Swing", 0, 0);
+
+                    game.missCurve.KeyPoints[0].Position = game.ball.transform.position;
+                    game.missCurve.transform.localScale = new Vector3(state.early ? 1f : -1f, 1f, 1f);
+                    game.missBeat = cond.songPositionInBeats;
                 }
                 else
                 {
@@ -52,6 +58,7 @@ namespace RhythmHeavenMania.Games.RhythmRally
             if (stateBeat > Minigame.EndTime())
             {
                 Miss();
+                game.ball.SetActive(false);
             }
         }
 

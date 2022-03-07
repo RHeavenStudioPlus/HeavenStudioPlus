@@ -12,9 +12,11 @@ namespace RhythmHeavenMania.Games.CropStomp
     public class CropStomp : Minigame
     {
         const float stepDistance = 2.115f;
+        public static float[] moleSoundOffsets = new float[]{ 0.134f, 0.05f, 0.061f };
 
         float scrollRate => stepDistance / (Conductor.instance.secPerBeat * 2f / Conductor.instance.musicSource.pitch);
         float grassWidth;
+        float dotsWidth = 19.2f;
 
         private float newBeat = -1f; // So that marching can happen on beat 0.
         private float marchStartBeat = -1f;
@@ -23,20 +25,23 @@ namespace RhythmHeavenMania.Games.CropStomp
         private int stepCount;
         private bool isStepping;
 
-        public bool isMarching => marchStartBeat != -1f && Conductor.instance.isPlaying;
+        public bool isMarching => marchStartBeat != -1f;
 
         [NonSerialized] public bool isFlicking;
 
         public GameObject baseVeggie;
+        public GameObject baseMole;
         public Animator legsAnim;
         public Animator bodyAnim;
         public Transform farmerTrans;
         public SpriteRenderer grass;
         public Transform grassTrans;
+        public Transform dotsTrans;
         public Transform scrollingHolder;
         public Transform veggieHolder;
         public Farmer farmer;
         public BezierCurve3D pickCurve;
+        public BezierCurve3D moleCurve;
 
         private Tween shakeTween;
 
@@ -68,15 +73,18 @@ namespace RhythmHeavenMania.Games.CropStomp
             for (int i = 0; i < marchStarts.Count; i++)
             {
                 var sampleBeat = marchStarts[i].beat;
-                if (cond.songPositionInBeats < sampleBeat)
+                if (cond.songPositionInBeats <= sampleBeat + 0.25f) // 0.25-beat buffer in case the start marching event is directly next to the game switch event.
                 {
                     startBeat = sampleBeat;
+                    break;
                 }
             }
 
-            // Spawn veggies.
+            // Veggie and mole events.
             var vegEvents = entities.FindAll(v => v.datamodel == "cropStomp/veggies");
+            var moleEvents = entities.FindAll(m => m.datamodel == "cropStomp/mole");
 
+            // Spawn veggies.
             for (int i = 0; i < vegEvents.Count; i++)
             {
                 var vegBeat = vegEvents[i].beat;
@@ -92,19 +100,49 @@ namespace RhythmHeavenMania.Games.CropStomp
                         var targetVeggieBeat = vegBeat + 2f * b;
                         if (startBeat < targetVeggieBeat)
                         {
-                            SpawnVeggie(targetVeggieBeat, startBeat);
+                            SpawnVeggie(targetVeggieBeat, startBeat, false);
                         }
                     }
                 }
             }
+
+            // Spawn moles.
+            for (int i = 0; i < moleEvents.Count; i++)
+            {
+                var moleBeat = moleEvents[i].beat;
+
+                if (startBeat < moleBeat)
+                {
+                    SpawnVeggie(moleBeat, startBeat, true);
+                }
+            }
         }
 
+        List<Beatmap.Entity> cuedMoleSounds = new List<Beatmap.Entity>();
         private void Update()
         {
-            if (!isMarching)
+            var cond = Conductor.instance;
+
+            if (!cond.isPlaying)
                 return;
 
-            var cond = Conductor.instance;
+            // Mole sounds.
+            var moleEvents = GameManager.instance.Beatmap.entities.FindAll(m => m.datamodel == "cropStomp/mole");
+            for (int i = 0; i < moleEvents.Count; i++)
+            {
+                var moleEvent = moleEvents[i];
+                var timeToEvent = moleEvent.beat - cond.songPositionInBeats;
+                if (timeToEvent <= 3f && timeToEvent > 0f && !cuedMoleSounds.Contains(moleEvent))
+                {
+                    cuedMoleSounds.Add(moleEvent);
+                    MultiSound.Play(new MultiSound.Sound[] { new MultiSound.Sound("cropStomp/moleNyeh", (moleEvent.beat - 2f) - moleSoundOffsets[0] * Conductor.instance.songBpm / 60f),
+                                                            new MultiSound.Sound("cropStomp/moleHeh1", (moleEvent.beat - 1.5f) - moleSoundOffsets[1] * Conductor.instance.songBpm / 60f),
+                                                            new MultiSound.Sound("cropStomp/moleHeh2", (moleEvent.beat - 1f) - moleSoundOffsets[2] * Conductor.instance.songBpm / 60f) });
+                }
+            }
+
+            if (!isMarching)
+                return;
 
             if (cond.ReportBeat(ref newBeat, marchOffset, true))
             {
@@ -151,6 +189,14 @@ namespace RhythmHeavenMania.Games.CropStomp
             newGrassX = (newGrassX % (grassWidth * 4.5f));
 
             grassTrans.localPosition = new Vector3(newGrassX, grassPos.y, grassPos.z);
+
+            // Dots scroll
+            var dotsPos = dotsTrans.localPosition;
+
+            var newDotsX = dotsPos.x + (scrollRate * Time.deltaTime);
+            newDotsX = (newDotsX % dotsWidth);
+
+            dotsTrans.localPosition = new Vector3(newDotsX, dotsPos.y, dotsPos.z);
         }
 
         private void LateUpdate()
@@ -200,9 +246,9 @@ namespace RhythmHeavenMania.Games.CropStomp
             isStepping = true;
         }
 
-        private void SpawnVeggie(float beat, float startBeat)
+        private void SpawnVeggie(float beat, float startBeat, bool isMole)
         {
-            var newVeggie = GameObject.Instantiate(baseVeggie, veggieHolder).GetComponent<Veggie>();
+            var newVeggie = GameObject.Instantiate(isMole ? baseMole : baseVeggie, veggieHolder).GetComponent<Veggie>();
 
             newVeggie.targetBeat = beat;
 

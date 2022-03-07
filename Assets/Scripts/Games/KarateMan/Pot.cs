@@ -16,6 +16,7 @@ namespace RhythmHeavenMania.Games.KarateMan
         private GameObject newHolder;
         public GameObject Sprite;
         public GameObject BulbLightSprite;
+        public GameObject CookingPotLid;
         private SpriteRenderer spriteComp;
         public GameObject Shadow;
         private SpriteRenderer shadowSpriteComp;
@@ -69,6 +70,9 @@ namespace RhythmHeavenMania.Games.KarateMan
                 hitLength = 14f;
             else
                 hitLength = 14f;
+
+            if (type == 6)
+                CookingPotLid.SetActive(true);
 
             /*if (combo)
             {
@@ -266,7 +270,7 @@ namespace RhythmHeavenMania.Games.KarateMan
             switch (type)
             {
                 case 0:
-                    // HitParticle.Play();
+                    if(!combo) KarateMan.instance.potHitEffect.Play();
                     break;
                 case 1:
                     GameObject bulbHit = Instantiate(KarateJoe.instance.BulbHit);
@@ -275,10 +279,18 @@ namespace RhythmHeavenMania.Games.KarateMan
                     Destroy(bulbHit, 0.7f);
                     break;
                 case 2:
-                    // RockParticle.Play();
+                    // TODO: Rock destroy particle effect
                     break;
                 case 4:
                     BarrelDestroy(false);
+                    break;
+                case 6:
+                    // TODO: Rock destroy particle effect
+                    CookingPotLid.SetActive(false);
+                    CookingPotDestroy();
+                    break;
+                case 999:
+                    Jukebox.PlayOneShotGame("karateman/rockHit");
                     break;
             }
 
@@ -325,6 +337,17 @@ namespace RhythmHeavenMania.Games.KarateMan
             newHolder = new GameObject();
             newHolder.transform.parent = this.gameObject.transform;
             Holder.transform.parent = newHolder.transform;
+        }
+
+        public void CookingPotDestroy()
+        {
+            GameObject lid = new GameObject();
+            lid.transform.localPosition = Holder.transform.localPosition;
+            lid.transform.parent = transform.parent;
+            lid.transform.localScale = Holder.transform.localScale;
+
+            CookingPotDestroyEffect cpde = lid.AddComponent<CookingPotDestroyEffect>();
+            cpde.pot = Sprite;
         }
 
         public void BarrelDestroy(bool combo)

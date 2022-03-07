@@ -16,6 +16,8 @@ using RhythmHeavenMania.Games.RhythmRally;
 using RhythmHeavenMania.Games.BuiltToScaleDS;
 using RhythmHeavenMania.Games.TapTrial;
 using RhythmHeavenMania.Games.CropStomp;
+using RhythmHeavenMania.Games.WizardsWaltz;
+using RhythmHeavenMania.Games.MrUpbeat;
 
 namespace RhythmHeavenMania
 {
@@ -247,13 +249,16 @@ namespace RhythmHeavenMania
                     new GameAction("hit3",                  delegate
                     {
                         var e = eventCaller.currentEntity;
-                        if(e.toggle)
-                            KarateMan.instance.Hit4(e.beat);
-                        else
-                            KarateMan.instance.Hit3(e.beat);
+                        switch ((KarateMan.HitThree)e.type)
+                        {
+                            case KarateMan.HitThree.HitTwo: KarateMan.instance.Hit2(e.beat); break;
+                            case KarateMan.HitThree.HitThreeAlt: KarateMan.instance.Hit3(e.beat, true); break;
+                            case KarateMan.HitThree.HitFour: KarateMan.instance.Hit4(e.beat); break;
+                            default: KarateMan.instance.Hit3(e.beat); break;
+                        }
                     }, 1f, false, new List<Param>()
                     {
-                        new Param("toggle", false, "Hit 4", "Whether or not the \"hit 4!\" sound should be played instead")
+                        new Param("type", KarateMan.HitThree.HitThree, "Type", "What should be called out")
                     }),
                     new GameAction("prepare",               delegate { KarateMan.instance.Prepare(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 1f, true),
                     new GameAction("set background color",  delegate {
@@ -280,7 +285,7 @@ namespace RhythmHeavenMania
                     new GameAction("pot",                   delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 0); }, 2, hidden: true),
                     new GameAction("rock",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 2); }, 2, hidden: true),
                     new GameAction("ball",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 3); }, 2, hidden: true),
-                    new GameAction("tacobell",              delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 6); }, 2, hidden: true),
+                    new GameAction("tacobell",              delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 999); }, 2, hidden: true),
                     new GameAction("hit4",                  delegate { KarateMan.instance.Hit4(eventCaller.currentEntity.beat); }, hidden: true),
                     new GameAction("bgfxon",                delegate { KarateMan.instance.SetBackgroundFX(KarateMan.BackgroundFXType.Sunburst); }, hidden: true),
                     new GameAction("bgfxoff",               delegate { KarateMan.instance.SetBackgroundFX(KarateMan.BackgroundFXType.None); }, hidden: true),
@@ -343,7 +348,7 @@ namespace RhythmHeavenMania
                     } ),
                 }),
                 
-                new Minigame("rhythmRally", "Rhythm Rally \n<color=#eb5454>[WIP don't use]</color>", "FFFFFF", true, false, new List<GameAction>()
+                new Minigame("rhythmRally", "Rhythm Rally", "FFFFFF", true, false, new List<GameAction>()
                 {
                     new GameAction("bop",                   delegate { RhythmRally.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 0.5f, true),
                     new GameAction("whistle",               delegate { RhythmRally.instance.PlayWhistle(); }, 0.5f),
@@ -376,10 +381,21 @@ namespace RhythmHeavenMania
                     new GameAction("jump tap",              delegate { TapTrial.instance.JumpTap(eventCaller.currentEntity.beat); }, 2.0f, false),
                     new GameAction("final jump tap",        delegate { TapTrial.instance.FinalJumpTap(eventCaller.currentEntity.beat); }, 2.0f, false),
                 }),
-                new Minigame("cropStomp", "Crop Stomp \n<color=#eb5454>[WIP don't use]</color>", "BFDEA6", false, false, new List<GameAction>()
+                new Minigame("cropStomp", "Crop Stomp", "BFDEA6", false, false, new List<GameAction>()
                 {
                     new GameAction("start marching",        delegate { CropStomp.instance.StartMarching(eventCaller.currentEntity.beat); }, 2f, false),
                     new GameAction("veggies",               delegate { }, 4f, true),
+                    new GameAction("mole",               delegate { }, 2f, false),
+                }),
+                new Minigame("wizardsWaltz", "Wizard's Waltz \n<color=#adadad>(Mahou Tsukai)</color>", "FFEF9C", false, false, new List<GameAction>()
+                {
+                    new GameAction("start interval",        delegate { WizardsWaltz.instance.SetIntervalStart(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 4f, true),
+                    new GameAction("plant",        delegate { WizardsWaltz.instance.SpawnFlower(eventCaller.currentEntity.beat); }, 0.5f, false),
+                }),
+                new Minigame("mrUpbeat", "Mr. Upbeat \n<color=#eb5454>[WIP don't use]</color>", "FFFFFF", false, false, new List<GameAction>()
+                {
+                    new GameAction("prepare",               delegate { MrUpbeat.instance.SetInterval(eventCaller.currentEntity.beat); }, 0.5f, true),
+                    new GameAction("go",                    delegate { MrUpbeat.instance.Go(eventCaller.currentEntity.beat);  }, 4f, true),
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
