@@ -62,7 +62,7 @@ namespace RhythmHeavenMania
             sp.color = Color.black;
             sp.sprite = Resources.Load<Sprite>("Sprites/GeneralPurpose/Square");
             sp.sortingOrder = 30000;
-            this.gameObject.layer = 3;
+            gameObject.layer = LayerMask.NameToLayer("Flash");
 
             GameObject fade = new GameObject();
             this.fade = fade.AddComponent<Games.Global.Flash>();
@@ -227,12 +227,13 @@ namespace RhythmHeavenMania
                 SetCurrentEventToClosest(beat);
             }
 
-            for (int i = 0; i < SoundObjects.Count; i++) Destroy(SoundObjects[i].gameObject);
+            KillAllSounds();
         }
 
         public void Pause()
         {
             Conductor.instance.Pause();
+            KillAllSounds();
         }
 
         public void Stop(float beat)
@@ -240,6 +241,15 @@ namespace RhythmHeavenMania
             Conductor.instance.Stop(beat);
             SetCurrentEventToClosest(beat);
             onBeatChanged?.Invoke(beat);
+            KillAllSounds();
+        }
+
+        public void KillAllSounds()
+        {
+            for (int i = 0; i < SoundObjects.Count; i++)
+                Destroy(SoundObjects[i].gameObject);
+            
+            SoundObjects.Clear();
         }
 
         #endregion

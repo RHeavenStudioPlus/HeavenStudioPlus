@@ -8,8 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: body
-  m_Shader: {fileID: 4800000, guid: d1e828882cbb32942ab1fcff1c69e1fe, type: 3}
-  m_ShaderKeywords: _ _EMISSIVE_SIMPLE _OUTLINE_NML
+  m_Shader: {fileID: 4800000, guid: c6dbca2e0be57564ca75fbc050e1a675, type: 3}
+  m_ShaderKeywords: _ _EMISSIVE_SIMPLE _GLOSSYREFLECTIONS_OFF _OUTLINE_NML
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -127,6 +127,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ToonShade:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -176,7 +180,7 @@ Material:
     - _Farthest_Distance: 100
     - _GI_Intensity: 0
     - _GlossMapScale: 0
-    - _Glossiness: 0
+    - _Glossiness: 0.5
     - _GlossinessSource: 0
     - _GlossyReflections: 0
     - _HighColor_Power: 0
@@ -216,6 +220,7 @@ Material:
     - _MainLightIgnoreCelShade: 0
     - _MatCap: 0
     - _Metallic: 0
+    - _Mode: 0
     - _Nearest_Distance: 0.5
     - _OUTLINE: 0
     - _OcclusionRemapEnd: 1
@@ -224,6 +229,7 @@ Material:
     - _Offset_X_Axis_BLD: -0.05
     - _Offset_Y_Axis_BLD: 0.09
     - _Offset_Z: 0
+    - _Outline: 0.003
     - _OutlineWidth: 4
     - _OutlineZOffset: 0
     - _OutlineZOffsetMaskRemapEnd: 1
@@ -263,6 +269,7 @@ Material:
     - _Tweak_MatcapMaskLevel: 0
     - _Tweak_RimLightMaskLevel: 0
     - _Tweak_SystemShadowsLevel: 0
+    - _UVSec: 0
     - _Unlit_Intensity: 1
     - _UseAlphaClipping: 0
     - _UseEmission: 0
