@@ -1,0 +1,372 @@
+fileFormatVersion: 2
+guid: 75ff12e8f30ba5a4aba0d8c4268d28a8
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2829450546865424194
+    second: drummingpractice_drum
+  - first:
+      213: 6658088017698073322
+    second: drummingpractice_hit_fx
+  - first:
+      213: 7405500112752647956
+    second: drummingpractice_hand
+  - first:
+      213: -6295135488227773171
+    second: drummingpractice_drumstick
+  - first:
+      213: -276475413463648427
+    second: drummingpractice_bg
+  - first:
+      213: -901597280928035108
+    second: drummingpractice_screen_fx
+  - first:
+      213: -8903169060627248968
+    second: drummingpractice_drumstick_hit_0
+  - first:
+      213: -6608792201826754030
+    second: drummingpractice_drumstick_hit_1
+  - first:
+      213: -8276059885000252234
+    second: drummingpractice_drumstick_hit_2
+  - first:
+      213: -1656235835945938557
+    second: drummingpractice_body
+  - first:
+      213: 3314254522519463261
+    second: drummingpractice_drumstick_smear_fx
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 96
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: drummingpractice_drum
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 644
+        width: 316
+        height: 376
+      alignment: 9
+      pivot: {x: 0, y: 0.1748477}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb83d8cf7b5cbb8d0800000000000000
+      internalID: -2829450546865424194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drummingpractice_hit_fx
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 260
+        width: 184
+        height: 376
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aeaad2aa6c7466c50800000000000000
+      internalID: 6658088017698073322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drummingpractice_hand
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 68
+        width: 184
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41f9cb4dd1f95c660800000000000000
+      internalID: 7405500112752647956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drummingpractice_drumstick
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 4
+        width: 120
+        height: 344
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2207514}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d057a3360af23a8a0800000000000000
+      internalID: -6295135488227773171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drummingpractice_bg
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 0
+        width: 92
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 557be578313c92cf0800000000000000
+      internalID: -276475413463648427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drummingpractice_screen_fx
+      rect:
+        serializedVersion: 2
+        x: 452
+        y: 4
+        width: 152
+        height: 1016
+      alignment: 9
+      pivot: {x: 0.5, y: 0.027308613}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cde83d3cc02ec73f0800000000000000
+      internalID: -901597280928035108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drummingpractice_drumstick_hit_0
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 388
+        width: 120
+        height: 248
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3869881}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b8801e09e6917480800000000000000
+      internalID: -8903169060627248968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drummingpractice_drumstick_hit_1
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 356
+        width: 120
+        height: 248
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2419852}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 212aebfd18ad844a0800000000000000
+      internalID: -6608792201826754030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drummingpractice_drumstick_hit_2
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 388
+        width: 120
+        height: 280
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1567883}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b423be0267852d80800000000000000
+      internalID: -8276059885000252234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drummingpractice_body
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 4
+        width: 248
+        height: 376
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3819b26484ed309e0800000000000000
+      internalID: -1656235835945938557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drummingpractice_drumstick_smear_fx
+      rect:
+        serializedVersion: 2
+        x: 868
+        y: 4
+        width: 152
+        height: 600
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11327524}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d552106bde89efd20800000000000000
+      internalID: 3314254522519463261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
