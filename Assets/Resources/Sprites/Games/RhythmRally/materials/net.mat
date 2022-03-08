@@ -8,19 +8,22 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: net
-  m_Shader: {fileID: 4800000, guid: 650dd9526735d5b46b79224bc6e94025, type: 3}
-  m_ShaderKeywords: 
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _GLOSSYREFLECTIONS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses:
   - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: 0ac89f5d7bfff0447b654d2b4c7de2f1, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -78,6 +81,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - PixelSnap: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -88,12 +92,14 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 10
+    - _EnableExternalAlpha: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossinessSource: 0
     - _GlossyReflections: 0
     - _Metallic: 0
+    - _Mode: 3
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
@@ -105,14 +111,17 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecSource: 0
     - _SpecularHighlights: 1
-    - _SrcBlend: 5
+    - _SrcBlend: 1
     - _Surface: 1
+    - _UVSec: 0
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
     - _BaseColor: {r: 0, g: 0, b: 0, a: 0.33333334}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0, g: 0, b: 0, a: 0.19607843}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &4861862531652635016

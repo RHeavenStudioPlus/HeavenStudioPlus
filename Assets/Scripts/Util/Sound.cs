@@ -8,10 +8,13 @@ namespace RhythmHeavenMania.Util
     {
         public AudioClip clip;
         public float pitch = 1;
+        public float volume = 1;
 
         // For use with PlayOneShotScheduled
         public bool scheduled;
         public double scheduledTime;
+
+        public bool looping;
 
         private AudioSource audioSource;
 
@@ -29,6 +32,8 @@ namespace RhythmHeavenMania.Util
             audioSource = GetComponent<AudioSource>();
             audioSource.clip = clip;
             audioSource.pitch = pitch;
+            audioSource.volume = volume;
+            audioSource.loop = looping;
 
             if (beat == -1 && !scheduled)
             {
@@ -43,40 +48,66 @@ namespace RhythmHeavenMania.Util
 
             startTime = Conductor.instance.songPosition;
 
-            if (!scheduled)
+            if (!scheduled && !looping)
                 StartCoroutine(NotRelyOnBeatSound());
         }
 
         private void Update()
         {
-            if (scheduled)
+            if (playIndex < 1)
             {
-                if (AudioSettings.dspTime > scheduledTime && playIndex < 1)
+                if (scheduled)
                 {
-                    StartCoroutine(NotRelyOnBeatSound());
-                    playIndex++;
+                    if (AudioSettings.dspTime > scheduledTime)
+                    {
+                        StartCoroutine(NotRelyOnBeatSound());
+                        playIndex++;
+                    }
                 }
-            }
-            else if (!playInstant)
-            {
-                if (Conductor.instance.songPositionInBeats > beat && playIndex < 1)
+                else if (!playInstant)
                 {
-                    audioSource.PlayScheduled(Time.time);
-                    playIndex++;
+                    if (Conductor.instance.songPositionInBeats > beat)
+                    {
+                        audioSource.PlayScheduled(Time.time);
+                        playIndex++;
+                    }
                 }
             }
         }
 
         IEnumerator NotRelyOnBeatSound()
         {
-            yield return new WaitForSeconds(clip.length);
-            Delete();
+            if (!looping) // Looping sounds are destroyed manually.
+            {
+                yield return new WaitForSeconds(clip.length);
+                Delete();
+            }
         }
 
         public void Delete()
         {
             GameManager.instance.SoundObjects.Remove(gameObject);
             Destroy(gameObject);
+        }
+
+        public void KillLoop(float fadeTime)
+        {
+            StartCoroutine(FadeLoop(fadeTime));
+        }
+
+        float loopFadeTimer = 0f;
+        IEnumerator FadeLoop(float fadeTime)
+        {
+            float startingVol = audioSource.volume;
+
+            while (loopFadeTimer < fadeTime)
+            {
+                loopFadeTimer += Time.deltaTime;
+                audioSource.volume = Mathf.Max((1f - (loopFadeTimer / fadeTime)) * startingVol, 0f);
+                yield return null;
+            }
+
+            Delete();
         }
     }
 }
