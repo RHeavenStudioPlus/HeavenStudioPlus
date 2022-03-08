@@ -110,7 +110,7 @@ namespace RhythmHeavenMania
             {
                 new Minigame("gameManager", "Game Manager", "", false, true, new List<GameAction>()
                 {
-                    new GameAction("switchGame",            delegate { GameManager.instance.SwitchGame(eventCaller.currentSwitchGame); }, 0.5f, inactiveFunction: delegate { GameManager.instance.SwitchGame(eventCaller.currentSwitchGame); }),
+                    new GameAction("switchGame",            delegate { GameManager.instance.SwitchGame(eventCaller.currentSwitchGame, eventCaller.currentEntity.beat); }, 0.5f, inactiveFunction: delegate { GameManager.instance.SwitchGame(eventCaller.currentSwitchGame, eventCaller.currentEntity.beat); }),
                     new GameAction("end",                   delegate { Debug.Log("end"); }),
                     new GameAction("skill star",            delegate {  }, 1f, true),
                     new GameAction("flash",                 delegate 
@@ -383,7 +383,7 @@ namespace RhythmHeavenMania
                 }),
                 new Minigame("cropStomp", "Crop Stomp", "BFDEA6", false, false, new List<GameAction>()
                 {
-                    new GameAction("start marching",        delegate { CropStomp.instance.StartMarching(eventCaller.currentEntity.beat); }, 2f, false),
+                    new GameAction("start marching",        delegate { CropStomp.instance.StartMarching(eventCaller.currentEntity.beat); }, 2f, false, inactiveFunction: delegate { CropStomp.MarchInactive(eventCaller.currentEntity.beat); }),
                     new GameAction("veggies",               delegate { }, 4f, true),
                     new GameAction("mole",               delegate { }, 2f, false),
                 }),
@@ -394,7 +394,7 @@ namespace RhythmHeavenMania
                 }),
                 new Minigame("mrUpbeat", "Mr. Upbeat", "FFFFFF", false, false, new List<GameAction>()
                 {
-                    new GameAction("prepare",               delegate { MrUpbeat.instance.SetInterval(eventCaller.currentEntity.beat); }, 0.5f, true),
+                    new GameAction("prepare",               delegate { MrUpbeat.instance.SetInterval(eventCaller.currentEntity.beat); }, 0.5f, true, inactiveFunction: delegate { MrUpbeat.Beep(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }),
                     new GameAction("go",                    delegate { MrUpbeat.instance.Go(eventCaller.currentEntity.beat);  }, 4f, true),
                     new GameAction("ding!",                 delegate { MrUpbeat.instance.Ding(eventCaller.currentEntity.toggle); }, 0.5f, parameters: new List<Param>()
                     {

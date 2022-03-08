@@ -1,11 +1,9 @@
-using System.Collections;
+using DG.Tweening;
+using NaughtyBezierCurves;
+using RhythmHeavenMania.Util;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using NaughtyBezierCurves;
-using DG.Tweening;
-
-using RhythmHeavenMania.Util;
 
 namespace RhythmHeavenMania.Games.CropStomp
 {
@@ -24,6 +22,7 @@ namespace RhythmHeavenMania.Games.CropStomp
         private int currentMarchBeat;
         private int stepCount;
         private bool isStepping;
+        private static float inactiveStart = -1f;
 
         public bool isMarching => marchStartBeat != -1f;
 
@@ -118,6 +117,21 @@ namespace RhythmHeavenMania.Games.CropStomp
             }
         }
 
+        public override void OnGameSwitch(float beat)
+        {
+            if(inactiveStart != -1f)
+            {
+                StartMarching(inactiveStart);
+                float diff = beat - marchStartBeat;
+                newBeat = (Mathf.Ceil(diff) + marchStartBeat-1)*Conductor.instance.secPerBeat;
+                currentMarchBeat = Mathf.CeilToInt(diff);
+                stepCount = currentMarchBeat / 2;
+                farmer.nextStompBeat = newBeat/Conductor.instance.secPerBeat;
+                inactiveStart = -1f;
+                PlayAnims();
+            }
+        }
+
         List<Beatmap.Entity> cuedMoleSounds = new List<Beatmap.Entity>();
         private void Update()
         {
@@ -143,37 +157,16 @@ namespace RhythmHeavenMania.Games.CropStomp
 
             if (!isMarching)
                 return;
+            Debug.Log(newBeat);
 
             if (cond.ReportBeat(ref newBeat, marchOffset, true))
             {
                 currentMarchBeat += 1;
 
-                // Step.
-                if (currentMarchBeat % 2 != 0)
+                PlayAnims();
+                if (currentMarchBeat % 2 != 0) //step sound
                 {
-                    // Don't step if already stomped.
-                    if (!isStepping)
-                    {
-                        stepCount += 1;
-                        var stepAnim = (stepCount % 2 != 0 ? "StepFront" : "StepBack");
-                        
-                        legsAnim.Play(stepAnim, 0, 0);
-
-                        isStepping = true;
-                    }
-
                     Jukebox.PlayOneShotGame("cropStomp/hmm");
-                }
-                // Lift.
-                else
-                {
-                    var liftAnim = (stepCount % 2 != 0 ? "LiftBack" : "LiftFront");
-                    legsAnim.Play(liftAnim, 0, 0);
-
-                    var farmerPos = farmerTrans.localPosition;
-                    farmerTrans.localPosition = new Vector3(farmerPos.x - stepDistance, farmerPos.y, farmerPos.z);
-
-                    isStepping = false;
                 }
             }
 
@@ -212,6 +205,36 @@ namespace RhythmHeavenMania.Games.CropStomp
             }
 
             isFlicking = false;
+        }
+
+        private void PlayAnims()
+        {
+            // Step.
+            if (currentMarchBeat % 2 != 0)
+            {
+                // Don't step if already stomped.
+                if (!isStepping)
+                {
+                    stepCount += 1;
+                    var stepAnim = (stepCount % 2 != 0 ? "StepFront" : "StepBack");
+
+                    legsAnim.Play(stepAnim, 0, 0);
+
+                    isStepping = true;
+                }
+
+            }
+            // Lift.
+            else
+            {
+                var liftAnim = (stepCount % 2 != 0 ? "LiftBack" : "LiftFront");
+                legsAnim.Play(liftAnim, 0, 0);
+
+                var farmerPos = farmerTrans.localPosition;
+                farmerTrans.localPosition = new Vector3(farmerPos.x - stepDistance, farmerPos.y, farmerPos.z);
+
+                isStepping = false;
+            }
         }
 
         public void StartMarching(float beat)
@@ -256,6 +279,25 @@ namespace RhythmHeavenMania.Games.CropStomp
             newVeggie.transform.localPosition = new Vector3(veggieX, 0f, 0f);
 
             newVeggie.gameObject.SetActive(true);
+        }
+        
+        public static void MarchInactive(float beat)
+        {
+            if (GameManager.instance.currentGame == "cropStomp") //this function is only meant for making march sounds while the game is inactive
+            {
+                return;
+            }
+            inactiveStart = beat;
+            Beatmap.Entity gameSwitch = GameManager.instance.Beatmap.entities.Find(c => c.beat >= beat && c.datamodel == "gameManager/switchGame/cropStomp");
+            if (gameSwitch == null)
+                return;
+            int length = Mathf.CeilToInt((gameSwitch.beat - beat)/2);
+            MultiSound.Sound[] sounds = new MultiSound.Sound[length];
+            for(int i = 0; i < length; i++)
+            {
+                sounds[i] = new MultiSound.Sound("cropStomp/hmm", beat + i*2);
+            }
+            MultiSound.Play(sounds, forcePlay:true);
         }
     }
 }

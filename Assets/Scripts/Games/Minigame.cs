@@ -44,12 +44,11 @@ namespace RhythmHeavenMania.Games
 
         public int firstEnable = 0;
 
-        public virtual void OnGameSwitch()
+        public virtual void OnGameSwitch(float beat)
         {
             //Below is a template that can be used for handling previous entities.
             //section below is if you only want to look at entities that overlap the game switch
             /*
-            float beat = Conductor.instance.songPositionInBeats;
             List<Beatmap.Entity> prevEntities = GameManager.instance.Beatmap.entities.FindAll(c => c.beat <= beat && c.datamodel.Split(0) == [insert game name]);
             foreach(Beatmap.Entity entity in prevEntities)
             {
