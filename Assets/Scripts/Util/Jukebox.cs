@@ -81,9 +81,9 @@ namespace RhythmHeavenMania.Util
             return audioSource;
         }
 
-        public static AudioSource PlayOneShotGame(string name, float beat = -1)
+        public static AudioSource PlayOneShotGame(string name, float beat = -1, bool forcePlay = false)
         {
-            if (GameManager.instance.currentGame == name.Split('/')[0])
+            if (GameManager.instance.currentGame == name.Split('/')[0] || forcePlay)
             {
                 return PlayOneShot($"games/{name}", beat);
             }
@@ -91,9 +91,9 @@ namespace RhythmHeavenMania.Util
             return null;
         }
 
-        public static AudioSource PlayOneShotScheduledGame(string name, double targetTime)
+        public static AudioSource PlayOneShotScheduledGame(string name, double targetTime, bool forcePlay = false)
         {
-            if (GameManager.instance.currentGame == name.Split('/')[0])
+            if (GameManager.instance.currentGame == name.Split('/')[0] || forcePlay)
             {
                 return PlayOneShotScheduled($"games/{name}", targetTime);
             }

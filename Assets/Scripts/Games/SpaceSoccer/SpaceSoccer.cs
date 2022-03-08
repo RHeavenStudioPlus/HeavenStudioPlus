@@ -44,9 +44,25 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
         {
             
         }
-        
 
-        public void Dispense(float beat)
+        public override void OnGameSwitch(float beat)
+        {
+            foreach(Beatmap.Entity entity in GameManager.instance.Beatmap.entities)
+            {
+                if(entity.beat > beat) //the list is sorted based on the beat of the entity, so this should work fine.
+                {
+                    break;
+                }
+                if(entity.datamodel != "spaceSoccer/ball dispense" || entity.beat + entity.length <= beat) //check for dispenses that happen right before the switch
+                {
+                    continue;
+                }
+                Dispense(entity.beat, false);
+                break;
+            }
+        }
+
+        public void Dispense(float beat, bool playSound = true)
         {
             ballDispensed = true;
             for (int i = 0; i < kickers.Count; i++)
@@ -60,7 +76,7 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 ball.SetActive(true);
                 Ball ball_ = ball.GetComponent<Ball>();
                 ball_.Init(kicker, beat);
-                if (kicker.player)
+                if (kicker.player && playSound)
                 {
                     DispenseSound(beat);
                 }
@@ -71,16 +87,16 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
         {
             MultiSound.Play(new MultiSound.Sound[]
                 {
-                new MultiSound.Sound("games/spaceSoccer/dispenseNoise",   beat),
-                new MultiSound.Sound("games/spaceSoccer/dispenseTumble1", beat + 0.25f),
-                new MultiSound.Sound("games/spaceSoccer/dispenseTumble2", beat + 0.5f),
-                new MultiSound.Sound("games/spaceSoccer/dispenseTumble2B",beat + 0.5f),
-                new MultiSound.Sound("games/spaceSoccer/dispenseTumble3", beat + 0.75f),
-                new MultiSound.Sound("games/spaceSoccer/dispenseTumble4", beat + 1f),
-                new MultiSound.Sound("games/spaceSoccer/dispenseTumble5", beat + 1.25f),
-                new MultiSound.Sound("games/spaceSoccer/dispenseTumble6", beat + 1.5f),
-                new MultiSound.Sound("games/spaceSoccer/dispenseTumble6B",beat + 1.75f),
-                }, false);
+                new MultiSound.Sound("spaceSoccer/dispenseNoise",   beat),
+                new MultiSound.Sound("spaceSoccer/dispenseTumble1", beat + 0.25f),
+                new MultiSound.Sound("spaceSoccer/dispenseTumble2", beat + 0.5f),
+                new MultiSound.Sound("spaceSoccer/dispenseTumble2B",beat + 0.5f),
+                new MultiSound.Sound("spaceSoccer/dispenseTumble3", beat + 0.75f),
+                new MultiSound.Sound("spaceSoccer/dispenseTumble4", beat + 1f),
+                new MultiSound.Sound("spaceSoccer/dispenseTumble5", beat + 1.25f),
+                new MultiSound.Sound("spaceSoccer/dispenseTumble6", beat + 1.5f),
+                new MultiSound.Sound("spaceSoccer/dispenseTumble6B",beat + 1.75f),
+                }, forcePlay:true);
         }
     }
 

@@ -173,7 +173,6 @@ namespace RhythmHeavenMania
                         // if game isn't loaded, preload game so whatever event that would be called will still run outside if needed
                         if (entitiesAtSameBeat[i].datamodel.Split('/')[0] != currentGame && !preloadedGames.Contains(preloadedGames.Find(c => c.name == entitiesAtSameBeat[i].datamodel.Split('/')[0])))
                         {
-                            //PreloadGame(entitesAtSameBeat[i].datamodel.Split('/')[0]);
                             eventCaller.CallEvent(entitiesAtSameBeat[i], false);
                         }
                         else
@@ -316,28 +315,34 @@ namespace RhythmHeavenMania
 
         #endregion
 
-        public void SwitchGame(string game)
+        public void SwitchGame(string game, float beat)
         {
             if (game != currentGame)
             {
                 if (currentGameSwitchIE != null)
                     StopCoroutine(currentGameSwitchIE);
-                currentGameSwitchIE = StartCoroutine(SwitchGameIE(game));
+                currentGameSwitchIE = StartCoroutine(SwitchGameIE(game, beat));
             }
         }
 
-        IEnumerator SwitchGameIE(string game)
+        IEnumerator SwitchGameIE(string game, float beat)
         {
             this.GetComponent<SpriteRenderer>().enabled = true;
 
             SetGame(game);
+
+            yield return new WaitForEndOfFrame(); //this is needed so that the minigame can have Start() called before OnGameSwitch()
+
+            Minigame miniGame = currentGameO.GetComponent<Minigame>();
+            if (miniGame != null)
+                miniGame.OnGameSwitch(beat);
 
             yield return new WaitForSeconds(0.1f);
 
             this.GetComponent<SpriteRenderer>().enabled = false;
         }
 
-        private void SetGame(string game, bool onGameSwitch = true)
+        private void SetGame(string game,  bool onGameSwitch = true)
         {
             Destroy(currentGameO);
 
@@ -372,9 +377,6 @@ namespace RhythmHeavenMania
                     GetGame(game).GetComponent<Minigame>().OnGameSwitch();
             }*/
 
-            Minigame miniGame = currentGameO.GetComponent<Minigame>();
-            if (miniGame != null)
-                miniGame.OnGameSwitch();
             SetCurrentGame(game);
 
             ResetCamera();
