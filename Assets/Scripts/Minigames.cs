@@ -391,7 +391,10 @@ namespace RhythmHeavenMania
                 new Minigame("drummingPractice", "Drumming Practice", "2BCF33", false, false, new List<GameAction>()
                 {
                     new GameAction("bop",                   delegate { var e = eventCaller.currentEntity; DrummingPractice.instance.SetBop(e.beat, e.length); }, 0.5f, true),
-                    new GameAction("drum",                  delegate { DrummingPractice.instance.Prepare(eventCaller.currentEntity.beat); }, 2f),
+                    new GameAction("drum",                  delegate { var e = eventCaller.currentEntity; DrummingPractice.instance.Prepare(e.beat, e.toggle); }, 2f, parameters: new List<Param>()
+                    {
+                        new Param("toggle", true, "Applause", "Whether or not an applause should be played on a successful hit")
+                    }),
                     new GameAction("set mii",               delegate { var e = eventCaller.currentEntity; DrummingPractice.instance.SetMiis(e.type, e.toggle); }, 0.5f, parameters: new List<Param>()
                     {
                         new Param("type", DrummingPractice.MiiType.GuestA, "Mii", "The Mii that the player will control"),

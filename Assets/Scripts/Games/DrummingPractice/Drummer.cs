@@ -33,7 +33,7 @@ namespace RhythmHeavenMania.Games.DrummingPractice
         {
             if (player && PlayerInput.Pressed())
             {
-                Hit(false);
+                Hit(false, false);
             }
         }
 
@@ -57,8 +57,16 @@ namespace RhythmHeavenMania.Games.DrummingPractice
                 animator.Play("PrepareRight", 0, 0);
         }
 
-        public void Hit(bool hit)
+        public void Hit(bool hit, bool applause, bool force = false)
         {
+            if(player && force)
+            {
+                if (hit)
+                    HitSound(applause);
+                else
+                    MissSound();
+            }
+
             if (!hitting)
             {
                 if (count % 2 == 0)
@@ -67,16 +75,27 @@ namespace RhythmHeavenMania.Games.DrummingPractice
                     animator.Play("HitRight", 0, 0);
                 count++;
 
-                if (player)
+                if (player && !force)
                 {
                     if (hit)
-                        Jukebox.PlayOneShotGame("drummingPractice/hit");
+                        HitSound(applause);
                     else
-                        Jukebox.PlayOneShotGame("drummingPractice/miss");
+                        MissSound();
                 }
 
                 hitting = true;
             }
+        }
+
+        private void HitSound(bool applause)
+        {
+            Jukebox.PlayOneShotGame("drummingPractice/hit");
+            if (applause) Jukebox.PlayOneShot("applause");
+        }
+
+        private void MissSound()
+        {
+            Jukebox.PlayOneShotGame("drummingPractice/miss");
         }
 
         public void EndHit()
