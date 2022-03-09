@@ -60,7 +60,7 @@ namespace RhythmHeavenMania
             
         }
 
-        public void CallEvent(Beatmap.Entity entity)
+        public void CallEvent(Beatmap.Entity entity, bool gameActive)
         {
             string[] details = entity.datamodel.Split('/');
             Minigames.Minigame game = minigames.Find(c => c.name == details[0]);
@@ -71,12 +71,18 @@ namespace RhythmHeavenMania
                 if (details.Length > 2) currentSwitchGame = details[2];
 
                 Minigames.GameAction action = game.actions.Find(c => c.actionName == details[1]);
-                action.function.Invoke();
-
+                if (gameActive)
+                {
+                    action.function.Invoke();
+                }
+                else
+                {
+                    action.inactiveFunction.Invoke();
+                }
             }
             catch (Exception ex)
             {
-                Debug.LogWarning("Event not found! May be spelled wrong or it is not implemented." + ex);
+                Debug.LogWarning("Event not found! May be spelled wrong or it is not implemented.\n" + ex);
             }
         }
 

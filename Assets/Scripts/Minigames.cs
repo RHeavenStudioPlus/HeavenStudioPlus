@@ -53,12 +53,21 @@ namespace RhythmHeavenMania
             public bool resizable;
             public List<Param> parameters;
             public bool hidden;
+            public EventCallback inactiveFunction;
 
-            /* If you want to add additional arguments to GameAction, leave `bool hidden = false` as the last parameter
-             * You can specify an action as hidden by adding `hidden: value` as the final parameter in your call
-             * (Even if you haven't used all prior arguments)
-             */
-            public GameAction(string actionName, EventCallback function, float defaultLength = 1, bool resizable = false, List<Param> parameters = null, bool hidden = false)
+            /// <summary>
+            /// <para>Creates a block that can be used in the editor. The block's function and attributes are defined in the parentheses.</para>
+            /// <para>Note: Every parameter after the second one is an optional parameter. You can change optional parameters by adding (name): (value) after the second parameter.</para>
+            /// </summary>
+            /// <param name="actionName">Name of the block</param>
+            /// <param name="function"><para>What the block does when read during playback</para>
+            /// <para>Only does this if the game that it is associated with is loaded.</para></param>
+            /// <param name="defaultLength">How long the block appears in the editor</param>
+            /// <param name="resizable">Allows the user to resize the block</param>
+            /// <param name="parameters">Extra parameters for this block that change how it functions.</param>
+            /// <param name="hidden">Prevents the block from being shown in the game list. Block will still function normally if it is in the timeline.</param>
+            /// <param name="inactiveFunction">What the block does when read while the game it's associated with isn't loaded.</param>
+            public GameAction(string actionName, EventCallback function, float defaultLength = 1, bool resizable = false, List<Param> parameters = null, bool hidden = false, EventCallback inactiveFunction = null)
             {
                 this.actionName = actionName;
                 this.function = function;
@@ -66,6 +75,8 @@ namespace RhythmHeavenMania
                 this.resizable = resizable;
                 this.parameters = parameters;
                 this.hidden = hidden;
+                if(inactiveFunction == null) inactiveFunction = delegate { };
+                this.inactiveFunction = inactiveFunction;
             }
         }
 
@@ -77,6 +88,12 @@ namespace RhythmHeavenMania
             public string propertyCaption;
             public string tooltip;
 
+            /// <summary>
+            /// A parameter that changes the function of a GameAction.
+            /// </summary>
+            /// <param name="propertyName">The name of the variable that's being changed. Must be one of the variables in <see cref="Beatmap.Entity"/></param>
+            /// <param name="parameter">The value of the parameter</param>
+            /// <param name="propertyCaption">The name shown in the editor. Can be anything you want.</param>
             public Param(string propertyName, object parameter, string propertyCaption, string tooltip = "")
             {
                 this.propertyName = propertyName;
@@ -94,7 +111,7 @@ namespace RhythmHeavenMania
             {
                 new Minigame("gameManager", "Game Manager", "", false, true, new List<GameAction>()
                 {
-                    new GameAction("switchGame",            delegate { GameManager.instance.SwitchGame(eventCaller.currentSwitchGame); }, 0.5f),
+                    new GameAction("switchGame",            delegate { GameManager.instance.SwitchGame(eventCaller.currentSwitchGame, eventCaller.currentEntity.beat); }, 0.5f, inactiveFunction: delegate { GameManager.instance.SwitchGame(eventCaller.currentSwitchGame, eventCaller.currentEntity.beat); }),
                     new GameAction("end",                   delegate { Debug.Log("end"); }),
                     new GameAction("skill star",            delegate {  }, 1f, true),
                     new GameAction("flash",                 delegate 
@@ -277,7 +294,8 @@ namespace RhythmHeavenMania
                 }),
                 new Minigame("spaceSoccer", "Space Soccer", "B888F8", false, false, new List<GameAction>()
                 {
-                    new GameAction("ball dispense",         delegate { SpaceSoccer.instance.Dispense(eventCaller.currentEntity.beat); }, 2f),
+                    new GameAction("ball dispense",         delegate { SpaceSoccer.instance.Dispense(eventCaller.currentEntity.beat); }, 2f,
+                    inactiveFunction: delegate { SpaceSoccer.DispenseSound(eventCaller.currentEntity.beat); }),
                     new GameAction("keep-up",               delegate { }, 4f, true),
                     new GameAction("high kick-toe!",        delegate { }, 3f, false, new List<Param>() 
                     {
@@ -370,7 +388,7 @@ namespace RhythmHeavenMania
                 }),
                 new Minigame("cropStomp", "Crop Stomp", "BFDEA6", false, false, new List<GameAction>()
                 {
-                    new GameAction("start marching",        delegate { CropStomp.instance.StartMarching(eventCaller.currentEntity.beat); }, 2f, false),
+                    new GameAction("start marching",        delegate { CropStomp.instance.StartMarching(eventCaller.currentEntity.beat); }, 2f, false, inactiveFunction: delegate { CropStomp.MarchInactive(eventCaller.currentEntity.beat); }),
                     new GameAction("veggies",               delegate { }, 4f, true),
                     new GameAction("mole",               delegate { }, 2f, false),
                 }),
@@ -381,7 +399,7 @@ namespace RhythmHeavenMania
                 }),
                 new Minigame("mrUpbeat", "Mr. Upbeat", "FFFFFF", false, false, new List<GameAction>()
                 {
-                    new GameAction("prepare",               delegate { MrUpbeat.instance.SetInterval(eventCaller.currentEntity.beat); }, 0.5f, true),
+                    new GameAction("prepare",               delegate { MrUpbeat.instance.SetInterval(eventCaller.currentEntity.beat); }, 0.5f, true, inactiveFunction: delegate { MrUpbeat.Beep(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }),
                     new GameAction("go",                    delegate { MrUpbeat.instance.Go(eventCaller.currentEntity.beat);  }, 4f, true),
                     new GameAction("ding!",                 delegate { MrUpbeat.instance.Ding(eventCaller.currentEntity.toggle); }, 0.5f, parameters: new List<Param>()
                     {

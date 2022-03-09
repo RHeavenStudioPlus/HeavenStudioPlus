@@ -120,9 +120,9 @@ namespace RhythmHeavenMania.Games.KarateMan
             Shadow = 0;
         }
 
-        public override void OnGameSwitch()
+        public override void OnGameSwitch(float beat)
         {
-            base.OnGameSwitch();
+            base.OnGameSwitch(beat);
             SetBackgroundColor((int)BGType, (int)Shadow, BGColor, ShadowColor);
         }
 

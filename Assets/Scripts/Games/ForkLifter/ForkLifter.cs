@@ -37,8 +37,9 @@ namespace RhythmHeavenMania.Games.ForkLifter
             instance = this;
         }
 
-        public override void OnGameSwitch()
+        public override void OnGameSwitch(float beat)
         {
+            base.OnGameSwitch(beat);
             ForkLifterHand.CheckNextFlick();
         }
 

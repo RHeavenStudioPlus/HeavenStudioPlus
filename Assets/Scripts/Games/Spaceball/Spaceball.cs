@@ -37,7 +37,7 @@ namespace RhythmHeavenMania.Games.Spaceball
 
         public static Spaceball instance { get; set; }
 
-        public override void OnGameSwitch()
+        public override void OnGameSwitch(float beat)
         {
             for (int i = 1; i < BallsHolder.transform.childCount; i++)
                 Destroy(BallsHolder.transform.GetChild(i).gameObject);
