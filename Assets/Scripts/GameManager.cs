@@ -157,25 +157,28 @@ namespace RhythmHeavenMania
                 if (Conductor.instance.songPositionInBeats >= entities[currentEvent] /*&& SongPosLessThanClipLength(Conductor.instance.songPositionInBeats)*/)
                 {
                     // allows for multiple events on the same beat to be executed on the same frame, so no more 1-frame delay
-                    var entitesAtSameBeat   = Beatmap.entities.FindAll(c => c.beat == Beatmap.entities[currentEvent].beat && !EventCaller.FXOnlyGames().Contains(EventCaller.instance.GetMinigame(c.datamodel.Split('/')[0])));
+                    var entitiesAtSameBeat   = Beatmap.entities.FindAll(c => c.beat == Beatmap.entities[currentEvent].beat && !EventCaller.FXOnlyGames().Contains(EventCaller.instance.GetMinigame(c.datamodel.Split('/')[0])));
                     var fxEntities = Beatmap.entities.FindAll(c => c.beat == Beatmap.entities[currentEvent].beat && EventCaller.FXOnlyGames().Contains(EventCaller.instance.GetMinigame(c.datamodel.Split('/')[0])));
 
                     // FX entities should ALWAYS execute before gameplay entities
                     for (int i = 0; i < fxEntities.Count; i++)
                     {
-                        eventCaller.CallEvent(fxEntities[i]);
+                        eventCaller.CallEvent(fxEntities[i], true);
                         currentEvent++;
                     }
 
-                    for (int i = 0; i < entitesAtSameBeat.Count; i++)
+                    for (int i = 0; i < entitiesAtSameBeat.Count; i++)
                     {
-                        var entity = entitesAtSameBeat[i];
+                        var entity = entitiesAtSameBeat[i];
                         // if game isn't loaded, preload game so whatever event that would be called will still run outside if needed
-                        if (entitesAtSameBeat[i].datamodel.Split('/')[0] != currentGame && !preloadedGames.Contains(preloadedGames.Find(c => c.name == entitesAtSameBeat[i].datamodel.Split('/')[0])))
+                        if (entitiesAtSameBeat[i].datamodel.Split('/')[0] != currentGame && !preloadedGames.Contains(preloadedGames.Find(c => c.name == entitiesAtSameBeat[i].datamodel.Split('/')[0])))
                         {
-                            PreloadGame(entitesAtSameBeat[i].datamodel.Split('/')[0]);
+                            eventCaller.CallEvent(entitiesAtSameBeat[i], false);
                         }
-                        eventCaller.CallEvent(entitesAtSameBeat[i]);
+                        else
+                        {
+                            eventCaller.CallEvent(entitiesAtSameBeat[i], true);
+                        }
 
                         // Thank you to @shshwdr for bring this to my attention
                         currentEvent++;
@@ -322,28 +325,34 @@ namespace RhythmHeavenMania
 
         #endregion
 
-        public void SwitchGame(string game)
+        public void SwitchGame(string game, float beat)
         {
             if (game != currentGame)
             {
                 if (currentGameSwitchIE != null)
                     StopCoroutine(currentGameSwitchIE);
-                currentGameSwitchIE = StartCoroutine(SwitchGameIE(game));
+                currentGameSwitchIE = StartCoroutine(SwitchGameIE(game, beat));
             }
         }
 
-        IEnumerator SwitchGameIE(string game)
+        IEnumerator SwitchGameIE(string game, float beat)
         {
             this.GetComponent<SpriteRenderer>().enabled = true;
 
             SetGame(game);
+
+            yield return new WaitForEndOfFrame(); //this is needed so that the minigame can have Start() called before OnGameSwitch()
+
+            Minigame miniGame = currentGameO.GetComponent<Minigame>();
+            if (miniGame != null)
+                miniGame.OnGameSwitch(beat);
 
             yield return new WaitForSeconds(0.1f);
 
             this.GetComponent<SpriteRenderer>().enabled = false;
         }
 
-        private void SetGame(string game, bool onGameSwitch = true)
+        private void SetGame(string game,  bool onGameSwitch = true)
         {
             Destroy(currentGameO);
 
@@ -372,7 +381,6 @@ namespace RhythmHeavenMania
                 currentGameO.transform.parent = eventCaller.GamesHolder.transform;
                 currentGameO.name = game;
             }
-
             /*if (onGameSwitch)
             {
                 if (GetGame(currentGame).GetComponent<Minigame>() != null)
@@ -419,12 +427,6 @@ namespace RhythmHeavenMania
         public Minigames.Minigame GetGameInfo(string name)
         {
             return EventCaller.instance.minigames.Find(c => c.name == name);
-        }
-
-        // never gonna use this
-        public Minigames.Minigame GetCurrentGame()
-        {
-            return eventCaller.minigames.Find(c => c.name == transform.GetComponentsInChildren<Transform>()[1].name);
         }
 
         public void SetCurrentGame(string game)

@@ -80,8 +80,14 @@ namespace RhythmHeavenMania.Util
             if (!looping) // Looping sounds are destroyed manually.
             {
                 yield return new WaitForSeconds(clip.length);
-                Destroy(this.gameObject);
+                Delete();
             }
+        }
+
+        public void Delete()
+        {
+            GameManager.instance.SoundObjects.Remove(gameObject);
+            Destroy(gameObject);
         }
 
         public void KillLoop(float fadeTime)
@@ -101,7 +107,7 @@ namespace RhythmHeavenMania.Util
                 yield return null;
             }
 
-            Destroy(this.gameObject);
+            Delete();
         }
     }
 }

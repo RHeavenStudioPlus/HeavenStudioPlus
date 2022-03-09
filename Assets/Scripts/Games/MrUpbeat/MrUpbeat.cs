@@ -14,6 +14,7 @@ namespace RhythmHeavenMania.Games.MrUpbeat
         public GameObject metronome;
         public UpbeatMan man;
         public GameObject bt;
+        private static MultiSound beeps; //only used when this game isn't active.
 
         public GameEvent beat = new GameEvent();
         public bool canGo = false;
@@ -70,6 +71,28 @@ namespace RhythmHeavenMania.Games.MrUpbeat
             }
         }
 
+        public override void OnGameSwitch(float beat)
+        {
+            foreach (Beatmap.Entity entity in GameManager.instance.Beatmap.entities)
+            {
+                if (entity.beat > beat) //the list is sorted based on the beat of the entity, so this should work fine.
+                {
+                    break;
+                }
+                if (entity.datamodel != "mrUpbeat/prepare" || entity.beat + entity.length < beat) //check for prepares that happen before the switch
+                {
+                    continue;
+                }
+                SetInterval(entity.beat);
+                break;
+            }
+            if(beeps != null)
+            {
+                beeps.Delete(); //the beeps are only for when the game isn't active
+                beeps = null;
+            }
+        }
+
         public void SetInterval(float beat)
         {
             beatCount = 0;
@@ -104,6 +127,24 @@ namespace RhythmHeavenMania.Games.MrUpbeat
         {
             yield return new WaitForSeconds(Conductor.instance.secPerBeat * 0.5f - offset);
             man.Blip();
+        }
+
+        public static void Beep(float beat, float length)
+        {
+            if(GameManager.instance.currentGame == "mrUpbeat") //this function is only meant for making beeps while the game is inactive
+            {
+                return;
+            }
+            if (beeps != null)
+            {
+                beeps.Delete();
+            }
+            MultiSound.Sound[] beepSounds = new MultiSound.Sound[Mathf.CeilToInt(length)];
+            for(int i = 0; i < beepSounds.Length; i++)
+            {
+                beepSounds[i] = new MultiSound.Sound("mrUpbeat/blip", beat + 0.5f + i);
+            }
+            beeps = MultiSound.Play(beepSounds, forcePlay:true);
         }
     }
 }

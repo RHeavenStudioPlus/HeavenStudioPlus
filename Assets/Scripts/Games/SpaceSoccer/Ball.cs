@@ -44,21 +44,6 @@ namespace RhythmHeavenMania.Games.SpaceSoccer
                 startBeat = dispensedBeat;
                 nextAnimBeat = startBeat + GetAnimLength(State.Dispensing);
                 kicker.kickTimes = 0;
-                if (kicker.player)
-                {
-                    MultiSound.Play(new MultiSound.Sound[]
-                    {
-                    new MultiSound.Sound("spaceSoccer/dispenseNoise",   dispensedBeat),
-                    new MultiSound.Sound("spaceSoccer/dispenseTumble1", dispensedBeat + 0.25f),
-                    new MultiSound.Sound("spaceSoccer/dispenseTumble2", dispensedBeat + 0.5f),
-                    new MultiSound.Sound("spaceSoccer/dispenseTumble2B",dispensedBeat + 0.5f),
-                    new MultiSound.Sound("spaceSoccer/dispenseTumble3", dispensedBeat + 0.75f),
-                    new MultiSound.Sound("spaceSoccer/dispenseTumble4", dispensedBeat + 1f),
-                    new MultiSound.Sound("spaceSoccer/dispenseTumble5", dispensedBeat + 1.25f),
-                    new MultiSound.Sound("spaceSoccer/dispenseTumble6", dispensedBeat + 1.5f),
-                    new MultiSound.Sound("spaceSoccer/dispenseTumble6B",dispensedBeat + 1.75f),
-                    });
-                }
                 return;
             }
 
