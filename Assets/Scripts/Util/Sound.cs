@@ -107,7 +107,8 @@ namespace RhythmHeavenMania.Util
 
         public void Stop()
         {
-            audioSource.Stop();
+            if (audioSource != null)
+                audioSource.Stop();
         }
 
         public void Delete()
