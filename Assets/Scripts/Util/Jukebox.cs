@@ -107,6 +107,17 @@ namespace RhythmHeavenMania.Util
             return null;
         }
 
+        // Loops play forever by default unless you set their params via this method.
+        public static void SetLoopParams(AudioSource source, float endBeat, float fadeTime)
+        {
+            if (source == null)
+                return;
+            
+            var snd = source.GetComponent<Sound>();
+            snd.loopEndBeat = endBeat;
+            snd.fadeTime = fadeTime;
+        }
+
         public static void KillLoop(AudioSource source, float fadeTime)
         {
             // Safeguard against previously-destroyed sounds.
