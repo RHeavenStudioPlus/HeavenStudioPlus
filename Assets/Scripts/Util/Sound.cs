@@ -15,6 +15,9 @@ namespace RhythmHeavenMania.Util
         public double scheduledTime;
 
         public bool looping;
+        public float loopEndBeat = -1;
+        public float fadeTime;
+        int loopIndex = 0;
 
         private AudioSource audioSource;
 
@@ -70,6 +73,18 @@ namespace RhythmHeavenMania.Util
                     {
                         audioSource.PlayScheduled(Time.time);
                         playIndex++;
+                    }
+                }
+            }
+
+            if (loopIndex < 1)
+            {
+                if (looping && loopEndBeat != -1)
+                {
+                    if (Conductor.instance.songPositionInBeats > loopEndBeat)
+                    {
+                        KillLoop(fadeTime);
+                        loopIndex++;
                     }
                 }
             }

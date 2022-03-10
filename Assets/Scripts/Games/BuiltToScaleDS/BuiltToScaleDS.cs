@@ -190,10 +190,7 @@ namespace RhythmHeavenMania.Games.BuiltToScaleDS
             var pianoPitch = Mathf.Pow(2f, (1f / 12f) * semiTones) *Conductor.instance.musicSource.pitch;
             var pianoSource = Jukebox.PlayOneShotGame("builtToScaleDS/Piano", -1, pianoPitch, 0.8f, true);
 
-            BeatAction.New(gameObject, new List<BeatAction.Action>()
-            {
-                new BeatAction.Action(beat + length, delegate { Jukebox.KillLoop(pianoSource, 0.1f); })
-            });
+            Jukebox.SetLoopParams(pianoSource, beat + length, 0.1f);
         }
     }
 }
