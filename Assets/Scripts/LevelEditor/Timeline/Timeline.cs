@@ -189,6 +189,15 @@ namespace RhythmHeavenMania.Editor.Track
             AutoBtnUpdate();
         }
 
+        public void FitToSong()
+        {
+            var currentSizeDelta = TimelineContent.sizeDelta;
+            float songBeats = Conductor.instance.SongLengthInBeats();
+            if (songBeats == 0) songBeats = 320;
+            else songBeats += 10;
+            TimelineContent.sizeDelta = new Vector2(songBeats, currentSizeDelta.y);
+        }
+
         public void AutoBtnUpdate()
         {
             var animName = GameManager.instance.autoplay ? "Idle" : "Disabled";

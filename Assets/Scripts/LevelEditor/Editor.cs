@@ -224,6 +224,8 @@ namespace RhythmHeavenMania.Editor
                 {
                     Conductor.instance.musicSource.clip = await LoadClip(Path.Combine(paths)); 
                     changedMusic = true;
+                    
+                    Timeline.FitToSong();
                 }
             } 
             );
@@ -349,6 +351,8 @@ namespace RhythmHeavenMania.Editor
 
                 if (path != String.Empty)
                 {
+                    loadedMusic = false;
+
                     using (FileStream zipFile = File.Open(path, FileMode.Open))
                     {
                         using (var archive = new ZipArchive(zipFile, ZipArchiveMode.Read))
@@ -387,10 +391,14 @@ namespace RhythmHeavenMania.Editor
                         }
                     }
 
+                    if (!loadedMusic)
+                        Conductor.instance.musicSource.clip = null;
+
                     currentRemixPath = path;
                     remixName = Path.GetFileName(path);
                     UpdateEditorStatus(false);
                     CommandManager.instance.Clear();
+                    Timeline.FitToSong();
                 }
             });
         }
