@@ -79,7 +79,7 @@ namespace RhythmHeavenMania.Util
 
             if (loopIndex < 1)
             {
-                if (looping && loopEndBeat != -1)
+                if (looping && loopEndBeat != -1) // Looping sounds play forever unless params are set.
                 {
                     if (Conductor.instance.songPositionInBeats > loopEndBeat)
                     {
