@@ -15,6 +15,7 @@ namespace RhythmHeavenMania.Games.BuiltToScaleDS
         [Header("Camera")]
         public Transform renderQuadTrans;
         public Transform camPivot;
+        public Camera camComp;
 
         [Header("References")]
         public SkinnedMeshRenderer environmentRenderer;
@@ -56,6 +57,8 @@ namespace RhythmHeavenMania.Games.BuiltToScaleDS
             var camHeight = 2f * cam.orthographicSize;
             var camWidth = camHeight * cam.aspect;
             renderQuadTrans.localScale = new Vector3(camWidth, camHeight, 1f);
+
+            camComp.depthTextureMode = camComp.depthTextureMode | DepthTextureMode.Depth;
 
             elevatorAnim.Play("MakeRod", 0, 1f);
         }
