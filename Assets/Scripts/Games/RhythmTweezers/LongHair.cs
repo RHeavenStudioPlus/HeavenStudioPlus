@@ -19,7 +19,7 @@ namespace RhythmHeavenMania.Games.RhythmTweezers
         public GameObject holder;
         public GameObject loop;
 
-        private AudioSource pullSound;
+        private Sound pullSound;
 
         private void Awake()
         {

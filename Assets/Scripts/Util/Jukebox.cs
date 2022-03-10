@@ -40,7 +40,7 @@ namespace RhythmHeavenMania.Util
             FindJukebox().GetComponent<AudioSource>().volume = volume;
         }
 
-        public static AudioSource PlayOneShot(string name, float beat = -1, float pitch = 1f, float volume = 1f, bool looping = false)
+        public static Sound PlayOneShot(string name, float beat = -1, float pitch = 1f, float volume = 1f, bool looping = false)
         {
             GameObject oneShot = new GameObject("oneShot");
 
@@ -59,10 +59,10 @@ namespace RhythmHeavenMania.Util
 
             GameManager.instance.SoundObjects.Add(oneShot);
 
-            return audioSource;
+            return snd;
         }
 
-        public static AudioSource PlayOneShotScheduled(string name, double targetTime, float pitch = 1f, float volume = 1f, bool looping = false)
+        public static Sound PlayOneShotScheduled(string name, double targetTime, float pitch = 1f, float volume = 1f, bool looping = false)
         {
             GameObject oneShot = new GameObject("oneShotScheduled");
 
@@ -84,10 +84,10 @@ namespace RhythmHeavenMania.Util
             
             GameManager.instance.SoundObjects.Add(oneShot);
 
-            return audioSource;
+            return snd;
         }
 
-        public static AudioSource PlayOneShotGame(string name, float beat = -1, float pitch = 1f, float volume = 1f, bool looping = false, bool forcePlay = false)
+        public static Sound PlayOneShotGame(string name, float beat = -1, float pitch = 1f, float volume = 1f, bool looping = false, bool forcePlay = false)
         {
             if (GameManager.instance.currentGame == name.Split('/')[0] || forcePlay)
             {
@@ -97,7 +97,7 @@ namespace RhythmHeavenMania.Util
             return null;
         }
 
-        public static AudioSource PlayOneShotScheduledGame(string name, double targetTime, float pitch = 1f, float volume = 1f, bool looping = false, bool forcePlay = false)
+        public static Sound PlayOneShotScheduledGame(string name, double targetTime, float pitch = 1f, float volume = 1f, bool looping = false, bool forcePlay = false)
         {
             if (GameManager.instance.currentGame == name.Split('/')[0] || forcePlay)
             {
@@ -107,24 +107,13 @@ namespace RhythmHeavenMania.Util
             return null;
         }
 
-        // Loops play forever by default unless you set their params via this method.
-        public static void SetLoopParams(AudioSource source, float endBeat, float fadeTime)
-        {
-            if (source == null)
-                return;
-            
-            var snd = source.GetComponent<Sound>();
-            snd.loopEndBeat = endBeat;
-            snd.fadeTime = fadeTime;
-        }
-
-        public static void KillLoop(AudioSource source, float fadeTime)
+        public static void KillLoop(Sound source, float fadeTime)
         {
             // Safeguard against previously-destroyed sounds.
             if (source == null)
                 return;
 
-            source.GetComponent<Sound>().KillLoop(fadeTime);
+            source.KillLoop(fadeTime);
         }
     }
 
