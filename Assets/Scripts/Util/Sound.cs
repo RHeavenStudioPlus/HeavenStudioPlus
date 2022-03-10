@@ -99,6 +99,17 @@ namespace RhythmHeavenMania.Util
             }
         }
 
+        public void SetLoopParams(float endBeat, float fadeTime)
+        {
+            loopEndBeat = endBeat;
+            this.fadeTime = fadeTime;
+        }
+
+        public void Stop()
+        {
+            audioSource.Stop();
+        }
+
         public void Delete()
         {
             GameManager.instance.SoundObjects.Remove(gameObject);
