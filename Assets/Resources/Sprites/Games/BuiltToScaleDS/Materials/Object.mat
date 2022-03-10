@@ -82,6 +82,7 @@ Material:
     m_Floats:
     - _AdditionalLightIgnoreCelShade: 0.9
     - _AlphaClip: 0
+    - _Angle: 89
     - _Blend: 0
     - _BumpScale: 1
     - _CelShadeMidPoint: -0.5
@@ -96,6 +97,7 @@ Material:
     - _DstBlend: 0
     - _EmissionMulByBaseColor: 0
     - _EnvironmentReflections: 1
+    - _FirstOutlineWidth: 0.02
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossinessSource: 0
@@ -118,6 +120,7 @@ Material:
     - _ReceiveShadowMappingPosOffset: 0
     - _ReceiveShadows: 1
     - _SampleGI: 0
+    - _SecondOutlineWidth: 0.02
     - _Shininess: 0
     - _Smoothness: 0.5
     - _SmoothnessSource: 0
@@ -137,9 +140,11 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionMapChannelMask: {r: 1, g: 1, b: 1, a: 0}
+    - _FirstOutlineColor: {r: 0, g: 0, b: 0, a: 0.5}
     - _IndirectLightMinColor: {r: 0, g: 0, b: 0, a: 1}
     - _OcclusionMapChannelMask: {r: 1, g: 0, b: 0, a: 0}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SecondOutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _ShadowMapColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
