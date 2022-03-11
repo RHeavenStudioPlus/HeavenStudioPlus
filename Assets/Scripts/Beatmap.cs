@@ -21,6 +21,8 @@ namespace RhythmHeavenMania
         {
             public float beat;
             public int track;
+
+            // consideration: use arrays instead of hardcoding fixed parameter names
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float length;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float valA;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float valB;
@@ -28,6 +30,7 @@ namespace RhythmHeavenMania
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public bool toggle;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public int type;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public int type2;
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public int type3;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public EasingFunction.Ease ease;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public Color colorA;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public Color colorB;
