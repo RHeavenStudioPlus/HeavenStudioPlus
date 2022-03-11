@@ -44,7 +44,7 @@ namespace RhythmHeavenMania.Games.DrummingPractice
         // TODO: Move this to OnGameSwitch() when functional?
         private void Start()
         {
-            SetMiis(UnityEngine.Random.Range(0, player.miiFaces.Count));
+            SetMiis();
         }
 
         private void Update()
@@ -97,9 +97,9 @@ namespace RhythmHeavenMania.Games.DrummingPractice
             rightDrummer.SetFace(type);
         }
 
-        public void SetMiis(int playerFace, int leftFace = -1, int rightFace = -1, bool all = false)
+        public void SetMiis(int playerFace = (int) MiiType.Random, int leftFace = (int) MiiType.Random, int rightFace = (int) MiiType.Random, bool all = false)
         {
-            if (playerFace == -1)
+            if (playerFace == (int) MiiType.Random)
             {
                 do
                 {
@@ -117,7 +117,7 @@ namespace RhythmHeavenMania.Games.DrummingPractice
             }
             else
             {
-                if (leftFace == -1)
+                if (leftFace == (int) MiiType.Random)
                 {
                     do
                     {
@@ -128,7 +128,7 @@ namespace RhythmHeavenMania.Games.DrummingPractice
                 else
                     leftDrummer.mii = leftFace;
 
-                if (rightFace == -1)
+                if (rightFace == (int) MiiType.Random)
                 {
                     do
                     {
