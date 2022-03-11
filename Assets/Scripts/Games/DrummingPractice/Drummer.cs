@@ -23,6 +23,9 @@ namespace RhythmHeavenMania.Games.DrummingPractice
 
         private bool hitting = false;
 
+        // in the future: use the MiiStudio API to render any mii from a nintendo account / MNMS / Mii Studio code?
+        // figure out how to call the API from unity?
+        // used expressions: "normal", "smile", "sorrow"
         [System.Serializable]
         public class MiiFace
         {

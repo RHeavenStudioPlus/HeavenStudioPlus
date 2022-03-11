@@ -413,10 +413,12 @@ namespace RhythmHeavenMania
                     {
                         new Param("toggle", true, "Applause", "Whether or not an applause should be played on a successful hit")
                     }),
-                    new GameAction("set mii",               delegate { var e = eventCaller.currentEntity; DrummingPractice.instance.SetMiis(e.type, e.toggle); }, 0.5f, parameters: new List<Param>()
+                    new GameAction("set mii",               delegate { var e = eventCaller.currentEntity; DrummingPractice.instance.SetMiis(e.type, e.type2, e.type3, e.toggle); }, 0.5f, parameters: new List<Param>()
                     {
-                        new Param("type", DrummingPractice.MiiType.GuestA, "Mii", "The Mii that the player will control"),
-                        new Param("toggle", false, "Set All", "Whether all Miis should be set")
+                        new Param("type", DrummingPractice.MiiType.Random, "Player Mii", "The Mii that the player will control"),
+                        new Param("type2", DrummingPractice.MiiType.Random, "Left Mii", "The Mii that the player will control"),
+                        new Param("type3", DrummingPractice.MiiType.Random, "Right Mii", "The Mii that the player will control"),
+                        new Param("toggle", false, "Set All to Player", "Sets all Miis to the Player's Mii")
                     }),
 
                 }),

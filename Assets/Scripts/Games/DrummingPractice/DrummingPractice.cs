@@ -12,6 +12,7 @@ namespace RhythmHeavenMania.Games.DrummingPractice
     {
         public enum MiiType
         {
+            Random = -1,
             GuestA,
             GuestB,
             GuestC,
@@ -96,27 +97,47 @@ namespace RhythmHeavenMania.Games.DrummingPractice
             rightDrummer.SetFace(type);
         }
 
-        public void SetMiis(int playerFace, bool all = false)
+        public void SetMiis(int playerFace, int leftFace = -1, int rightFace = -1, bool all = false)
         {
-            player.mii = playerFace;
+            if (playerFace == -1)
+            {
+                do
+                {
+                    player.mii = UnityEngine.Random.Range(0, player.miiFaces.Count);
+                }
+                while (player.mii == leftFace || player.mii == rightFace);
+            }
+            else
+                player.mii = playerFace;
 
-            if (all)
+            if (all && playerFace != -1)
             {
                 leftDrummer.mii = playerFace;
                 rightDrummer.mii = playerFace;
             }
             else
             {
-                do
+                if (leftFace == -1)
                 {
-                    leftDrummer.mii = UnityEngine.Random.Range(0, leftDrummer.miiFaces.Count);
+                    do
+                    {
+                        leftDrummer.mii = UnityEngine.Random.Range(0, player.miiFaces.Count);
+                    }
+                    while (leftDrummer.mii == player.mii);
                 }
-                while (leftDrummer.mii == player.mii);
-                do
+                else
+                    leftDrummer.mii = leftFace;
+
+                if (rightFace == -1)
                 {
-                    rightDrummer.mii = UnityEngine.Random.Range(0, rightDrummer.miiFaces.Count);
+                    do
+                    {
+                        rightDrummer.mii = UnityEngine.Random.Range(0, player.miiFaces.Count);
+                    }
+                    while (rightDrummer.mii == leftDrummer.mii || rightDrummer.mii == player.mii);
                 }
-                while (rightDrummer.mii == leftDrummer.mii || rightDrummer.mii == player.mii);
+                else
+                    rightDrummer.mii = rightFace;
             }
 
             SetFaces(0);
