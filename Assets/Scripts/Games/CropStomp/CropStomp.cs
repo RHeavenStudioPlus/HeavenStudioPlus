@@ -157,7 +157,7 @@ namespace RhythmHeavenMania.Games.CropStomp
 
             if (!isMarching)
                 return;
-            Debug.Log(newBeat);
+            // Debug.Log(newBeat);
 
             if (cond.ReportBeat(ref newBeat, marchOffset, true))
             {
