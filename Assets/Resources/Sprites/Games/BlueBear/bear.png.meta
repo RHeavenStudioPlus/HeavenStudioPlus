@@ -266,6 +266,9 @@ TextureImporter:
   - first:
       213: 4019398722650833767
     second: wind_9
+  - first:
+      213: 4882903964378449440
+    second: face_cry_start
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -2169,7 +2172,7 @@ TextureImporter:
         width: 84
         height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2190,7 +2193,7 @@ TextureImporter:
         width: 84
         height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2198,6 +2201,27 @@ TextureImporter:
       bones: []
       spriteID: 7630342b7d5c7c730800000000000000
       internalID: 4019398722650833767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: face_cry_start
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 252
+        width: 72
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 026cf1de84f83c340800000000000000
+      internalID: 4882903964378449440
       vertices: []
       indices: 
       edges: []
