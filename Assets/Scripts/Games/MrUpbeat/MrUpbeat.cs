@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using System;
 using Starpelly;
@@ -20,6 +21,8 @@ namespace RhythmHeavenMania.Games.MrUpbeat
         public bool canGo = false;
         public int beatCount = 0;
 
+        public float beatOffset = 0f;
+
         public static MrUpbeat instance;
 
         private void Awake()
@@ -34,6 +37,14 @@ namespace RhythmHeavenMania.Games.MrUpbeat
             SetInterval(0);
             var pos = Conductor.instance.songPositionInBeats;
             StartCoroutine(Upbeat(pos - Mathf.Round(pos)));
+
+            List<float> gos = GameManager.instance.Beatmap.entities.FindAll(c => c.datamodel == "mrUpbeat/go").Select(c => c.beat).ToList();
+
+            if (gos.Count > 0)
+            {
+                var nextInterval = gos.IndexOf(Mathp.GetClosestInList(gos, Conductor.instance.songPositionInBeats));
+                beatOffset = gos[nextInterval];
+            }
         }
 
         private void Update()
@@ -53,7 +64,8 @@ namespace RhythmHeavenMania.Games.MrUpbeat
 
             if (canGo)
             {
-                metronome.transform.eulerAngles = new Vector3(0, 0, 270 - Mathf.Cos(Mathf.PI * Conductor.instance.songPositionInBeats) * 75);
+                var songPos = Conductor.instance.songPositionInBeats - beatOffset;
+                metronome.transform.eulerAngles = new Vector3(0, 0, 270 - Mathf.Cos(Mathf.PI * songPos) * 75);
             }
 
             if (Conductor.instance.ReportBeat(ref beat.lastReportedBeat))
@@ -121,6 +133,7 @@ namespace RhythmHeavenMania.Games.MrUpbeat
             _beat.SetActive(true);
             UpbeatStep s = _beat.GetComponent<UpbeatStep>();
             s.startBeat = beat;
+            s.beatOffset = beatOffset;
         }
 
         private IEnumerator Upbeat(float offset = 0)
