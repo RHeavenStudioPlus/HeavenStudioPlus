@@ -6,8 +6,10 @@ using Starpelly;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.DrummingPractice
+namespace RhythmHeavenMania.Games
 {
+    using Scripts_DrummingPractice;
+
     public class DrummingPractice : Minigame
     {
         public enum MiiType

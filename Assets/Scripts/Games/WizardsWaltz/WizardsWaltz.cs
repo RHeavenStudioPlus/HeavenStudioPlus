@@ -7,8 +7,10 @@ using Starpelly;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.WizardsWaltz
+namespace RhythmHeavenMania.Games
 {
+    using Scripts_WizardsWaltz;
+
     public class WizardsWaltz : Minigame
     {
         [Header("References")]

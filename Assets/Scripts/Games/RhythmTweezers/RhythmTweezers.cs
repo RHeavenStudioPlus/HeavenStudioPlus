@@ -7,9 +7,10 @@ using DG.Tweening;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.RhythmTweezers
+namespace RhythmHeavenMania.Games
 {
-    // use PlayerActionObject for the actual tweezers but this isn't playable rn so IDC
+    using Scripts_RhythmTweezers;
+
     public class RhythmTweezers : Minigame
     {
         public enum VegetableType

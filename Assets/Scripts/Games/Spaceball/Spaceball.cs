@@ -4,8 +4,10 @@ using UnityEngine;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.Spaceball
+namespace RhythmHeavenMania.Games
 {
+    using Scripts_Spaceball;
+
     public class Spaceball : Minigame
     {
         public enum CostumeType {

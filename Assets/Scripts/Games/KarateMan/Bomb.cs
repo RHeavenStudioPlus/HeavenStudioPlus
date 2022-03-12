@@ -4,7 +4,7 @@ using UnityEngine;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.KarateMan
+namespace RhythmHeavenMania.Games.Scripts_KarateMan
 {
     public class Bomb : PlayerActionObject
     {

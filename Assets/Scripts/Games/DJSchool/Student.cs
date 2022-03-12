@@ -6,7 +6,7 @@ using DG.Tweening;
 using RhythmHeavenMania.Util;
 using Starpelly;
 
-namespace RhythmHeavenMania.Games.DJSchool
+namespace RhythmHeavenMania.Games.Scripts_DJSchool
 {
     public class Student : PlayerActionObject
     {

@@ -6,7 +6,7 @@ using Starpelly;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.MrUpbeat
+namespace RhythmHeavenMania.Games.Scripts_MrUpbeat
 {
     public class UpbeatStep : PlayerActionObject
     {

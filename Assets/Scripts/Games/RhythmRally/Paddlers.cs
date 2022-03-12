@@ -6,7 +6,7 @@ using DG.Tweening;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.RhythmRally
+namespace RhythmHeavenMania.Games.Scripts_RhythmRally
 {
     public class Paddlers : PlayerActionObject
     {

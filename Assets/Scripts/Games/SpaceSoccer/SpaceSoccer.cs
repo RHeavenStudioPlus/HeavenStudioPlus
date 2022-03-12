@@ -4,8 +4,10 @@ using UnityEngine;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.SpaceSoccer
+namespace RhythmHeavenMania.Games
 {
+    using Scripts_SpaceSoccer;
+
     public class SpaceSoccer : Minigame
     {
         [Header("Components")]

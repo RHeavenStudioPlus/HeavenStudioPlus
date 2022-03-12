@@ -4,7 +4,7 @@ using UnityEngine;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.TapTrial
+namespace RhythmHeavenMania.Games.Scripts_TapTrial
 {
     public class Tap : PlayerActionObject
     {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RhythmHeavenMania.Games.WizardsWaltz
+namespace RhythmHeavenMania.Games.Scripts_WizardsWaltz
 {
     public class Girl : MonoBehaviour
     {

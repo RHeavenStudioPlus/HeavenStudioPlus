@@ -6,8 +6,10 @@ using DG.Tweening;
 using System;
 
 using RhythmHeavenMania.Util;
-namespace RhythmHeavenMania.Games.BuiltToScaleDS
+namespace RhythmHeavenMania.Games
 {
+    using Scripts_BuiltToScaleDS;
+    
     public class BuiltToScaleDS : Minigame
     {
         public enum BTSObject { HitPieces, MissPieces, FlyingRod }

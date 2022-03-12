@@ -4,7 +4,7 @@ using UnityEngine;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.SpaceSoccer
+namespace RhythmHeavenMania.Games.Scripts_SpaceSoccer
 {
     public class Kicker : PlayerActionObject
     {

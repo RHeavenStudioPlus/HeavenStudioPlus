@@ -5,7 +5,7 @@ using UnityEngine;
 using NaughtyBezierCurves;
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.SpaceSoccer
+namespace RhythmHeavenMania.Games.Scripts_SpaceSoccer
 {
     public class Ball : MonoBehaviour
     {

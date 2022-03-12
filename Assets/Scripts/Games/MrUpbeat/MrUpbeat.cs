@@ -7,8 +7,10 @@ using Starpelly;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.MrUpbeat
+namespace RhythmHeavenMania.Games
 {
+    using Scripts_MrUpbeat;
+
     public class MrUpbeat : Minigame
     {
         [Header("References")]

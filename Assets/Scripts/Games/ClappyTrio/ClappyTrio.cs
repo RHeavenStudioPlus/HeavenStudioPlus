@@ -4,8 +4,10 @@ using UnityEngine;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.ClappyTrio
+namespace RhythmHeavenMania.Games
 {
+    using Scripts_ClappyTrio;
+
     public class ClappyTrio : Minigame
     {
         public int lionCount = 3;

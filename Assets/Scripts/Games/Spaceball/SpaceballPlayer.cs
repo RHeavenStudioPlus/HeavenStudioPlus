@@ -5,7 +5,7 @@ using UnityEngine;
 using DG.Tweening;
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.Spaceball
+namespace RhythmHeavenMania.Games.Scripts_Spaceball
 {
     public class SpaceballPlayer : MonoBehaviour
     {

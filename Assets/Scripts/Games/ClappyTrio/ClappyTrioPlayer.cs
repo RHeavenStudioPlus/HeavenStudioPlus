@@ -4,7 +4,7 @@ using UnityEngine;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.ClappyTrio
+namespace RhythmHeavenMania.Games.Scripts_ClappyTrio
 {
     public class ClappyTrioPlayer : PlayerActionObject
     {

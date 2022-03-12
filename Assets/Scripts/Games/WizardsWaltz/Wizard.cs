@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.WizardsWaltz
+namespace RhythmHeavenMania.Games.Scripts_WizardsWaltz
 {
     public class Wizard : MonoBehaviour
     {

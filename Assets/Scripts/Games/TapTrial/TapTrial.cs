@@ -4,8 +4,10 @@ using UnityEngine;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.TapTrial
+namespace RhythmHeavenMania.Games
 {
+    using Scripts_TapTrial;
+
     public class TapTrial : Minigame
     {
         [Header("References")]

@@ -6,7 +6,7 @@ using RhythmHeavenMania.Util;
 
 using DG.Tweening;
 
-namespace RhythmHeavenMania.Games.ForkLifter
+namespace RhythmHeavenMania.Games.Scripts_ForkLifter
 {
     public class Pea : PlayerActionObject
     {
