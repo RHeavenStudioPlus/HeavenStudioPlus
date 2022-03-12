@@ -22,6 +22,7 @@ namespace RhythmHeavenMania.Games
         }
 
         public static ForkLifter instance;
+        public static ForkLifterPlayer playerInstance => ForkLifterPlayer.instance;
 
         [Header("References")]
         public ForkLifterHand ForkLifterHand;
