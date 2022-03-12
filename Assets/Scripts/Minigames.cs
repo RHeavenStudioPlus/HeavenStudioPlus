@@ -172,7 +172,7 @@ namespace RhythmHeavenMania
                         new Param("type", ForkLifter.FlickType.Pea, "Object", "The object to be flicked")
                     }),
                     new GameAction("prepare",               delegate { ForkLifter.instance.ForkLifterHand.Prepare(); }, 0.5f),
-                    new GameAction("gulp",                  delegate { Games.Scripts_ForkLifter.ForkLifterPlayer.instance.Eat(); }),
+                    new GameAction("gulp",                  delegate { ForkLifter.playerInstance.Eat(); }),
                     new GameAction("sigh",                  delegate { Jukebox.PlayOneShot("games/forkLifter/sigh"); }),
                     // These are still here for backwards-compatibility but are hidden in the editor
                     new GameAction("pea",                   delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 0); }, 3, hidden: true),
