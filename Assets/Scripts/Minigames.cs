@@ -19,6 +19,7 @@ using RhythmHeavenMania.Games.CropStomp;
 using RhythmHeavenMania.Games.WizardsWaltz;
 using RhythmHeavenMania.Games.MrUpbeat;
 using RhythmHeavenMania.Games.DrummingPractice;
+using RhythmHeavenMania.Games.BlueBear;
 
 namespace RhythmHeavenMania
 {
@@ -421,6 +422,9 @@ namespace RhythmHeavenMania
                         new Param("toggle", false, "Set All to Player", "Sets all Miis to the Player's Mii")
                     }),
 
+                }),
+                new Minigame("blueBear", "Blue Bear \n<color=#eb5454>[WIP don't use]</color>", "B4E6F6", false, false, new List<GameAction>()
+                {
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
