@@ -12,6 +12,7 @@ namespace RhythmHeavenMania.Games.MrUpbeat
     {
         public float startBeat;
         private bool passedFirst = false;
+        public float beatOffset = 0;
 
         private void Start()
         {
@@ -27,7 +28,7 @@ namespace RhythmHeavenMania.Games.MrUpbeat
         {
             if (Conductor.instance.GetPositionFromBeat(startBeat, 0.35f) >= 1 && !passedFirst)
             {
-                if(MrUpbeat.instance.man.stepTimes % 2 != startBeat % 2)
+                if(MrUpbeat.instance.man.stepTimes % 2 != Math.Round(startBeat - beatOffset) % 2)
                     Hit(false);
                 passedFirst = true;
             }
