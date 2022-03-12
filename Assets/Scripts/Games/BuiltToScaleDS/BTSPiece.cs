@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using RhythmHeavenMania.Util;
-namespace RhythmHeavenMania.Games.BuiltToScaleDS
+namespace RhythmHeavenMania.Games.Scripts_BuiltToScaleDS
 {
     public class BTSPiece : MonoBehaviour
     {

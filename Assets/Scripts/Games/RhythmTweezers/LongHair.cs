@@ -4,7 +4,7 @@ using UnityEngine;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.RhythmTweezers
+namespace RhythmHeavenMania.Games.Scripts_RhythmTweezers
 {
     public class LongHair : PlayerActionObject
     {

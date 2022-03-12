@@ -5,8 +5,10 @@ using NaughtyBezierCurves;
 using DG.Tweening;
 
 using RhythmHeavenMania.Util;
-namespace RhythmHeavenMania.Games.RhythmRally
+namespace RhythmHeavenMania.Games
 {
+    using Scripts_RhythmRally;
+
     public class RhythmRally : Minigame
     {
         public enum RallySpeed { Slow, Normal, Fast, SuperFast }

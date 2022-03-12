@@ -4,7 +4,7 @@ using UnityEngine;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.CropStomp
+namespace RhythmHeavenMania.Games.Scripts_CropStomp
 {
     public class Farmer : PlayerActionObject
     {

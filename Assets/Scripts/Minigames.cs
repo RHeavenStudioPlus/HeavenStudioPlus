@@ -5,21 +5,7 @@ using DG.Tweening;
 
 using RhythmHeavenMania.Util;
 
-using RhythmHeavenMania.Games.ForkLifter;
-using RhythmHeavenMania.Games.ClappyTrio;
-using RhythmHeavenMania.Games.Spaceball;
-using RhythmHeavenMania.Games.KarateMan;
-using RhythmHeavenMania.Games.SpaceSoccer;
-using RhythmHeavenMania.Games.DJSchool;
-using RhythmHeavenMania.Games.RhythmTweezers;
-using RhythmHeavenMania.Games.RhythmRally;
-using RhythmHeavenMania.Games.BuiltToScaleDS;
-using RhythmHeavenMania.Games.TapTrial;
-using RhythmHeavenMania.Games.CropStomp;
-using RhythmHeavenMania.Games.WizardsWaltz;
-using RhythmHeavenMania.Games.MrUpbeat;
-using RhythmHeavenMania.Games.DrummingPractice;
-using RhythmHeavenMania.Games.BlueBear;
+using RhythmHeavenMania.Games;
 
 namespace RhythmHeavenMania
 {
@@ -186,7 +172,7 @@ namespace RhythmHeavenMania
                         new Param("type", ForkLifter.FlickType.Pea, "Object", "The object to be flicked")
                     }),
                     new GameAction("prepare",               delegate { ForkLifter.instance.ForkLifterHand.Prepare(); }, 0.5f),
-                    new GameAction("gulp",                  delegate { ForkLifterPlayer.instance.Eat(); }),
+                    new GameAction("gulp",                  delegate { Games.Scripts_ForkLifter.ForkLifterPlayer.instance.Eat(); }),
                     new GameAction("sigh",                  delegate { Jukebox.PlayOneShot("games/forkLifter/sigh"); }),
                     // These are still here for backwards-compatibility but are hidden in the editor
                     new GameAction("pea",                   delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 0); }, 3, hidden: true),

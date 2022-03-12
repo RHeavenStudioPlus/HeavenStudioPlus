@@ -6,7 +6,7 @@ using Starpelly;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.DrummingPractice
+namespace RhythmHeavenMania.Games.Scripts_DrummingPractice
 {
     public class Drummer : MonoBehaviour
     {

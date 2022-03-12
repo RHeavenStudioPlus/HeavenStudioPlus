@@ -6,7 +6,7 @@ using DG.Tweening;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.CropStomp
+namespace RhythmHeavenMania.Games.Scripts_CropStomp
 {
     public class Veggie : PlayerActionObject
     {

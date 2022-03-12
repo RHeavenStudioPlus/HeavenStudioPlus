@@ -5,8 +5,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RhythmHeavenMania.Games.CropStomp
+namespace RhythmHeavenMania.Games
 {
+    using Scripts_CropStomp;
+
     public class CropStomp : Minigame
     {
         const float stepDistance = 2.115f;

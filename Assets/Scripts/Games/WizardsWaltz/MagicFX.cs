@@ -4,7 +4,7 @@ using UnityEngine;
 using RhythmHeavenMania.Util;
 using System;
 
-namespace RhythmHeavenMania.Games.WizardsWaltz
+namespace RhythmHeavenMania.Games.Scripts_WizardsWaltz
 {
     public class MagicFX : MonoBehaviour
     {

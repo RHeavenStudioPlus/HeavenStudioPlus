@@ -6,8 +6,10 @@ using RhythmHeavenMania.Util;
 
 using DG.Tweening;
 
-namespace RhythmHeavenMania.Games.ForkLifter
+namespace RhythmHeavenMania.Games
 {
+    using Scripts_ForkLifter;
+
     public class ForkLifter : Minigame
     {
 

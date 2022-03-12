@@ -5,7 +5,7 @@ using UnityEngine;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.ForkLifter
+namespace RhythmHeavenMania.Games.Scripts_ForkLifter
 {
     public class ForkLifterHand : MonoBehaviour
     {

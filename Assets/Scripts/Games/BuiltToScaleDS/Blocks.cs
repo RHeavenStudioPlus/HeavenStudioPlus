@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace RhythmHeavenMania.Games.BuiltToScaleDS
+namespace RhythmHeavenMania.Games.Scripts_BuiltToScaleDS
 {
     using RhythmHeavenMania.Util;
     public class Blocks : PlayerActionObject

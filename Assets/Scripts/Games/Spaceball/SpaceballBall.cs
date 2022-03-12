@@ -6,7 +6,7 @@ using RhythmHeavenMania.Util;
 
 using DG.Tweening;
 
-namespace RhythmHeavenMania.Games.Spaceball
+namespace RhythmHeavenMania.Games.Scripts_Spaceball
 {
     public class SpaceballBall : PlayerActionObject
     {

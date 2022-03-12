@@ -3,8 +3,10 @@ using UnityEngine;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.DJSchool
+namespace RhythmHeavenMania.Games
 {
+    using Scripts_DJSchool;
+
     public class DJSchool : Minigame
     {
         public enum DJVoice

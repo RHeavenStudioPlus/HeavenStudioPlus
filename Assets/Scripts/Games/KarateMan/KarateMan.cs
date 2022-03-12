@@ -4,8 +4,10 @@ using UnityEngine;
 
 using RhythmHeavenMania.Util;
 
-namespace RhythmHeavenMania.Games.KarateMan
+namespace RhythmHeavenMania.Games
 {
+    using Scripts_KarateMan;
+
     public class KarateMan : Minigame
     {
 
