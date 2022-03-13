@@ -419,6 +419,8 @@ namespace RhythmHeavenMania
                 }),
                 new Minigame("fanClub", "Fan Club \n<color=#eb5454>[WIP don't use]</color>", "FDFD00", false, false, new List<GameAction>()
                 {
+                    new GameAction("bop",                   delegate { FanClub.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 0.5f, true),
+                    new GameAction("hais",                  delegate { FanClub.instance.CallHai(eventCaller.currentEntity.beat); }, 8, false),
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
