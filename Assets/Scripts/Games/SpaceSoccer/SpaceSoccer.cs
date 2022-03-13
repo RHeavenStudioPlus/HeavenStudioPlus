@@ -90,9 +90,9 @@ namespace RhythmHeavenMania.Games
             MultiSound.Play(new MultiSound.Sound[]
                 {
                 new MultiSound.Sound("spaceSoccer/dispenseNoise",   beat),
-                new MultiSound.Sound("spaceSoccer/dispenseTumble1", beat + 0.25f),
-                new MultiSound.Sound("spaceSoccer/dispenseTumble2", beat + 0.5f),
-                new MultiSound.Sound("spaceSoccer/dispenseTumble2B",beat + 0.5f),
+                new MultiSound.Sound("spaceSoccer/dispenseTumble1", beat),
+                new MultiSound.Sound("spaceSoccer/dispenseTumble2", beat + 0.25f),
+                new MultiSound.Sound("spaceSoccer/dispenseTumble2B",beat + 0.25f),
                 new MultiSound.Sound("spaceSoccer/dispenseTumble3", beat + 0.75f),
                 new MultiSound.Sound("spaceSoccer/dispenseTumble4", beat + 1f),
                 new MultiSound.Sound("spaceSoccer/dispenseTumble5", beat + 1.25f),
