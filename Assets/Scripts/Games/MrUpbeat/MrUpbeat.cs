@@ -67,7 +67,7 @@ namespace RhythmHeavenMania.Games
             if (canGo)
             {
                 var songPos = Conductor.instance.songPositionInBeats - beatOffset;
-                metronome.transform.eulerAngles = new Vector3(0, 0, 270 - Mathf.Cos(Mathf.PI * songPos) * 75);
+                metronome.transform.eulerAngles = new Vector3(0, 0, 270 - Mathf.Cos(Mathf.PI * songPos) * 60);
             }
 
             if (Conductor.instance.ReportBeat(ref beat.lastReportedBeat))
