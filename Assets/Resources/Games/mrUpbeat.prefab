@@ -506,13 +506,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3862020474253857803}
-  m_LocalRotation: {x: 0, y: -0, z: 0.9848078, w: -0.17364809}
-  m_LocalPosition: {x: 0, y: -2.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: -0, z: 0.9659259, w: -0.25881898}
+  m_LocalPosition: {x: 0, y: -2.623, z: 0}
+  m_LocalScale: {x: 1.05, y: 1.05, z: 1}
   m_Children: []
   m_Father: {fileID: 7248900333300803150}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 200}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 210}
 --- !u!212 &6546086356517948521
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -702,6 +702,7 @@ MonoBehaviour:
   isEligible: 0
   triggersAutoplay: 1
   startBeat: 0
+  beatOffset: 0
 --- !u!1 &6060117916978306099
 GameObject:
   m_ObjectHideFlags: 0
@@ -1009,6 +1010,7 @@ MonoBehaviour:
   bt: {fileID: 5666021292044047195}
   canGo: 0
   beatCount: 0
+  beatOffset: 0
 --- !u!1 &8412912829583803381
 GameObject:
   m_ObjectHideFlags: 0
@@ -1116,7 +1118,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8472146464158439961}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.99, z: 0}
+  m_LocalPosition: {x: 0, y: 0.92, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7864236320873353852}
