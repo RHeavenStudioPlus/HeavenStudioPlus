@@ -414,6 +414,9 @@ namespace RhythmHeavenMania
                     new GameAction("donut",                 delegate { BlueBear.instance.SpawnTreat(eventCaller.currentEntity.beat, false); }, 3, false),
                     new GameAction("cake",                  delegate { BlueBear.instance.SpawnTreat(eventCaller.currentEntity.beat, true); }, 4, false),
                 }),
+                new Minigame("fireworks", "Fireworks \n<color=#eb5454>[WIP don't use]</color>", "000000", false, false, new List<GameAction>()
+                {
+                }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
                 }),
