@@ -1,0 +1,1020 @@
+fileFormatVersion: 2
+guid: 3ceb27c8c676e7a428cf6e15cd11b7ef
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5079826356707723058
+    second: idol_Hed_neutral
+  - first:
+      213: -2162676425073278126
+    second: idol_Hed_halfClose
+  - first:
+      213: -3154070123560626495
+    second: idol_Hed_close
+  - first:
+      213: -7118178122172713354
+    second: idol_Hed_startOpen
+  - first:
+      213: 4763604459074226989
+    second: idol_Hed_fullOpen
+  - first:
+      213: -4822148881525915573
+    second: idol_Hed_open
+  - first:
+      213: -5555508115992296399
+    second: idol_Hed_oh
+  - first:
+      213: 4698751359723091083
+    second: idol_Hed_frown
+  - first:
+      213: -8678995155560733606
+    second: idol_Clt_body
+  - first:
+      213: -989471627981227243
+    second: idol_Hed_hair00
+  - first:
+      213: -5925316431864076564
+    second: idol_mike00
+  - first:
+      213: -2161494786766541539
+    second: idol_Hed_hair01
+  - first:
+      213: 4325334240670822826
+    second: idol_mike01
+  - first:
+      213: 8352302213957161954
+    second: idol_Shs_squat01
+  - first:
+      213: -5171665167739991516
+    second: idol_Shs_squat02
+  - first:
+      213: 8334290127345330533
+    second: idol_Clt_collar
+  - first:
+      213: 8932514460299386422
+    second: idol_Hnd_00
+  - first:
+      213: -8671314134912825154
+    second: idol_Hnd_01
+  - first:
+      213: 4846501274897350582
+    second: idol_Hnd_02
+  - first:
+      213: 5688886673735952880
+    second: idol_Hnd_03
+  - first:
+      213: -4043190664451062399
+    second: idol_Hnd_04
+  - first:
+      213: 7590600594947619636
+    second: idol_Hnd_05
+  - first:
+      213: -989878179865158792
+    second: idol_Hnd_06
+  - first:
+      213: -2172476432286208557
+    second: idol_Hnd_07
+  - first:
+      213: -8813925957938695401
+    second: idol_Shadow
+  - first:
+      213: 7516679348042953344
+    second: idol_Arm_00
+  - first:
+      213: 4485894184933120970
+    second: idol_Arm_01
+  - first:
+      213: -8502107373801254046
+    second: idol_Arm_02
+  - first:
+      213: -3727349108590289553
+    second: idol_Arm_03
+  - first:
+      213: -2998041914788538250
+    second: idol_Arm_04
+  - first:
+      213: 1701402326919841253
+    second: idol_Arm_05
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: idol_Hed_neutral
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 1850
+        width: 161
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2370b38482b2f7640800000000000000
+      internalID: 5079826356707723058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Hed_halfClose
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 1853
+        width: 160
+        height: 176
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 253456fef31acf1e0800000000000000
+      internalID: -2162676425073278126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Hed_close
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 1852
+        width: 160
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c61f700fed7a34d0800000000000000
+      internalID: -3154070123560626495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Hed_startOpen
+      rect:
+        serializedVersion: 2
+        x: 761
+        y: 1850
+        width: 161
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67630fb26b6273d90800000000000000
+      internalID: -7118178122172713354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Hed_fullOpen
+      rect:
+        serializedVersion: 2
+        x: 999
+        y: 1848
+        width: 161
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2b06915409bb1240800000000000000
+      internalID: 4763604459074226989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Hed_open
+      rect:
+        serializedVersion: 2
+        x: 1239
+        y: 1848
+        width: 161
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b40c99e1429441db0800000000000000
+      internalID: -4822148881525915573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Hed_oh
+      rect:
+        serializedVersion: 2
+        x: 1479
+        y: 1850
+        width: 161
+        height: 176
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 134ca778dced6e2b0800000000000000
+      internalID: -5555508115992296399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Hed_frown
+      rect:
+        serializedVersion: 2
+        x: 1718
+        y: 1850
+        width: 160
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b84bd247771553140800000000000000
+      internalID: 4698751359723091083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Clt_body
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 1682
+        width: 81
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a546779a3e30e8780800000000000000
+      internalID: -8678995155560733606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Hed_hair00
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 500
+        width: 169
+        height: 217
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51bf9dafbc0b442f0800000000000000
+      internalID: -989471627981227243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_mike00
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 614
+        width: 41
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce6e4f0591c05cda0800000000000000
+      internalID: -5925316431864076564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Hed_hair01
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 1506
+        width: 137
+        height: 107
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1debea81f3d002e0800000000000000
+      internalID: -2161494786766541539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_mike01
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 1018
+        width: 43
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa1b406439ca60c30800000000000000
+      internalID: 4325334240670822826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Shs_beat00
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 1278
+        width: 47
+        height: 137
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 624ecf51fccfd7c60800000000000000
+      internalID: 7817682494542373926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Shs_beat01
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 1280
+        width: 41
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 642239b86b868a470800000000000000
+      internalID: 8406083837722042950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Shs_beat02
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 1280
+        width: 35
+        height: 145
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 123b6ffc9ba491c50800000000000000
+      internalID: 6636417687825593121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Shs_peace00
+      rect:
+        serializedVersion: 2
+        x: 349
+        y: 1280
+        width: 75
+        height: 139
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1898fb500b96041f0800000000000000
+      internalID: -1062733307327837823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Shs_wink00
+      rect:
+        serializedVersion: 2
+        x: 791
+        y: 1280
+        width: 61
+        height: 127
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b8490d153ef1bac0800000000000000
+      internalID: -3841009503096452941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Shs_wink01
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 1280
+        width: 63
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aac14f99b2445dfb0800000000000000
+      internalID: -4623714488368751446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Shs_wink02
+      rect:
+        serializedVersion: 2
+        x: 509
+        y: 1280
+        width: 55
+        height: 137
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55b40ffee685f13c0800000000000000
+      internalID: -4386690278540424363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Shs_squat00
+      rect:
+        serializedVersion: 2
+        x: 938
+        y: 1278
+        width: 54
+        height: 123
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b22cf328fce2c5d40800000000000000
+      internalID: 5574381907556155947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Shs_squat01
+      rect:
+        serializedVersion: 2
+        x: 1087
+        y: 1278
+        width: 47
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e310a77c9659e370800000000000000
+      internalID: 8352302213957161954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Shs_squat02
+      rect:
+        serializedVersion: 2
+        x: 1235
+        y: 1278
+        width: 43
+        height: 149
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42ac89b3eed8a38b0800000000000000
+      internalID: -5171665167739991516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Clt_collar
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 918
+        width: 63
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 569a67fb6b859a370800000000000000
+      internalID: 8334290127345330533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Hnd_00
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 1032
+        width: 61
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63e5f2d339aa6fb70800000000000000
+      internalID: 8932514460299386422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Hnd_01
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 946
+        width: 71
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb882b4acbd49a780800000000000000
+      internalID: -8671314134912825154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Hnd_02
+      rect:
+        serializedVersion: 2
+        x: 443
+        y: 1016
+        width: 57
+        height: 69
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bffbbd4b3b324340800000000000000
+      internalID: 4846501274897350582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Hnd_03
+      rect:
+        serializedVersion: 2
+        x: 585
+        y: 1014
+        width: 59
+        height: 71
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f92c7be94cf2fe40800000000000000
+      internalID: 5688886673735952880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Hnd_04
+      rect:
+        serializedVersion: 2
+        x: 725
+        y: 1012
+        width: 69
+        height: 69
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 185083e2383b3e7c0800000000000000
+      internalID: -4043190664451062399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Hnd_05
+      rect:
+        serializedVersion: 2
+        x: 871
+        y: 1016
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43bb8bd360b375960800000000000000
+      internalID: 7590600594947619636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Hnd_06
+      rect:
+        serializedVersion: 2
+        x: 1021
+        y: 1018
+        width: 53
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87b1a3e3a0f3342f0800000000000000
+      internalID: -989878179865158792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Hnd_07
+      rect:
+        serializedVersion: 2
+        x: 1167
+        y: 1024
+        width: 51
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3dd2ca2f130d9d1e0800000000000000
+      internalID: -2172476432286208557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Shadow
+      rect:
+        serializedVersion: 2
+        x: 703
+        y: 1160
+        width: 161
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71338781a05aea580800000000000000
+      internalID: -8813925957938695401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Arm_00
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 1160
+        width: 57
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0827d9eba0c905860800000000000000
+      internalID: 7516679348042953344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Arm_01
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 1154
+        width: 41
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: acbdde07ef8114e30800000000000000
+      internalID: 4485894184933120970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Arm_02
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 1078
+        width: 73
+        height: 135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 263d85eb362720a80800000000000000
+      internalID: -8502107373801254046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Arm_03
+      rect:
+        serializedVersion: 2
+        x: 435
+        y: 1158
+        width: 57
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6d5b9cebbbc54cc0800000000000000
+      internalID: -3727349108590289553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Arm_04
+      rect:
+        serializedVersion: 2
+        x: 561
+        y: 1166
+        width: 69
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6781c4743c0d466d0800000000000000
+      internalID: -2998041914788538250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Arm_05
+      rect:
+        serializedVersion: 2
+        x: 923
+        y: 1170
+        width: 45
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e58414e6689c9710800000000000000
+      internalID: 1701402326919841253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
