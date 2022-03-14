@@ -1,9 +1,9 @@
-using RhythmHeavenMania.Util;
+using HeavenStudio.Util;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RhythmHeavenMania.Games
+namespace HeavenStudio.Games
 {
     using Scripts_Fireworks;
     public class Fireworks : Minigame

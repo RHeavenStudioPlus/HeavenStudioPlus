@@ -5,8 +5,8 @@ using NaughtyBezierCurves;
 using DG.Tweening;
 using System;
 
-using RhythmHeavenMania.Util;
-namespace RhythmHeavenMania.Games
+using HeavenStudio.Util;
+namespace HeavenStudio.Games
 {
     using Scripts_BuiltToScaleDS;
     

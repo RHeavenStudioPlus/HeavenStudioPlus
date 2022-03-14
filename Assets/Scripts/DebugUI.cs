@@ -4,7 +4,7 @@ using UnityEngine;
 
 using TMPro;
 
-namespace RhythmHeavenMania
+namespace HeavenStudio
 {
     public class DebugUI : MonoBehaviour
     {
