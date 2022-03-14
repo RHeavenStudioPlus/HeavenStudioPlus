@@ -1,8 +1,8 @@
 using UnityEngine;
 
-using RhythmHeavenMania.Util;
+using HeavenStudio.Util;
 
-namespace RhythmHeavenMania.Games.Scripts_TapTrial
+namespace HeavenStudio.Games.Scripts_TapTrial
 {
     public class TapTrialPlayer : MonoBehaviour
     {

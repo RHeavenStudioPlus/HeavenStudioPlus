@@ -4,8 +4,8 @@ using UnityEngine;
 using NaughtyBezierCurves;
 using DG.Tweening;
 
-using RhythmHeavenMania.Util;
-namespace RhythmHeavenMania.Games
+using HeavenStudio.Util;
+namespace HeavenStudio.Games
 {
     using Scripts_RhythmRally;
 
