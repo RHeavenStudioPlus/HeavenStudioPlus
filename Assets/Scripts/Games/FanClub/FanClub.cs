@@ -1,9 +1,9 @@
-using RhythmHeavenMania.Util;
+using HeavenStudio.Util;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RhythmHeavenMania.Games
+namespace HeavenStudio.Games
 {
     // none yet
     //using Scripts_FanClub;
