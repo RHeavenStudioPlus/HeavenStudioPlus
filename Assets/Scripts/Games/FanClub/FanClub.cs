@@ -50,6 +50,12 @@ namespace RhythmHeavenMania.Games
 
         public void CallHai(float beat)
         {
+            MultiSound.Play(new MultiSound.Sound[] { 
+                new MultiSound.Sound("fanClub/arisa_hai_1_jp", beat), 
+                new MultiSound.Sound("fanClub/arisa_hai_2_jp", beat + 1f),
+                new MultiSound.Sound("fanClub/arisa_hai_3_jp", beat + 2f),
+            });
+
             BeatAction.New(Arisa, new List<BeatAction.Action>()
             {
                 new BeatAction.Action(beat, delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", 0, 0); }),
