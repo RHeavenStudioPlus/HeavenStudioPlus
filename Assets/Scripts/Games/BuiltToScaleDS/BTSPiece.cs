@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using RhythmHeavenMania.Util;
-namespace RhythmHeavenMania.Games.Scripts_BuiltToScaleDS
+using HeavenStudio.Util;
+namespace HeavenStudio.Games.Scripts_BuiltToScaleDS
 {
     public class BTSPiece : MonoBehaviour
     {
