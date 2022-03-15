@@ -19,6 +19,7 @@ namespace HeavenStudio.Games
         public ParticleSystem idolClapEffect;
         public GameObject spectator;
         public GameObject spectatorAnchor;
+        public GameObject hitPrefab;
 
         // end userdata
 
@@ -26,7 +27,7 @@ namespace HeavenStudio.Games
         private Animator idolAnimator;
         //spectators
         private List<GameObject> Spectators;
-        private GameObject Player;
+        public NtrIdolFan Player;
 
         //bop-type animations
         public GameEvent bop = new GameEvent();
@@ -42,7 +43,7 @@ namespace HeavenStudio.Games
         }
 
         const int FAN_COUNT = 12;
-        const float RADIUS = 1.25f;
+        const float RADIUS = 1.3f;
         private void Start()
         {
             Spectators = new List<GameObject>();
@@ -66,7 +67,10 @@ namespace HeavenStudio.Games
                 mobj.transform.localPosition = new Vector3(spawnPos.x, spawnPos.y, spawnPos.z);
                 mobj.GetComponent<SortingGroup>().sortingOrder = i + sortOrigin;
                 if (i == 3)
-                    Player = mobj;
+                {
+                    Player = mobj.GetComponent<NtrIdolFan>();
+                    Player.player = true;
+                }
                 Spectators.Add(mobj);
 
                 //prepare spawn point of next spectator
@@ -80,7 +84,7 @@ namespace HeavenStudio.Games
                     spawnPos = new Vector3(origin.x, origin.y, origin.z);
                     spawnPos.x -= RADIUS * 2 * 4 - RADIUS;
                     spawnPos.y -= RADIUS;
-                    spawnPos.z -= RADIUS/4;
+                    // spawnPos.z -= RADIUS/4;
                 }
             }
         }
@@ -90,7 +94,7 @@ namespace HeavenStudio.Games
             if (Conductor.instance.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1))
             {
                 if (Conductor.instance.songPositionInBeats >= specBop.startBeat && Conductor.instance.songPositionInBeats < specBop.startBeat + specBop.length)
-                    PlayAnimationAll("FanBeat");
+                    BopAll();
                 
                 if (Conductor.instance.songPositionInBeats >= response.startBeat && Conductor.instance.songPositionInBeats < response.startBeat + response.length)
                 {
@@ -104,7 +108,7 @@ namespace HeavenStudio.Games
                 else if (Conductor.instance.songPositionInBeats >= bop.startBeat && Conductor.instance.songPositionInBeats < bop.startBeat + bop.length)
                 {
                     idolAnimator.Play("IdolBeat", 0, 0);
-                    PlayAnimationAll("FanBeat");
+                    BopAll();
                 }
             }
         }
@@ -129,21 +133,42 @@ namespace HeavenStudio.Games
                 new MultiSound.Sound("fanClub/arisa_hai_3_jp", beat + 2f),
             });
 
+            Prepare(beat + 3f); 
+            Prepare(beat + 4f); 
+            Prepare(beat + 5f); 
+            Prepare(beat + 6f); 
+
             BeatAction.New(Arisa, new List<BeatAction.Action>()
             {
-                new BeatAction.Action(beat, delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", 0, 0); PlayAnimationAll("FanBeat");}),
-                new BeatAction.Action(beat + 1f, delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", 0, 0); PlayAnimationAll("FanBeat");}),
-                new BeatAction.Action(beat + 2f, delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", 0, 0); PlayAnimationAll("FanBeat");}),
-                new BeatAction.Action(beat + 3f, delegate { Arisa.GetComponent<Animator>().Play("IdolPeaceNoSync", 0, 0); PlayAnimationAll("FanPrepare");}),
+                new BeatAction.Action(beat, delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", 0, 0); BopAll();}),
+                new BeatAction.Action(beat + 1f, delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", 0, 0); BopAll();}),
+                new BeatAction.Action(beat + 2f, delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", 0, 0); BopAll();}),
+                new BeatAction.Action(beat + 3f, delegate { Arisa.GetComponent<Animator>().Play("IdolPeaceNoSync", 0, 0); PlayAnimationAll("FanPrepare"); }),
 
-                new BeatAction.Action(beat + 4f, delegate { PlayAnimationAll("FanClap", true);}),
-                new BeatAction.Action(beat + 5f, delegate { PlayAnimationAll("FanClap", true);}),
-                new BeatAction.Action(beat + 6f, delegate { PlayAnimationAll("FanClap", true);}),
-                new BeatAction.Action(beat + 7f, delegate { PlayAnimationAll("FanClap", true);}),
+                new BeatAction.Action(beat + 4f, delegate { PlayOneClap(beat + 4f);}),
+                new BeatAction.Action(beat + 5f, delegate { PlayOneClap(beat + 5f);}),
+                new BeatAction.Action(beat + 6f, delegate { PlayOneClap(beat + 6f);}),
+                new BeatAction.Action(beat + 7f, delegate { PlayOneClap(beat + 7f);}),
+            });
+
+            MultiSound.Play(new MultiSound.Sound[] { 
+                new MultiSound.Sound("fanClub/crowd_hai_jp", beat + 4f), 
+                new MultiSound.Sound("fanClub/crowd_hai_jp", beat + 5f),
+                new MultiSound.Sound("fanClub/crowd_hai_jp", beat + 6f),
+                new MultiSound.Sound("fanClub/crowd_hai_jp", beat + 7f),
             });
 
             handCrap.length = 4f;
             handCrap.startBeat = beat + 4f;
+        }
+
+        public static void WarnHai(float beat, int type = 0)
+        {
+            MultiSound.Play(new MultiSound.Sound[] { 
+                new MultiSound.Sound("fanClub/arisa_hai_1_jp", beat), 
+                new MultiSound.Sound("fanClub/arisa_hai_2_jp", beat + 1f),
+                new MultiSound.Sound("fanClub/arisa_hai_3_jp", beat + 2f),
+            }, forcePlay:true);
         }
 
         const float CALL_LENGTH = 2f;
@@ -176,13 +201,50 @@ namespace HeavenStudio.Games
 
             BeatAction.New(Arisa, new List<BeatAction.Action>()
             {
-                new BeatAction.Action(beat, delegate { Arisa.GetComponent<Animator>().Play("IdolCall0", 0, 0); PlayAnimationAll("FanBeat");}),
+                new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolCall0", 0, 0); PlayAnimationAll("FanBeat");}),
                 new BeatAction.Action(beat + 0.75f, delegate { Arisa.GetComponent<Animator>().Play("IdolCall1", 0, 0); }),
-                new BeatAction.Action(beat + 1f, delegate { PlayAnimationAll("FanPrepare");}),
+                new BeatAction.Action(beat + 1f,    delegate { PlayAnimationAll("FanPrepare"); Prepare(beat + 1f);}),
+
+                new BeatAction.Action(beat + 2f,    delegate { PlayLongClap(beat + 2f); Prepare(beat + 2.5f);}),
+                new BeatAction.Action(beat + 3.5f,  delegate { PlayOneClap(beat + 3.5f); Prepare(beat + 3f, 2);}),
+                new BeatAction.Action(beat + 4f,    delegate { PlayChargeClap(beat + 4f); Prepare(beat + 4f, 1);}),
+                new BeatAction.Action(beat + 5f,    delegate { PlayJump(beat + 5f);}),
+            });
+
+            MultiSound.Play(new MultiSound.Sound[] { 
+                new MultiSound.Sound("fanClub/crowd_ka_jp", beat + 2f), 
+                new MultiSound.Sound("fanClub/crowd_mo_jp", beat + 3.5f),
+                new MultiSound.Sound("fanClub/crowd_ne_jp", beat + 4f),
+                new MultiSound.Sound("fanClub/crowd_hey_jp", beat + 5f),
             });
 
             response.length = 4f;
             response.startBeat = beat + CALL_LENGTH;
+        }
+
+        public static void WarnKamone(float beat, int type = 0)
+        {
+            MultiSound.Play(new MultiSound.Sound[] { 
+                new MultiSound.Sound("fanClub/arisa_ka_jp", beat), 
+                new MultiSound.Sound("fanClub/arisa_mo_jp", beat + 0.5f),
+                new MultiSound.Sound("fanClub/arisa_ne_jp", beat + 1f),
+            }, forcePlay:true);
+        }
+
+        public void Prepare(float beat, int type = 0)
+        {
+            GameObject hit = Instantiate(hitPrefab);
+            hit.transform.parent = hitPrefab.transform.parent;
+            hit.SetActive(true);
+            NtrIdolInput h = hit.GetComponent<NtrIdolInput>();
+            h.startBeat = beat;
+            if (type == 2)
+            {
+                h.type = 0;
+                h.doCharge = true;
+            }
+            else
+                h.type = type;
         }
 
         private void PlayAnimationAll(string anim, bool noPlayer = false, bool doForced = false)
@@ -195,6 +257,77 @@ namespace HeavenStudio.Games
                 if (!Spectators[i].GetComponent<Animator>().IsAnimationNotPlaying() && !doForced)
                     continue;
                 Spectators[i].GetComponent<Animator>().Play(anim, -1, 0);
+            }
+        }
+
+        private void BopAll(bool noPlayer = false, bool doForced = false)
+        {
+            for (int i = 0; i < Spectators.Count; i++)
+            {
+                if (i == 3 && noPlayer)
+                    continue;
+                
+                if (!Spectators[i].GetComponent<Animator>().IsAnimationNotPlaying() && !doForced)
+                    continue;
+                Spectators[i].GetComponent<NtrIdolFan>().Bop();
+            }
+        }
+
+        private void PlayOneClap(float beat)
+        {
+            BeatAction.New(this.gameObject, new List<BeatAction.Action>()
+            {
+                new BeatAction.Action(beat, delegate { PlayAnimationAll("FanClap", true, true);}),
+                new BeatAction.Action(beat + 0.25f, delegate { PlayAnimationAll("FanFree", true);}),
+            });
+        }
+
+        private void PlayLongClap(float beat)
+        {
+            BeatAction.New(this.gameObject, new List<BeatAction.Action>()
+            {
+                new BeatAction.Action(beat, delegate { PlayAnimationAll("FanClap", true, true);}),
+                new BeatAction.Action(beat + 1f, delegate { PlayAnimationAll("FanFree", true);}),
+            });
+        }
+
+        private void PlayChargeClap(float beat)
+        {
+            BeatAction.New(this.gameObject, new List<BeatAction.Action>()
+            {
+                new BeatAction.Action(beat, delegate { PlayAnimationAll("FanClap", true, true);}),
+                new BeatAction.Action(beat + 0.1f, delegate { PlayAnimationAll("FanClapCharge", true, true);}),
+            });
+        }
+
+        private void StartJump(int idx, float beat)
+        {
+            Spectators[idx].GetComponent<NtrIdolFan>().jumpStartTime = beat;
+            BeatAction.New(Spectators[idx], new List<BeatAction.Action>()
+            {
+                new BeatAction.Action(beat, delegate { Spectators[idx].GetComponent<Animator>().Play("FanJump", -1, 0);}),
+                new BeatAction.Action(beat + 1f, delegate { Spectators[idx].GetComponent<Animator>().Play("FanPrepare", -1, 0);}),
+            });
+        }
+
+        private void PlayJump(float beat)
+        {
+            for (int i = 0; i < Spectators.Count; i++)
+            {
+                if (i == 3)
+                    continue;
+                
+                StartJump(i, beat);
+            }
+        }
+
+        public void AngerOnMiss()
+        {
+            for (int i = 0; i <= 5; i++)
+            {
+                if (i == 3)
+                    continue;
+                Spectators[i].GetComponent<NtrIdolFan>().MakeAngry(i > 3);
             }
         }
     }
