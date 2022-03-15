@@ -421,8 +421,13 @@ namespace HeavenStudio
                 {
                     new GameAction("bop",                   delegate { FanClub.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 0.5f, true),
                     // new GameAction("bop (spectators)",      delegate { FanClub.instance.SpecBop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 0.5f, true),
-                    new GameAction("hais",                  delegate { FanClub.instance.CallHai(eventCaller.currentEntity.beat); }, 8, false),
-                    new GameAction("kamone",                delegate { FanClub.instance.CallKamone(eventCaller.currentEntity.beat); }, 6, false),
+                    new GameAction("hais",                  delegate { FanClub.instance.CallHai(eventCaller.currentEntity.beat); }, 8, false,
+                    // TODO: pre-switch cues
+                    inactiveFunction: delegate { FanClub.WarnHai(eventCaller.currentEntity.beat); }),
+                    new GameAction("kamone",                delegate { FanClub.instance.CallKamone(eventCaller.currentEntity.beat); }, 6, false,
+                    // TODO: pre-switch cues
+                    inactiveFunction: delegate { FanClub.WarnKamone(eventCaller.currentEntity.beat); }),
+                    // TODO: double clap cue
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {

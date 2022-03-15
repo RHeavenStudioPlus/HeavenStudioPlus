@@ -6327,6 +6327,7 @@ Transform:
   - {fileID: 4847749933810664173}
   - {fileID: 5352825305120310155}
   - {fileID: 2937251253109900352}
+  - {fileID: 7957844945366866598}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6348,6 +6349,8 @@ MonoBehaviour:
   idolClapEffect: {fileID: 8041535878161199445}
   spectator: {fileID: 3943761683339994363, guid: 6efb7fb84202adb4fb918fdc8ebf5f7b, type: 3}
   spectatorAnchor: {fileID: 6534207104413303536}
+  hitPrefab: {fileID: 7818400753111446154}
+  Player: {fileID: 0}
 --- !u!1 &5353759269708445841
 GameObject:
   m_ObjectHideFlags: 0
@@ -6884,6 +6887,65 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &7818400753111446154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7957844945366866598}
+  - component: {fileID: 903356161929600608}
+  m_Layer: 0
+  m_Name: ntrIdol_Input
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &7957844945366866598
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7818400753111446154}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3248844209599200740}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &903356161929600608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7818400753111446154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d6294b6066d1254aa9d41878165a68e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inList: 0
+  lastState: 0
+  state:
+    gameObject: {fileID: 0}
+    early: 0
+    perfect: 0
+    late: 0
+    createBeat: 0
+  eligibleHitsList: []
+  aceTimes: 0
+  isEligible: 0
+  triggersAutoplay: 1
+  startBeat: 0
+  toHitBeat: 0
+  type: 0
+  doCharge: 0
 --- !u!1 &7947334156866227261
 GameObject:
   m_ObjectHideFlags: 0
