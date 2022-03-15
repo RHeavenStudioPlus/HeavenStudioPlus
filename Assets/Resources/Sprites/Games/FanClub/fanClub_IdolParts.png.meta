@@ -95,6 +95,84 @@ TextureImporter:
   - first:
       213: 1701402326919841253
     second: idol_Arm_05
+  - first:
+      213: 8885945063169615741
+    second: ntrIdol_handCrapEffect
+  - first:
+      213: -1732965317767057221
+    second: fan_Face00
+  - first:
+      213: 5346145209676457094
+    second: fan_Face01
+  - first:
+      213: -2380161411252257728
+    second: fan_Face02
+  - first:
+      213: -3783166971557802879
+    second: impact_effect
+  - first:
+      213: 2101177586073812764
+    second: fan_Body00
+  - first:
+      213: 5379039286275767540
+    second: fan_Body01
+  - first:
+      213: 1026033717333140948
+    second: fan_Body02
+  - first:
+      213: 2689881232273310843
+    second: fan_Body03
+  - first:
+      213: 1743681427122389508
+    second: fan_Body04
+  - first:
+      213: -198993962868910611
+    second: fan_Body05
+  - first:
+      213: 1143994186590036386
+    second: fan_Body06
+  - first:
+      213: 8838217020243086070
+    second: fan_Body07
+  - first:
+      213: -2989691326247451308
+    second: fan_Arm00
+  - first:
+      213: 3790893458473894746
+    second: fan_Arm01
+  - first:
+      213: 7295770420721055256
+    second: fan_Arm02
+  - first:
+      213: -7942644017914661281
+    second: fan_Arm03
+  - first:
+      213: -3806372859529553674
+    second: fan_Arm04
+  - first:
+      213: -639103645387118855
+    second: fan_Arm05
+  - first:
+      213: -6190388442968695389
+    second: fan_Hand00
+  - first:
+      213: 3272263371775538141
+    second: fan_Hand01
+  - first:
+      213: 8030186601130789190
+    second: fan_Hand04
+  - first:
+      213: -6887208281833320651
+    second: fan_Hand05
+  - first:
+      213: -408067975929544184
+    second: fan_Hand02
+  - first:
+      213: 5964782772993326593
+    second: fan_Hand06
+  - first:
+      213: -928842840566755790
+    second: fan_Hand03
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -885,7 +963,7 @@ TextureImporter:
         width: 57
         height: 47
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -906,7 +984,7 @@ TextureImporter:
         width: 41
         height: 59
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -927,7 +1005,7 @@ TextureImporter:
         width: 73
         height: 135
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -948,7 +1026,7 @@ TextureImporter:
         width: 57
         height: 51
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -969,7 +1047,7 @@ TextureImporter:
         width: 69
         height: 41
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -990,7 +1068,7 @@ TextureImporter:
         width: 45
         height: 45
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -998,6 +1076,552 @@ TextureImporter:
       bones: []
       spriteID: 5e58414e6689c9710800000000000000
       internalID: 1701402326919841253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ntrIdol_handCrapEffect
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 800
+        width: 41
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d776cd784f7315b70800000000000000
+      internalID: 8885945063169615741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Face00
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 1642
+        width: 173
+        height: 125
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb03c62a93543f7e0800000000000000
+      internalID: -1732965317767057221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Face01
+      rect:
+        serializedVersion: 2
+        x: 539
+        y: 1642
+        width: 123
+        height: 125
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 684eb6c3eb2513a40800000000000000
+      internalID: 5346145209676457094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Face02
+      rect:
+        serializedVersion: 2
+        x: 781
+        y: 1642
+        width: 123
+        height: 125
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04c773e9ec7f7fed0800000000000000
+      internalID: -2380161411252257728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: impact_effect
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 786
+        width: 319
+        height: 157
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18c8e46fead7f7bc0800000000000000
+      internalID: -3783166971557802879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Body00
+      rect:
+        serializedVersion: 2
+        x: 1481
+        y: 1350
+        width: 155
+        height: 197
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1f31fbc1e1e82d10800000000000000
+      internalID: 2101177586073812764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Body01
+      rect:
+        serializedVersion: 2
+        x: 997
+        y: 1610
+        width: 165
+        height: 183
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fc76534bbf26aa40800000000000000
+      internalID: 5379039286275767540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Body02
+      rect:
+        serializedVersion: 2
+        x: 1235
+        y: 1608
+        width: 167
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d52731da343d3e00800000000000000
+      internalID: 1026033717333140948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Body03
+      rect:
+        serializedVersion: 2
+        x: 1475
+        y: 1608
+        width: 167
+        height: 179
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7404a9aab0645520800000000000000
+      internalID: 2689881232273310843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Body04
+      rect:
+        serializedVersion: 2
+        x: 1715
+        y: 1608
+        width: 167
+        height: 173
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4028311050dc23810800000000000000
+      internalID: 1743681427122389508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Body05
+      rect:
+        serializedVersion: 2
+        x: 1731
+        y: 1330
+        width: 139
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de550ca8b080d3df0800000000000000
+      internalID: -198993962868910611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Body06
+      rect:
+        serializedVersion: 2
+        x: 1753
+        y: 712
+        width: 97
+        height: 233
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a1afccc6a840ef00800000000000000
+      internalID: 1143994186590036386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Body07
+      rect:
+        serializedVersion: 2
+        x: 1853
+        y: 496
+        width: 163
+        height: 139
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fa86639d87a7aa70800000000000000
+      internalID: 8838217020243086070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Arm00
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 790
+        width: 75
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45544fe249b7286d0800000000000000
+      internalID: -2989691326247451308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Arm01
+      rect:
+        serializedVersion: 2
+        x: 993
+        y: 790
+        width: 75
+        height: 133
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5340b5f385fb9430800000000000000
+      internalID: 3790893458473894746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Arm02
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 788
+        width: 67
+        height: 141
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81671e10b88cf3560800000000000000
+      internalID: 7295770420721055256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Arm03
+      rect:
+        serializedVersion: 2
+        x: 1293
+        y: 776
+        width: 59
+        height: 173
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f56b0def85f06c190800000000000000
+      internalID: -7942644017914661281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Arm04
+      rect:
+        serializedVersion: 2
+        x: 1423
+        y: 776
+        width: 65
+        height: 163
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f89d012d0c0d2bc0800000000000000
+      internalID: -3806372859529553674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Arm05
+      rect:
+        serializedVersion: 2
+        x: 1699
+        y: 536
+        width: 93
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f62b02ee927127f0800000000000000
+      internalID: -639103645387118855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Hand00
+      rect:
+        serializedVersion: 2
+        x: 1289
+        y: 1002
+        width: 71
+        height: 91
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3adda2b5282571aa0800000000000000
+      internalID: -6190388442968695389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Hand01
+      rect:
+        serializedVersion: 2
+        x: 1437
+        y: 1004
+        width: 87
+        height: 91
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd3f33e033a696d20800000000000000
+      internalID: 3272263371775538141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Hand04
+      rect:
+        serializedVersion: 2
+        x: 1443
+        y: 1142
+        width: 71
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64980800b24f07f60800000000000000
+      internalID: 8030186601130789190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Hand05
+      rect:
+        serializedVersion: 2
+        x: 1589
+        y: 1148
+        width: 67
+        height: 93
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53f4233ce88bb60a0800000000000000
+      internalID: -6887208281833320651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Hand02
+      rect:
+        serializedVersion: 2
+        x: 1591
+        y: 1006
+        width: 61
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 802c1828650465af0800000000000000
+      internalID: -408067975929544184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Hand06
+      rect:
+        serializedVersion: 2
+        x: 1727
+        y: 1140
+        width: 83
+        height: 93
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10ef2aa445a27c250800000000000000
+      internalID: 5964782772993326593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fan_Hand03
+      rect:
+        serializedVersion: 2
+        x: 1725
+        y: 1006
+        width: 93
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23e8ad39b561c13f0800000000000000
+      internalID: -928842840566755790
       vertices: []
       indices: 
       edges: []
