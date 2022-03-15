@@ -65,8 +65,10 @@ namespace HeavenStudio.Games.Scripts_DrummingPractice
             if(player && force)
             {
                 if (hit)
+                {
                     HitSound(applause);
-                else
+                    DrummingPractice.instance.Streak();
+                } else
                     MissSound();
             }
 
