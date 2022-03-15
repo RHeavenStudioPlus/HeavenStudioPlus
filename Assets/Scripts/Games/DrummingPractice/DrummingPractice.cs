@@ -27,7 +27,9 @@ namespace HeavenStudio.Games
         }
 
         [Header("References")]
+        public SpriteRenderer background;
         public SpriteRenderer backgroundGradient;
+        public SpriteRenderer[] streaks;
         public Drummer player;
         public Drummer leftDrummer;
         public Drummer rightDrummer;
@@ -57,6 +59,12 @@ namespace HeavenStudio.Games
                 {
                     Bop();
                 }
+            }
+
+            foreach (SpriteRenderer streak in streaks)
+            {
+                Color col = streak.color;
+                streak.color = new Color(col.r, col.g, col.b, Mathf.Lerp(col.a, 0, 3.5f * Time.deltaTime));
             }
         }
 
@@ -143,6 +151,25 @@ namespace HeavenStudio.Games
             }
 
             SetFaces(0);
+        }
+
+        public void SetBackgroundColor(Color col1, Color col2, Color col3)
+        {
+            backgroundGradient.color = col1;
+            background.color = col2;
+            foreach(SpriteRenderer streak in streaks)
+            {
+                streak.color = new Color(col3.r, col3.g, col3.b, streak.color.a);
+            }
+        }
+
+        public void Streak()
+        {
+            foreach (SpriteRenderer streak in streaks)
+            {
+                Color col = streak.color;
+                streak.color = new Color(col.r, col.g, col.b, 0.7f);
+            }
         }
 
     }
