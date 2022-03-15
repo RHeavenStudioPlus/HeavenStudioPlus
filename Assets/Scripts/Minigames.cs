@@ -407,6 +407,12 @@ namespace HeavenStudio
                         new Param("type3", DrummingPractice.MiiType.Random, "Right Mii", "The Mii on the right"),
                         new Param("toggle", false, "Set All to Player", "Sets all Miis to the Player's Mii")
                     }),
+                    new GameAction("set background color",  delegate {var e = eventCaller.currentEntity; DrummingPractice.instance.SetBackgroundColor(e.colorA, e.colorB, e.colorC); }, 0.5f, false, new List<Param>()
+                    {
+                        new Param("colorA", new Color(43/255f, 207/255f, 51/255f), "Color A", "The top-most color of the background gradient"),
+                        new Param("colorB", new Color(1, 1, 1), "Color B", "The bottom-most color of the background gradient"),
+                        new Param("colorC", new Color(1, 247/255f, 0), "Streak Color", "The color of streaks that appear on a successful hit")
+                    })
 
                 }),
                 new Minigame("blueBear", "Blue Bear \n<color=#eb5454>[WIP don't use]</color>", "B4E6F6", false, false, new List<GameAction>()
