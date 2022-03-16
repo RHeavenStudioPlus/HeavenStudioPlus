@@ -63,6 +63,8 @@ namespace HeavenStudio.Games
             var borderWidthPixels = borderRight - borderLeft;
             grassWidth = borderWidthPixels / grassSprite.pixelsPerUnit;
 
+            legsAnim.Play("LiftFront", 0, 1); // Start with leg up.
+
             // Initialize vegetables.
             var cond = Conductor.instance;
             var entities = GameManager.instance.Beatmap.entities;

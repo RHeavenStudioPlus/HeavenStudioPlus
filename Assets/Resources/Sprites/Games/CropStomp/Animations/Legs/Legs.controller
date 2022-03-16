@@ -152,32 +152,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &6668930754282826874
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: StartBack
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: e0fbce8a8a25b9d48b915948f7474d78, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1107 &6800403332287279261
 AnimatorStateMachine:
   serializedVersion: 6
@@ -200,12 +174,6 @@ AnimatorStateMachine:
     m_State: {fileID: 5167481405493611925}
     m_Position: {x: 370, y: 310, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 9050316716834167451}
-    m_Position: {x: 70, y: 200, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 6668930754282826874}
-    m_Position: {x: 70, y: 270, z: 0}
-  - serializedVersion: 1
     m_State: {fileID: 6058376556025303268}
     m_Position: {x: 520, y: 90, z: 0}
   - serializedVersion: 1
@@ -220,7 +188,7 @@ AnimatorStateMachine:
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 9050316716834167451}
+  m_DefaultState: {fileID: -575066531740277219}
 --- !u!1102 &7834612326279292154
 AnimatorState:
   serializedVersion: 6
@@ -242,32 +210,6 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 29e799ba6f72df7458dc42343bf84c0f, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &9050316716834167451
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: StartFront
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4c05a1f2a7acb6a4da3c043fa8f2782e, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
