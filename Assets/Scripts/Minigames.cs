@@ -417,7 +417,7 @@ namespace HeavenStudio
                 new Minigame("fireworks", "Fireworks \n<color=#eb5454>[WIP don't use]</color>", "000000", false, false, new List<GameAction>()
                 {
                 }),
-                new Minigame("fanClub", "Fan Club \n<color=#eb5454>[WIP don't use]</color>", "FDFD00", false, false, new List<GameAction>()
+                new Minigame("fanClub", "Fan Club \n<color=#eb5454>[WIP]</color>", "FDFD00", false, false, new List<GameAction>()
                 {
                     // TODO: proper names
                     new GameAction("bop",                   delegate { FanClub.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 0.5f, true),
