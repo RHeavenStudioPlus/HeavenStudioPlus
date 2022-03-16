@@ -150,6 +150,7 @@ namespace HeavenStudio.Games
                     break;
                 case (int) IdolAnimations.Clap:
                     idolAnimator.Play("IdolCrap", 0, 0);
+                    idolClapEffect.Play();
                     break;
                 case (int) IdolAnimations.Call:
                     BeatAction.New(Arisa, new List<BeatAction.Action>()
