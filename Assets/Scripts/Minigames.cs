@@ -423,6 +423,26 @@ namespace HeavenStudio
                 new Minigame("fireworks", "Fireworks \n<color=#eb5454>[WIP don't use]</color>", "000000", false, false, new List<GameAction>()
                 {
                 }),
+                new Minigame("fanClub", "Fan Club \n<color=#eb5454>[WIP]</color>", "FDFD00", false, false, new List<GameAction>()
+                {
+                    // TODO: proper names
+                    new GameAction("bop",                   delegate { FanClub.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 0.5f, true),
+                    // new GameAction("bop (spectators)",      delegate { FanClub.instance.SpecBop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 0.5f, true),
+                    new GameAction("yeah, yeah, yeah",                  delegate { FanClub.instance.CallHai(eventCaller.currentEntity.beat); }, 8, false,
+                    // TODO: pre-switch cues
+                    inactiveFunction: delegate { FanClub.WarnHai(eventCaller.currentEntity.beat); }),
+                    new GameAction("I suppose",                delegate { FanClub.instance.CallKamone(eventCaller.currentEntity.beat); }, 6, false,
+                    // TODO: pre-switch cues
+                    inactiveFunction: delegate { FanClub.WarnKamone(eventCaller.currentEntity.beat); }),
+
+                    new GameAction("double clap",                   delegate { FanClub.instance.CallBigReady(eventCaller.currentEntity.beat); }, 4, false,
+                    // TODO: pre-switch cues
+                    inactiveFunction: delegate { FanClub.WarnBigReady(eventCaller.currentEntity.beat); }),
+                    new GameAction("play idol animation",                 delegate { var e = eventCaller.currentEntity; FanClub.instance.PlayAnim(e.beat, e.type); }, 0.5f, parameters: new List<Param>()
+                    {
+                        new Param("type", FanClub.IdolAnimations.Bop, "Animation", "Animation to play")
+                    }),
+                }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
                 }),

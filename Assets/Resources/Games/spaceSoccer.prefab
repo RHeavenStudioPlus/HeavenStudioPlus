@@ -1389,6 +1389,7 @@ MonoBehaviour:
   eligibleHitsList: []
   aceTimes: 0
   isEligible: 0
+  triggersAutoplay: 1
   canKick: 0
   canHighKick: 0
   kickLeft: 0
@@ -2004,7 +2005,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6448989353494316845
 Transform:
   m_ObjectHideFlags: 0
@@ -3890,6 +3891,7 @@ MonoBehaviour:
   eligibleHitsList: []
   aceTimes: 0
   isEligible: 0
+  triggersAutoplay: 1
   canKick: 0
   canHighKick: 0
   kickLeft: 0
