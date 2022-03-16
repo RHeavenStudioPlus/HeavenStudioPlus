@@ -9,7 +9,7 @@ using HeavenStudio.Util;
 
 namespace HeavenStudio.Games.Scripts_FanClub
 {
-    public class NtrIdolFan : MonoBehaviour
+    public class NtrIdolFan : PlayerActionObject
     {
         [Header("References")]
         [SerializeField] private GameObject motionRoot;
@@ -29,18 +29,130 @@ namespace HeavenStudio.Games.Scripts_FanClub
 
         float clappingStartTime = 0f;
 
+        public Queue<KeyValuePair<float, int>> upcomingHits;
+        public float startBeat;
+        public int type;
+        public bool doCharge = false;
+        private bool inputHit = false;
+        private bool hasHit = false;
+
+        public void Start()
+        {
+            if (player)
+                upcomingHits = new Queue<KeyValuePair<float, int>>();    // beat, type
+            
+            inputHit = true;
+            hasHit = true;
+        }
+
+        public override void OnAce()
+        {
+            Hit(true, type, true);
+        }
+
+        public void AddHit(float beat, int type)
+        {
+            inputHit = false;
+            upcomingHits.Enqueue(new KeyValuePair<float, int>(beat, type));
+        }
+
+        public void Hit(bool _hit, int type = 0, bool fromAutoplay = false)
+        {
+            if (player && !hasHit)
+            {
+                if (type == 0)
+                    ClapStart(_hit, true, doCharge, fromAutoplay);
+                else if (type == 1)
+                    JumpStart(_hit, true, fromAutoplay);
+
+                hasHit = true;
+            }
+        }
+
         private void Update()
         {
             var cond = Conductor.instance;
+            // read cue queue and pop when needed
+            if (hasHit)
+            {
+                if (upcomingHits?.Count > 0)
+                {
+                    var next = upcomingHits.Dequeue();
+
+                    startBeat = next.Key;
+                    type = next.Value == 2 ? 0 : next.Value;
+                    doCharge = (next.Value == 2);
+
+                    // reset our shit to prepare for next hit
+                    hasHit = false;
+                    ResetState();
+                }
+                else if (Conductor.instance.GetPositionFromBeat(startBeat, 1) >= Minigame.EndTime())
+                {
+                    startBeat = Single.MinValue;
+                    type = 0;
+                    doCharge = false;
+                    // DO NOT RESET, wait for future cues
+                }
+            }
+
+            // no input?
+            if (!hasHit && Conductor.instance.GetPositionFromBeat(startBeat, 1f) >= Minigame.EndTime())
+            {
+                FanClub.instance.AngerOnMiss();
+                hasHit = true;
+            }
+
+            // dunno what this is for
+            if (!inputHit && Conductor.instance.GetPositionFromBeat(startBeat, 1) >= Minigame.EndTime())
+            {
+                inputHit = true;
+            }
+
+            if (!hasHit)
+            {
+                float normalizedBeat = Conductor.instance.GetPositionFromBeat(startBeat, 1);
+                StateCheck(normalizedBeat);
+            }
+
             if (player)
             {
+                if (PlayerInput.Pressed() && type == 0)
+                {
+                    if (state.perfect)
+                    {
+                        Hit(true);
+                    } else if (state.notPerfect())
+                    {
+                        Hit(false);
+                    }
+                }
+                if (PlayerInput.PressedUp() && type == 1)
+                {
+                    if (state.perfect)
+                    {
+                        Hit(true, type);
+                    } else if (state.notPerfect())
+                    {
+                        Hit(false, type);
+                    }
+                }
                 if (PlayerInput.Pressed())
                 {
-                    ClapStart(false);
+                    if (!hasHit || (upcomingHits?.Count == 0 && startBeat == Single.MinValue))
+                        FanClub.instance.AngerOnMiss();
+
+                    hasJumped = false;
+                    stopBeat = true;
+                    jumpStartTime = -99f;
+                    animator.Play("FanClap", 0, 0);
+                    Jukebox.PlayOneShotGame("fanClub/play_clap");
+                    Jukebox.PlayOneShotGame("fanClub/crap_impact");
+                    clappingStartTime = cond.songPositionInBeats;
                 }
                 if (PlayerInput.Pressing())
                 {
-                    if (cond.songPositionInBeats > clappingStartTime + 1f && !stopCharge)
+                    if (cond.songPositionInBeats > clappingStartTime + 1.5f && !stopCharge)
                     {
                         animator.Play("FanClapCharge", 0, 0);
                         stopCharge = true;
@@ -50,7 +162,13 @@ namespace HeavenStudio.Games.Scripts_FanClub
                 {
                     if (stopCharge)
                     {
-                        JumpStart(false);
+                        if (!hasHit || (upcomingHits?.Count == 0 && startBeat == Single.MinValue))
+                            FanClub.instance.AngerOnMiss();
+
+                        animator.Play("FanJump", 0, 0);
+                        Jukebox.PlayOneShotGame("fanClub/play_jump");
+                        jumpStartTime = cond.songPositionInBeats;
+                        stopCharge = false;
                     }
                     else
                     {
