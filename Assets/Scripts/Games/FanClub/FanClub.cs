@@ -146,7 +146,7 @@ namespace HeavenStudio.Games
                     idolAnimator.Play("IdolPeace", 0, 0);
                     break;
                 case (int) IdolAnimations.Peace:
-                    idolAnimator.Play("IdolPeaceNoVocal", 0, 0);
+                    idolAnimator.Play("IdolPeaceNoSync", 0, 0);
                     break;
                 case (int) IdolAnimations.Clap:
                     idolAnimator.Play("IdolCrap", 0, 0);
