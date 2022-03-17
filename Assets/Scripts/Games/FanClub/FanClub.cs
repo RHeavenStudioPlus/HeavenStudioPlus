@@ -1,6 +1,7 @@
 using HeavenStudio.Util;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.Rendering; //don't ask
 
@@ -51,6 +52,9 @@ namespace HeavenStudio.Games
         public GameEvent noSpecBop = new GameEvent();
 
         private bool responseToggle = false;
+        private static float wantHais = Single.MinValue;
+        private static float wantKamone = Single.MinValue;
+        private static float wantBigReady = Single.MinValue;
 
         //game scene
         public static FanClub instance;
@@ -104,6 +108,25 @@ namespace HeavenStudio.Games
                     spawnPos.y -= RADIUS;
                     // spawnPos.z -= RADIUS/4;
                 }
+            }
+        }
+
+        public override void OnGameSwitch(float beat)
+        {
+            if (wantHais != Single.MinValue)
+            {
+                ContinueHais(wantHais);
+                wantHais = Single.MinValue;
+            }
+            if (wantKamone != Single.MinValue)
+            {
+                ContinueKamone(wantKamone);
+                wantKamone = Single.MinValue;
+            }
+            if (wantBigReady != Single.MinValue)
+            {
+                ContinueBigReady(wantBigReady);
+                wantBigReady = Single.MinValue;
             }
         }
 
@@ -222,19 +245,20 @@ namespace HeavenStudio.Games
         }
 
         const float HAIS_LENGTH = 4.5f;
-        public void CallHai(float beat, int type = 0)
+        public void CallHai(float beat, bool noSound = false, int type = 0)
         {
+            if (!noSound)
+                MultiSound.Play(new MultiSound.Sound[] { 
+                    new MultiSound.Sound("fanClub/arisa_hai_1_jp", beat), 
+                    new MultiSound.Sound("fanClub/arisa_hai_2_jp", beat + 1f),
+                    new MultiSound.Sound("fanClub/arisa_hai_3_jp", beat + 2f),
+                });
+
+            Prepare(beat + 3f); 
             responseToggle = false;
             DisableBop(beat, 8f);
             DisableSpecBop(beat + 2.5f, 5f);
 
-            MultiSound.Play(new MultiSound.Sound[] { 
-                new MultiSound.Sound("fanClub/arisa_hai_1_jp", beat), 
-                new MultiSound.Sound("fanClub/arisa_hai_2_jp", beat + 1f),
-                new MultiSound.Sound("fanClub/arisa_hai_3_jp", beat + 2f),
-            });
-
-            Prepare(beat + 3f); 
             Prepare(beat + 4f); 
             Prepare(beat + 5f); 
             Prepare(beat + 6f); 
@@ -260,8 +284,10 @@ namespace HeavenStudio.Games
             });
         }
 
-        public static void WarnHai(float beat, int type = 0)
+        public static void WarnHai(float beat, bool noSound = false, int type = 0)
         {
+            wantHais = beat;
+            if (noSound) return;
             MultiSound.Play(new MultiSound.Sound[] { 
                 new MultiSound.Sound("fanClub/arisa_hai_1_jp", beat), 
                 new MultiSound.Sound("fanClub/arisa_hai_2_jp", beat + 1f),
@@ -269,9 +295,21 @@ namespace HeavenStudio.Games
             }, forcePlay:true);
         }
 
-        const float CALL_LENGTH = 2.5f;
-        public void CallKamone(float beat, int type = 0, bool doJump = false)
+        public void ContinueHais(float beat, int type = 0)
         {
+            CallHai(beat, true, type);
+        }
+
+        const float CALL_LENGTH = 2.5f;
+        public void CallKamone(float beat, bool noSound = false, int type = 0, bool doJump = false)
+        {
+            if (!noSound)
+                MultiSound.Play(new MultiSound.Sound[] { 
+                    new MultiSound.Sound("fanClub/arisa_ka_jp", beat), 
+                    new MultiSound.Sound("fanClub/arisa_mo_jp", beat + 0.5f),
+                    new MultiSound.Sound("fanClub/arisa_ne_jp", beat + 1f),
+                });
+
             responseToggle = true;
             DisableBop(beat, doJump ? 6.25f : 5.25f);
             DisableSpecBop(beat + 0.5f, 6f);
@@ -280,12 +318,6 @@ namespace HeavenStudio.Games
             Prepare(beat + 2.5f);
             Prepare(beat + 3f, 2);
             Prepare(beat + 4f, 1);
-
-            MultiSound.Play(new MultiSound.Sound[] { 
-                new MultiSound.Sound("fanClub/arisa_ka_jp", beat), 
-                new MultiSound.Sound("fanClub/arisa_mo_jp", beat + 0.5f),
-                new MultiSound.Sound("fanClub/arisa_ne_jp", beat + 1f),
-            });
 
             BeatAction.New(Arisa, new List<BeatAction.Action>()
             {
@@ -317,8 +349,10 @@ namespace HeavenStudio.Games
             });
         }
 
-        public static void WarnKamone(float beat, int type = 0)
+        public static void WarnKamone(float beat, bool noSound = false, int type = 0)
         {
+            wantKamone = beat;
+            if (noSound) return;
             MultiSound.Play(new MultiSound.Sound[] { 
                 new MultiSound.Sound("fanClub/arisa_ka_jp", beat), 
                 new MultiSound.Sound("fanClub/arisa_mo_jp", beat + 0.5f),
@@ -326,13 +360,18 @@ namespace HeavenStudio.Games
             }, forcePlay:true);
         }
 
-        const float BIGCALL_LENGTH = 2.75f;
-        public void CallBigReady(float beat)
+        public void ContinueKamone(float beat, int type = 0, bool doJump = false)
         {
+            CallKamone(beat, true, type, doJump);
+        }
+
+        const float BIGCALL_LENGTH = 2.75f;
+        public void CallBigReady(float beat, bool noSound = false)
+        {
+            if (!noSound)
+                Jukebox.PlayOneShotGame("fanClub/crowd_big_ready");
+            
             DisableSpecBop(beat, 3.75f);
-
-            Jukebox.PlayOneShotGame("fanClub/crowd_big_ready");
-
             Prepare(beat + 1.5f);
             Prepare(beat + 2f);
 
@@ -346,9 +385,16 @@ namespace HeavenStudio.Games
             });
         }
 
-        public static void WarnBigReady(float beat)
+        public static void WarnBigReady(float beat, bool noSound = false)
         {
+            wantBigReady = beat;
+            if (noSound) return;
             Jukebox.PlayOneShotGame("fanClub/crowd_big_ready");
+        }
+
+        public void ContinueBigReady(float beat)
+        {
+            CallBigReady(beat, true);
         }
 
         public void Prepare(float beat, int type = 0)

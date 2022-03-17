@@ -22,7 +22,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
         [Header("Properties")]
         [NonSerialized] public bool player = false;
         [NonSerialized] public bool hitValid = false;
-        public float jumpStartTime = -99f;
+        public float jumpStartTime = Single.MinValue;
         bool stopBeat = false;
         bool stopCharge = false;
         bool hasJumped = false;

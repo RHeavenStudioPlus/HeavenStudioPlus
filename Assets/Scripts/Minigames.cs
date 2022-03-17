@@ -425,22 +425,33 @@ namespace HeavenStudio
                 }),
                 new Minigame("fanClub", "Fan Club \n<color=#eb5454>[WIP]</color>", "FDFD00", false, false, new List<GameAction>()
                 {
-                    // TODO: proper names
                     new GameAction("bop",                   delegate { var e = eventCaller.currentEntity; FanClub.instance.Bop(e.beat, e.length, e.type); }, 0.5f, true, parameters: new List<Param>()
                     {
                         new Param("type", FanClub.IdolBopType.Both, "Bop target", "Who to make bop"),
                     }),
-                    new GameAction("yeah, yeah, yeah",                  delegate { var e = eventCaller.currentEntity; FanClub.instance.CallHai(e.beat); }, 8, false,
-                    // TODO: pre-switch cues
-                    inactiveFunction: delegate { FanClub.WarnHai(eventCaller.currentEntity.beat); }),
-                    new GameAction("I suppose",                delegate { var e = eventCaller.currentEntity; FanClub.instance.CallKamone(e.beat); }, 6, false,
-                    // TODO: pre-switch cues
-                    inactiveFunction: delegate { FanClub.WarnKamone(eventCaller.currentEntity.beat); }),
 
-                    new GameAction("double clap",                   delegate { FanClub.instance.CallBigReady(eventCaller.currentEntity.beat); }, 4, false,
-                    // TODO: pre-switch cues
-                    inactiveFunction: delegate { FanClub.WarnBigReady(eventCaller.currentEntity.beat); }),
-                    new GameAction("play idol animation",                 delegate { var e = eventCaller.currentEntity; FanClub.instance.PlayAnim(e.beat, e.length, e.type); }, 1f, true, parameters: new List<Param>()
+                    new GameAction("yeah, yeah, yeah",      delegate { var e = eventCaller.currentEntity; FanClub.instance.CallHai(e.beat, e.toggle); }, 8, false, parameters: new List<Param>()
+                        {
+                            new Param("toggle", false, "Disable call", "Disable the idol's call")
+                        },
+                        inactiveFunction: delegate { var e = eventCaller.currentEntity; FanClub.WarnHai(e.beat, e.toggle);}
+                    ),
+
+                    new GameAction("I suppose",             delegate { var e = eventCaller.currentEntity; FanClub.instance.CallKamone(e.beat, e.toggle); }, 6, false, parameters: new List<Param>()
+                        {
+                            new Param("toggle", false, "Disable call", "Disable the idol's call")
+                        },
+                        inactiveFunction: delegate { var e = eventCaller.currentEntity; FanClub.WarnKamone(e.beat, e.toggle);}
+                    ),
+
+                    new GameAction("double clap",           delegate { var e = eventCaller.currentEntity; FanClub.instance.CallBigReady(e.beat, e.toggle); }, 4, false, parameters: new List<Param>()
+                        {
+                            new Param("toggle", false, "Disable call", "Disable the call")
+                        },
+                        inactiveFunction: delegate { var e = eventCaller.currentEntity; FanClub.WarnBigReady(e.beat, e.toggle); }
+                    ),
+
+                    new GameAction("play idol animation",   delegate { var e = eventCaller.currentEntity; FanClub.instance.PlayAnim(e.beat, e.length, e.type); }, 1, true, parameters: new List<Param>()
                     {
                         new Param("type", FanClub.IdolAnimations.Bop, "Animation", "Animation to play")
                     }),
