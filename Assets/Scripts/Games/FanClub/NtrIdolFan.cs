@@ -191,10 +191,14 @@ namespace HeavenStudio.Games.Scripts_FanClub
             {
                 motionRoot.transform.localPosition = new Vector3(0, 0);
                 shadow.transform.localScale = new Vector3(1.4f, 1.4f, 1f);
-                if (hasJumped && player)
+                if (hasJumped)
                 {
-                    animator.Play("FanPrepare", 0, 0);
-                    stopBeat = false;
+                    Jukebox.PlayOneShotGame("fanClub/landing_impact", pitch: UnityEngine.Random.Range(0.95f, 1f), volume: 1f/4);
+                    if (player)
+                    {
+                        animator.Play("FanPrepare", 0, 0);
+                        stopBeat = false;
+                    }
                 }
                 hasJumped = false;
             }
