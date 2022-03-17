@@ -440,7 +440,7 @@ namespace HeavenStudio
                     new GameAction("double clap",                   delegate { FanClub.instance.CallBigReady(eventCaller.currentEntity.beat); }, 4, false,
                     // TODO: pre-switch cues
                     inactiveFunction: delegate { FanClub.WarnBigReady(eventCaller.currentEntity.beat); }),
-                    new GameAction("play idol animation",                 delegate { var e = eventCaller.currentEntity; FanClub.instance.PlayAnim(e.beat, e.length, e.type); }, 1f, parameters: new List<Param>()
+                    new GameAction("play idol animation",                 delegate { var e = eventCaller.currentEntity; FanClub.instance.PlayAnim(e.beat, e.length, e.type); }, 1f, true, parameters: new List<Param>()
                     {
                         new Param("type", FanClub.IdolAnimations.Bop, "Animation", "Animation to play")
                     }),
