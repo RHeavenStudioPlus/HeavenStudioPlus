@@ -167,33 +167,33 @@ namespace HeavenStudio.Games
             switch (type)
             {
                 case (int) IdolAnimations.Bop:
-                    idolAnimator.Play("IdolBeat");
+                    idolAnimator.Play("IdolBeat", -1, 0);
                     break;
                 case (int) IdolAnimations.PeaceVocal:
-                    idolAnimator.Play("IdolPeace");
+                    idolAnimator.Play("IdolPeace", -1, 0);
                     break;
                 case (int) IdolAnimations.Peace:
-                    idolAnimator.Play("IdolPeaceNoSync");
+                    idolAnimator.Play("IdolPeaceNoSync", -1, 0);
                     break;
                 case (int) IdolAnimations.Clap:
-                    idolAnimator.Play("IdolCrap");
+                    idolAnimator.Play("IdolCrap", -1, 0);
                     idolClapEffect.Play();
                     break;
                 case (int) IdolAnimations.Call:
                     BeatAction.New(Arisa, new List<BeatAction.Action>()
                     {
-                        new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolCall0"); }),
-                        new BeatAction.Action(beat + 0.75f, delegate { Arisa.GetComponent<Animator>().Play("IdolCall1"); }),
+                        new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolCall0", -1, 0); }),
+                        new BeatAction.Action(beat + 0.75f, delegate { Arisa.GetComponent<Animator>().Play("IdolCall1", -1, 0); }),
                     });
                     break;
                 case (int) IdolAnimations.Response:
-                    idolAnimator.Play("IdolResponse");
+                    idolAnimator.Play("IdolResponse", -1, 0);
                     break;
                 case (int) IdolAnimations.Jump:
                     DoIdolJump(beat);
                     break;
                 case (int) IdolAnimations.Dab:
-                    idolAnimator.Play("IdolDab");
+                    idolAnimator.Play("IdolDab", -1, 0);
                     Jukebox.PlayOneShotGame("fanClub/arisa_dab");
                     break;
             }
