@@ -9,7 +9,7 @@ namespace HeavenStudio.Games.Scripts_SpaceSoccer
 {
     public class Ball : MonoBehaviour
     {
-        public enum State { Dispensing, Kicked, HighKicked, Toe };
+        public enum State { None, Dispensing, Kicked, HighKicked, Toe };
         [Header("Components")]
         [HideInInspector] public Kicker kicker;
         [SerializeField] private GameObject holder;
@@ -95,7 +95,7 @@ namespace HeavenStudio.Games.Scripts_SpaceSoccer
                     }
                 }
             }
-            if(state == 0) //if the for loop didn't set the state
+            if(state == 0) //if the for loop didn't set the state, i.e. all the high kicks happen before the point we start at.
             {
                 //Debug.Log("Defaulting to kicked state");
                 state = State.Kicked;
