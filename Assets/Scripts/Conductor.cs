@@ -240,6 +240,11 @@ namespace HeavenStudio
             secPerBeat = 60f / songBpm;
         }
 
+        public void SetVolume(int percent)
+        {
+            musicSource.volume = percent / 100f;
+        }
+
         public float SongLengthInBeats()
         {
             if (!musicSource.clip) return 0;

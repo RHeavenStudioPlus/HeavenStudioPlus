@@ -69,6 +69,7 @@ namespace HeavenStudio.Editor.Track
         [SerializeField] private RectTransform TimelineEventObjRef;
         [SerializeField] private RectTransform LayersRect;
         public TempoTimeline TempoInfo;
+        public VolumeTimeline VolumeInfo;
         private RectTransform TimelineSongPosLine;
 
         [Header("Timeline Playbar")]

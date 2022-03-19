@@ -71,6 +71,7 @@ namespace HeavenStudio.Editor.Track
                     {
                         GameManager.instance.Beatmap.bpm += increase;
                         UpdateStartingBPMText();
+                        UpdateStartingBPMFromText(); // In case the scrolled-to value is invalid.
                     }
                 }
             }
@@ -97,8 +98,8 @@ namespace HeavenStudio.Editor.Track
             // Failsafe against negative BPM.
             if (newBPM < 1f)
             {
-                StartingBPM.text = "120";
-                newBPM = 100;
+                StartingBPM.text = "1";
+                newBPM = 1;
             }
 
             // Limit decimal places to 4.

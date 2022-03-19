@@ -85,6 +85,7 @@ namespace HeavenStudio
             eventCaller.GamesHolder = GamesHolder.transform;
             eventCaller.Init();
             Conductor.instance.SetBpm(Beatmap.bpm);
+            Conductor.instance.SetVolume(Beatmap.musicVolume);
             Conductor.instance.firstBeatOffset = Beatmap.firstBeatOffset;
 
             if (playOnStart)
@@ -109,6 +110,7 @@ namespace HeavenStudio
         {
             Beatmap = new Beatmap();
             Beatmap.bpm = 120f;
+            Beatmap.musicVolume = 100;
             Beatmap.firstBeatOffset = 0f;
             Conductor.instance.musicSource.clip = null;
         }
@@ -126,6 +128,7 @@ namespace HeavenStudio
                 NewRemix();
             }
             Conductor.instance.SetBpm(Beatmap.bpm);
+            Conductor.instance.SetVolume(Beatmap.musicVolume);
             Conductor.instance.firstBeatOffset = Beatmap.firstBeatOffset;
             Stop(0);
             SetCurrentEventToClosest(0);
@@ -219,6 +222,7 @@ namespace HeavenStudio
             bool paused = Conductor.instance.isPaused;
 
             Conductor.instance.SetBpm(Beatmap.bpm);
+            Conductor.instance.SetVolume(Beatmap.musicVolume);
             Conductor.instance.firstBeatOffset = Beatmap.firstBeatOffset;
 
             Conductor.instance.Play(beat);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 using Newtonsoft.Json;
@@ -12,6 +13,11 @@ namespace HeavenStudio
     public class Beatmap
     {
         public float bpm;
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+        [DefaultValue(100)]
+        public int musicVolume; // In percent (1-100)
+        
         public List<Entity> entities = new List<Entity>();
         public List<TempoChange> tempoChanges = new List<TempoChange>();
         public float firstBeatOffset;
