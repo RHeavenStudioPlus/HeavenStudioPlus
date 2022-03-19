@@ -22,7 +22,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
         [Header("Properties")]
         [NonSerialized] public bool player = false;
         [NonSerialized] public bool hitValid = false;
-        public float jumpStartTime = -99f;
+        public float jumpStartTime = Single.MinValue;
         bool stopBeat = false;
         bool stopCharge = false;
         bool hasJumped = false;
@@ -191,10 +191,14 @@ namespace HeavenStudio.Games.Scripts_FanClub
             {
                 motionRoot.transform.localPosition = new Vector3(0, 0);
                 shadow.transform.localScale = new Vector3(1.4f, 1.4f, 1f);
-                if (hasJumped && player)
+                if (hasJumped)
                 {
-                    animator.Play("FanPrepare", 0, 0);
-                    stopBeat = false;
+                    Jukebox.PlayOneShotGame("fanClub/landing_impact", pitch: UnityEngine.Random.Range(0.95f, 1f), volume: 1f/4);
+                    if (player)
+                    {
+                        animator.Play("FanPrepare", 0, 0);
+                        stopBeat = false;
+                    }
                 }
                 hasJumped = false;
             }
@@ -205,7 +209,6 @@ namespace HeavenStudio.Games.Scripts_FanClub
             var cond = Conductor.instance;
             if (hit)
             {
-                print("HIT");
                 if (doCharge)
                     BeatAction.New(this.gameObject, new List<BeatAction.Action>()
                     {
@@ -220,7 +223,6 @@ namespace HeavenStudio.Games.Scripts_FanClub
             }
             else
             {
-                print("missed");
                 FanClub.instance.AngerOnMiss();
             }
             if (fromAutoplay || !force)
@@ -249,12 +251,9 @@ namespace HeavenStudio.Games.Scripts_FanClub
         {
             var cond = Conductor.instance;
             if (hit)
-            {
-                print("HIT");
-            }
+            {}
             else
             {
-                print("missed");
                 FanClub.instance.AngerOnMiss();
             }
             if (fromAutoplay || !force)
@@ -266,10 +265,16 @@ namespace HeavenStudio.Games.Scripts_FanClub
             }
         }
 
+        public bool IsJumping()
+        {
+            var cond = Conductor.instance;
+            return (cond.songPositionInBeats >= jumpStartTime && cond.songPositionInBeats < jumpStartTime + 1f);
+        }
+
         public void Bop()
         {
             if (!stopBeat)
-                animator.Play("FanBeat", 0, 0);
+                animator.Play("FanBeat");
         }
 
         public void ClapParticle()

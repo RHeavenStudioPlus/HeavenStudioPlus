@@ -1,6 +1,7 @@
 using HeavenStudio.Util;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.Rendering; //don't ask
 
@@ -11,6 +12,11 @@ namespace HeavenStudio.Games
 
     public class FanClub : Minigame
     {
+        public enum IdolBopType {
+            Both,
+            Idol,
+            Spectators
+        }
         public enum IdolAnimations {
             Bop,
             PeaceVocal,
@@ -42,8 +48,14 @@ namespace HeavenStudio.Games
         //bop-type animations
         public GameEvent bop = new GameEvent();
         public GameEvent specBop = new GameEvent();
-        public GameEvent handCrap = new GameEvent();
-        public GameEvent response = new GameEvent();
+        public GameEvent noBop = new GameEvent();
+        public GameEvent noSpecBop = new GameEvent();
+
+        private bool responseToggle = false;
+        private static float wantHais = Single.MinValue;
+        private static float wantKamone = Single.MinValue;
+        private static float wantBigReady = Single.MinValue;
+
         //game scene
         public static FanClub instance;
 
@@ -64,9 +76,9 @@ namespace HeavenStudio.Games
 
             //  |========A========|
             //  f==f==f==0==p==f==f
-            //  =f==f==0==0==f==f==
+            // f==f==f==0==0==f==f==f
 
-            //spawn 10, the 4th is our player (idx 3)
+            //spawn 12, the 4th is our player (idx 3)
             Vector3 origin = spectatorAnchor.transform.localPosition;
             int sortOrigin = spectatorAnchor.GetComponent<SortingGroup>().sortingOrder;
             Vector3 spawnPos = new Vector3(origin.x, origin.y, origin.z);
@@ -99,34 +111,57 @@ namespace HeavenStudio.Games
             }
         }
 
+        public override void OnGameSwitch(float beat)
+        {
+            if (wantHais != Single.MinValue)
+            {
+                ContinueHais(wantHais);
+                wantHais = Single.MinValue;
+            }
+            if (wantKamone != Single.MinValue)
+            {
+                ContinueKamone(wantKamone);
+                wantKamone = Single.MinValue;
+            }
+            if (wantBigReady != Single.MinValue)
+            {
+                ContinueBigReady(wantBigReady);
+                wantBigReady = Single.MinValue;
+            }
+        }
+
         private void Update()
         {
             if (Conductor.instance.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1))
             {
-                if (Conductor.instance.songPositionInBeats >= specBop.startBeat && Conductor.instance.songPositionInBeats < specBop.startBeat + specBop.length)
-                    BopAll();
-                
-                if (Conductor.instance.songPositionInBeats >= response.startBeat && Conductor.instance.songPositionInBeats < response.startBeat + response.length)
+                if (Conductor.instance.songPositionInBeats >= bop.startBeat && Conductor.instance.songPositionInBeats < bop.startBeat + bop.length)
                 {
-                    idolAnimator.Play("IdolResponse", 0, 0);
-                }
-                else if (Conductor.instance.songPositionInBeats >= handCrap.startBeat && Conductor.instance.songPositionInBeats < handCrap.startBeat + handCrap.length)
-                {
-                    idolAnimator.Play("IdolCrap", 0, 0);
-                    idolClapEffect.Play();
-                }
-                else if (Conductor.instance.songPositionInBeats >= bop.startBeat && Conductor.instance.songPositionInBeats < bop.startBeat + bop.length)
-                {
-                    idolAnimator.Play("IdolBeat", 0, 0);
+                    if (!(Conductor.instance.songPositionInBeats >= noBop.startBeat && Conductor.instance.songPositionInBeats < noBop.startBeat + noBop.length))
+                        idolAnimator.Play("IdolBeat", 0, 0);
                 }
             }
+
+            if (Conductor.instance.ReportBeat(ref specBop.lastReportedBeat, specBop.startBeat % 1))
+            {
+                if (Conductor.instance.songPositionInBeats >= specBop.startBeat && Conductor.instance.songPositionInBeats < specBop.startBeat + specBop.length)
+                {
+                    if (!(Conductor.instance.songPositionInBeats >= noSpecBop.startBeat && Conductor.instance.songPositionInBeats < noSpecBop.startBeat + noSpecBop.length))
+                        BopAll();
+                }
+            }
+            
         }
 
-        public void Bop(float beat, float length)
+        public void Bop(float beat, float length, int target = (int) IdolBopType.Both)
         {
-            bop.length = length;
-            bop.startBeat = beat;
-            SpecBop(beat, length);
+            if (target == (int) IdolBopType.Both || target == (int) IdolBopType.Idol)
+            {
+                bop.length = length;
+                bop.startBeat = beat;
+            }
+
+            if (target == (int) IdolBopType.Both || target == (int) IdolBopType.Spectators)
+                SpecBop(beat, length);
         }
 
         public void SpecBop(float beat, float length)
@@ -135,38 +170,53 @@ namespace HeavenStudio.Games
             specBop.startBeat = beat;
         }
 
-        public void PlayAnim(float beat, int type)
+        private void DisableBop(float beat, float length)
         {
+            noBop.length = length;
+            noBop.startBeat = beat;
+        }
+
+        private void DisableSpecBop(float beat, float length)
+        {
+            noSpecBop.length = length;
+            noSpecBop.startBeat = beat;
+        }
+
+        public void PlayAnim(float beat, float length, int type)
+        {
+            noBop.length = length;
+            noBop.startBeat = beat;
+
             switch (type)
             {
                 case (int) IdolAnimations.Bop:
-                    idolAnimator.Play("IdolBeat", 0, 0);
+                    idolAnimator.Play("IdolBeat", -1, 0);
                     break;
                 case (int) IdolAnimations.PeaceVocal:
-                    idolAnimator.Play("IdolPeace", 0, 0);
+                    idolAnimator.Play("IdolPeace", -1, 0);
                     break;
                 case (int) IdolAnimations.Peace:
-                    idolAnimator.Play("IdolPeaceNoSync", 0, 0);
+                    idolAnimator.Play("IdolPeaceNoSync", -1, 0);
                     break;
                 case (int) IdolAnimations.Clap:
-                    idolAnimator.Play("IdolCrap", 0, 0);
+                    idolAnimator.Play("IdolCrap", -1, 0);
                     idolClapEffect.Play();
                     break;
                 case (int) IdolAnimations.Call:
                     BeatAction.New(Arisa, new List<BeatAction.Action>()
                     {
-                        new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolCall0", 0, 0); }),
-                        new BeatAction.Action(beat + 0.75f, delegate { Arisa.GetComponent<Animator>().Play("IdolCall1", 0, 0); }),
+                        new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolCall0", -1, 0); }),
+                        new BeatAction.Action(beat + 0.75f, delegate { Arisa.GetComponent<Animator>().Play("IdolCall1", -1, 0); }),
                     });
                     break;
                 case (int) IdolAnimations.Response:
-                    idolAnimator.Play("IdolResponse", 0, 0);
+                    idolAnimator.Play("IdolResponse", -1, 0);
                     break;
                 case (int) IdolAnimations.Jump:
                     DoIdolJump(beat);
                     break;
                 case (int) IdolAnimations.Dab:
-                    idolAnimator.Play("IdolDab", 0, 0);
+                    idolAnimator.Play("IdolDab", -1, 0);
                     Jukebox.PlayOneShotGame("fanClub/arisa_dab");
                     break;
             }
@@ -177,42 +227,53 @@ namespace HeavenStudio.Games
 
         }
 
-        const float HAIS_LENGTH = 4f;
-        public void CallHai(float beat, int type = 0)
+        private void DoIdolClaps()
         {
-            bool shouldSpecBop = false;
-            // if spectators need to bop
-            if (specBop.startBeat + specBop.length > beat && specBop.startBeat < beat)
+            if (!responseToggle)
             {
-                //let bopping continue *after* this cue
-                if (specBop.startBeat + specBop.length > beat + HAIS_LENGTH)
-                {
-                    shouldSpecBop = true;
-                }
+                idolAnimator.Play("IdolCrap", -1, 0);
+                idolClapEffect.Play();
             }
+        }
 
-            MultiSound.Play(new MultiSound.Sound[] { 
-                new MultiSound.Sound("fanClub/arisa_hai_1_jp", beat), 
-                new MultiSound.Sound("fanClub/arisa_hai_2_jp", beat + 1f),
-                new MultiSound.Sound("fanClub/arisa_hai_3_jp", beat + 2f),
-            });
+        private void DoIdolResponse()
+        {
+            if (responseToggle)
+            {
+                idolAnimator.Play("IdolResponse", -1, 0);
+            }
+        }
+
+        const float HAIS_LENGTH = 4.5f;
+        public void CallHai(float beat, bool noSound = false, int type = 0)
+        {
+            if (!noSound)
+                MultiSound.Play(new MultiSound.Sound[] { 
+                    new MultiSound.Sound("fanClub/arisa_hai_1_jp", beat), 
+                    new MultiSound.Sound("fanClub/arisa_hai_2_jp", beat + 1f),
+                    new MultiSound.Sound("fanClub/arisa_hai_3_jp", beat + 2f),
+                });
 
             Prepare(beat + 3f); 
+            responseToggle = false;
+            DisableBop(beat, 8f);
+            DisableSpecBop(beat + 2.5f, 5f);
+
             Prepare(beat + 4f); 
             Prepare(beat + 5f); 
             Prepare(beat + 6f); 
 
             BeatAction.New(Arisa, new List<BeatAction.Action>()
             {
-                new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", 0, 0); if (shouldSpecBop) {BopAll();}}),
-                new BeatAction.Action(beat + 1f,    delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", 0, 0); if (shouldSpecBop) {BopAll();}}),
-                new BeatAction.Action(beat + 2f,    delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", 0, 0); if (shouldSpecBop) {BopAll();}}),
-                new BeatAction.Action(beat + 3f,    delegate { Arisa.GetComponent<Animator>().Play("IdolPeaceNoSync", 0, 0); PlayAnimationAll("FanPrepare"); }),
+                new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", -1, 0);}),
+                new BeatAction.Action(beat + 1f,    delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", -1, 0);}),
+                new BeatAction.Action(beat + 2f,    delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", -1, 0);}),
+                new BeatAction.Action(beat + 3f,    delegate { Arisa.GetComponent<Animator>().Play("IdolPeaceNoSync"); PlayPrepare(); }),
 
-                new BeatAction.Action(beat + 4f,    delegate { PlayOneClap(beat + 4f);}),
-                new BeatAction.Action(beat + 5f,    delegate { PlayOneClap(beat + 5f);}),
-                new BeatAction.Action(beat + 6f,    delegate { PlayOneClap(beat + 6f);}),
-                new BeatAction.Action(beat + 7f,    delegate { PlayOneClap(beat + 7f);}),
+                new BeatAction.Action(beat + 4f,    delegate { PlayOneClap(beat + 4f); DoIdolClaps();}),
+                new BeatAction.Action(beat + 5f,    delegate { PlayOneClap(beat + 5f); DoIdolClaps();}),
+                new BeatAction.Action(beat + 6f,    delegate { PlayOneClap(beat + 6f); DoIdolClaps();}),
+                new BeatAction.Action(beat + 7f,    delegate { PlayOneClap(beat + 7f); DoIdolClaps();}),
             });
 
             MultiSound.Play(new MultiSound.Sound[] { 
@@ -221,13 +282,12 @@ namespace HeavenStudio.Games
                 new MultiSound.Sound("fanClub/crowd_hai_jp", beat + 6f),
                 new MultiSound.Sound("fanClub/crowd_hai_jp", beat + 7f),
             });
-
-            handCrap.length = 4f;
-            handCrap.startBeat = beat + 4f;
         }
 
-        public static void WarnHai(float beat, int type = 0)
+        public static void WarnHai(float beat, bool noSound = false, int type = 0)
         {
+            wantHais = beat;
+            if (noSound) return;
             MultiSound.Play(new MultiSound.Sound[] { 
                 new MultiSound.Sound("fanClub/arisa_hai_1_jp", beat), 
                 new MultiSound.Sound("fanClub/arisa_hai_2_jp", beat + 1f),
@@ -235,58 +295,48 @@ namespace HeavenStudio.Games
             }, forcePlay:true);
         }
 
-        const float CALL_LENGTH = 2f;
-        public void CallKamone(float beat, int type = 0, bool doJump = false)
+        public void ContinueHais(float beat, int type = 0)
         {
-            bool shouldSpecBop = false;
-            // clip certain events to the start of this cue if needed
-            if (bop.startBeat + bop.length > beat && bop.startBeat < beat)
-            {
-                //let bopping continue *after* this cue
-                if (bop.startBeat + bop.length > beat + CALL_LENGTH)
-                {
-                    bop.length -= (beat + CALL_LENGTH - bop.startBeat);
-                    bop.startBeat = beat + CALL_LENGTH;
-                }
-                else
-                    bop.length = beat - bop.startBeat;
-            }
-            // interrupt clapping completely, no need to continue
-            if (handCrap.startBeat + handCrap.length > beat && handCrap.startBeat < beat)
-                handCrap.length = beat - handCrap.startBeat;
-            // same with responses
-            if (response.startBeat + response.length > beat && response.startBeat < beat)
-                response.length = beat - response.startBeat;
-            
-            // if spectators need to bop
-            if (specBop.startBeat + specBop.length > beat && specBop.startBeat < beat)
-            {
-                //let bopping continue *after* this cue
-                if (specBop.startBeat + specBop.length > beat + CALL_LENGTH)
-                {
-                    shouldSpecBop = true;
-                }
-            }
+            CallHai(beat, true, type);
+        }
 
-            MultiSound.Play(new MultiSound.Sound[] { 
-                new MultiSound.Sound("fanClub/arisa_ka_jp", beat), 
-                new MultiSound.Sound("fanClub/arisa_mo_jp", beat + 0.5f),
-                new MultiSound.Sound("fanClub/arisa_ne_jp", beat + 1f),
-            });
+        const float CALL_LENGTH = 2.5f;
+        public void CallKamone(float beat, bool noSound = false, int type = 0, bool doJump = false)
+        {
+            if (!noSound)
+                MultiSound.Play(new MultiSound.Sound[] { 
+                    new MultiSound.Sound("fanClub/arisa_ka_jp", beat), 
+                    new MultiSound.Sound("fanClub/arisa_mo_jp", beat + 0.5f),
+                    new MultiSound.Sound("fanClub/arisa_ne_jp", beat + 1f),
+                });
+
+            responseToggle = true;
+            DisableBop(beat, doJump ? 6.25f : 5.25f);
+            DisableSpecBop(beat + 0.5f, 6f);
+
+            Prepare(beat + 1f);
+            Prepare(beat + 2.5f);
+            Prepare(beat + 3f, 2);
+            Prepare(beat + 4f, 1);
 
             BeatAction.New(Arisa, new List<BeatAction.Action>()
             {
-                new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolCall0", 0, 0); if (shouldSpecBop) {BopAll();}}),
-                new BeatAction.Action(beat + 0.75f, delegate { Arisa.GetComponent<Animator>().Play("IdolCall1", 0, 0); }),
-                new BeatAction.Action(beat + 1f,    delegate { PlayAnimationAll("FanPrepare"); Prepare(beat + 1f);}),
+                new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolCall0", -1, 0); }),
+                new BeatAction.Action(beat + 0.75f, delegate { Arisa.GetComponent<Animator>().Play("IdolCall1", -1, 0); }),
+                new BeatAction.Action(beat + 1f,    delegate { PlayPrepare(); }),
 
-                new BeatAction.Action(beat + 2f,    delegate { PlayLongClap(beat + 2f); Prepare(beat + 2.5f);}),
-                new BeatAction.Action(beat + 3.5f,  delegate { PlayOneClap(beat + 3.5f); Prepare(beat + 3f, 2);}),
-                new BeatAction.Action(beat + 4f,    delegate { PlayChargeClap(beat + 4f); Prepare(beat + 4f, 1);}),
+                new BeatAction.Action(beat + 2f,    delegate { PlayLongClap(beat + 2f); DoIdolResponse(); }),
+                new BeatAction.Action(beat + 3f,    delegate { DoIdolResponse(); }),
+                new BeatAction.Action(beat + 3.5f,  delegate { PlayOneClap(beat + 3.5f); }),
+                new BeatAction.Action(beat + 4f,    delegate { PlayChargeClap(beat + 4f); DoIdolResponse(); }),
                 new BeatAction.Action(beat + 5f,    delegate { PlayJump(beat + 5f);
                     if (doJump)
                     {
                         DoIdolJump(beat + 5f);
+                    }
+                    else
+                    {
+                        DoIdolResponse();
                     }
                 }),
             });
@@ -297,13 +347,12 @@ namespace HeavenStudio.Games
                 new MultiSound.Sound("fanClub/crowd_ne_jp", beat + 4f),
                 new MultiSound.Sound("fanClub/crowd_hey_jp", beat + 5f),
             });
-
-            response.length = doJump ? 3f : 4f;
-            response.startBeat = beat + CALL_LENGTH;
         }
 
-        public static void WarnKamone(float beat, int type = 0)
+        public static void WarnKamone(float beat, bool noSound = false, int type = 0)
         {
+            wantKamone = beat;
+            if (noSound) return;
             MultiSound.Play(new MultiSound.Sound[] { 
                 new MultiSound.Sound("fanClub/arisa_ka_jp", beat), 
                 new MultiSound.Sound("fanClub/arisa_mo_jp", beat + 0.5f),
@@ -311,36 +360,41 @@ namespace HeavenStudio.Games
             }, forcePlay:true);
         }
 
-        const float BIGCALL_LENGTH = 2.5f;
-        public void CallBigReady(float beat)
+        public void ContinueKamone(float beat, int type = 0, bool doJump = false)
         {
-            // clip certain events to the start of this cue if needed
-            if (specBop.startBeat + specBop.length > beat && specBop.startBeat < beat)
-            {
-                //let bopping continue *after* this cue
-                if (specBop.startBeat + specBop.length > beat + BIGCALL_LENGTH)
-                {
-                    specBop.length -= (beat + BIGCALL_LENGTH - specBop.startBeat);
-                    specBop.startBeat = beat + BIGCALL_LENGTH;
-                }
-                else
-                    specBop.length = beat - specBop.startBeat;
-            }
+            CallKamone(beat, true, type, doJump);
+        }
 
-            Jukebox.PlayOneShotGame("fanClub/crowd_big_ready");
+        const float BIGCALL_LENGTH = 2.75f;
+        public void CallBigReady(float beat, bool noSound = false)
+        {
+            if (!noSound)
+                Jukebox.PlayOneShotGame("fanClub/crowd_big_ready");
+            
+            DisableSpecBop(beat, 3.75f);
+            Prepare(beat + 1.5f);
+            Prepare(beat + 2f);
 
+            PlayAnimationAll("FanBigReady", onlyOverrideBop: true);
             BeatAction.New(this.gameObject, new List<BeatAction.Action>()
             {
-                new BeatAction.Action(beat,         delegate { PlayAnimationAll("FanBigReady"); Prepare(beat + 1.5f);}),
-                new BeatAction.Action(beat + 2f,    delegate { PlayAnimationAll("FanBigReady"); Prepare(beat + 2f);}),
+                new BeatAction.Action(beat + 1.5f,   delegate { PlayAnimationAll("FanBigReady", onlyOverrideBop: true); }),
+                new BeatAction.Action(beat + 2f,    delegate { PlayAnimationAll("FanBigReady", onlyOverrideBop: true); }),
                 new BeatAction.Action(beat + 2.5f,  delegate { PlayOneClap(beat + 2.5f);}),
                 new BeatAction.Action(beat + 3f,    delegate { PlayOneClap(beat + 3f);}),
             });
         }
 
-        public static void WarnBigReady(float beat)
+        public static void WarnBigReady(float beat, bool noSound = false)
         {
+            wantBigReady = beat;
+            if (noSound) return;
             Jukebox.PlayOneShotGame("fanClub/crowd_big_ready");
+        }
+
+        public void ContinueBigReady(float beat)
+        {
+            CallBigReady(beat, true);
         }
 
         public void Prepare(float beat, int type = 0)
@@ -348,7 +402,7 @@ namespace HeavenStudio.Games
             Player.AddHit(beat, type);
         }
 
-        private void PlayAnimationAll(string anim, bool noPlayer = false, bool doForced = false)
+        private void PlayAnimationAll(string anim, bool noPlayer = false, bool doForced = false, bool onlyOverrideBop = false)
         {
             for (int i = 0; i < Spectators.Count; i++)
             {
@@ -356,7 +410,15 @@ namespace HeavenStudio.Games
                     continue;
                 
                 if (!Spectators[i].GetComponent<Animator>().IsAnimationNotPlaying() && !doForced)
+                {
+                    if (onlyOverrideBop)
+                    {
+                        string clipName = Spectators[i].GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.name;
+                        if (clipName == "FanBeat" || clipName == "NoPose")
+                            Spectators[i].GetComponent<Animator>().Play(anim);
+                    }
                     continue;
+                }
                 Spectators[i].GetComponent<Animator>().Play(anim);
             }
         }
@@ -368,9 +430,24 @@ namespace HeavenStudio.Games
                 if (i == 3 && noPlayer)
                     continue;
                 
+                string clipName = Spectators[i].GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.name;
                 if (!Spectators[i].GetComponent<Animator>().IsAnimationNotPlaying() && !doForced)
+                {
+                    if (clipName == "FanBeat" || clipName == "NoPose")
+                        Spectators[i].GetComponent<NtrIdolFan>().Bop();
                     continue;
+                }
                 Spectators[i].GetComponent<NtrIdolFan>().Bop();
+            }
+        }
+
+        private void PlayPrepare()
+        {
+            for (int i = 0; i < Spectators.Count; i++)
+            {
+                if (Spectators[i].GetComponent<NtrIdolFan>().IsJumping())
+                    continue;
+                Spectators[i].GetComponent<Animator>().Play("FanPrepare");
             }
         }
 
