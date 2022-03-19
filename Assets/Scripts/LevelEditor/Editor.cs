@@ -335,6 +335,7 @@ namespace HeavenStudio.Editor
             GameManager.instance.LoadRemix(json);
             Timeline.instance.LoadRemix();
             Timeline.instance.TempoInfo.UpdateStartingBPMText();
+            Timeline.instance.VolumeInfo.UpdateStartingVolumeText();
             Timeline.instance.TempoInfo.UpdateOffsetText();
         }
 
