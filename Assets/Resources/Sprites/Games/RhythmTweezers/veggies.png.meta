@@ -52,7 +52,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 400
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -100,16 +100,16 @@ TextureImporter:
       name: veggies_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 2
-        width: 268
-        height: 332
+        x: 8
+        y: 8
+        width: 1072
+        height: 1328
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 5aa625ba64937cb00800000000000000
       internalID: 848710030467426981
@@ -121,16 +121,16 @@ TextureImporter:
       name: veggies_1
       rect:
         serializedVersion: 2
-        x: 274
-        y: 1
-        width: 268
-        height: 332
+        x: 1096
+        y: 4
+        width: 1072
+        height: 1328
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: ccfe64c9559c751a0800000000000000
       internalID: -6820761741098029108
