@@ -58,9 +58,9 @@ namespace HeavenStudio.Util
                 if (songPositionInBeats >= sounds[i].beat - Conductor.instance.GetRestFromRealTime(sounds[i].offset) && index == i)
                 {
                     if (game)
-                        Jukebox.PlayOneShotGame(sounds[i].name, sounds[i].beat, sounds[i].pitch, sounds[i].volume, sounds[i].looping, forcePlay);
+                        Jukebox.PlayOneShotGame(sounds[i].name, sounds[i].beat - Conductor.instance.GetRestFromRealTime(sounds[i].offset), sounds[i].pitch, sounds[i].volume, sounds[i].looping, forcePlay);
                     else
-                        Jukebox.PlayOneShot(sounds[i].name, sounds[i].beat, sounds[i].pitch, sounds[i].volume, sounds[i].looping);
+                        Jukebox.PlayOneShot(sounds[i].name, sounds[i].beat - Conductor.instance.GetRestFromRealTime(sounds[i].offset), sounds[i].pitch, sounds[i].volume, sounds[i].looping);
 
                     index++;
                 }
