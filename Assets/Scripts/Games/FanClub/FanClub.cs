@@ -49,6 +49,7 @@ namespace HeavenStudio.Games
         public GameEvent bop = new GameEvent();
         public GameEvent specBop = new GameEvent();
         public GameEvent noBop = new GameEvent();
+        public GameEvent noResponse = new GameEvent();
         public GameEvent noSpecBop = new GameEvent();
 
         private bool responseToggle = false;
@@ -176,6 +177,12 @@ namespace HeavenStudio.Games
             noBop.startBeat = beat;
         }
 
+        private void DisableResponse(float beat, float length)
+        {
+            noResponse.length = length;
+            noResponse.startBeat = beat;
+        }
+
         private void DisableSpecBop(float beat, float length)
         {
             float bt = Conductor.instance.songPositionInBeats;
@@ -193,8 +200,8 @@ namespace HeavenStudio.Games
 
         public void PlayAnim(float beat, float length, int type)
         {
-            noBop.length = length;
-            noBop.startBeat = beat;
+            DisableResponse(beat, length);
+            DisableBop(beat, length);
 
             switch (type)
             {
@@ -240,8 +247,11 @@ namespace HeavenStudio.Games
         {
             if (!responseToggle)
             {
-                idolAnimator.Play("IdolCrap", -1, 0);
-                idolClapEffect.Play();
+                if (!(Conductor.instance.songPositionInBeats >= noResponse.startBeat && Conductor.instance.songPositionInBeats < noResponse.startBeat + noResponse.length))
+                {
+                    idolAnimator.Play("IdolCrap", -1, 0);
+                    idolClapEffect.Play();
+                }
             }
         }
 
@@ -249,7 +259,8 @@ namespace HeavenStudio.Games
         {
             if (responseToggle)
             {
-                idolAnimator.Play("IdolResponse", -1, 0);
+                if (!(Conductor.instance.songPositionInBeats >= noResponse.startBeat && Conductor.instance.songPositionInBeats < noResponse.startBeat + noResponse.length))
+                    idolAnimator.Play("IdolResponse", -1, 0);
             }
         }
 
