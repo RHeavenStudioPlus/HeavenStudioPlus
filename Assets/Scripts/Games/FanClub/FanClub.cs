@@ -306,8 +306,8 @@ namespace HeavenStudio.Games
             if (!noSound)
                 MultiSound.Play(new MultiSound.Sound[] { 
                     new MultiSound.Sound("fanClub/arisa_ka_jp", beat), 
-                    new MultiSound.Sound("fanClub/arisa_mo_jp", beat + 0.5f),
-                    new MultiSound.Sound("fanClub/arisa_ne_jp", beat + 1f),
+                    new MultiSound.Sound("fanClub/arisa_mo_jp", beat + 0.5f, offset: 0.07407407f),
+                    new MultiSound.Sound("fanClub/arisa_ne_jp", beat + 1f, offset: 0.07407407f),
                 });
 
             responseToggle = true;
@@ -355,8 +355,8 @@ namespace HeavenStudio.Games
             if (noSound) return;
             MultiSound.Play(new MultiSound.Sound[] { 
                 new MultiSound.Sound("fanClub/arisa_ka_jp", beat), 
-                new MultiSound.Sound("fanClub/arisa_mo_jp", beat + 0.5f),
-                new MultiSound.Sound("fanClub/arisa_ne_jp", beat + 1f),
+                new MultiSound.Sound("fanClub/arisa_mo_jp", beat + 0.5f, offset: 0.07407407f),
+                new MultiSound.Sound("fanClub/arisa_ne_jp", beat + 1f, offset: 0.07407407f),
             }, forcePlay:true);
         }
 
