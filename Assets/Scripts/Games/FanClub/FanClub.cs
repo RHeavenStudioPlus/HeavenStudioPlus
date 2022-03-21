@@ -178,8 +178,17 @@ namespace HeavenStudio.Games
 
         private void DisableSpecBop(float beat, float length)
         {
-            noSpecBop.length = length;
-            noSpecBop.startBeat = beat;
+            float bt = Conductor.instance.songPositionInBeats;
+            if (bt >= noSpecBop.startBeat && bt < noSpecBop.startBeat + noSpecBop.length)
+            {
+                float thisStToNextSt = beat - noSpecBop.startBeat;
+                noSpecBop.length = thisStToNextSt + length;
+            }
+            else
+            {
+                noSpecBop.length = length;
+                noSpecBop.startBeat = beat;
+            }
         }
 
         public void PlayAnim(float beat, float length, int type)
