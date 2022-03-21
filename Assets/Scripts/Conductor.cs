@@ -234,6 +234,12 @@ namespace HeavenStudio
             return secPerBeat * beat;
         }
 
+        // convert real seconds to beats
+        public float GetRestFromRealTime(float seconds)
+        {
+            return seconds/secPerBeat;
+        }
+
         public void SetBpm(float bpm)
         {
             this.songBpm = bpm;
