@@ -17,11 +17,19 @@ namespace HeavenStudio.Util
         {
             public string name { get; set; }
             public float beat { get; set; }
+            public float pitch { get; set; }
+            public float volume { get; set; }
+            public bool looping { get; set; }
+            public float offset { get; set; }
 
-            public Sound(string name, float beat)
+            public Sound(string name, float beat, float pitch = 1f, float volume = 1f, bool looping = false, float offset = 0f)
             {
                 this.name = name;
                 this.beat = beat;
+                this.pitch = pitch;
+                this.volume = volume;
+                this.looping = looping;
+                this.offset = offset;
             }
         }
 
@@ -47,18 +55,18 @@ namespace HeavenStudio.Util
 
             for (int i = 0; i < sounds.Count; i++)
             {
-                if (songPositionInBeats >= sounds[i].beat && index == i)
+                if (songPositionInBeats >= sounds[i].beat - Conductor.instance.GetRestFromRealTime(sounds[i].offset) && index == i)
                 {
                     if (game)
-                        Jukebox.PlayOneShotGame(sounds[i].name, forcePlay:forcePlay);
+                        Jukebox.PlayOneShotGame(sounds[i].name, sounds[i].beat - Conductor.instance.GetRestFromRealTime(sounds[i].offset), sounds[i].pitch, sounds[i].volume, sounds[i].looping, forcePlay);
                     else
-                        Jukebox.PlayOneShot(sounds[i].name);
+                        Jukebox.PlayOneShot(sounds[i].name, sounds[i].beat - Conductor.instance.GetRestFromRealTime(sounds[i].offset), sounds[i].pitch, sounds[i].volume, sounds[i].looping);
 
                     index++;
                 }
             }
 
-            if (songPositionInBeats >= (sounds[sounds.Count - 1].beat))
+            if (songPositionInBeats >= (sounds[sounds.Count - 1].beat - Conductor.instance.GetRestFromRealTime(sounds[sounds.Count - 1].offset)))
             {
                 Delete();
             }
