@@ -25,6 +25,7 @@ namespace HeavenStudio.Games
             Call,
             Response,
             Jump,
+            //TODO: HandTwirl, Wink, BigCall
             Dab
         }
 
