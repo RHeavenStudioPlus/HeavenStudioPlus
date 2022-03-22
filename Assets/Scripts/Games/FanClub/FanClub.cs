@@ -33,6 +33,7 @@ namespace HeavenStudio.Games
 
         [Header("Objects")]
         public GameObject Arisa;
+        public GameObject ArisaShadow;
         public ParticleSystem idolClapEffect;
         public GameObject spectator;
         public GameObject spectatorAnchor;
@@ -56,6 +57,8 @@ namespace HeavenStudio.Games
         private static float wantHais = Single.MinValue;
         private static float wantKamone = Single.MinValue;
         private static float wantBigReady = Single.MinValue;
+        public float idolJumpStartTime = Single.MinValue;
+        private bool hasJumped = false;
 
         //game scene
         public static FanClub instance;
@@ -151,6 +154,30 @@ namespace HeavenStudio.Games
                 }
             }
             
+            //idol jumping physics
+            float jumpPos = cond.GetPositionFromBeat(jumpStartTime, 1f);
+            float IDOL_SHADOW_SCALE = 1f;
+            if (cond.songPositionInBeats >= jumpStartTime && cond.songPositionInBeats < jumpStartTime + 1f)
+            {
+                hasJumped = true;
+                float yMul = jumpPos * 2f - 1f;
+                float yWeight = -(yMul*yMul) + 1f;
+                //TODO: idol start position
+                Arisa.transform.localPosition = new Vector3(0, 3f * yWeight);
+                ArisaShadow.transform.localScale = new Vector3((1f-yWeight*0.8f) * IDOL_SHADOW_SCALE, (1f-yWeight*0.8f) * IDOL_SHADOW_SCALE, 1f);
+            }
+            else
+            {
+                if (hasJumped)
+                {
+                    DisableBop(cond.songPositionInBeats, 1.5);
+                    //TODO: landing anim
+                }
+                jumpStartTime = Single.MinValue;
+                //TODO: idol start position
+                Arisa.transform.localPosition = new Vector3(0, 0);
+                ArisaShadow.transform.localScale = new Vector3(IDOL_SHADOW_SCALE, IDOL_SHADOW_SCALE, 1f);
+            }
         }
 
         public void Bop(float beat, float length, int target = (int) IdolBopType.Both)
@@ -240,6 +267,11 @@ namespace HeavenStudio.Games
 
         private void DoIdolJump(float beat)
         {
+            DisableBop(beat, 1f);
+            DisableResponse(beat, 1f);
+            idolJumpStartTime = beat;
+
+            //play anim
 
         }
 
