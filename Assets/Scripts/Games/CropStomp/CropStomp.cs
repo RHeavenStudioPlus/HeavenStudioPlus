@@ -14,7 +14,7 @@ namespace HeavenStudio.Games
         const float stepDistance = 2.115f;
         public static float[] moleSoundOffsets = new float[]{ 0.134f, 0.05f, 0.061f };
 
-        float scrollRate => stepDistance / (Conductor.instance.secPerBeat * 2f / Conductor.instance.musicSource.pitch);
+        float scrollRate => stepDistance / (Conductor.instance.pitchedSecPerBeat * 2f);
         float grassWidth;
         float dotsWidth = 19.2f;
 
