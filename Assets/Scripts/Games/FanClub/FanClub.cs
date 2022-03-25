@@ -34,6 +34,7 @@ namespace HeavenStudio.Games
 
         [Header("Objects")]
         public GameObject Arisa;
+        public GameObject ArisaRootMotion;
         public GameObject ArisaShadow;
         public ParticleSystem idolClapEffect;
         public GameObject spectator;
@@ -158,14 +159,14 @@ namespace HeavenStudio.Games
             
             //idol jumping physics
             float jumpPos = cond.GetPositionFromBeat(idolJumpStartTime, 1f);
-            float IDOL_SHADOW_SCALE = 1f;
+            float IDOL_SHADOW_SCALE = 1.18f;
             if (cond.songPositionInBeats >= idolJumpStartTime && cond.songPositionInBeats < idolJumpStartTime + 1f)
             {
                 hasJumped = true;
                 float yMul = jumpPos * 2f - 1f;
                 float yWeight = -(yMul*yMul) + 1f;
                 //TODO: idol start position
-                Arisa.transform.localPosition = new Vector3(0, 3f * yWeight);
+                ArisaRootMotion.transform.localPosition = new Vector3(0, 3f * yWeight);
                 ArisaShadow.transform.localScale = new Vector3((1f-yWeight*0.8f) * IDOL_SHADOW_SCALE, (1f-yWeight*0.8f) * IDOL_SHADOW_SCALE, 1f);
             }
             else
@@ -177,7 +178,7 @@ namespace HeavenStudio.Games
                 }
                 idolJumpStartTime = Single.MinValue;
                 //TODO: idol start position
-                Arisa.transform.localPosition = new Vector3(0, 0);
+                ArisaRootMotion.transform.localPosition = new Vector3(0, 0);
                 ArisaShadow.transform.localScale = new Vector3(IDOL_SHADOW_SCALE, IDOL_SHADOW_SCALE, 1f);
             }
         }

@@ -613,6 +613,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2223479141072930853
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3894513247869131856}
+  m_Layer: 0
+  m_Name: Idol_rootMotion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3894513247869131856
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2223479141072930853}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1083548960445522520}
+  m_Father: {fileID: 3248844209599200740}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2420557446972503183
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,18 +997,17 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3728697055337045071}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.1, z: 0}
-  m_LocalScale: {x: 1.18, y: 1.18, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.0999999, z: 0}
+  m_LocalScale: {x: 1.1799998, y: 1.1799998, z: 1}
   m_Children:
   - {fileID: 5611325992183718056}
   - {fileID: 8398314468688225816}
   - {fileID: 8512934468607004699}
   - {fileID: 5222174828404760630}
   - {fileID: 1480454249503787965}
-  - {fileID: 4847749933810664173}
-  m_Father: {fileID: 3248844209599200740}
-  m_RootOrder: 2
+  m_Father: {fileID: 3894513247869131856}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &7281555243277236035
 Animator:
@@ -6324,9 +6354,10 @@ Transform:
   m_Children:
   - {fileID: 3888685956083257698}
   - {fileID: 2260861957288762239}
-  - {fileID: 1083548960445522520}
   - {fileID: 5352825305120310155}
   - {fileID: 2937251253109900352}
+  - {fileID: 3894513247869131856}
+  - {fileID: 4847749933810664173}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6345,10 +6376,13 @@ MonoBehaviour:
   EligibleHits: []
   firstEnable: 0
   Arisa: {fileID: 3728697055337045071}
+  ArisaRootMotion: {fileID: 2223479141072930853}
+  ArisaShadow: {fileID: 8732594229882912028}
   idolClapEffect: {fileID: 8041535878161199445}
   spectator: {fileID: 3943761683339994363, guid: 6efb7fb84202adb4fb918fdc8ebf5f7b, type: 3}
   spectatorAnchor: {fileID: 6534207104413303536}
   Player: {fileID: 0}
+  idolJumpStartTime: -3.4028235e+38
 --- !u!1 &5353759269708445841
 GameObject:
   m_ObjectHideFlags: 0
@@ -6708,7 +6742,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3248844209599200740}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!210 &5348470315886266292
 SortingGroup:
@@ -6832,7 +6866,7 @@ Transform:
   m_LocalScale: {x: 3.9, y: 3.9, z: 1}
   m_Children: []
   m_Father: {fileID: 3248844209599200740}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3156615856190468702
 SpriteRenderer:
@@ -7238,10 +7272,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8732594229882912028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -1.0999999, z: 0}
+  m_LocalScale: {x: 1.1799996, y: 1.1799996, z: 1}
   m_Children: []
-  m_Father: {fileID: 1083548960445522520}
+  m_Father: {fileID: 3248844209599200740}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2791713092454388370
@@ -7283,7 +7317,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -2
+  m_SortingOrder: 0
   m_Sprite: {fileID: -8813925957938695401, guid: 3ceb27c8c676e7a428cf6e15cd11b7ef, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.7058824}
   m_FlipX: 0
