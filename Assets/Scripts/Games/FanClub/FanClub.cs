@@ -137,28 +137,29 @@ namespace HeavenStudio.Games
 
         private void Update()
         {
-            if (Conductor.instance.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1))
+            var cond = Conductor.instance;
+            if (cond.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1))
             {
-                if (Conductor.instance.songPositionInBeats >= bop.startBeat && Conductor.instance.songPositionInBeats < bop.startBeat + bop.length)
+                if (cond.songPositionInBeats >= bop.startBeat && cond.songPositionInBeats < bop.startBeat + bop.length)
                 {
-                    if (!(Conductor.instance.songPositionInBeats >= noBop.startBeat && Conductor.instance.songPositionInBeats < noBop.startBeat + noBop.length))
+                    if (!(cond.songPositionInBeats >= noBop.startBeat && cond.songPositionInBeats < noBop.startBeat + noBop.length))
                         idolAnimator.Play("IdolBeat", 0, 0);
                 }
             }
 
-            if (Conductor.instance.ReportBeat(ref specBop.lastReportedBeat, specBop.startBeat % 1))
+            if (cond.ReportBeat(ref specBop.lastReportedBeat, specBop.startBeat % 1))
             {
-                if (Conductor.instance.songPositionInBeats >= specBop.startBeat && Conductor.instance.songPositionInBeats < specBop.startBeat + specBop.length)
+                if (cond.songPositionInBeats >= specBop.startBeat && cond.songPositionInBeats < specBop.startBeat + specBop.length)
                 {
-                    if (!(Conductor.instance.songPositionInBeats >= noSpecBop.startBeat && Conductor.instance.songPositionInBeats < noSpecBop.startBeat + noSpecBop.length))
+                    if (!(cond.songPositionInBeats >= noSpecBop.startBeat && cond.songPositionInBeats < noSpecBop.startBeat + noSpecBop.length))
                         BopAll();
                 }
             }
             
             //idol jumping physics
-            float jumpPos = cond.GetPositionFromBeat(jumpStartTime, 1f);
+            float jumpPos = cond.GetPositionFromBeat(idolJumpStartTime, 1f);
             float IDOL_SHADOW_SCALE = 1f;
-            if (cond.songPositionInBeats >= jumpStartTime && cond.songPositionInBeats < jumpStartTime + 1f)
+            if (cond.songPositionInBeats >= idolJumpStartTime && cond.songPositionInBeats < idolJumpStartTime + 1f)
             {
                 hasJumped = true;
                 float yMul = jumpPos * 2f - 1f;
@@ -171,10 +172,10 @@ namespace HeavenStudio.Games
             {
                 if (hasJumped)
                 {
-                    DisableBop(cond.songPositionInBeats, 1.5);
+                    DisableBop(cond.songPositionInBeats, 1.5f);
                     //TODO: landing anim
                 }
-                jumpStartTime = Single.MinValue;
+                idolJumpStartTime = Single.MinValue;
                 //TODO: idol start position
                 Arisa.transform.localPosition = new Vector3(0, 0);
                 ArisaShadow.transform.localScale = new Vector3(IDOL_SHADOW_SCALE, IDOL_SHADOW_SCALE, 1f);
