@@ -17,6 +17,9 @@ namespace HeavenStudio
         // The number of seconds for each song beat
         public float secPerBeat;
 
+        // The number of seconds for each song beat, inversely scaled to song pitch (higer pitch = shorter time)
+        public float pitchedSecPerBeat => (secPerBeat / musicSource.pitch);
+
         // Current song position, in seconds
         private float songPos; // for Conductor use only
         public float songPosition;
@@ -237,7 +240,7 @@ namespace HeavenStudio
         // convert real seconds to beats
         public float GetRestFromRealTime(float seconds)
         {
-            return seconds/secPerBeat;
+            return seconds/pitchedSecPerBeat;
         }
 
         public void SetBpm(float bpm)
