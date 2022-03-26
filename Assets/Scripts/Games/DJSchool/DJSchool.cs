@@ -32,11 +32,8 @@ namespace HeavenStudio.Games
         private void Awake()
         {
             instance = this;
-        }
-
-        private void Start()
-        {
             djYellowAnim = djYellow.GetComponent<Animator>();
+            student.Init();
         }
 
         private void Update()

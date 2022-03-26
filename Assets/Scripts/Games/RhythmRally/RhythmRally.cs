@@ -55,13 +55,9 @@ namespace HeavenStudio.Games
         private void Awake()
         {
             instance = this;
-        }
-
-        
-        void Start()
-        {
+            paddlers.Init();
             renderQuadTrans.gameObject.SetActive(true);
-            
+
             var cam = GameCamera.instance.camera;
             var camHeight = 2f * cam.orthographicSize;
             var camWidth = camHeight * cam.aspect;

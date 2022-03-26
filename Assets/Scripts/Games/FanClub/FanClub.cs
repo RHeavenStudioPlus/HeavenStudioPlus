@@ -62,12 +62,7 @@ namespace HeavenStudio.Games
         private void Awake()
         {
             instance = this;
-        }
 
-        const int FAN_COUNT = 12;
-        const float RADIUS = 1.3f;
-        private void Start()
-        {
             Spectators = new List<GameObject>();
             idolAnimator = Arisa.GetComponent<Animator>();
 
@@ -86,14 +81,16 @@ namespace HeavenStudio.Games
             for (int i = 0; i < FAN_COUNT; i++)
             {
                 GameObject mobj = Instantiate(spectator, spectatorAnchor.transform.parent);
+                NtrIdolFan fan = mobj.GetComponent<NtrIdolFan>();
                 mobj.transform.localPosition = new Vector3(spawnPos.x, spawnPos.y, spawnPos.z);
                 mobj.GetComponent<SortingGroup>().sortingOrder = i + sortOrigin;
                 if (i == 3)
                 {
-                    Player = mobj.GetComponent<NtrIdolFan>();
+                    Player = fan;
                     Player.player = true;
                 }
                 Spectators.Add(mobj);
+                fan.Init();
 
                 //prepare spawn point of next spectator
                 spawnPos.x += RADIUS * 2;
@@ -110,6 +107,9 @@ namespace HeavenStudio.Games
                 }
             }
         }
+
+        const int FAN_COUNT = 12;
+        const float RADIUS = 1.3f;
 
         public override void OnGameSwitch(float beat)
         {

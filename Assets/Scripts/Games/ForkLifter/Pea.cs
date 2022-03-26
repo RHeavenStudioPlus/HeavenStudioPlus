@@ -16,7 +16,7 @@ namespace HeavenStudio.Games.Scripts_ForkLifter
 
         public int type;
 
-        private void Start()
+        private void Awake()
         {
             anim = GetComponent<Animator>();
 

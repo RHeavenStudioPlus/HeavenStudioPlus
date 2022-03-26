@@ -26,7 +26,7 @@ namespace HeavenStudio.Games.Scripts_Spaceball
         public float hitRot;
         public float randomEndPosX;
 
-        private void Start()
+        private void Awake()
         {
             anim = GetComponent<Animator>();
 

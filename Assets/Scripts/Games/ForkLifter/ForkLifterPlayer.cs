@@ -45,10 +45,6 @@ namespace HeavenStudio.Games.Scripts_ForkLifter
         private void Awake()
         {
             instance = this;
-        }
-
-        private void Start()
-        {
             anim = GetComponent<Animator>();
         }
 
