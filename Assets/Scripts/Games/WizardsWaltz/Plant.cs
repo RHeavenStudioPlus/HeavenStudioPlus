@@ -20,10 +20,6 @@ namespace HeavenStudio.Games.Scripts_WizardsWaltz
         private void Awake()
         {
             game = WizardsWaltz.instance;
-        }
-
-        private void Start()
-        {
             spriteRenderer.sortingOrder = order;
             animator.Play("Appear", 0, 0);
         }

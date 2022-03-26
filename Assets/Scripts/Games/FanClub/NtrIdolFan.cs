@@ -36,7 +36,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
         private bool inputHit = false;
         private bool hasHit = false;
 
-        public void Start()
+        public void Init()
         {
             if (player)
                 upcomingHits = new Queue<KeyValuePair<float, int>>();    // beat, type

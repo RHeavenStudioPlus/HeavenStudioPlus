@@ -20,22 +20,10 @@ namespace HeavenStudio.Games.Scripts_SpaceSoccer
         [Header("Components")]
         private Animator anim;
         public Ball ball;
-        public Transform rightLeg;
-        public Transform leftLeg;
 
-        private void Start()
+        private void Awake()
         {
             anim = GetComponent<Animator>();
-            GameObject rightLeg = new GameObject();
-            rightLeg.transform.SetParent(this.transform);
-            rightLeg.transform.position = new Vector3(-0.67f, -1.48f);
-
-            GameObject leftLeg = new GameObject("leftLeg");
-            leftLeg.transform.SetParent(this.transform);
-            leftLeg.transform.position = new Vector3(0f, -1.48f);
-
-            this.rightLeg = rightLeg.transform;
-            this.leftLeg = leftLeg.transform;
         }
 
         public override void OnAce()

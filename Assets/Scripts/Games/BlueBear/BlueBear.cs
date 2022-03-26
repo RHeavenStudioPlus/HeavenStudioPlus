@@ -33,10 +33,6 @@ namespace HeavenStudio.Games
         private void Awake()
         {
             instance = this;
-        }
-
-        private void Update()
-        {
             headAndBodyAnim.SetBool("ShouldOpenMouth", foodHolder.childCount != 0);
 
             if (PlayerInput.GetAnyDirectionDown())

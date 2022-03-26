@@ -14,7 +14,7 @@ namespace HeavenStudio.Games.Scripts_MrUpbeat
         private bool passedFirst = false;
         public float beatOffset = 0;
 
-        private void Start()
+        private void Awake()
         {
             PlayerActionInit(gameObject, startBeat);
         }

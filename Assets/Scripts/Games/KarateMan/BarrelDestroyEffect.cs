@@ -20,7 +20,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public GameObject shadow;
 
-        private void Start()
+        private void Awake()
         {
             SpriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
             SpriteRenderer.sprite = KarateMan.instance.BarrelSprites[spriteIndex];

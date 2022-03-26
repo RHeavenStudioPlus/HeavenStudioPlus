@@ -9,7 +9,7 @@ namespace HeavenStudio.Games
     public class Fireworks : Minigame
     {
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             
         }
