@@ -17,7 +17,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public GameObject pot;
 
-        private void Start()
+        private void Awake()
         {
             SpriteRenderer sr = gameObject.AddComponent<SpriteRenderer>();
             sr.sprite = KarateMan.instance.CookingPotSprites[1];

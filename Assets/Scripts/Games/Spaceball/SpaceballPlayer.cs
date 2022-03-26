@@ -29,10 +29,6 @@ namespace HeavenStudio.Games.Scripts_Spaceball
         private void Awake()
         {
             instance = this;
-        }
-
-        private void Start()
-        {
             anim = GetComponent<Animator>();
         }
 

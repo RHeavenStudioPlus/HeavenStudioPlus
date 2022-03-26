@@ -16,7 +16,7 @@ namespace HeavenStudio.Games.Scripts_WizardsWaltz
         private WizardsWaltz game;
         private float songPos;
 
-        private void Awake()
+        public void Init()
         {
             game = WizardsWaltz.instance;
         }

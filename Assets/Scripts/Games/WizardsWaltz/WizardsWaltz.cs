@@ -34,6 +34,7 @@ namespace HeavenStudio.Games
         private void Awake()
         {
             instance = this;
+            wizard.Init();
         }
 
         private void Start()

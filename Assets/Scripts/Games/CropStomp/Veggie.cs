@@ -33,7 +33,7 @@ namespace HeavenStudio.Games.Scripts_CropStomp
 
         private CropStomp game;
 
-        private void Start()
+        public void Init()
         {
             game = CropStomp.instance;
 

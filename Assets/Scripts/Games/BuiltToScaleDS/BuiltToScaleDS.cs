@@ -48,13 +48,8 @@ namespace HeavenStudio.Games
             environmentMaterials = environmentRenderer.materials;
             beltMaterial = Instantiate(environmentMaterials[8]);
             environmentMaterials[8] = beltMaterial;
-        }
-
-        
-        void Start()
-        {
             renderQuadTrans.gameObject.SetActive(true);
-            
+
             var cam = GameCamera.instance.camera;
             var camHeight = 2f * cam.orthographicSize;
             var camWidth = camHeight * cam.aspect;

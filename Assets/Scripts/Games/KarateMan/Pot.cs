@@ -56,7 +56,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         private int missTimes = 0;
 
-        private void Start()
+        private void Awake()
         {
             anim = GetComponent<Animator>();
             spriteComp = Sprite.GetComponent<SpriteRenderer>();

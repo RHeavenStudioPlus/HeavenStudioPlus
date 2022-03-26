@@ -24,10 +24,6 @@ namespace HeavenStudio.Games
         private void Awake()
         {
             instance = this;
-        }
-
-        private void Start()
-        {
             /*for (int x = 0; x < Random.Range(9, 12); x++)
             {
                 for (int y = 0; y < Random.Range(6, 9); y++)

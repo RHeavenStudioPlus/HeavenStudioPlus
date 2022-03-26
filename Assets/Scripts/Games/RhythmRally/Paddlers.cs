@@ -15,7 +15,7 @@ namespace HeavenStudio.Games.Scripts_RhythmRally
         private Animator opponentAnim;
         private Conductor cond;
 
-        void Awake()
+        public void Init()
         {
             game = RhythmRally.instance;
             playerAnim = game.playerAnim;
