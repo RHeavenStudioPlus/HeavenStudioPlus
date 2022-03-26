@@ -437,8 +437,9 @@ namespace HeavenStudio
                         inactiveFunction: delegate { var e = eventCaller.currentEntity; FanClub.WarnHai(e.beat, e.toggle);}
                     ),
 
-                    new GameAction("I suppose",             delegate { var e = eventCaller.currentEntity; FanClub.instance.CallKamone(e.beat, e.toggle); }, 6, false, parameters: new List<Param>()
+                    new GameAction("I suppose",             delegate { var e = eventCaller.currentEntity; FanClub.instance.CallKamone(e.beat, e.toggle, 0, e.type); }, 6, false, parameters: new List<Param>()
                         {
+                            new Param("type", FanClub.KamoneResponseType.Through, "Response type", "Type of response to use"),
                             new Param("toggle", false, "Disable call", "Disable the idol's call")
                         },
                         inactiveFunction: delegate { var e = eventCaller.currentEntity; FanClub.WarnKamone(e.beat, e.toggle);}

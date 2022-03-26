@@ -28,6 +28,10 @@ namespace HeavenStudio.Games
             //TODO: HandTwirl, Wink, BigCall
             Dab
         }
+        public enum KamoneResponseType {
+            Through,
+            Jump,
+        }
 
         // userdata here
         [Header("Animators")]
@@ -58,6 +62,7 @@ namespace HeavenStudio.Games
         private bool responseToggle = false;
         private static float wantHais = Single.MinValue;
         private static float wantKamone = Single.MinValue;
+        private static int wantKamoneType = (int) KamoneResponseType.Through;
         private static float wantBigReady = Single.MinValue;
         public float idolJumpStartTime = Single.MinValue;
         private bool hasJumped = false;
@@ -65,15 +70,12 @@ namespace HeavenStudio.Games
         //game scene
         public static FanClub instance;
 
+        const int FAN_COUNT = 12;
+        const float RADIUS = 1.3f;
         private void Awake()
         {
             instance = this;
-        }
 
-        const int FAN_COUNT = 12;
-        const float RADIUS = 1.3f;
-        private void Start()
-        {
             Spectators = new List<GameObject>();
             idolAnimator = Arisa.GetComponent<Animator>();
 
@@ -126,7 +128,7 @@ namespace HeavenStudio.Games
             }
             if (wantKamone != Single.MinValue)
             {
-                ContinueKamone(wantKamone);
+                ContinueKamone(wantKamone, 0, wantKamoneType);
                 wantKamone = Single.MinValue;
             }
             if (wantBigReady != Single.MinValue)
@@ -166,14 +168,14 @@ namespace HeavenStudio.Games
                 float yMul = jumpPos * 2f - 1f;
                 float yWeight = -(yMul*yMul) + 1f;
                 //TODO: idol start position
-                ArisaRootMotion.transform.localPosition = new Vector3(0, 3f * yWeight);
+                ArisaRootMotion.transform.localPosition = new Vector3(0, 2f * yWeight);
                 ArisaShadow.transform.localScale = new Vector3((1f-yWeight*0.8f) * IDOL_SHADOW_SCALE, (1f-yWeight*0.8f) * IDOL_SHADOW_SCALE, 1f);
             }
             else
             {
                 if (hasJumped)
                 {
-                    DisableBop(cond.songPositionInBeats, 1.5f);
+                    //DisableBop(cond.songPositionInBeats, 1.5f);
                     //TODO: landing anim
                 }
                 idolJumpStartTime = Single.MinValue;
@@ -219,7 +221,9 @@ namespace HeavenStudio.Games
             if (bt >= noSpecBop.startBeat && bt < noSpecBop.startBeat + noSpecBop.length)
             {
                 float thisStToNextSt = beat - noSpecBop.startBeat;
-                noSpecBop.length = thisStToNextSt + length;
+                float newLen = thisStToNextSt + length;
+                if (newLen > noSpecBop.length)
+                    noSpecBop.length = thisStToNextSt + length;
             }
             else
             {
@@ -230,6 +234,7 @@ namespace HeavenStudio.Games
 
         public void PlayAnim(float beat, float length, int type)
         {
+            idolJumpStartTime = Single.MinValue;
             DisableResponse(beat, length);
             DisableBop(beat, length);
 
@@ -259,7 +264,7 @@ namespace HeavenStudio.Games
                     idolAnimator.Play("IdolResponse", -1, 0);
                     break;
                 case (int) IdolAnimations.Jump:
-                    DoIdolJump(beat);
+                    DoIdolJump(beat, length);
                     break;
                 case (int) IdolAnimations.Dab:
                     idolAnimator.Play("IdolDab", -1, 0);
@@ -268,14 +273,18 @@ namespace HeavenStudio.Games
             }
         }
 
-        private void DoIdolJump(float beat)
+        private void DoIdolJump(float beat, float length = 3f)
         {
-            DisableBop(beat, 1f);
-            DisableResponse(beat, 1f);
+            DisableBop(beat, length);
+            DisableResponse(beat, length);
             idolJumpStartTime = beat;
 
             //play anim
-
+            BeatAction.New(Arisa, new List<BeatAction.Action>()
+            {
+                new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolJump", -1, 0); }),
+                new BeatAction.Action(beat + 1f, delegate { Arisa.GetComponent<Animator>().Play("IdolLand", -1, 0); }),
+            });
         }
 
         private void DoIdolClaps()
@@ -312,7 +321,6 @@ namespace HeavenStudio.Games
             Prepare(beat + 3f); 
             responseToggle = false;
             DisableBop(beat, 8f);
-            DisableSpecBop(beat + 2.5f, 5f);
 
             Prepare(beat + 4f); 
             Prepare(beat + 5f); 
@@ -323,6 +331,7 @@ namespace HeavenStudio.Games
                 new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", -1, 0);}),
                 new BeatAction.Action(beat + 1f,    delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", -1, 0);}),
                 new BeatAction.Action(beat + 2f,    delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", -1, 0);}),
+                new BeatAction.Action(beat + 2.5f,  delegate { DisableSpecBop(beat + 2.5f, 5f);}),
                 new BeatAction.Action(beat + 3f,    delegate { Arisa.GetComponent<Animator>().Play("IdolPeaceNoSync"); PlayPrepare(); }),
 
                 new BeatAction.Action(beat + 4f,    delegate { PlayOneClap(beat + 4f); DoIdolClaps();}),
@@ -356,7 +365,7 @@ namespace HeavenStudio.Games
         }
 
         const float CALL_LENGTH = 2.5f;
-        public void CallKamone(float beat, bool noSound = false, int type = 0, bool doJump = false)
+        public void CallKamone(float beat, bool noSound = false, int type = 0, int responseType = (int) KamoneResponseType.Through)
         {
             if (!noSound)
                 MultiSound.Play(new MultiSound.Sound[] { 
@@ -366,7 +375,7 @@ namespace HeavenStudio.Games
                 });
 
             responseToggle = true;
-            DisableBop(beat, doJump ? 6.25f : 5.25f);
+            DisableBop(beat, (responseType == (int) KamoneResponseType.Jump) ? 6.25f : 5.25f);
             DisableSpecBop(beat + 0.5f, 6f);
 
             Prepare(beat + 1f);
@@ -385,7 +394,7 @@ namespace HeavenStudio.Games
                 new BeatAction.Action(beat + 3.5f,  delegate { PlayOneClap(beat + 3.5f); }),
                 new BeatAction.Action(beat + 4f,    delegate { PlayChargeClap(beat + 4f); DoIdolResponse(); }),
                 new BeatAction.Action(beat + 5f,    delegate { PlayJump(beat + 5f);
-                    if (doJump)
+                    if (responseType == (int) KamoneResponseType.Jump) 
                     {
                         DoIdolJump(beat + 5f);
                     }
@@ -404,9 +413,10 @@ namespace HeavenStudio.Games
             });
         }
 
-        public static void WarnKamone(float beat, bool noSound = false, int type = 0)
+        public static void WarnKamone(float beat, bool noSound = false, int type = 0, int responseType = (int) KamoneResponseType.Through)
         {
             wantKamone = beat;
+            wantKamoneType = responseType;
             if (noSound) return;
             MultiSound.Play(new MultiSound.Sound[] { 
                 new MultiSound.Sound("fanClub/arisa_ka_jp", beat), 
@@ -415,9 +425,9 @@ namespace HeavenStudio.Games
             }, forcePlay:true);
         }
 
-        public void ContinueKamone(float beat, int type = 0, bool doJump = false)
+        public void ContinueKamone(float beat, int type = 0, int responseType = (int) KamoneResponseType.Through)
         {
-            CallKamone(beat, true, type, doJump);
+            CallKamone(beat, true, type, responseType);
         }
 
         const float BIGCALL_LENGTH = 2.75f;
