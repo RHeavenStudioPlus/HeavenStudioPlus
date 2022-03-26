@@ -12,7 +12,7 @@ namespace HeavenStudio.Games.Scripts_WizardsWaltz
         public SpriteRenderer spriteRenderer;
         public GameObject shimmer;
 
-        public void Start()
+        public void Awake()
         {
             int order = (int)Math.Round((transform.position.z - 2) * 1000);
             spriteRenderer.sortingOrder = order;

@@ -18,7 +18,7 @@ namespace HeavenStudio.Games.Scripts_RhythmTweezers
         public SpriteRenderer heldHairSprite;
         public Transform tweezerSpriteTrans;
 
-        private void Start()
+        private void Awake()
         {
             anim = GetComponent<Animator>();
             vegetableAnim = RhythmTweezers.instance.VegetableAnimator;
