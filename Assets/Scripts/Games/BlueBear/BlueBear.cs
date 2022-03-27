@@ -19,12 +19,18 @@ namespace HeavenStudio.Games
         [Header("References")]
         public GameObject donutBase;
         public GameObject cakeBase;
+        public GameObject crumbsBase;
         public Transform foodHolder;
+        public Transform crumbsHolder;
         public GameObject individualBagHolder;
 
         [Header("Curves")]
         public BezierCurve3D donutCurve;
         public BezierCurve3D cakeCurve;
+
+        [Header("Gradients")]
+        public Gradient donutGradient;
+        public Gradient cakeGradient;
 
         private bool squashing;
 
@@ -33,6 +39,10 @@ namespace HeavenStudio.Games
         private void Awake()
         {
             instance = this;
+        }
+
+        private void Update()
+        {
             headAndBodyAnim.SetBool("ShouldOpenMouth", foodHolder.childCount != 0);
 
             if (PlayerInput.GetAnyDirectionDown())
