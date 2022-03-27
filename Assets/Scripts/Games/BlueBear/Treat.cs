@@ -61,7 +61,8 @@ namespace HeavenStudio.Games.Scripts_BlueBear
 
                             Jukebox.PlayOneShotGame("blueBear/chompDonut");
 
-                            // Placeholder! Show particles here!
+                            SpawnCrumbs();
+
                             GameObject.Destroy(gameObject);
                         }
                     }
@@ -76,7 +77,8 @@ namespace HeavenStudio.Games.Scripts_BlueBear
 
                             Jukebox.PlayOneShotGame("blueBear/chompCake");
 
-                            // Placeholder! Show particles here!
+                            SpawnCrumbs();
+                            
                             GameObject.Destroy(gameObject);
                         }
                     }
@@ -99,8 +101,23 @@ namespace HeavenStudio.Games.Scripts_BlueBear
                 Jukebox.PlayOneShotGame("blueBear/chompDonut");
             }
 
-            // Placeholder! Show particles here!
+            SpawnCrumbs();
+
             GameObject.Destroy(gameObject);
+        }
+
+        void SpawnCrumbs()
+        {
+            var crumbsGO = GameObject.Instantiate(game.crumbsBase, game.crumbsHolder);
+            crumbsGO.SetActive(true);
+            crumbsGO.transform.position = transform.position;
+
+            var ps = crumbsGO.GetComponent<ParticleSystem>();
+            var main = ps.main;
+            var newGradient = new ParticleSystem.MinMaxGradient(isCake ? game.cakeGradient : game.donutGradient);
+            newGradient.mode = ParticleSystemGradientMode.RandomColor;
+            main.startColor = newGradient;
+            ps.Play();
         }
     }
 }
