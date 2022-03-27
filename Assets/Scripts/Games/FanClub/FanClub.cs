@@ -25,7 +25,8 @@ namespace HeavenStudio.Games
             Call,
             Response,
             Jump,
-            //TODO: HandTwirl, Wink, BigCall
+            //TODO: Wink, BigCall
+            Squat,
             Dab
         }
         public enum KamoneResponseType {
@@ -265,6 +266,13 @@ namespace HeavenStudio.Games
                     break;
                 case (int) IdolAnimations.Jump:
                     DoIdolJump(beat, length);
+                    break;
+                case (int) IdolAnimations.Squat:
+                    BeatAction.New(Arisa, new List<BeatAction.Action>()
+                    {
+                        new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolSquat0", -1, 0); }),
+                        new BeatAction.Action(beat + 1f, delegate { Arisa.GetComponent<Animator>().Play("IdolSquat1", -1, 0); }),
+                    });
                     break;
                 case (int) IdolAnimations.Dab:
                     idolAnimator.Play("IdolDab", -1, 0);
