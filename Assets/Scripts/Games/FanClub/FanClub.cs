@@ -25,23 +25,30 @@ namespace HeavenStudio.Games
             Call,
             Response,
             Jump,
-            //TODO: Wink, BigCall
+            //TODO: BigCall
             Squat,
+            Wink,
             Dab
         }
         public enum KamoneResponseType {
             Through,
             Jump,
         }
+        public enum StageAnimations {
+            Reset,
+            Flash,
+            //TODO: spotlight
+        }
 
         // userdata here
         [Header("Animators")]
+        //stage
+        public Animator StageAnimator;
 
         [Header("Objects")]
         public GameObject Arisa;
         public GameObject ArisaRootMotion;
         public GameObject ArisaShadow;
-        public ParticleSystem idolClapEffect;
         public GameObject spectator;
         public GameObject spectatorAnchor;
 
@@ -252,13 +259,12 @@ namespace HeavenStudio.Games
                     break;
                 case (int) IdolAnimations.Clap:
                     idolAnimator.Play("IdolCrap", -1, 0);
-                    idolClapEffect.Play();
                     break;
                 case (int) IdolAnimations.Call:
                     BeatAction.New(Arisa, new List<BeatAction.Action>()
                     {
-                        new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolCall0", -1, 0); }),
-                        new BeatAction.Action(beat + 0.75f, delegate { Arisa.GetComponent<Animator>().Play("IdolCall1", -1, 0); }),
+                        new BeatAction.Action(beat,             delegate { Arisa.GetComponent<Animator>().Play("IdolCall0", -1, 0); }),
+                        new BeatAction.Action(beat + 0.75f,     delegate { Arisa.GetComponent<Animator>().Play("IdolCall1", -1, 0); }),
                     });
                     break;
                 case (int) IdolAnimations.Response:
@@ -270,13 +276,33 @@ namespace HeavenStudio.Games
                 case (int) IdolAnimations.Squat:
                     BeatAction.New(Arisa, new List<BeatAction.Action>()
                     {
-                        new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolSquat0", -1, 0); }),
-                        new BeatAction.Action(beat + 1f, delegate { Arisa.GetComponent<Animator>().Play("IdolSquat1", -1, 0); }),
+                        new BeatAction.Action(beat,             delegate { Arisa.GetComponent<Animator>().Play("IdolSquat0", -1, 0); }),
+                        new BeatAction.Action(beat + 1f,        delegate { Arisa.GetComponent<Animator>().Play("IdolSquat1", -1, 0); }),
+                    });
+                    break;
+                case (int) IdolAnimations.Wink:
+                    BeatAction.New(Arisa, new List<BeatAction.Action>()
+                    {
+                        new BeatAction.Action(beat,             delegate { Arisa.GetComponent<Animator>().Play("IdolWink0", -1, 0); }),
+                        new BeatAction.Action(beat + length,    delegate { Arisa.GetComponent<Animator>().Play("IdolWink1", -1, 0); }),
                     });
                     break;
                 case (int) IdolAnimations.Dab:
                     idolAnimator.Play("IdolDab", -1, 0);
                     Jukebox.PlayOneShotGame("fanClub/arisa_dab");
+                    break;
+            }
+        }
+
+        public void PlayAnimStage(float beat, int type)
+        {
+            switch (type)
+            {
+                case (int) StageAnimations.Reset:
+                    StageAnimator.Play("Bg", -1, 0);
+                    break;
+                case (int) StageAnimations.Flash:
+                    StageAnimator.Play("Bg_Light", -1, 0);
                     break;
             }
         }
@@ -290,8 +316,8 @@ namespace HeavenStudio.Games
             //play anim
             BeatAction.New(Arisa, new List<BeatAction.Action>()
             {
-                new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolJump", -1, 0); }),
-                new BeatAction.Action(beat + 1f, delegate { Arisa.GetComponent<Animator>().Play("IdolLand", -1, 0); }),
+                new BeatAction.Action(beat,                     delegate { Arisa.GetComponent<Animator>().Play("IdolJump", -1, 0); }),
+                new BeatAction.Action(beat + 1f,                delegate { Arisa.GetComponent<Animator>().Play("IdolLand", -1, 0); }),
             });
         }
 
@@ -302,7 +328,6 @@ namespace HeavenStudio.Games
                 if (!(Conductor.instance.songPositionInBeats >= noResponse.startBeat && Conductor.instance.songPositionInBeats < noResponse.startBeat + noResponse.length))
                 {
                     idolAnimator.Play("IdolCrap", -1, 0);
-                    idolClapEffect.Play();
                 }
             }
         }
