@@ -30,6 +30,7 @@ namespace HeavenStudio.Games
         private void Awake()
         {
             instance = this;
+            InitLions();
         }
 
         private void InitLions()
