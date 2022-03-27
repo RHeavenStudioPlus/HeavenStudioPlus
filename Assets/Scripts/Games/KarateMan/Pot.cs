@@ -56,7 +56,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         private int missTimes = 0;
 
-        private void Awake()
+        public void Init()
         {
             anim = GetComponent<Animator>();
             spriteComp = Sprite.GetComponent<SpriteRenderer>();
@@ -66,10 +66,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             Sprite.transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
             BulbLightSprite.transform.eulerAngles = Sprite.transform.eulerAngles;
 
-            if (type == 2)
-                hitLength = 14f;
-            else
-                hitLength = 14f;
+            hitLength = 14f;
 
             if (type == 6)
                 CookingPotLid.SetActive(true);
