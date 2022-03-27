@@ -52,7 +52,7 @@ namespace HeavenStudio.Games
         private void Awake()
         {
             instance = this;// Finding grass sprite width for grass scrolling.
-            farmer.Init()
+            farmer.Init();
             var grassSprite = grass.sprite;
             var borderLeft = grassSprite.rect.xMin + grassSprite.border.x;
             var borderRight = grassSprite.rect.xMax - grassSprite.border.z;
