@@ -423,7 +423,7 @@ namespace HeavenStudio
                 new Minigame("fireworks", "Fireworks \n<color=#eb5454>[WIP don't use]</color>", "000000", false, false, new List<GameAction>()
                 {
                 }),
-                new Minigame("fanClub", "Fan Club \n<color=#eb5454>[WIP]</color>", "FDFD00", false, false, new List<GameAction>()
+                new Minigame("fanClub", "Fan Club", "FDFD00", false, false, new List<GameAction>()
                 {
                     new GameAction("bop",                   delegate { var e = eventCaller.currentEntity; FanClub.instance.Bop(e.beat, e.length, e.type); }, 0.5f, true, parameters: new List<Param>()
                     {
