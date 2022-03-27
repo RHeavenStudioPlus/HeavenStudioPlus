@@ -345,8 +345,6 @@ namespace HeavenStudio
 
             SetGame(game);
 
-            yield return new WaitForEndOfFrame(); //this is needed so that the minigame can have Start() called before OnGameSwitch()
-
             Minigame miniGame = currentGameO.GetComponent<Minigame>();
             if (miniGame != null)
                 miniGame.OnGameSwitch(beat);
@@ -356,7 +354,7 @@ namespace HeavenStudio
             this.GetComponent<SpriteRenderer>().enabled = false;
         }
 
-        private void SetGame(string game,  bool onGameSwitch = true)
+        private void SetGame(string game)
         {
             Destroy(currentGameO);
 
@@ -385,11 +383,6 @@ namespace HeavenStudio
                 currentGameO.transform.parent = eventCaller.GamesHolder.transform;
                 currentGameO.name = game;
             }
-            /*if (onGameSwitch)
-            {
-                if (GetGame(currentGame).GetComponent<Minigame>() != null)
-                    GetGame(game).GetComponent<Minigame>().OnGameSwitch();
-            }*/
 
             SetCurrentGame(game);
 

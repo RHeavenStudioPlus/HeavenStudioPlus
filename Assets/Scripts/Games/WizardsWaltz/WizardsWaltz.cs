@@ -27,7 +27,7 @@ namespace HeavenStudio.Games
         bool intervalStarted;
         public float wizardBeatOffset = 0f;
 
-        [NonSerialized] public int plantsLeft = 0;
+        [NonSerialized] public int plantsLeft = 0; //this variable is unused
 
         public static WizardsWaltz instance;
 
@@ -35,16 +35,12 @@ namespace HeavenStudio.Games
         {
             instance = this;
             wizard.Init();
-        }
 
-        private void Start()
-        {
-            List<float> starts = GameManager.instance.Beatmap.entities.FindAll(c => c.datamodel == "wizardsWaltz/start interval").Select(c => c.beat).ToList();
+            Beatmap.Entity nextStart = GameManager.instance.Beatmap.entities.Find(c => c.datamodel == "wizardsWaltz/start interval" && c.beat + c.length >= Conductor.instance.songPositionInBeats);
 
-            if (starts.Count > 0)
+            if (nextStart != null)
             {
-                var nextInterval = starts.IndexOf(Mathp.GetClosestInList(starts, Conductor.instance.songPositionInBeats));
-                wizardBeatOffset = starts[nextInterval];
+                EventCaller.instance.CallEvent(nextStart, true);
             }
         }
 
@@ -64,7 +60,7 @@ namespace HeavenStudio.Games
                 var am = beatInterval / 2f;
                 var x = Mathf.Sin(Mathf.PI * songPos / am) * 6 + UnityEngine.Random.Range(-0.5f, 0.5f);
                 var y = Mathf.Cos(Mathf.PI * songPos / am) * 0.5f + UnityEngine.Random.Range(-0.5f, 0.5f);
-                var scale = 1 - Mathf.Cos(Mathf.PI * songPos / am) * 0.35f + UnityEngine.Random.Range(-0.2f, 0.2f); ;
+                var scale = 1 - Mathf.Cos(Mathf.PI * songPos / am) * 0.35f + UnityEngine.Random.Range(-0.2f, 0.2f);
 
                 MagicFX magic = Instantiate(fxBase, fxHolder.transform).GetComponent<MagicFX>();
 
