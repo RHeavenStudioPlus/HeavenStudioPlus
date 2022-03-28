@@ -46,9 +46,13 @@ namespace HeavenStudio.Games
             SetMiis();
         }
         
-        public void OnGameSwitch()
+        public override void OnGameSwitch(float beat)
         {
-            SetMiis();
+            Beatmap.Entity changeMii = GameManager.instance.Beatmap.entities.FindLast(c => c.datamodel == "drummingPractice/set mii" && c.beat <= beat);
+            if(changeMii != null)
+            {
+                EventCaller.instance.CallEvent(changeMii, true);
+            }
         }
 
         private void Update()

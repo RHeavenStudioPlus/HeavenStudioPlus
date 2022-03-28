@@ -32,6 +32,14 @@ namespace HeavenStudio.Games
             instance = this;
             InitLions();
         }
+        public override void OnGameSwitch(float beat)
+        {
+            Beatmap.Entity changeLion = GameManager.instance.Beatmap.entities.FindLast(c => c.datamodel == "clappyTrio/change lion count" && c.beat <= beat);
+            if(changeLion != null)
+            {
+                EventCaller.instance.CallEvent(changeLion, true);
+            }
+        }
 
         private void InitLions()
         {
