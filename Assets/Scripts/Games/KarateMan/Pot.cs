@@ -410,6 +410,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                         bde.spriteIndex = 4;
                         break;
                 }
+                bde.Init();
             }
         }
     }
