@@ -129,9 +129,6 @@ namespace HeavenStudio.Games
             }
         }
 
-        const int FAN_COUNT = 12;
-        const float RADIUS = 1.3f;
-
         public override void OnGameSwitch(float beat)
         {
             if (wantHais != Single.MinValue)
