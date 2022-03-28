@@ -32,11 +32,8 @@ namespace HeavenStudio.Games
         private void Awake()
         {
             instance = this;
-        }
-
-        private void Start()
-        {
             djYellowAnim = djYellow.GetComponent<Animator>();
+            student.Init();
         }
 
         private void Update()
@@ -108,7 +105,7 @@ namespace HeavenStudio.Games
             var sound = new MultiSound.Sound[]
             {
                 new MultiSound.Sound(sounds[0],   beat),
-                new MultiSound.Sound(sounds[1], beat + 1f - (0.030f/Conductor.instance.secPerBeat)*Conductor.instance.musicSource.pitch),
+                new MultiSound.Sound(sounds[1], beat + 1f, offset: 0.030f),
                 new MultiSound.Sound("", beat + 2f)
             };
 
@@ -136,7 +133,7 @@ namespace HeavenStudio.Games
             var sound = new MultiSound.Sound[]
             {
                 new MultiSound.Sound("djSchool/andStop1",   beat),
-                new MultiSound.Sound("djSchool/andStop2",   beat + .5f - (0.1200f/Conductor.instance.secPerBeat)*Conductor.instance.musicSource.pitch),
+                new MultiSound.Sound("djSchool/andStop2",   beat + .5f, offset: 0.1200f),
                 new MultiSound.Sound("", beat + 1.5f)
             };
 
@@ -178,8 +175,8 @@ namespace HeavenStudio.Games
                 new MultiSound.Sound(sounds[0],   beat),
                 new MultiSound.Sound(sounds[1], beat + .25f),
                 new MultiSound.Sound(sounds[2], beat + .5f),
-                new MultiSound.Sound(sounds[3], beat + 1f - (0.0500f/Conductor.instance.secPerBeat)*Conductor.instance.musicSource.pitch),
-                new MultiSound.Sound(sounds[4], beat + 2f - (0.070f/Conductor.instance.secPerBeat)*Conductor.instance.musicSource.pitch),
+                new MultiSound.Sound(sounds[3], beat + 1f, offset: 0.0500f),
+                new MultiSound.Sound(sounds[4], beat + 2f, offset: 0.070f),
             });
 
             BeatAction.New(djYellow, new List<BeatAction.Action>()

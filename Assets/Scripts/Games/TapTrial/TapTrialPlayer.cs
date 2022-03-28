@@ -12,7 +12,7 @@ namespace HeavenStudio.Games.Scripts_TapTrial
         public float nextBeat;
         public int tripleOffset = 0;
 
-        private void Start()
+        private void Awake()
         {
             anim = GetComponent<Animator>();
         }

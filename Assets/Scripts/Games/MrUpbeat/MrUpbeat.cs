@@ -30,10 +30,6 @@ namespace HeavenStudio.Games
         private void Awake()
         {
             instance = this;
-        }
-
-        private void Start()
-        {
             canGo = false;
             man.stepTimes = 0;
             SetInterval(0);

@@ -33,7 +33,7 @@ namespace HeavenStudio.Games.Scripts_CropStomp
 
         private CropStomp game;
 
-        private void Start()
+        public void Init()
         {
             game = CropStomp.instance;
 
@@ -231,7 +231,7 @@ namespace HeavenStudio.Games.Scripts_CropStomp
 
             var veggieScale = veggieTrans.localScale;
             veggieTrans.localScale = new Vector3(veggieScale.x * 0.5f, veggieScale.y, veggieScale.z);
-            squashTween = veggieTrans.DOScaleX(veggieScale.x, cond.secPerBeat * 0.5f / cond.musicSource.pitch);
+            squashTween = veggieTrans.DOScaleX(veggieScale.x, cond.pitchedSecPerBeat * 0.5f);
 
             ResetState();
 

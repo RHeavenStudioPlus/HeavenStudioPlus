@@ -14,7 +14,7 @@ namespace HeavenStudio.Games
         const float stepDistance = 2.115f;
         public static float[] moleSoundOffsets = new float[]{ 0.134f, 0.05f, 0.061f };
 
-        float scrollRate => stepDistance / (Conductor.instance.secPerBeat * 2f / Conductor.instance.musicSource.pitch);
+        float scrollRate => stepDistance / (Conductor.instance.pitchedSecPerBeat * 2f);
         float grassWidth;
         float dotsWidth = 19.2f;
 
@@ -51,12 +51,8 @@ namespace HeavenStudio.Games
 
         private void Awake()
         {
-            instance = this;
-        }
-
-        private void Start()
-        {
-            // Finding grass sprite width for grass scrolling.
+            instance = this;// Finding grass sprite width for grass scrolling.
+            farmer.Init();
             var grassSprite = grass.sprite;
             var borderLeft = grassSprite.rect.xMin + grassSprite.border.x;
             var borderRight = grassSprite.rect.xMax - grassSprite.border.z;
@@ -295,7 +291,7 @@ namespace HeavenStudio.Games
 
             var veggieX = (beat - startBeat) * -stepDistance / 2f;
             newVeggie.transform.localPosition = new Vector3(veggieX, 0f, 0f);
-
+            newVeggie.Init();
             newVeggie.gameObject.SetActive(true);
         }
         

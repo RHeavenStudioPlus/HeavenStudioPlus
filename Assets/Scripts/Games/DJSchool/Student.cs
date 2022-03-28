@@ -31,7 +31,7 @@ namespace HeavenStudio.Games.Scripts_DJSchool
 
         private DJSchool game;
 
-        private void Start()
+        public void Init()
         {
             game = DJSchool.instance;
             anim = GetComponent<Animator>();

@@ -43,10 +43,10 @@ namespace HeavenStudio.Games
         private void Awake()
         {
             instance = this;
+            SetMiis();
         }
-
-        // TODO: Move this to OnGameSwitch() when functional?
-        private void Start()
+        
+        public void OnGameSwitch()
         {
             SetMiis();
         }
