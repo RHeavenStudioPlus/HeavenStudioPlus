@@ -256,6 +256,7 @@ namespace HeavenStudio.Games
 
                 Jukebox.PlayOneShotGame(outSnd);
             }
+            p.Init();
         }
 
         List<Beatmap.Entity> cuedVoices = new List<Beatmap.Entity>(); // "Hit" voices cued in advance are stored here so they aren't called multiple times in Update().
