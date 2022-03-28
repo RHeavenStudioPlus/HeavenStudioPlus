@@ -423,7 +423,7 @@ namespace HeavenStudio
                 new Minigame("fireworks", "Fireworks \n<color=#eb5454>[WIP don't use]</color>", "000000", false, false, new List<GameAction>()
                 {
                 }),
-                new Minigame("fanClub", "Fan Club \n<color=#eb5454>[WIP]</color>", "FDFD00", false, false, new List<GameAction>()
+                new Minigame("fanClub", "Fan Club", "FDFD00", false, false, new List<GameAction>()
                 {
                     new GameAction("bop",                   delegate { var e = eventCaller.currentEntity; FanClub.instance.Bop(e.beat, e.length, e.type); }, 0.5f, true, parameters: new List<Param>()
                     {
@@ -437,8 +437,9 @@ namespace HeavenStudio
                         inactiveFunction: delegate { var e = eventCaller.currentEntity; FanClub.WarnHai(e.beat, e.toggle);}
                     ),
 
-                    new GameAction("I suppose",             delegate { var e = eventCaller.currentEntity; FanClub.instance.CallKamone(e.beat, e.toggle); }, 6, false, parameters: new List<Param>()
+                    new GameAction("I suppose",             delegate { var e = eventCaller.currentEntity; FanClub.instance.CallKamone(e.beat, e.toggle, 0, e.type); }, 6, false, parameters: new List<Param>()
                         {
+                            new Param("type", FanClub.KamoneResponseType.Through, "Response type", "Type of response to use"),
                             new Param("toggle", false, "Disable call", "Disable the idol's call")
                         },
                         inactiveFunction: delegate { var e = eventCaller.currentEntity; FanClub.WarnKamone(e.beat, e.toggle);}
@@ -454,6 +455,11 @@ namespace HeavenStudio
                     new GameAction("play idol animation",   delegate { var e = eventCaller.currentEntity; FanClub.instance.PlayAnim(e.beat, e.length, e.type); }, 1, true, parameters: new List<Param>()
                     {
                         new Param("type", FanClub.IdolAnimations.Bop, "Animation", "Animation to play")
+                    }),
+
+                    new GameAction("play stage animation",   delegate { var e = eventCaller.currentEntity; FanClub.instance.PlayAnimStage(e.beat, e.type); }, 1, true, parameters: new List<Param>()
+                    {
+                        new Param("type", FanClub.StageAnimations.Reset, "Animation", "Animation to play")
                     }),
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()

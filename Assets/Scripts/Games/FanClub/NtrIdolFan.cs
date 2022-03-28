@@ -145,7 +145,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
                     hasJumped = false;
                     stopBeat = true;
                     jumpStartTime = -99f;
-                    animator.Play("FanClap", 0, 0);
+                    animator.Play("FanClap", -1, 0);
                     Jukebox.PlayOneShotGame("fanClub/play_clap");
                     Jukebox.PlayOneShotGame("fanClub/crap_impact");
                     clappingStartTime = cond.songPositionInBeats;
@@ -154,7 +154,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
                 {
                     if (cond.songPositionInBeats > clappingStartTime + 1.5f && !stopCharge)
                     {
-                        animator.Play("FanClapCharge", 0, 0);
+                        animator.Play("FanClapCharge", -1, 0);
                         stopCharge = true;
                     }
                 }
@@ -165,14 +165,14 @@ namespace HeavenStudio.Games.Scripts_FanClub
                         if (!hasHit || (upcomingHits?.Count == 0 && startBeat == Single.MinValue))
                             FanClub.instance.AngerOnMiss();
 
-                        animator.Play("FanJump", 0, 0);
+                        animator.Play("FanJump", -1, 0);
                         Jukebox.PlayOneShotGame("fanClub/play_jump");
                         jumpStartTime = cond.songPositionInBeats;
                         stopCharge = false;
                     }
                     else
                     {
-                        animator.Play("FanFree", 0, 0);
+                        animator.Play("FanFree", -1, 0);
                         stopBeat = false;
                     }
                 }
@@ -196,7 +196,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
                     Jukebox.PlayOneShotGame("fanClub/landing_impact", pitch: UnityEngine.Random.Range(0.95f, 1f), volume: 1f/4);
                     if (player)
                     {
-                        animator.Play("FanPrepare", 0, 0);
+                        animator.Play("FanPrepare", -1, 0);
                         stopBeat = false;
                     }
                 }
@@ -215,7 +215,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
                         new BeatAction.Action(cond.songPositionInBeats + 0.1f, delegate { 
                             if (PlayerInput.Pressing() || fromAutoplay)
                             {
-                                animator.Play("FanClapCharge", 0, 0);
+                                animator.Play("FanClapCharge", -1, 0);
                                 stopCharge = true;
                             }
                         }),
@@ -229,7 +229,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
             {
                 stopBeat = true;
                 jumpStartTime = -99f;
-                animator.Play("FanClap", 0, 0);
+                animator.Play("FanClap", -1, 0);
                 Jukebox.PlayOneShotGame("fanClub/play_clap");
                 Jukebox.PlayOneShotGame("fanClub/crap_impact");
                 clappingStartTime = cond.songPositionInBeats;
@@ -239,7 +239,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
                 BeatAction.New(this.gameObject, new List<BeatAction.Action>()
                 {
                     new BeatAction.Action(cond.songPositionInBeats + 0.1f, delegate { 
-                        animator.Play("FanFree", 0, 0);
+                        animator.Play("FanFree", -1, 0);
                         stopBeat = false;
                     }),
                 });
@@ -258,7 +258,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
             }
             if (fromAutoplay || !force)
             {
-                animator.Play("FanJump", 0, 0);
+                animator.Play("FanJump", -1, 0);
                 Jukebox.PlayOneShotGame("fanClub/play_jump");
                 jumpStartTime = cond.songPositionInBeats;
                 stopCharge = false;
@@ -284,7 +284,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
 
         public void MakeAngry(bool flip = false)
         {
-            headAnimator.Play("FanFaceAngry", 0, 0);
+            headAnimator.Play("FanFaceAngry", -1, 0);
             if (flip)
             {
                 headRoot.transform.localScale = new Vector3(-1f, 1f, 1f);
