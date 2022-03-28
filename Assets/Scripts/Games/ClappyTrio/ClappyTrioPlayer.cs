@@ -18,7 +18,7 @@ namespace HeavenStudio.Games.Scripts_ClappyTrio
         private GameObject clapEffect;
         new int aceTimes = 0;
 
-        private void Start()
+        private void Awake()
         {
             clapEffect = transform.GetChild(4).GetChild(3).gameObject;
         }

@@ -29,7 +29,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         [SerializeField] private AnimationCurve outCurve;
         [SerializeField] private AnimationCurve shadowHitCurve;
 
-        private void Start()
+        private void Awake()
         {
             anim = GetComponent<Animator>();
 

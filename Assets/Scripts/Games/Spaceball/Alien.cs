@@ -11,7 +11,7 @@ namespace HeavenStudio.Games.Scripts_Spaceball
         private float showBeat = 0;
         private bool isShowing = false;
 
-        private void Start()
+        private void Awake()
         {
             anim = GetComponent<Animator>();
             anim.Play("AlienIdle", 0, 0);

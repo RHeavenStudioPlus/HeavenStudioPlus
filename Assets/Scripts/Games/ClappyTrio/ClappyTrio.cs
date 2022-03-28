@@ -30,9 +30,10 @@ namespace HeavenStudio.Games
         private void Awake()
         {
             instance = this;
+            InitLions();
         }
 
-        private void Start()
+        private void InitLions()
         {
             float startPos = -3.066667f;
             float maxWidth = 12.266668f;
@@ -53,6 +54,7 @@ namespace HeavenStudio.Games
                 if (i == lionCount - 1)
                     ClappyTrioPlayer = lion.AddComponent<ClappyTrioPlayer>();
             }
+
         }
 
         private void Update()
@@ -161,7 +163,7 @@ namespace HeavenStudio.Games
             Lion.RemoveRange(1, lionCount - 1);
             lionCount = lions;
             SetFace(0, 0);
-            Start();
+            InitLions();
             PlayAnimationAll("Idle");
         }
 

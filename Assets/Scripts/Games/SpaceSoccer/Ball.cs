@@ -168,6 +168,11 @@ namespace HeavenStudio.Games.Scripts_SpaceSoccer
         {
             switch (state) //handle animations
             {
+                case State.None: //the only time any ball should ever have this state is if it's the unused offscreen ball (which is the only reason this state exists)
+                    {
+                        gameObject.SetActive(false);
+                        break;
+                    }
                 case State.Dispensing:
                     {
                         float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(startBeat, 2.35f);

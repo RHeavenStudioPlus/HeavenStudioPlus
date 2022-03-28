@@ -57,10 +57,6 @@ namespace HeavenStudio.Games
         private void Awake()
         {
             instance = this;
-        }
-
-        private void Start()
-        {
             var camEvents = EventCaller.GetAllInGameManagerList("spaceball", new string[] { "camera" });
             List<Beatmap.Entity> tempEvents = new List<Beatmap.Entity>();
             for (int i = 0; i < camEvents.Count; i++)

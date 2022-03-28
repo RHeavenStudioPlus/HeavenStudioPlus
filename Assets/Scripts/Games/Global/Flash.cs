@@ -24,7 +24,7 @@ namespace HeavenStudio.Games.Global
 
         private List<Beatmap.Entity> allFadeEvents = new List<Beatmap.Entity>();
 
-        private void Start()
+        private void Awake()
         {
             this.gameObject.transform.SetParent(GameManager.instance.gameObject.transform);
             gameObject.layer = LayerMask.NameToLayer("Flash");
