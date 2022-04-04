@@ -462,6 +462,10 @@ namespace HeavenStudio
                         new Param("type", FanClub.StageAnimations.Reset, "Animation", "Animation to play")
                     }),
                 }),
+                new Minigame("trickClass", "Trick on the Class\n<color=#eb5454>[WIP don't use]</color>", "C0171D", false, false, new List<GameAction>()
+                {
+
+                }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
                 }),
