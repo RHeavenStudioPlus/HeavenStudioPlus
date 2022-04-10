@@ -13,7 +13,7 @@ TextureImporter:
     second: mobTrick_girl_torso
   - first:
       213: 8820173711875456571
-    second: mobTrick_bg_desk
+    second: mobTrick_bgDesk3
   - first:
       213: -5080462231089324230
     second: mobTrick_obj00
@@ -26,6 +26,12 @@ TextureImporter:
   - first:
       213: -6991096701230948288
     second: mobTrick_player_torso00
+  - first:
+      213: -1817635648121096723
+    second: mobTrick_bgDesk2
+  - first:
+      213: 1483037001529718006
+    second: mobTrick_bgDesk1
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -123,7 +129,7 @@ TextureImporter:
         width: 116
         height: 123
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -144,7 +150,7 @@ TextureImporter:
         width: 41
         height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -165,7 +171,7 @@ TextureImporter:
         width: 85
         height: 74
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -178,13 +184,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mobTrick_bg_desk
+      name: mobTrick_bgDesk3
       rect:
         serializedVersion: 2
-        x: 416
-        y: 1710
-        width: 286
-        height: 301
+        x: 81
+        y: 710
+        width: 1238
+        height: 268
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -207,7 +213,7 @@ TextureImporter:
         width: 149
         height: 137
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -228,7 +234,7 @@ TextureImporter:
         width: 217
         height: 73
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -249,7 +255,7 @@ TextureImporter:
         width: 334
         height: 367
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -270,7 +276,7 @@ TextureImporter:
         width: 265
         height: 265
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -278,6 +284,48 @@ TextureImporter:
       bones: []
       spriteID: 04069b43792aafe90800000000000000
       internalID: -6991096701230948288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mobTrick_bgDesk2
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 353
+        width: 1441
+        height: 299
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de5b7ae120676c6e0800000000000000
+      internalID: -1817635648121096723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mobTrick_bgDesk1
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 53
+        width: 1814
+        height: 257
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f470f0ab4ec49410800000000000000
+      internalID: 1483037001529718006
       vertices: []
       indices: 
       edges: []
