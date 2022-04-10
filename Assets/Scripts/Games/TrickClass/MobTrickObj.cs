@@ -39,7 +39,21 @@ namespace HeavenStudio.Games.Scripts_TrickClass
                 var cond = Conductor.instance;
 
                 float flyPos = cond.GetPositionFromBeat(startBeat, flyBeats);
-                transform.position = curve.GetPoint(flyPos);
+                Vector3 lastPos = transform.position;
+                Vector3 nextPos = curve.GetPoint(flyPos);
+
+                if (flyType)
+                {
+                    Vector3 direction = (nextPos - lastPos).normalized;
+                    float rotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                    this.transform.eulerAngles = new Vector3(0, 0, rotation);
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + (360f * Time.deltaTime));
+                }
+
+                transform.position = nextPos;
 
                 if (flyPos > 1f)
                 {
