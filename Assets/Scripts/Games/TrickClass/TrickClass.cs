@@ -80,6 +80,8 @@ namespace HeavenStudio.Games
             thinker.startBeat = beat;
             thinker.flyType = isPlane;
             thinker.curve = curve;
+
+            mobj.SetActive(true);
         }
     }
 }
