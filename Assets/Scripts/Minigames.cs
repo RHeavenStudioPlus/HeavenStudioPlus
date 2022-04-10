@@ -464,7 +464,13 @@ namespace HeavenStudio
                 }),
                 new Minigame("trickClass", "Trick on the Class\n<color=#eb5454>[WIP don't use]</color>", "C0171D", false, false, new List<GameAction>()
                 {
-
+                    new GameAction("toss",                   delegate
+                    {
+                        TrickClass.instance.TossObject(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);
+                    }, 3, false, new List<Param>()
+                    {
+                        new Param("type", TrickClass.TrickObjType.Ball, "Object", "The object to toss")
+                    }),
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
