@@ -461,21 +461,13 @@ namespace HeavenStudio
                     new GameAction("play stage animation",   delegate { var e = eventCaller.currentEntity; FanClub.instance.PlayAnimStage(e.beat, e.type); }, 1, true, parameters: new List<Param>()
                     {
                         new Param("type", FanClub.StageAnimations.Reset, "Animation", "Animation to play")
-<<<<<<< HEAD
-<<<<<<< HEAD
                     })
                 }),
-                  new Minigame("Tram&Pauline", "Tram&Pauline \n<color=#eb5454>[WIP don't use]</color>", "000000", false, false, new List<GameAction>()
-=======
->>>>>>> parent of 092240a (Tram&Pauline)
-                    }),
-=======
-                    })
+                new Minigame("Tram&Pauline", "Tram&Pauline \n<color=#eb5454>[WIP don't use]</color>", "000000", false, false, new List<GameAction>()
+                {
                 }),
-                  new Minigame("Tram&Pauline", "Tram&Pauline \n<color=#eb5454>[WIP don't use]</color>", "000000", false, false, new List<GameAction>()
-                  {
->>>>>>> f6dd5e28a9f1b06daba2c30b30530c4eccffe73b
-                }),
+
+
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
                 }),
