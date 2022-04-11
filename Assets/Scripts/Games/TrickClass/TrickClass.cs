@@ -43,6 +43,14 @@ namespace HeavenStudio.Games
             instance = this;
         }
 
+        private void Update()
+        {
+            if (PlayerInput.Pressed())
+            {
+                PlayerDodge();
+            }
+        }
+
         public void TossObject(float beat, int type)
         {
             switch (type)
@@ -80,8 +88,15 @@ namespace HeavenStudio.Games
             thinker.startBeat = beat;
             thinker.flyType = isPlane;
             thinker.curve = curve;
+            thinker.type = type;
 
             mobj.SetActive(true);
+        }
+
+        public void PlayerDodge()
+        {
+            //anim
+            Jukebox.PlayOneShotGame("trickClass/player_dodge");
         }
     }
 }
