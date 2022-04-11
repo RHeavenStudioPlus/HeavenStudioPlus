@@ -98,7 +98,7 @@ namespace HeavenStudio.Games.Scripts_TrickClass
                     // no input?
                     if (Conductor.instance.GetPositionFromBeat(startBeat, dodgeBeats) >= Minigame.EndTime())
                     {
-                        PlayDodgeSound();
+                        Jukebox.PlayOneShotGame(GetDodgeSound());
                         miss = true;
                         switch (type)
                         {
@@ -122,17 +122,16 @@ namespace HeavenStudio.Games.Scripts_TrickClass
             TrickClass.instance.PlayerDodge();
             dodged = true;
             MultiSound.Play(new MultiSound.Sound[] { 
-                new MultiSound.Sound("trickClass/ball_impact", startBeat + flyBeats, volume: 0.5f), 
+                new MultiSound.Sound(GetDodgeSound(), startBeat + flyBeats, volume: 0.5f), 
             });
         }
 
-        public void PlayDodgeSound()
+        public string GetDodgeSound()
         {
             switch (type)
             {
                 default:
-                    Jukebox.PlayOneShotGame("trickClass/ball_impact");
-                    break;
+                    return "trickClass/ball_impact";
             }
         }
     }
