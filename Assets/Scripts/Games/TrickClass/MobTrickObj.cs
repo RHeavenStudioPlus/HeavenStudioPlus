@@ -13,7 +13,7 @@ namespace HeavenStudio.Games.Scripts_TrickClass
         public bool flyType;
         public float startBeat;
         bool flying = true;
-        bool hit = false;
+        bool dodged = false;
         bool miss = false;
 
         float flyBeats;
@@ -80,7 +80,7 @@ namespace HeavenStudio.Games.Scripts_TrickClass
                     }
                 }
 
-                if (!(hit || miss))
+                if (!(dodged || miss))
                 {
                     float normalizedBeat = cond.GetPositionFromMargin(startBeat + dodgeBeats, 1f);
                     StateCheck(normalizedBeat);
@@ -89,7 +89,7 @@ namespace HeavenStudio.Games.Scripts_TrickClass
                     {
                         if (state.perfect)
                         {
-                            hit = true;
+                            dodged = true;
                             MultiSound.Play(new MultiSound.Sound[] { 
                                 new MultiSound.Sound("trickClass/ball_impact", startBeat + flyBeats, volume: 0.75f), 
                             });
@@ -108,7 +108,7 @@ namespace HeavenStudio.Games.Scripts_TrickClass
                                 break;
                             default:
                                 curve = TrickClass.instance.ballMissCurve;
-                                flyBeats = 1.5f;
+                                flyBeats = 1.25f;
                                 break;
                         }
                         startBeat += dodgeBeats;
@@ -120,7 +120,7 @@ namespace HeavenStudio.Games.Scripts_TrickClass
         public override void OnAce()
         {
             TrickClass.instance.PlayerDodge();
-            hit = true;
+            dodged = true;
             MultiSound.Play(new MultiSound.Sound[] { 
                 new MultiSound.Sound("trickClass/ball_impact", startBeat + flyBeats, volume: 0.5f), 
             });
