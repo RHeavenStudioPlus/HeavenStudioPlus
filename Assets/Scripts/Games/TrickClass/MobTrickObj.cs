@@ -13,8 +13,12 @@ namespace HeavenStudio.Games.Scripts_TrickClass
         public bool flyType;
         public float startBeat;
         bool flying = true;
+        bool hit = false;
+        bool miss = false;
 
         float flyBeats;
+        float dodgeBeats;
+        public int type;
 
         [NonSerialized] public BezierCurve3D curve;
 
@@ -24,6 +28,7 @@ namespace HeavenStudio.Games.Scripts_TrickClass
         {
             game = TrickClass.instance;
             flyBeats = flyType ? 4f : 2f;
+            dodgeBeats = flyType ? 2f : 1f;
 
             var cond = Conductor.instance;
 
@@ -39,27 +44,95 @@ namespace HeavenStudio.Games.Scripts_TrickClass
                 var cond = Conductor.instance;
 
                 float flyPos = cond.GetPositionFromBeat(startBeat, flyBeats);
-                Vector3 lastPos = transform.position;
-                Vector3 nextPos = curve.GetPoint(flyPos);
-
-                if (flyType)
+                if (flyPos <= 1f) 
                 {
-                    Vector3 direction = (nextPos - lastPos).normalized;
-                    float rotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                    this.transform.eulerAngles = new Vector3(0, 0, rotation);
+                    if (!miss)
+                    {
+                        flyPos *= 0.9f;
+                    }
+                    Vector3 lastPos = transform.position;
+                    Vector3 nextPos = curve.GetPoint(flyPos);
+
+                    if (flyType)
+                    {
+                        Vector3 direction = (nextPos - lastPos).normalized;
+                        float rotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                        this.transform.eulerAngles = new Vector3(0, 0, rotation);
+                    }
+                    else
+                    {
+                        transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + (360f * Time.deltaTime));
+                    }
+
+                    transform.position = nextPos;
                 }
                 else
                 {
-                    transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + (360f * Time.deltaTime));
+                    transform.position = curve.GetPoint(1f);
                 }
-
-                transform.position = nextPos;
 
                 if (flyPos > 1f)
                 {
-                    GameObject.Destroy(gameObject);
-                    return;
+                    if (Conductor.instance.GetPositionFromBeat(startBeat, flyBeats + 1f) >= 1f)
+                    {
+                        GameObject.Destroy(gameObject);
+                        return;
+                    }
                 }
+
+                if (!(hit || miss))
+                {
+                    float normalizedBeat = cond.GetPositionFromMargin(startBeat + dodgeBeats, 1f);
+                    StateCheck(normalizedBeat);
+
+                    if (PlayerInput.Pressed())
+                    {
+                        if (state.perfect)
+                        {
+                            hit = true;
+                            MultiSound.Play(new MultiSound.Sound[] { 
+                                new MultiSound.Sound("trickClass/ball_impact", startBeat + flyBeats, volume: 0.75f), 
+                            });
+                        }
+                    }
+                    // no input?
+                    if (Conductor.instance.GetPositionFromBeat(startBeat, dodgeBeats) >= Minigame.EndTime())
+                    {
+                        PlayDodgeSound();
+                        miss = true;
+                        switch (type)
+                        {
+                            case (int) TrickClass.TrickObjType.Plane:
+                                curve = TrickClass.instance.planeMissCurve;
+                                flyBeats = 4f;
+                                break;
+                            default:
+                                curve = TrickClass.instance.ballMissCurve;
+                                flyBeats = 1.5f;
+                                break;
+                        }
+                        startBeat += dodgeBeats;
+                    }
+                }
+            }
+        }
+
+        public override void OnAce()
+        {
+            TrickClass.instance.PlayerDodge();
+            hit = true;
+            MultiSound.Play(new MultiSound.Sound[] { 
+                new MultiSound.Sound("trickClass/ball_impact", startBeat + flyBeats, volume: 0.5f), 
+            });
+        }
+
+        public void PlayDodgeSound()
+        {
+            switch (type)
+            {
+                default:
+                    Jukebox.PlayOneShotGame("trickClass/ball_impact");
+                    break;
             }
         }
     }
