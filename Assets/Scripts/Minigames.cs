@@ -9,6 +9,7 @@ using HeavenStudio.Games;
 
 namespace HeavenStudio
 {
+    
     public class Minigames
     {
         public class Minigame
@@ -460,7 +461,10 @@ namespace HeavenStudio
                     new GameAction("play stage animation",   delegate { var e = eventCaller.currentEntity; FanClub.instance.PlayAnimStage(e.beat, e.type); }, 1, true, parameters: new List<Param>()
                     {
                         new Param("type", FanClub.StageAnimations.Reset, "Animation", "Animation to play")
-                    }),
+                    })
+                }),
+                  new Minigame("Tram&Pauline", "Tram&Pauline \n<color=#eb5454>[WIP don't use]</color>", "000000", false, false, new List<GameAction>()
+                  {
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
