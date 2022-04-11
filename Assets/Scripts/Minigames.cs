@@ -464,6 +464,7 @@ namespace HeavenStudio
                 }),
                 new Minigame("trickClass", "Trick on the Class\n<color=#eb5454>[WIP don't use]</color>", "C0171D", false, false, new List<GameAction>()
                 {
+                    new GameAction("bop",                   delegate { var e = eventCaller.currentEntity; TrickClass.instance.Bop(e.beat, e.length); }, 1, true),
                     new GameAction("toss",                   delegate
                     {
                         TrickClass.instance.TossObject(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);

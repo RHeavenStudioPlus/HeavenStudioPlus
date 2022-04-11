@@ -37,6 +37,7 @@ namespace HeavenStudio.Games
         public BezierCurve3D shockTossCurve;
 
         public static TrickClass instance;
+        public GameEvent bop = new GameEvent();
 
         private void Awake()
         {
@@ -45,10 +46,25 @@ namespace HeavenStudio.Games
 
         private void Update()
         {
+            var cond = Conductor.instance;
+            if (cond.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1))
+            {
+                if (cond.songPositionInBeats >= bop.startBeat && cond.songPositionInBeats < bop.startBeat + bop.length)
+                {
+                    //TODO: bop animation
+                }
+            }
+
             if (PlayerInput.Pressed())
             {
                 PlayerDodge();
             }
+        }
+
+        public void Bop(float beat, float length)
+        {
+            bop.startBeat = beat;
+            bop.length = length;
         }
 
         public void TossObject(float beat, int type)
