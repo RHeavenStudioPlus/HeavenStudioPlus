@@ -464,7 +464,7 @@ namespace HeavenStudio
                     })
                 }),
                   new Minigame("Tram&Pauline", "Tram&Pauline \n<color=#eb5454>[WIP don't use]</color>", "000000", false, false, new List<GameAction>()
-                  {
+                    }),
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
