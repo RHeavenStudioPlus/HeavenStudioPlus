@@ -9,6 +9,7 @@ using HeavenStudio.Games;
 
 namespace HeavenStudio
 {
+    
     public class Minigames
     {
         public class Minigame
@@ -461,12 +462,19 @@ namespace HeavenStudio
                     {
                         new Param("type", FanClub.StageAnimations.Reset, "Animation", "Animation to play")
 <<<<<<< HEAD
+<<<<<<< HEAD
                     })
                 }),
                   new Minigame("Tram&Pauline", "Tram&Pauline \n<color=#eb5454>[WIP don't use]</color>", "000000", false, false, new List<GameAction>()
 =======
 >>>>>>> parent of 092240a (Tram&Pauline)
                     }),
+=======
+                    })
+                }),
+                  new Minigame("Tram&Pauline", "Tram&Pauline \n<color=#eb5454>[WIP don't use]</color>", "000000", false, false, new List<GameAction>()
+                  {
+>>>>>>> f6dd5e28a9f1b06daba2c30b30530c4eccffe73b
                 }),
                 /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
                 {
