@@ -4,6 +4,31 @@ using UnityEngine;
 
 using HeavenStudio.Util;
 
+namespace HeavenStudio.Games.Loaders
+{
+    using static Minigames;
+    public static class AgbClapLoader
+    {
+        public static Minigame AddGame(EventCaller eventCaller) {
+            return new Minigame("clappyTrio", "The Clappy Trio", "29E7FF", false, false, new List<GameAction>()
+            {
+                new GameAction("clap",                  delegate { ClappyTrio.instance.Clap(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 3, true),
+                new GameAction("bop",                   delegate { ClappyTrio.instance.Bop(eventCaller.currentEntity.beat); } ),
+                new GameAction("prepare",               delegate { ClappyTrio.instance.Prepare(eventCaller.currentEntity.toggle ? 3 : 0); }, parameters: new List<Param>()
+                {
+                    new Param("toggle", false, "Alt", "Whether or not the alternate version should be played")
+                }),
+                new GameAction("change lion count",     delegate { ClappyTrio.instance.ChangeLionCount((int)eventCaller.currentEntity.valA); }, 0.5f, false, new List<Param>()
+                {
+                    new Param("valA", new EntityTypes.Integer(1, 8, 3), "Lion Count", "The amount of lions")
+                }),
+                // This is still here for backwards-compatibility but is hidden in the editor
+                new GameAction("prepare_alt",           delegate { ClappyTrio.instance.Prepare(3); }, hidden: true),
+            });
+        }
+    }
+}
+
 namespace HeavenStudio.Games
 {
     using Scripts_ClappyTrio;

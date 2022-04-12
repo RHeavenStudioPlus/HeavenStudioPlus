@@ -3,6 +3,24 @@ using UnityEngine;
 
 using HeavenStudio.Util;
 
+namespace HeavenStudio.Games.Loaders
+{
+    using static Minigames;
+    public static class NtrDjLoader
+    {
+        public static Minigame AddGame(EventCaller eventCaller) {
+            return new Minigame("builtToScaleDS", "Built To Scale (DS)", "00BB00", true, false, new List<GameAction>()
+            {
+                new GameAction("spawn blocks",          delegate { }, 1f, true),
+                new GameAction("play piano",            delegate { BuiltToScaleDS.instance.PlayPiano(eventCaller.currentEntity.beat, eventCaller.currentEntity.length, eventCaller.currentEntity.type); }, 1f, true, new List<Param>() 
+                {
+                    new Param("type", new EntityTypes.Integer(-24, 24, 0), "Semitones", "The number of semitones up or down this note should be pitched")
+                } ),
+            });
+        }
+    }
+}
+
 namespace HeavenStudio.Games
 {
     using Scripts_DJSchool;
