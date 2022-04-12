@@ -100,12 +100,6 @@ namespace HeavenStudio
         // https://stackoverflow.com/a/19877141
         static List<Func<EventCaller, Minigame>> loadRunners;
         static void BuildLoadRunnerList() {
-            foreach(var load in System.Reflection.Assembly.GetExecutingAssembly()
-            .GetTypes()
-            .Where(x => x.Namespace == "HeavenStudio.Games.Loaders")
-            .ToList())
-                Debug.Log("Loading Runner..." + load.GetMethod("AddGame", BindingFlags.Public | BindingFlags.Static));
-
             loadRunners = System.Reflection.Assembly.GetExecutingAssembly()
             .GetTypes()
             .Where(x => x.Namespace == "HeavenStudio.Games.Loaders" && x.GetMethod("AddGame", BindingFlags.Public | BindingFlags.Static) != null)
@@ -116,6 +110,7 @@ namespace HeavenStudio
                 false
                 ))
             .ToList();
+                
         }
 
         public static void Init(EventCaller eventCaller)
@@ -194,9 +189,11 @@ namespace HeavenStudio
             };
             
             BuildLoadRunnerList();
-
             foreach(var load in loadRunners)
+            {
+                Debug.Log("Running game loader " + RuntimeReflectionExtensions.GetMethodInfo(load).DeclaringType.Name);
                 eventCaller.minigames.Add(load(eventCaller));
+            }
         }
     }
 }
