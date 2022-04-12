@@ -5,6 +5,33 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace HeavenStudio.Games.Loaders
+{
+    using static Minigames;
+    public static class NtrCropLoader
+    {
+        public static Minigame AddGame(EventCaller eventCaller) {
+            return new Minigame("djSchool", "DJ School", "008c97", false, false, new List<GameAction>()
+            {
+                new GameAction("bop",                   delegate { DJSchool.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length);  }, 0.5f, true),
+                new GameAction("and stop ooh",          delegate { var e = eventCaller.currentEntity; DJSchool.instance.AndStop(e.beat, e.toggle);  }, 2.5f, false, new List<Param>()
+                {
+                    new Param("toggle", true, "Ooh", "Whether or not the \"ooh\" sound should be played")
+                }),
+                new GameAction("break c'mon ooh",       delegate { var e = eventCaller.currentEntity; DJSchool.instance.BreakCmon(e.beat, e.type, e.toggle);  }, 3f, false, new List<Param>()
+                {
+                    new Param("type", DJSchool.DJVoice.Standard, "Voice", "The voice line to play"),
+                    new Param("toggle", true, "Ooh", "Whether or not the \"ooh\" sound should be played")
+                }),
+                new GameAction("scratch-o hey",         delegate { DJSchool.instance.ScratchoHey(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);  }, 3f, false, new List<Param>()
+                {
+                    new Param("type", DJSchool.DJVoice.Standard, "Voice", "The voice line to play"),
+                }),
+            });
+        }
+    }
+}
+
 namespace HeavenStudio.Games
 {
     using Scripts_CropStomp;

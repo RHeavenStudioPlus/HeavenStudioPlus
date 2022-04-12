@@ -7,6 +7,25 @@ using Starpelly;
 
 using HeavenStudio.Util;
 
+namespace HeavenStudio.Games.Loaders
+{
+    using static Minigames;
+    public static class AgbUpbeatLoader
+    {
+        public static Minigame AddGame(EventCaller eventCaller) {
+            return new Minigame("mrUpbeat", "Mr. Upbeat", "FFFFFF", false, false, new List<GameAction>()
+            {
+                new GameAction("prepare",               delegate { MrUpbeat.instance.SetInterval(eventCaller.currentEntity.beat); }, 0.5f, true, inactiveFunction: delegate { MrUpbeat.Beep(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }),
+                new GameAction("go",                    delegate { MrUpbeat.instance.Go(eventCaller.currentEntity.beat);  }, 4f, true),
+                new GameAction("ding!",                 delegate { MrUpbeat.instance.Ding(eventCaller.currentEntity.toggle); }, 0.5f, parameters: new List<Param>()
+                {
+                    new Param("toggle", false, "Applause")
+                }),
+            });
+        }
+    }
+}
+
 namespace HeavenStudio.Games
 {
     using Scripts_MrUpbeat;

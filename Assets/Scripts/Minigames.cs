@@ -7,6 +7,10 @@ using HeavenStudio.Util;
 
 using HeavenStudio.Games;
 
+using System;
+using System.Linq;
+using System.Reflection;
+
 namespace HeavenStudio
 {
     public class Minigames
@@ -92,6 +96,28 @@ namespace HeavenStudio
 
         public delegate void EventCallback();
 
+        // overengineered af but it's a modified version of
+        // https://stackoverflow.com/a/19877141
+        static List<Func<EventCaller, Minigame>> loadRunners;
+        static void BuildLoadRunnerList() {
+            foreach(var load in System.Reflection.Assembly.GetExecutingAssembly()
+            .GetTypes()
+            .Where(x => x.Namespace == "HeavenStudio.Games.Loaders")
+            .ToList())
+                Debug.Log("Loading Runner..." + load.GetMethod("AddGame", BindingFlags.Public | BindingFlags.Static));
+
+            loadRunners = System.Reflection.Assembly.GetExecutingAssembly()
+            .GetTypes()
+            .Where(x => x.Namespace == "HeavenStudio.Games.Loaders" && x.GetMethod("AddGame", BindingFlags.Public | BindingFlags.Static) != null)
+            .Select(t => (Func<EventCaller, Minigame>) Delegate.CreateDelegate(
+                typeof(Func<EventCaller, Minigame>), 
+                null, 
+                t.GetMethod("AddGame", BindingFlags.Public | BindingFlags.Static),
+                false
+                ))
+            .ToList();
+        }
+
         public static void Init(EventCaller eventCaller)
         {
             eventCaller.minigames = new List<Minigame>()
@@ -165,322 +191,12 @@ namespace HeavenStudio
                     new GameAction("four (alt)",                delegate { SoundEffects.Count(3, true); }, 1f, hidden: true),
                     new GameAction("go! (alt)",                 delegate { SoundEffects.Go(true); }, 1f, hidden: true),
                 }),
-                new Minigame("forkLifter", "Fork Lifter", "FFFFFF", false, false, new List<GameAction>()
-                {
-                    new GameAction("flick",                 delegate { var e = eventCaller.currentEntity; ForkLifter.instance.Flick(e.beat, e.type); }, 3, false, new List<Param>()
-                    {
-                        new Param("type", ForkLifter.FlickType.Pea, "Object", "The object to be flicked")
-                    }),
-                    new GameAction("prepare",               delegate { ForkLifter.instance.ForkLifterHand.Prepare(); }, 0.5f),
-                    new GameAction("gulp",                  delegate { ForkLifter.playerInstance.Eat(); }),
-                    new GameAction("sigh",                  delegate { Jukebox.PlayOneShot("games/forkLifter/sigh"); }),
-                    // These are still here for backwards-compatibility but are hidden in the editor
-                    new GameAction("pea",                   delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 0); }, 3, hidden: true),
-                    new GameAction("topbun",                delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 1); }, 3, hidden: true),
-                    new GameAction("burger",                delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 2); }, 3, hidden: true),
-                    new GameAction("bottombun",             delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 3); }, 3, hidden: true),
-
-                }),
-                new Minigame("clappyTrio", "The Clappy Trio", "29E7FF", false, false, new List<GameAction>()
-                {
-                    new GameAction("clap",                  delegate { ClappyTrio.instance.Clap(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 3, true),
-                    new GameAction("bop",                   delegate { ClappyTrio.instance.Bop(eventCaller.currentEntity.beat); } ),
-                    new GameAction("prepare",               delegate { ClappyTrio.instance.Prepare(eventCaller.currentEntity.toggle ? 3 : 0); }, parameters: new List<Param>()
-                    {
-                        new Param("toggle", false, "Alt", "Whether or not the alternate version should be played")
-                    }),
-                    new GameAction("change lion count",     delegate { ClappyTrio.instance.ChangeLionCount((int)eventCaller.currentEntity.valA); }, 0.5f, false, new List<Param>()
-                    {
-                        new Param("valA", new EntityTypes.Integer(1, 8, 3), "Lion Count", "The amount of lions")
-                    }),
-                    // This is still here for backwards-compatibility but is hidden in the editor
-                    new GameAction("prepare_alt",           delegate { ClappyTrio.instance.Prepare(3); }, hidden: true),
-                }),
-                new Minigame("spaceball", "Spaceball", "00A518", false, false, new List<GameAction>()
-                {
-                    new GameAction("shoot",                 delegate { Spaceball.instance.Shoot(eventCaller.currentEntity.beat, false, eventCaller.currentEntity.type); }, 2, false),
-                    new GameAction("shootHigh",             delegate { Spaceball.instance.Shoot(eventCaller.currentEntity.beat, true, eventCaller.currentEntity.type); }, 3),
-                    new GameAction("costume",               delegate { Spaceball.instance.Costume(eventCaller.currentEntity.type); }, 1f, false, new List<Param>() 
-                    {
-                        new Param("type", Spaceball.CostumeType.Standard, "Type", "The costume to change to") 
-                    } ),
-                    new GameAction("alien",                 delegate { Spaceball.instance.alien.Show(eventCaller.currentEntity.beat); } ),
-                    new GameAction("camera",                delegate { Spaceball.instance.OverrideCurrentZoom(); }, 4, true, new List<Param>() 
-                    {
-                        new Param("valA", new EntityTypes.Integer(1, 320, 10), "Zoom", "The camera's zoom level (Lower value = Zoomed in)"),
-                        new Param("ease", EasingFunction.Ease.Linear, "Ease", "The easing function to use while zooming") 
-                    } ),
-                    new GameAction("prepare dispenser",     delegate { Spaceball.instance.PrepareDispenser(); }, 1 ),
-                }),
-                new Minigame("karateman", "Karate Man", "70A8D8", false, false, new List<GameAction>()
-                {
-                    new GameAction("bop",                   delegate { KarateMan.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 0.5f, true),
-                    new GameAction("hit",                   delegate
-                    {
-                        KarateMan.instance.Shoot(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);
-                    }, 2, false, new List<Param>()
-                    {
-                        new Param("type", KarateMan.HitType.Pot, "Object", "The object to fire")
-                    }),
-                    new GameAction("bulb",                  delegate {
-                        var e = eventCaller.currentEntity;
-                        var c = KarateMan.instance.LightBulbColors[e.type];
-                        if(e.type == (int)KarateMan.LightBulbType.Custom) c = e.colorA;
-                        KarateMan.instance.Shoot(e.beat, 1, tint: c);
-                    }, 2, false, new List<Param>()
-                    {
-                        new Param("type", KarateMan.LightBulbType.Normal, "Type", "The preset bulb type. Yellow is used for kicks while Blue is used for combos"),
-                        new Param("colorA", new Color(), "Custom Color", "The color to use when the bulb type is set to Custom")
-                    }),
-                    new GameAction("kick",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 4); }, 4.5f),
-                    new GameAction("combo",                 delegate { KarateMan.instance.Combo(eventCaller.currentEntity.beat); }, 4f),
-                    new GameAction("hit3",                  delegate
-                    {
-                        var e = eventCaller.currentEntity;
-                        switch ((KarateMan.HitThree)e.type)
-                        {
-                            case KarateMan.HitThree.HitTwo: KarateMan.instance.Hit2(e.beat); break;
-                            case KarateMan.HitThree.HitThreeAlt: KarateMan.instance.Hit3(e.beat, true); break;
-                            case KarateMan.HitThree.HitFour: KarateMan.instance.Hit4(e.beat); break;
-                            default: KarateMan.instance.Hit3(e.beat); break;
-                        }
-                    }, 1f, false, new List<Param>()
-                    {
-                        new Param("type", KarateMan.HitThree.HitThree, "Type", "What should be called out")
-                    }),
-                    new GameAction("prepare",               delegate { KarateMan.instance.Prepare(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 1f, true),
-                    new GameAction("set background color",  delegate {
-                        var e = eventCaller.currentEntity;
-                        var c = KarateMan.instance.BackgroundColors[e.type];
-                        if(e.type == (int)KarateMan.BackgroundType.Custom) c = e.colorA;
-                        KarateMan.instance.SetBackgroundColor(e.type, e.type2, c, e.colorB);
-                    }, 0.5f, false, new List<Param>()
-                    {
-                        new Param("type", KarateMan.BackgroundType.Yellow, "Background Type", "The preset background type"),
-                        new Param("type2", KarateMan.ShadowType.Tinted, "Shadow Type", "The shadow type. If Tinted doesn't work with your background color try Custom"),
-                        new Param("colorA", new Color(), "Custom Background Color", "The background color to use when background type is set to Custom"),
-                        new Param("colorB", new Color(), "Custom Shadow Color", "The shadow color to use when shadow type is set to Custom"),
-
-                    }),
-                    new GameAction("set background fx",  delegate {
-                        KarateMan.instance.SetBackgroundFX((KarateMan.BackgroundFXType)eventCaller.currentEntity.type);
-                    }, 0.5f, false, new List<Param>()
-                    {
-                        new Param("type", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed")
-
-                    }),
-                    // These are still here for backwards-compatibility but are hidden in the editor
-                    new GameAction("pot",                   delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 0); }, 2, hidden: true),
-                    new GameAction("rock",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 2); }, 2, hidden: true),
-                    new GameAction("ball",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 3); }, 2, hidden: true),
-                    new GameAction("tacobell",              delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 999); }, 2, hidden: true),
-                    new GameAction("hit4",                  delegate { KarateMan.instance.Hit4(eventCaller.currentEntity.beat); }, hidden: true),
-                    new GameAction("bgfxon",                delegate { KarateMan.instance.SetBackgroundFX(KarateMan.BackgroundFXType.Sunburst); }, hidden: true),
-                    new GameAction("bgfxoff",               delegate { KarateMan.instance.SetBackgroundFX(KarateMan.BackgroundFXType.None); }, hidden: true),
-
-                }),
-                new Minigame("spaceSoccer", "Space Soccer", "B888F8", false, false, new List<GameAction>()
-                {
-                    new GameAction("ball dispense",         delegate { SpaceSoccer.instance.Dispense(eventCaller.currentEntity.beat); }, 2f,
-                    inactiveFunction: delegate { SpaceSoccer.DispenseSound(eventCaller.currentEntity.beat); }),
-                    new GameAction("keep-up",               delegate { }, 4f, true),
-                    new GameAction("high kick-toe!",        delegate { }, 3f, false, new List<Param>() 
-                    {
-                        new Param("swing", new EntityTypes.Float(0, 1, 0.5f), "Swing", "The amount of swing") 
-                    }),
-                }),
-                new Minigame("djSchool", "DJ School", "008c97", false, false, new List<GameAction>()
-                {
-                    new GameAction("bop",                   delegate { DJSchool.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length);  }, 0.5f, true),
-                    new GameAction("and stop ooh",          delegate { var e = eventCaller.currentEntity; DJSchool.instance.AndStop(e.beat, e.toggle);  }, 2.5f, false, new List<Param>()
-                    {
-                        new Param("toggle", true, "Ooh", "Whether or not the \"ooh\" sound should be played")
-                    }),
-                    new GameAction("break c'mon ooh",       delegate { var e = eventCaller.currentEntity; DJSchool.instance.BreakCmon(e.beat, e.type, e.toggle);  }, 3f, false, new List<Param>()
-                    {
-                        new Param("type", DJSchool.DJVoice.Standard, "Voice", "The voice line to play"),
-                        new Param("toggle", true, "Ooh", "Whether or not the \"ooh\" sound should be played")
-                    }),
-                    new GameAction("scratch-o hey",         delegate { DJSchool.instance.ScratchoHey(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);  }, 3f, false, new List<Param>()
-                    {
-                        new Param("type", DJSchool.DJVoice.Standard, "Voice", "The voice line to play"),
-                    }),
-                }),
-                new Minigame("rhythmTweezers", "Rhythm Tweezers", "98b389", false, false, new List<GameAction>()
-                {
-                    new GameAction("start interval",        delegate { RhythmTweezers.instance.SetIntervalStart(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 4f, true),
-                    new GameAction("short hair",            delegate { RhythmTweezers.instance.SpawnHair(eventCaller.currentEntity.beat); }, 0.5f),
-                    new GameAction("long hair",             delegate { RhythmTweezers.instance.SpawnLongHair(eventCaller.currentEntity.beat); }, 0.5f),
-                    new GameAction("next vegetable",        delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.NextVegetable(e.beat, e.type, e.colorA, e.colorB); }, 0.5f, false, new List<Param>() 
-                    {
-                        new Param("type", RhythmTweezers.VegetableType.Onion, "Type", "The vegetable to switch to"),
-                        new Param("colorA", RhythmTweezers.defaultOnionColor, "Onion Color", "The color of the onion"),
-                        new Param("colorB", RhythmTweezers.defaultPotatoColor, "Potato Color", "The color of the potato")
-                    } ),
-                    new GameAction("change vegetable",      delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.ChangeVegetableImmediate(e.type, e.colorA, e.colorB); }, 0.5f, false, new List<Param>() 
-                    {
-                        new Param("type", RhythmTweezers.VegetableType.Onion, "Type", "The vegetable to switch to"),
-                        new Param("colorA", RhythmTweezers.defaultOnionColor, "Onion Color", "The color of the onion"),
-                        new Param("colorB", RhythmTweezers.defaultPotatoColor, "Potato Color", "The color of the potato")
-                    } ),
-                    new GameAction("set tweezer delay",     delegate { RhythmTweezers.instance.tweezerBeatOffset = eventCaller.currentEntity.length; }, 1f, true),
-                    new GameAction("reset tweezer delay",   delegate { RhythmTweezers.instance.tweezerBeatOffset = 0f; }, 0.5f),
-                    new GameAction("set background color",  delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.ChangeBackgroundColor(e.colorA, 0f); }, 0.5f, false, new List<Param>() 
-                    {
-                        new Param("colorA", RhythmTweezers.defaultBgColor, "Background Color", "The background color to change to")
-                    } ),
-                    new GameAction("fade background color", delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.FadeBackgroundColor(e.colorA, e.colorB, e.length); }, 1f, true, new List<Param>() 
-                    {
-                        new Param("colorA", Color.white, "Start Color", "The starting color in the fade"),
-                        new Param("colorB", RhythmTweezers.defaultBgColor, "End Color", "The ending color in the fade")
-                    } ),
-                }),
-                
-                new Minigame("rhythmRally", "Rhythm Rally", "FFFFFF", true, false, new List<GameAction>()
-                {
-                    new GameAction("bop",                   delegate { RhythmRally.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 0.5f, true),
-                    new GameAction("whistle",               delegate { RhythmRally.instance.PlayWhistle(); }, 0.5f),
-                    new GameAction("toss ball",             delegate { RhythmRally.instance.Toss(eventCaller.currentEntity.beat, eventCaller.currentEntity.length, 6f, true); }, 2f),
-                    new GameAction("rally",                 delegate { RhythmRally.instance.Serve(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.Normal); }, 4f, true),
-                    new GameAction("slow rally",            delegate { RhythmRally.instance.Serve(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.Slow); }, 8f, true),
-                    new GameAction("fast rally",            delegate { RhythmRally.instance.PrepareFastRally(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.Fast); }, 6f),
-                    new GameAction("superfast rally",       delegate { RhythmRally.instance.PrepareFastRally(eventCaller.currentEntity.beat, RhythmRally.RallySpeed.SuperFast); }, 12f),
-                    new GameAction("pose",                  delegate { RhythmRally.instance.Pose(); }, 0.5f),
-                    new GameAction("camera",                delegate {
-                        var e = eventCaller.currentEntity;
-                        var rotation = new Vector3(0, e.valA, 0);
-                        RhythmRally.instance.ChangeCameraAngle(rotation, e.valB, e.length, (Ease)e.type, (RotateMode)e.type2);
-                    }, 4, true, new List<Param>() {
-                        new Param("valA", new EntityTypes.Integer(-360, 360, 0), "Angle", "The rotation of the camera around the center of the table"),
-                        new Param("valB", new EntityTypes.Float(0.5f, 4f, 1), "Zoom", "The camera's level of zoom (Lower value = Zoomed in)"),
-                        new Param("type", Ease.Linear, "Ease", "The easing function to use"),
-                        new Param("type2", RotateMode.Fast, "Rotation Mode", "The rotation mode to use")
-                    } ),
-                }),
-                new Minigame("builtToScaleDS", "Built To Scale (DS)", "00BB00", true, false, new List<GameAction>()
-                {
-                    new GameAction("spawn blocks",          delegate { }, 1f, true),
-                    new GameAction("play piano",            delegate { BuiltToScaleDS.instance.PlayPiano(eventCaller.currentEntity.beat, eventCaller.currentEntity.length, eventCaller.currentEntity.type); }, 1f, true, new List<Param>() 
-                    {
-                        new Param("type", new EntityTypes.Integer(-24, 24, 0), "Semitones", "The number of semitones up or down this note should be pitched")
-                    } ),
-                }),
-                new Minigame("tapTrial", "Tap Trial \n<color=#eb5454>[WIP don't use]</color>", "93ffb3", false, false, new List<GameAction>()
-                {
-                    new GameAction("tap",                   delegate { TapTrial.instance.Tap(eventCaller.currentEntity.beat); }, 2.0f, false),
-                    new GameAction("double tap",            delegate { TapTrial.instance.DoubleTap(eventCaller.currentEntity.beat); }, 2.0f, false),
-                    new GameAction("triple tap",            delegate { TapTrial.instance.TripleTap(eventCaller.currentEntity.beat); }, 4.0f, false),
-                    new GameAction("jump tap",              delegate { TapTrial.instance.JumpTap(eventCaller.currentEntity.beat); }, 2.0f, false),
-                    new GameAction("final jump tap",        delegate { TapTrial.instance.FinalJumpTap(eventCaller.currentEntity.beat); }, 2.0f, false),
-                }),
-                new Minigame("cropStomp", "Crop Stomp", "BFDEA6", false, false, new List<GameAction>()
-                {
-                    new GameAction("start marching",        delegate { CropStomp.instance.StartMarching(eventCaller.currentEntity.beat); }, 2f, false, inactiveFunction: delegate { CropStomp.MarchInactive(eventCaller.currentEntity.beat); }),
-                    new GameAction("veggies",               delegate { }, 4f, true),
-                    new GameAction("mole",               delegate { }, 2f, false),
-                }),
-                new Minigame("wizardsWaltz", "Wizard's Waltz \n<color=#adadad>(Mahou Tsukai)</color>", "FFEF9C", false, false, new List<GameAction>()
-                {
-                    new GameAction("start interval",        delegate { WizardsWaltz.instance.SetIntervalStart(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 4f, true),
-                    new GameAction("plant",        delegate { WizardsWaltz.instance.SpawnFlower(eventCaller.currentEntity.beat); }, 0.5f, false),
-                }),
-                new Minigame("mrUpbeat", "Mr. Upbeat", "FFFFFF", false, false, new List<GameAction>()
-                {
-                    new GameAction("prepare",               delegate { MrUpbeat.instance.SetInterval(eventCaller.currentEntity.beat); }, 0.5f, true, inactiveFunction: delegate { MrUpbeat.Beep(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }),
-                    new GameAction("go",                    delegate { MrUpbeat.instance.Go(eventCaller.currentEntity.beat);  }, 4f, true),
-                    new GameAction("ding!",                 delegate { MrUpbeat.instance.Ding(eventCaller.currentEntity.toggle); }, 0.5f, parameters: new List<Param>()
-                    {
-                        new Param("toggle", false, "Applause")
-                    }),
-                }),
-                new Minigame("drummingPractice", "Drumming Practice", "2BCF33", false, false, new List<GameAction>()
-                {
-                    new GameAction("bop",                   delegate { var e = eventCaller.currentEntity; DrummingPractice.instance.SetBop(e.beat, e.length); }, 0.5f, true),
-                    new GameAction("drum",                  delegate { var e = eventCaller.currentEntity; DrummingPractice.instance.Prepare(e.beat, e.toggle); }, 2f, parameters: new List<Param>()
-                    {
-                        new Param("toggle", true, "Applause", "Whether or not an applause should be played on a successful hit")
-                    }),
-                    new GameAction("set mii",               delegate { var e = eventCaller.currentEntity; DrummingPractice.instance.SetMiis(e.type, e.type2, e.type3, e.toggle); }, 0.5f, parameters: new List<Param>()
-                    {
-                        new Param("type", DrummingPractice.MiiType.Random, "Player Mii", "The Mii that the player will control"),
-                        new Param("type2", DrummingPractice.MiiType.Random, "Left Mii", "The Mii on the left"),
-                        new Param("type3", DrummingPractice.MiiType.Random, "Right Mii", "The Mii on the right"),
-                        new Param("toggle", false, "Set All to Player", "Sets all Miis to the Player's Mii")
-                    }),
-                    new GameAction("set background color",  delegate {var e = eventCaller.currentEntity; DrummingPractice.instance.SetBackgroundColor(e.colorA, e.colorB, e.colorC); }, 0.5f, false, new List<Param>()
-                    {
-                        new Param("colorA", new Color(43/255f, 207/255f, 51/255f), "Color A", "The top-most color of the background gradient"),
-                        new Param("colorB", new Color(1, 1, 1), "Color B", "The bottom-most color of the background gradient"),
-                        new Param("colorC", new Color(1, 247/255f, 0), "Streak Color", "The color of streaks that appear on a successful hit")
-                    })
-
-                }),
-                new Minigame("blueBear", "Blue Bear \n<color=#eb5454>[WIP don't use]</color>", "B4E6F6", false, false, new List<GameAction>()
-                {
-                    new GameAction("donut",                 delegate { BlueBear.instance.SpawnTreat(eventCaller.currentEntity.beat, false); }, 3, false),
-                    new GameAction("cake",                  delegate { BlueBear.instance.SpawnTreat(eventCaller.currentEntity.beat, true); }, 4, false),
-                }),
-                new Minigame("fireworks", "Fireworks \n<color=#eb5454>[WIP don't use]</color>", "000000", false, false, new List<GameAction>()
-                {
-                }),
-                new Minigame("fanClub", "Fan Club", "FDFD00", false, false, new List<GameAction>()
-                {
-                    new GameAction("bop",                   delegate { var e = eventCaller.currentEntity; FanClub.instance.Bop(e.beat, e.length, e.type); }, 0.5f, true, parameters: new List<Param>()
-                    {
-                        new Param("type", FanClub.IdolBopType.Both, "Bop target", "Who to make bop"),
-                    }),
-
-                    new GameAction("yeah, yeah, yeah",      delegate { var e = eventCaller.currentEntity; FanClub.instance.CallHai(e.beat, e.toggle); }, 8, false, parameters: new List<Param>()
-                        {
-                            new Param("toggle", false, "Disable call", "Disable the idol's call")
-                        },
-                        inactiveFunction: delegate { var e = eventCaller.currentEntity; FanClub.WarnHai(e.beat, e.toggle);}
-                    ),
-
-                    new GameAction("I suppose",             delegate { var e = eventCaller.currentEntity; FanClub.instance.CallKamone(e.beat, e.toggle, 0, e.type); }, 6, false, parameters: new List<Param>()
-                        {
-                            new Param("type", FanClub.KamoneResponseType.Through, "Response type", "Type of response to use"),
-                            new Param("toggle", false, "Disable call", "Disable the idol's call")
-                        },
-                        inactiveFunction: delegate { var e = eventCaller.currentEntity; FanClub.WarnKamone(e.beat, e.toggle);}
-                    ),
-
-                    new GameAction("double clap",           delegate { var e = eventCaller.currentEntity; FanClub.instance.CallBigReady(e.beat, e.toggle); }, 4, false, parameters: new List<Param>()
-                        {
-                            new Param("toggle", false, "Disable call", "Disable the call")
-                        },
-                        inactiveFunction: delegate { var e = eventCaller.currentEntity; FanClub.WarnBigReady(e.beat, e.toggle); }
-                    ),
-
-                    new GameAction("play idol animation",   delegate { var e = eventCaller.currentEntity; FanClub.instance.PlayAnim(e.beat, e.length, e.type); }, 1, true, parameters: new List<Param>()
-                    {
-                        new Param("type", FanClub.IdolAnimations.Bop, "Animation", "Animation to play")
-                    }),
-
-                    new GameAction("play stage animation",   delegate { var e = eventCaller.currentEntity; FanClub.instance.PlayAnimStage(e.beat, e.type); }, 1, true, parameters: new List<Param>()
-                    {
-                        new Param("type", FanClub.StageAnimations.Reset, "Animation", "Animation to play")
-                    }),
-                }),
-                /*new Minigame("spaceDance", "Space Dance", "B888F8", new List<GameAction>()
-                {
-                }),
-                new Minigame("sneakySpirits", "Sneaky Spirits", "B888F8", new List<GameAction>()
-                {
-                }),
-                new Minigame("munchyMonk", "Munchy Monk", "B888F8", new List<GameAction>()
-                {
-                }),
-                new Minigame("airRally", "Air Rally", "B888F8", new List<GameAction>()
-                {
-                }),
-                new Minigame("ringside", "Ringside", "B888F8", new List<GameAction>()
-                {
-                }),
-                new Minigame("workingDough", "Working Dough", "B888F8", new List<GameAction>()
-                {
-                })*/
             };
+            
+            BuildLoadRunnerList();
+
+            foreach(var load in loadRunners)
+                eventCaller.minigames.Add(load(eventCaller));
         }
     }
 }
