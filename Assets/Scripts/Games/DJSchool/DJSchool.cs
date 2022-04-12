@@ -9,13 +9,22 @@ namespace HeavenStudio.Games.Loaders
     public static class NtrDjLoader
     {
         public static Minigame AddGame(EventCaller eventCaller) {
-            return new Minigame("builtToScaleDS", "Built To Scale (DS)", "00BB00", true, false, new List<GameAction>()
+            return new Minigame("djSchool", "DJ School", "008c97", false, false, new List<GameAction>()
             {
-                new GameAction("spawn blocks",          delegate { }, 1f, true),
-                new GameAction("play piano",            delegate { BuiltToScaleDS.instance.PlayPiano(eventCaller.currentEntity.beat, eventCaller.currentEntity.length, eventCaller.currentEntity.type); }, 1f, true, new List<Param>() 
+                new GameAction("bop",                   delegate { DJSchool.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length);  }, 0.5f, true),
+                new GameAction("and stop ooh",          delegate { var e = eventCaller.currentEntity; DJSchool.instance.AndStop(e.beat, e.toggle);  }, 2.5f, false, new List<Param>()
                 {
-                    new Param("type", new EntityTypes.Integer(-24, 24, 0), "Semitones", "The number of semitones up or down this note should be pitched")
-                } ),
+                    new Param("toggle", true, "Ooh", "Whether or not the \"ooh\" sound should be played")
+                }),
+                new GameAction("break c'mon ooh",       delegate { var e = eventCaller.currentEntity; DJSchool.instance.BreakCmon(e.beat, e.type, e.toggle);  }, 3f, false, new List<Param>()
+                {
+                    new Param("type", DJSchool.DJVoice.Standard, "Voice", "The voice line to play"),
+                    new Param("toggle", true, "Ooh", "Whether or not the \"ooh\" sound should be played")
+                }),
+                new GameAction("scratch-o hey",         delegate { DJSchool.instance.ScratchoHey(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);  }, 3f, false, new List<Param>()
+                {
+                    new Param("type", DJSchool.DJVoice.Standard, "Voice", "The voice line to play"),
+                }),
             });
         }
     }
