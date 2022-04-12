@@ -11,22 +11,11 @@ namespace HeavenStudio.Games.Loaders
     public static class NtrCropLoader
     {
         public static Minigame AddGame(EventCaller eventCaller) {
-            return new Minigame("djSchool", "DJ School", "008c97", false, false, new List<GameAction>()
+            return new Minigame("cropStomp", "Crop Stomp", "BFDEA6", false, false, new List<GameAction>()
             {
-                new GameAction("bop",                   delegate { DJSchool.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length);  }, 0.5f, true),
-                new GameAction("and stop ooh",          delegate { var e = eventCaller.currentEntity; DJSchool.instance.AndStop(e.beat, e.toggle);  }, 2.5f, false, new List<Param>()
-                {
-                    new Param("toggle", true, "Ooh", "Whether or not the \"ooh\" sound should be played")
-                }),
-                new GameAction("break c'mon ooh",       delegate { var e = eventCaller.currentEntity; DJSchool.instance.BreakCmon(e.beat, e.type, e.toggle);  }, 3f, false, new List<Param>()
-                {
-                    new Param("type", DJSchool.DJVoice.Standard, "Voice", "The voice line to play"),
-                    new Param("toggle", true, "Ooh", "Whether or not the \"ooh\" sound should be played")
-                }),
-                new GameAction("scratch-o hey",         delegate { DJSchool.instance.ScratchoHey(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);  }, 3f, false, new List<Param>()
-                {
-                    new Param("type", DJSchool.DJVoice.Standard, "Voice", "The voice line to play"),
-                }),
+                new GameAction("start marching",        delegate { CropStomp.instance.StartMarching(eventCaller.currentEntity.beat); }, 2f, false, inactiveFunction: delegate { CropStomp.MarchInactive(eventCaller.currentEntity.beat); }),
+                new GameAction("veggies",               delegate { }, 4f, true),
+                new GameAction("mole",               delegate { }, 2f, false),
             });
         }
     }
