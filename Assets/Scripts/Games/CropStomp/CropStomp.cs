@@ -5,6 +5,22 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace HeavenStudio.Games.Loaders
+{
+    using static Minigames;
+    public static class NtrCropLoader
+    {
+        public static Minigame AddGame(EventCaller eventCaller) {
+            return new Minigame("cropStomp", "Crop Stomp", "BFDEA6", false, false, new List<GameAction>()
+            {
+                new GameAction("start marching",        delegate { CropStomp.instance.StartMarching(eventCaller.currentEntity.beat); }, 2f, false, inactiveFunction: delegate { CropStomp.MarchInactive(eventCaller.currentEntity.beat); }),
+                new GameAction("veggies",               delegate { }, 4f, true),
+                new GameAction("mole",               delegate { }, 2f, false),
+            });
+        }
+    }
+}
+
 namespace HeavenStudio.Games
 {
     using Scripts_CropStomp;
