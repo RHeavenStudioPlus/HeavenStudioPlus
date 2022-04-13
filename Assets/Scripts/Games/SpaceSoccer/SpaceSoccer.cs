@@ -4,6 +4,26 @@ using UnityEngine;
 
 using HeavenStudio.Util;
 
+namespace HeavenStudio.Games.Loaders
+{
+    using static Minigames;
+    public static class NtrSoccerLoader
+    {
+        public static Minigame AddGame(EventCaller eventCaller) {
+            return new Minigame("spaceSoccer", "Space Soccer", "B888F8", false, false, new List<GameAction>()
+            {
+                new GameAction("ball dispense",         delegate { SpaceSoccer.instance.Dispense(eventCaller.currentEntity.beat); }, 2f,
+                inactiveFunction: delegate { SpaceSoccer.DispenseSound(eventCaller.currentEntity.beat); }),
+                new GameAction("keep-up",               delegate { }, 4f, true),
+                new GameAction("high kick-toe!",        delegate { }, 3f, false, new List<Param>() 
+                {
+                    new Param("swing", new EntityTypes.Float(0, 1, 0.5f), "Swing", "The amount of swing") 
+                }),
+            });
+        }
+    }
+}
+
 namespace HeavenStudio.Games
 {
     using Scripts_SpaceSoccer;

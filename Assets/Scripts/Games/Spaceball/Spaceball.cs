@@ -4,6 +4,32 @@ using UnityEngine;
 
 using HeavenStudio.Util;
 
+namespace HeavenStudio.Games.Loaders
+{
+    using static Minigames;
+    public static class AgbBatterLoader
+    {
+        public static Minigame AddGame(EventCaller eventCaller) {
+            return new Minigame("spaceball", "Spaceball", "00A518", false, false, new List<GameAction>()
+            {
+                new GameAction("shoot",                 delegate { Spaceball.instance.Shoot(eventCaller.currentEntity.beat, false, eventCaller.currentEntity.type); }, 2, false),
+                new GameAction("shootHigh",             delegate { Spaceball.instance.Shoot(eventCaller.currentEntity.beat, true, eventCaller.currentEntity.type); }, 3),
+                new GameAction("costume",               delegate { Spaceball.instance.Costume(eventCaller.currentEntity.type); }, 1f, false, new List<Param>() 
+                {
+                    new Param("type", Spaceball.CostumeType.Standard, "Type", "The costume to change to") 
+                } ),
+                new GameAction("alien",                 delegate { Spaceball.instance.alien.Show(eventCaller.currentEntity.beat); } ),
+                new GameAction("camera",                delegate { Spaceball.instance.OverrideCurrentZoom(); }, 4, true, new List<Param>() 
+                {
+                    new Param("valA", new EntityTypes.Integer(1, 320, 10), "Zoom", "The camera's zoom level (Lower value = Zoomed in)"),
+                    new Param("ease", EasingFunction.Ease.Linear, "Ease", "The easing function to use while zooming") 
+                } ),
+                new GameAction("prepare dispenser",     delegate { Spaceball.instance.PrepareDispenser(); }, 1 ),
+            });
+        }
+    }
+}
+
 namespace HeavenStudio.Games
 {
     using Scripts_Spaceball;
