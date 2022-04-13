@@ -7,6 +7,21 @@ using Starpelly;
 
 using HeavenStudio.Util;
 
+namespace HeavenStudio.Games.Loaders
+{
+    using static Minigames;
+    public static class AgbWaltzLoader
+    {
+        public static Minigame AddGame(EventCaller eventCaller) {
+            return new Minigame("wizardsWaltz", "Wizard's Waltz \n<color=#adadad>(Mahou Tsukai)</color>", "FFEF9C", false, false, new List<GameAction>()
+            {
+                new GameAction("start interval",        delegate { WizardsWaltz.instance.SetIntervalStart(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 4f, true),
+                new GameAction("plant",        delegate { WizardsWaltz.instance.SpawnFlower(eventCaller.currentEntity.beat); }, 0.5f, false),
+            });
+        }
+    }
+}
+
 namespace HeavenStudio.Games
 {
     using Scripts_WizardsWaltz;

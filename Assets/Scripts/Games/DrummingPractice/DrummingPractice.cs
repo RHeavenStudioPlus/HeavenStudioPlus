@@ -6,6 +6,39 @@ using Starpelly;
 
 using HeavenStudio.Util;
 
+namespace HeavenStudio.Games.Loaders
+{
+    using static Minigames;
+    public static class CtrDrummingLoader
+    {
+        public static Minigame AddGame(EventCaller eventCaller) {
+            return new Minigame("drummingPractice", "Drumming Practice", "2BCF33", false, false, new List<GameAction>()
+            {
+                new GameAction("bop",                   delegate { var e = eventCaller.currentEntity; DrummingPractice.instance.SetBop(e.beat, e.length); }, 0.5f, true),
+                new GameAction("drum",                  delegate { var e = eventCaller.currentEntity; DrummingPractice.instance.Prepare(e.beat, e.toggle); }, 2f, parameters: new List<Param>()
+                {
+                    new Param("toggle", true, "Applause", "Whether or not an applause should be played on a successful hit")
+                }),
+                new GameAction("set mii",               delegate { var e = eventCaller.currentEntity; DrummingPractice.instance.SetMiis(e.type, e.type2, e.type3, e.toggle); }, 0.5f, parameters: new List<Param>()
+                {
+                    new Param("type", DrummingPractice.MiiType.Random, "Player Mii", "The Mii that the player will control"),
+                    new Param("type2", DrummingPractice.MiiType.Random, "Left Mii", "The Mii on the left"),
+                    new Param("type3", DrummingPractice.MiiType.Random, "Right Mii", "The Mii on the right"),
+                    new Param("toggle", false, "Set All to Player", "Sets all Miis to the Player's Mii")
+                }),
+                new GameAction("set background color",  delegate {var e = eventCaller.currentEntity; DrummingPractice.instance.SetBackgroundColor(e.colorA, e.colorB, e.colorC); }, 0.5f, false, new List<Param>()
+                {
+                    new Param("colorA", new Color(43/255f, 207/255f, 51/255f), "Color A", "The top-most color of the background gradient"),
+                    new Param("colorB", new Color(1, 1, 1), "Color B", "The bottom-most color of the background gradient"),
+                    new Param("colorC", new Color(1, 247/255f, 0), "Streak Color", "The color of streaks that appear on a successful hit")
+                })
+
+            });
+        }
+    }
+}
+
+
 namespace HeavenStudio.Games
 {
     using Scripts_DrummingPractice;
