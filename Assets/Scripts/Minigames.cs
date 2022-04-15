@@ -463,7 +463,7 @@ namespace HeavenStudio
                         new Param("type", FanClub.StageAnimations.Reset, "Animation", "Animation to play")
                     })
                 }),
-                new Minigame("Tram&Pauline", "Tram&Pauline \n<color=#eb5454>[WIP don't use]</color>", "000000", false, false, new List<GameAction>()
+                new Minigame("Tram&Pauline", "tram&Pauline" \n<color=#eb5454>[WIP don't use]</color>", "000000", false, false, new List<GameAction>()
                 {
                 }),
 
