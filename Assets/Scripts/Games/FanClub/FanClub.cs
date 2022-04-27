@@ -81,6 +81,8 @@ namespace HeavenStudio.Games
         public enum KamoneResponseType {
             Through,
             Jump,
+            ThroughFast,
+            JumpFast,
         }
         public enum StageAnimations {
             Reset,
@@ -450,15 +452,41 @@ namespace HeavenStudio.Games
         const float CALL_LENGTH = 2.5f;
         public void CallKamone(float beat, bool noSound = false, int type = 0, int responseType = (int) KamoneResponseType.Through)
         {
-            if (!noSound)
-                MultiSound.Play(new MultiSound.Sound[] { 
-                    new MultiSound.Sound("fanClub/arisa_ka_jp", beat), 
-                    new MultiSound.Sound("fanClub/arisa_mo_jp", beat + 0.5f, offset: 0.07407407f),
-                    new MultiSound.Sound("fanClub/arisa_ne_jp", beat + 1f, offset: 0.07407407f),
-                });
+            bool doJump = (responseType == (int) KamoneResponseType.Jump || responseType == (int) KamoneResponseType.JumpFast);
+            BeatAction.Action call0;
+            BeatAction.Action call1;
+            DisableResponse(beat, 2f);
+            if (responseType == (int) KamoneResponseType.ThroughFast || responseType == (int) KamoneResponseType.JumpFast)
+            {
+                call0 = new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolBigCall0", -1, 0); });
+                call1 = new BeatAction.Action(beat + 0.75f, delegate { Arisa.GetComponent<Animator>().Play("IdolBigCall1", -1, 0); });
+
+                if (!noSound)
+                {
+                    MultiSound.Play(new MultiSound.Sound[] { 
+                        new MultiSound.Sound("fanClub/arisa_ka_fast_jp", beat), 
+                        new MultiSound.Sound("fanClub/arisa_mo_fast_jp", beat + 0.25f),
+                        new MultiSound.Sound("fanClub/arisa_ne_fast_jp", beat + 0.5f),
+                    });
+                }
+            }
+            else
+            {
+                call0 = new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolCall0", -1, 0); });
+                call1 = new BeatAction.Action(beat + 0.75f, delegate { Arisa.GetComponent<Animator>().Play("IdolCall1", -1, 0); });
+
+                if (!noSound)
+                {
+                    MultiSound.Play(new MultiSound.Sound[] { 
+                        new MultiSound.Sound("fanClub/arisa_ka_jp", beat), 
+                        new MultiSound.Sound("fanClub/arisa_mo_jp", beat + 0.5f, offset: 0.07407407f),
+                        new MultiSound.Sound("fanClub/arisa_ne_jp", beat + 1f, offset: 0.07407407f),
+                    });
+                }
+            }
 
             responseToggle = true;
-            DisableBop(beat, (responseType == (int) KamoneResponseType.Jump) ? 6.25f : 5.25f);
+            DisableBop(beat, (doJump) ? 6.25f : 5.25f);
             DisableSpecBop(beat + 0.5f, 6f);
 
             Prepare(beat + 1f);
@@ -468,8 +496,8 @@ namespace HeavenStudio.Games
 
             BeatAction.New(Arisa, new List<BeatAction.Action>()
             {
-                new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolCall0", -1, 0); }),
-                new BeatAction.Action(beat + 0.75f, delegate { Arisa.GetComponent<Animator>().Play("IdolCall1", -1, 0); }),
+                call0,
+                call1,
                 new BeatAction.Action(beat + 1f,    delegate { PlayPrepare(); }),
 
                 new BeatAction.Action(beat + 2f,    delegate { PlayLongClap(beat + 2f); DoIdolResponse(); }),
@@ -477,7 +505,7 @@ namespace HeavenStudio.Games
                 new BeatAction.Action(beat + 3.5f,  delegate { PlayOneClap(beat + 3.5f); }),
                 new BeatAction.Action(beat + 4f,    delegate { PlayChargeClap(beat + 4f); DoIdolResponse(); }),
                 new BeatAction.Action(beat + 5f,    delegate { PlayJump(beat + 5f);
-                    if (responseType == (int) KamoneResponseType.Jump) 
+                    if (doJump) 
                     {
                         DoIdolJump(beat + 5f);
                     }
@@ -501,11 +529,22 @@ namespace HeavenStudio.Games
             wantKamone = beat;
             wantKamoneType = responseType;
             if (noSound) return;
-            MultiSound.Play(new MultiSound.Sound[] { 
-                new MultiSound.Sound("fanClub/arisa_ka_jp", beat), 
-                new MultiSound.Sound("fanClub/arisa_mo_jp", beat + 0.5f, offset: 0.07407407f),
-                new MultiSound.Sound("fanClub/arisa_ne_jp", beat + 1f, offset: 0.07407407f),
-            }, forcePlay:true);
+            if (responseType == (int) KamoneResponseType.ThroughFast || responseType == (int) KamoneResponseType.JumpFast)
+            {
+                MultiSound.Play(new MultiSound.Sound[] { 
+                    new MultiSound.Sound("fanClub/arisa_ka_fast_jp", beat), 
+                    new MultiSound.Sound("fanClub/arisa_mo_fast_jp", beat + 0.25f),
+                    new MultiSound.Sound("fanClub/arisa_ne_fast_jp", beat + 0.5f),
+                }, forcePlay:true);
+            }
+            else
+            {
+                MultiSound.Play(new MultiSound.Sound[] { 
+                    new MultiSound.Sound("fanClub/arisa_ka_jp", beat), 
+                    new MultiSound.Sound("fanClub/arisa_mo_jp", beat + 0.5f, offset: 0.07407407f),
+                    new MultiSound.Sound("fanClub/arisa_ne_jp", beat + 1f, offset: 0.07407407f),
+                }, forcePlay:true);
+            }
         }
 
         public void ContinueKamone(float beat, int type = 0, int responseType = (int) KamoneResponseType.Through)
