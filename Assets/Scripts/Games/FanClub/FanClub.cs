@@ -49,6 +49,13 @@ namespace HeavenStudio.Games.Loaders
                 {
                     new Param("type", FanClub.StageAnimations.Flash, "Animation", "Animation to play")
                 }),
+
+                new GameAction("set performance type",   delegate { var e = eventCaller.currentEntity; FanClub.SetPerformanceType(e.type);}, 0.5f, false, parameters: new List<Param>()
+                    {
+                        new Param("type", FanClub.IdolPerformanceType.Normal, "Performance Type", "Set of animations for the idol to use")
+                    },
+                    inactiveFunction: delegate { var e = eventCaller.currentEntity; FanClub.SetPerformanceType(e.type); }
+                ),
             });
         }
     }
@@ -89,6 +96,11 @@ namespace HeavenStudio.Games
             Flash,
             //TODO: spotlight
         }
+        public enum IdolPerformanceType {
+            Normal,
+            Arrange,
+            // Tour(this one is fan made so ?)
+        }
 
         // userdata here
         [Header("Animators")]
@@ -117,6 +129,7 @@ namespace HeavenStudio.Games
         public GameEvent noResponse = new GameEvent();
         public GameEvent noSpecBop = new GameEvent();
 
+        private static int performanceType = (int) IdolPerformanceType.Normal;
         private bool responseToggle = false;
         private static float wantHais = Single.MinValue;
         private static float wantKamone = Single.MinValue;
@@ -177,6 +190,31 @@ namespace HeavenStudio.Games
                     // spawnPos.z -= RADIUS/4;
                 }
             }
+
+            if (performanceType != (int) IdolPerformanceType.Normal)
+            {
+                idolAnimator.Play("NoPose" + GetPerformanceSuffix(), -1, 0);
+            }
+        }
+
+        public static string GetPerformanceSuffix()
+        {
+            switch (performanceType)
+            {
+                case (int) IdolPerformanceType.Arrange:
+                    return "Arrange";
+                default:
+                    return "";
+            }
+        }
+        
+        public static void SetPerformanceType(int type = (int) IdolPerformanceType.Normal)
+        {
+            performanceType = type;
+            if (GameManager.instance.currentGame == "fanClub")
+            {
+                FanClub.instance.idolAnimator.Play("NoPose" + GetPerformanceSuffix(), -1, 0);
+            }
         }
 
         public override void OnGameSwitch(float beat)
@@ -206,7 +244,7 @@ namespace HeavenStudio.Games
                 if (cond.songPositionInBeats >= bop.startBeat && cond.songPositionInBeats < bop.startBeat + bop.length)
                 {
                     if (!(cond.songPositionInBeats >= noBop.startBeat && cond.songPositionInBeats < noBop.startBeat + noBop.length))
-                        idolAnimator.Play("IdolBeat", 0, 0);
+                        idolAnimator.Play("IdolBeat" + GetPerformanceSuffix(), 0, 0);
                 }
             }
 
@@ -301,16 +339,16 @@ namespace HeavenStudio.Games
             switch (type)
             {
                 case (int) IdolAnimations.Bop:
-                    idolAnimator.Play("IdolBeat", -1, 0);
+                    idolAnimator.Play("IdolBeat" + GetPerformanceSuffix(), -1, 0);
                     break;
                 case (int) IdolAnimations.PeaceVocal:
-                    idolAnimator.Play("IdolPeace", -1, 0);
+                    idolAnimator.Play("IdolPeace" + GetPerformanceSuffix(), -1, 0);
                     break;
                 case (int) IdolAnimations.Peace:
-                    idolAnimator.Play("IdolPeaceNoSync", -1, 0);
+                    idolAnimator.Play("IdolPeaceNoSync" + GetPerformanceSuffix(), -1, 0);
                     break;
                 case (int) IdolAnimations.Clap:
-                    idolAnimator.Play("IdolCrap", -1, 0);
+                    idolAnimator.Play("IdolCrap" + GetPerformanceSuffix(), -1, 0);
                     break;
                 case (int) IdolAnimations.Call:
                     BeatAction.New(Arisa, new List<BeatAction.Action>()
@@ -347,7 +385,7 @@ namespace HeavenStudio.Games
                     });
                     break;
                 case (int) IdolAnimations.Dab:
-                    idolAnimator.Play("IdolDab", -1, 0);
+                    idolAnimator.Play("IdolDab" + GetPerformanceSuffix(), -1, 0);
                     Jukebox.PlayOneShotGame("fanClub/arisa_dab");
                     break;
             }
@@ -386,7 +424,7 @@ namespace HeavenStudio.Games
             {
                 if (!(Conductor.instance.songPositionInBeats >= noResponse.startBeat && Conductor.instance.songPositionInBeats < noResponse.startBeat + noResponse.length))
                 {
-                    idolAnimator.Play("IdolCrap", -1, 0);
+                    idolAnimator.Play("IdolCrap" + GetPerformanceSuffix(), -1, 0);
                 }
             }
         }
@@ -420,11 +458,11 @@ namespace HeavenStudio.Games
 
             BeatAction.New(Arisa, new List<BeatAction.Action>()
             {
-                new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", -1, 0);}),
-                new BeatAction.Action(beat + 1f,    delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", -1, 0);}),
-                new BeatAction.Action(beat + 2f,    delegate { Arisa.GetComponent<Animator>().Play("IdolPeace", -1, 0);}),
+                new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolPeace" + GetPerformanceSuffix(), -1, 0);}),
+                new BeatAction.Action(beat + 1f,    delegate { Arisa.GetComponent<Animator>().Play("IdolPeace" + GetPerformanceSuffix(), -1, 0);}),
+                new BeatAction.Action(beat + 2f,    delegate { Arisa.GetComponent<Animator>().Play("IdolPeace" + GetPerformanceSuffix(), -1, 0);}),
                 new BeatAction.Action(beat + 2.5f,  delegate { DisableSpecBop(beat + 2.5f, 5f);}),
-                new BeatAction.Action(beat + 3f,    delegate { Arisa.GetComponent<Animator>().Play("IdolPeaceNoSync"); PlayPrepare(); }),
+                new BeatAction.Action(beat + 3f,    delegate { Arisa.GetComponent<Animator>().Play("IdolPeaceNoSync" + GetPerformanceSuffix()); PlayPrepare(); }),
 
                 new BeatAction.Action(beat + 4f,    delegate { PlayOneClap(beat + 4f); DoIdolClaps();}),
                 new BeatAction.Action(beat + 5f,    delegate { PlayOneClap(beat + 5f); DoIdolClaps();}),
