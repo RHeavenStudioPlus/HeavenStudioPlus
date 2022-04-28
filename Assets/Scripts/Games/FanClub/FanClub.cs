@@ -47,7 +47,7 @@ namespace HeavenStudio.Games.Loaders
 
                 new GameAction("play stage animation",   delegate { var e = eventCaller.currentEntity; FanClub.instance.PlayAnimStage(e.beat, e.type); }, 1, true, parameters: new List<Param>()
                 {
-                    new Param("type", FanClub.StageAnimations.Reset, "Animation", "Animation to play")
+                    new Param("type", FanClub.StageAnimations.Flash, "Animation", "Animation to play")
                 }),
             });
         }
@@ -73,7 +73,7 @@ namespace HeavenStudio.Games
             Call,
             Response,
             Jump,
-            //TODO: BigCall
+            BigCall,
             Squat,
             Wink,
             Dab
@@ -295,8 +295,8 @@ namespace HeavenStudio.Games
         public void PlayAnim(float beat, float length, int type)
         {
             idolJumpStartTime = Single.MinValue;
-            DisableResponse(beat, length);
-            DisableBop(beat, length);
+            DisableResponse(beat, length + 0.5f);
+            DisableBop(beat, length + 0.5f);
 
             switch (type)
             {
@@ -325,11 +325,18 @@ namespace HeavenStudio.Games
                 case (int) IdolAnimations.Jump:
                     DoIdolJump(beat, length);
                     break;
+                case (int) IdolAnimations.BigCall:
+                    BeatAction.New(Arisa, new List<BeatAction.Action>()
+                    {
+                        new BeatAction.Action(beat,             delegate { Arisa.GetComponent<Animator>().Play("IdolBigCall0", -1, 0); }),
+                        new BeatAction.Action(beat + length,    delegate { Arisa.GetComponent<Animator>().Play("IdolBigCall1", -1, 0); }),
+                    });
+                    break;
                 case (int) IdolAnimations.Squat:
                     BeatAction.New(Arisa, new List<BeatAction.Action>()
                     {
                         new BeatAction.Action(beat,             delegate { Arisa.GetComponent<Animator>().Play("IdolSquat0", -1, 0); }),
-                        new BeatAction.Action(beat + 1f,        delegate { Arisa.GetComponent<Animator>().Play("IdolSquat1", -1, 0); }),
+                        new BeatAction.Action(beat + length,    delegate { Arisa.GetComponent<Animator>().Play("IdolSquat1", -1, 0); }),
                     });
                     break;
                 case (int) IdolAnimations.Wink:
@@ -403,10 +410,10 @@ namespace HeavenStudio.Games
                     new MultiSound.Sound("fanClub/arisa_hai_3_jp", beat + 2f),
                 });
 
-            Prepare(beat + 3f); 
             responseToggle = false;
             DisableBop(beat, 8f);
 
+            Prepare(beat + 3f); 
             Prepare(beat + 4f); 
             Prepare(beat + 5f); 
             Prepare(beat + 6f); 
@@ -555,12 +562,13 @@ namespace HeavenStudio.Games
         const float BIGCALL_LENGTH = 2.75f;
         public void CallBigReady(float beat, bool noSound = false)
         {
+            Prepare(beat + 1.5f);
+            Prepare(beat + 2f);
+
             if (!noSound)
                 Jukebox.PlayOneShotGame("fanClub/crowd_big_ready");
             
             DisableSpecBop(beat, 3.75f);
-            Prepare(beat + 1.5f);
-            Prepare(beat + 2f);
 
             PlayAnimationAll("FanBigReady", onlyOverrideBop: true);
             BeatAction.New(this.gameObject, new List<BeatAction.Action>()
