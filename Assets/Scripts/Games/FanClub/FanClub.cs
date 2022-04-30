@@ -266,7 +266,7 @@ namespace HeavenStudio.Games
                 float yMul = jumpPos * 2f - 1f;
                 float yWeight = -(yMul*yMul) + 1f;
                 //TODO: idol start position
-                ArisaRootMotion.transform.localPosition = new Vector3(0, 2f * yWeight);
+                ArisaRootMotion.transform.localPosition = new Vector3(0, 2f * yWeight + 0.25f);
                 ArisaShadow.transform.localScale = new Vector3((1f-yWeight*0.8f) * IDOL_SHADOW_SCALE, (1f-yWeight*0.8f) * IDOL_SHADOW_SCALE, 1f);
             }
             else
@@ -353,12 +353,12 @@ namespace HeavenStudio.Games
                 case (int) IdolAnimations.Call:
                     BeatAction.New(Arisa, new List<BeatAction.Action>()
                     {
-                        new BeatAction.Action(beat,             delegate { Arisa.GetComponent<Animator>().Play("IdolCall0", -1, 0); }),
-                        new BeatAction.Action(beat + 0.75f,     delegate { Arisa.GetComponent<Animator>().Play("IdolCall1", -1, 0); }),
+                        new BeatAction.Action(beat,             delegate { Arisa.GetComponent<Animator>().Play("IdolCall0" + GetPerformanceSuffix(), -1, 0); }),
+                        new BeatAction.Action(beat + 0.75f,     delegate { Arisa.GetComponent<Animator>().Play("IdolCall1" + GetPerformanceSuffix(), -1, 0); }),
                     });
                     break;
                 case (int) IdolAnimations.Response:
-                    idolAnimator.Play("IdolResponse", -1, 0);
+                    idolAnimator.Play("IdolResponse" + GetPerformanceSuffix(), -1, 0);
                     break;
                 case (int) IdolAnimations.Jump:
                     DoIdolJump(beat, length);
@@ -413,7 +413,7 @@ namespace HeavenStudio.Games
             //play anim
             BeatAction.New(Arisa, new List<BeatAction.Action>()
             {
-                new BeatAction.Action(beat,                     delegate { Arisa.GetComponent<Animator>().Play("IdolJump", -1, 0); }),
+                new BeatAction.Action(beat,                     delegate { Arisa.GetComponent<Animator>().Play("IdolJump" + GetPerformanceSuffix(), -1, 0); }),
                 new BeatAction.Action(beat + 1f,                delegate { Arisa.GetComponent<Animator>().Play("IdolLand", -1, 0); }),
             });
         }
@@ -434,7 +434,7 @@ namespace HeavenStudio.Games
             if (responseToggle)
             {
                 if (!(Conductor.instance.songPositionInBeats >= noResponse.startBeat && Conductor.instance.songPositionInBeats < noResponse.startBeat + noResponse.length))
-                    idolAnimator.Play("IdolResponse", -1, 0);
+                    idolAnimator.Play("IdolResponse" + GetPerformanceSuffix(), -1, 0);
             }
         }
 
@@ -504,7 +504,7 @@ namespace HeavenStudio.Games
             if (responseType == (int) KamoneResponseType.ThroughFast || responseType == (int) KamoneResponseType.JumpFast)
             {
                 call0 = new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolBigCall0", -1, 0); });
-                call1 = new BeatAction.Action(beat + 0.75f, delegate { Arisa.GetComponent<Animator>().Play("IdolBigCall1", -1, 0); });
+                call1 = new BeatAction.Action(beat + 1f, delegate { Arisa.GetComponent<Animator>().Play("IdolBigCall1", -1, 0); });
 
                 if (!noSound)
                 {
@@ -517,8 +517,8 @@ namespace HeavenStudio.Games
             }
             else
             {
-                call0 = new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolCall0", -1, 0); });
-                call1 = new BeatAction.Action(beat + 0.75f, delegate { Arisa.GetComponent<Animator>().Play("IdolCall1", -1, 0); });
+                call0 = new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolCall0" + GetPerformanceSuffix(), -1, 0); });
+                call1 = new BeatAction.Action(beat + 0.75f, delegate { Arisa.GetComponent<Animator>().Play("IdolCall1" + GetPerformanceSuffix(), -1, 0); });
 
                 if (!noSound)
                 {
