@@ -503,8 +503,8 @@ namespace HeavenStudio.Games
             DisableResponse(beat, 2f);
             if (responseType == (int) KamoneResponseType.ThroughFast || responseType == (int) KamoneResponseType.JumpFast)
             {
-                call0 = new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolBigCall0", -1, 0); });
-                call1 = new BeatAction.Action(beat + 1f, delegate { Arisa.GetComponent<Animator>().Play("IdolBigCall1", -1, 0); });
+                call0 = new BeatAction.Action(beat,         delegate { Arisa.GetComponent<Animator>().Play("IdolBigCall0" + GetPerformanceSuffix(), -1, 0); });
+                call1 = new BeatAction.Action(beat + 1f,    delegate { Arisa.GetComponent<Animator>().Play("IdolBigCall1" + GetPerformanceSuffix(), -1, 0); });
 
                 if (!noSound)
                 {
