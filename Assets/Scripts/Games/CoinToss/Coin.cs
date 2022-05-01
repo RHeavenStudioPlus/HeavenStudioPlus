@@ -24,6 +24,9 @@ namespace HeavenStudio.Games.Scripts_CoinToss
 
         void Update()
         {
+            //Make sure there's no overlapping coin cues.
+            if (CoinToss.instance.current_coin != this.gameObject) Destroy(this.gameObject);
+
             if (Conductor.instance.GetPositionFromBeat(startBeat, 1f) >= 6.3f)
                 MissCoin();
 

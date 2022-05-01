@@ -29,12 +29,17 @@ namespace HeavenStudio.Games
     public class CoinToss : Minigame
     {
 
+        //Right now, you can only throw one coin at a time.
+        //..Which makes sense, you only have one coin in the original game
+
+        //Though it would need a bit of code rewrite to make it work with multiple coins
+
         public static CoinToss instance { get; set; }
         public Boolean isThrowing;
 
         public GameObject coin_cue;
 
-        private int nbCoinThrown; //Variable used if multiple coins are thrown. But it's pretty buggy at the moment and should not be used at the moment
+        public GameObject current_coin;
 
         [Header("Animators")]
         public Animator handAnimator;
@@ -42,7 +47,8 @@ namespace HeavenStudio.Games
         private void Awake()
         {
             instance = this;
-            nbCoinThrown = 0;
+            isThrowing = false;
+            current_coin = null;
         }
 
         private void Update()
@@ -57,18 +63,27 @@ namespace HeavenStudio.Games
 
         public void TossCoin(float beat, bool audienceReacting)
         {
+            //Play sound and animations
             Jukebox.PlayOneShotGame("coinToss/throw");
             handAnimator.Play("Throw", 0, 0);
-
+            //Game state says the hand is throwing the coin
             isThrowing = true;
 
+            //Delete the current coin to clean up overlapping instances
+            if(current_coin != null)
+            {
+                Destroy(current_coin);
+                current_coin = null;
+            }
+
+            //Create a new coin to throw
             GameObject coin = Instantiate(coin_cue);
             coin.SetActive(true);
             Coin c = coin.GetComponent<Coin>();
             c.startBeat = beat;
             c.audienceReacting = audienceReacting;
 
-            nbCoinThrown++;
+            current_coin = coin;
         }
 
         public void Catch_Success(bool audienceReacting)
@@ -77,8 +92,7 @@ namespace HeavenStudio.Games
             if(audienceReacting) Jukebox.PlayOneShotGame("coinToss/applause");
             handAnimator.Play("Catch_success", 0, 0);
 
-            if(nbCoinThrown > 0) nbCoinThrown--;
-            if(nbCoinThrown == 0) isThrowing = false;
+            isThrowing = false;
         }
 
         public void Catch_Miss(bool audienceReacting)
@@ -87,8 +101,7 @@ namespace HeavenStudio.Games
             if(audienceReacting) Jukebox.PlayOneShotGame("coinToss/disappointed");
             handAnimator.Play("Pickup", 0, 0);
 
-            if (nbCoinThrown > 0) nbCoinThrown--;
-            if (nbCoinThrown == 0) isThrowing = false;
+            isThrowing = false;
         }
 
         public void Catch_Empty()
