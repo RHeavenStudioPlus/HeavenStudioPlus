@@ -27,8 +27,9 @@ namespace HeavenStudio.Games
     {
 
         public static CoinToss instance { get; set; }
-
         public Boolean isThrowing;
+
+        public GameObject coin_cue;
 
         [Header("Animators")]
         public Animator handAnimator;
@@ -36,7 +37,6 @@ namespace HeavenStudio.Games
         private void Awake()
         {
             instance = this;
-            isThrowing = false;
         }
 
         private void Update()
@@ -55,7 +55,24 @@ namespace HeavenStudio.Games
             handAnimator.Play("Throw", 0, 0);
 
             isThrowing = true;
+
+            GameObject coin = Instantiate(coin_cue);
+            coin.SetActive(true);
+            Coin c = coin.GetComponent<Coin>();
+            c.startBeat = beat;
         }
 
+        public void Catch_Success()
+        {
+            Jukebox.PlayOneShotGame("coinToss/catch");
+            handAnimator.Play("Catch_success", 0, 0);
+
+            isThrowing = false;
+        }
+
+        public void Catch_Miss()
+        {
+            Jukebox.PlayOneShotGame("coinToss/miss");
+        }
     }
 }

@@ -82,6 +82,62 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2284767481152605812
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5807365695538841574}
+  - component: {fileID: 5502145621422939277}
+  m_Layer: 0
+  m_Name: Coin_Cue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &5807365695538841574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2284767481152605812}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.80453336, y: -2.6470656, z: -1.8526075}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8906338938816874952}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5502145621422939277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2284767481152605812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df09de01a35532c42b315b9b076cf88b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inList: 0
+  lastState: 0
+  state:
+    gameObject: {fileID: 0}
+    early: 0
+    perfect: 0
+    late: 0
+    createBeat: 0
+  eligibleHitsList: []
+  aceTimes: 0
+  isEligible: 0
+  triggersAutoplay: 1
+  startBeat: 0
 --- !u!1 &4255918877615705356
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,6 +580,7 @@ Transform:
   m_Children:
   - {fileID: 5417053695332528972}
   - {fileID: 3170172331476655201}
+  - {fileID: 5807365695538841574}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -542,6 +599,7 @@ MonoBehaviour:
   EligibleHits: []
   firstEnable: 0
   isThrowing: 0
+  coin_cue: {fileID: 2284767481152605812}
   handAnimator: {fileID: 6887173419118620922}
 --- !u!1 &9176706498249536598
 GameObject:
@@ -553,7 +611,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3170172331476655201}
   - component: {fileID: 6887173419118620922}
-  - component: {fileID: 4532207818172471810}
   m_Layer: 0
   m_Name: Arm
   m_TagString: Untagged
@@ -597,27 +654,3 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4532207818172471810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9176706498249536598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 064f8eb876b68ff448e085a8c3df2db7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inList: 0
-  lastState: 0
-  state:
-    gameObject: {fileID: 0}
-    early: 0
-    perfect: 0
-    late: 0
-    createBeat: 0
-  eligibleHitsList: []
-  aceTimes: 0
-  isEligible: 0
-  triggersAutoplay: 1
