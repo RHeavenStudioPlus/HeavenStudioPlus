@@ -10,6 +10,8 @@ namespace HeavenStudio.Games.Scripts_CoinToss
     {
         public float startBeat;
 
+        public bool audienceReacting;
+
         void Awake()
         {
             PlayerActionInit(this.gameObject, startBeat);
@@ -33,18 +35,25 @@ namespace HeavenStudio.Games.Scripts_CoinToss
                 if (state.perfect)
                 {
                     Hit();
+                } else
+                {
+                    CoinToss.instance.Catch_Empty();
                 }
+            }
         }
 
         public void Hit()
         {
-            CoinToss.instance.Catch_Success();
-            Destroy(this.gameObject);
+            if(CoinToss.instance.isThrowing)
+            {
+                CoinToss.instance.Catch_Success(audienceReacting);
+                Destroy(this.gameObject);
+            }
         }
 
         public void MissCoin()
         {
-            CoinToss.instance.Catch_Miss();
+            CoinToss.instance.Catch_Miss(audienceReacting);
             Destroy(this.gameObject);
         }
     }
