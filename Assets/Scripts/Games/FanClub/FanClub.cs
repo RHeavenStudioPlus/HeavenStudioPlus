@@ -366,15 +366,15 @@ namespace HeavenStudio.Games
                 case (int) IdolAnimations.BigCall:
                     BeatAction.New(Arisa, new List<BeatAction.Action>()
                     {
-                        new BeatAction.Action(beat,             delegate { Arisa.GetComponent<Animator>().Play("IdolBigCall0", -1, 0); }),
-                        new BeatAction.Action(beat + length,    delegate { Arisa.GetComponent<Animator>().Play("IdolBigCall1", -1, 0); }),
+                        new BeatAction.Action(beat,             delegate { Arisa.GetComponent<Animator>().Play("IdolBigCall0" + GetPerformanceSuffix(), -1, 0); }),
+                        new BeatAction.Action(beat + length,    delegate { Arisa.GetComponent<Animator>().Play("IdolBigCall1" + GetPerformanceSuffix(), -1, 0); }),
                     });
                     break;
                 case (int) IdolAnimations.Squat:
                     BeatAction.New(Arisa, new List<BeatAction.Action>()
                     {
-                        new BeatAction.Action(beat,             delegate { Arisa.GetComponent<Animator>().Play("IdolSquat0", -1, 0); }),
-                        new BeatAction.Action(beat + length,    delegate { Arisa.GetComponent<Animator>().Play("IdolSquat1", -1, 0); }),
+                        new BeatAction.Action(beat,             delegate { Arisa.GetComponent<Animator>().Play("IdolSquat0" + GetPerformanceSuffix(), -1, 0); }),
+                        new BeatAction.Action(beat + length,    delegate { Arisa.GetComponent<Animator>().Play("IdolSquat1" + GetPerformanceSuffix(), -1, 0); }),
                     });
                     break;
                 case (int) IdolAnimations.Wink:
