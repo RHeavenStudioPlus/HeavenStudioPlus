@@ -414,7 +414,7 @@ namespace HeavenStudio.Games
             BeatAction.New(Arisa, new List<BeatAction.Action>()
             {
                 new BeatAction.Action(beat,                     delegate { Arisa.GetComponent<Animator>().Play("IdolJump" + GetPerformanceSuffix(), -1, 0); }),
-                new BeatAction.Action(beat + 1f,                delegate { Arisa.GetComponent<Animator>().Play("IdolLand", -1, 0); }),
+                new BeatAction.Action(beat + 1f,                delegate { Arisa.GetComponent<Animator>().Play("IdolLand" + GetPerformanceSuffix(), -1, 0); }),
             });
         }
 
