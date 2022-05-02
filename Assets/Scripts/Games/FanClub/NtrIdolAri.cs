@@ -7,6 +7,7 @@ public class NtrIdolAri : MonoBehaviour
     [Header("Objects")]
     public ParticleSystem idolClapEffect;
     public ParticleSystem idolWinkEffect;
+    public ParticleSystem idolKissEffect;
 
     public void ClapParticle()
     {
@@ -16,5 +17,10 @@ public class NtrIdolAri : MonoBehaviour
     public void WinkParticle()
     {
         idolWinkEffect.Play();
+    }
+
+    public void KissParticle()
+    {
+        idolKissEffect.Play();
     }
 }
