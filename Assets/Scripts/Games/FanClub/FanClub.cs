@@ -380,8 +380,8 @@ namespace HeavenStudio.Games
                 case (int) IdolAnimations.Wink:
                     BeatAction.New(Arisa, new List<BeatAction.Action>()
                     {
-                        new BeatAction.Action(beat,             delegate { Arisa.GetComponent<Animator>().Play("IdolWink0", -1, 0); }),
-                        new BeatAction.Action(beat + length,    delegate { Arisa.GetComponent<Animator>().Play("IdolWink1", -1, 0); }),
+                        new BeatAction.Action(beat,             delegate { Arisa.GetComponent<Animator>().Play("IdolWink0" + GetPerformanceSuffix(), -1, 0); }),
+                        new BeatAction.Action(beat + length,    delegate { Arisa.GetComponent<Animator>().Play("IdolWink1" + GetPerformanceSuffix(), -1, 0); }),
                     });
                     break;
                 case (int) IdolAnimations.Dab:
