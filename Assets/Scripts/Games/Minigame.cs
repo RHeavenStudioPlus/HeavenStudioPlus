@@ -21,6 +21,48 @@ namespace HeavenStudio.Games
             public float createBeat;
         }
 
+
+        /**
+         * Schedule an Input for a later time in the minigame. Executes the methods put in parameters
+         * 
+         * float                     startBeat   : When the scheduling started (In beats)
+         * float                     timer       : How many beats later should the input be recorded
+         * InputType                 inputType   : The type of the input that's expected (Press, release, A, B, Directions..)
+         * ActionEventCallbackState  OnHit       : Method to run if the Input has been Hit
+         * ActionEventCallback       OnMiss      : Method to run if the Input has been Missed
+         * ActionEventCallback       OnBlank     : Method to run whenever there's an Input while this is Scheduled (Shouldn't be used too much)
+         */
+        public PlayerActionEvent ScheduleInput(float startBeat,
+            float timer,
+            InputType inputType,
+            PlayerActionEvent.ActionEventCallbackState OnHit,
+            PlayerActionEvent.ActionEventCallback OnMiss,
+            PlayerActionEvent.ActionEventCallback OnBlank)
+        {
+
+            GameObject evtObj = new GameObject("ActionEvent" + (startBeat+timer));
+            evtObj.AddComponent<PlayerActionEvent>();
+
+            PlayerActionEvent evt = evtObj.GetComponent<PlayerActionEvent>();
+
+            evt.startBeat = startBeat;
+            evt.timer = timer;
+            evt.inputType = inputType;
+            evt.OnHit = OnHit;
+            evt.OnMiss = OnMiss;
+            evt.OnBlank = OnBlank;
+
+            evt.canHit = true;
+            evt.enabled = true;
+
+            evt.transform.parent = this.transform.parent;
+
+            //Instantiate(evtObj);
+            evtObj.SetActive(true);
+
+            return evt;
+        }
+
         // hopefully these will fix the lowbpm problem
         public static float EarlyTime()
         {
