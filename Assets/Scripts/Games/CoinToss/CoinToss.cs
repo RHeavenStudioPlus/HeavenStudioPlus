@@ -25,7 +25,7 @@ namespace HeavenStudio.Games.Loaders
 
 namespace HeavenStudio.Games
 {
-    using Scripts_CoinToss;
+    //using Scripts_CoinToss;
     public class CoinToss : Minigame
     {
 
@@ -37,77 +37,76 @@ namespace HeavenStudio.Games
         public static CoinToss instance { get; set; }
         public Boolean isThrowing;
 
-        public GameObject coin_cue;
-
-        public GameObject current_coin;
+        public bool audienceReacting;
 
         [Header("Animators")]
         public Animator handAnimator;
+
+        public PlayerActionEvent coin;
 
         private void Awake()
         {
             instance = this;
             isThrowing = false;
-            current_coin = null;
+
+            coin = null;
         }
 
         private void Update()
         {
-           //pass
+           //nothing
         }
 
         private void LateUpdate()
         {
-          //pass
+            //nothing
         }
 
         public void TossCoin(float beat, bool audienceReacting)
         {
+            if (coin != null) return;
+
             //Play sound and animations
             Jukebox.PlayOneShotGame("coinToss/throw");
             handAnimator.Play("Throw", 0, 0);
             //Game state says the hand is throwing the coin
             isThrowing = true;
 
-            //Delete the current coin to clean up overlapping instances
-            if(current_coin != null)
+            this.audienceReacting = audienceReacting;
+
+            coin = ScheduleInput(beat, 6f, InputType.STANDARD_DOWN, CatchSuccess, CatchMiss, CatchEmpty);
+        }
+
+        public void CatchSuccess(int state)
+        {
+            if (state != 1)
             {
-                Destroy(current_coin);
-                current_coin = null;
+                CatchMiss(); 
+                return;
             }
 
-            //Create a new coin to throw
-            GameObject coin = Instantiate(coin_cue);
-            coin.SetActive(true);
-            Coin c = coin.GetComponent<Coin>();
-            c.startBeat = beat;
-            c.audienceReacting = audienceReacting;
-
-            current_coin = coin;
-        }
-
-        public void Catch_Success(bool audienceReacting)
-        {
             Jukebox.PlayOneShotGame("coinToss/catch");
-            if(audienceReacting) Jukebox.PlayOneShotGame("coinToss/applause");
+            if(this.audienceReacting) Jukebox.PlayOneShotGame("coinToss/applause");
             handAnimator.Play("Catch_success", 0, 0);
 
-            isThrowing = false;
+            isThrowing = false; 
         }
 
-        public void Catch_Miss(bool audienceReacting)
+        public void CatchMiss()
         {
             Jukebox.PlayOneShotGame("coinToss/miss");
-            if(audienceReacting) Jukebox.PlayOneShotGame("coinToss/disappointed");
+            if(this.audienceReacting) Jukebox.PlayOneShotGame("coinToss/disappointed");
             handAnimator.Play("Pickup", 0, 0);
 
             isThrowing = false;
         }
 
-        public void Catch_Empty()
+        public void CatchEmpty()
         {
             handAnimator.Play("Catch_empty", 0, 0);
             isThrowing = false;
+
+            coin.CanHit(false);
         }
     }
 }
