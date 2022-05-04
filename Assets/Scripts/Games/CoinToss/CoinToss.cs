@@ -74,7 +74,7 @@ namespace HeavenStudio.Games
 
             this.audienceReacting = audienceReacting;
 
-            coin = ScheduleInput(beat, 6f, InputType.DIRECTION_DOWN, CatchSuccess, CatchMiss, CatchEmpty);
+            coin = ScheduleInput(beat, 6f, InputType.STANDARD_DOWN, CatchSuccess, CatchMiss, CatchEmpty);
         }
 
         public void CatchSuccess(int state)

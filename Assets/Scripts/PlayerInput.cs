@@ -7,6 +7,26 @@ namespace HeavenStudio
     public class PlayerInput
     {
 
+        //Clockwise
+        public const int UP = 0;
+        public const int RIGHT = 1;
+        public const int DOWN = 2;
+        public const int LEFT = 3;
+
+        // The autoplay isn't activated AND
+        // The song is actually playing AND
+        // The GameManager allows you to Input
+        public static bool playerHasControl()
+        {
+            return !GameManager.instance.autoplay && Conductor.instance.isPlaying && GameManager.instance.canInput;
+        }
+
+        /*--------------------*/
+        /* MAIN INPUT METHODS */
+        /*--------------------*/
+
+        // BUTTONS
+
         public static bool Pressed(bool includeDPad = false)
         {
             bool keyDown = Input.GetKeyDown(KeyCode.Z) || (includeDPad && GetAnyDirectionDown());
@@ -41,6 +61,8 @@ namespace HeavenStudio
             return Input.GetKey(KeyCode.X) && playerHasControl();
         }
 
+        //Directions
+
         public static bool GetAnyDirectionDown()
         {
             return (Input.GetKeyDown(KeyCode.UpArrow)
@@ -68,13 +90,38 @@ namespace HeavenStudio
 
         }
 
-
-        // The autoplay isn't activated AND
-        // The song is actually playing AND
-        // The GameManager allows you to Input
-        public static bool playerHasControl()
+        public static bool GetSpecificDirectionDown(int direction)
         {
-            return !GameManager.instance.autoplay && Conductor.instance.isPlaying && GameManager.instance.canInput;
+            KeyCode targetCode = getKeyCode(direction);
+            if (targetCode == KeyCode.None) return false;
+
+            return Input.GetKeyDown(targetCode) && playerHasControl();
         }
+
+        public static bool GetSpecificDirectionUp(int direction)
+        {
+            KeyCode targetCode = getKeyCode(direction);
+            if (targetCode == KeyCode.None) return false;
+
+            return Input.GetKeyUp(targetCode) && playerHasControl();
+        }
+
+
+        private static KeyCode getKeyCode(int direction)
+        {
+            KeyCode targetKeyCode;
+
+            switch (direction)
+            {
+                case PlayerInput.UP: targetKeyCode = KeyCode.UpArrow; break;
+                case PlayerInput.DOWN: targetKeyCode = KeyCode.DownArrow; break;
+                case PlayerInput.LEFT: targetKeyCode = KeyCode.LeftArrow; break;
+                case PlayerInput.RIGHT: targetKeyCode = KeyCode.RightArrow; break;
+                default: targetKeyCode = KeyCode.None; break;
+            }
+
+            return targetKeyCode;
+        }
+        
     }
 }
