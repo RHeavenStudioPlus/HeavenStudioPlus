@@ -77,9 +77,9 @@ namespace HeavenStudio.Games
             coin = ScheduleInput(beat, 6f, InputType.STANDARD_DOWN, CatchSuccess, CatchMiss, CatchEmpty);
         }
 
-        public void CatchSuccess(int state)
+        public void CatchSuccess(float state)
         {
-            if (state != 1)
+            if (state != 0)
             {
                 CatchMiss(); 
                 return;
