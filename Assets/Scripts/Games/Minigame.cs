@@ -22,12 +22,14 @@ namespace HeavenStudio.Games
         }
 
 
+        public List<PlayerActionEvent> scheduledInputs = new List<PlayerActionEvent>();
+
         /**
          * Schedule an Input for a later time in the minigame. Executes the methods put in parameters
          * 
          * float                     startBeat   : When the scheduling started (In beats)
-         * float                     timer       : How many beats later should the input be recorded
-         * InputType                 inputType   : The type of the input that's expected (Press, release, A, B, Directions..)
+         * float                     timer       : How many beats later should the input be expected
+         * InputType                 inputType   : The type of the input that's expected (Press, release, A, B, Directions..) (Check InputType class for a list)
          * ActionEventCallbackState  OnHit       : Method to run if the Input has been Hit
          * ActionEventCallback       OnMiss      : Method to run if the Input has been Missed
          * ActionEventCallback       OnBlank     : Method to run whenever there's an Input while this is Scheduled (Shouldn't be used too much)
@@ -52,15 +54,48 @@ namespace HeavenStudio.Games
             evt.OnMiss = OnMiss;
             evt.OnBlank = OnBlank;
 
+            evt.OnDestroy = RemoveScheduledInput;
+
             evt.canHit = true;
             evt.enabled = true;
 
             evt.transform.parent = this.transform.parent;
 
-            //Instantiate(evtObj);
             evtObj.SetActive(true);
 
+            scheduledInputs.Add(evt);
+
             return evt;
+        }
+
+        public void RemoveScheduledInput(PlayerActionEvent evt)
+        {
+            scheduledInputs.Remove(evt);
+        }
+
+        //Get the scheduled input that should happen the **Soonest**
+        //Can return null if there's no scheduled inputs
+        public PlayerActionEvent GetClosestScheduledInput()
+        {
+            PlayerActionEvent closest = null;
+
+            foreach(PlayerActionEvent toCompare in scheduledInputs)
+            {
+                if(closest == null)
+                {
+                    closest = toCompare;
+                } else
+                {
+                    float t1 = closest.startBeat + closest.timer;
+                    float t2 = toCompare.startBeat + toCompare.timer;
+
+                    Debug.Log("t1=" + t1 + " -- t2=" + t2);
+
+                    if (t2 < t1) closest = toCompare;
+                }
+            }
+
+            return closest;
         }
 
         // hopefully these will fix the lowbpm problem

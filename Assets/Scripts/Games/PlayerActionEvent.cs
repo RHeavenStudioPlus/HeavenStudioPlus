@@ -14,9 +14,13 @@ namespace HeavenStudio.Games
         public delegate void ActionEventCallback();
         public delegate void ActionEventCallbackState(float state);
 
+        public delegate void ActionEventCallbackSelf(PlayerActionEvent evt);
+
         public ActionEventCallbackState OnHit; //Function to trigger when an input has been done perfectly
         public ActionEventCallback OnMiss; //Function to trigger when an input has been missed
         public ActionEventCallback OnBlank; //Function to trigger when an input has been recorded while this is pending
+
+        public ActionEventCallbackSelf OnDestroy; //Function to trigger whenever this event gets destroyed. /!\ Shouldn't be used for a minigame! Use OnMiss instead /!\
 
         public float startBeat;
         public float timer;
@@ -154,6 +158,7 @@ namespace HeavenStudio.Games
 
         public void CleanUp()
         {
+            OnDestroy(this);
             Destroy(this.gameObject);
         }
 
