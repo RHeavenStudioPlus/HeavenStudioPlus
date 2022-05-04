@@ -12,7 +12,7 @@ namespace HeavenStudio.Games
     public class PlayerActionEvent : PlayerActionObject
     {
         public delegate void ActionEventCallback();
-        public delegate void ActionEventCallbackState(int state);
+        public delegate void ActionEventCallbackState(float state);
 
         public ActionEventCallbackState OnHit; //Function to trigger when an input has been done perfectly
         public ActionEventCallback OnMiss; //Function to trigger when an input has been missed
@@ -21,8 +21,14 @@ namespace HeavenStudio.Games
         public float startBeat;
         public float timer;
 
-        public bool canHit  = true;
-        public bool enabled = true;
+        public bool canHit  = true; //Indicates if you can still hit the cue or not. If set to false, it'll guarantee a miss
+        public bool enabled = true; //Indicates if the PlayerActionEvent is enabled. If set to false, it'll not trigger any events and destroy itself AFTER the event
+
+        public bool autoplayOnly = false; //Indicates if the input event only triggers when it's autoplay. If set to true, NO Miss or Blank events will be triggered when you're not autoplaying.
+
+        public bool noAutoplay = false; //Indicates if this PlayerActionEvent is recognized by the autoplay. /!\ Overrides autoPlayOnly /!\
+
+        // I don't know why we would ever need the noAutoplay setting, but we never know!
 
         public InputType inputType;
 
@@ -48,25 +54,28 @@ namespace HeavenStudio.Games
         {
             if(!Conductor.instance.NotStopped()){CleanUp();} // If the song is stopped entirely in the editor, destroy itself as we don't want duplicates
 
+            if (noAutoplay && autoplayOnly) autoplayOnly = false;
+            if (noAutoplay && triggersAutoplay){ triggersAutoplay = false; }
+
             float normalizedBeat = Conductor.instance.GetPositionFromBeat(startBeat,timer);
             StateCheck(normalizedBeat);
 
             if (normalizedBeat > Minigame.LateTime()) Miss();
 
 
-            if (IsCorrectInput())
+            if (IsCorrectInput() && !autoplayOnly)
             {
                 if (state.perfect)
                 {
-                    Hit(1);
+                    Hit(0f);
                 }
                 else if (state.early)
                 {
-                    Hit(0);
+                    Hit(-1f);
                 }
                 else if (state.late) 
                 {
-                    Hit(2);
+                    Hit(1f);
                 }
                 else
                 {
@@ -104,11 +113,11 @@ namespace HeavenStudio.Games
         //For the Autoplay
         public override void OnAce()
         {
-            Hit(1);
+            Hit(0f);
         }
 
-        //The state parameter is either 0 -> Early, 1 -> Perfect, 2 -> Late
-        public void Hit(int state) 
+        //The state parameter is either -1 -> Early, 0 -> Perfect, 1 -> Late
+        public void Hit(float state) 
         {
             if (OnHit != null && enabled)
             {
@@ -127,16 +136,17 @@ namespace HeavenStudio.Games
 
         public void Miss()
         {
-            if (OnMiss != null && enabled)
+            if (OnMiss != null && enabled && !autoplayOnly)
             {
                 OnMiss();
-                CleanUp();
             }
+
+            CleanUp();
         }
 
         public void Blank()
         {
-            if(OnBlank != null && enabled)
+            if(OnBlank != null && enabled && !autoplayOnly)
             {
                 OnBlank();
             }
