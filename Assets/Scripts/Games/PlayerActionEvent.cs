@@ -86,7 +86,13 @@ namespace HeavenStudio.Games
                     Blank();
                 }
             }
-        } 
+        }
+
+        public bool IsExpectingInputNow()
+        {
+            float normalizedBeat = Conductor.instance.GetPositionFromBeat(startBeat, timer);
+            return normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.EndTime();
+        }
 
         public bool IsCorrectInput()
         {
