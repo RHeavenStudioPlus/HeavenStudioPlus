@@ -68,6 +68,7 @@ namespace HeavenStudio.Games
             return evt;
         }
 
+        //Clean up method used whenever a PlayerActionEvent has finished
         public void RemoveScheduledInput(PlayerActionEvent evt)
         {
             scheduledInputs.Remove(evt);
@@ -97,6 +98,19 @@ namespace HeavenStudio.Games
 
             return closest;
         }
+
+        //Hasn't been tested yet. *Should* work.
+        //Can be used to detect if the user is expected to input something now or not
+        //Useful for strict call and responses games like Tambourine
+        public bool IsExpectingInputNow()
+        {
+            PlayerActionEvent input = GetClosestScheduledInput();
+            if (input == null) return false;
+
+            return input.IsExpectingInputNow();
+        }
+
+
 
         // hopefully these will fix the lowbpm problem
         public static float EarlyTime()
