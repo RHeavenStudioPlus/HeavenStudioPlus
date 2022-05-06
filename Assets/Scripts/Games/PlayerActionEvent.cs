@@ -11,30 +11,28 @@ namespace HeavenStudio.Games
 
     public class PlayerActionEvent : PlayerActionObject
     {
-        public delegate void ActionEventCallback();
-        public delegate void ActionEventCallbackState(float state);
-
-        public delegate void ActionEventCallbackSelf(PlayerActionEvent evt);
+        public delegate void ActionEventCallback(PlayerActionEvent caller);
+        public delegate void ActionEventCallbackState(PlayerActionEvent caller, float state);
 
         public ActionEventCallbackState OnHit; //Function to trigger when an input has been done perfectly
         public ActionEventCallback OnMiss; //Function to trigger when an input has been missed
         public ActionEventCallback OnBlank; //Function to trigger when an input has been recorded while this is pending
 
-        public ActionEventCallbackSelf OnDestroy; //Function to trigger whenever this event gets destroyed. /!\ Shouldn't be used for a minigame! Use OnMiss instead /!\
+        public ActionEventCallback OnDestroy; //Function to trigger whenever this event gets destroyed. /!\ Shouldn't be used for a minigame! Use OnMiss instead /!\
 
         public float startBeat;
         public float timer;
 
         public bool canHit  = true; //Indicates if you can still hit the cue or not. If set to false, it'll guarantee a miss
-        public bool enabled = true; //Indicates if the PlayerActionEvent is enabled. If set to false, it'll not trigger any events and destroy itself AFTER the event
+        public bool enabled = true; //Indicates if the PlayerActionEvent is enabled. If set to false, it'll not trigger any events and destroy itself AFTER it's not relevant anymore
 
         public bool autoplayOnly = false; //Indicates if the input event only triggers when it's autoplay. If set to true, NO Miss or Blank events will be triggered when you're not autoplaying.
 
         public bool noAutoplay = false; //Indicates if this PlayerActionEvent is recognized by the autoplay. /!\ Overrides autoPlayOnly /!\
 
-        // I don't know why we would ever need the noAutoplay setting, but we never know!
+        public InputType inputType; //The type of input. Check the InputType class to see a list of all of them
 
-        public InputType inputType;
+        public bool perfectOnly = false; //Indicates that the input only recognize perfect inputs.
 
         public void setHitCallback(ActionEventCallbackState OnHit)
         { 
@@ -64,6 +62,7 @@ namespace HeavenStudio.Games
             float normalizedBeat = Conductor.instance.GetPositionFromBeat(startBeat,timer);
             StateCheck(normalizedBeat);
 
+
             if (normalizedBeat > Minigame.LateTime()) Miss();
 
 
@@ -71,13 +70,14 @@ namespace HeavenStudio.Games
             {
                 if (state.perfect)
                 {
+                    Debug.Log(normalizedBeat);
                     Hit(0f);
                 }
-                else if (state.early)
+                else if (state.early && !perfectOnly)
                 {
                     Hit(-1f);
                 }
-                else if (state.late) 
+                else if (state.late && !perfectOnly) 
                 {
                     Hit(1f);
                 }
@@ -133,13 +133,12 @@ namespace HeavenStudio.Games
             {
                 if(canHit)
                 {
-                    OnHit(state);
+                    OnHit(this, state);
                     CleanUp();
                 } else
                 {
-                    OnBlank();
+                   Blank();
                 }
-                
             }
     
         }
@@ -148,7 +147,7 @@ namespace HeavenStudio.Games
         {
             if (OnMiss != null && enabled && !autoplayOnly)
             {
-                OnMiss();
+                OnMiss(this);
             }
 
             CleanUp();
@@ -158,7 +157,7 @@ namespace HeavenStudio.Games
         {
             if(OnBlank != null && enabled && !autoplayOnly)
             {
-                OnBlank();
+                OnBlank(this);
             }
         }
 

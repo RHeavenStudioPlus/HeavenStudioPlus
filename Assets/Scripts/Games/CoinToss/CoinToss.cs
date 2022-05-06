@@ -75,24 +75,20 @@ namespace HeavenStudio.Games
             this.audienceReacting = audienceReacting;
 
             coin = ScheduleInput(beat, 6f, InputType.STANDARD_DOWN, CatchSuccess, CatchMiss, CatchEmpty);
+            //coin.perfectOnly = true;
         }
 
-        public void CatchSuccess(float state)
+        public void CatchSuccess(PlayerActionEvent caller, float state)
         {
-            if (state != 0)
-            {
-                CatchMiss(); 
-                return;
-            }
-
             Jukebox.PlayOneShotGame("coinToss/catch");
             if(this.audienceReacting) Jukebox.PlayOneShotGame("coinToss/applause");
             handAnimator.Play("Catch_success", 0, 0);
 
+            Debug.Log(state);
             isThrowing = false; 
         }
 
-        public void CatchMiss()
+        public void CatchMiss(PlayerActionEvent caller)
         {
             Jukebox.PlayOneShotGame("coinToss/miss");
             if(this.audienceReacting) Jukebox.PlayOneShotGame("coinToss/disappointed");
@@ -101,7 +97,7 @@ namespace HeavenStudio.Games
             isThrowing = false;
         }
 
-        public void CatchEmpty()
+        public void CatchEmpty(PlayerActionEvent caller)
         {
             handAnimator.Play("Catch_empty", 0, 0);
             isThrowing = false;

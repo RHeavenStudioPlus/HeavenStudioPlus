@@ -6,7 +6,7 @@ namespace HeavenStudio.Games
 {
     public class Minigame : MonoBehaviour
     {
-        public static float earlyTime = 0.84f, perfectTime = 0.91f, lateTime = 1.09f, endTime = 1.15f;
+        public static float earlyTime = 0.90f, perfectTime = 0.93f, lateTime = 1.06f, endTime = 1.10f;
         public List<Minigame.Eligible> EligibleHits = new List<Minigame.Eligible>();
 
         [System.Serializable]
@@ -67,6 +67,32 @@ namespace HeavenStudio.Games
 
             return evt;
         }
+
+        public PlayerActionEvent ScheduleAutoplayInput(float startBeat,
+            float timer,
+            InputType inputType,
+            PlayerActionEvent.ActionEventCallbackState OnHit,
+            PlayerActionEvent.ActionEventCallback OnMiss,
+            PlayerActionEvent.ActionEventCallback OnBlank)
+        {
+            PlayerActionEvent evt = ScheduleInput(startBeat, timer, inputType, OnHit, OnMiss, OnBlank);
+            evt.autoplayOnly = true;
+            return evt;
+        }
+
+        public PlayerActionEvent ScheduleUserInput(float startBeat,
+            float timer,
+            InputType inputType,
+            PlayerActionEvent.ActionEventCallbackState OnHit,
+            PlayerActionEvent.ActionEventCallback OnMiss,
+            PlayerActionEvent.ActionEventCallback OnBlank)
+        {
+            PlayerActionEvent evt = ScheduleInput(startBeat, timer, inputType, OnHit, OnMiss, OnBlank);
+            evt.noAutoplay = true;
+            return evt;
+        }
+
+
 
         //Clean up method used whenever a PlayerActionEvent has finished
         public void RemoveScheduledInput(PlayerActionEvent evt)
