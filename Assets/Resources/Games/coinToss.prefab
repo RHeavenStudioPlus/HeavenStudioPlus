@@ -624,10 +624,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EligibleHits: []
+  scheduledInputs: []
   firstEnable: 0
+  fg: {fileID: 4608248523716601930}
+  bg: {fileID: 3722363597051273302}
+  handAnimator: {fileID: 6887173419118620922}
   isThrowing: 0
   audienceReacting: 0
-  handAnimator: {fileID: 6887173419118620922}
+  coin: {fileID: 0}
 --- !u!1 &9176706498249536598
 GameObject:
   m_ObjectHideFlags: 0
