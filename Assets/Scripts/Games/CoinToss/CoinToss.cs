@@ -133,7 +133,6 @@ namespace HeavenStudio.Games
             if(this.audienceReacting) Jukebox.PlayOneShotGame("coinToss/applause");
             handAnimator.Play("Catch_success", 0, 0);
 
-            Debug.Log(state);
             isThrowing = false; 
         }
 

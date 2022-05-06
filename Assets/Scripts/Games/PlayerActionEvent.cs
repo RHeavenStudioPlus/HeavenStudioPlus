@@ -70,7 +70,6 @@ namespace HeavenStudio.Games
             {
                 if (state.perfect)
                 {
-                    Debug.Log(normalizedBeat);
                     Hit(0f);
                 }
                 else if (state.early && !perfectOnly)
