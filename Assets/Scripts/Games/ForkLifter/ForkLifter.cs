@@ -6,6 +6,31 @@ using HeavenStudio.Util;
 
 using DG.Tweening;
 
+namespace HeavenStudio.Games.Loaders
+{
+    using static Minigames;
+    public static class RvlForkLoader
+    {
+        public static Minigame AddGame(EventCaller eventCaller) {
+            return new Minigame("forkLifter", "Fork Lifter", "FFFFFF", false, false, new List<GameAction>()
+            {
+                new GameAction("flick",                 delegate { var e = eventCaller.currentEntity; ForkLifter.instance.Flick(e.beat, e.type); }, 3, false, new List<Param>()
+                {
+                    new Param("type", ForkLifter.FlickType.Pea, "Object", "The object to be flicked")
+                }),
+                new GameAction("prepare",               delegate { ForkLifter.instance.ForkLifterHand.Prepare(); }, 0.5f),
+                new GameAction("gulp",                  delegate { ForkLifter.playerInstance.Eat(); }),
+                new GameAction("sigh",                  delegate { Jukebox.PlayOneShot("games/forkLifter/sigh"); }),
+                // These are still here for backwards-compatibility but are hidden in the editor
+                new GameAction("pea",                   delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 0); }, 3, hidden: true),
+                new GameAction("topbun",                delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 1); }, 3, hidden: true),
+                new GameAction("burger",                delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 2); }, 3, hidden: true),
+                new GameAction("bottombun",             delegate { ForkLifter.instance.Flick(eventCaller.currentEntity.beat, 3); }, 3, hidden: true),
+            });
+        }
+    }
+}
+
 namespace HeavenStudio.Games
 {
     using Scripts_ForkLifter;
