@@ -4,6 +4,24 @@ using UnityEngine;
 
 using HeavenStudio.Util;
 
+namespace HeavenStudio.Games.Loaders
+{
+    using static Minigames;
+    public static class AgbTapLoader
+    {
+        public static Minigame AddGame(EventCaller eventCaller) {
+            return new Minigame("tapTrial", "Tap Trial \n<color=#eb5454>[WIP don't use]</color>", "93ffb3", false, false, new List<GameAction>()
+            {
+                new GameAction("tap",                   delegate { TapTrial.instance.Tap(eventCaller.currentEntity.beat); }, 2.0f, false),
+                new GameAction("double tap",            delegate { TapTrial.instance.DoubleTap(eventCaller.currentEntity.beat); }, 2.0f, false),
+                new GameAction("triple tap",            delegate { TapTrial.instance.TripleTap(eventCaller.currentEntity.beat); }, 4.0f, false),
+                new GameAction("jump tap",              delegate { TapTrial.instance.JumpTap(eventCaller.currentEntity.beat); }, 2.0f, false),
+                new GameAction("final jump tap",        delegate { TapTrial.instance.FinalJumpTap(eventCaller.currentEntity.beat); }, 2.0f, false),
+            });
+        }
+    }
+}
+
 namespace HeavenStudio.Games
 {
     using Scripts_TapTrial;

@@ -4,6 +4,83 @@ using UnityEngine;
 
 using HeavenStudio.Util;
 
+namespace HeavenStudio.Games.Loaders
+{
+    using static Minigames;
+    public static class RvlKarateLoader
+    {
+        public static Minigame AddGame(EventCaller eventCaller) {
+            return new Minigame("karateman", "Karate Man", "70A8D8", false, false, new List<GameAction>()
+            {
+                new GameAction("bop",                   delegate { KarateMan.instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 0.5f, true),
+                new GameAction("hit",                   delegate
+                {
+                    KarateMan.instance.Shoot(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);
+                }, 2, false, new List<Param>()
+                {
+                    new Param("type", KarateMan.HitType.Pot, "Object", "The object to fire")
+                }),
+                new GameAction("bulb",                  delegate {
+                    var e = eventCaller.currentEntity;
+                    var c = KarateMan.instance.LightBulbColors[e.type];
+                    if(e.type == (int)KarateMan.LightBulbType.Custom) c = e.colorA;
+                    KarateMan.instance.Shoot(e.beat, 1, tint: c);
+                }, 2, false, new List<Param>()
+                {
+                    new Param("type", KarateMan.LightBulbType.Normal, "Type", "The preset bulb type. Yellow is used for kicks while Blue is used for combos"),
+                    new Param("colorA", new Color(), "Custom Color", "The color to use when the bulb type is set to Custom")
+                }),
+                new GameAction("kick",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 4); }, 4.5f),
+                new GameAction("combo",                 delegate { KarateMan.instance.Combo(eventCaller.currentEntity.beat); }, 4f),
+                new GameAction("hit3",                  delegate
+                {
+                    var e = eventCaller.currentEntity;
+                    switch ((KarateMan.HitThree)e.type)
+                    {
+                        case KarateMan.HitThree.HitTwo: KarateMan.instance.Hit2(e.beat); break;
+                        case KarateMan.HitThree.HitThreeAlt: KarateMan.instance.Hit3(e.beat, true); break;
+                        case KarateMan.HitThree.HitFour: KarateMan.instance.Hit4(e.beat); break;
+                        default: KarateMan.instance.Hit3(e.beat); break;
+                    }
+                }, 1f, false, new List<Param>()
+                {
+                    new Param("type", KarateMan.HitThree.HitThree, "Type", "What should be called out")
+                }),
+                new GameAction("prepare",               delegate { KarateMan.instance.Prepare(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 1f, true),
+                new GameAction("set background color",  delegate {
+                    var e = eventCaller.currentEntity;
+                    var c = KarateMan.instance.BackgroundColors[e.type];
+                    if(e.type == (int)KarateMan.BackgroundType.Custom) c = e.colorA;
+                    KarateMan.instance.SetBackgroundColor(e.type, e.type2, c, e.colorB);
+                }, 0.5f, false, new List<Param>()
+                {
+                    new Param("type", KarateMan.BackgroundType.Yellow, "Background Type", "The preset background type"),
+                    new Param("type2", KarateMan.ShadowType.Tinted, "Shadow Type", "The shadow type. If Tinted doesn't work with your background color try Custom"),
+                    new Param("colorA", new Color(), "Custom Background Color", "The background color to use when background type is set to Custom"),
+                    new Param("colorB", new Color(), "Custom Shadow Color", "The shadow color to use when shadow type is set to Custom"),
+
+                }),
+                new GameAction("set background fx",  delegate {
+                    KarateMan.instance.SetBackgroundFX((KarateMan.BackgroundFXType)eventCaller.currentEntity.type);
+                }, 0.5f, false, new List<Param>()
+                {
+                    new Param("type", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed")
+
+                }),
+                // These are still here for backwards-compatibility but are hidden in the editor
+                new GameAction("pot",                   delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 0); }, 2, hidden: true),
+                new GameAction("rock",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 2); }, 2, hidden: true),
+                new GameAction("ball",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 3); }, 2, hidden: true),
+                new GameAction("tacobell",              delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 999); }, 2, hidden: true),
+                new GameAction("hit4",                  delegate { KarateMan.instance.Hit4(eventCaller.currentEntity.beat); }, hidden: true),
+                new GameAction("bgfxon",                delegate { KarateMan.instance.SetBackgroundFX(KarateMan.BackgroundFXType.Sunburst); }, hidden: true),
+                new GameAction("bgfxoff",               delegate { KarateMan.instance.SetBackgroundFX(KarateMan.BackgroundFXType.None); }, hidden: true),
+
+            });
+        }
+    }
+}
+
 namespace HeavenStudio.Games
 {
     using Scripts_KarateMan;
