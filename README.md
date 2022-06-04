@@ -1,9 +1,7 @@
 ## This project is still in development. There are NO public compiled releases (yet).
-## This project is based on [Rhythm Heaven Mania](https://github.com/RhythmHeavenDevelopment/RhythmHeavenMania) by Starpelly
-
 # Heaven Studio
 
-(WIP) Fully playable, open source recreation of every rhythm heaven minigame with a built in level editor.
+(WIP) A tool to create playable Rhythm Heaven custom remixes, with many customization options.
 
 <p>
   <a href="https://discord.gg/2kdZ8kFyEN">
