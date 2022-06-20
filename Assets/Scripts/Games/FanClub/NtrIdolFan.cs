@@ -21,138 +21,92 @@ namespace HeavenStudio.Games.Scripts_FanClub
 
         [Header("Properties")]
         [NonSerialized] public bool player = false;
-        [NonSerialized] public bool hitValid = false;
         public float jumpStartTime = Single.MinValue;
         bool stopBeat = false;
         bool stopCharge = false;
         bool hasJumped = false;
 
-        float clappingStartTime = 0f;
+        float clappingStartTime = Single.MinValue;
 
-        public Queue<KeyValuePair<float, int>> upcomingHits;
-        public float startBeat;
-        public int type;
-        public bool doCharge = false;
-        private bool inputHit = false;
-        private bool hasHit = false;
-
-        public void Init()
+        public void AddHit(float beat, int type = 0)
         {
             if (player)
-                upcomingHits = new Queue<KeyValuePair<float, int>>();    // beat, type
-            
-            inputHit = true;
-            hasHit = true;
-        }
-
-        public override void OnAce()
-        {
-            Hit(true, type, true);
-        }
-
-        public void AddHit(float beat, int type)
-        {
-            inputHit = false;
-            upcomingHits.Enqueue(new KeyValuePair<float, int>(beat, type));
-        }
-
-        public void Hit(bool _hit, int type = 0, bool fromAutoplay = false)
-        {
-            if (player && !hasHit)
             {
-                if (type == 0)
-                    ClapStart(_hit, true, doCharge, fromAutoplay);
-                else if (type == 1)
-                    JumpStart(_hit, true, fromAutoplay);
+                switch (type)
+                {
+                    case 0:
+                        FanClub.instance.ScheduleInput(beat, 1f, InputType.STANDARD_DOWN, ClapJust, ClapThrough, Out);
+                        break;
+                    case 1:
+                        FanClub.instance.ScheduleInput(beat, 1f, InputType.STANDARD_UP, JumpJust, JumpThrough, JumpOut);
+                        break;
+                    case 2:
+                        FanClub.instance.ScheduleInput(beat, 1f, InputType.STANDARD_DOWN, ChargeClapJust, ClapThrough, Out);
+                        break;
+                    default:
+                        FanClub.instance.ScheduleInput(beat, 1f, InputType.STANDARD_DOWN, LongClapJust, ClapThrough, Out);
+                        break;
+                }
+            }
+        }
 
-                hasHit = true;
+        public void ClapJust(PlayerActionEvent caller, float state)
+        {
+            bool auto = GameManager.instance.autoplay;
+            ClapStart(true, false, auto ? 0.25f : 0f);
+        }
+
+        public void ChargeClapJust(PlayerActionEvent caller, float state)
+        {
+            bool auto = GameManager.instance.autoplay;
+            ClapStart(true, true, auto ? 1f : 0f);
+        }
+
+        public void LongClapJust(PlayerActionEvent caller, float state)
+        {
+            bool auto = GameManager.instance.autoplay;
+            ClapStart(true, false, auto ? 1f : 0f);
+        }
+
+        public void JumpJust(PlayerActionEvent caller, float state)
+        {
+            JumpStart(true);
+        }
+
+        public void ClapThrough(PlayerActionEvent caller) {
+            FanClub.instance.AngerOnMiss();
+        }
+
+        public void JumpThrough(PlayerActionEvent caller) {
+            FanClub.instance.AngerOnMiss();
+        }
+
+        public void Out(PlayerActionEvent caller) {}
+
+        public void JumpOut(PlayerActionEvent caller) {
+            var cond = Conductor.instance;
+            if (stopCharge)
+            {
+                caller.CanHit(false);
             }
         }
 
         private void Update()
         {
             var cond = Conductor.instance;
-            // read cue queue and pop when needed
-            if (hasHit)
-            {
-                if (upcomingHits?.Count > 0)
-                {
-                    var next = upcomingHits.Dequeue();
-
-                    startBeat = next.Key;
-                    type = next.Value == 2 ? 0 : next.Value;
-                    doCharge = (next.Value == 2);
-
-                    // reset our shit to prepare for next hit
-                    hasHit = false;
-                    ResetState();
-                }
-                else if (Conductor.instance.GetPositionFromBeat(startBeat, 1) >= Minigame.EndTime())
-                {
-                    startBeat = Single.MinValue;
-                    type = 0;
-                    doCharge = false;
-                    // DO NOT RESET, wait for future cues
-                }
-            }
-
-            // no input?
-            if (!hasHit && Conductor.instance.GetPositionFromBeat(startBeat, 1f) >= Minigame.EndTime())
-            {
-                FanClub.instance.AngerOnMiss();
-                hasHit = true;
-            }
-
-            // dunno what this is for
-            if (!inputHit && Conductor.instance.GetPositionFromBeat(startBeat, 1) >= Minigame.EndTime())
-            {
-                inputHit = true;
-            }
-
-            if (!hasHit)
-            {
-                float normalizedBeat = Conductor.instance.GetPositionFromBeat(startBeat, 1);
-                StateCheck(normalizedBeat);
-            }
 
             if (player)
             {
-                if (PlayerInput.Pressed() && type == 0)
-                {
-                    if (state.perfect)
-                    {
-                        Hit(true);
-                    } else if (state.notPerfect())
-                    {
-                        Hit(false);
-                    }
-                }
-                if (PlayerInput.PressedUp() && type == 1)
-                {
-                    if (state.perfect)
-                    {
-                        Hit(true, type);
-                    } else if (state.notPerfect())
-                    {
-                        Hit(false, type);
-                    }
-                }
                 if (PlayerInput.Pressed())
                 {
-                    if (!hasHit || (upcomingHits?.Count == 0 && startBeat == Single.MinValue))
-                        FanClub.instance.AngerOnMiss();
-
-                    hasJumped = false;
-                    stopBeat = true;
-                    jumpStartTime = -99f;
-                    animator.Play("FanClap", -1, 0);
-                    Jukebox.PlayOneShotGame("fanClub/play_clap");
-                    Jukebox.PlayOneShotGame("fanClub/crap_impact");
-                    clappingStartTime = cond.songPositionInBeats;
+                    if (!FanClub.instance.IsExpectingInputNow())
+                    {
+                        ClapStart(false);
+                    }
                 }
                 if (PlayerInput.Pressing())
                 {
-                    if (cond.songPositionInBeats > clappingStartTime + 1.5f && !stopCharge)
+                    if (clappingStartTime != Single.MinValue && cond.songPositionInBeats > clappingStartTime + 2f && !stopCharge)
                     {
                         animator.Play("FanClapCharge", -1, 0);
                         stopCharge = true;
@@ -160,15 +114,9 @@ namespace HeavenStudio.Games.Scripts_FanClub
                 }
                 if (PlayerInput.PressedUp())
                 {
-                    if (stopCharge)
+                    if (clappingStartTime != Single.MinValue && cond.songPositionInBeats > clappingStartTime + 2f && stopCharge && !FanClub.instance.IsExpectingInputNow())
                     {
-                        if (!hasHit || (upcomingHits?.Count == 0 && startBeat == Single.MinValue))
-                            FanClub.instance.AngerOnMiss();
-
-                        animator.Play("FanJump", -1, 0);
-                        Jukebox.PlayOneShotGame("fanClub/play_jump");
-                        jumpStartTime = cond.songPositionInBeats;
-                        stopCharge = false;
+                        JumpStart(false);
                     }
                     else
                     {
@@ -204,41 +152,39 @@ namespace HeavenStudio.Games.Scripts_FanClub
             }
         }
 
-        public void ClapStart(bool hit, bool force = false, bool doCharge = false, bool fromAutoplay = false)
+        public void ClapStart(bool hit, bool doCharge = false, float autoplayRelease = 0f)
         {
-            var cond = Conductor.instance;
-            if (hit)
-            {
-                if (doCharge)
-                    BeatAction.New(this.gameObject, new List<BeatAction.Action>()
-                    {
-                        new BeatAction.Action(cond.songPositionInBeats + 0.1f, delegate { 
-                            if (PlayerInput.Pressing() || fromAutoplay)
-                            {
-                                animator.Play("FanClapCharge", -1, 0);
-                                stopCharge = true;
-                            }
-                        }),
-                    });
-            }
-            else
+            if (!hit)
             {
                 FanClub.instance.AngerOnMiss();
             }
-            if (fromAutoplay || !force)
-            {
-                stopBeat = true;
-                jumpStartTime = -99f;
-                animator.Play("FanClap", -1, 0);
-                Jukebox.PlayOneShotGame("fanClub/play_clap");
-                Jukebox.PlayOneShotGame("fanClub/crap_impact");
-                clappingStartTime = cond.songPositionInBeats;
-            }
-            if (fromAutoplay && !doCharge)
-            {
+
+            var cond = Conductor.instance;
+            hasJumped = false;
+            stopBeat = true;
+            jumpStartTime = -99f;
+            animator.Play("FanClap", -1, 0);
+            Jukebox.PlayOneShotGame("fanClub/play_clap");
+            Jukebox.PlayOneShotGame("fanClub/crap_impact");
+            clappingStartTime = cond.songPositionInBeats;
+
+            if (doCharge)
                 BeatAction.New(this.gameObject, new List<BeatAction.Action>()
                 {
                     new BeatAction.Action(cond.songPositionInBeats + 0.1f, delegate { 
+                        if (PlayerInput.Pressing() || autoplayRelease > 0f)
+                        {
+                            animator.Play("FanClapCharge", -1, 0);
+                            stopCharge = true;
+                        }
+                    }),
+                });
+
+            if (autoplayRelease > 0f && !doCharge)
+            {
+                BeatAction.New(this.gameObject, new List<BeatAction.Action>()
+                {
+                    new BeatAction.Action(cond.songPositionInBeats + autoplayRelease, delegate { 
                         animator.Play("FanFree", -1, 0);
                         stopBeat = false;
                     }),
@@ -247,22 +193,18 @@ namespace HeavenStudio.Games.Scripts_FanClub
             }
         }
 
-        public void JumpStart(bool hit, bool force = false, bool fromAutoplay = false)
+        public void JumpStart(bool hit)
         {
-            var cond = Conductor.instance;
-            if (hit)
-            {}
-            else
+            if (!hit)
             {
                 FanClub.instance.AngerOnMiss();
             }
-            if (fromAutoplay || !force)
-            {
-                animator.Play("FanJump", -1, 0);
-                Jukebox.PlayOneShotGame("fanClub/play_jump");
-                jumpStartTime = cond.songPositionInBeats;
-                stopCharge = false;
-            }
+
+            var cond = Conductor.instance;
+            animator.Play("FanJump", -1, 0);
+            Jukebox.PlayOneShotGame("fanClub/play_jump");
+            jumpStartTime = cond.songPositionInBeats;
+            stopCharge = false;
         }
 
         public bool IsJumping()

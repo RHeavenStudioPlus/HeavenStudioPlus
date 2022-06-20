@@ -6,7 +6,7 @@ namespace HeavenStudio.Games
 {
     public class Minigame : MonoBehaviour
     {
-        public static float earlyTime = 0.84f, perfectTime = 0.91f, lateTime = 1.09f, endTime = 1.15f;
+        public static float earlyTime = 0.1f, perfectTime = 0.06f, lateTime = 0.06f, endTime = 0.1f;
         public List<Minigame.Eligible> EligibleHits = new List<Minigame.Eligible>();
 
         [System.Serializable]
@@ -21,25 +21,149 @@ namespace HeavenStudio.Games
             public float createBeat;
         }
 
-        // hopefully these will fix the lowbpm problem
+        public List<PlayerActionEvent> scheduledInputs = new List<PlayerActionEvent>();
+
+        /**
+         * Schedule an Input for a later time in the minigame. Executes the methods put in parameters
+         * 
+         * float                     startBeat   : When the scheduling started (In beats)
+         * float                     timer       : How many beats later should the input be expected
+         * InputType                 inputType   : The type of the input that's expected (Press, release, A, B, Directions..) (Check InputType class for a list)
+         * ActionEventCallbackState  OnHit       : Method to run if the Input has been Hit
+         * ActionEventCallback       OnMiss      : Method to run if the Input has been Missed
+         * ActionEventCallback       OnBlank     : Method to run whenever there's an Input while this is Scheduled (Shouldn't be used too much)
+         */
+        public PlayerActionEvent ScheduleInput(float startBeat,
+            float timer,
+            InputType inputType,
+            PlayerActionEvent.ActionEventCallbackState OnHit,
+            PlayerActionEvent.ActionEventCallback OnMiss,
+            PlayerActionEvent.ActionEventCallback OnBlank)
+        {
+
+            GameObject evtObj = new GameObject("ActionEvent" + (startBeat+timer));
+            evtObj.AddComponent<PlayerActionEvent>();
+
+            PlayerActionEvent evt = evtObj.GetComponent<PlayerActionEvent>();
+
+            evt.startBeat = startBeat;
+            evt.timer = timer;
+            evt.inputType = inputType;
+            evt.OnHit = OnHit;
+            evt.OnMiss = OnMiss;
+            evt.OnBlank = OnBlank;
+
+            evt.OnDestroy = RemoveScheduledInput;
+
+            evt.canHit = true;
+            evt.enabled = true;
+
+            evt.transform.parent = this.transform.parent;
+
+            evtObj.SetActive(true);
+
+            scheduledInputs.Add(evt);
+
+            return evt;
+        }
+
+        public PlayerActionEvent ScheduleAutoplayInput(float startBeat,
+            float timer,
+            InputType inputType,
+            PlayerActionEvent.ActionEventCallbackState OnHit,
+            PlayerActionEvent.ActionEventCallback OnMiss,
+            PlayerActionEvent.ActionEventCallback OnBlank)
+        {
+            PlayerActionEvent evt = ScheduleInput(startBeat, timer, inputType, OnHit, OnMiss, OnBlank);
+            evt.autoplayOnly = true;
+            return evt;
+        }
+
+        public PlayerActionEvent ScheduleUserInput(float startBeat,
+            float timer,
+            InputType inputType,
+            PlayerActionEvent.ActionEventCallbackState OnHit,
+            PlayerActionEvent.ActionEventCallback OnMiss,
+            PlayerActionEvent.ActionEventCallback OnBlank)
+        {
+            PlayerActionEvent evt = ScheduleInput(startBeat, timer, inputType, OnHit, OnMiss, OnBlank);
+            evt.noAutoplay = true;
+            return evt;
+        }
+
+
+
+        //Clean up method used whenever a PlayerActionEvent has finished
+        public void RemoveScheduledInput(PlayerActionEvent evt)
+        {
+            scheduledInputs.Remove(evt);
+        }
+
+        //Get the scheduled input that should happen the **Soonest**
+        //Can return null if there's no scheduled inputs
+        public PlayerActionEvent GetClosestScheduledInput()
+        {
+            PlayerActionEvent closest = null;
+
+            foreach(PlayerActionEvent toCompare in scheduledInputs)
+            {
+                if(closest == null)
+                {
+                    closest = toCompare;
+                } else
+                {
+                    float t1 = closest.startBeat + closest.timer;
+                    float t2 = toCompare.startBeat + toCompare.timer;
+
+                    // Debug.Log("t1=" + t1 + " -- t2=" + t2);
+
+                    if (t2 < t1) closest = toCompare;
+                }
+            }
+
+            return closest;
+        }
+
+        //Hasn't been tested yet. *Should* work.
+        //Can be used to detect if the user is expected to input something now or not
+        //Useful for strict call and responses games like Tambourine
+        public bool IsExpectingInputNow()
+        {
+            PlayerActionEvent input = GetClosestScheduledInput();
+            if (input == null) return false;
+
+            return input.IsExpectingInputNow();
+        }
+
+        // now should fix the fast bpm problem
         public static float EarlyTime()
         {
-            return earlyTime;
+            return 1f - ScaleTimingMargin(earlyTime);
         }
 
         public static float PerfectTime()
         {
-            return perfectTime;
+            return 1f - ScaleTimingMargin(perfectTime);
         }
 
         public static float LateTime()
         {
-            return lateTime;
+            return 1f + ScaleTimingMargin(lateTime);
         }
 
         public static float EndTime()
         {
-            return endTime;
+            return 1f + ScaleTimingMargin(endTime);
+        }
+
+        //scales timing windows to the BPM in an ""intelligent"" manner
+        static float ScaleTimingMargin(float f)
+        {
+            float bpm = Conductor.instance.songBpm * Conductor.instance.musicSource.pitch;
+            float a = bpm / 120f;
+            float b = (Mathf.Log(a) + 2f) * 0.5f;
+            float r = Mathf.Lerp(a, b, 0.25f);
+            return r * f;
         }
 
         public int firstEnable = 0;
