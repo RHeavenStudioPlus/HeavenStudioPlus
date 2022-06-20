@@ -12,9 +12,8 @@ namespace HeavenStudio.Games.Loaders
     public static class MobTrickLoader
     {
         public static Minigame AddGame(EventCaller eventCaller) {
-            return new Minigame("trickClass", "Trick on the Class\n<color=#eb5454>[WIP don't use]</color>", "C0171D", false, false, new List<GameAction>()
+            return new Minigame("trickClass", "Trick on the Class\n<color=#eb5454>[WIP]</color>", "C0171D", false, false, new List<GameAction>()
             {
-                new GameAction("bop",                   delegate { var e = eventCaller.currentEntity; TrickClass.instance.Bop(e.beat, e.length); }, 1, true),
                 new GameAction("toss",                  delegate
                 {
                     TrickClass.instance.TossObject(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);
@@ -22,6 +21,7 @@ namespace HeavenStudio.Games.Loaders
                 {
                     new Param("type", TrickClass.TrickObjType.Ball, "Object", "The object to toss")
                 }),
+                new GameAction("bop",                   delegate { var e = eventCaller.currentEntity; TrickClass.instance.Bop(e.beat, e.length); }, 1, true, hidden: true),
             });
         }
     }
@@ -34,7 +34,7 @@ namespace HeavenStudio.Games
     **/
 
     using Scripts_TrickClass;
-    public class TrickClass : MonoBehaviour
+    public class TrickClass : Minigame
     {
         public enum TrickObjType {
             Plane,
@@ -70,13 +70,10 @@ namespace HeavenStudio.Games
             var cond = Conductor.instance;
             if (cond.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1))
             {
-                if (cond.songPositionInBeats >= bop.startBeat && cond.songPositionInBeats < bop.startBeat + bop.length)
-                {
-                    //TODO: bop animation
-                }
+                //TODO: bop animation
             }
 
-            if (PlayerInput.Pressed())
+            if (PlayerInput.Pressed() && !IsExpectingInputNow())
             {
                 PlayerDodge();
             }
