@@ -1,37 +1,64 @@
 fileFormatVersion: 2
-guid: 1c3bb5ea746189340988d2b34c53d330
+guid: 9e4d9259bae08d443835f93cde178f9a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8916920501881807877
-    second: mobTrick_girl_head00
+      213: 259028287349437060
+    second: mobTrick_parts01_0
   - first:
-      213: -5411673369528786561
-    second: mobTrick_girl_hair
+      213: 8714564320682160463
+    second: mobTrick_parts01_1
   - first:
-      213: -5342601017820543023
-    second: mobTrick_girl_torso
+      213: 2274011879247696229
+    second: mobTrick_parts01_2
   - first:
-      213: 8820173711875456571
-    second: mobTrick_bgDesk3
+      213: 333524933372927641
+    second: mobTrick_parts01_3
   - first:
-      213: -5080462231089324230
-    second: mobTrick_obj00
+      213: -1572299056304829026
+    second: mobTrick_parts01_4
   - first:
-      213: 3886293957859126619
-    second: mobTrickobj01
+      213: 6975551133593416859
+    second: mobTrick_parts01_5
   - first:
-      213: 7121830346680920547
-    second: mobTrick_player_head00
+      213: -4454273697595807397
+    second: mobTrick_parts01_6
   - first:
-      213: -6991096701230948288
-    second: mobTrick_player_torso00
+      213: 2346517677788077603
+    second: mobTrick_parts01_7
   - first:
-      213: -1817635648121096723
-    second: mobTrick_bgDesk2
+      213: 8639856634145216128
+    second: mobTrick_parts01_8
   - first:
-      213: 1483037001529718006
-    second: mobTrick_bgDesk1
+      213: 186556094700482302
+    second: mobTrick_parts01_9
+  - first:
+      213: -7881720681378153811
+    second: mobTrick_parts01_10
+  - first:
+      213: -8562420866526137701
+    second: mobTrick_parts01_11
+  - first:
+      213: -2784368421485211769
+    second: mobTrick_parts01_12
+  - first:
+      213: 2685592027599138397
+    second: mobTrick_parts01_13
+  - first:
+      213: -222037496610564813
+    second: mobTrick_parts01_14
+  - first:
+      213: 1136722714597198076
+    second: mobTrick_parts01_15
+  - first:
+      213: -91470071303476930
+    second: mobTrick_parts01_16
+  - first:
+      213: -6102311414589244448
+    second: mobTrick_parts01_17
+  - first:
+      213: 7171732435601072149
+    second: mobTrick_parts01_18
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -121,13 +148,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: mobTrick_girl_head00
+      name: mobTrick_parts01_0
       rect:
         serializedVersion: 2
-        x: 23
-        y: 1908
-        width: 116
-        height: 123
+        x: 340
+        y: 4625
+        width: 1042
+        height: 1102
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -135,20 +162,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bfbdfe22c0cb04480800000000000000
-      internalID: -8916920501881807877
+      spriteID: 482bd3edad0489300800000000000000
+      internalID: 259028287349437060
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mobTrick_girl_hair
+      name: mobTrick_parts01_1
       rect:
         serializedVersion: 2
-        x: 224
-        y: 1998
-        width: 41
-        height: 37
+        x: 2146
+        y: 4625
+        width: 1042
+        height: 1102
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,20 +183,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f71abc02ebfd5e4b0800000000000000
-      internalID: -5411673369528786561
+      spriteID: f41bd82f31a50f870800000000000000
+      internalID: 8714564320682160463
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mobTrick_girl_torso
+      name: mobTrick_parts01_2
       rect:
         serializedVersion: 2
-        x: 202
-        y: 1906
-        width: 85
-        height: 74
+        x: 3864
+        y: 4625
+        width: 1042
+        height: 1102
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -177,41 +204,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d78a2c3ea44bd5b0800000000000000
-      internalID: -5342601017820543023
+      spriteID: 561d39581c9ee8f10800000000000000
+      internalID: 2274011879247696229
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mobTrick_bgDesk3
+      name: mobTrick_parts01_3
       rect:
         serializedVersion: 2
-        x: 81
-        y: 710
-        width: 1238
-        height: 268
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b3e3399724d876a70800000000000000
-      internalID: 8820173711875456571
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: mobTrick_obj00
-      rect:
-        serializedVersion: 2
-        x: 406
-        y: 1549
-        width: 149
-        height: 137
+        x: 520
+        y: 3567
+        width: 608
+        height: 745
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -219,20 +225,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a3fd12da4829e79b0800000000000000
-      internalID: -5080462231089324230
+      spriteID: 99edd69e82be0a400800000000000000
+      internalID: 333524933372927641
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mobTrickobj01
+      name: mobTrick_parts01_4
       rect:
         serializedVersion: 2
-        x: 628
-        y: 1560
-        width: 217
-        height: 73
+        x: 2215
+        y: 3558
+        width: 736
+        height: 814
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -240,20 +246,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b5da0f2a3c3eee530800000000000000
-      internalID: 3886293957859126619
+      spriteID: e9dc444b6521e2ae0800000000000000
+      internalID: -1572299056304829026
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mobTrick_player_head00
+      name: mobTrick_parts01_5
       rect:
         serializedVersion: 2
-        x: 24
-        y: 1511
-        width: 334
-        height: 367
+        x: 304
+        y: 2590
+        width: 450
+        height: 611
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -261,20 +267,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3e9638c97f2d5d260800000000000000
-      internalID: 7121830346680920547
+      spriteID: b94b8664cc22ec060800000000000000
+      internalID: 6975551133593416859
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mobTrick_player_torso00
+      name: mobTrick_parts01_6
       rect:
         serializedVersion: 2
-        x: 33
-        y: 1215
-        width: 265
-        height: 265
+        x: 768
+        y: 2590
+        width: 404
+        height: 611
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -282,50 +288,260 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 04069b43792aafe90800000000000000
-      internalID: -6991096701230948288
+      spriteID: b59af6afbad3f22c0800000000000000
+      internalID: -4454273697595807397
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mobTrick_bgDesk2
+      name: mobTrick_parts01_7
       rect:
         serializedVersion: 2
-        x: 40
-        y: 353
-        width: 1441
-        height: 299
+        x: 2146
+        y: 2590
+        width: 883
+        height: 675
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: de5b7ae120676c6e0800000000000000
-      internalID: -1817635648121096723
+      spriteID: 32e9bb34561809020800000000000000
+      internalID: 2346517677788077603
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mobTrick_bgDesk1
+      name: mobTrick_parts01_8
       rect:
         serializedVersion: 2
-        x: 40
-        y: 53
-        width: 1814
-        height: 257
+        x: 275
+        y: 1563
+        width: 425
+        height: 434
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6f470f0ab4ec49410800000000000000
-      internalID: 1483037001529718006
+      spriteID: 086178435dfe6e770800000000000000
+      internalID: 8639856634145216128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mobTrick_parts01_9
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 831
+        width: 368
+        height: 333
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: efe6e4b97c7c69200800000000000000
+      internalID: 186556094700482302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mobTrick_parts01_10
+      rect:
+        serializedVersion: 2
+        x: 1229
+        y: 194
+        width: 246
+        height: 258
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: daafa97acc08e9290800000000000000
+      internalID: -7881720681378153811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mobTrick_parts01_11
+      rect:
+        serializedVersion: 2
+        x: 1171
+        y: 1486
+        width: 463
+        height: 577
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b923159669b2c2980800000000000000
+      internalID: -8562420866526137701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mobTrick_parts01_12
+      rect:
+        serializedVersion: 2
+        x: 1143
+        y: 667
+        width: 494
+        height: 566
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78f0f814cafeb59d0800000000000000
+      internalID: -2784368421485211769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mobTrick_parts01_13
+      rect:
+        serializedVersion: 2
+        x: 1958
+        y: 693
+        width: 408
+        height: 505
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5eeaa068b3254520800000000000000
+      internalID: 2685592027599138397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mobTrick_parts01_14
+      rect:
+        serializedVersion: 2
+        x: 1973
+        y: 154
+        width: 324
+        height: 338
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 335d5bfb21a2becf0800000000000000
+      internalID: -222037496610564813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mobTrick_parts01_15
+      rect:
+        serializedVersion: 2
+        x: 2039
+        y: 1627
+        width: 295
+        height: 246
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf80fab494376cf00800000000000000
+      internalID: 1136722714597198076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mobTrick_parts01_16
+      rect:
+        serializedVersion: 2
+        x: 2875
+        y: 1209
+        width: 630
+        height: 750
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e39606c64780bbef0800000000000000
+      internalID: -91470071303476930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mobTrick_parts01_17
+      rect:
+        serializedVersion: 2
+        x: 2861
+        y: 194
+        width: 644
+        height: 618
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ebb890991c305ba0800000000000000
+      internalID: -6102311414589244448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mobTrick_parts01_18
+      rect:
+        serializedVersion: 2
+        x: 4118
+        y: 1535
+        width: 967
+        height: 416
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 510262817ac178360800000000000000
+      internalID: 7171732435601072149
       vertices: []
       indices: 
       edges: []
