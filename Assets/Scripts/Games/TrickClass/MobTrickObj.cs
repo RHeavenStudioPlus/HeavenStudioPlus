@@ -33,7 +33,7 @@ namespace HeavenStudio.Games.Scripts_TrickClass
 
             float flyPos = cond.GetPositionFromBeat(startBeat, flyBeats);
             transform.position = curve.GetPoint(flyPos);
-            hitProg = game.ScheduleInput(startBeat, dodgeBeats, InputType.STANDARD_ALT_DOWN, DodgeJustOrNg, DodgeMiss, DodgeThrough);
+            hitProg = game.ScheduleInput(startBeat, dodgeBeats, InputType.STANDARD_DOWN, DodgeJustOrNg, DodgeMiss, DodgeThrough);
         }
 
         // Update is called once per frame
@@ -46,7 +46,7 @@ namespace HeavenStudio.Games.Scripts_TrickClass
             {
                 if (!miss)
                 {
-                    flyPos *= 0.9f;
+                    flyPos *= 0.95f;
                 }
                 Vector3 lastPos = transform.position;
                 Vector3 nextPos = curve.GetPoint(flyPos);
@@ -66,7 +66,7 @@ namespace HeavenStudio.Games.Scripts_TrickClass
             }
             else
             {
-                transform.position = curve.GetPoint(miss ? 1f : 0.9f);
+                transform.position = curve.GetPoint(miss ? 1f : 0.95f);
             }
 
             if (flyPos > 1f)
@@ -88,35 +88,22 @@ namespace HeavenStudio.Games.Scripts_TrickClass
             }
         }
 
-        public void DodgeJustOrNg(PlayerActionEvent caller, float state)
+        public void DoObjMiss()
         {
-            if (state <= -1f || state >= 1f)
-            {
-                //NG
-                game.PlayerDodge();
-                MultiSound.Play(new MultiSound.Sound[] { 
-                    new MultiSound.Sound("trickClass/ball_impact", startBeat + flyBeats, volume: 0.75f), 
-                });
-            }
-            else
-            {
-                //just
-                game.PlayerDodge();
-                MultiSound.Play(new MultiSound.Sound[] { 
-                    new MultiSound.Sound("trickClass/ball_impact", startBeat + flyBeats, volume: 0.75f), 
-                });
-            }
-        }
-
-        public void DodgeMiss(PlayerActionEvent caller)
-        {
-            Jukebox.PlayOneShotGame(GetDodgeSound());
             miss = true;
             switch (type)
             {
                 case (int) TrickClass.TrickObjType.Plane:
                     curve = game.planeMissCurve;
                     flyBeats = 4f;
+
+                    Vector3 lastPos = curve.GetPoint(0);
+                    Vector3 nextPos = curve.GetPoint(0.000001f);
+                    Vector3 direction = (nextPos - lastPos).normalized;
+                    float rotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                    this.transform.eulerAngles = new Vector3(0, 0, rotation);
+
+                    transform.position = nextPos;
                     break;
                 default:
                     curve = game.ballMissCurve;
@@ -124,6 +111,39 @@ namespace HeavenStudio.Games.Scripts_TrickClass
                     break;
             }
             startBeat += dodgeBeats;
+        }
+
+        public void DodgeJustOrNg(PlayerActionEvent caller, float state)
+        {
+            if (game.playerCanDodge <= Conductor.instance.songPositionInBeats)
+            {
+                if (state <= -1f || state >= 1f)
+                {
+                    //NG
+                    game.PlayerDodgeNg();
+                    MultiSound.Play(new MultiSound.Sound[] { 
+                        new MultiSound.Sound(GetDodgeSound(), startBeat + flyBeats, volume: 0.4f), 
+                    });
+                    Jukebox.PlayOneShotGame(GetDodgeSound(), volume: 0.6f);
+                    Jukebox.PlayOneShot("miss");
+                    DoObjMiss();
+                }
+                else
+                {
+                    //just
+                    game.PlayerDodge();
+                    MultiSound.Play(new MultiSound.Sound[] { 
+                        new MultiSound.Sound(GetDodgeSound(), startBeat + flyBeats, volume: 0.4f), 
+                    });
+                }
+            }
+        }
+
+        public void DodgeMiss(PlayerActionEvent caller)
+        {
+            Jukebox.PlayOneShotGame(GetDodgeSound());
+            DoObjMiss();
+            game.PlayerThrough();
         }
 
         public void DodgeThrough(PlayerActionEvent caller) {}

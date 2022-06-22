@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5996926452457285680}
   - component: {fileID: 1870033514709349833}
   m_Layer: 0
-  m_Name: mobTrick_parts01_6
+  m_Name: armL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 34043161059546361}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.35, y: -1.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -70,7 +70,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: -4454273697595807397, guid: 9e4d9259bae08d443835f93cde178f9a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 6310967655046720561}
   - component: {fileID: 1874243403106332719}
   m_Layer: 0
-  m_Name: mobTrick_player_head00
+  m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,7 +106,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123271107619115070}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 6.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -152,7 +152,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 4
   m_Sprite: {fileID: 259028287349437060, guid: 9e4d9259bae08d443835f93cde178f9a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -189,7 +189,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 162517656368642540}
   m_LocalRotation: {x: 0, y: -0.17364825, z: 0, w: 0.9848078}
-  m_LocalPosition: {x: 0.26, y: 0, z: -1.51}
+  m_LocalPosition: {x: 0.5, y: 0.073, z: -1.467}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8248491381081258080}
@@ -298,7 +298,7 @@ GameObject:
   - component: {fileID: 7488929755866823519}
   - component: {fileID: 3298168787812111018}
   m_Layer: 0
-  m_Name: mobTrick_player_torso00
+  m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -311,7 +311,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030963024573331643}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -359,7 +359,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 333524933372927641, guid: 9e4d9259bae08d443835f93cde178f9a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -453,6 +453,89 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1232419183106384156
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1321397820395048751}
+  - component: {fileID: 5310578754555517206}
+  - component: {fileID: 4582054608725175433}
+  m_Layer: 0
+  m_Name: Debug
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1321397820395048751
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232419183106384156}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -9.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7799781267437701720}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &5310578754555517206
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232419183106384156}
+  m_Enabled: 0
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!81 &4582054608725175433
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232419183106384156}
+  m_Enabled: 0
 --- !u!1 &1293664498170733624
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,7 +547,7 @@ GameObject:
   - component: {fileID: 8100548237236605110}
   - component: {fileID: 3966054399043867211}
   m_Layer: 0
-  m_Name: Point 2
+  m_Name: Point 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -478,11 +561,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1293664498170733624}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.8290845, y: 4.0775056, z: 1.9470996}
+  m_LocalPosition: {x: -1.05, y: 2.3652556, z: 3.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2005696115261101270}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3966054399043867211
 MonoBehaviour:
@@ -498,8 +581,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 3288589490341909789}
   handleType: 0
-  leftHandleLocalPosition: {x: 0.94582576, y: 0.40337038, z: -0.62014735}
-  rightHandleLocalPosition: {x: -0.94582576, y: -0.40337038, z: 0.62014735}
+  leftHandleLocalPosition: {x: 0.68322885, y: 1.0293169, z: -0.42796063}
+  rightHandleLocalPosition: {x: -0.68322885, y: -1.0293169, z: 0.42796063}
 --- !u!1 &1319698407843468154
 GameObject:
   m_ObjectHideFlags: 0
@@ -558,7 +641,7 @@ GameObject:
   - component: {fileID: 1961949143142789026}
   - component: {fileID: 2073052394405944612}
   m_Layer: 0
-  m_Name: mobTrick_girl_head00
+  m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -571,12 +654,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1349913750540711776}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.172, y: 2.24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4282183760407212483}
   - {fileID: 8272915755210452549}
+  - {fileID: 4282183760407212483}
   m_Father: {fileID: 2712533505047173825}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -625,7 +708,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.16, y: 1.23}
+  m_Size: {x: 4.08, y: 5.0503106}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -676,8 +759,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 6309335202182677863}
   handleType: 0
-  leftHandleLocalPosition: {x: -1.23073, y: -1.6043943, z: 0}
-  rightHandleLocalPosition: {x: 1.23073, y: 1.6043943, z: -0}
+  leftHandleLocalPosition: {x: -1.2741623, y: -1.6029936, z: 0.038289025}
+  rightHandleLocalPosition: {x: 1.2741623, y: 1.6029936, z: -0.038289025}
 --- !u!1 &1928449265059126105
 GameObject:
   m_ObjectHideFlags: 0
@@ -863,7 +946,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2386269478641536153}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.7657242, y: 1.5666862, z: 0.41385138}
+  m_LocalPosition: {x: 0.832, y: 0.067329824, z: 2.436}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2005696115261101270}
@@ -883,8 +966,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 3288589490341909789}
   handleType: 0
-  leftHandleLocalPosition: {x: -1.6417427, y: -2.0130076, z: 0.94677436}
-  rightHandleLocalPosition: {x: 1.6417427, y: 2.0130076, z: -0.94677436}
+  leftHandleLocalPosition: {x: -1.2123687, y: -0.4792779, z: 0.77124846}
+  rightHandleLocalPosition: {x: 1.2123687, y: 0.4792779, z: -0.77124846}
 --- !u!1 &3206296460510988408
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,6 +1086,7 @@ Transform:
   m_Children:
   - {fileID: 8318852355974017578}
   - {fileID: 6029919261637204356}
+  - {fileID: 1147609521706966597}
   - {fileID: 8100548237236605110}
   - {fileID: 4693299908133745271}
   - {fileID: 4697127493086177061}
@@ -1029,6 +1113,7 @@ MonoBehaviour:
   keyPoints:
   - {fileID: 1588701418209505319}
   - {fileID: 1306377151307596801}
+  - {fileID: 6771806972267075088}
   - {fileID: 3966054399043867211}
   - {fileID: 4618462056129627022}
   - {fileID: 6122165813892890393}
@@ -1045,7 +1130,7 @@ GameObject:
   - component: {fileID: 2282730112353551780}
   - component: {fileID: 7432826906375376879}
   m_Layer: 0
-  m_Name: Point 5
+  m_Name: Point 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1059,11 +1144,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3418795074043480354}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.381597, y: -7.0899997, z: -5.6423187}
+  m_LocalPosition: {x: -4.8047, y: -7.1124625, z: -5.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2005696115261101270}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7432826906375376879
 MonoBehaviour:
@@ -1079,8 +1164,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 3288589490341909789}
   handleType: 0
-  leftHandleLocalPosition: {x: 5.695239, y: -0.41566324, z: 0.9595523}
-  rightHandleLocalPosition: {x: -5.695239, y: 0.41566324, z: -0.9595523}
+  leftHandleLocalPosition: {x: 5.4743524, y: -0.42018557, z: 1.7583859}
+  rightHandleLocalPosition: {x: -5.4743524, y: 0.42018557, z: -1.7583859}
 --- !u!1 &3750683135787769820
 GameObject:
   m_ObjectHideFlags: 0
@@ -1205,8 +1290,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 3288589490341909789}
   handleType: 0
-  leftHandleLocalPosition: {x: -2.3620882, y: -0.048886657, z: 1.6852124}
-  rightHandleLocalPosition: {x: 2.3620882, y: 0.048886657, z: -1.6852124}
+  leftHandleLocalPosition: {x: -2.2244952, y: 0.08774805, z: 1.4541802}
+  rightHandleLocalPosition: {x: 2.2244952, y: -0.08774805, z: -1.4541802}
 --- !u!1 &4622791582068443419
 GameObject:
   m_ObjectHideFlags: 0
@@ -1277,7 +1362,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -3
   m_Sprite: {fileID: -2744129390065220167, guid: 4777f54c8c25980428a483cf515e981d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1400,7 +1485,7 @@ GameObject:
   - component: {fileID: 4282183760407212483}
   - component: {fileID: 3207899160759663420}
   m_Layer: 0
-  m_Name: mobTrick_girl_hair
+  m_Name: hairL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1413,12 +1498,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4776077577780194085}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.45, y: -1.27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1961949143142789026}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3207899160759663420
 SpriteRenderer:
@@ -1465,7 +1550,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.41, y: 0.37}
+  m_Size: {x: 2.46, y: 2.5801585}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1529,7 +1614,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5096395877590586700}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.23, y: -6.78, z: 4.37}
+  m_LocalPosition: {x: -1.43, y: -11.69, z: 4.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2805817892094278801}
@@ -1549,8 +1634,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 5261772982309671256}
   handleType: 0
-  leftHandleLocalPosition: {x: 0.3305273, y: 3.2151892, z: -0.8895936}
-  rightHandleLocalPosition: {x: -0.3305273, y: -3.2151892, z: 0.8895936}
+  leftHandleLocalPosition: {x: 0.38255858, y: 3.2152529, z: -0.8895941}
+  rightHandleLocalPosition: {x: -0.38255858, y: -3.2152529, z: 0.8895941}
 --- !u!1 &5360420740636381101
 GameObject:
   m_ObjectHideFlags: 0
@@ -1560,7 +1645,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2712533505047173825}
-  - component: {fileID: 389020956015586798}
+  - component: {fileID: 6570045643125407281}
   m_Layer: 0
   m_Name: girl
   m_TagString: Untagged
@@ -1584,17 +1669,25 @@ Transform:
   m_Father: {fileID: 7799781267437701720}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!210 &389020956015586798
-SortingGroup:
+--- !u!95 &6570045643125407281
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5360420740636381101}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: -2
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 73bc5437d0336674b8c22a825e4b7f3c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6043466246216488714
 GameObject:
   m_ObjectHideFlags: 0
@@ -1704,7 +1797,7 @@ Transform:
   m_GameObject: {fileID: 6092229326248261130}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.455, y: 0.455, z: 1}
   m_Children: []
   m_Father: {fileID: 6646177278795284587}
   m_RootOrder: 1
@@ -1749,7 +1842,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 3886293957859126619, guid: 1c3bb5ea746189340988d2b34c53d330, type: 3}
+  m_Sprite: {fileID: 7171732435601072149, guid: 9e4d9259bae08d443835f93cde178f9a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1798,7 +1891,7 @@ GameObject:
   - component: {fileID: 4693299908133745271}
   - component: {fileID: 4618462056129627022}
   m_Layer: 0
-  m_Name: Point 3
+  m_Name: Point 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1812,11 +1905,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6218864461676157707}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.9512715, y: 1.0785658, z: 1.7256987}
+  m_LocalPosition: {x: 1.189, y: -0.048113704, z: 2.195}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2005696115261101270}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4618462056129627022
 MonoBehaviour:
@@ -1832,8 +1925,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 3288589490341909789}
   handleType: 0
-  leftHandleLocalPosition: {x: -1.6963735, y: 0.13838613, z: 1.1906974}
-  rightHandleLocalPosition: {x: 1.6963735, y: -0.13838613, z: -1.1906974}
+  leftHandleLocalPosition: {x: -1.8526663, y: -0.47393608, z: 1.1977413}
+  rightHandleLocalPosition: {x: 1.8526663, y: 0.47393608, z: -1.1977413}
 --- !u!1 &6229372592850255122
 GameObject:
   m_ObjectHideFlags: 0
@@ -1845,7 +1938,7 @@ GameObject:
   - component: {fileID: 2205484085421406530}
   - component: {fileID: 7099705372427191556}
   m_Layer: 0
-  m_Name: mobTrick_girl_torso
+  m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1858,7 +1951,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6229372592850255122}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1904,7 +1997,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -4
   m_Sprite: {fileID: 186556094700482302, guid: 9e4d9259bae08d443835f93cde178f9a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1925,6 +2018,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9050201431690794528}
+  - component: {fileID: 4171281603420513773}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -1948,6 +2042,25 @@ Transform:
   m_Father: {fileID: 7799781267437701720}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &4171281603420513773
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6531951989624796132}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d8ac4697bb5ed1f4a86446fdbe29b5dc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6999228461696713549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1981,6 +2094,7 @@ Transform:
   - {fileID: 9050201431690794528}
   - {fileID: 4058401002516718396}
   - {fileID: 6646177278795284587}
+  - {fileID: 1321397820395048751}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1999,6 +2113,8 @@ MonoBehaviour:
   EligibleHits: []
   scheduledInputs: []
   firstEnable: 0
+  playerAnim: {fileID: 4171281603420513773}
+  girlAnim: {fileID: 6570045643125407281}
   ballPrefab: {fileID: 7208854294000353610}
   planePrefab: {fileID: 6092229326248261130}
   shockPrefab: {fileID: 7208854294000353610}
@@ -2008,6 +2124,7 @@ MonoBehaviour:
   planeTossCurve: {fileID: 3288589490341909789}
   planeMissCurve: {fileID: 6309335202182677863}
   shockTossCurve: {fileID: 6743229856556330732}
+  playerCanDodge: -3.4028235e+38
 --- !u!1 &7073120453417206326
 GameObject:
   m_ObjectHideFlags: 0
@@ -2019,7 +2136,7 @@ GameObject:
   - component: {fileID: 8272915755210452549}
   - component: {fileID: 733367976909351691}
   m_Layer: 0
-  m_Name: mobTrick_girl_hair (1)
+  m_Name: hairR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2032,12 +2149,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7073120453417206326}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.45, y: -1.27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1961949143142789026}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &733367976909351691
 SpriteRenderer:
@@ -2084,7 +2201,7 @@ SpriteRenderer:
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.41, y: 0.37}
+  m_Size: {x: 2.46, y: 2.5801585}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -2117,7 +2234,7 @@ Transform:
   m_GameObject: {fileID: 7208854294000353610}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.455, y: 0.455, z: 1}
   m_Children: []
   m_Father: {fileID: 6646177278795284587}
   m_RootOrder: 0
@@ -2162,7 +2279,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: -5080462231089324230, guid: 1c3bb5ea746189340988d2b34c53d330, type: 3}
+  m_Sprite: {fileID: -6102311414589244448, guid: 9e4d9259bae08d443835f93cde178f9a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2224,8 +2341,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7310611812045732801}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.4372144, y: -0.8, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1.25}
+  m_LocalPosition: {x: -1.5, y: -0.8, z: 0}
+  m_LocalScale: {x: 1.1, y: 1, z: 2}
   m_Children:
   - {fileID: 1420343226113066666}
   - {fileID: 1376113234299623101}
@@ -2233,6 +2350,53 @@ Transform:
   m_Father: {fileID: 7799781267437701720}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7441100361811456812
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1147609521706966597}
+  - component: {fileID: 6771806972267075088}
+  m_Layer: 0
+  m_Name: Point 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1147609521706966597
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7441100361811456812}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.31, y: 2.7111413, z: 2.14}
+  m_LocalScale: {x: 0.95693785, y: 1.0526316, z: 0.5}
+  m_Children: []
+  m_Father: {fileID: 2005696115261101270}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6771806972267075088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7441100361811456812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0cca3244f403c24f819a870f31cdc29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curve: {fileID: 3288589490341909789}
+  handleType: 0
+  leftHandleLocalPosition: {x: 0.5171946, y: -0.5816976, z: -0.66142654}
+  rightHandleLocalPosition: {x: -0.5171946, y: 0.5816976, z: 0.66142654}
 --- !u!1 &7519947778766731560
 GameObject:
   m_ObjectHideFlags: 0
@@ -2244,7 +2408,7 @@ GameObject:
   - component: {fileID: 5015249734785180521}
   - component: {fileID: 6678504029293792003}
   m_Layer: 0
-  m_Name: mobTrick_parts01_5
+  m_Name: armR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2257,7 +2421,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7519947778766731560}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2, y: -1.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -2326,7 +2490,7 @@ GameObject:
   - component: {fileID: 4697127493086177061}
   - component: {fileID: 6122165813892890393}
   m_Layer: 0
-  m_Name: Point 4
+  m_Name: Point 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2340,11 +2504,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7716535561277334307}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.22, y: 3.3324628, z: -2.448287}
+  m_LocalPosition: {x: 7.355391, y: 3.5441406, z: -1.8722836}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2005696115261101270}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6122165813892890393
 MonoBehaviour:
@@ -2469,7 +2633,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7967029275641793632}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.01, y: 5, z: 0}
+  m_LocalPosition: {x: 5.956936, y: 4.9981914, z: 0.0118204355}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 270213282485315182}
@@ -2489,8 +2653,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 6309335202182677863}
   handleType: 0
-  leftHandleLocalPosition: {x: -0.45885086, y: -1.7927861, z: 0.031735867}
-  rightHandleLocalPosition: {x: 0.45885086, y: 1.7927861, z: -0.031735867}
+  leftHandleLocalPosition: {x: -0.08737612, y: -1.8095968, z: -0.12587562}
+  rightHandleLocalPosition: {x: 0.08737612, y: 1.8095968, z: 0.12587562}
 --- !u!1 &8162409257639345853
 GameObject:
   m_ObjectHideFlags: 0
@@ -2563,7 +2727,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8303722412302536607}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.32, y: 6.2020583, z: 0.57}
+  m_LocalPosition: {x: 1.82, y: 6.3, z: 0.218}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 270213282485315182}
@@ -2583,8 +2747,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 6309335202182677863}
   handleType: 0
-  leftHandleLocalPosition: {x: 0.8479717, y: 1.2241788, z: -0.015987754}
-  rightHandleLocalPosition: {x: -0.8479717, y: -1.2241788, z: 0.015987754}
+  leftHandleLocalPosition: {x: 1.34035, y: 0.9286294, z: -0.19504726}
+  rightHandleLocalPosition: {x: -1.34035, y: -0.9286294, z: 0.19504726}
 --- !u!1 &8432671419974842299
 GameObject:
   m_ObjectHideFlags: 0
@@ -2730,8 +2894,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 5261772982309671256}
   handleType: 0
-  leftHandleLocalPosition: {x: 2.309286, y: -0.7468654, z: -1.9092816}
-  rightHandleLocalPosition: {x: -2.309286, y: 0.7468654, z: 1.9092816}
+  leftHandleLocalPosition: {x: 3.7113361, y: -0.6022707, z: -1.9092817}
+  rightHandleLocalPosition: {x: -3.7113361, y: 0.6022707, z: 1.9092817}
 --- !u!1 &8653118620308232900
 GameObject:
   m_ObjectHideFlags: 0
@@ -2802,7 +2966,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: -7631371983786943230, guid: 4777f54c8c25980428a483cf515e981d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

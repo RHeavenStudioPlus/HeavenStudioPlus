@@ -1,5 +1,6 @@
 using DG.Tweening;
 using NaughtyBezierCurves;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,12 +38,13 @@ namespace HeavenStudio.Games
     public class TrickClass : Minigame
     {
         public enum TrickObjType {
-            Plane,
-            Shock,
             Ball,
-            Chair,
-            Phone
+            Plane,
         }
+
+        [Header("Objects")]
+        public Animator playerAnim;
+        public Animator girlAnim;
 
         [Header("References")]
         public GameObject ballPrefab;
@@ -60,6 +62,10 @@ namespace HeavenStudio.Games
         public static TrickClass instance;
         public GameEvent bop = new GameEvent();
 
+        public float playerCanDodge = Single.MinValue;
+        float playerBopStart = Single.MinValue;
+        float girlBopStart = Single.MinValue;
+
         private void Awake()
         {
             instance = this;
@@ -70,12 +76,17 @@ namespace HeavenStudio.Games
             var cond = Conductor.instance;
             if (cond.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1))
             {
-                //TODO: bop animation
+                if (cond.songPositionInBeats > playerBopStart)
+                    playerAnim.DoScaledAnimationAsync("Bop");
+
+                if (cond.songPositionInBeats > girlBopStart)
+                    girlAnim.DoScaledAnimationAsync("Bop");
             }
 
-            if (PlayerInput.Pressed() && !IsExpectingInputNow())
+            if (PlayerInput.Pressed() && !IsExpectingInputNow() && (playerCanDodge <= Conductor.instance.songPositionInBeats))
             {
-                PlayerDodge();
+                PlayerDodge(true);
+                playerCanDodge = Conductor.instance.songPositionInBeats + 0.6f;
             }
         }
 
@@ -97,6 +108,9 @@ namespace HeavenStudio.Games
                     break;
             }
             SpawnObject(beat, type);
+
+            girlAnim.DoScaledAnimationAsync("Throw");
+            girlBopStart = Conductor.instance.songPositionInBeats + 0.75f;
         }
 
         public void SpawnObject(float beat, int type)
@@ -127,10 +141,29 @@ namespace HeavenStudio.Games
             mobj.SetActive(true);
         }
 
-        public void PlayerDodge()
+        public void PlayerDodge(bool slow = false)
         {
+            if (playerCanDodge > Conductor.instance.songPositionInBeats) return;
+
             //anim
             Jukebox.PlayOneShotGame("trickClass/player_dodge");
+            playerAnim.DoScaledAnimationAsync("Dodge", slow ? 0.6f : 1f);
+            playerBopStart = Conductor.instance.songPositionInBeats + 0.75f;
+            
+        }
+
+        public void PlayerDodgeNg()
+        {
+            playerAnim.DoScaledAnimationAsync("DodgeNg");
+            playerBopStart = Conductor.instance.songPositionInBeats + 0.75f;
+            
+        }
+
+        public void PlayerThrough()
+        {
+            playerAnim.DoScaledAnimationAsync("Through");
+            playerBopStart = Conductor.instance.songPositionInBeats + 0.75f;
+            
         }
     }
 }
