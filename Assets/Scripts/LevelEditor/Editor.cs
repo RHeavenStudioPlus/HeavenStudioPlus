@@ -28,6 +28,9 @@ namespace HeavenStudio.Editor
         [SerializeField] private Canvas MainCanvas;
         [SerializeField] public Camera EditorCamera;
 
+        [SerializeField] public GameObject EditorLetterbox;
+        [SerializeField] public GameObject GameLetterbox;
+
         [Header("Rect")]
         [SerializeField] private RenderTexture ScreenRenderTexture;
         [SerializeField] private RawImage Screen;
@@ -61,6 +64,7 @@ namespace HeavenStudio.Editor
         private bool fullscreen;
         public bool discordDuringTesting = false;
         public bool canSelect = true;
+        public bool editingInputField = false;
 
         public static Editor instance { get; private set; }
 
@@ -75,6 +79,7 @@ namespace HeavenStudio.Editor
         {
             GameCamera.instance.camera.targetTexture = ScreenRenderTexture;
             GameManager.instance.CursorCam.targetTexture = ScreenRenderTexture;
+            GameManager.instance.OverlayCamera.targetTexture = ScreenRenderTexture;
             Screen.texture = ScreenRenderTexture;
 
             GameManager.instance.Init();
@@ -84,6 +89,8 @@ namespace HeavenStudio.Editor
             {
                 GameObject GameIcon_ = Instantiate(GridGameSelector.GetChild(0).gameObject, GridGameSelector);
                 GameIcon_.GetComponent<Image>().sprite = GameIcon(EventCaller.instance.minigames[i].name);
+                GameIcon_.GetComponent<GridGameSelectorGame>().MaskTex = GameIconMask(EventCaller.instance.minigames[i].name);
+                GameIcon_.GetComponent<GridGameSelectorGame>().UnClickIcon();
                 GameIcon_.gameObject.SetActive(true);
                 GameIcon_.name = EventCaller.instance.minigames[i].displayName;
             }
@@ -106,14 +113,18 @@ namespace HeavenStudio.Editor
         {
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                Fullscreen();
+                if (!Editor.instance.editingInputField)
+                    Fullscreen();
             }
 
             if (Input.GetKeyDown(KeyCode.Delete))
             {
-                List<TimelineEventObj> ev = new List<TimelineEventObj>();
-                for (int i = 0; i < Selections.instance.eventsSelected.Count; i++) ev.Add(Selections.instance.eventsSelected[i]);
-                CommandManager.instance.Execute(new Commands.Deletion(ev));
+                if (!Editor.instance.editingInputField)
+                {
+                    List<TimelineEventObj> ev = new List<TimelineEventObj>();
+                    for (int i = 0; i < Selections.instance.eventsSelected.Count; i++) ev.Add(Selections.instance.eventsSelected[i]);
+                    CommandManager.instance.Execute(new Commands.Deletion(ev));
+                }
             }
 
             if (CommandManager.instance.canUndo())
@@ -209,6 +220,11 @@ namespace HeavenStudio.Editor
             return Resources.Load<Sprite>($"Sprites/Editor/GameIcons/{name}");
         }
 
+        public static Texture GameIconMask(string name)
+        {
+            return Resources.Load<Texture>($"Sprites/Editor/GameIcons/{name}_mask");
+        }
+
         #region Dialogs
 
         public void SelectMusic()
@@ -218,6 +234,7 @@ namespace HeavenStudio.Editor
                 new ExtensionFilter("Music Files", "mp3", "ogg", "wav")
             };
 
+            #if UNITY_STANDALONE_WINDOWS
             StandaloneFileBrowser.OpenFilePanelAsync("Open File", "", extensions, false, async (string[] paths) => 
             {
                 if (paths.Length > 0)
@@ -229,6 +246,19 @@ namespace HeavenStudio.Editor
                 }
             } 
             );
+            #else
+            StandaloneFileBrowser.OpenFilePanelAsync("Open File", "", extensions, false, async (string[] paths) =>
+            {
+                if (paths.Length > 0)
+                {
+                    Conductor.instance.musicSource.clip = await LoadClip("file://" + Path.Combine(paths));
+                    changedMusic = true;
+
+                    Timeline.FitToSong();
+                }
+            }
+            );
+            #endif
         }
 
         private async Task<AudioClip> LoadClip(string path)
@@ -294,7 +324,7 @@ namespace HeavenStudio.Editor
             {
                 new ExtensionFilter("Heaven Studio Remix File", "tengoku")
             };
-
+            
             StandaloneFileBrowser.SaveFilePanelAsync("Save Remix As", "", "remix_level", extensions, (string path) =>
             {
                 if (path != String.Empty)
@@ -312,7 +342,7 @@ namespace HeavenStudio.Editor
                 {
                     var levelFile = archive.CreateEntry("remix.json", System.IO.Compression.CompressionLevel.NoCompression);
                     using (var zipStream = levelFile.Open())
-                        zipStream.Write(Encoding.ASCII.GetBytes(GetJson()), 0, Encoding.ASCII.GetBytes(GetJson()).Length);
+                        zipStream.Write(Encoding.UTF8.GetBytes(GetJson()), 0, Encoding.UTF8.GetBytes(GetJson()).Length);
 
                     if (changedMusic || currentRemixPath != path)
                     {
@@ -337,6 +367,7 @@ namespace HeavenStudio.Editor
             Timeline.instance.TempoInfo.UpdateStartingBPMText();
             Timeline.instance.VolumeInfo.UpdateStartingVolumeText();
             Timeline.instance.TempoInfo.UpdateOffsetText();
+            Timeline.FitToSong();
         }
 
         public void OpenRemix()
@@ -369,7 +400,7 @@ namespace HeavenStudio.Editor
                                         {
                                             stream.CopyTo(ms);
                                             bytes = ms.ToArray();
-                                            string json = Encoding.Default.GetString(bytes);
+                                            string json = Encoding.UTF8.GetString(bytes);
                                             LoadRemix(json);
                                         }
                                     }
@@ -410,19 +441,31 @@ namespace HeavenStudio.Editor
         {
             if (fullscreen == false)
             {
+                EditorLetterbox.SetActive(false);
+                GameLetterbox.SetActive(true);
+
                 MainCanvas.enabled = false;
                 EditorCamera.enabled = false;
                 GameCamera.instance.camera.targetTexture = null;
-                GameCamera.instance.camera.transform.parent.GetChild(1).GetComponent<Camera>().enabled = false;
+                GameManager.instance.CursorCam.enabled = false;
+                GameManager.instance.OverlayCamera.targetTexture = null;
                 fullscreen = true;
             }
             else
             {
+                EditorLetterbox.SetActive(true);
+                GameLetterbox.SetActive(false);
+
                 MainCanvas.enabled = true;
                 EditorCamera.enabled = true;
                 GameCamera.instance.camera.targetTexture = ScreenRenderTexture;
-                GameCamera.instance.camera.transform.parent.GetChild(1).GetComponent<Camera>().enabled = true;
+                GameManager.instance.CursorCam.enabled = true;
+                GameManager.instance.OverlayCamera.targetTexture = ScreenRenderTexture;
                 fullscreen = false;
+
+                GameCamera.instance.camera.rect = new Rect(0, 0, 1, 1);
+                GameManager.instance.CursorCam.rect = new Rect(0, 0, 1, 1);
+                GameManager.instance.OverlayCamera.rect = new Rect(0, 0, 1, 1);
             }
         }
 

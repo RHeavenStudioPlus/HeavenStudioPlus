@@ -258,24 +258,29 @@ namespace HeavenStudio.Editor.Track
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (Input.GetKey(KeyCode.LeftShift))
+                if (!Editor.instance.editingInputField)
                 {
-                    PlayCheck(false);
-                }
-                else
-                {
-                    PlayCheck(true);
+                    if (Input.GetKey(KeyCode.LeftShift))
+                    {
+                        PlayCheck(false);
+                    }
+                    else
+                    {
+                        PlayCheck(true);
+                    }
                 }
             }
 
             if (Input.GetKeyDown(KeyCode.P))
             {
-                AutoPlayToggle();
+                if (!Editor.instance.editingInputField)
+                    AutoPlayToggle();
             }
 
             if (Input.GetKeyDown(KeyCode.M))
             {
-                MetronomeToggle();
+                if (!Editor.instance.editingInputField)
+                    MetronomeToggle();
             }
 
 
@@ -291,7 +296,7 @@ namespace HeavenStudio.Editor.Track
             if (movingPlayback)
             {
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(TimelineContent, Input.mousePosition, Editor.instance.EditorCamera, out lastMousePos);
-                TimelineSlider.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(lastMousePos.x + 0.12f, Timeline.SnapInterval()), 0, Mathf.Infinity), TimelineSlider.transform.localPosition.y);
+                TimelineSlider.localPosition = new Vector3(Mathf.Max(Mathp.Round2Nearest(lastMousePos.x + 0.12f, Timeline.SnapInterval()), 0), TimelineSlider.transform.localPosition.y);
 
                 if (TimelineSlider.localPosition.x != lastBeatPos)
                     Conductor.instance.SetBeat(TimelineSlider.transform.localPosition.x);
@@ -302,13 +307,16 @@ namespace HeavenStudio.Editor.Track
             float moveSpeed = 750;
             if (Input.GetKey(KeyCode.LeftShift)) moveSpeed *= 2;
 
-            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+            if (!Editor.instance.editingInputField)
             {
-                TimelineContent.transform.localPosition += new Vector3(moveSpeed * Time.deltaTime, 0);
-            }
-            else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-            {
-                TimelineContent.transform.localPosition += new Vector3(-moveSpeed * Time.deltaTime, 0);
+                if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+                {
+                    TimelineContent.transform.localPosition += new Vector3(moveSpeed * Time.deltaTime, 0);
+                }
+                else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+                {
+                    TimelineContent.transform.localPosition += new Vector3(-moveSpeed * Time.deltaTime, 0);
+                }
             }
 
             if (Conductor.instance.isPlaying)
