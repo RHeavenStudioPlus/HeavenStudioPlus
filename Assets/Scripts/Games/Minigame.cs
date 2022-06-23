@@ -6,7 +6,7 @@ namespace HeavenStudio.Games
 {
     public class Minigame : MonoBehaviour
     {
-        public static float earlyTime = 0.90f, perfectTime = 0.93f, lateTime = 1.06f, endTime = 1.10f;
+        public static float earlyTime = 0.1f, perfectTime = 0.06f, lateTime = 0.06f, endTime = 0.1f;
         public List<Minigame.Eligible> EligibleHits = new List<Minigame.Eligible>();
 
         [System.Serializable]
@@ -20,7 +20,6 @@ namespace HeavenStudio.Games
             public bool eligible() { return early || perfect || late; }
             public float createBeat;
         }
-
 
         public List<PlayerActionEvent> scheduledInputs = new List<PlayerActionEvent>();
 
@@ -116,7 +115,7 @@ namespace HeavenStudio.Games
                     float t1 = closest.startBeat + closest.timer;
                     float t2 = toCompare.startBeat + toCompare.timer;
 
-                    Debug.Log("t1=" + t1 + " -- t2=" + t2);
+                    // Debug.Log("t1=" + t1 + " -- t2=" + t2);
 
                     if (t2 < t1) closest = toCompare;
                 }
@@ -136,27 +135,35 @@ namespace HeavenStudio.Games
             return input.IsExpectingInputNow();
         }
 
-
-
-        // hopefully these will fix the lowbpm problem
+        // now should fix the fast bpm problem
         public static float EarlyTime()
         {
-            return earlyTime;
+            return 1f - ScaleTimingMargin(earlyTime);
         }
 
         public static float PerfectTime()
         {
-            return perfectTime;
+            return 1f - ScaleTimingMargin(perfectTime);
         }
 
         public static float LateTime()
         {
-            return lateTime;
+            return 1f + ScaleTimingMargin(lateTime);
         }
 
         public static float EndTime()
         {
-            return endTime;
+            return 1f + ScaleTimingMargin(endTime);
+        }
+
+        //scales timing windows to the BPM in an ""intelligent"" manner
+        static float ScaleTimingMargin(float f)
+        {
+            float bpm = Conductor.instance.songBpm * Conductor.instance.musicSource.pitch;
+            float a = bpm / 120f;
+            float b = (Mathf.Log(a) + 2f) * 0.5f;
+            float r = Mathf.Lerp(a, b, 0.25f);
+            return r * f;
         }
 
         public int firstEnable = 0;
