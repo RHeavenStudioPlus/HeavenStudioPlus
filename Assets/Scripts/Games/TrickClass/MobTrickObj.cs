@@ -132,6 +132,7 @@ namespace HeavenStudio.Games.Scripts_TrickClass
                 {
                     //just
                     game.PlayerDodge();
+                    Jukebox.PlayOneShotGame("trickClass/player_dodge_success", volume: 0.8f, pitch: UnityEngine.Random.Range(0.95f, 1.15f));
                     MultiSound.Play(new MultiSound.Sound[] { 
                         new MultiSound.Sound(GetDodgeSound(), startBeat + flyBeats, volume: 0.4f), 
                     });
