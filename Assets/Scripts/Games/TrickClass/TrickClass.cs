@@ -45,6 +45,7 @@ namespace HeavenStudio.Games
         [Header("Objects")]
         public Animator playerAnim;
         public Animator girlAnim;
+        public Animator warnAnim;
 
         [Header("References")]
         public GameObject ballPrefab;
@@ -87,6 +88,29 @@ namespace HeavenStudio.Games
             {
                 PlayerDodge(true);
                 playerCanDodge = Conductor.instance.songPositionInBeats + 0.6f;
+            }
+
+            // bruh
+            var tossEvents = GameManager.instance.Beatmap.entities.FindAll(en => en.datamodel == "trickClass/toss");
+            for (int i = 0; i < tossEvents.Count; i++)
+            {
+                var e = tossEvents[i];
+                float timeToEvent = e.beat - cond.songPositionInBeats;
+                if (timeToEvent > 0f && timeToEvent <= 1f)
+                {
+                    string anim = "WarnBall";
+                    switch (e.type)
+                    {
+                        case (int) TrickObjType.Plane:
+                            anim = "WarnPlane";
+                            break;
+                        default:
+                            anim = "WarnBall";
+                            break;
+                    }
+                    warnAnim.DoScaledAnimation(anim, e.beat - 1f, 1f);
+                    break;
+                }
             }
         }
 
@@ -156,14 +180,14 @@ namespace HeavenStudio.Games
         {
             playerAnim.DoScaledAnimationAsync("DodgeNg");
             playerBopStart = Conductor.instance.songPositionInBeats + 0.75f;
-            
+            playerCanDodge = Conductor.instance.songPositionInBeats + 0.15f;
         }
 
         public void PlayerThrough()
         {
             playerAnim.DoScaledAnimationAsync("Through");
             playerBopStart = Conductor.instance.songPositionInBeats + 0.75f;
-            
+            playerCanDodge = Conductor.instance.songPositionInBeats + 0.15f;
         }
     }
 }
