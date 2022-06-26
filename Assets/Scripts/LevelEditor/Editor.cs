@@ -441,7 +441,7 @@ namespace HeavenStudio.Editor
         {
             if (fullscreen == false)
             {
-                EditorLetterbox.SetActive(false);
+                // EditorLetterbox.SetActive(false);
                 GameLetterbox.SetActive(true);
 
                 MainCanvas.enabled = false;
@@ -453,7 +453,7 @@ namespace HeavenStudio.Editor
             }
             else
             {
-                EditorLetterbox.SetActive(true);
+                // EditorLetterbox.SetActive(true);
                 GameLetterbox.SetActive(false);
 
                 MainCanvas.enabled = true;
@@ -466,6 +466,7 @@ namespace HeavenStudio.Editor
                 GameCamera.instance.camera.rect = new Rect(0, 0, 1, 1);
                 GameManager.instance.CursorCam.rect = new Rect(0, 0, 1, 1);
                 GameManager.instance.OverlayCamera.rect = new Rect(0, 0, 1, 1);
+                EditorCamera.rect = new Rect(0, 0, 1, 1);
             }
         }
 
