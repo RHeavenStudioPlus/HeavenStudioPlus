@@ -96,6 +96,7 @@ namespace HeavenStudio.Games
             {
                 var e = tossEvents[i];
                 float timeToEvent = e.beat - cond.songPositionInBeats;
+                warnAnim.Play("NoPose", -1, 0);
                 if (timeToEvent > 0f && timeToEvent <= 1f)
                 {
                     string anim = "WarnBall";
