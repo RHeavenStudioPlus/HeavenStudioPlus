@@ -30,6 +30,7 @@ namespace HeavenStudio.Games
         public Animator Dancer2;
         public Animator Dancer3;
         public Animator Gramps;
+        public Animator Hit;
         public GameObject Player;
 
         public static SpaceDance instance;
@@ -54,9 +55,9 @@ namespace HeavenStudio.Games
         {
             ScheduleInput(beat, 1f, InputType.STANDARD_DOWN, RightSuccess, RightMiss, RightEmpty);
             MultiSound.Play(new MultiSound.Sound[] {
-            new MultiSound.Sound("spaceDance/turn1_sound", beat),
-            new MultiSound.Sound("spaceDance/turn1_dancers", beat),
-            new MultiSound.Sound("spaceDance/turn2_dancers", beat),
+            new MultiSound.Sound("spaceDance/voicelessTurn", beat),
+            new MultiSound.Sound("spaceDance/dancerTurn", beat),
+            new MultiSound.Sound("spaceDance/dancerRight", beat + 1.0f),
             });
 
             BeatAction.New(Player, new List<BeatAction.Action>() 
@@ -76,11 +77,10 @@ namespace HeavenStudio.Games
         {
             ScheduleInput(beat, 1f, InputType.STANDARD_DOWN, SitSuccess, SitMiss, SitEmpty);
             MultiSound.Play(new MultiSound.Sound[] {
-            new MultiSound.Sound("spaceDance/sit1_sound", beat),
-            new MultiSound.Sound("spaceDance/sit1_dancers", beat),
-            new MultiSound.Sound("spaceDance/sit2_sound", beat + 0.5f),
-            new MultiSound.Sound("spaceDance/sit2_dancers", beat + 0.5f),
-            new MultiSound.Sound("spaceDance/sit3_dancers", beat + 1f),
+            new MultiSound.Sound("spaceDance/voicelessSit", beat),
+            new MultiSound.Sound("spaceDance/dancerLets", beat),
+            new MultiSound.Sound("spaceDance/dancerSit", beat + 0.5f),
+            new MultiSound.Sound("spaceDance/dancerDown", beat + 1f),
             });
 
             BeatAction.New(Player, new List<BeatAction.Action>() 
@@ -100,13 +100,13 @@ namespace HeavenStudio.Games
         {
             ScheduleInput(beat, 1.5f, InputType.STANDARD_DOWN, PunchSuccess, PunchMiss, PunchEmpty);
             MultiSound.Play(new MultiSound.Sound[] {
-            new MultiSound.Sound("spaceDance/punch1_sound", beat),
-            new MultiSound.Sound("spaceDance/punch1_dancers", beat),
-            new MultiSound.Sound("spaceDance/punch1_sound", beat + 0.5f),
-            new MultiSound.Sound("spaceDance/punch1_dancers", beat + 0.5f),
-            new MultiSound.Sound("spaceDance/punch1_sound", beat + 1f),
-            new MultiSound.Sound("spaceDance/punch1_dancers", beat + 1f),
-            new MultiSound.Sound("spaceDance/punch2_dancers", beat + 1.5f),
+            new MultiSound.Sound("spaceDance/voicelessPunch", beat),
+            new MultiSound.Sound("spaceDance/dancerPa", beat),
+            new MultiSound.Sound("spaceDance/voicelessPunch", beat + 0.5f),
+            new MultiSound.Sound("spaceDance/dancerPa", beat + 0.5f),
+            new MultiSound.Sound("spaceDance/voicelessPunch", beat + 1f),
+            new MultiSound.Sound("spaceDance/dancerPa", beat + 1f),
+            new MultiSound.Sound("spaceDance/dancerPunch", beat + 1.5f),
             });
 
             BeatAction.New(Player, new List<BeatAction.Action>() 
@@ -144,13 +144,15 @@ namespace HeavenStudio.Games
 
         public void RightSuccess(PlayerActionEvent caller, float state)
             {
-            Jukebox.PlayOneShotGame("spaceDance/right2_sound");
+            Jukebox.PlayOneShotGame("spaceDance/inputGood");
             DancerP.Play("TurnRightDo", -1, 0);
              }
 
         public void RightMiss(PlayerActionEvent caller)
             {
-
+            Jukebox.PlayOneShotGame("spaceDance/inputBad2");
+            DancerP.Play("Ouch", -1, 0);
+            Hit.Play("HitTurn", -1, 0);
              }
 
         public void RightEmpty(PlayerActionEvent caller)
@@ -160,13 +162,15 @@ namespace HeavenStudio.Games
 
         public void SitSuccess(PlayerActionEvent caller, float state)
             {
-            Jukebox.PlayOneShotGame("spaceDance/sit3_sound");
+            Jukebox.PlayOneShotGame("spaceDance/inputGood");
             DancerP.Play("SitDownDo", -1, 0);
              }
 
         public void SitMiss(PlayerActionEvent caller)
             {
-
+            Jukebox.PlayOneShotGame("spaceDance/inputBad2");
+            DancerP.Play("Ouch", -1, 0);
+            Hit.Play("HitSit", -1, 0);
              }
 
         public void SitEmpty(PlayerActionEvent caller)
@@ -176,13 +180,15 @@ namespace HeavenStudio.Games
 
         public void PunchSuccess(PlayerActionEvent caller, float state)
             {
-            Jukebox.PlayOneShotGame("spaceDance/punch2_sound");
+            Jukebox.PlayOneShotGame("spaceDance/inputGood");
             DancerP.Play("PunchDo", -1, 0);
              }
 
         public void PunchMiss(PlayerActionEvent caller)
             {
-
+            Jukebox.PlayOneShotGame("spaceDance/inputBad2");
+            DancerP.Play("Ouch", -1, 0);
+            Hit.Play("HitPunch", -1, 0);
              }
 
         public void PunchEmpty(PlayerActionEvent caller)
