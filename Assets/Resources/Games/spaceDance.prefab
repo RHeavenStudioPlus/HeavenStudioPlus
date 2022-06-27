@@ -781,7 +781,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3166716782550672845}
-  - component: {fileID: 6477418633337141647}
+  - component: {fileID: 8070692493761604928}
   m_Layer: 0
   m_Name: spaceDance
   m_TagString: Untagged
@@ -808,7 +808,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6477418633337141647
+--- !u!114 &8070692493761604928
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -823,6 +823,12 @@ MonoBehaviour:
   EligibleHits: []
   scheduledInputs: []
   firstEnable: 0
+  DancerP: {fileID: 3296520271412479276}
+  Dancer1: {fileID: 2061330976302630762}
+  Dancer2: {fileID: 8384936998978932668}
+  Dancer3: {fileID: 5910735516540692712}
+  Gramps: {fileID: 0}
+  Player: {fileID: 2020085808268724872}
 --- !u!1 &4074854792918107558
 GameObject:
   m_ObjectHideFlags: 0
@@ -1163,7 +1169,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: eb7877490752df943b9d761b1eb7fe0e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 81c8c064db358b749a25bfc060028bf0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
