@@ -28,7 +28,7 @@ namespace HeavenStudio.Editor
         private void Update()
         {
             Vector3 anchoredPosition = Input.mousePosition;
-            Camera camera = Camera.main;
+            Camera camera = Editor.instance.EditorCamera;
             Vector3 canvasScale = Editor.instance.MainCanvas.transform.localScale;
             Vector2 scale = new Vector2(canvasScale.x, canvasScale.y);
             float toolTipScale = camera.pixelWidth / 1280f;

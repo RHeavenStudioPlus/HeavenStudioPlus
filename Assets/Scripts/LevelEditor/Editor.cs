@@ -28,7 +28,7 @@ namespace HeavenStudio.Editor
         [SerializeField] public Canvas MainCanvas;
         [SerializeField] public Camera EditorCamera;
 
-        [SerializeField] public GameObject EditorLetterbox;
+        // [SerializeField] public GameObject EditorLetterbox;
         [SerializeField] public GameObject GameLetterbox;
 
         [Header("Rect")]
