@@ -27,27 +27,33 @@ namespace HeavenStudio.Editor
 
         private void Update()
         {
-            Vector2 anchoredPosition = Input.mousePosition;
+            Vector3 anchoredPosition = Input.mousePosition;
+            Camera camera = Camera.main;
+            Vector3 canvasScale = Editor.instance.MainCanvas.transform.localScale;
+            Vector2 scale = new Vector2(canvasScale.x, canvasScale.y);
+            float toolTipScale = camera.pixelWidth / 1280f;
 
-            if (anchoredPosition.x + background.rect.width > canvasRect.rect.width)
+            if (anchoredPosition.x + background.rect.width * toolTipScale > camera.pixelWidth)
             {
-                anchoredPosition.x = canvasRect.rect.width - background.rect.width;
+                anchoredPosition.x = camera.pixelWidth - background.rect.width * toolTipScale;
             }
-            if (anchoredPosition.x < 0)
+            if (anchoredPosition.x < -camera.pixelWidth)
             {
-                anchoredPosition.x = 0;
-            }
-
-            if (anchoredPosition.y + background.rect.height > canvasRect.rect.height)
-            {
-                anchoredPosition.y = canvasRect.rect.height - background.rect.height;
-            }
-            if (anchoredPosition.y < 0)
-            {
-                anchoredPosition.y = 0;
+                anchoredPosition.x = -camera.pixelWidth;
             }
 
-            rectTransform.anchoredPosition = anchoredPosition;
+            if (anchoredPosition.y + background.rect.height * toolTipScale > camera.pixelHeight)
+            {
+                anchoredPosition.y = camera.pixelHeight - background.rect.height * toolTipScale;
+            }
+            if (anchoredPosition.y < -camera.pixelHeight)
+            {
+                anchoredPosition.y = -camera.pixelHeight;
+            }
+
+            anchoredPosition.z = camera.nearClipPlane;
+            anchoredPosition = camera.ScreenToWorldPoint(anchoredPosition);
+            rectTransform.anchoredPosition = anchoredPosition / scale;
         }
 
         public static void OnEnter(string tooltipText, string altTooltipText)
