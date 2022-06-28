@@ -46,6 +46,10 @@ namespace HeavenStudio.Editor.Track
 
                     tempoChange.tempo += newTempo;
 
+                    //make sure tempo is positive
+                    if (tempoChange.tempo < 1)
+                        tempoChange.tempo = 1;
+
                     if (Input.GetMouseButtonDown(0))
                     {
                         Vector3 mousePos = Editor.instance.EditorCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -96,6 +100,7 @@ namespace HeavenStudio.Editor.Track
         private void UpdateTempo()
         {
             tempoTXT.text = $"{tempoChange.tempo} BPM";
+            Timeline.instance.FitToSong();
         }
     }
 }
