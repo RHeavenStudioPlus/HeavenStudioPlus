@@ -13,7 +13,9 @@
 
 [Progress spreadsheet](https://docs.google.com/spreadsheets/d/1NXxIeL4nsdjChrxAZTPpk20QOKEdQWGbXIhT4TclB6k/edit?usp=sharing)
 
-![image](https://github.com/ThatZeoMan/HeavenStudio/blob/master/Assets/GitHubBranding/hsscreenshot.png?raw=true)
+[YouTube Channel](https://www.youtube.com/channel/UCAb3R-5qyXWOEj8B4vibhxQ)
+
+![image](https://i.ibb.co/6sgDQtv/hsscreenshot.png)
 
 
 ## Prebuilt Binaries
