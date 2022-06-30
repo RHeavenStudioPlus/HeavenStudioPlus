@@ -68,6 +68,7 @@ namespace HeavenStudio.Editor.Track
         [SerializeField] private RectTransform TimelineSongPosLineRef;
         [SerializeField] private RectTransform TimelineEventObjRef;
         [SerializeField] private RectTransform LayersRect;
+
         public TempoTimeline TempoInfo;
         public VolumeTimeline VolumeInfo;
         private RectTransform TimelineSongPosLine;
@@ -82,6 +83,8 @@ namespace HeavenStudio.Editor.Track
         public Button TempoChangeBTN;
         public Button MusicVolumeBTN;
         public Slider PlaybackSpeed;
+
+        public Vector3[] LayerCorners = new Vector3[4];
 
         public static Timeline instance { get; private set; }
 
@@ -338,6 +341,22 @@ namespace HeavenStudio.Editor.Track
             {
                 timelineState.SetState(false, false, true);
             }
+
+            LayersRect.GetWorldCorners(LayerCorners);
+        }
+
+        public static float GetScaleModifier()
+        {
+            Camera cam = Editor.instance.EditorCamera;
+            Vector2 scalerReferenceResolution = new Vector2(1280, 720);
+            return Mathf.Pow(cam.pixelWidth/scalerReferenceResolution.x, 1f)*
+                    Mathf.Pow(cam.pixelHeight/scalerReferenceResolution.y, 0f);
+        }
+
+        public Vector2 LayerCornersToDist()
+        {
+            Vector3[] v = LayerCorners;
+            return new Vector2(Mathf.Abs(v[1].x - v[2].x), Mathf.Abs(v[3].y - v[1].y));
         }
 
         private void SliderControl()

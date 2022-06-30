@@ -40,7 +40,7 @@ namespace HeavenStudio.Editor
 
         private void Update()
         {
-            if(!Conductor.instance.NotStopped())
+            if(!(EventParameterManager.instance.active || Conductor.instance.NotStopped()))
             {
                 if (gameOpen)
                 {
@@ -54,7 +54,7 @@ namespace HeavenStudio.Editor
                     }
                 }
 
-                if (Input.mouseScrollDelta.y != 0)
+                if (RectTransformUtility.RectangleContainsScreenPoint(eventsParent, Input.mousePosition, Editor.instance.EditorCamera) && Input.mouseScrollDelta.y != 0)
                 {
                     UpdateIndex(currentEventIndex - Mathf.RoundToInt(Input.mouseScrollDelta.y));
                 }
