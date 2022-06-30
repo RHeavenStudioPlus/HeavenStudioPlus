@@ -5,9 +5,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-using DG.Tweening;
-using NaughtyBezierCurves;
-
 namespace HeavenStudio.Games.Scripts_NtrSamurai
 {
     public class NtrSamuraiObject : MonoBehaviour
