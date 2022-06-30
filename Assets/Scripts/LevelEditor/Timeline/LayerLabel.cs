@@ -17,10 +17,19 @@ namespace HeavenStudio.Editor.Track
         void Update()
         {
             //convert timeline layer scale to screen space
-            Camera cam = Editor.instance.EditorCamera;
-            float layerScaleDist = cam.WorldToScreenPoint(Timeline.instance.LayerCorners[1]).y - Camera.main.WorldToScreenPoint(Timeline.instance.LayerCorners[0]).y;
-            float modScale = Timeline.GetScaleModifier();
-            rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, layerScaleDist/4 * (1/modScale));
+            Camera cam;
+            //"your program can't crash if you put everything in a try block"
+            try
+            {
+                cam = Editor.instance.EditorCamera;
+                float layerScaleDist = cam.WorldToScreenPoint(Timeline.instance.LayerCorners[1]).y - Camera.main.WorldToScreenPoint(Timeline.instance.LayerCorners[0]).y;
+                float modScale = Timeline.GetScaleModifier();
+                rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, layerScaleDist/4 * (1/modScale));
+            }
+            catch (System.NullReferenceException)
+            {
+                return;
+            }
         }
 
     }
