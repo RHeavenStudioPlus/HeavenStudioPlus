@@ -20,6 +20,7 @@ namespace HeavenStudio.Editor
         public GameObject GameEventSelector;
         public GameObject EventRef;
         public GameObject CurrentSelected;
+        private RectTransform GameEventSelectorRect;
         private RectTransform eventsParent;
 
         [Header("Properties")]
@@ -29,9 +30,15 @@ namespace HeavenStudio.Editor
         private int dragTimes;
         public float posDif;
         public int ignoreSelectCount;
+        private float selectorHeight;
+        private float eventSize;
 
         private void Start()
         {
+            GameEventSelectorRect = GameEventSelector.GetComponent<RectTransform>();
+            selectorHeight = GameEventSelectorRect.rect.height;
+            eventSize = EventRef.GetComponent<RectTransform>().rect.height;
+
             eventsParent = EventRef.transform.parent.GetChild(2).GetComponent<RectTransform>();
             SelectGame("Game Manager", 1);
 
@@ -59,6 +66,9 @@ namespace HeavenStudio.Editor
                     UpdateIndex(currentEventIndex - Mathf.RoundToInt(Input.mouseScrollDelta.y));
                 }
             }
+
+            //moved here so this updates dynamically with window scale
+            UpdateScrollPosition();
         }
 
         #region Functions
@@ -75,24 +85,30 @@ namespace HeavenStudio.Editor
             else if (currentEventIndex > eventsParent.childCount - 1)
                 currentEventIndex = 0;
 
-            if (currentEventIndex > 2 && eventsParent.childCount >= 8)
-            {
-                if (eventsParent.childCount - 4 > currentEventIndex)
-                {
-                    EventRef.transform.parent.DOLocalMoveY((EventRef.GetComponent<RectTransform>().sizeDelta.y) * (currentEventIndex - 2), 0.35f).SetEase(Ease.OutExpo);
-                }    
-                else
-                {
-                    EventRef.transform.parent.DOLocalMoveY((EventRef.GetComponent<RectTransform>().sizeDelta.y) * (eventsParent.childCount - 7), 0.35f).SetEase(Ease.OutExpo);
-                }
-            }
-            else
-                EventRef.transform.parent.DOLocalMoveY(0, 0.35f).SetEase(Ease.OutExpo);
-
             CurrentSelected.transform.DOLocalMoveY(eventsParent.transform.GetChild(currentEventIndex).localPosition.y + eventsParent.transform.localPosition.y, 0.35f).SetEase(Ease.OutExpo);
 
             if (updateCol)
             SetColors(currentEventIndex);
+        }
+
+        private void UpdateScrollPosition()
+        {
+            selectorHeight = GameEventSelectorRect.rect.height;
+            eventSize = EventRef.GetComponent<RectTransform>().rect.height;
+
+            if (currentEventIndex * eventSize >= selectorHeight/2 && eventsParent.childCount * eventSize >= selectorHeight)
+            {
+                if (currentEventIndex * eventSize < eventsParent.childCount * eventSize - selectorHeight/2)
+                {
+                    EventRef.transform.parent.DOLocalMoveY((currentEventIndex * eventSize) - selectorHeight/2, 0.35f).SetEase(Ease.OutExpo);
+                }
+                else
+                {
+                    EventRef.transform.parent.DOLocalMoveY((eventsParent.childCount * eventSize) - selectorHeight + (eventSize*0.33f), 0.35f).SetEase(Ease.OutExpo);
+                }
+            }
+            else
+                EventRef.transform.parent.DOLocalMoveY(0, 0.35f).SetEase(Ease.OutExpo);
         }
 
         public void SelectGame(string gameName, int index)
