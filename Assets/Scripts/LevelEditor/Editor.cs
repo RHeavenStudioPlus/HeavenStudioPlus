@@ -52,6 +52,7 @@ namespace HeavenStudio.Editor
         [SerializeField] private Button EditorThemeBTN;
         [SerializeField] private Button FullScreenBTN;
         [SerializeField] private Button TempoFinderBTN;
+        [SerializeField] private Button SnapDiagBTN;
 
         [Header("Tooltip")]
         public TMP_Text tooltipText;
@@ -105,6 +106,7 @@ namespace HeavenStudio.Editor
             Tooltip.AddTooltip(EditorThemeBTN.gameObject, "Editor Theme");
             Tooltip.AddTooltip(FullScreenBTN.gameObject, "Preview <color=#adadad>[Tab]</color>");
             Tooltip.AddTooltip(TempoFinderBTN.gameObject, "Tempo Finder");
+            Tooltip.AddTooltip(SnapDiagBTN.gameObject, "Snap Settings");
 
             UpdateEditorStatus(true);
         }
