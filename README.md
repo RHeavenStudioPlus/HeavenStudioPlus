@@ -11,9 +11,11 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-[Progress spreadsheet](https://docs.google.com/spreadsheets/d/1NXxIeL4nsdjChrxAZTPpk20QOKEdQWGbXIhT4TclB6k/edit?usp=sharing)
+[Progress Spreadsheet](https://docs.google.com/spreadsheets/d/1NXxIeL4nsdjChrxAZTPpk20QOKEdQWGbXIhT4TclB6k/edit?usp=sharing)
 
 [YouTube Channel](https://www.youtube.com/channel/UCAb3R-5qyXWOEj8B4vibhxQ)
+
+[Bug Report Form](https://docs.google.com/forms/d/e/1FAIpQLSfu0p2ZjrfwwEvpLgJ4Hw-AAN3jh4QNSEk0U7mjDvwiIkoRAw/viewform?usp=pp_url)
 
 ![image](https://i.ibb.co/6sgDQtv/hsscreenshot.png)
 
