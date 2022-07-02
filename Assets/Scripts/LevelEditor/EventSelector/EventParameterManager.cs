@@ -22,7 +22,7 @@ namespace HeavenStudio.Editor
 
         public Beatmap.Entity entity;
 
-        private bool active;
+        public bool active;
 
         private int childCountAtStart;
 
