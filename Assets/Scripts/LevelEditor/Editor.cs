@@ -113,21 +113,68 @@ namespace HeavenStudio.Editor
 
         public void LateUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.Tab))
+            #region Keyboard Shortcuts
+            if (!editingInputField)
             {
-                if (!Editor.instance.editingInputField)
+                if (Input.GetKeyDown(KeyCode.Tab))
+                {
                     Fullscreen();
-            }
+                }
 
-            if (Input.GetKeyDown(KeyCode.Delete))
-            {
-                if (!Editor.instance.editingInputField)
+                if (Input.GetKeyDown(KeyCode.Delete))
                 {
                     List<TimelineEventObj> ev = new List<TimelineEventObj>();
                     for (int i = 0; i < Selections.instance.eventsSelected.Count; i++) ev.Add(Selections.instance.eventsSelected[i]);
                     CommandManager.instance.Execute(new Commands.Deletion(ev));
                 }
+
+                if (Input.GetKey(KeyCode.LeftControl))
+                {
+                    if (Input.GetKeyDown(KeyCode.Z))
+                    {
+                        if (Input.GetKey(KeyCode.LeftShift))
+                            CommandManager.instance.Redo();
+                        else
+                            CommandManager.instance.Undo();
+                    }
+                    else if (Input.GetKeyDown(KeyCode.Y))
+                    {
+                        CommandManager.instance.Redo();
+                    }
+
+                    if (Input.GetKey(KeyCode.LeftShift))
+                    {
+                        if (Input.GetKeyDown(KeyCode.D))
+                        {
+                            ToggleDebugCam();
+                        }
+                    }
+                }
+
+                if (Input.GetKey(KeyCode.LeftControl))
+                {
+                    if (Input.GetKeyDown(KeyCode.N))
+                    {
+                        LoadRemix("");
+                    }
+                    else if (Input.GetKeyDown(KeyCode.O))
+                    {
+                        OpenRemix();
+                    }
+                    else if (Input.GetKey(KeyCode.LeftAlt))
+                    {
+                        if (Input.GetKeyDown(KeyCode.S))
+                        {
+                            SaveRemix(true);
+                        }
+                    }
+                    else if (Input.GetKeyDown(KeyCode.S))
+                    {
+                        SaveRemix(false);
+                    }
+                }
             }
+            #endregion
 
             if (CommandManager.instance.canUndo())
                 UndoBTN.transform.GetChild(0).GetComponent<Image>().color = "BD8CFF".Hex2RGB();
@@ -138,29 +185,6 @@ namespace HeavenStudio.Editor
                 RedoBTN.transform.GetChild(0).GetComponent<Image>().color = "FFD800".Hex2RGB();
             else
                 RedoBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
-
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                if (Input.GetKeyDown(KeyCode.Z))
-                {
-                    if (Input.GetKey(KeyCode.LeftShift))
-                        CommandManager.instance.Redo();
-                    else
-                        CommandManager.instance.Undo();
-                }
-                else if (Input.GetKeyDown(KeyCode.Y))
-                {
-                    CommandManager.instance.Redo();
-                }
-
-                if (Input.GetKey(KeyCode.LeftShift))
-                {
-                    if (Input.GetKeyDown(KeyCode.D))
-                    {
-                        ToggleDebugCam();
-                    }
-                }
-            }
 
             if (Timeline.instance.timelineState.selected && Editor.instance.canSelect)
             {
@@ -182,37 +206,6 @@ namespace HeavenStudio.Editor
                         }
                         CommandManager.instance.Execute(new Commands.Move(result));
                     }
-                }
-            }
-
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                if (Input.GetKeyDown(KeyCode.N))
-                {
-                    LoadRemix("");
-                }
-                else if (Input.GetKeyDown(KeyCode.O))
-                {
-                    OpenRemix();
-                }
-                else if (Input.GetKey(KeyCode.LeftAlt))
-                {
-                    if (Input.GetKeyDown(KeyCode.S))
-                    {
-                        SaveRemix(true);
-                    }
-                }
-                else if (Input.GetKeyDown(KeyCode.S))
-                {
-                    SaveRemix(false);
-                }
-            }
-
-            if (Application.isEditor)
-            {
-                if (Input.GetKeyDown(KeyCode.S))
-                {
-                    // SaveRemix(false);
                 }
             }
         }

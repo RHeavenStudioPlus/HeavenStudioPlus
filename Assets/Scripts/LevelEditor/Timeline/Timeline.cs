@@ -259,9 +259,11 @@ namespace HeavenStudio.Editor.Track
 
             SliderControl();
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            #region Keyboard Shortcuts
+            if (!userIsEditingInputField)
             {
-                if (!Editor.instance.editingInputField)
+                
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
                     if (Input.GetKey(KeyCode.LeftShift))
                     {
@@ -272,20 +274,44 @@ namespace HeavenStudio.Editor.Track
                         PlayCheck(true);
                     }
                 }
-            }
 
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                if (!Editor.instance.editingInputField)
+                if (Input.GetKeyDown(KeyCode.P))
+                {
                     AutoPlayToggle();
-            }
+                }
 
-            if (Input.GetKeyDown(KeyCode.M))
-            {
-                if (!Editor.instance.editingInputField)
+                if (Input.GetKeyDown(KeyCode.M))
+                {
                     MetronomeToggle();
-            }
+                }
 
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    timelineState.SetState(true, false, false);
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    timelineState.SetState(false, true, false);
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    timelineState.SetState(false, false, true);
+                }
+
+
+                float moveSpeed = 750;
+                if (Input.GetKey(KeyCode.LeftShift)) moveSpeed *= 2;
+                
+                if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+                {
+                    TimelineContent.transform.localPosition += new Vector3(moveSpeed * Time.deltaTime, 0);
+                }
+                else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+                {
+                    TimelineContent.transform.localPosition += new Vector3(-moveSpeed * Time.deltaTime, 0);
+                }
+            }
+            #endregion
 
             if (Input.GetMouseButton(1) && !Conductor.instance.isPlaying && Editor.MouseInRectTransform(TimelineGridSelect))
             {
@@ -307,21 +333,6 @@ namespace HeavenStudio.Editor.Track
                 lastBeatPos = TimelineSlider.localPosition.x;
             }
 
-            float moveSpeed = 750;
-            if (Input.GetKey(KeyCode.LeftShift)) moveSpeed *= 2;
-
-            if (!Editor.instance.editingInputField)
-            {
-                if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-                {
-                    TimelineContent.transform.localPosition += new Vector3(moveSpeed * Time.deltaTime, 0);
-                }
-                else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-                {
-                    TimelineContent.transform.localPosition += new Vector3(-moveSpeed * Time.deltaTime, 0);
-                }
-            }
-
             if (Conductor.instance.isPlaying)
                 TimelineContent.transform.localPosition = new Vector3((-Conductor.instance.songPositionInBeats * 100) + 200, TimelineContent.transform.localPosition.y);
 
@@ -329,28 +340,13 @@ namespace HeavenStudio.Editor.Track
 
             CurrentTempo.text = $"            = {Conductor.instance.songBpm}";
 
-            if (Input.GetKeyDown(KeyCode.Alpha1) && !userIsEditingInputField)
-            {
-                timelineState.SetState(true, false, false);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2) && !userIsEditingInputField)
-            {
-                timelineState.SetState(false, true, false);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3) && !userIsEditingInputField)
-            {
-                timelineState.SetState(false, false, true);
-            }
-
             LayersRect.GetWorldCorners(LayerCorners);
         }
 
         public static float GetScaleModifier()
         {
             Camera cam = Editor.instance.EditorCamera;
-            Vector2 scalerReferenceResolution = new Vector2(1280, 720);
-            return Mathf.Pow(cam.pixelWidth/scalerReferenceResolution.x, 1f)*
-                    Mathf.Pow(cam.pixelHeight/scalerReferenceResolution.y, 0f);
+            return Mathf.Pow(cam.pixelWidth/1280f, 1f) * Mathf.Pow(cam.pixelHeight/720f, 0f);
         }
 
         public Vector2 LayerCornersToDist()
