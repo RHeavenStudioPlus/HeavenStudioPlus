@@ -20,6 +20,7 @@ namespace HeavenStudio.Editor
         public GameObject GameEventSelector;
         public GameObject EventRef;
         public GameObject CurrentSelected;
+        public RectTransform GameEventSelectorCanScroll;
         private RectTransform GameEventSelectorRect;
         private RectTransform eventsParent;
 
@@ -61,7 +62,7 @@ namespace HeavenStudio.Editor
                     }
                 }
 
-                if (RectTransformUtility.RectangleContainsScreenPoint(eventsParent, Input.mousePosition, Editor.instance.EditorCamera) && Input.mouseScrollDelta.y != 0)
+                if (RectTransformUtility.RectangleContainsScreenPoint(GameEventSelectorCanScroll, Input.mousePosition, Editor.instance.EditorCamera) && Input.mouseScrollDelta.y != 0)
                 {
                     UpdateIndex(currentEventIndex - Mathf.RoundToInt(Input.mouseScrollDelta.y));
                 }
