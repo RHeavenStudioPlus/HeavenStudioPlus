@@ -41,6 +41,7 @@ namespace HeavenStudio.Editor.Track
         private bool resizingLeft;
         private bool resizingRight;
         private bool inResizeRegion;
+        private bool wasDuplicated;
         public Vector2 lastMovePos;
         public bool isCreating;
         public string eventObjID;
@@ -167,6 +168,13 @@ namespace HeavenStudio.Editor.Track
 
                 if (Timeline.instance.eventObjs.FindAll(c => c.moving).Count > 0 && selected)
                 {
+                    //duplicate the entity if holding alt or r-click
+                    if ((!wasDuplicated) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetMouseButton(1)))
+                    {
+                        wasDuplicated = true;
+                        var te = Timeline.instance.CopyEventObject(entity);
+                    }
+
                     Vector3 mousePos = Editor.instance.EditorCamera.ScreenToWorldPoint(Input.mousePosition);
 
                     lastPos_ = transform.localPosition;
@@ -291,6 +299,7 @@ namespace HeavenStudio.Editor.Track
                 }
 
                 moving = false;
+                wasDuplicated = false;
 
                 Cancel();
                 if (isCreating == true)
