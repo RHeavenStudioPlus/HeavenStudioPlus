@@ -205,7 +205,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3236233}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1946344932}
+        m_TargetAssemblyTypeName: HeavenStudio.Editor.SettingsDialog, Assembly-CSharp
+        m_MethodName: SwitchSettingsDialog
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3236233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12476,8 +12488,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1589389272}
   m_HandleRect: {fileID: 1589389271}
   m_Direction: 2
-  m_Value: -0.0000011884493
-  m_Size: 0.5289384
+  m_Value: 1
+  m_Size: 0.5293149
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14021,7 +14033,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0, y: 28.925}
+  m_AnchoredPosition: {x: 0, y: 28.924988}
   m_SizeDelta: {x: 0, y: 28.927}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1037563075
@@ -15595,7 +15607,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 361.05347}
+  m_AnchoredPosition: {x: 0, y: 129.94681}
   m_SizeDelta: {x: 0, y: 491}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1154875944
@@ -18122,11 +18134,11 @@ MonoBehaviour:
   UndoBTN: {fileID: 1747099763}
   RedoBTN: {fileID: 2131880462}
   MusicSelectBTN: {fileID: 1055877579}
-  EditorSettingsBTN: {fileID: 3236232}
-  EditorThemeBTN: {fileID: 528192061}
   FullScreenBTN: {fileID: 151246938}
   TempoFinderBTN: {fileID: 1478799966}
   SnapDiagBTN: {fileID: 1201441977}
+  EditorThemeBTN: {fileID: 528192061}
+  EditorSettingsBTN: {fileID: 3236232}
   tooltipText: {fileID: 1196204504}
   discordDuringTesting: 0
   canSelect: 1
@@ -19752,7 +19764,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -27.594}
+  m_AnchoredPosition: {x: 0, y: -27.593994}
   m_SizeDelta: {x: 1440.022, y: -113.04}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1527251881
@@ -23422,7 +23434,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0, y: -84.09494}
+  m_AnchoredPosition: {x: 0, y: -84.09494}
   m_SizeDelta: {x: 320, y: -113.02}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1852819572
@@ -24277,6 +24289,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1946344931}
+  - component: {fileID: 1946344932}
   m_Layer: 5
   m_Name: SettingsMenu
   m_TagString: Untagged
@@ -24306,6 +24319,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1946344932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946344930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d82cc04699de2e54483ca0e0468d9ed2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settingsMenu: {fileID: 1946344930}
 --- !u!1 &1946352456
 GameObject:
   m_ObjectHideFlags: 0
@@ -24388,7 +24414,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1946352459}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1946344932}
+        m_TargetAssemblyTypeName: HeavenStudio.Editor.SettingsDialog, Assembly-CSharp
+        m_MethodName: SwitchSettingsDialog
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1946352459
 MonoBehaviour:
   m_ObjectHideFlags: 0

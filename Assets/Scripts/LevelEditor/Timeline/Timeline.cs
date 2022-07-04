@@ -611,6 +611,14 @@ namespace HeavenStudio.Editor.Track
             return eventObj;
         }
 
+        public TimelineEventObj CopyEventObject(Beatmap.Entity e)
+        {
+            Beatmap.Entity clone = (Beatmap.Entity) e.Clone();
+            TimelineEventObj dup = AddEventObject(clone.datamodel, false, new Vector3(clone.beat, -clone.track * Timeline.instance.LayerHeight()), clone, true, RandomID());
+
+            return dup;
+        }
+
         public void DestroyEventObject(Beatmap.Entity entity)
         {
             if (EventParameterManager.instance.entity == entity)
