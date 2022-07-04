@@ -572,35 +572,35 @@ namespace HeavenStudio.Editor.Track
                     GameManager.instance.SortEventsList();
 
                     tempEntity = en;
+
+                    // default param value
+                    var game = EventCaller.instance.GetMinigame(eventName.Split(0));
+                    var ep = EventCaller.instance.GetGameAction(game, eventName.Split(1)).parameters;
+
+                    if (ep != null)
+                    {
+                        for (int i = 0; i < ep.Count; i++)
+                        {
+                            object returnVal = ep[i].parameter;
+
+                            var propertyType = returnVal.GetType();
+                            if (propertyType == typeof(EntityTypes.Integer))
+                            {
+                                returnVal = ((EntityTypes.Integer)ep[i].parameter).val;
+                            }
+                            else if (propertyType == typeof(EntityTypes.Float))
+                            {
+                                returnVal = ((EntityTypes.Float)ep[i].parameter).val;
+                            }
+
+                            tempEntity[ep[i].propertyName] = returnVal;
+                        }
+                    }
                 }
                 else
                 {
                     GameManager.instance.Beatmap.entities.Add(entity);
                     GameManager.instance.SortEventsList();
-                }
-
-                // default param value
-                var game = EventCaller.instance.GetMinigame(eventName.Split(0));
-                var ep = EventCaller.instance.GetGameAction(game, eventName.Split(1)).parameters;
-
-                if (ep != null)
-                {
-                    for (int i = 0; i < ep.Count; i++)
-                    {
-                        object returnVal = ep[i].parameter;
-
-                        var propertyType = returnVal.GetType();
-                        if (propertyType == typeof(EntityTypes.Integer))
-                        {
-                            returnVal = ((EntityTypes.Integer)ep[i].parameter).val;
-                        }
-                        else if (propertyType == typeof(EntityTypes.Float))
-                        {
-                            returnVal = ((EntityTypes.Float)ep[i].parameter).val;
-                        }
-
-                        tempEntity[ep[i].propertyName] = returnVal;
-                    }
                 }
             }
 
@@ -613,7 +613,7 @@ namespace HeavenStudio.Editor.Track
 
         public TimelineEventObj CopyEventObject(Beatmap.Entity e)
         {
-            Beatmap.Entity clone = (Beatmap.Entity) e.Clone();
+            Beatmap.Entity clone = e.DeepCopy();
             TimelineEventObj dup = AddEventObject(clone.datamodel, false, new Vector3(clone.beat, -clone.track * Timeline.instance.LayerHeight()), clone, true, RandomID());
 
             return dup;
