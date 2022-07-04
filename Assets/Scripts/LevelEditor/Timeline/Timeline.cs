@@ -101,6 +101,7 @@ namespace HeavenStudio.Editor.Track
 
         public void LoadRemix()
         {
+            // beatmap entities
             for (int i = 0; i < eventObjs.Count; i++)
             {
                 Destroy(eventObjs[i].gameObject);
@@ -109,11 +110,21 @@ namespace HeavenStudio.Editor.Track
 
             for (int i = 0; i < GameManager.instance.Beatmap.entities.Count; i++)
             {
-                var entity = GameManager.instance.Beatmap.entities[i];
                 var e = GameManager.instance.Beatmap.entities[i];
 
                 AddEventObject(e.datamodel, false, new Vector3(e.beat, -e.track * LayerHeight()), e, false, RandomID());
             }
+
+            //tempo changes
+            TempoInfo.ClearTempoTimeline();
+            for (int i = 0; i < GameManager.instance.Beatmap.tempoChanges.Count; i++)
+            {
+                var t = GameManager.instance.Beatmap.tempoChanges[i];
+
+                TempoInfo.AddTempoChange(false, t);
+            }
+
+            //volume changes
         }
 
         public void Init()
