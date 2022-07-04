@@ -54,6 +54,12 @@ namespace HeavenStudio
                 return this.MemberwiseClone();
             }
 
+            public Entity DeepCopy()
+            {
+                //lol the AI generated this
+                return JsonConvert.DeserializeObject<Entity>(JsonConvert.SerializeObject(this));
+            }
+
             public object this[string propertyName]
             {
                 get
