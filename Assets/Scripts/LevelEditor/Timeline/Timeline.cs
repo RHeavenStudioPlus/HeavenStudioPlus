@@ -30,6 +30,8 @@ namespace HeavenStudio.Editor.Track
 
         public static float SnapInterval() { return instance.snapInterval; }
 
+        public void SetSnap(float snap) { snapInterval = snap; }
+
         public class CurrentTimelineState
         {
             public bool selected;
