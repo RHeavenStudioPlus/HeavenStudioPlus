@@ -199,7 +199,7 @@ namespace HeavenStudio.Editor
 
                         for (int i = 0; i < selectedEvents.Count; i++)
                         {
-                            if (selectedEvents[i].isCreating == false)
+                            if (!(selectedEvents[i].isCreating || selectedEvents[i].wasDuplicated))
                             {
                                 result.Add(selectedEvents[i]);
                             }
