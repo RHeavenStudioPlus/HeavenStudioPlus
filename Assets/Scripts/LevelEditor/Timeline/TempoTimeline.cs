@@ -131,7 +131,16 @@ namespace HeavenStudio.Editor.Track
             UpdateOffsetText();
         }
 
-        private void AddTempoChange(bool create, Beatmap.TempoChange tempoChange_ = null)
+        public void ClearTempoTimeline()
+        {
+            foreach (TempoTimelineObj tempoTimelineObj in tempoTimelineObjs)
+            {
+                Destroy(tempoTimelineObj.gameObject);
+            }
+            tempoTimelineObjs.Clear();
+        }
+
+        public void AddTempoChange(bool create, Beatmap.TempoChange tempoChange_ = null)
         {      
             GameObject tempoChange = Instantiate(RefTempoChange.gameObject, this.transform);
 

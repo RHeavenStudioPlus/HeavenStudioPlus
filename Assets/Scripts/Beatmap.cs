@@ -20,6 +20,7 @@ namespace HeavenStudio
         
         public List<Entity> entities = new List<Entity>();
         public List<TempoChange> tempoChanges = new List<TempoChange>();
+        public List<VolumeChange> volumeChanges = new List<VolumeChange>();
         public float firstBeatOffset;
 
         [Serializable]
@@ -53,6 +54,12 @@ namespace HeavenStudio
                 return this.MemberwiseClone();
             }
 
+            public Entity DeepCopy()
+            {
+                //lol the AI generated this
+                return JsonConvert.DeserializeObject<Entity>(JsonConvert.SerializeObject(this));
+            }
+
             public object this[string propertyName]
             {
                 get
@@ -79,6 +86,19 @@ namespace HeavenStudio
             public float beat;
             public float length;
             public float tempo;
+
+            public object Clone()
+            {
+                return this.MemberwiseClone();
+            }
+        }
+
+        [Serializable]
+        public class VolumeChange : ICloneable
+        {
+            public float beat;
+            public float length;
+            public float volume;
 
             public object Clone()
             {
