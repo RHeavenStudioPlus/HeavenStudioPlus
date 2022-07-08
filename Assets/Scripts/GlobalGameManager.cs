@@ -97,6 +97,24 @@ namespace HeavenStudio
             fade.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
             fade.GetComponent<SpriteRenderer>().DOColor(Color.black, fadeDuration).OnComplete(() => { SceneManager.LoadScene(loadedScene); fade.GetComponent<SpriteRenderer>().DOColor(new Color(0, 0, 0, 0), fadeDuration).OnComplete(() => { Destroy(fade); }); });
         }
+
+        
+
+        public static void WindowFullScreen()
+        {
+            Debug.Log("WindowFullScreen");
+            // Toggle fullscreen
+            Screen.fullScreen = !Screen.fullScreen;
+            if (Screen.fullScreen)
+            {
+                // Set the resolution to the display's current resolution
+                Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
+            }
+            else
+            {
+                Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, false);
+            }
+        }
     }
 
 }
