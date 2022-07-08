@@ -611,12 +611,20 @@ namespace HeavenStudio.Editor.Track
             return eventObj;
         }
 
-        public TimelineEventObj CopyEventObject(Beatmap.Entity e)
+        private List<TimelineEventObj> duplicatedEventObjs = new List<TimelineEventObj>();
+        public TimelineEventObj CopyEventObject(TimelineEventObj e)
         {
-            Beatmap.Entity clone = e.DeepCopy();
+            Beatmap.Entity clone = e.entity.DeepCopy();
             TimelineEventObj dup = AddEventObject(clone.datamodel, false, new Vector3(clone.beat, -clone.track * Timeline.instance.LayerHeight()), clone, true, RandomID());
+            duplicatedEventObjs.Add(dup);
 
             return dup;
+        }
+
+        public void FinalizeDuplicateEventStack()
+        {
+            CommandManager.instance.Execute(new Commands.Duplicate(duplicatedEventObjs));
+            duplicatedEventObjs = new List<TimelineEventObj>();
         }
 
         public void DestroyEventObject(Beatmap.Entity entity)
