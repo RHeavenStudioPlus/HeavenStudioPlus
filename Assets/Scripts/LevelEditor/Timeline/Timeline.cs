@@ -330,11 +330,10 @@ namespace HeavenStudio.Editor.Track
             {
                 movingPlayback = true;
             }
-            else if (Input.GetMouseButtonUp(1))
+            else if (Input.GetMouseButtonUp(1) || Conductor.instance.isPlaying)
             {
                 movingPlayback = false;
             }
-
             if (movingPlayback)
             {
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(TimelineContent, Input.mousePosition, Editor.instance.EditorCamera, out lastMousePos);
@@ -554,7 +553,7 @@ namespace HeavenStudio.Editor.Track
             else
             {
                 entity.eventObj = g.GetComponent<TimelineEventObj>();
-                entity.track = (int)(g.transform.localPosition.y / LayerHeight() * -1);
+                entity.track = entity.eventObj.GetTrack();
             }
 
 
@@ -653,12 +652,12 @@ namespace HeavenStudio.Editor.Track
         public float SnapToLayer(float y)
         {
             float size = LayerHeight();
-            return Mathf.Clamp(Mathp.Round2Nearest(y, size), -size * 3, 0);
+            return Mathf.Clamp(Mathp.Round2Nearest(y, size), -size * 3f, 0f);
         }
 
         public float LayerHeight()
         {
-            return LayersRect.rect.height / 4;
+            return LayersRect.rect.height / 4f;
         }
 
         public void SetPlaybackSpeed(float speed)

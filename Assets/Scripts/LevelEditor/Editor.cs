@@ -199,6 +199,7 @@ namespace HeavenStudio.Editor
 
                         for (int i = 0; i < selectedEvents.Count; i++)
                         {
+                            //TODO: this is in LateUpdate, so this will never run! change this to something that works properly
                             if (!(selectedEvents[i].isCreating || selectedEvents[i].wasDuplicated))
                             {
                                 result.Add(selectedEvents[i]);
