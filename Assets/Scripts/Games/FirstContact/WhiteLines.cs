@@ -23,7 +23,7 @@ public class WhiteLines : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if(transform.position.y > endAt && !isRandomLineMiddle)
         {
