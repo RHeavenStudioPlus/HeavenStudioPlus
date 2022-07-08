@@ -49,6 +49,7 @@ namespace HeavenStudio.Editor
                     Disable();
                 }
             }
+            canDisable = true;
         }
 
         public void Disable()
