@@ -30,6 +30,8 @@ namespace HeavenStudio.Editor.Track
 
         public static float SnapInterval() { return instance.snapInterval; }
 
+        public void SetSnap(float snap) { snapInterval = snap; }
+
         public class CurrentTimelineState
         {
             public bool selected;
@@ -101,6 +103,7 @@ namespace HeavenStudio.Editor.Track
 
         public void LoadRemix()
         {
+            // beatmap entities
             for (int i = 0; i < eventObjs.Count; i++)
             {
                 Destroy(eventObjs[i].gameObject);
@@ -109,11 +112,21 @@ namespace HeavenStudio.Editor.Track
 
             for (int i = 0; i < GameManager.instance.Beatmap.entities.Count; i++)
             {
-                var entity = GameManager.instance.Beatmap.entities[i];
                 var e = GameManager.instance.Beatmap.entities[i];
 
                 AddEventObject(e.datamodel, false, new Vector3(e.beat, -e.track * LayerHeight()), e, false, RandomID());
             }
+
+            //tempo changes
+            TempoInfo.ClearTempoTimeline();
+            for (int i = 0; i < GameManager.instance.Beatmap.tempoChanges.Count; i++)
+            {
+                var t = GameManager.instance.Beatmap.tempoChanges[i];
+
+                TempoInfo.AddTempoChange(false, t);
+            }
+
+            //volume changes
         }
 
         public void Init()
@@ -559,35 +572,35 @@ namespace HeavenStudio.Editor.Track
                     GameManager.instance.SortEventsList();
 
                     tempEntity = en;
+
+                    // default param value
+                    var game = EventCaller.instance.GetMinigame(eventName.Split(0));
+                    var ep = EventCaller.instance.GetGameAction(game, eventName.Split(1)).parameters;
+
+                    if (ep != null)
+                    {
+                        for (int i = 0; i < ep.Count; i++)
+                        {
+                            object returnVal = ep[i].parameter;
+
+                            var propertyType = returnVal.GetType();
+                            if (propertyType == typeof(EntityTypes.Integer))
+                            {
+                                returnVal = ((EntityTypes.Integer)ep[i].parameter).val;
+                            }
+                            else if (propertyType == typeof(EntityTypes.Float))
+                            {
+                                returnVal = ((EntityTypes.Float)ep[i].parameter).val;
+                            }
+
+                            tempEntity[ep[i].propertyName] = returnVal;
+                        }
+                    }
                 }
                 else
                 {
                     GameManager.instance.Beatmap.entities.Add(entity);
                     GameManager.instance.SortEventsList();
-                }
-
-                // default param value
-                var game = EventCaller.instance.GetMinigame(eventName.Split(0));
-                var ep = EventCaller.instance.GetGameAction(game, eventName.Split(1)).parameters;
-
-                if (ep != null)
-                {
-                    for (int i = 0; i < ep.Count; i++)
-                    {
-                        object returnVal = ep[i].parameter;
-
-                        var propertyType = returnVal.GetType();
-                        if (propertyType == typeof(EntityTypes.Integer))
-                        {
-                            returnVal = ((EntityTypes.Integer)ep[i].parameter).val;
-                        }
-                        else if (propertyType == typeof(EntityTypes.Float))
-                        {
-                            returnVal = ((EntityTypes.Float)ep[i].parameter).val;
-                        }
-
-                        tempEntity[ep[i].propertyName] = returnVal;
-                    }
                 }
             }
 
@@ -596,6 +609,14 @@ namespace HeavenStudio.Editor.Track
             eventObj.eventObjID = eventId;
 
             return eventObj;
+        }
+
+        public TimelineEventObj CopyEventObject(Beatmap.Entity e)
+        {
+            Beatmap.Entity clone = e.DeepCopy();
+            TimelineEventObj dup = AddEventObject(clone.datamodel, false, new Vector3(clone.beat, -clone.track * Timeline.instance.LayerHeight()), clone, true, RandomID());
+
+            return dup;
         }
 
         public void DestroyEventObject(Beatmap.Entity entity)
