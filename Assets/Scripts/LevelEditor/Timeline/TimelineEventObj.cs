@@ -42,7 +42,6 @@ namespace HeavenStudio.Editor.Track
         private bool resizingLeft;
         private bool resizingRight;
         private bool inResizeRegion;
-        public Vector2 lastMovePos;
         public bool isCreating;
         public string eventObjID;
 
@@ -59,8 +58,6 @@ namespace HeavenStudio.Editor.Track
             {
                 Destroy(resizeGraphic.gameObject);
             }
-
-            lastMovePos = transform.localPosition;
 
             // what the fuck????
             // moveTemp = new GameObject();
@@ -199,6 +196,9 @@ namespace HeavenStudio.Editor.Track
             }
             else if (resizingLeft)
             {
+                if (moving)
+                    moving = false;
+
                 SetPivot(new Vector2(1, rectTransform.pivot.y));
                 Vector2 sizeDelta = rectTransform.sizeDelta;
 
@@ -214,6 +214,9 @@ namespace HeavenStudio.Editor.Track
             }
             else if (resizingRight)
             {
+                if (moving)
+                    moving = false;
+
                 Vector2 sizeDelta = rectTransform.sizeDelta;
 
                 Vector2 mousePos;
@@ -288,8 +291,6 @@ namespace HeavenStudio.Editor.Track
                     }
 
                     moving = true;
-                    // lastMovePos = transform.localPosition;
-                    // OnComplete();
                 }
             }
             else if (Input.GetMouseButton(1))
@@ -406,7 +407,7 @@ namespace HeavenStudio.Editor.Track
 
         private void OnMove()
         {
-            if (GameManager.instance.Beatmap.entities.FindAll(c => c.beat == this.transform.localPosition.x && c.track == GetTrack()).Count > 0)
+            if (GameManager.instance.Beatmap.entities.FindAll(c => c.beat == this.transform.localPosition.x && c.track == GetTrack() && c != this.entity).Count > 0)
             {
                 eligibleToMove = false;
             }
@@ -467,7 +468,7 @@ namespace HeavenStudio.Editor.Track
 
         public int GetTrack()
         {
-            return (int)(this.transform.localPosition.y / Timeline.instance.LayerHeight()) * -1;
+            return (int)Mathf.Round(this.transform.localPosition.y / Timeline.instance.LayerHeight()) * -1;
         }
 
         private void OnDestroy()
