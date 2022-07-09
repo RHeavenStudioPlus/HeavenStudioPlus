@@ -467,11 +467,6 @@ namespace HeavenStudio.Editor
             }
         }
 
-        public void WindowFullScreen()
-        {
-            GlobalGameManager.WindowFullScreen();
-        }
-
         private void UpdateEditorStatus(bool updateTime)
         {
             if (discordDuringTesting || !Application.isEditor)
