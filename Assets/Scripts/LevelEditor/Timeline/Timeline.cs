@@ -330,11 +330,10 @@ namespace HeavenStudio.Editor.Track
             {
                 movingPlayback = true;
             }
-            else if (Input.GetMouseButtonUp(1))
+            else if (Input.GetMouseButtonUp(1) || Conductor.instance.isPlaying)
             {
                 movingPlayback = false;
             }
-
             if (movingPlayback)
             {
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(TimelineContent, Input.mousePosition, Editor.instance.EditorCamera, out lastMousePos);
@@ -554,7 +553,7 @@ namespace HeavenStudio.Editor.Track
             else
             {
                 entity.eventObj = g.GetComponent<TimelineEventObj>();
-                entity.track = (int)(g.transform.localPosition.y / LayerHeight() * -1);
+                entity.track = entity.eventObj.GetTrack();
             }
 
 
@@ -611,12 +610,20 @@ namespace HeavenStudio.Editor.Track
             return eventObj;
         }
 
-        public TimelineEventObj CopyEventObject(Beatmap.Entity e)
+        private List<TimelineEventObj> duplicatedEventObjs = new List<TimelineEventObj>();
+        public TimelineEventObj CopyEventObject(TimelineEventObj e)
         {
-            Beatmap.Entity clone = e.DeepCopy();
+            Beatmap.Entity clone = e.entity.DeepCopy();
             TimelineEventObj dup = AddEventObject(clone.datamodel, false, new Vector3(clone.beat, -clone.track * Timeline.instance.LayerHeight()), clone, true, RandomID());
+            duplicatedEventObjs.Add(dup);
 
             return dup;
+        }
+
+        public void FinalizeDuplicateEventStack()
+        {
+            CommandManager.instance.Execute(new Commands.Duplicate(duplicatedEventObjs));
+            duplicatedEventObjs = new List<TimelineEventObj>();
         }
 
         public void DestroyEventObject(Beatmap.Entity entity)
@@ -645,12 +652,12 @@ namespace HeavenStudio.Editor.Track
         public float SnapToLayer(float y)
         {
             float size = LayerHeight();
-            return Mathf.Clamp(Mathp.Round2Nearest(y, size), -size * 3, 0);
+            return Mathf.Clamp(Mathp.Round2Nearest(y, size), -size * 3f, 0f);
         }
 
         public float LayerHeight()
         {
-            return LayersRect.rect.height / 4;
+            return LayersRect.rect.height / 4f;
         }
 
         public void SetPlaybackSpeed(float speed)
