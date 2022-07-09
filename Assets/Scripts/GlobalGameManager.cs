@@ -21,6 +21,13 @@ namespace HeavenStudio
         public static string levelLocation;
         public static bool officialLevel;
 
+        public static int CustomScreenWidth = 1280;
+        public static int CustomScreenHeight = 720;
+
+        public static readonly (int width, int height)[] DEFAULT_SCREEN_SIZES = new[] { (1280, 720), (1920, 1080), (2560, 1440), (3840, 2160)};
+        public static readonly string[] DEFAULT_SCREEN_SIZES_STRING = new[] { "1280x720", "1920x1080", "2560x1440", "3840x2160", "Custom" };
+        public static int ScreenSizeIndex = 0;
+
         public enum Scenes : int
         {
             SplashScreen = 0,
@@ -97,6 +104,34 @@ namespace HeavenStudio
             fade.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
             fade.GetComponent<SpriteRenderer>().DOColor(Color.black, fadeDuration).OnComplete(() => { SceneManager.LoadScene(loadedScene); fade.GetComponent<SpriteRenderer>().DOColor(new Color(0, 0, 0, 0), fadeDuration).OnComplete(() => { Destroy(fade); }); });
         }
-    }
 
+        public static void WindowFullScreen()
+        {
+            Debug.Log("WindowFullScreen");
+            if (!Screen.fullScreen)
+            {
+                // Set the resolution to the display's current resolution
+                Screen.SetResolution(Display.main.systemWidth, Display.main.systemHeight, FullScreenMode.FullScreenWindow);
+                Screen.fullScreen = true;
+            }
+            else
+            {
+                Screen.SetResolution(1280, 720, FullScreenMode.Windowed);
+                Screen.fullScreen = false;
+            }
+        }
+
+        public static void ChangeScreenSize()
+        {
+            FullScreenMode mode = Screen.fullScreenMode;
+            if (ScreenSizeIndex == DEFAULT_SCREEN_SIZES_STRING.Length - 1)
+            {
+                Screen.SetResolution(CustomScreenWidth, CustomScreenHeight, mode);
+            }
+            else
+            {
+                Screen.SetResolution(DEFAULT_SCREEN_SIZES[ScreenSizeIndex].width, DEFAULT_SCREEN_SIZES[ScreenSizeIndex].height, mode);
+            }
+        }
+    }
 }

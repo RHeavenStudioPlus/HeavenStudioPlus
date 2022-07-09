@@ -10,6 +10,7 @@ namespace HeavenStudio.Editor
     public class SettingsDialog : MonoBehaviour
     {
         [SerializeField] private GameObject settingsMenu;
+        //this may all be moved to a different script in the future
 
         private void Start() {}
 
