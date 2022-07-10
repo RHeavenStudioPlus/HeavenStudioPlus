@@ -47,26 +47,22 @@ namespace HeavenStudio.Games.Loaders
                     new Param("type", KarateMan.HitThree.HitThree, "Type", "What should be called out")
                 }),
                 new GameAction("prepare",               delegate { KarateMan.instance.Prepare(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }, 1f, true),
-                new GameAction("set background color",  delegate {
+                new GameAction("set background effects",  delegate {
                     var e = eventCaller.currentEntity;
                     var c = KarateMan.instance.BackgroundColors[e.type];
                     if(e.type == (int)KarateMan.BackgroundType.Custom) c = e.colorA;
                     KarateMan.instance.SetBackgroundColor(e.type, e.type2, c, e.colorB);
+                    KarateMan.instance.SetBackgroundFX((KarateMan.BackgroundFXType)eventCaller.currentEntity.type);
                 }, 0.5f, false, new List<Param>()
                 {
                     new Param("type", KarateMan.BackgroundType.Yellow, "Background Type", "The preset background type"),
                     new Param("type2", KarateMan.ShadowType.Tinted, "Shadow Type", "The shadow type. If Tinted doesn't work with your background color try Custom"),
                     new Param("colorA", new Color(), "Custom Background Color", "The background color to use when background type is set to Custom"),
                     new Param("colorB", new Color(), "Custom Shadow Color", "The shadow color to use when shadow type is set to Custom"),
-
-                }),
-                new GameAction("set background fx",  delegate {
-                    KarateMan.instance.SetBackgroundFX((KarateMan.BackgroundFXType)eventCaller.currentEntity.type);
-                }, 0.5f, false, new List<Param>()
-                {
                     new Param("type", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed")
 
                 }),
+                
                 // These are still here for backwards-compatibility but are hidden in the editor
                 new GameAction("pot",                   delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 0); }, 2, hidden: true),
                 new GameAction("rock",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 2); }, 2, hidden: true),
@@ -75,8 +71,18 @@ namespace HeavenStudio.Games.Loaders
                 new GameAction("hit4",                  delegate { KarateMan.instance.Hit4(eventCaller.currentEntity.beat); }, hidden: true),
                 new GameAction("bgfxon",                delegate { KarateMan.instance.SetBackgroundFX(KarateMan.BackgroundFXType.Sunburst); }, hidden: true),
                 new GameAction("bgfxoff",               delegate { KarateMan.instance.SetBackgroundFX(KarateMan.BackgroundFXType.None); }, hidden: true),
+                new GameAction("set background fx",  delegate {
+                    KarateMan.instance.SetBackgroundFX((KarateMan.BackgroundFXType)eventCaller.currentEntity.type);
+                }, 0.5f, false, new List<Param>()
+                {
+                    new Param("type", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed")
 
-            });
+                },
+                    hidden: true
+                )
+            
+
+            });;
         }
     }
 }
