@@ -32,7 +32,7 @@ namespace HeavenStudio.Games.Loaders
                 }),
                 new GameAction("kick",                  delegate { KarateMan.instance.Shoot(eventCaller.currentEntity.beat, 4); }, 4.5f),
                 new GameAction("combo",                 delegate { KarateMan.instance.Combo(eventCaller.currentEntity.beat); }, 4f),
-                new GameAction("hit3",                  delegate
+                new GameAction("hitX",                  delegate
                 {
                     var e = eventCaller.currentEntity;
                     switch ((KarateMan.HitThree)e.type)

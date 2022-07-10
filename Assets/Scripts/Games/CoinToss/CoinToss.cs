@@ -19,9 +19,10 @@ namespace HeavenStudio.Games.Loaders
                     new Param("toggle", false, "Audience Reaction", "Enable Audience Reaction"),
                 }),
 
-                new GameAction("set background color",  delegate { var e = eventCaller.currentEntity; CoinToss.instance.ChangeBackgroundColor(e.colorA, 0f); }, 0.5f, false, new List<Param>()
+                new GameAction("set background color",  delegate { var e = eventCaller.currentEntity; CoinToss.instance.ChangeBackgroundColor(e.colorA, 0f); CoinToss.instance.ChangeBackgroundColor(e.colorB, 0f, true); }, 0.5f, false, new List<Param>()
                 {
-                    new Param("colorA", CoinToss.defaultBgColor, "Background Color", "The background color to change to")
+                    new Param("colorA", CoinToss.defaultBgColor, "Background Color", "The background color to change to"),
+                    new Param("colorB", CoinToss.defaultFgColor, "Foreground Color", "The foreground color to change to")
                 } ),
                 new GameAction("fade background color", delegate { var e = eventCaller.currentEntity; CoinToss.instance.FadeBackgroundColor(e.colorA, e.colorB, e.length); }, 1f, true, new List<Param>()
                 {
@@ -29,15 +30,21 @@ namespace HeavenStudio.Games.Loaders
                     new Param("colorB", CoinToss.defaultBgColor, "End Color", "The ending color in the fade")
                 } ),
 
-                new GameAction("set foreground color",  delegate { var e = eventCaller.currentEntity; CoinToss.instance.ChangeBackgroundColor(e.colorA, 0f, true); }, 0.5f, false, new List<Param>()
-                {
-                    new Param("colorA", CoinToss.defaultFgColor, "Background Color", "The background color to change to")
-                } ),
                 new GameAction("fade foreground color", delegate { var e = eventCaller.currentEntity; CoinToss.instance.FadeBackgroundColor(e.colorA, e.colorB, e.length, true); }, 1f, true, new List<Param>()
                 {
                     new Param("colorA", Color.white, "Start Color", "The starting color in the fade"),
                     new Param("colorB", CoinToss.defaultFgColor, "End Color", "The ending color in the fade")
                 } ),
+                
+                //left in for backwards-compatibility, but cannot be placed
+
+                new GameAction("set foreground color", delegate { var e = eventCaller.currentEntity; CoinToss.instance.ChangeBackgroundColor(e.colorA, 0f, true); }, 0.5f, false, new List<Param>
+           
+                {
+                    new Param("colorA", CoinToss.defaultFgColor, "Foreground Color", "The foreground color to change to")
+                },
+                    hidden: true
+                )
             },
             new List<string>() {"ntr", "aim"},
             "ntrcoin", "en",
