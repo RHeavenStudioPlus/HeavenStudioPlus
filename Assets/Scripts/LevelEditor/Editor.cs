@@ -415,6 +415,7 @@ namespace HeavenStudio.Editor
                                             bytes = ms.ToArray();
                                             Conductor.instance.musicSource.clip = OggVorbis.VorbisPlugin.ToAudioClip(bytes, "music");
                                             loadedMusic = true;
+                                            Timeline.FitToSong();
                                         }
                                     }
                                 }
