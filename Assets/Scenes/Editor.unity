@@ -17007,7 +17007,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1589389272}
   m_HandleRect: {fileID: 1589389271}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -18508,7 +18508,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.000061035156}
-  m_SizeDelta: {x: 0, y: 3137.16}
+  m_SizeDelta: {x: 0, y: 3210.16}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &975391006
 MonoBehaviour:
@@ -19389,7 +19389,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1649292126}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.14780252
+  m_Size: 0.14444143
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -22501,8 +22501,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1956641996}
-  - {fileID: 1611689950}
   - {fileID: 1750038562}
+  - {fileID: 1611689950}
   - {fileID: 907920115}
   m_Father: {fileID: 2051557111}
   m_RootOrder: 4
@@ -30314,7 +30314,7 @@ RectTransform:
   - {fileID: 1437736686}
   - {fileID: 172566392}
   m_Father: {fileID: 1182686744}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -30555,7 +30555,7 @@ RectTransform:
   m_Father: {fileID: 475433193}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.85219747}
+  m_AnchorMin: {x: 0, y: 0.8555586}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -32335,7 +32335,7 @@ RectTransform:
   - {fileID: 1953458823}
   - {fileID: 926134724}
   m_Father: {fileID: 1182686744}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -37096,8 +37096,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 602.5, y: -1652.16}
-  m_SizeDelta: {x: 1165, y: 2960}
+  m_AnchoredPosition: {x: 602.5, y: -1688.66}
+  m_SizeDelta: {x: 1165, y: 3033}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2010444526
 MonoBehaviour:
@@ -37119,145 +37119,29 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<align="center"><b>Programming</b></align>
-
-    -<indent=5%>Megaminerzero</indent>
-
-    -<indent=5%>Starpelly
-    <alpha=#88>(Rhythm Heaven Mania)<alpha=#FF></indent>
-
-    -<indent=5%>minenice</indent>
-
-    -<indent=5%>huantian</indent>
-
-    -<indent=5%>Slaith12</indent>
-
-    -<indent=5%>Mytiaoga</indent>
-
-    -<indent=5%>Carson</indent>
-
-    -<indent=5%>saladplainzone</indent>
-
-    -<indent=5%>Pengu123</indent>
-
-
-    <align="center"><b>Artwork</b></align>
-
-    -<indent=5%>Ko
-    Takeuchi <alpha=#88>(Original <i>Rhythm Heaven</i> Assets)<alpha=#FF></indent>
-
-    -<indent=5%>Starpelly
-    <alpha=#88>(Rhythm Heaven Mania)<alpha=#FF></indent>
-
-    -<indent=5%>OctaHeart
-    <alpha=#88>(Logo)<alpha=#FF></indent>
-
-    -<indent=5%>dexiedoo_octo</indent>
-
-    -<indent=5%>Sofuto</indent>
-
-    -<indent=5%>MilaDraws</indent>
-
-    -<indent=5%>Talk</indent>
-
-    -<indent=5%>saladplainzone</indent>
-
-    -<indent=5%>Mocha</indent>
-
-    -<indent=5%>Seanski2</indent>
-
-    -<indent=5%>The
-    Culinator</indent>
-
-    -<indent=5%>Brandix</indent>
-
-    -<indent=5%>Metasepia</indent>
-
-    -<indent=5%>Jellirby</indent>
-
-    -<indent=5%>Radomila</indent>
-
-    -<indent=5%>flaticon.com</indent>
-
-
-    <align="center"><b>Font</b></align>
-
-    -<indent=5%>Super_Tailx_50
-    <alpha=#88>(Logo)<alpha=#FF></indent>
-
-    -<indent=5%>Christian Robertson <alpha=#88>(Roboto)<alpha=#FF></indent>
-
-    -<indent=5%>Nintendo
-    <alpha=#88>(Rodin)<alpha=#FF></indent>
-
-    -<indent=5%>minenice <alpha=#88>(Sprite
-    Glyphs)<alpha=#FF></indent>
-
-
-    <align="center"><b>Other Resources & Technologies</b></align>
-
-    -<indent=5%>Nintendo
-    <alpha=#88>(Concept, Sound, Design)<alpha=#FF></indent>
-
-    -<indent=5%>Powered
-    by Unity 2020.3.25f1</indent>
-
-    -<indent=5%>Adobe Photoshop 2022</indent>
-
-    -<indent=5%>GIMP</indent>
-
-    -<indent=5%>paint.net</indent>
-
-    -<indent=5%>Krita</indent>
-
-    -<indent=5%>Visual
-    Studio 2022</indent>
-
-    -<indent=5%>Visual Studio Code</indent>
-
-    -<indent=5%>Newtonsoft.Json</indent>
-
-    -<indent=5%>DOTween</indent>
-
-    -<indent=5%>Starpelly
-    Library</indent>
-
-    -<indent=5%>StandaloneFileBrowser</indent>
-
-    -<indent=5%>NaughtyBezierCurves</indent>
-
-    -<indent=5%>VorbisPlugin</indent>
-
-    -<indent=5%>RHRE
-    SFX Database</indent>
-
-    -<indent=5%>Github Copilot</indent>
-
-
-    <align="center"><b>Legal</b>
-
-    Rhythm
+  m_text: "<align=\"center\"><b>Programming</b></align>\n-<indent=5%>Megaminerzero</indent>\n-<indent=5%>Starpelly
+    <alpha=#88>(Rhythm Heaven Mania)<alpha=#FF></indent>\n-<indent=5%>minenice</indent>\n-<indent=5%>huantian</indent>\n-<indent=5%>Slaith12</indent>\n-<indent=5%>Mytiaoga</indent>\n-<indent=5%>Carson</indent>\n-<indent=5%>saladplainzone</indent>\n-<indent=5%>Pengu123</indent>\n\n<align=\"center\"><b>Artwork</b></align>\n-<indent=5%>Ko
+    Takeuchi <alpha=#88>(Original <i>Rhythm Heaven</i> Assets)<alpha=#FF></indent>\n-<indent=5%>Starpelly
+    <alpha=#88>(Rhythm Heaven Mania)<alpha=#FF></indent>\n-<indent=5%>OctaHeart <alpha=#88>(Logo)<alpha=#FF></indent>\n-<indent=5%>dexiedoo_octo</indent>\n-<indent=5%>Sofuto</indent>\n-<indent=5%>MilaDraws</indent>\n-<indent=5%>Talk</indent>\n-<indent=5%>saladplainzone</indent>\n-<indent=5%>Mocha</indent>\n-<indent=5%>Seanski2</indent>\n-<indent=5%>The
+    Culinator</indent>\n-<indent=5%>Brandix</indent>\n-<indent=5%>Metasepia</indent>\n-<indent=5%>Jellirby</indent>\n-<indent=5%>Radomila</indent>\n-<indent=5%>flaticon.com</indent>\n\n<align=\"center\"><b>Font</b></align>\n-<indent=5%>Super_Tailx_50
+    <alpha=#88>(Logo)<alpha=#FF></indent>\n-<indent=5%>Christian Robertson <alpha=#88>(Roboto)<alpha=#FF></indent>\n-<indent=5%>Nintendo
+    <alpha=#88>(Rodin)<alpha=#FF></indent>\n-<indent=5%>minenice <alpha=#88>(Sprite
+    Glyphs)<alpha=#FF></indent>\n\n<align=\"center\"><b>Other Resources & Technologies</b></align>\n-<indent=5%>Nintendo
+    <alpha=#88>(Concept, Sound, Design)<alpha=#FF></indent>\n-<indent=5%>Powered
+    by Unity 2020.3.25f1</indent>\n-<indent=5%>Adobe Photoshop 2022</indent>\n-<indent=5%>GIMP</indent>\n-<indent=5%>paint.net</indent>\n-<indent=5%>Krita</indent>\n-<indent=5%>Visual
+    Studio 2022</indent>\n-<indent=5%>Visual Studio Code</indent>\n-<indent=5%>Newtonsoft.Json</indent>\n-<indent=5%>DOTween</indent>\n-<indent=5%>Starpelly
+    Library</indent>\n-<indent=5%>StandaloneFileBrowser</indent>\n-<indent=5%>unity-gui-windows</indent>\n-<indent=5%>NaughtyBezierCurves</indent>\n-<indent=5%>VorbisPlugin</indent>\n-<indent=5%>RHRE
+    SFX Database</indent>\n-<indent=5%>Github Copilot</indent>\n\n<align=\"center\"><b>Legal</b>\n<color=\"red\">Rhythm
     Heaven / Rhythm Tengoku is the intellectual property of Nintendo. This program
-    is NOT endorsed nor sponsored in any way by Nintendo. All used properties of
-    Nintendo (such as names, audio, graphics, character, design, etc.) in this software
-    are not intended to maliciously infringe trademark rights. All other trademarks
-    and assets are property of their respective owners. This is a community project
-    and this is available for others to use according to the GPL-3.0 license, without
-    charge.
-
-
-    <b>THIS SOFTWARE MUST NOT BE SOLD, NEITHER ALONE NOR AS PART OF
-    A BUNDLE.
-
-
-    IF YOU PAID FOR THIS SOFTWARE OR RECIEVED IT AS PART OF A BUNDLE
-    FOLLOWING PAYMENT, YOU HAVE BEEN SCAMMED. CONTACT THE SELLER AND DEMAND YOUR
-    MONEY BACK IMMEDIATELY.</b>
-
-
-    https://github.com/megaminerjenny/HeavenStudio
-
-    </align>'
+    is NOT endorsed nor sponsored in any way by Nintendo nor any of its affiliates.</color>
+    \nAll used properties of Nintendo (such as names, audio, graphics, characters,
+    design, etc.) in this software are not intended to maliciously infringe trademark
+    rights. All other trademarks and assets are property of their respective owners.
+    This is a community project and this is available for others to use according
+    to the GPL-3.0 license, without charge.\n\n<b>THIS SOFTWARE MUST NOT BE SOLD,
+    NEITHER ALONE NOR AS PART OF A BUNDLE.\n\nIF YOU PAID FOR THIS SOFTWARE OR RECIEVED
+    IT AS PART OF A BUNDLE FOLLOWING PAYMENT, YOU HAVE BEEN SCAMMED. CONTACT THE
+    SELLER AND DEMAND YOUR MONEY BACK IMMEDIATELY.</b>\n\nhttps://github.com/megaminerjenny/HeavenStudio\nhttps://discord.gg/5rdEq2SFNj\n</align>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4810e200fa0cb24438bac52343d7674b, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 6d4610587e293f74ca2b71ec1cf59da3, type: 2}
