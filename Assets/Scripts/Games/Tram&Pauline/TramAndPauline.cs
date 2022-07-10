@@ -10,7 +10,7 @@ namespace HeavenStudio.Games.Loaders
     {
         public static Minigame AddGame(EventCaller eventCaller)
         {
-            return new Minigame("tram&Pauline", "Tram&Pauline \n<color=#eb5454>[WIP don't use]</color>", "000000", false, false, new List<GameAction>()
+            return new Minigame("tram&Pauline", "Tram & Pauline \n<color=#eb5454>[WIP don't use]</color>", "000000", false, false, new List<GameAction>()
             {
                 new GameAction("curtains",          delegate { TramAndPauline.instance.Curtains(eventCaller.currentEntity.beat); }, 0.5f),
                 new GameAction("SFX",          delegate { var e = eventCaller.currentEntity; TramAndPauline.instance.SFX(e.beat,  e.toggle);  }, 2.5f, false, new List<Param>()
