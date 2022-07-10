@@ -1,7 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using HeavenStudio.Editor.Track;
+using UnityEngine.UI;
 
 using TMPro;
 
@@ -12,6 +11,10 @@ namespace HeavenStudio.Editor
         public TMP_Dropdown resolutionsDropdown;
         public GameObject customSetter;
         public TMP_InputField widthInputField, heightInputField;
+
+        
+        public Slider volSlider;
+        public TMP_InputField volLabel;
 
         private void Start() {
             List<TMP_Dropdown.OptionData> dropDownData = new List<TMP_Dropdown.OptionData>();
@@ -42,6 +45,9 @@ namespace HeavenStudio.Editor
                 GlobalGameManager.CustomScreenHeight = System.Math.Max(int.Parse(heightInputField.text), 64);
                 heightInputField.text = GlobalGameManager.CustomScreenHeight.ToString();
             });
+
+            volSlider.value = GlobalGameManager.MasterVolume;
+            volLabel.text = System.Math.Round(volSlider.value * 100, 2).ToString();
         }
 
         public void WindowFullScreen()
@@ -52,6 +58,18 @@ namespace HeavenStudio.Editor
         public void WindowConfirmSize()
         {
             GlobalGameManager.ChangeScreenSize();
+        }
+
+        public void OnVolSliderChanged()
+        {
+            GlobalGameManager.ChangeMasterVolume(volSlider.value);
+            volLabel.text = System.Math.Round(volSlider.value * 100, 2).ToString();
+        }
+
+        public void OnVolLabelChanged()
+        {
+            volSlider.value = (float)System.Math.Round(System.Convert.ToSingle(volLabel.text), 2);
+            GlobalGameManager.ChangeMasterVolume(volSlider.value);
         }
     }
 }

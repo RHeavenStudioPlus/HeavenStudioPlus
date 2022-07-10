@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using HeavenStudio.Editor.Track;
 using HeavenStudio.Util;
+using HeavenStudio.StudioDance;
 
 using TMPro;
 
@@ -11,8 +12,9 @@ namespace HeavenStudio.Editor
     public class CreditsLegalSettings : MonoBehaviour
     {
         private int SecretCounter = 0;
-        private static bool SecretActive = false;
+        private bool SecretActive = false;
         [SerializeField] private GameObject secretObject;
+        [SerializeField] private StudioDanceManager secretContent;
 
         private void Start()
         {
@@ -37,6 +39,16 @@ namespace HeavenStudio.Editor
             SecretActive = true;
             Jukebox.PlayOneShot("applause");
             Debug.Log("Activating Studio Dance...");
+
+            secretContent.OpenDanceWindow();
+        }
+
+        public void MakeSecretInactive()
+        {
+            SecretCounter = 0;
+            secretObject.SetActive(false);
+            SecretActive = false;
+            secretContent.CloseDanceWindow();
         }
     }
 }
