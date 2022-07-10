@@ -4,13 +4,20 @@
 
 ## Programming
 * Megaminerzero
+* minenice
+* huantian
+* Slaith12
+* Mytiaoga
+* Carson
+* saladplainzone
+* Pengu123
 * Starpelly (Rhythm Heaven Mania programming)
 
 ## Art
 * Ko Takeuchi - Base Rhythm Heaven art
 * Starpelly - Rhythm Heaven Mania art and UI
-* Katelyn1118 - UI
 * OctaHeart - Logo
+* Several others (someone update this please)
 * flaticon.com
 
 ## Fonts

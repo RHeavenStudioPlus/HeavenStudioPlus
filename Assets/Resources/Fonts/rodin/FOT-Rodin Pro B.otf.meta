@@ -10,7 +10,9 @@ TrueTypeFontImporter:
   includeFontData: 1
   fontNames:
   - FOT-Rodin Pro
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: d9b391ecd583bd54fa458814fbcad7be, type: 3}
+  - {fileID: 12800000, guid: 6d457cf9900bba748b3250de2e990fa2, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

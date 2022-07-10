@@ -72,6 +72,7 @@ namespace HeavenStudio.Editor.Track
                         GameManager.instance.Beatmap.bpm += increase;
                         UpdateStartingBPMText();
                         UpdateStartingBPMFromText(); // In case the scrolled-to value is invalid.
+                        
                     }
                 }
             }
@@ -109,6 +110,8 @@ namespace HeavenStudio.Editor.Track
 
             // In case the newBPM ended up differing from the inputted string.
             UpdateStartingBPMText();
+
+            Timeline.instance.FitToSong();
         }
 
         public void UpdateOffsetFromText()
@@ -128,7 +131,16 @@ namespace HeavenStudio.Editor.Track
             UpdateOffsetText();
         }
 
-        private void AddTempoChange(bool create, Beatmap.TempoChange tempoChange_ = null)
+        public void ClearTempoTimeline()
+        {
+            foreach (TempoTimelineObj tempoTimelineObj in tempoTimelineObjs)
+            {
+                Destroy(tempoTimelineObj.gameObject);
+            }
+            tempoTimelineObjs.Clear();
+        }
+
+        public void AddTempoChange(bool create, Beatmap.TempoChange tempoChange_ = null)
         {      
             GameObject tempoChange = Instantiate(RefTempoChange.gameObject, this.transform);
 
@@ -160,6 +172,8 @@ namespace HeavenStudio.Editor.Track
             }
 
             tempoTimelineObjs.Add(tempoTimelineObj);
+
+            Timeline.instance.FitToSong();
         }
     }
 

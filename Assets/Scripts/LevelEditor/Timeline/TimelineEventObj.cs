@@ -26,7 +26,7 @@ namespace HeavenStudio.Editor.Track
         [SerializeField] private RectTransform resizeGraphic;
         [SerializeField] private RectTransform leftDrag;
         [SerializeField] private RectTransform rightDrag;
-        private GameObject moveTemp;
+        // private GameObject moveTemp;
 
         [Header("Properties")]
         public Beatmap.Entity entity;
@@ -38,10 +38,10 @@ namespace HeavenStudio.Editor.Track
         public bool resizable;
         public bool resizing;
         public bool moving;
+        public bool wasDuplicated;
         private bool resizingLeft;
         private bool resizingRight;
         private bool inResizeRegion;
-        public Vector2 lastMovePos;
         public bool isCreating;
         public string eventObjID;
 
@@ -59,10 +59,9 @@ namespace HeavenStudio.Editor.Track
                 Destroy(resizeGraphic.gameObject);
             }
 
-            lastMovePos = transform.localPosition;
-
-            moveTemp = new GameObject();
-            moveTemp.transform.SetParent(this.transform.parent);
+            // what the fuck????
+            // moveTemp = new GameObject();
+            // moveTemp.transform.SetParent(this.transform.parent);
 
             bool visible = rectTransform.IsVisibleFrom(Editor.instance.EditorCamera);
             for (int i = 0; i < this.transform.childCount; i++)
@@ -105,7 +104,7 @@ namespace HeavenStudio.Editor.Track
 
             #endregion
 
-            SetColor(GetTrack());
+            SetColor(entity.track);
 
             if (selected)
             {
@@ -118,7 +117,10 @@ namespace HeavenStudio.Editor.Track
                 selectedImage.gameObject.SetActive(true);
                 for (int i = 0; i < outline.childCount; i++)
                 {
-                    outline.GetChild(i).GetComponent<Image>().color = Color.cyan;
+                    if (moving)
+                        outline.GetChild(i).GetComponent<Image>().color = Color.magenta;
+                    else
+                        outline.GetChild(i).GetComponent<Image>().color = Color.cyan;
                 }
             }
             else
@@ -132,39 +134,61 @@ namespace HeavenStudio.Editor.Track
             if (Conductor.instance.NotStopped())
             {
                 Cancel();
+
+                if (moving)
+                    moving = false;
+            
+                if (selected)
+                {
+                    selected = false;
+                    selectedImage.gameObject.SetActive(false);
+                    for (int i = 0; i < outline.childCount; i++)
+                        outline.GetChild(i).GetComponent<Image>().color = new Color32(0, 0, 0, 51);
+                }
+
+                rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, Timeline.instance.LayerHeight());
+                this.transform.localPosition = new Vector3(this.transform.localPosition.x, -entity.track * Timeline.instance.LayerHeight());
                 return;
             }
 
             if (!resizing)
             {
-                if (Input.GetMouseButtonUp(0) && Timeline.instance.timelineState.selected)
-                {
-                    if (Timeline.instance.eventObjs.FindAll(c => c.mouseHovering).Count == 0 && Timeline.instance.eventObjs.FindAll(c => c.moving).Count == 0 && !BoxSelection.instance.selecting && Timeline.instance.eventObjs.FindAll(c => c.resizing).Count == 0)
-                    {
-                        if (!Input.GetKey(KeyCode.LeftShift))
-                        {
-                            // Selections.instance.Deselect(this);
-                        }
-                    }
-
-                    // OnUp();
-                }
-
                 if (Timeline.instance.eventObjs.FindAll(c => c.moving).Count > 0 && selected)
                 {
                     Vector3 mousePos = Editor.instance.EditorCamera.ScreenToWorldPoint(Input.mousePosition);
+                    //duplicate the entity if holding alt or m-click
+                    if ((!wasDuplicated) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetMouseButton(2)))
+                    {
+                        Selections.instance.Deselect(this);
+                        this.wasDuplicated = false;
+                        this.moving = false;
+
+                        var te = Timeline.instance.CopyEventObject(this);
+
+                        Selections.instance.DragSelect(te);
+
+                        te.wasDuplicated = true;
+                        te.transform.localPosition = transform.localPosition;
+                        te.lastPos_ = transform.localPosition;
+
+                        for (int i = 0; i < Timeline.instance.eventObjs.Count; i++)
+                        {
+                            Timeline.instance.eventObjs[i].startPosX = mousePos.x - Timeline.instance.eventObjs[i].transform.position.x;
+                            Timeline.instance.eventObjs[i].startPosY = mousePos.y - Timeline.instance.eventObjs[i].transform.position.y;
+                        }
+
+                        te.moving = true;
+                    }
+
 
                     lastPos_ = transform.localPosition;
 
                     this.transform.position = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY - 0.40f, 0);
-                    this.transform.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(this.transform.localPosition.x, Timeline.SnapInterval()), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(this.transform.localPosition.y));
-                    // moveTemp.transform.position = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY - 0.40f, 0);
-                    // moveTemp.transform.localPosition = new Vector3(Mathf.Clamp(Mathp.Round2Nearest(moveTemp.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(moveTemp.transform.localPosition.y));
+                    this.transform.localPosition = new Vector3(Mathf.Max(Mathp.Round2Nearest(this.transform.localPosition.x, Timeline.SnapInterval()), 0), Timeline.instance.SnapToLayer(this.transform.localPosition.y));
 
                     if (lastPos != transform.localPosition)
                     {
                         OnMove();
-                        // this.transform.DOLocalMove(new Vector3(Mathf.Clamp(Mathp.Round2Nearest(moveTemp.transform.localPosition.x, 0.25f), 0, Mathf.Infinity), Timeline.instance.SnapToLayer(moveTemp.transform.localPosition.y)), 0.15f).SetEase(Ease.OutExpo);
                     }
 
                     lastPos = transform.localPosition;
@@ -172,6 +196,9 @@ namespace HeavenStudio.Editor.Track
             }
             else if (resizingLeft)
             {
+                if (moving)
+                    moving = false;
+
                 SetPivot(new Vector2(1, rectTransform.pivot.y));
                 Vector2 sizeDelta = rectTransform.sizeDelta;
 
@@ -187,6 +214,9 @@ namespace HeavenStudio.Editor.Track
             }
             else if (resizingRight)
             {
+                if (moving)
+                    moving = false;
+
                 Vector2 sizeDelta = rectTransform.sizeDelta;
 
                 Vector2 mousePos;
@@ -211,10 +241,18 @@ namespace HeavenStudio.Editor.Track
                 if (resizable)
                 Cursor.SetCursor(Resources.Load<Texture2D>("Cursors/horizontal_resize"), new Vector2(8, 8), CursorMode.Auto);
             }
-            else if (Timeline.instance.eventObjs.FindAll(c => c.inResizeRegion).Count == 0 && Timeline.instance.eventObjs.FindAll(c => c.resizing).Count == 0)
+            // should consider adding this someday
+            // else if (moving && selected || mouseHovering && selected)
+            // {
+            //     Cursor.SetCursor(Resources.Load<Texture2D>("Cursors/move"), new Vector2(8, 8), CursorMode.Auto);
+            // }
+            else
             {
                 Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
             }
+
+            rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, Timeline.instance.LayerHeight());
+            this.transform.localPosition = new Vector3(this.transform.localPosition.x, -entity.track * Timeline.instance.LayerHeight());
         }
 
         #region ClickEvents
@@ -253,8 +291,6 @@ namespace HeavenStudio.Editor.Track
                     }
 
                     moving = true;
-                    // lastMovePos = transform.localPosition;
-                    // OnComplete();
                 }
             }
             else if (Input.GetMouseButton(1))
@@ -270,6 +306,11 @@ namespace HeavenStudio.Editor.Track
 
             if (selected && Timeline.instance.timelineState.selected)
             {
+                if (wasDuplicated)
+                {
+                    Timeline.instance.FinalizeDuplicateEventStack();
+                    wasDuplicated = false;
+                }
                 if (eligibleToMove)
                 {
                     OnComplete(true);
@@ -366,7 +407,7 @@ namespace HeavenStudio.Editor.Track
 
         private void OnMove()
         {
-            if (GameManager.instance.Beatmap.entities.FindAll(c => c.beat == this.transform.localPosition.x && c.track == GetTrack()).Count > 0)
+            if (GameManager.instance.Beatmap.entities.FindAll(c => c.beat == this.transform.localPosition.x && c.track == GetTrack() && c != this.entity).Count > 0)
             {
                 eligibleToMove = false;
             }
@@ -427,7 +468,7 @@ namespace HeavenStudio.Editor.Track
 
         public int GetTrack()
         {
-            return (int)(this.transform.localPosition.y / Timeline.instance.LayerHeight()) * -1;
+            return (int)Mathf.Round(this.transform.localPosition.y / Timeline.instance.LayerHeight()) * -1;
         }
 
         private void OnDestroy()

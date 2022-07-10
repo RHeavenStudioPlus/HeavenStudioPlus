@@ -171,4 +171,38 @@ namespace HeavenStudio.Editor.Commands
             }
         }
     }
+
+    public class Duplicate : IAction
+    {
+        List<TimelineEventObj> eventObjs;
+        List<TimelineEventObj> copiedObjs;
+
+        public Duplicate(List<TimelineEventObj> eventObjs)
+        {
+            this.eventObjs = eventObjs;
+        }
+
+        public void Execute()
+        {
+        }
+
+        public void Redo()
+        {
+            for (int i = 0; i < copiedObjs.Count; i++)
+            {
+                Beatmap.Entity e = copiedObjs[i].entity;
+                eventObjs[i] = Timeline.instance.AddEventObject(e.datamodel, false, new Vector3(e.beat, -e.track * Timeline.instance.LayerHeight()), e, true, e.eventObj.eventObjID);
+            }
+        }
+
+        public void Undo()
+        {
+            copiedObjs = eventObjs;
+            for (int i = 0; i < eventObjs.Count; i++)
+            {
+                Selections.instance.Deselect(eventObjs[i]);
+                Timeline.instance.DestroyEventObject(eventObjs[i].entity);
+            }
+        }
+    }
 }
