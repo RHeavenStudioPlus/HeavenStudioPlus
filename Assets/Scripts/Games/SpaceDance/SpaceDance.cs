@@ -47,13 +47,14 @@ namespace HeavenStudio.Games
 
             if (PlayerInput.Pressed() && !IsExpectingInputNow())
             {
-            
+            Jukebox.PlayOneShotGame("spaceDance/inputBad");
+            // Look at this later, sound effect has some weird clipping on it sometimes?? popping. like. fucking popopop idk why its doing that its fine theres no sample weirdness ughh
             }
         }
 
         public void DoTurnRight(float beat)
         {
-            ScheduleInput(beat, 1f, InputType.STANDARD_DOWN, RightSuccess, RightMiss, RightEmpty);
+            ScheduleInput(beat, 1f, InputType.DIRECTION_RIGHT_DOWN, RightSuccess, RightMiss, RightEmpty);
             MultiSound.Play(new MultiSound.Sound[] {
             new MultiSound.Sound("spaceDance/voicelessTurn", beat),
             new MultiSound.Sound("spaceDance/dancerTurn", beat),
@@ -75,7 +76,7 @@ namespace HeavenStudio.Games
 
         public void DoSitDown(float beat)
         {
-            ScheduleInput(beat, 1f, InputType.STANDARD_DOWN, SitSuccess, SitMiss, SitEmpty);
+            ScheduleInput(beat, 1f, InputType.DIRECTION_DOWN_DOWN, SitSuccess, SitMiss, SitEmpty);
             MultiSound.Play(new MultiSound.Sound[] {
             new MultiSound.Sound("spaceDance/voicelessSit", beat),
             new MultiSound.Sound("spaceDance/dancerLets", beat),
