@@ -16,6 +16,8 @@ namespace HeavenStudio.Editor.Track
         public TMP_InputField StartingVolume;
         private RectTransform StartingVolumeRect;
 
+        public List<VolumeTimelineObj> volumeTimelineObjs = new List<VolumeTimelineObj>();
+
         private bool firstUpdate;
 
         void Start()
@@ -74,8 +76,8 @@ namespace HeavenStudio.Editor.Track
             }
             else if (newVol < 0)
             {
-                StartingVolume.text = "1";
-                newVol = 1;
+                StartingVolume.text = "0";
+                newVol = 0;
             }
 
             GameManager.instance.Beatmap.musicVolume = newVol;

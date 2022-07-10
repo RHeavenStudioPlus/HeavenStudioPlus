@@ -22,7 +22,7 @@ namespace HeavenStudio.Editor
 
         public Beatmap.Entity entity;
 
-        private bool active;
+        public bool active;
 
         private int childCountAtStart;
 
@@ -49,6 +49,7 @@ namespace HeavenStudio.Editor
                     Disable();
                 }
             }
+            canDisable = true;
         }
 
         public void Disable()
