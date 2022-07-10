@@ -28,6 +28,8 @@ namespace HeavenStudio
         public static readonly string[] DEFAULT_SCREEN_SIZES_STRING = new[] { "1280x720", "1920x1080", "2560x1440", "3840x2160", "Custom" };
         public static int ScreenSizeIndex = 0;
 
+        public static float MasterVolume = 0.8f;
+
         public enum Scenes : int
         {
             SplashScreen = 0,
@@ -132,6 +134,12 @@ namespace HeavenStudio
             {
                 Screen.SetResolution(DEFAULT_SCREEN_SIZES[ScreenSizeIndex].width, DEFAULT_SCREEN_SIZES[ScreenSizeIndex].height, mode);
             }
+        }
+
+        public static void ChangeMasterVolume(float value)
+        {
+            MasterVolume = value;
+            AudioListener.volume = MasterVolume;
         }
     }
 }
