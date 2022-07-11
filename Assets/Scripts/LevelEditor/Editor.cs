@@ -13,6 +13,7 @@ using TMPro;
 using Starpelly;
 using SFB;
 
+using HeavenStudio.Editor;
 using HeavenStudio.Editor.Track;
 using HeavenStudio.Util;
 
@@ -63,10 +64,11 @@ namespace HeavenStudio.Editor
         private bool loadedMusic = false;
         private string currentRemixPath = "";
         private string remixName = "";
-        private bool fullscreen;
+        public bool fullscreen;
         public bool discordDuringTesting = false;
         public bool canSelect = true;
         public bool editingInputField = false;
+        public bool isCursorEnabled = true;
 
         public static Editor instance { get; private set; }
 
@@ -199,7 +201,8 @@ namespace HeavenStudio.Editor
 
                         for (int i = 0; i < selectedEvents.Count; i++)
                         {
-                            if (selectedEvents[i].isCreating == false)
+                            //TODO: this is in LateUpdate, so this will never run! change this to something that works properly
+                            if (!(selectedEvents[i].isCreating || selectedEvents[i].wasDuplicated))
                             {
                                 result.Add(selectedEvents[i]);
                             }
@@ -412,6 +415,7 @@ namespace HeavenStudio.Editor
                                             bytes = ms.ToArray();
                                             Conductor.instance.musicSource.clip = OggVorbis.VorbisPlugin.ToAudioClip(bytes, "music");
                                             loadedMusic = true;
+                                            Timeline.FitToSong();
                                         }
                                     }
                                 }
@@ -455,7 +459,7 @@ namespace HeavenStudio.Editor
                 MainCanvas.enabled = true;
                 EditorCamera.enabled = true;
                 GameCamera.instance.camera.targetTexture = ScreenRenderTexture;
-                GameManager.instance.CursorCam.enabled = true;
+                GameManager.instance.CursorCam.enabled = true && isCursorEnabled;
                 GameManager.instance.OverlayCamera.targetTexture = ScreenRenderTexture;
                 fullscreen = false;
 
