@@ -108,7 +108,7 @@ namespace HeavenStudio.Games
         private void Update()
         {
         //This is taken from the conductor script
-            if (Conductor.instance.ReportBeat(ref lastReportedBeat, offset: .5f))
+            if (Conductor.instance.ReportBeat(ref lastReportedBeat))
             {
                 liveBar.GetComponent<Animator>().Play("liveBar", 0, 0);          
             }
