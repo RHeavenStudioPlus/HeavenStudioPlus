@@ -27,6 +27,10 @@ namespace HeavenStudio.Games.Loaders
                     new Param("type", FirstContact.alienLookAt.lookAtTranslator, "alien look at what", "[Alien] will look at what"),
                     new Param("type", FirstContact.translatorLookAt.lookAtAlien, "translator look at what", "[Translator] will look at what"),
                 }),
+                new GameAction("live bar beat",                   delegate { FirstContact.instance.liveBarBeat(eventCaller.currentEntity.toggle);  }, .5f, false, new List<Param>()
+                {
+                    new Param("toggle", true, "On Beat", "If the live bar animation will be on beat or not")
+                }),
                 
                 //new GameAction("Version of First Contact",                   delegate { FirstContact.instance.versionOfFirstContact(eventCaller.currentEntity.type);  }, .5f, false, new List<Param>
                 //{
@@ -66,6 +70,8 @@ namespace HeavenStudio.Games
         public bool isCorrect, noHitOnce, isSpeaking;
         //public int version;
         public float lookAtLength = 1f;
+        bool onBeat;
+        float liveBarBeatOffset;
 
 
         //public enum VersionOfContact
@@ -108,7 +114,7 @@ namespace HeavenStudio.Games
         private void Update()
         {
         //This is taken from the conductor script
-            if (Conductor.instance.ReportBeat(ref lastReportedBeat))
+            if (Conductor.instance.ReportBeat(ref lastReportedBeat, offset: liveBarBeatOffset))
             {
                 liveBar.GetComponent<Animator>().Play("liveBar", 0, 0);          
             }
@@ -135,6 +141,18 @@ namespace HeavenStudio.Games
         //{
         //    version = type;
         //}
+
+        public void liveBarBeat(bool onBeat)
+        {
+            if (onBeat)
+            {
+                liveBarBeatOffset = 0;
+            }
+            else
+            {
+                liveBarBeatOffset = .5f;
+            }
+        }
 
         public void lookAtDirection(int alienLookAt, int translatorLookAt)
         {
