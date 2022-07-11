@@ -230,14 +230,12 @@ namespace HeavenStudio.Games
                 sfxStrings[0] = "firstContact/success_1";
                 sfxStrings[1] = "firstContact/success_2";
                 animString = "alien_success";
-                Debug.Log("success");
             }
             else if (alienSpeakCount != translatorSpeakCount)
             {
                 sfxStrings[0] = "firstContact/failAlien_1";
                 sfxStrings[1] = "firstContact/failAlien_2";
                 animString = "alien_fail";
-                Debug.Log("fail");
             }
 
             string[] sounds = new string[] { sfxStrings[0], sfxStrings[0] };
@@ -294,7 +292,7 @@ namespace HeavenStudio.Games
             {
                 BeatAction.New(missionControl, new List<BeatAction.Action>()
                     {
-                        new BeatAction.Action(length + 1f, delegate { missionControl.SetActive(false); }),
+                        new BeatAction.Action(length, delegate { missionControl.SetActive(false); }),
                     });
             }
             else
