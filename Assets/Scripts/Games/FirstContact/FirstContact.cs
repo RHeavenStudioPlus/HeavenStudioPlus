@@ -22,7 +22,7 @@ namespace HeavenStudio.Games.Loaders
                 {
                     new Param("toggle", false, "Stay", "If it's the end of the remix/song")
                 }),
-                new GameAction("look at",                   delegate { FirstContact.instance.lookAtDirection(eventCaller.currentEntity.type, eventCaller.currentEntity.type2);  }, .5f, false, new List<Param>()
+                new GameAction("look at",                   delegate { FirstContact.instance.lookAtDirection(eventCaller.currentEntity.type, eventCaller.currentEntity.type);  }, .5f, false, new List<Param>()
                 {
                     new Param("type", FirstContact.alienLookAt.lookAtTranslator, "alien look at what", "[Alien] will look at what"),
                     new Param("type", FirstContact.translatorLookAt.lookAtAlien, "translator look at what", "[Translator] will look at what"),
@@ -156,6 +156,8 @@ namespace HeavenStudio.Games
 
         public void lookAtDirection(int alienLookAt, int translatorLookAt)
         {
+            Debug.Log(alienLookAt);
+            Debug.Log(translatorLookAt);
             switch (alienLookAt)
             {
                 case 0:
