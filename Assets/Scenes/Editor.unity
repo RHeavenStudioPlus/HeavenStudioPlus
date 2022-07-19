@@ -736,7 +736,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &14095204
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10733,6 +10733,7 @@ GameObject:
   - component: {fileID: 527828798}
   - component: {fileID: 527828797}
   - component: {fileID: 527828796}
+  - component: {fileID: 527828799}
   m_Layer: 5
   m_Name: ControllerSetup
   m_TagString: Untagged
@@ -10799,6 +10800,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &527828799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527828795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10d59ed8edc40a448a61794f93c74ccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numConnectedLabel: {fileID: 976256976}
+  currentControllerLabel: {fileID: 1007704296}
 --- !u!1 &528192059
 GameObject:
   m_ObjectHideFlags: 0
@@ -14362,7 +14377,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 591, y: -224}
+  m_AnchoredPosition: {x: 591, y: -174}
   m_SizeDelta: {x: 1142, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &674573517
@@ -19100,7 +19115,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1589389271}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.99703497
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -20659,7 +20674,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &976256975
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20699,7 +20714,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '? Controllers Connected (? JoyShock)'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4810e200fa0cb24438bac52343d7674b, type: 2}
   m_sharedMaterial: {fileID: 8580487687356851718, guid: 4810e200fa0cb24438bac52343d7674b, type: 2}
@@ -24807,7 +24822,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 130.0065}
+  m_AnchoredPosition: {x: 0, y: 130.0071}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1154875944
@@ -26452,7 +26467,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 329}
+  m_SizeDelta: {x: 0, y: 279}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1219233812
 MonoBehaviour:
@@ -31033,7 +31048,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1436502936}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 527828799}
+        m_TargetAssemblyTypeName: HeavenStudio.Editor.ControllerSettings, Assembly-CSharp
+        m_MethodName: SearchAndConnectControllers
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1436502936
 MonoBehaviour:
   m_ObjectHideFlags: 0
