@@ -142,6 +142,8 @@ namespace HeavenStudio.InputSystem
         }
     
         protected int? playerNum;
+        protected int directionStateCurrent = 0;
+        protected int directionStateLast = 0;
 
         public abstract void InitializeController();
         public abstract void UpdateState(); // Update the state of the controller

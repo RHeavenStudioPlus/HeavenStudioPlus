@@ -198,30 +198,33 @@ namespace HeavenStudio
 
         public static bool GetAnyDirectionDown()
         {
-            return (GetInputController(1).GetButtonDown((int) InputController.ButtonsPad.PadUp)
-                    || GetInputController(1).GetButtonDown((int) InputController.ButtonsPad.PadDown)
-                    || GetInputController(1).GetButtonDown((int) InputController.ButtonsPad.PadLeft)
-                    || GetInputController(1).GetButtonDown((int) InputController.ButtonsPad.PadRight)
+            InputController c = GetInputController(1);
+            return (c.GetHatDirectionDown((InputController.InputDirection) UP)
+                    || c.GetHatDirectionDown((InputController.InputDirection) DOWN)
+                    || c.GetHatDirectionDown((InputController.InputDirection) LEFT)
+                    || c.GetHatDirectionDown((InputController.InputDirection) RIGHT)
                     ) && playerHasControl();
 
         }
 
         public static bool GetAnyDirectionUp()
         {
-            return (GetInputController(1).GetButtonUp((int) InputController.ButtonsPad.PadUp)
-                    || GetInputController(1).GetButtonUp((int) InputController.ButtonsPad.PadDown)
-                    || GetInputController(1).GetButtonUp((int) InputController.ButtonsPad.PadLeft)
-                    || GetInputController(1).GetButtonUp((int) InputController.ButtonsPad.PadRight)
+            InputController c = GetInputController(1);
+            return (c.GetHatDirectionUp((InputController.InputDirection) UP)
+                    || c.GetHatDirectionUp((InputController.InputDirection) DOWN)
+                    || c.GetHatDirectionUp((InputController.InputDirection) LEFT)
+                    || c.GetHatDirectionUp((InputController.InputDirection) RIGHT)
                     ) && playerHasControl();
 
         }
 
         public static bool GetAnyDirection()
         {
-            return (GetInputController(1).GetButton((int) InputController.ButtonsPad.PadUp)
-                    || GetInputController(1).GetButton((int) InputController.ButtonsPad.PadDown)
-                    || GetInputController(1).GetButton((int) InputController.ButtonsPad.PadLeft)
-                    || GetInputController(1).GetButton((int) InputController.ButtonsPad.PadRight)
+            InputController c = GetInputController(1);
+            return (c.GetHatDirection((InputController.InputDirection) UP)
+                    || c.GetHatDirection((InputController.InputDirection) DOWN)
+                    || c.GetHatDirection((InputController.InputDirection) LEFT)
+                    || c.GetHatDirection((InputController.InputDirection) RIGHT)
                     ) && playerHasControl();
 
         }
