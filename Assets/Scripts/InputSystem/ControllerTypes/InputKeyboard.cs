@@ -136,14 +136,14 @@ namespace HeavenStudio.InputSystem
             }
         }
 
-        public override void SetPlayer(int playerNum)
+        public override void SetPlayer(int? playerNum)
         {
-            if (playerNum == -1)
+            if (playerNum == -1 || playerNum == null)
             {
                 this.playerNum = null;
                 return;
             }
-            this.playerNum = playerNum;
+            this.playerNum = (int) playerNum;
         }
 
         public override int? GetPlayer()

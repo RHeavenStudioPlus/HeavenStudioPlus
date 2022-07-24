@@ -123,17 +123,17 @@ namespace HeavenStudio.InputSystem
 
         public override bool GetButton(int button)
         {
-            return BitwiseUtils.WantCurrent(joyBtStateCurrent.buttons, mappings[button]);
+            return BitwiseUtils.WantCurrent(joyBtStateCurrent.buttons, 1 << mappings[button]);
         }
 
         public override bool GetButtonDown(int button)
         {
-            return BitwiseUtils.WantCurrentAndNotLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, mappings[button]);
+            return BitwiseUtils.WantCurrentAndNotLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, 1 << mappings[button]);
         }
 
         public override bool GetButtonUp(int button)
         {
-            return BitwiseUtils.WantNotCurrentAndLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, mappings[button]);
+            return BitwiseUtils.WantNotCurrentAndLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, 1 << mappings[button]);
         }
 
         public override float GetAxis(InputAxis axis)
@@ -164,74 +164,93 @@ namespace HeavenStudio.InputSystem
         public override bool GetHatDirection(InputDirection direction)
         {
             //todo: check analogue stick hat direction too
+            int bt;
             switch (direction)
             {
                 case InputDirection.Up:
-                    return BitwiseUtils.WantCurrent(joyBtStateCurrent.buttons, ButtonMaskUp);
+                    bt = mappings[0];
+                    break;
                 case InputDirection.Down:
-                    return BitwiseUtils.WantCurrent(joyBtStateCurrent.buttons, ButtonMaskDown);
+                    bt = mappings[1];
+                    break;
                 case InputDirection.Left:
-                    return BitwiseUtils.WantCurrent(joyBtStateCurrent.buttons, ButtonMaskLeft);
+                    bt = mappings[2];
+                    break;
                 case InputDirection.Right:
-                    return BitwiseUtils.WantCurrent(joyBtStateCurrent.buttons, ButtonMaskRight);
+                    bt = mappings[3];
+                    break;
                 default:
                     return false;
             }
+            return BitwiseUtils.WantCurrent(joyBtStateCurrent.buttons, 1 << bt);
         }
 
         public override bool GetHatDirectionDown(InputDirection direction)
         {
             //todo: check analogue stick hat direction too
+            int bt;
             switch (direction)
             {
                 case InputDirection.Up:
-                    return BitwiseUtils.WantCurrentAndNotLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, ButtonMaskUp);
+                    bt = mappings[0];
+                    break;
                 case InputDirection.Down:
-                    return BitwiseUtils.WantCurrentAndNotLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, ButtonMaskDown);
+                    bt = mappings[1];
+                    break;
                 case InputDirection.Left:
-                    return BitwiseUtils.WantCurrentAndNotLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, ButtonMaskLeft);
+                    bt = mappings[2];
+                    break;
                 case InputDirection.Right:
-                    return BitwiseUtils.WantCurrentAndNotLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, ButtonMaskRight);
+                    bt = mappings[3];
+                    break;
                 default:
                     return false;
             }
+            return BitwiseUtils.WantCurrentAndNotLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, 1 << bt);
         }
 
         public override bool GetHatDirectionUp(InputDirection direction)
         {
             //todo: check analogue stick hat direction too
+            int bt;
             switch (direction)
             {
                 case InputDirection.Up:
-                    return BitwiseUtils.WantNotCurrentAndLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, ButtonMaskUp);
+                    bt = mappings[0];
+                    break;
                 case InputDirection.Down:
-                    return BitwiseUtils.WantNotCurrentAndLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, ButtonMaskDown);
+                    bt = mappings[1];
+                    break;
                 case InputDirection.Left:
-                    return BitwiseUtils.WantNotCurrentAndLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, ButtonMaskLeft);
+                    bt = mappings[2];
+                    break;
                 case InputDirection.Right:
-                    return BitwiseUtils.WantNotCurrentAndLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, ButtonMaskRight);
+                    bt = mappings[3];
+                    break;
                 default:
                     return false;
             }
+            return BitwiseUtils.WantNotCurrentAndLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, 1 << bt);
         }
 
-        public override void SetPlayer(int playerNum)
+        public override void SetPlayer(int? playerNum)
         {
-            if (playerNum == -1)
+            if (playerNum == -1 || playerNum == null)
             {
                 this.playerNum = null;
                 JslSetPlayerNumber(joyshockHandle, 0);
                 return;
             }
+            this.playerNum = playerNum;
+            int ledMask = (int) this.playerNum;
             if (type == TypeDualSense)
             {
                 if (playerNum <= 4)
                 {
-                    playerNum = DualSensePlayerMask[playerNum];
+                    ledMask = DualSensePlayerMask[(int) this.playerNum];
                 }
             }
-            JslSetPlayerNumber(joyshockHandle, playerNum);
-            this.playerNum = playerNum;
+            JslSetPlayerNumber(joyshockHandle, ledMask);
         }
 
         public override int? GetPlayer()
