@@ -60,6 +60,7 @@ namespace HeavenStudio
                     InputJoyshock joyshock = new InputJoyshock(i);
                     joyshock.InitializeController();
                     joyshock.SetPlayer(inputDevices.Count + 1);
+                    inputDevices.Add(joyshock);
                 }
             }
             else
@@ -97,6 +98,22 @@ namespace HeavenStudio
                 }
             }
             return null;
+        }
+
+        public static int GetInputControllerId(int player)
+        {
+            //select input controller id that has player field set to player
+            //this will return the first controller that has that player number in the case of controller pairs (eg. Joy-Cons)
+            //so such controllers should have a reference to the other controller in the pair
+            //controller IDs are determined by connection order (the Keyboard is always first)
+            for (int i = 0; i < inputDevices.Count; i++)
+            {
+                if (inputDevices[i].GetPlayer() == player)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
 
         public static void UpdateInputControllers()

@@ -159,7 +159,7 @@ namespace HeavenStudio.InputSystem
         public abstract bool GetHatDirectionDown(InputDirection direction); // direction just became active?
         public abstract bool GetHatDirectionUp(InputDirection direction);  // direction just became inactive?
 
-        public abstract void SetPlayer(int playerNum);  // Set the player number (starts at 1, set to -1 or null for no player)
+        public abstract void SetPlayer(int? playerNum);  // Set the player number (starts at 1, set to -1 or null for no player)
         public abstract int? GetPlayer();            // Get the player number (null if no player)
 
         //public abstract Sprite GetDisplayIcon();    //"big icon" for the controller in the settings menu
