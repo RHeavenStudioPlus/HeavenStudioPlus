@@ -43,11 +43,13 @@ public static class JSL
     public const int SplitFull = 3;
 
     // PS5 Player maps for the DS Player Lightbar
-    public const int DS5P1 = 4;
-    public const int DS5P2 = 10;
-    public const int DS5P3 = 21;
-    public const int DS5P4 = 27;
-    public const int DS5P5 = 31;
+    public static readonly int[] DualSensePlayerMask = {
+        4,
+        10,
+        21,
+        27,
+        31
+    };
 
     [StructLayout(LayoutKind.Sequential)]
     public struct JOY_SHOCK_STATE
@@ -100,6 +102,8 @@ public static class JSL
 
     public delegate void EventCallback(int handle, JOY_SHOCK_STATE state, JOY_SHOCK_STATE lastState,
         IMU_STATE imuState, IMU_STATE lastImuState, float deltaTime);
+    
+    public delegate void TouchCallback(int handle, TOUCH_STATE state, TOUCH_STATE lastState, float deltaTime);
 
     [DllImport("JoyShockLibrary")]
     public static extern int JslConnectDevices();
@@ -147,7 +151,7 @@ public static class JSL
     [DllImport("JoyShockLibrary")]
     public static extern void JslSetCallback(EventCallback callback);
     [DllImport("JoyShockLibrary")]
-    public static extern void JslSetTouchCallback(EventCallback callback);
+    public static extern void JslSetTouchCallback(TouchCallback callback);
     
     [DllImport("JoyShockLibrary")]
     public static extern int JslGetControllerType(int deviceId);
