@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+using UnityEngine;
+
 namespace HeavenStudio.Util
 {
     public static class BitwiseUtils
@@ -22,6 +24,7 @@ namespace HeavenStudio.Util
         /// <param name="want">The bit(s) to check for.</param>
         public static bool WantCurrent(int num, int want)
         {
+            if (want <= 0) return false;
             return (num & want) == want;
         }
 
@@ -33,6 +36,7 @@ namespace HeavenStudio.Util
         /// <param name="want">The bit(s) to check for.</param>
         public static bool WantCurrentAndNotLast(int num1, int num2, int want)
         {
+            if (want <= 0) return false;
             return ((num1 & want) == want) && ((num2 & want) != want);
         }
 
@@ -44,7 +48,16 @@ namespace HeavenStudio.Util
         /// <param name="want">The bit(s) to check for.</param>
         public static bool WantNotCurrentAndLast(int num1, int num2, int want)
         {
+            if (want <= 0) return false;
             return ((num1 & want) != want) && ((num2 & want) == want);
+        }
+
+        public static Color IntToRgb(int value)
+        {
+            var red =   ( value >>  16 ) & 255;
+            var green = ( value >>  8  ) & 255;
+            var blue =  ( value >>  0  ) & 255;
+            return new Color(red/255f, green/255f, blue/255f); 
         }
     }
 }

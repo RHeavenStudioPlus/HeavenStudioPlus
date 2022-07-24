@@ -19,7 +19,8 @@ namespace HeavenStudio.InputSystem
             "DualSense"
         };
 
-        int[] mappings = new int[]
+        //TODO: see if single joy-con mappings differ from a normal pad (they don't!)
+        int[] mappings = new[]
         {
             ButtonMaskUp,
             ButtonMaskDown,
@@ -33,14 +34,41 @@ namespace HeavenStudio.InputSystem
             ButtonMaskR,
             ButtonMaskPlus,
         };
+        int[] mappingsSplitLeft = new[]
+        {
+            -1,
+            -1,
+            -1,
+            -1,
+            ButtonMaskLeft,
+            ButtonMaskDown,
+            ButtonMaskUp,
+            ButtonMaskRight,
+            ButtonMaskSL,
+            ButtonMaskSR,
+            ButtonMaskMinus,
+        };
+        int[] mappingsSplitRight = new[]
+        {
+            -1,
+            -1,
+            -1,
+            -1,
+            ButtonMaskE,
+            ButtonMaskN,
+            ButtonMaskS,
+            ButtonMaskW,
+            ButtonMaskSL,
+            ButtonMaskSR,
+            ButtonMaskPlus,
+        };
+
+        float stickDeadzone = 0.5f;
 
         int joyshockHandle;
         int type;
         int splitType;
         string joyshockName;
-
-        InputDirection hatDirectionCurrent;
-        InputDirection hatDirectionLast;
 
         //buttons, sticks, triggers
         JOY_SHOCK_STATE joyBtStateCurrent, joyBtStateLast;
@@ -75,8 +103,46 @@ namespace HeavenStudio.InputSystem
 
         public override void UpdateState()
         {
+            //buttons
             joyBtStateLast = joyBtStateCurrent;
             joyBtStateCurrent = JslGetSimpleState(joyshockHandle);
+
+            //stick direction state
+            //split controllers will need to be rotated to compensate
+            //left rotates counterclockwise, right rotates clockwise, all by 90 degrees
+            float xAxis = 0f;
+            float yAxis = 0f;
+            if (otherHalf == null)
+            {
+                switch (splitType)
+                {
+                    case SplitLeft:
+                        xAxis = -joyBtStateCurrent.stickLY;
+                        yAxis = joyBtStateCurrent.stickLX;
+                        break;
+                    case SplitRight: //use the right stick instead
+                        xAxis = joyBtStateCurrent.stickRY;
+                        yAxis = -joyBtStateCurrent.stickRX;
+                        break;
+                    case SplitFull:
+                        xAxis = joyBtStateCurrent.stickLX;
+                        yAxis = joyBtStateCurrent.stickLY;
+                        break;
+                }
+            }
+            else
+            {
+                xAxis = joyBtStateCurrent.stickLX;
+                yAxis = joyBtStateCurrent.stickLY;
+            }
+            
+            directionStateLast = directionStateCurrent;
+            directionStateCurrent = 0;
+            directionStateCurrent |= ((yAxis >= stickDeadzone) ? (1 << ((int) InputDirection.Up)) : 0);
+            directionStateCurrent |= ((yAxis <= -stickDeadzone) ? (1 << ((int) InputDirection.Down)) : 0);
+            directionStateCurrent |= ((xAxis >= stickDeadzone) ? (1 << ((int) InputDirection.Right)) : 0);
+            directionStateCurrent |= ((xAxis <= -stickDeadzone) ? (1 << ((int) InputDirection.Left)) : 0);
+            //Debug.Log("stick direction: " + directionStateCurrent + "| x axis: " + xAxis + " y axis: " + yAxis);
         }
 
         public override string GetDeviceName()
@@ -123,17 +189,71 @@ namespace HeavenStudio.InputSystem
 
         public override bool GetButton(int button)
         {
-            return BitwiseUtils.WantCurrent(joyBtStateCurrent.buttons, 1 << mappings[button]);
+            int bt = 0;
+            if (otherHalf == null)
+            {
+                if (splitType == SplitLeft)
+                {
+                    bt = mappingsSplitLeft[button];
+                }
+                else if (splitType == SplitRight)
+                {
+                    bt = mappingsSplitRight[button];
+                }
+                else
+                {
+                    bt = mappings[button];
+                }
+                return BitwiseUtils.WantCurrent(joyBtStateCurrent.buttons, 1 << bt);
+            }
+            bt = mappings[button];
+            return BitwiseUtils.WantCurrent(joyBtStateCurrent.buttons, 1 << bt) || BitwiseUtils.WantCurrent(otherHalf.joyBtStateCurrent.buttons, 1 << bt);
         }
 
         public override bool GetButtonDown(int button)
         {
-            return BitwiseUtils.WantCurrentAndNotLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, 1 << mappings[button]);
+            int bt = 0;
+            if (otherHalf == null)
+            {
+                if (splitType == SplitLeft)
+                {
+                    bt = mappingsSplitLeft[button];
+                }
+                else if (splitType == SplitRight)
+                {
+                    bt = mappingsSplitRight[button];
+                }
+                else
+                {
+                    bt = mappings[button];
+                }
+                return BitwiseUtils.WantCurrentAndNotLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, 1 << bt);
+            }
+            bt = mappings[button];
+            return BitwiseUtils.WantCurrentAndNotLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, 1 << bt) || BitwiseUtils.WantCurrentAndNotLast(otherHalf.joyBtStateCurrent.buttons, otherHalf.joyBtStateLast.buttons, 1 << bt);
         }
 
         public override bool GetButtonUp(int button)
         {
-            return BitwiseUtils.WantNotCurrentAndLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, 1 << mappings[button]);
+            int bt = 0;
+            if (otherHalf == null)
+            {
+                if (splitType == SplitLeft)
+                {
+                    bt = mappingsSplitLeft[button];
+                }
+                else if (splitType == SplitRight)
+                {
+                    bt = mappingsSplitRight[button];
+                }
+                else
+                {
+                    bt = mappings[button];
+                }
+                return BitwiseUtils.WantNotCurrentAndLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, 1 << bt);
+            }
+            bt = mappings[button];
+            return BitwiseUtils.WantNotCurrentAndLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, 1 << bt) || BitwiseUtils.WantNotCurrentAndLast(otherHalf.joyBtStateCurrent.buttons, otherHalf.joyBtStateLast.buttons, 1 << bt);
         }
 
         public override float GetAxis(InputAxis axis)
@@ -182,7 +302,7 @@ namespace HeavenStudio.InputSystem
                 default:
                     return false;
             }
-            return BitwiseUtils.WantCurrent(joyBtStateCurrent.buttons, 1 << bt);
+            return GetButton(bt) || BitwiseUtils.WantCurrent(directionStateCurrent, 1 << (int) direction);
         }
 
         public override bool GetHatDirectionDown(InputDirection direction)
@@ -206,7 +326,7 @@ namespace HeavenStudio.InputSystem
                 default:
                     return false;
             }
-            return BitwiseUtils.WantCurrentAndNotLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, 1 << bt);
+            return GetButtonDown(bt) || BitwiseUtils.WantCurrentAndNotLast(directionStateCurrent, directionStateLast, 1 << (int) direction);
         }
 
         public override bool GetHatDirectionUp(InputDirection direction)
@@ -230,11 +350,12 @@ namespace HeavenStudio.InputSystem
                 default:
                     return false;
             }
-            return BitwiseUtils.WantNotCurrentAndLast(joyBtStateCurrent.buttons, joyBtStateLast.buttons, 1 << bt);
+            return GetButtonUp(bt) || BitwiseUtils.WantNotCurrentAndLast(directionStateCurrent, directionStateLast, 1 << (int) direction);
         }
 
         public override void SetPlayer(int? playerNum)
         {
+            //TODO: dualshock 4 and dualsense lightbar colour support
             if (playerNum == -1 || playerNum == null)
             {
                 this.playerNum = null;
@@ -272,6 +393,38 @@ namespace HeavenStudio.InputSystem
             JslSetRumble(joyshockHandle, 0, 0);
             JslSetLightColour(joyshockHandle, 0);
             JslSetPlayerNumber(joyshockHandle, 0);
+        }
+
+        public void AssignOtherHalf(InputJoyshock otherHalf, bool force = false)
+        {
+            InputFeatures features = otherHalf.GetFeatures();
+            if (features.HasFlag(InputFeatures.Extra_SplitControllerLeft) || features.HasFlag(InputFeatures.Extra_SplitControllerRight))
+            {
+                //two-way link
+                this.otherHalf = otherHalf;
+                this.otherHalf.UnAssignOtherHalf(); //juste en cas
+                this.otherHalf.otherHalf = this;
+                this.otherHalf.SetPlayer(this.playerNum);
+            }
+            else if (force)
+            {
+                UnAssignOtherHalf();
+            }
+        }
+
+        public void UnAssignOtherHalf()
+        {
+            if (otherHalf != null)
+            {
+                this.otherHalf.otherHalf = null;
+                this.otherHalf.SetPlayer(-1);
+            }
+            otherHalf = null;
+        }
+
+        public InputJoyshock GetOtherHalf()
+        {
+            return otherHalf;
         }
     }
 }
