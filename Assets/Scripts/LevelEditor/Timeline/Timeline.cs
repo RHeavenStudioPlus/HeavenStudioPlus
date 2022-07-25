@@ -30,6 +30,8 @@ namespace HeavenStudio.Editor.Track
 
         public static float SnapInterval() { return instance.snapInterval; }
 
+        public void SetSnap(float snap) { snapInterval = snap; }
+
         public class CurrentTimelineState
         {
             public bool selected;
@@ -68,6 +70,7 @@ namespace HeavenStudio.Editor.Track
         [SerializeField] private RectTransform TimelineSongPosLineRef;
         [SerializeField] private RectTransform TimelineEventObjRef;
         [SerializeField] private RectTransform LayersRect;
+
         public TempoTimeline TempoInfo;
         public VolumeTimeline VolumeInfo;
         private RectTransform TimelineSongPosLine;
@@ -82,6 +85,8 @@ namespace HeavenStudio.Editor.Track
         public Button TempoChangeBTN;
         public Button MusicVolumeBTN;
         public Slider PlaybackSpeed;
+
+        public Vector3[] LayerCorners = new Vector3[4];
 
         public static Timeline instance { get; private set; }
 
@@ -98,6 +103,7 @@ namespace HeavenStudio.Editor.Track
 
         public void LoadRemix()
         {
+            // beatmap entities
             for (int i = 0; i < eventObjs.Count; i++)
             {
                 Destroy(eventObjs[i].gameObject);
@@ -106,11 +112,21 @@ namespace HeavenStudio.Editor.Track
 
             for (int i = 0; i < GameManager.instance.Beatmap.entities.Count; i++)
             {
-                var entity = GameManager.instance.Beatmap.entities[i];
                 var e = GameManager.instance.Beatmap.entities[i];
 
                 AddEventObject(e.datamodel, false, new Vector3(e.beat, -e.track * LayerHeight()), e, false, RandomID());
             }
+
+            //tempo changes
+            TempoInfo.ClearTempoTimeline();
+            for (int i = 0; i < GameManager.instance.Beatmap.tempoChanges.Count; i++)
+            {
+                var t = GameManager.instance.Beatmap.tempoChanges[i];
+
+                TempoInfo.AddTempoChange(false, t);
+            }
+
+            //volume changes
         }
 
         public void Init()
@@ -256,9 +272,11 @@ namespace HeavenStudio.Editor.Track
 
             SliderControl();
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            #region Keyboard Shortcuts
+            if (!userIsEditingInputField)
             {
-                if (!Editor.instance.editingInputField)
+                
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
                     if (Input.GetKey(KeyCode.LeftShift))
                     {
@@ -269,20 +287,44 @@ namespace HeavenStudio.Editor.Track
                         PlayCheck(true);
                     }
                 }
-            }
 
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                if (!Editor.instance.editingInputField)
+                if (Input.GetKeyDown(KeyCode.P))
+                {
                     AutoPlayToggle();
-            }
+                }
 
-            if (Input.GetKeyDown(KeyCode.M))
-            {
-                if (!Editor.instance.editingInputField)
+                if (Input.GetKeyDown(KeyCode.M))
+                {
                     MetronomeToggle();
-            }
+                }
 
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    timelineState.SetState(true, false, false);
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    timelineState.SetState(false, true, false);
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    timelineState.SetState(false, false, true);
+                }
+
+
+                float moveSpeed = 750;
+                if (Input.GetKey(KeyCode.LeftShift)) moveSpeed *= 2;
+                
+                if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+                {
+                    TimelineContent.transform.localPosition += new Vector3(moveSpeed * Time.deltaTime, 0);
+                }
+                else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+                {
+                    TimelineContent.transform.localPosition += new Vector3(-moveSpeed * Time.deltaTime, 0);
+                }
+            }
+            #endregion
 
             if (Input.GetMouseButton(1) && !Conductor.instance.isPlaying && Editor.MouseInRectTransform(TimelineGridSelect))
             {
@@ -304,21 +346,6 @@ namespace HeavenStudio.Editor.Track
                 lastBeatPos = TimelineSlider.localPosition.x;
             }
 
-            float moveSpeed = 750;
-            if (Input.GetKey(KeyCode.LeftShift)) moveSpeed *= 2;
-
-            if (!Editor.instance.editingInputField)
-            {
-                if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-                {
-                    TimelineContent.transform.localPosition += new Vector3(moveSpeed * Time.deltaTime, 0);
-                }
-                else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-                {
-                    TimelineContent.transform.localPosition += new Vector3(-moveSpeed * Time.deltaTime, 0);
-                }
-            }
-
             if (Conductor.instance.isPlaying)
                 TimelineContent.transform.localPosition = new Vector3((-Conductor.instance.songPositionInBeats * 100) + 200, TimelineContent.transform.localPosition.y);
 
@@ -326,18 +353,19 @@ namespace HeavenStudio.Editor.Track
 
             CurrentTempo.text = $"            = {Conductor.instance.songBpm}";
 
-            if (Input.GetKeyDown(KeyCode.Alpha1) && !userIsEditingInputField)
-            {
-                timelineState.SetState(true, false, false);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2) && !userIsEditingInputField)
-            {
-                timelineState.SetState(false, true, false);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3) && !userIsEditingInputField)
-            {
-                timelineState.SetState(false, false, true);
-            }
+            LayersRect.GetWorldCorners(LayerCorners);
+        }
+
+        public static float GetScaleModifier()
+        {
+            Camera cam = Editor.instance.EditorCamera;
+            return Mathf.Pow(cam.pixelWidth/1280f, 1f) * Mathf.Pow(cam.pixelHeight/720f, 0f);
+        }
+
+        public Vector2 LayerCornersToDist()
+        {
+            Vector3[] v = LayerCorners;
+            return new Vector2(Mathf.Abs(v[1].x - v[2].x), Mathf.Abs(v[3].y - v[1].y));
         }
 
         private void SliderControl()
@@ -544,35 +572,35 @@ namespace HeavenStudio.Editor.Track
                     GameManager.instance.SortEventsList();
 
                     tempEntity = en;
+
+                    // default param value
+                    var game = EventCaller.instance.GetMinigame(eventName.Split(0));
+                    var ep = EventCaller.instance.GetGameAction(game, eventName.Split(1)).parameters;
+
+                    if (ep != null)
+                    {
+                        for (int i = 0; i < ep.Count; i++)
+                        {
+                            object returnVal = ep[i].parameter;
+
+                            var propertyType = returnVal.GetType();
+                            if (propertyType == typeof(EntityTypes.Integer))
+                            {
+                                returnVal = ((EntityTypes.Integer)ep[i].parameter).val;
+                            }
+                            else if (propertyType == typeof(EntityTypes.Float))
+                            {
+                                returnVal = ((EntityTypes.Float)ep[i].parameter).val;
+                            }
+
+                            tempEntity[ep[i].propertyName] = returnVal;
+                        }
+                    }
                 }
                 else
                 {
                     GameManager.instance.Beatmap.entities.Add(entity);
                     GameManager.instance.SortEventsList();
-                }
-
-                // default param value
-                var game = EventCaller.instance.GetMinigame(eventName.Split(0));
-                var ep = EventCaller.instance.GetGameAction(game, eventName.Split(1)).parameters;
-
-                if (ep != null)
-                {
-                    for (int i = 0; i < ep.Count; i++)
-                    {
-                        object returnVal = ep[i].parameter;
-
-                        var propertyType = returnVal.GetType();
-                        if (propertyType == typeof(EntityTypes.Integer))
-                        {
-                            returnVal = ((EntityTypes.Integer)ep[i].parameter).val;
-                        }
-                        else if (propertyType == typeof(EntityTypes.Float))
-                        {
-                            returnVal = ((EntityTypes.Float)ep[i].parameter).val;
-                        }
-
-                        tempEntity[ep[i].propertyName] = returnVal;
-                    }
                 }
             }
 
@@ -581,6 +609,14 @@ namespace HeavenStudio.Editor.Track
             eventObj.eventObjID = eventId;
 
             return eventObj;
+        }
+
+        public TimelineEventObj CopyEventObject(Beatmap.Entity e)
+        {
+            Beatmap.Entity clone = e.DeepCopy();
+            TimelineEventObj dup = AddEventObject(clone.datamodel, false, new Vector3(clone.beat, -clone.track * Timeline.instance.LayerHeight()), clone, true, RandomID());
+
+            return dup;
         }
 
         public void DestroyEventObject(Beatmap.Entity entity)

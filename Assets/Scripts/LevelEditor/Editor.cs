@@ -25,10 +25,10 @@ namespace HeavenStudio.Editor
     {
         private Initializer Initializer;
 
-        [SerializeField] private Canvas MainCanvas;
+        [SerializeField] public Canvas MainCanvas;
         [SerializeField] public Camera EditorCamera;
 
-        [SerializeField] public GameObject EditorLetterbox;
+        // [SerializeField] public GameObject EditorLetterbox;
         [SerializeField] public GameObject GameLetterbox;
 
         [Header("Rect")]
@@ -48,10 +48,12 @@ namespace HeavenStudio.Editor
         [SerializeField] private Button UndoBTN;
         [SerializeField] private Button RedoBTN;
         [SerializeField] private Button MusicSelectBTN;
-        [SerializeField] private Button EditorSettingsBTN;
-        [SerializeField] private Button EditorThemeBTN;
         [SerializeField] private Button FullScreenBTN;
         [SerializeField] private Button TempoFinderBTN;
+        [SerializeField] private Button SnapDiagBTN;
+
+        [SerializeField] private Button EditorThemeBTN;
+        [SerializeField] private Button EditorSettingsBTN;
 
         [Header("Tooltip")]
         public TMP_Text tooltipText;
@@ -101,31 +103,79 @@ namespace HeavenStudio.Editor
             Tooltip.AddTooltip(UndoBTN.gameObject, "Undo <color=#adadad>[Ctrl+Z]</color>");
             Tooltip.AddTooltip(RedoBTN.gameObject, "Redo <color=#adadad>[Ctrl+Y or Ctrl+Shift+Z]</color>");
             Tooltip.AddTooltip(MusicSelectBTN.gameObject, "Music Select");
-            Tooltip.AddTooltip(EditorSettingsBTN.gameObject, "Editor Settings <color=#adadad>[Ctrl+Shift+O]</color>");
             Tooltip.AddTooltip(EditorThemeBTN.gameObject, "Editor Theme");
             Tooltip.AddTooltip(FullScreenBTN.gameObject, "Preview <color=#adadad>[Tab]</color>");
             Tooltip.AddTooltip(TempoFinderBTN.gameObject, "Tempo Finder");
+            Tooltip.AddTooltip(SnapDiagBTN.gameObject, "Snap Settings");
 
+            Tooltip.AddTooltip(EditorSettingsBTN.gameObject, "Editor Settings <color=#adadad>[Ctrl+Shift+O]</color>");
             UpdateEditorStatus(true);
         }
 
         public void LateUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.Tab))
+            #region Keyboard Shortcuts
+            if (!editingInputField)
             {
-                if (!Editor.instance.editingInputField)
+                if (Input.GetKeyDown(KeyCode.Tab))
+                {
                     Fullscreen();
-            }
+                }
 
-            if (Input.GetKeyDown(KeyCode.Delete))
-            {
-                if (!Editor.instance.editingInputField)
+                if (Input.GetKeyDown(KeyCode.Delete))
                 {
                     List<TimelineEventObj> ev = new List<TimelineEventObj>();
                     for (int i = 0; i < Selections.instance.eventsSelected.Count; i++) ev.Add(Selections.instance.eventsSelected[i]);
                     CommandManager.instance.Execute(new Commands.Deletion(ev));
                 }
+
+                if (Input.GetKey(KeyCode.LeftControl))
+                {
+                    if (Input.GetKeyDown(KeyCode.Z))
+                    {
+                        if (Input.GetKey(KeyCode.LeftShift))
+                            CommandManager.instance.Redo();
+                        else
+                            CommandManager.instance.Undo();
+                    }
+                    else if (Input.GetKeyDown(KeyCode.Y))
+                    {
+                        CommandManager.instance.Redo();
+                    }
+
+                    if (Input.GetKey(KeyCode.LeftShift))
+                    {
+                        if (Input.GetKeyDown(KeyCode.D))
+                        {
+                            ToggleDebugCam();
+                        }
+                    }
+                }
+
+                if (Input.GetKey(KeyCode.LeftControl))
+                {
+                    if (Input.GetKeyDown(KeyCode.N))
+                    {
+                        LoadRemix("");
+                    }
+                    else if (Input.GetKeyDown(KeyCode.O))
+                    {
+                        OpenRemix();
+                    }
+                    else if (Input.GetKey(KeyCode.LeftAlt))
+                    {
+                        if (Input.GetKeyDown(KeyCode.S))
+                        {
+                            SaveRemix(true);
+                        }
+                    }
+                    else if (Input.GetKeyDown(KeyCode.S))
+                    {
+                        SaveRemix(false);
+                    }
+                }
             }
+            #endregion
 
             if (CommandManager.instance.canUndo())
                 UndoBTN.transform.GetChild(0).GetComponent<Image>().color = "BD8CFF".Hex2RGB();
@@ -136,29 +186,6 @@ namespace HeavenStudio.Editor
                 RedoBTN.transform.GetChild(0).GetComponent<Image>().color = "FFD800".Hex2RGB();
             else
                 RedoBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
-
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                if (Input.GetKeyDown(KeyCode.Z))
-                {
-                    if (Input.GetKey(KeyCode.LeftShift))
-                        CommandManager.instance.Redo();
-                    else
-                        CommandManager.instance.Undo();
-                }
-                else if (Input.GetKeyDown(KeyCode.Y))
-                {
-                    CommandManager.instance.Redo();
-                }
-
-                if (Input.GetKey(KeyCode.LeftShift))
-                {
-                    if (Input.GetKeyDown(KeyCode.D))
-                    {
-                        ToggleDebugCam();
-                    }
-                }
-            }
 
             if (Timeline.instance.timelineState.selected && Editor.instance.canSelect)
             {
@@ -180,37 +207,6 @@ namespace HeavenStudio.Editor
                         }
                         CommandManager.instance.Execute(new Commands.Move(result));
                     }
-                }
-            }
-
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                if (Input.GetKeyDown(KeyCode.N))
-                {
-                    LoadRemix("");
-                }
-                else if (Input.GetKeyDown(KeyCode.O))
-                {
-                    OpenRemix();
-                }
-                else if (Input.GetKey(KeyCode.LeftAlt))
-                {
-                    if (Input.GetKeyDown(KeyCode.S))
-                    {
-                        SaveRemix(true);
-                    }
-                }
-                else if (Input.GetKeyDown(KeyCode.S))
-                {
-                    SaveRemix(false);
-                }
-            }
-
-            if (Application.isEditor)
-            {
-                if (Input.GetKeyDown(KeyCode.S))
-                {
-                    // SaveRemix(false);
                 }
             }
         }
@@ -441,7 +437,7 @@ namespace HeavenStudio.Editor
         {
             if (fullscreen == false)
             {
-                EditorLetterbox.SetActive(false);
+                // EditorLetterbox.SetActive(false);
                 GameLetterbox.SetActive(true);
 
                 MainCanvas.enabled = false;
@@ -453,7 +449,7 @@ namespace HeavenStudio.Editor
             }
             else
             {
-                EditorLetterbox.SetActive(true);
+                // EditorLetterbox.SetActive(true);
                 GameLetterbox.SetActive(false);
 
                 MainCanvas.enabled = true;
@@ -466,6 +462,7 @@ namespace HeavenStudio.Editor
                 GameCamera.instance.camera.rect = new Rect(0, 0, 1, 1);
                 GameManager.instance.CursorCam.rect = new Rect(0, 0, 1, 1);
                 GameManager.instance.OverlayCamera.rect = new Rect(0, 0, 1, 1);
+                EditorCamera.rect = new Rect(0, 0, 1, 1);
             }
         }
 

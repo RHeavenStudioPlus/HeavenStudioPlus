@@ -23,6 +23,9 @@ namespace HeavenStudio.Editor
         private bool clickedInTimeline = false;
 
         private TMPro.TMP_Text sizeText;
+        private RectTransform text;
+
+        private float timelineLastX;
 
         public static BoxSelection instance { get; private set; }
 
@@ -40,10 +43,19 @@ namespace HeavenStudio.Editor
             boxVisual.transform.GetChild(0).GetComponent<Image>().color = EditorTheme.theme.properties.BoxSelectionOutlineCol.Hex2RGB();
 
             sizeText = boxVisual.transform.GetChild(1).GetComponent<TMPro.TMP_Text>();
+            text = boxVisual.transform.GetChild(1).GetComponent<RectTransform>();
         }
 
         private void Update()
         {
+            float deltaTimelineX = timelineContent.transform.localPosition.x - timelineLastX;
+
+            Camera camera = Editor.instance.EditorCamera;
+            Vector3 scale = Editor.instance.MainCanvas.transform.localScale;
+
+            boxVisual.transform.localScale = new Vector2(0.01f/scale.x, 1f/scale.y);
+            text.transform.localScale = scale;
+
             if (Selections.instance.eventsSelected.Count > 0 && Timeline.instance.InteractingWithEvents())
             {
                 startPosition = Vector2.zero;
@@ -60,10 +72,11 @@ namespace HeavenStudio.Editor
                 return;
             }
 
-            if (boxVisual.rect.width * boxVisual.transform.localScale.x >= 0.5f)
-                sizeText.text = $"{string.Format("{0:0.000}", boxVisual.rect.width * boxVisual.transform.localScale.x)}";
+            float beatLen = boxVisual.rect.width * boxVisual.transform.localScale.x;
+            if (beatLen >= 0.5f)
+                sizeText.text = $"{string.Format("{0:0.000}", beatLen)}";
             else
-                sizeText.text = string.Empty; // i'm lazy
+                sizeText.text = string.Empty;
 
 
             // click
@@ -78,9 +91,11 @@ namespace HeavenStudio.Editor
             // dragging
             if (Input.GetMouseButton(0) && clickedInTimeline)
             {
+                startPosition.x += deltaTimelineX * scale.x;
                 endPosition = MousePosition();
-                DrawVisual();
                 DrawSelection();
+                SelectEvents(); //kek
+                DrawVisual();
             }
 
             // release click
@@ -92,9 +107,7 @@ namespace HeavenStudio.Editor
                 DrawVisual();
             }
 
-            // selecting = (selectionBox.size != Vector2.zero); -- doesn't work really
-
-            // for real time selection just move SelectEvents() to here, but that breaks some shit. might fix soon idk --pelly
+            timelineLastX = timelineContent.transform.localPosition.x;
         }
 
         private void DrawVisual()
@@ -102,15 +115,12 @@ namespace HeavenStudio.Editor
             Vector2 boxStart = startPosition;
             Vector2 boxEnd = endPosition;
 
-            // boxEnd = new Vector2(Mathf.Clamp(boxEnd.x, -5.78f, Mathf.Infinity), boxEnd.y);
-
             Vector2 boxCenter = (boxStart + boxEnd) / 2;
             boxVisual.position = boxCenter;
 
             Vector2 boxSize = new Vector2(Mathf.Abs(boxStart.x - boxEnd.x), Mathf.Abs(boxStart.y - boxEnd.y));
-
-            // boxVisual.sizeDelta = new Vector2(boxSize.x / boxVisual.localScale.x, boxSize.y / boxVisual.localScale.y);
-            boxVisual.sizeDelta = new Vector2(boxSize.x, boxSize.y);
+            boxVisual.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, boxSize.x);
+            boxVisual.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, boxSize.y);
         }
 
         private void DrawSelection()
@@ -168,7 +178,7 @@ namespace HeavenStudio.Editor
         {
             var mousePos = Editor.instance.EditorCamera.ScreenToWorldPoint(Input.mousePosition);
             // var mousePos = new Vector2();
-            // RectTransformUtility.ScreenPointToLocalPointInRectangle(timelineContent, Input.mousePosition, Camera.main, out mousePos);
+            // RectTransformUtility.ScreenPointToLocalPointInRectangle(timelineContent, Input.mousePosition, Editor.instance.EditorCamera, out mousePos);
             return new Vector3(mousePos.x, mousePos.y, 0);
         }
 

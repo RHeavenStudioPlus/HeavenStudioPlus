@@ -1,78 +1,111 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
- 
-public class SpritesheetScaler : EditorWindow {
- 
-   Object source;
-   int multiplier = 1;
- 
-   // Creates a new option in "Windows"
-   [MenuItem ("Window/Scale spritesheet pivots and slices")]
-   static void Init () {
-     // Get existing open window or if none, make a new one:
-     SpritesheetScaler window = (SpritesheetScaler)EditorWindow.GetWindow (typeof (SpritesheetScaler));
-     window.Show();
-   }
- 
-   void OnGUI () {
-     GUILayout.BeginHorizontal ();
-     GUILayout.Label ("Source texture:", EditorStyles.boldLabel);
-     source = EditorGUILayout.ObjectField(source, typeof(Texture2D), false, GUILayout.Width(220));
-     GUILayout.EndHorizontal ();
- 
-     GUILayout.BeginHorizontal ();
-     GUILayout.Label ("Multiplier:", EditorStyles.boldLabel);
-     multiplier = EditorGUILayout.IntField(multiplier, GUILayout.Width(220));
-     GUILayout.EndHorizontal ();
-   
-     GUILayout.Space (25f);
-     if (GUILayout.Button ("Scale pivots and slices")) {
-       ScalePivotsAndSlices();
-     }
-   }
- 
-   void ScalePivotsAndSlices()
-   {
-     if (!source || (multiplier <= 0)) {
-       Debug.Log("Missing one object");
-       return;
-     }
-   
-     if (source.GetType () != typeof(Texture2D)) {
-       Debug.Log (source + "needs to be Texture2D!");
-       return;
-     }
-   
-     string sourcePath = AssetDatabase.GetAssetPath(source);
-     TextureImporter ti1 = AssetImporter.GetAtPath(sourcePath) as TextureImporter;
-     bool wasReadable = ti1.isReadable;
-     ti1.isReadable = true;
 
-     ti1.spritePixelsPerUnit *= multiplier;
- 
-     List <SpriteMetaData> newData = new List <SpriteMetaData> ();
-   
-     Debug.Log ("Amount of slices found: " + ti1.spritesheet.Length);
-   
-     for (int i = 0; i < ti1.spritesheet.Length; i++) {
-       SpriteMetaData d = ti1.spritesheet[i];
-       d.rect = ScaleRect(d.rect, multiplier);
-       d.border *= multiplier;
-       newData.Add(d);
-     }
+public class SpritesheetScaler : EditorWindow
+{
 
-     ti1.spritesheet = newData.ToArray();
+    Object source;
+    int multiplier = 1;
+    int inflateX = 0;
+    int inflateY = 0;
 
-     ti1.isReadable = wasReadable;
-   
-     AssetDatabase.ImportAsset(sourcePath, ImportAssetOptions.ForceUpdate);
-   }
+    // Creates a new option in "Windows"
+    [MenuItem("Window/Scale spritesheet pivots and slices")]
+    static void Init()
+    {
+        // Get existing open window or if none, make a new one:
+        SpritesheetScaler window = (SpritesheetScaler)EditorWindow.GetWindow(typeof(SpritesheetScaler));
+        window.Show();
+    }
 
-   Rect ScaleRect(Rect source, int mult)
-   {
-       var newRect = new Rect();
-       newRect.Set(source.x * mult, source.y * mult, source.width * mult, source.height * mult);
-       return newRect;
-   }
+    void OnGUI()
+    {
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Source texture:", EditorStyles.boldLabel);
+        source = EditorGUILayout.ObjectField(source, typeof(Texture2D), false, GUILayout.Width(220));
+        GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Multiplier:", EditorStyles.boldLabel);
+        multiplier = EditorGUILayout.IntField(multiplier, GUILayout.Width(220));
+        GUILayout.EndHorizontal();
+
+        GUILayout.Space(5f);
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Inflate Quads:", EditorStyles.boldLabel);
+        GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("X", EditorStyles.label);
+        inflateX = EditorGUILayout.IntField(inflateX, GUILayout.Width(220/2));
+        GUILayout.Label("Y", EditorStyles.label);
+        inflateY = EditorGUILayout.IntField(inflateY, GUILayout.Width(220/2));
+        GUILayout.EndHorizontal();
+
+        GUILayout.Space(25f);
+        if (GUILayout.Button("Scale pivots and slices"))
+        {
+            ScalePivotsAndSlices();
+        }
+    }
+
+    void ScalePivotsAndSlices()
+    {
+        if (!source || (multiplier <= 0))
+        {
+            Debug.Log("Missing one object");
+            return;
+        }
+
+        if (source.GetType() != typeof(Texture2D))
+        {
+            Debug.Log(source + "needs to be Texture2D!");
+            return;
+        }
+
+        string sourcePath = AssetDatabase.GetAssetPath(source);
+        TextureImporter ti1 = AssetImporter.GetAtPath(sourcePath) as TextureImporter;
+        bool wasReadable = ti1.isReadable;
+        ti1.isReadable = true;
+
+        ti1.spritePixelsPerUnit *= multiplier;
+
+        List<SpriteMetaData> newData = new List<SpriteMetaData>();
+
+        Debug.Log("Amount of slices found: " + ti1.spritesheet.Length);
+
+        for (int i = 0; i < ti1.spritesheet.Length; i++)
+        {
+            SpriteMetaData d = ti1.spritesheet[i];
+            Vector2 oldPivot = Rect.NormalizedToPoint(d.rect, d.pivot) * multiplier;
+            d.rect = ScaleRect(d.rect, multiplier, inflateX, inflateY);
+
+            d.border.x += d.border.x > 0 ? inflateX : 0;
+            d.border.y += d.border.y > 0 ? inflateY : 0;
+            d.border.z += d.border.z > 0 ? inflateX : 0;
+            d.border.w += d.border.w > 0 ? inflateY : 0;
+
+            if (inflateX > 0 || inflateY > 0)
+            {
+                d.alignment = (int)SpriteAlignment.Custom;
+                d.pivot = Rect.PointToNormalized(d.rect, oldPivot);
+            }
+
+            d.border *= multiplier;
+            newData.Add(d);
+        }
+
+        ti1.spritesheet = newData.ToArray();
+
+        ti1.isReadable = wasReadable;
+
+        AssetDatabase.ImportAsset(sourcePath, ImportAssetOptions.ForceUpdate);
+    }
+
+    Rect ScaleRect(Rect source, int mult, int inflateX, int inflateY)
+    {
+        var newRect = new Rect();
+        newRect.Set((source.x - inflateX) * mult, (source.y - inflateY) * mult, (source.width + inflateX*2) * mult, (source.height + inflateY*2) * mult);
+        return newRect;
+    }
 }

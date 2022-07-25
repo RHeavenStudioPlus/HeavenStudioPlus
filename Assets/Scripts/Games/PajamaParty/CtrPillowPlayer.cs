@@ -378,7 +378,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
                         }
                     ),
                     new BeatAction.Action(
-                        beat + 8f,
+                        beat + (longSleep ? 4f : 8f),
                         delegate { 
                             canCharge = true;
                             canJump = true;

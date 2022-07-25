@@ -209,6 +209,30 @@ TextureImporter:
   - first:
       213: 4845979151013781269
     second: idol_Arm_08
+  - first:
+      213: -3805976302117807119
+    second: idol_Shs_beat00
+  - first:
+      213: 4127508232476086834
+    second: idol_Shs_beat01
+  - first:
+      213: 3350420420849732999
+    second: idol_Shs_beat02
+  - first:
+      213: 6316182542933813096
+    second: idol_Shs_peace00
+  - first:
+      213: 8620145076672222142
+    second: idol_Shs_wink00
+  - first:
+      213: -6230933788977649903
+    second: idol_Shs_wink01
+  - first:
+      213: 8222091356637492441
+    second: idol_Shs_wink02
+  - first:
+      213: -3891623105835644282
+    second: idol_Shs_squat00
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -301,16 +325,16 @@ TextureImporter:
       name: idol_Hed_neutral
       rect:
         serializedVersion: 2
-        x: 39
-        y: 1850
-        width: 161
-        height: 177
-      alignment: 0
+        x: 23
+        y: 1842
+        width: 193
+        height: 193
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 2370b38482b2f7640800000000000000
       internalID: 5079826356707723058
@@ -322,16 +346,16 @@ TextureImporter:
       name: idol_Hed_halfClose
       rect:
         serializedVersion: 2
-        x: 278
-        y: 1853
-        width: 160
-        height: 176
-      alignment: 0
+        x: 262
+        y: 1845
+        width: 192
+        height: 192
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 253456fef31acf1e0800000000000000
       internalID: -2162676425073278126
@@ -343,16 +367,16 @@ TextureImporter:
       name: idol_Hed_close
       rect:
         serializedVersion: 2
-        x: 518
-        y: 1852
-        width: 160
-        height: 177
-      alignment: 0
+        x: 502
+        y: 1844
+        width: 192
+        height: 193
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 1c61f700fed7a34d0800000000000000
       internalID: -3154070123560626495
@@ -364,16 +388,16 @@ TextureImporter:
       name: idol_Hed_startOpen
       rect:
         serializedVersion: 2
-        x: 761
-        y: 1850
-        width: 161
-        height: 177
-      alignment: 0
+        x: 745
+        y: 1842
+        width: 193
+        height: 193
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 67630fb26b6273d90800000000000000
       internalID: -7118178122172713354
@@ -385,16 +409,16 @@ TextureImporter:
       name: idol_Hed_fullOpen
       rect:
         serializedVersion: 2
-        x: 999
-        y: 1848
-        width: 161
-        height: 177
-      alignment: 0
+        x: 983
+        y: 1840
+        width: 193
+        height: 193
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: d2b06915409bb1240800000000000000
       internalID: 4763604459074226989
@@ -406,16 +430,16 @@ TextureImporter:
       name: idol_Hed_open
       rect:
         serializedVersion: 2
-        x: 1239
-        y: 1848
-        width: 161
-        height: 177
-      alignment: 0
+        x: 1223
+        y: 1840
+        width: 193
+        height: 193
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: b40c99e1429441db0800000000000000
       internalID: -4822148881525915573
@@ -427,16 +451,16 @@ TextureImporter:
       name: idol_Hed_oh
       rect:
         serializedVersion: 2
-        x: 1479
-        y: 1850
-        width: 161
-        height: 176
-      alignment: 0
+        x: 1463
+        y: 1842
+        width: 193
+        height: 192
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 134ca778dced6e2b0800000000000000
       internalID: -5555508115992296399
@@ -448,16 +472,16 @@ TextureImporter:
       name: idol_Hed_frown
       rect:
         serializedVersion: 2
-        x: 1718
-        y: 1850
-        width: 160
-        height: 179
-      alignment: 0
+        x: 1702
+        y: 1842
+        width: 192
+        height: 195
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: b84bd247771553140800000000000000
       internalID: 4698751359723091083
@@ -469,16 +493,16 @@ TextureImporter:
       name: idol_Clt_body
       rect:
         serializedVersion: 2
-        x: 47
-        y: 1682
-        width: 81
-        height: 105
-      alignment: 0
+        x: 31
+        y: 1674
+        width: 113
+        height: 121
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: a546779a3e30e8780800000000000000
       internalID: -8678995155560733606
@@ -490,16 +514,16 @@ TextureImporter:
       name: idol_Hed_hair00
       rect:
         serializedVersion: 2
-        x: 35
-        y: 500
-        width: 169
-        height: 217
-      alignment: 0
+        x: 19
+        y: 492
+        width: 201
+        height: 233
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 51bf9dafbc0b442f0800000000000000
       internalID: -989471627981227243
@@ -511,16 +535,16 @@ TextureImporter:
       name: idol_mike00
       rect:
         serializedVersion: 2
-        x: 283
-        y: 614
-        width: 41
-        height: 83
-      alignment: 0
+        x: 267
+        y: 606
+        width: 73
+        height: 99
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: ce6e4f0591c05cda0800000000000000
       internalID: -5925316431864076564
@@ -532,16 +556,16 @@ TextureImporter:
       name: idol_Hed_hair01
       rect:
         serializedVersion: 2
-        x: 35
-        y: 1506
-        width: 137
-        height: 107
-      alignment: 0
+        x: 19
+        y: 1498
+        width: 169
+        height: 123
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: d1debea81f3d002e0800000000000000
       internalID: -2161494786766541539
@@ -553,16 +577,16 @@ TextureImporter:
       name: idol_mike01
       rect:
         serializedVersion: 2
-        x: 169
-        y: 1018
-        width: 43
-        height: 75
-      alignment: 0
+        x: 153
+        y: 1010
+        width: 75
+        height: 91
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: aa1b406439ca60c30800000000000000
       internalID: 4325334240670822826
@@ -574,19 +598,19 @@ TextureImporter:
       name: idol_Shs_beat00
       rect:
         serializedVersion: 2
-        x: 33
-        y: 1278
-        width: 47
-        height: 137
-      alignment: 0
+        x: 17
+        y: 1270
+        width: 79
+        height: 153
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 624ecf51fccfd7c60800000000000000
-      internalID: 7817682494542373926
+      spriteID: 1fb96b8d7b47e2bc0800000000000000
+      internalID: -3805976302117807119
       vertices: []
       indices: 
       edges: []
@@ -595,19 +619,19 @@ TextureImporter:
       name: idol_Shs_beat01
       rect:
         serializedVersion: 2
-        x: 149
-        y: 1280
-        width: 41
-        height: 135
-      alignment: 0
+        x: 133
+        y: 1272
+        width: 73
+        height: 151
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 642239b86b868a470800000000000000
-      internalID: 8406083837722042950
+      spriteID: 232dc347edad74930800000000000000
+      internalID: 4127508232476086834
       vertices: []
       indices: 
       edges: []
@@ -616,19 +640,19 @@ TextureImporter:
       name: idol_Shs_beat02
       rect:
         serializedVersion: 2
-        x: 253
-        y: 1280
-        width: 35
-        height: 145
-      alignment: 0
+        x: 237
+        y: 1272
+        width: 67
+        height: 161
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 123b6ffc9ba491c50800000000000000
-      internalID: 6636417687825593121
+      spriteID: 78d86f81f951f7e20800000000000000
+      internalID: 3350420420849732999
       vertices: []
       indices: 
       edges: []
@@ -637,19 +661,19 @@ TextureImporter:
       name: idol_Shs_peace00
       rect:
         serializedVersion: 2
-        x: 349
-        y: 1280
-        width: 75
-        height: 139
-      alignment: 0
+        x: 333
+        y: 1272
+        width: 107
+        height: 155
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 1898fb500b96041f0800000000000000
-      internalID: -1062733307327837823
+      spriteID: 867e718ee8697a750800000000000000
+      internalID: 6316182542933813096
       vertices: []
       indices: 
       edges: []
@@ -658,19 +682,19 @@ TextureImporter:
       name: idol_Shs_wink00
       rect:
         serializedVersion: 2
-        x: 791
-        y: 1280
-        width: 61
-        height: 127
-      alignment: 0
+        x: 775
+        y: 1272
+        width: 93
+        height: 143
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 3b8490d153ef1bac0800000000000000
-      internalID: -3841009503096452941
+      spriteID: eb351679648e0a770800000000000000
+      internalID: 8620145076672222142
       vertices: []
       indices: 
       edges: []
@@ -679,19 +703,19 @@ TextureImporter:
       name: idol_Shs_wink01
       rect:
         serializedVersion: 2
-        x: 647
-        y: 1280
-        width: 63
-        height: 133
-      alignment: 0
+        x: 631
+        y: 1272
+        width: 95
+        height: 149
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: aac14f99b2445dfb0800000000000000
-      internalID: -4623714488368751446
+      spriteID: 11722095bb64789a0800000000000000
+      internalID: -6230933788977649903
       vertices: []
       indices: 
       edges: []
@@ -700,19 +724,19 @@ TextureImporter:
       name: idol_Shs_wink02
       rect:
         serializedVersion: 2
-        x: 509
-        y: 1280
-        width: 55
-        height: 137
-      alignment: 0
+        x: 493
+        y: 1272
+        width: 87
+        height: 153
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 55b40ffee685f13c0800000000000000
-      internalID: -4386690278540424363
+      spriteID: 9d4ff2fb68cba1270800000000000000
+      internalID: 8222091356637492441
       vertices: []
       indices: 
       edges: []
@@ -721,19 +745,19 @@ TextureImporter:
       name: idol_Shs_squat00
       rect:
         serializedVersion: 2
-        x: 938
-        y: 1278
-        width: 54
-        height: 123
-      alignment: 0
+        x: 922
+        y: 1270
+        width: 86
+        height: 139
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: b22cf328fce2c5d40800000000000000
-      internalID: 5574381907556155947
+      spriteID: 68ac6f8676d2ef9c0800000000000000
+      internalID: -3891623105835644282
       vertices: []
       indices: 
       edges: []
@@ -742,16 +766,16 @@ TextureImporter:
       name: idol_Shs_squat01
       rect:
         serializedVersion: 2
-        x: 1087
-        y: 1278
-        width: 47
-        height: 135
-      alignment: 0
+        x: 1071
+        y: 1270
+        width: 79
+        height: 151
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 2e310a77c9659e370800000000000000
       internalID: 8352302213957161954
@@ -763,16 +787,16 @@ TextureImporter:
       name: idol_Shs_squat02
       rect:
         serializedVersion: 2
-        x: 1235
-        y: 1278
-        width: 43
-        height: 149
-      alignment: 0
+        x: 1219
+        y: 1270
+        width: 75
+        height: 165
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 42ac89b3eed8a38b0800000000000000
       internalID: -5171665167739991516
@@ -784,16 +808,16 @@ TextureImporter:
       name: idol_Clt_collar
       rect:
         serializedVersion: 2
-        x: 33
-        y: 918
-        width: 63
-        height: 29
-      alignment: 0
+        x: 17
+        y: 910
+        width: 95
+        height: 45
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 569a67fb6b859a370800000000000000
       internalID: 8334290127345330533
@@ -805,16 +829,16 @@ TextureImporter:
       name: idol_Hnd_00
       rect:
         serializedVersion: 2
-        x: 33
-        y: 1032
-        width: 61
-        height: 47
-      alignment: 0
+        x: 17
+        y: 1024
+        width: 93
+        height: 63
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 63e5f2d339aa6fb70800000000000000
       internalID: 8932514460299386422
@@ -826,16 +850,16 @@ TextureImporter:
       name: idol_Hnd_01
       rect:
         serializedVersion: 2
-        x: 291
-        y: 946
-        width: 71
-        height: 61
-      alignment: 0
+        x: 275
+        y: 938
+        width: 103
+        height: 77
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: eb882b4acbd49a780800000000000000
       internalID: -8671314134912825154
@@ -847,16 +871,16 @@ TextureImporter:
       name: idol_Hnd_02
       rect:
         serializedVersion: 2
-        x: 443
-        y: 1016
-        width: 57
-        height: 69
-      alignment: 0
+        x: 427
+        y: 1008
+        width: 89
+        height: 85
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 6bffbbd4b3b324340800000000000000
       internalID: 4846501274897350582
@@ -868,16 +892,16 @@ TextureImporter:
       name: idol_Hnd_03
       rect:
         serializedVersion: 2
-        x: 585
-        y: 1014
-        width: 59
-        height: 71
-      alignment: 0
+        x: 569
+        y: 1006
+        width: 91
+        height: 87
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 0f92c7be94cf2fe40800000000000000
       internalID: 5688886673735952880
@@ -889,16 +913,16 @@ TextureImporter:
       name: idol_Hnd_04
       rect:
         serializedVersion: 2
-        x: 725
-        y: 1012
-        width: 69
-        height: 69
-      alignment: 0
+        x: 709
+        y: 1004
+        width: 101
+        height: 85
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 185083e2383b3e7c0800000000000000
       internalID: -4043190664451062399
@@ -910,16 +934,16 @@ TextureImporter:
       name: idol_Hnd_05
       rect:
         serializedVersion: 2
-        x: 871
-        y: 1016
-        width: 63
-        height: 63
-      alignment: 0
+        x: 855
+        y: 1008
+        width: 95
+        height: 79
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 43bb8bd360b375960800000000000000
       internalID: 7590600594947619636
@@ -931,16 +955,16 @@ TextureImporter:
       name: idol_Hnd_06
       rect:
         serializedVersion: 2
-        x: 1022
-        y: 1018
-        width: 53
-        height: 59
-      alignment: 0
+        x: 1006
+        y: 1010
+        width: 85
+        height: 75
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 87b1a3e3a0f3342f0800000000000000
       internalID: -989878179865158792
@@ -952,16 +976,16 @@ TextureImporter:
       name: idol_Hnd_07
       rect:
         serializedVersion: 2
-        x: 1167
-        y: 1024
-        width: 51
-        height: 53
-      alignment: 0
+        x: 1151
+        y: 1016
+        width: 83
+        height: 69
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 3dd2ca2f130d9d1e0800000000000000
       internalID: -2172476432286208557
@@ -973,16 +997,16 @@ TextureImporter:
       name: idol_Shadow
       rect:
         serializedVersion: 2
-        x: 703
-        y: 1160
-        width: 161
-        height: 49
-      alignment: 0
+        x: 687
+        y: 1152
+        width: 193
+        height: 65
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 71338781a05aea580800000000000000
       internalID: -8813925957938695401
@@ -994,16 +1018,16 @@ TextureImporter:
       name: idol_Arm_00
       rect:
         serializedVersion: 2
-        x: 35
-        y: 1160
-        width: 57
-        height: 47
-      alignment: 0
+        x: 19
+        y: 1152
+        width: 89
+        height: 63
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 0827d9eba0c905860800000000000000
       internalID: 7516679348042953344
@@ -1015,16 +1039,16 @@ TextureImporter:
       name: idol_Arm_01
       rect:
         serializedVersion: 2
-        x: 171
-        y: 1154
-        width: 41
-        height: 59
-      alignment: 0
+        x: 155
+        y: 1146
+        width: 73
+        height: 75
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: acbdde07ef8114e30800000000000000
       internalID: 4485894184933120970
@@ -1036,16 +1060,16 @@ TextureImporter:
       name: idol_Arm_02
       rect:
         serializedVersion: 2
-        x: 291
-        y: 1078
-        width: 73
-        height: 135
-      alignment: 0
+        x: 275
+        y: 1070
+        width: 105
+        height: 151
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 263d85eb362720a80800000000000000
       internalID: -8502107373801254046
@@ -1057,16 +1081,16 @@ TextureImporter:
       name: idol_Arm_03
       rect:
         serializedVersion: 2
-        x: 435
-        y: 1158
-        width: 57
-        height: 51
-      alignment: 0
+        x: 419
+        y: 1150
+        width: 89
+        height: 67
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: f6d5b9cebbbc54cc0800000000000000
       internalID: -3727349108590289553
@@ -1078,16 +1102,16 @@ TextureImporter:
       name: idol_Arm_04
       rect:
         serializedVersion: 2
-        x: 561
-        y: 1166
-        width: 69
-        height: 41
-      alignment: 0
+        x: 545
+        y: 1158
+        width: 101
+        height: 57
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 6781c4743c0d466d0800000000000000
       internalID: -2998041914788538250
@@ -1099,16 +1123,16 @@ TextureImporter:
       name: idol_Arm_05
       rect:
         serializedVersion: 2
-        x: 923
-        y: 1170
-        width: 45
-        height: 45
-      alignment: 0
+        x: 907
+        y: 1162
+        width: 77
+        height: 61
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 5e58414e6689c9710800000000000000
       internalID: 1701402326919841253
@@ -1120,16 +1144,16 @@ TextureImporter:
       name: ntrIdol_handCrapEffect
       rect:
         serializedVersion: 2
-        x: 35
-        y: 800
-        width: 41
-        height: 49
-      alignment: 0
+        x: 19
+        y: 792
+        width: 73
+        height: 65
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: d776cd784f7315b70800000000000000
       internalID: 8885945063169615741
@@ -1141,16 +1165,16 @@ TextureImporter:
       name: fan_Face00
       rect:
         serializedVersion: 2
-        x: 271
-        y: 1642
-        width: 173
-        height: 125
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 255
+        y: 1634
+        width: 205
+        height: 141
+      alignment: 9
+      pivot: {x: 0.5, y: 0.056737587}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: bb03c62a93543f7e0800000000000000
       internalID: -1732965317767057221
@@ -1162,16 +1186,16 @@ TextureImporter:
       name: fan_Face01
       rect:
         serializedVersion: 2
-        x: 539
-        y: 1642
-        width: 123
-        height: 125
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 523
+        y: 1634
+        width: 155
+        height: 141
+      alignment: 9
+      pivot: {x: 0.5, y: 0.056737587}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 684eb6c3eb2513a40800000000000000
       internalID: 5346145209676457094
@@ -1183,16 +1207,16 @@ TextureImporter:
       name: fan_Face02
       rect:
         serializedVersion: 2
-        x: 781
-        y: 1642
-        width: 123
-        height: 125
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 765
+        y: 1634
+        width: 155
+        height: 141
+      alignment: 9
+      pivot: {x: 0.5, y: 0.056737587}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 04c773e9ec7f7fed0800000000000000
       internalID: -2380161411252257728
@@ -1204,16 +1228,16 @@ TextureImporter:
       name: impact_effect
       rect:
         serializedVersion: 2
-        x: 437
-        y: 786
-        width: 319
-        height: 157
-      alignment: 0
+        x: 421
+        y: 778
+        width: 351
+        height: 173
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 18c8e46fead7f7bc0800000000000000
       internalID: -3783166971557802879
@@ -1225,16 +1249,16 @@ TextureImporter:
       name: fan_Body00
       rect:
         serializedVersion: 2
-        x: 1481
-        y: 1350
-        width: 155
-        height: 197
-      alignment: 0
+        x: 1465
+        y: 1342
+        width: 187
+        height: 213
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: c1f31fbc1e1e82d10800000000000000
       internalID: 2101177586073812764
@@ -1246,16 +1270,16 @@ TextureImporter:
       name: fan_Body01
       rect:
         serializedVersion: 2
-        x: 997
-        y: 1610
-        width: 165
-        height: 183
-      alignment: 0
+        x: 981
+        y: 1602
+        width: 197
+        height: 199
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 4fc76534bbf26aa40800000000000000
       internalID: 5379039286275767540
@@ -1267,16 +1291,16 @@ TextureImporter:
       name: fan_Body02
       rect:
         serializedVersion: 2
-        x: 1235
-        y: 1608
-        width: 167
-        height: 181
-      alignment: 0
+        x: 1219
+        y: 1600
+        width: 199
+        height: 197
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 4d52731da343d3e00800000000000000
       internalID: 1026033717333140948
@@ -1288,16 +1312,16 @@ TextureImporter:
       name: fan_Body03
       rect:
         serializedVersion: 2
-        x: 1475
-        y: 1608
-        width: 167
-        height: 179
-      alignment: 0
+        x: 1459
+        y: 1600
+        width: 199
+        height: 195
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: b7404a9aab0645520800000000000000
       internalID: 2689881232273310843
@@ -1309,16 +1333,16 @@ TextureImporter:
       name: fan_Body04
       rect:
         serializedVersion: 2
-        x: 1715
-        y: 1608
-        width: 167
-        height: 173
-      alignment: 0
+        x: 1699
+        y: 1600
+        width: 199
+        height: 189
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 4028311050dc23810800000000000000
       internalID: 1743681427122389508
@@ -1330,16 +1354,16 @@ TextureImporter:
       name: fan_Body05
       rect:
         serializedVersion: 2
-        x: 1731
-        y: 1330
-        width: 139
-        height: 215
-      alignment: 0
+        x: 1715
+        y: 1322
+        width: 171
+        height: 231
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: de550ca8b080d3df0800000000000000
       internalID: -198993962868910611
@@ -1351,16 +1375,16 @@ TextureImporter:
       name: fan_Body06
       rect:
         serializedVersion: 2
-        x: 1753
-        y: 712
-        width: 97
-        height: 233
-      alignment: 0
+        x: 1737
+        y: 704
+        width: 129
+        height: 249
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 2a1afccc6a840ef00800000000000000
       internalID: 1143994186590036386
@@ -1372,16 +1396,16 @@ TextureImporter:
       name: fan_Body07
       rect:
         serializedVersion: 2
-        x: 1853
-        y: 496
-        width: 163
-        height: 139
-      alignment: 0
+        x: 1837
+        y: 488
+        width: 195
+        height: 155
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 6fa86639d87a7aa70800000000000000
       internalID: 8838217020243086070
@@ -1393,16 +1417,16 @@ TextureImporter:
       name: fan_Arm00
       rect:
         serializedVersion: 2
-        x: 851
-        y: 790
-        width: 75
-        height: 127
-      alignment: 0
+        x: 835
+        y: 782
+        width: 107
+        height: 143
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 45544fe249b7286d0800000000000000
       internalID: -2989691326247451308
@@ -1414,16 +1438,16 @@ TextureImporter:
       name: fan_Arm01
       rect:
         serializedVersion: 2
-        x: 993
-        y: 790
-        width: 75
-        height: 133
-      alignment: 0
+        x: 977
+        y: 782
+        width: 107
+        height: 149
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: a5340b5f385fb9430800000000000000
       internalID: 3790893458473894746
@@ -1435,16 +1459,16 @@ TextureImporter:
       name: fan_Arm02
       rect:
         serializedVersion: 2
-        x: 1133
-        y: 788
-        width: 67
-        height: 141
-      alignment: 0
+        x: 1117
+        y: 780
+        width: 99
+        height: 157
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 81671e10b88cf3560800000000000000
       internalID: 7295770420721055256
@@ -1456,16 +1480,16 @@ TextureImporter:
       name: fan_Arm03
       rect:
         serializedVersion: 2
-        x: 1293
-        y: 776
-        width: 59
-        height: 173
-      alignment: 0
+        x: 1277
+        y: 768
+        width: 91
+        height: 189
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: f56b0def85f06c190800000000000000
       internalID: -7942644017914661281
@@ -1477,16 +1501,16 @@ TextureImporter:
       name: fan_Arm04
       rect:
         serializedVersion: 2
-        x: 1423
-        y: 776
-        width: 65
-        height: 163
-      alignment: 0
+        x: 1407
+        y: 768
+        width: 97
+        height: 179
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 6f89d012d0c0d2bc0800000000000000
       internalID: -3806372859529553674
@@ -1498,16 +1522,16 @@ TextureImporter:
       name: fan_Arm05
       rect:
         serializedVersion: 2
-        x: 1699
-        y: 536
-        width: 93
-        height: 103
-      alignment: 0
+        x: 1683
+        y: 528
+        width: 125
+        height: 119
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 9f62b02ee927127f0800000000000000
       internalID: -639103645387118855
@@ -1519,16 +1543,16 @@ TextureImporter:
       name: fan_Hand00
       rect:
         serializedVersion: 2
-        x: 1289
-        y: 1002
-        width: 71
-        height: 91
-      alignment: 0
+        x: 1273
+        y: 994
+        width: 103
+        height: 107
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 3adda2b5282571aa0800000000000000
       internalID: -6190388442968695389
@@ -1540,16 +1564,16 @@ TextureImporter:
       name: fan_Hand01
       rect:
         serializedVersion: 2
-        x: 1437
-        y: 1004
-        width: 87
-        height: 91
-      alignment: 0
+        x: 1421
+        y: 996
+        width: 119
+        height: 107
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: dd3f33e033a696d20800000000000000
       internalID: 3272263371775538141
@@ -1561,16 +1585,16 @@ TextureImporter:
       name: fan_Hand04
       rect:
         serializedVersion: 2
-        x: 1443
-        y: 1142
-        width: 71
-        height: 97
-      alignment: 0
+        x: 1427
+        y: 1134
+        width: 103
+        height: 113
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 64980800b24f07f60800000000000000
       internalID: 8030186601130789190
@@ -1582,16 +1606,16 @@ TextureImporter:
       name: fan_Hand05
       rect:
         serializedVersion: 2
-        x: 1589
-        y: 1148
-        width: 67
-        height: 93
-      alignment: 0
+        x: 1573
+        y: 1140
+        width: 99
+        height: 109
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 53f4233ce88bb60a0800000000000000
       internalID: -6887208281833320651
@@ -1603,16 +1627,16 @@ TextureImporter:
       name: fan_Hand02
       rect:
         serializedVersion: 2
-        x: 1591
-        y: 1006
-        width: 61
-        height: 85
-      alignment: 0
+        x: 1575
+        y: 998
+        width: 93
+        height: 101
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 802c1828650465af0800000000000000
       internalID: -408067975929544184
@@ -1624,16 +1648,16 @@ TextureImporter:
       name: fan_Hand06
       rect:
         serializedVersion: 2
-        x: 1727
-        y: 1140
-        width: 83
-        height: 93
-      alignment: 0
+        x: 1711
+        y: 1132
+        width: 115
+        height: 109
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 10ef2aa445a27c250800000000000000
       internalID: 5964782772993326593
@@ -1645,16 +1669,16 @@ TextureImporter:
       name: fan_Hand03
       rect:
         serializedVersion: 2
-        x: 1725
-        y: 1006
-        width: 93
-        height: 73
-      alignment: 0
+        x: 1709
+        y: 998
+        width: 125
+        height: 89
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 23e8ad39b561c13f0800000000000000
       internalID: -928842840566755790
@@ -1666,16 +1690,16 @@ TextureImporter:
       name: idol_Clt_body_up
       rect:
         serializedVersion: 2
-        x: 388
-        y: 1496
-        width: 65
-        height: 67
-      alignment: 0
+        x: 372
+        y: 1488
+        width: 97
+        height: 83
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 0c8ad0e1e22b459e0800000000000000
       internalID: -1633484853686196032
@@ -1687,16 +1711,16 @@ TextureImporter:
       name: idol_Clt_body_down0
       rect:
         serializedVersion: 2
-        x: 563
-        y: 1505
-        width: 66
-        height: 53
-      alignment: 0
+        x: 547
+        y: 1497
+        width: 98
+        height: 69
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 6736bee6f63c4a8e0800000000000000
       internalID: -1683005477360016522
@@ -1708,16 +1732,16 @@ TextureImporter:
       name: idol_Clt_body_down1
       rect:
         serializedVersion: 2
-        x: 732
-        y: 1516
-        width: 80
-        height: 50
-      alignment: 0
+        x: 716
+        y: 1508
+        width: 112
+        height: 66
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 4135e7183ac4b33a0800000000000000
       internalID: -6684664956765449452
@@ -1729,16 +1753,16 @@ TextureImporter:
       name: psyllium
       rect:
         serializedVersion: 2
-        x: 1967
-        y: 1818
-        width: 49
-        height: 139
-      alignment: 0
+        x: 1951
+        y: 1810
+        width: 81
+        height: 155
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: a7ef48d9c8177d7c0800000000000000
       internalID: -4046640891417002374
@@ -1750,16 +1774,16 @@ TextureImporter:
       name: idol_mike02
       rect:
         serializedVersion: 2
-        x: 1505
-        y: 660
-        width: 59
-        height: 45
-      alignment: 0
+        x: 1489
+        y: 652
+        width: 91
+        height: 61
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: aaacc03768d132760800000000000000
       internalID: 7431816273384491690
@@ -1771,16 +1795,16 @@ TextureImporter:
       name: idol_Hnd_08
       rect:
         serializedVersion: 2
-        x: 1047
-        y: 1152
-        width: 67
-        height: 61
-      alignment: 0
+        x: 1031
+        y: 1144
+        width: 99
+        height: 77
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: e38d4fa6093f1a590800000000000000
       internalID: -7664577289212602306
@@ -1792,16 +1816,16 @@ TextureImporter:
       name: idol_Hnd_09
       rect:
         serializedVersion: 2
-        x: 1183
-        y: 1152
-        width: 47
-        height: 67
-      alignment: 0
+        x: 1167
+        y: 1144
+        width: 79
+        height: 83
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 08501e4f4fa2a09c0800000000000000
       internalID: -3960305690750155392
@@ -1813,16 +1837,16 @@ TextureImporter:
       name: idol_Hnd_10
       rect:
         serializedVersion: 2
-        x: 1301
-        y: 1152
-        width: 53
-        height: 69
-      alignment: 0
+        x: 1285
+        y: 1144
+        width: 85
+        height: 85
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: ef5705f59286b68f0800000000000000
       internalID: -546228402893326850
@@ -1834,16 +1858,16 @@ TextureImporter:
       name: ntrIdol_heartEffect
       rect:
         serializedVersion: 2
-        x: 1569
-        y: 756
-        width: 67
-        height: 69
-      alignment: 0
+        x: 1553
+        y: 748
+        width: 99
+        height: 85
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 8a09fb4ff8680adf0800000000000000
       internalID: -170988832995438424
@@ -1855,16 +1879,16 @@ TextureImporter:
       name: idol_Arm_06
       rect:
         serializedVersion: 2
-        x: 1359
-        y: 1298
-        width: 45
-        height: 111
-      alignment: 0
+        x: 1343
+        y: 1290
+        width: 77
+        height: 127
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: ef6c55e48322efeb0800000000000000
       internalID: -4684268937190979842
@@ -1876,16 +1900,16 @@ TextureImporter:
       name: idol_Arm_07
       rect:
         serializedVersion: 2
-        x: 1868
-        y: 1134
-        width: 49
-        height: 95
-      alignment: 0
+        x: 1852
+        y: 1126
+        width: 81
+        height: 111
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: f85d41b325d0d3b30800000000000000
       internalID: 4268582668646798735
@@ -1897,16 +1921,16 @@ TextureImporter:
       name: idol_Arm_08
       rect:
         serializedVersion: 2
-        x: 1872
-        y: 1010
-        width: 27
-        height: 63
-      alignment: 0
+        x: 1856
+        y: 1002
+        width: 59
+        height: 79
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 51f102ddc50604340800000000000000
       internalID: 4845979151013781269
