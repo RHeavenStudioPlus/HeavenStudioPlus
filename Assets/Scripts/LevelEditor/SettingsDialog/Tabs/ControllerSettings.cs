@@ -40,36 +40,8 @@ namespace HeavenStudio.Editor
             {
                 InputController lastController = PlayerInput.GetInputController(1);
                 InputController newController = PlayerInput.GetInputControllers()[controllersDropdown.value];
-                lastController.SetPlayer(-1);
-                newController.SetPlayer(1);
 
-                if (typeof(InputJoyshock) == lastController.GetType()) {
-                    InputJoyshock con = (InputJoyshock) lastController;
-                    con.UnAssignOtherHalf();
-                }
-
-                if (typeof(InputJoyshock) == newController.GetType()) {
-                    InputJoyshock con = (InputJoyshock) newController;
-                    StartCoroutine(SelectionVibrate(con));
-                    con.UnAssignOtherHalf();
-                }
-
-                currentControllerLabel.text = "Current Controller: " + newController.GetDeviceName();
-                ShowControllerIcon(newController);
-
-                InputController.InputFeatures features = newController.GetFeatures();
-                if (features.HasFlag(InputController.InputFeatures.Extra_SplitControllerLeft) || features.HasFlag(InputController.InputFeatures.Extra_SplitControllerRight))
-                {
-                    pairSelectLR = !features.HasFlag(InputController.InputFeatures.Extra_SplitControllerLeft);
-                    pairSearchItem.SetActive(true);
-                    StartPairSearch();
-                }
-                else
-                {
-                    pairSearchItem.SetActive(false);
-                    CancelPairSearch();
-                }
-
+                AssignController(newController, lastController);
             });
         }
 
@@ -79,38 +51,11 @@ namespace HeavenStudio.Editor
                 foreach (var controller in controllers) {
                     if (controller.GetLastButtonDown() > 0 || controller.GetLastKeyDown() > 0) {
                         InputController lastController = PlayerInput.GetInputController(1);
-                        lastController.SetPlayer(-1);
-                        controller.SetPlayer(1);
                         isAutoSearching = false;
                         autoSearchLabel.SetActive(false);
                         controllersDropdown.value = PlayerInput.GetInputControllerId(1);
 
-                        if (typeof(InputJoyshock) == lastController.GetType()) {
-                            ((InputJoyshock)lastController).UnAssignOtherHalf();
-                        }
-
-                        if (typeof(InputJoyshock) == controller.GetType()) {
-                            InputJoyshock con = (InputJoyshock) controller;
-                            StartCoroutine(SelectionVibrate(con));
-                            con.UnAssignOtherHalf();
-                        }
-
-                        currentControllerLabel.text = "Current Controller: " + controller.GetDeviceName();
-                        ShowControllerIcon(controller);
-
-                        InputController.InputFeatures features = controller.GetFeatures();
-                        if (features.HasFlag(InputController.InputFeatures.Extra_SplitControllerLeft) || features.HasFlag(InputController.InputFeatures.Extra_SplitControllerRight))
-                        {
-                            pairSelectLR = !features.HasFlag(InputController.InputFeatures.Extra_SplitControllerLeft);
-                            pairSearchItem.SetActive(true);
-                            StartPairSearch();
-                        }
-                        else
-                        {
-                            pairSearchItem.SetActive(false);
-                            CancelPairSearch();
-                        }
-
+                        AssignController(controller, lastController);
                     }
                 }
             }
@@ -134,6 +79,39 @@ namespace HeavenStudio.Editor
                         StartCoroutine(SelectionVibrate((InputJoyshock) controller));
                     }
                 }
+            }
+        }
+
+        void AssignController(InputController newController, InputController lastController)
+        {
+            lastController.SetPlayer(-1);
+            newController.SetPlayer(1);
+
+            if (typeof(InputJoyshock) == lastController.GetType()) {
+                InputJoyshock con = (InputJoyshock) lastController;
+                con.UnAssignOtherHalf();
+            }
+
+            if (typeof(InputJoyshock) == newController.GetType()) {
+                InputJoyshock con = (InputJoyshock) newController;
+                StartCoroutine(SelectionVibrate(con));
+                con.UnAssignOtherHalf();
+            }
+
+            currentControllerLabel.text = "Current Controller: " + newController.GetDeviceName();
+            ShowControllerIcon(newController);
+
+            InputController.InputFeatures features = newController.GetFeatures();
+            if (features.HasFlag(InputController.InputFeatures.Extra_SplitControllerLeft) || features.HasFlag(InputController.InputFeatures.Extra_SplitControllerRight))
+            {
+                pairSelectLR = !features.HasFlag(InputController.InputFeatures.Extra_SplitControllerLeft);
+                pairSearchItem.SetActive(true);
+                StartPairSearch();
+            }
+            else
+            {
+                CancelPairSearch();
+                pairSearchItem.SetActive(false);
             }
         }
 
