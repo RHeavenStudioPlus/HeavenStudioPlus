@@ -120,6 +120,14 @@ namespace HeavenStudio.InputSystem
             joyBtStateLast = joyBtStateCurrent;
             joyBtStateCurrent = JslGetSimpleState(joyshockHandle);
 
+            //gyro and accelerometer
+            joyImuStateLast = joyImuStateCurrent;
+            joyImuStateCurrent = JslGetIMUState(joyshockHandle);
+
+            //touchpad
+            joyTouchStateLast = joyTouchStateCurrent;
+            joyTouchStateCurrent = JslGetTouchState(joyshockHandle);
+
             //stick direction state
             //split controllers will need to be rotated to compensate
             //left rotates counterclockwise, right rotates clockwise, all by 90 degrees
