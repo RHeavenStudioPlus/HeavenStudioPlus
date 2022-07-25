@@ -72,7 +72,7 @@ namespace HeavenStudio.Editor
                         isPairSearching = false;
                         pairSearchLabel.SetActive(false);
                         currentControllerLabel.text = "Current Controller: " + controller.GetDeviceName();
-                        pairingLabel.text = "Joy-Con (L / R) Selected\nPairing Successful!";
+                        pairingLabel.text = "Joy-Con Pair Selected\nPairing Successful!";
                         ShowControllerIcon(controller);
 
                         StartCoroutine(SelectionVibrate(con));
@@ -102,14 +102,21 @@ namespace HeavenStudio.Editor
             ShowControllerIcon(newController);
 
             InputController.InputFeatures features = newController.GetFeatures();
-            if (features.HasFlag(InputController.InputFeatures.Extra_SplitControllerLeft) || features.HasFlag(InputController.InputFeatures.Extra_SplitControllerRight))
-            {
+            if (features.HasFlag(InputController.InputFeatures.Extra_SplitControllerLeft)) {
+                pairingLabel.text = "Joy-Con (L) Selected\nPress A to pair with Joy-Con (R)";
+
                 pairSelectLR = !features.HasFlag(InputController.InputFeatures.Extra_SplitControllerLeft);
                 pairSearchItem.SetActive(true);
                 StartPairSearch();
             }
-            else
-            {
+            else if (features.HasFlag(InputController.InputFeatures.Extra_SplitControllerRight)) {
+                pairingLabel.text = "Joy-Con (R) Selected\nPress A to pair with Joy-Con (L)";
+
+                pairSelectLR = !features.HasFlag(InputController.InputFeatures.Extra_SplitControllerLeft);
+                pairSearchItem.SetActive(true);
+                StartPairSearch();
+            }
+            else {
                 CancelPairSearch();
                 pairSearchItem.SetActive(false);
             }
@@ -127,7 +134,6 @@ namespace HeavenStudio.Editor
             if (!isAutoSearching) {
                 pairSearchLabel.SetActive(true);
                 isPairSearching = true;
-                pairingLabel.text = "Joy-Con (L / R) Selected\nPairing Second Joy-Con...";
             }
         }
 
@@ -135,7 +141,7 @@ namespace HeavenStudio.Editor
             if (isPairSearching) {
                 pairSearchLabel.SetActive(false);
                 isPairSearching = false;
-                pairingLabel.text = "Joy-Con (L / R) Selected\nPairing was cancelled.";
+                pairingLabel.text = "Joy-Con Selected\nPairing was cancelled.";
             }
         }
 
@@ -157,6 +163,7 @@ namespace HeavenStudio.Editor
                 optionData.text = vals[i].GetDeviceName();
                 dropDownData.Add(optionData);
             }
+            controllersDropdown.ClearOptions();
             controllersDropdown.AddOptions(dropDownData);
             controllersDropdown.value = 0;
         }
@@ -185,55 +192,56 @@ namespace HeavenStudio.Editor
                 case "Joy-Con (L)":
                 case "Joy-Con (R)":
                     InputJoyshock joy = (InputJoyshock) controller;
-                    controllerMat.SetColor("_BodyColor", BitwiseUtils.IntToRgb(JslGetControllerColour(joy.GetHandle())));
-                    controllerMat.SetColor("_BtnColor", BitwiseUtils.IntToRgb(JslGetControllerButtonColour(joy.GetHandle())));
+                    controllerMat.SetColor("_BodyColor", joy.GetBodyColor());
+                    controllerMat.SetColor("_BtnColor", joy.GetButtonColor());
                     controllerMat.SetColor("_LGripColor", ColorUtility.TryParseHtmlString("#2F353A", out colour) ? colour : Color.white);
                     controllerMat.SetColor("_RGripColor", ColorUtility.TryParseHtmlString("#2F353A", out colour) ? colour : Color.white);
                     break;
                 case "Joy-Con Pair":
                     joy = (InputJoyshock) controller;
                     int joySide = JslGetControllerSplitType(joy.GetHandle());
-                    controllerMat.SetColor("_BodyColor",  BitwiseUtils.IntToRgb(joySide == SplitRight ? JslGetControllerButtonColour(joy.GetHandle()) : JslGetControllerButtonColour(joy.GetOtherHalf().GetHandle())));
-                    controllerMat.SetColor("_BtnColor",   BitwiseUtils.IntToRgb(joySide == SplitLeft ? JslGetControllerButtonColour(joy.GetHandle()) : JslGetControllerButtonColour(joy.GetOtherHalf().GetHandle())));
-                    controllerMat.SetColor("_LGripColor", BitwiseUtils.IntToRgb(joySide == SplitLeft ? JslGetControllerColour(joy.GetHandle()) : JslGetControllerColour(joy.GetOtherHalf().GetHandle())));
-                    controllerMat.SetColor("_RGripColor", BitwiseUtils.IntToRgb(joySide == SplitRight ? JslGetControllerColour(joy.GetHandle()) : JslGetControllerColour(joy.GetOtherHalf().GetHandle())));
+                    controllerMat.SetColor("_BodyColor",  joySide == SplitRight ? joy.GetButtonColor() : joy.GetOtherHalf().GetButtonColor());
+                    controllerMat.SetColor("_BtnColor",   joySide == SplitLeft ? joy.GetButtonColor() : joy.GetOtherHalf().GetButtonColor());
+                    controllerMat.SetColor("_LGripColor", joy.GetLeftGripColor());
+                    controllerMat.SetColor("_RGripColor", joy.GetRightGripColor());
                     break;
                 case "Pro Controller":
                     joy = (InputJoyshock) controller;
-                    controllerMat.SetColor("_BodyColor", BitwiseUtils.IntToRgb(JslGetControllerColour(joy.GetHandle())));
-                    controllerMat.SetColor("_BtnColor", BitwiseUtils.IntToRgb(JslGetControllerButtonColour(joy.GetHandle())));
-                    controllerMat.SetColor("_LGripColor", BitwiseUtils.IntToRgb(JslGetControllerLeftGripColour(joy.GetHandle())));
-                    controllerMat.SetColor("_RGripColor", BitwiseUtils.IntToRgb(JslGetControllerRightGripColour(joy.GetHandle())));
+                    controllerMat.SetColor("_BodyColor", joy.GetBodyColor());
+                    controllerMat.SetColor("_BtnColor", joy.GetButtonColor());
+                    controllerMat.SetColor("_LGripColor", joy.GetLeftGripColor());
+                    controllerMat.SetColor("_RGripColor", joy.GetRightGripColor());
                     break;
-                //TODO: dualshock 4 and dualsense lightbar colour support
                 case "DualShock 4":
+                    joy = (InputJoyshock) controller;
                     controllerMat.SetColor("_BodyColor", ColorUtility.TryParseHtmlString("#E1E2E4", out colour) ? colour : Color.white);
                     controllerMat.SetColor("_BtnColor", ColorUtility.TryParseHtmlString("#414246", out colour) ? colour : Color.white);
-                    controllerMat.SetColor("_LGripColor", ColorUtility.TryParseHtmlString("#1E6EFA", out colour) ? colour : Color.white);
-                    controllerMat.SetColor("_RGripColor", ColorUtility.TryParseHtmlString("#1E6EFA", out colour) ? colour : Color.white);
+                    controllerMat.SetColor("_LGripColor", joy.GetLightbarColour());
+                    controllerMat.SetColor("_RGripColor", joy.GetLightbarColour());
                     break;
                 case "DualSense":
+                    joy = (InputJoyshock) controller;
                     controllerMat.SetColor("_BodyColor", ColorUtility.TryParseHtmlString("#DEE0EB", out colour) ? colour : Color.white);
                     controllerMat.SetColor("_BtnColor", ColorUtility.TryParseHtmlString("#272D39", out colour) ? colour : Color.white);
-                    controllerMat.SetColor("_LGripColor", ColorUtility.TryParseHtmlString("#1E6EFA", out colour) ? colour : Color.white);
-                    controllerMat.SetColor("_RGripColor", ColorUtility.TryParseHtmlString("#1E6EFA", out colour) ? colour : Color.white);
+                    controllerMat.SetColor("_LGripColor", joy.GetLightbarColour());
+                    controllerMat.SetColor("_RGripColor", joy.GetLightbarColour());
                     break;
                 default:
-                    controllerMat.SetColor("_BodyColor", new Color(1, 1, 1, 1));
-                    controllerMat.SetColor("_BtnColor", new Color(1, 1, 1, 1));
-                    controllerMat.SetColor("_LGripColor", new Color(1, 1, 1, 1));
-                    controllerMat.SetColor("_RGripColor", new Color(1, 1, 1, 1));
+                    controllerMat.SetColor("_BodyColor", Color.white);
+                    controllerMat.SetColor("_BtnColor", Color.white);
+                    controllerMat.SetColor("_LGripColor", Color.white);
+                    controllerMat.SetColor("_RGripColor", Color.white);
                     break;
             }
         }
 
         IEnumerator SelectionVibrate(InputJoyshock controller)
         {
-            JslSetRumbleFrequency(controller.GetHandle(), 0.4f, 0.3f, 80f, 160f);
+            JslSetRumbleFrequency(controller.GetHandle(), 0.4f, 0.4f, 80f, 160f);
             yield return new WaitForSeconds(0.15f);
             JslSetRumbleFrequency(controller.GetHandle(), 0f, 0f, 0f, 0f);
             yield return new WaitForSeconds(0.05f);
-            JslSetRumbleFrequency(controller.GetHandle(), 0.45f, 0.45f, 160f, 320f);
+            JslSetRumbleFrequency(controller.GetHandle(), 0.5f, 0.5f, 160f, 320f);
             yield return new WaitForSeconds(0.25f);
             JslSetRumbleFrequency(controller.GetHandle(), 0f, 0f, 0f, 0f);
         }
