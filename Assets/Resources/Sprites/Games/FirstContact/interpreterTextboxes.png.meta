@@ -5,6 +5,18 @@ TextureImporter:
   - first:
       213: 484124400209634000
     second: interpreterTextboxes_0
+<<<<<<< HEAD
+=======
+  - first:
+      213: -7876428232389808301
+    second: interpreterTextboxes_1
+  - first:
+      213: -2508620102671554880
+    second: interpreterTextboxes_2
+  - first:
+      213: 4953631840317161205
+    second: interpreterTextboxes_3
+>>>>>>> d65cae24d2db1df6a0e5bb4d3bd4e86fe633985f
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -99,7 +111,11 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 513
+<<<<<<< HEAD
         width: 510
+=======
+        width: 511
+>>>>>>> d65cae24d2db1df6a0e5bb4d3bd4e86fe633985f
         height: 511
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -114,6 +130,51 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+<<<<<<< HEAD
+=======
+    - serializedVersion: 2
+      name: interpreterTextboxes_1
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 513
+        width: 511
+        height: 511
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35f2c85f04e41b290800000000000000
+      internalID: -7876428232389808301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: interpreterTextboxes_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 511
+        height: 511
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c6abdfce479f2dd0800000000000000
+      internalID: -2508620102671554880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+>>>>>>> d65cae24d2db1df6a0e5bb4d3bd4e86fe633985f
     outline: []
     physicsShape: []
     bones: []
