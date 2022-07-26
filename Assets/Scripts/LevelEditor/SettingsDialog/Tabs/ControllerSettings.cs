@@ -53,9 +53,9 @@ namespace HeavenStudio.Editor
                         InputController lastController = PlayerInput.GetInputController(1);
                         isAutoSearching = false;
                         autoSearchLabel.SetActive(false);
-                        controllersDropdown.value = PlayerInput.GetInputControllerId(1);
-
                         AssignController(controller, lastController);
+
+                        controllersDropdown.value = PlayerInput.GetInputControllerId(1);
                     }
                 }
             }
