@@ -19,15 +19,15 @@ namespace HeavenStudio.Games.Scripts_AirRally
 
         [NonReorderable] public BezierCurve3D curve;
         AirRally game;
+        Vector3 nextPos;
 
         private void Awake()
         {
             game = AirRally.instance;
-            flyBeats = isReturning ? 1.2f : 1.2f;
+            flyBeats = 1f;
             var cond = Conductor.instance;
             flyPos = cond.GetPositionFromBeat(startBeat, flyBeats);
             transform.position = curve.GetPoint(flyPos);
-
         }
         void Start()
         {
@@ -38,16 +38,26 @@ namespace HeavenStudio.Games.Scripts_AirRally
         void Update()
         {
             var cond = Conductor.instance;
+            //flyBeats = isReturning ? 1.2f : 1.2f;
             float flyPos = cond.GetPositionFromBeat(startBeat, flyBeats);
-            flyBeats = isReturning ? 1.2f : 1.2f;
             if (flyPos <= 1f)
             {
                 if (!miss)
                 {
-                    flyPos *= 0.95f;
+                    flyPos *= .8f;
                 }
+
                 Vector3 lastPos = transform.position;
-                Vector3 nextPos = curve.GetPoint(flyPos);
+                nextPos = curve.GetPoint(flyPos);
+                curve.KeyPoints[0].transform.position = new Vector3(game.holderPos.position.x, game.holderPos.position.y, game.wayPointZForForth);  
+                if (isReturning)
+                {
+                    curve.transform.localScale = new Vector3(-1, 1);
+                }
+                else
+                {
+                    curve.transform.localScale = new Vector3(1, 1);
+                }
 
                 if (flyType)
                 {
@@ -57,7 +67,8 @@ namespace HeavenStudio.Games.Scripts_AirRally
                 }
                 else
                 {
-                    if(!isReturning)
+
+                    if (!isReturning)
                         transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + (360f * Time.deltaTime));
                     else
                         transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + (-360f * Time.deltaTime));
@@ -65,10 +76,10 @@ namespace HeavenStudio.Games.Scripts_AirRally
 
                 transform.position = nextPos;
             }
-            else
-            {
-                transform.position = curve.GetPoint(miss ? 1f : 0.95f);
-            }
+            //else
+            //{
+            //    transform.position = curve.GetPoint(miss ? 1f : 0.95f);
+            //}
 
             //if (flyPos > 1f)
             //{

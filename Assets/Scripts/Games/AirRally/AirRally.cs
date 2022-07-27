@@ -70,13 +70,14 @@ namespace HeavenStudio.Games
         public bool hasMissed;
 
         [Header("Waypoint")]
-        [SerializeField] float wayPointZForForth;
+        public float wayPointZForForth;
 
         [Header("Curves")]
         public BezierCurve3D closeRallyCurve;
+        public BezierCurve3D farRallyCurve;
+        public BezierCurve3D fartherRallyCurve;
+        public BezierCurve3D farthestRallyCurve;
         public BezierCurve3D closeRallyReturnCurve;
-        public BezierCurve3D MissCurve;
-        public BezierCurve3D MissReturnCurve;
 
         [Header("Debug")]
         public float beatShown;
@@ -85,6 +86,7 @@ namespace HeavenStudio.Games
         public int wantDistance;
         public bool wantSilent;
         public float beatHolder;
+        public Transform holderPos;
 
         void Start()
         {
@@ -120,8 +122,11 @@ namespace HeavenStudio.Games
                 if(lengthHolder != lengthShown)
                 {
                     started = true;
-                    
-                    Rally(serveBeat + (int)currentBeat, wantSilent, lengthHolder);
+                    //convert to 2 decimal places
+                    var f = currentBeat;
+                    //f = Mathf.Round(f * 10.0f) * 0.1f;
+                    Rally(serveBeat + (int)f, wantSilent, lengthHolder);
+                    //Debug.Log("Beat Loop: " + serveBeat + f);
                     //Debug.Log("Serve Beat: " + serveBeat);
                 }
             }
@@ -146,12 +151,24 @@ namespace HeavenStudio.Games
         public void SpawnObject(float beat, int type)
         {
             BezierCurve3D curve = null;
+
             switch (type)
             {
                 case (int)DistanceSound.close:
                     curve = closeRallyCurve;
                     break;
+                case (int)DistanceSound.far:
+                    curve = farRallyCurve;
+                    break;
+                case (int)DistanceSound.farther:
+                    curve = fartherRallyCurve;
+                    break;
+                case (int)DistanceSound.farthest:
+                    curve = farthestRallyCurve;
+                    break;
             }
+
+            //curve.KeyPoints[0].transform.position = new Vector3(holderPos.position.x, holderPos.position.y, wayPointZForForth);
 
             if (!shuttleActive)
             {
@@ -163,7 +180,7 @@ namespace HeavenStudio.Games
             shuttleScript.flyPos = 0f;
             shuttleScript.isReturning = false;
             shuttleScript.startBeat = (int)Conductor.instance.songPositionInBeats;
-            shuttleScript.curve = closeRallyCurve;
+            shuttleScript.curve = curve;
             //float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(beat, 3f);
 
             //ActiveShuttle.transform.position = curve.GetPoint(normalizedBeatAnim);
@@ -175,23 +192,36 @@ namespace HeavenStudio.Games
 
         public void ReturnObject(float beat, int type)
         {
+            
             BezierCurve3D curve = null;
             switch (type)
             {
                 case (int)DistanceSound.close:
                     curve = closeRallyCurve;
                     break;
+                case (int)DistanceSound.far:
+                    curve = farRallyCurve;
+                    break;
+                case (int)DistanceSound.farther:
+                    curve = fartherRallyCurve;
+                    break;
+                case (int)DistanceSound.farthest:
+                    curve = farthestRallyCurve;
+                    break;
             }
 
+            ActiveShuttle.transform.localPosition = curve.KeyPoints[0].transform.position;
             var shuttleScript = ActiveShuttle.GetComponent<Shuttlecock>();
             shuttleScript.flyPos = 0f;
             shuttleScript.isReturning = true;
             shuttleScript.startBeat = beat;
-            shuttleScript.curve = closeRallyReturnCurve;
+            //shuttleScript.curve = closeRallyReturnCurve;
             //float normalizedBeatAnim = Conductor.instance.GetPositionFromBeat(beat, 3f);
 
             //ActiveShuttle.transform.position = curve.GetPoint(normalizedBeatAnim);
             ActiveShuttle.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+            
         }
 
         //change to something more optimized
@@ -316,7 +346,7 @@ namespace HeavenStudio.Games
                 {
                     //new BeatAction.Action(beat, delegate { Forthington.GetComponent<Animator>().Play("Ready");} ),
                     new BeatAction.Action(beat, delegate { Forthington.GetComponent<Animator>().Play("Hit");} ),
-                    new BeatAction.Action(beat, delegate { SpawnObject(beat, (int)e_BaBumState); } ),
+                    //new BeatAction.Action(beat, delegate { SpawnObject(beat, (int)e_BaBumState); } ),
                 });
 
                 switch (e_BaBumState)
@@ -388,8 +418,6 @@ namespace HeavenStudio.Games
                     lengthHolder = 0f;
                 }
             }
-            
-
         }
         
 
@@ -400,6 +428,12 @@ namespace HeavenStudio.Games
             serveBeat = 0f;
             lengthShown = 0f;
             lengthHolder = 0f;
+
+            //if (!ActiveShuttle)
+            //{
+            //    SpawnObject(beat, (int)e_BaBumState);
+            //}
+
             string[] sounds = { "", "", "", "", "", ""};
             string[] sounds2 = { "", "", "" };
             if (e_BaBumState == DistanceSound.close || type == 0)
@@ -507,25 +541,6 @@ namespace HeavenStudio.Games
         {
             Baxter.GetComponent<Animator>().Play("Hit");
             hasMissed = false;
-            //BeatAction.New(gameObject, new List<BeatAction.Action>()
-            //{
-            //    new BeatAction.Action(beat + .25f, delegate { if(!babum) { Forthington.GetComponent<Animator>().Play("Ready"); } }),
-            //});
-
-            //var shuttleScript = ActiveShuttle.GetComponent<Shuttlecock>();
-            //shuttleScript.isReturning = true;
-            ////Debug.Log(beatHolder);
-            //ActiveShuttle.transform.rotation = Quaternion.Euler(0, 0, 0);
-            //shuttleScript.startBeat = (int)Conductor.instance.songPositionInBeats;
-            //shuttleScript.curve = closeRallyReturnCurve;
-
-            ReturnObject((int)Conductor.instance.songPositionInBeats + 1f, 0);
-            //BeatAction.New(gameObject, new List<BeatAction.Action>()
-            //{
-            //    new BeatAction.Action(beat + 1f, delegate { ActiveShuttle.transform.rotation = Quaternion.Euler(0, 0, 0);}),
-            //    new BeatAction.Action(beat + 1f, delegate {shuttleScript.startBeat = (int)Conductor.instance.songPositionInBeats; }),
-            //    new BeatAction.Action(beat + 1f, delegate {shuttleScript.curve = closeRallyReturnCurve;}),
-            //});
 
             if (e_BaBumState == DistanceSound.close)
             {
@@ -543,8 +558,20 @@ namespace HeavenStudio.Games
             {
                 Jukebox.PlayOneShotGame("airRally/hitBaxter_Farthest");
             }
+           
+            if (beatHolder % 2 == 0)
+            {
+                //ReturnObject(beatHolder + 1, 0);
+                //Debug.Log("a");
+            }
+            else
+            {
+                //ReturnObject(beatHolder + 1, 0);
+                //Debug.Log("b");
 
-            
+            }
+
+            //Debug.Log("BeatHolder: " + beatHolder);
             served = false;
         }
 
