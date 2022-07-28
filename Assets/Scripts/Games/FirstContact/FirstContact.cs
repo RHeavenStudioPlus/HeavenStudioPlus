@@ -98,7 +98,7 @@ namespace HeavenStudio.Games
             instance = this;
         }
 
-        public void SetIntervalStart(float beat, float interval = 4f)
+        public void SetIntervalStart(float beat, float interval)
         {
             if (!intervalStarted)
             {
@@ -123,7 +123,7 @@ namespace HeavenStudio.Games
                 lastReportedBeat = Mathf.Round(Conductor.instance.songPositionInBeats);
             }
 
-            if (PlayerInput.Pressed() && !IsExpectingInputNow() && !noHitOnce && !isSpeaking)
+            if (PlayerInput.Pressed() && !IsExpectingInputNow() && !noHitOnce && !isSpeaking && !missionControl.activeInHierarchy)
             {
                 Jukebox.PlayOneShotGame("firstContact/" + randomizerLines());
                 BeatAction.New(this.gameObject, new List<BeatAction.Action>()
@@ -212,15 +212,7 @@ namespace HeavenStudio.Games
 
         public void alienTurnOver(float beat)
         {
-            if (!intervalStarted)
-            {
-                SetIntervalStart(beat, beatInterval);
-            }
-            if (intervalStarted)
-            {
-                SetIntervalStart(beat, beatInterval);
-            }
-
+            SetIntervalStart(beat, beatInterval);
             Jukebox.PlayOneShotGame("firstContact/turnover");
 
             BeatAction.New(alien, new List<BeatAction.Action>()
@@ -281,6 +273,7 @@ namespace HeavenStudio.Games
 
             alienSpeakCount = 0;
             translatorSpeakCount = 0;
+            intervalStarted = false;
             isSpeaking = false;
             hasMissed = false;
             noHitOnce = false;
@@ -312,7 +305,7 @@ namespace HeavenStudio.Games
             {
                 BeatAction.New(missionControl, new List<BeatAction.Action>()
                     {
-                        new BeatAction.Action(length, delegate { missionControl.SetActive(false); }),
+                        new BeatAction.Action(beat + length, delegate { missionControl.SetActive(false); }),
                     });
             }
             else
@@ -373,4 +366,3 @@ namespace HeavenStudio.Games
         }
     }
 }
-
