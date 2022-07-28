@@ -47,7 +47,11 @@ namespace HeavenStudio.Games.Global
             // startColor = new Color(1, 1, 1, 0);
             // endColor = new Color(1, 1, 1, 0);
 
-            allFadeEvents = EventCaller.GetAllInGameManagerList("gameManager", new string[] { "flash" });
+            allFadeEvents = EventCaller.GetAllInGameManagerList("vfx", new string[] { "flash" });
+            Test(beat);
+
+            // backwards-compatibility baybee
+            allFadeEvents.AddRange(EventCaller.GetAllInGameManagerList("gameManager", new string[] { "flash" }));
             Test(beat);
         }
 
