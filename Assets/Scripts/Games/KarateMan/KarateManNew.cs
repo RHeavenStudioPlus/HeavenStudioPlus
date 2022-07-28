@@ -15,7 +15,7 @@ namespace HeavenStudio.Games.Loaders
             return new Minigame("karateManNew", "Karate Man [INDEV REWORK]", "70A8D8", false, false, new List<GameAction>()
             {
                 new GameAction("bop",                   delegate { }, 0.5f, true),
-                new GameAction("hit",                   delegate{}, 2, false, 
+                new GameAction("hit",                   delegate { var e = eventCaller.currentEntity; KarateManNew.instance.CreateItem(e.beat, e.type); }, 2, false, 
                     new List<Param>()
                     {
                         new Param("type", KarateManNew.HitType.Pot, "Object", "The object to fire")
@@ -27,7 +27,7 @@ namespace HeavenStudio.Games.Loaders
                         new Param("colorA", new Color(), "Custom Color", "The color to use when the bulb type is set to Custom")
                     }),
                 new GameAction("kick",                  delegate { }, 4.5f),
-                new GameAction("combo",                 delegate { }, 4f),
+                new GameAction("combo",                 delegate { var e = eventCaller.currentEntity; KarateManNew.instance.Combo(e.beat); }, 4f),
                 new GameAction("hit3",                  delegate { }, 1f, false, 
                     new List<Param>()
                     {
@@ -131,15 +131,16 @@ namespace HeavenStudio.Games
         public Transform[] CameraPosition;
 
         Vector3 cameraPosition;
-        
+
         //pot trajectory stuff
-        public Transform[] HitPosition;
-        static Vector2 StartPositionOffset = new Vector2(-3f, -8f);
-        //https://www.desmos.com/calculator/ycn9v62i4f
+        public Transform ItemHolder;
+        public GameObject Item;
+        public KarateManJoeNew Joe;
 
         private void Awake()
         {
             instance = this;
+            KarateManPotNew.ResetLastCombo();
             cameraPosition = CameraPosition[0].position;
         }
 
@@ -151,6 +152,72 @@ namespace HeavenStudio.Games
         private void Update()
         {
             GameCamera.additionalPosition = cameraPosition - GameCamera.defaultPosition;
+        }
+
+        public void CreateItem(float beat, int type)
+        {
+
+            string outSound;
+
+            switch (type)
+            {
+                case (int) HitType.Pot:
+                    if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
+                        outSound = "karateman/objectOut";
+                    else
+                        outSound = "karateman/offbeatObjectOut";
+                    CreateItemInstance(beat, "Item00");
+                    break;
+                default:
+                    if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
+                        outSound = "karateman/objectOut";
+                    else
+                        outSound = "karateman/offbeatObjectOut";
+                    CreateItemInstance(beat, "Item00");
+                    break;
+            }
+            Jukebox.PlayOneShotGame(outSound, forcePlay: true);
+        }
+
+        public void Combo(float beat)
+        {
+            Jukebox.PlayOneShotGame("karateman/barrelOutCombos", forcePlay: true);
+
+            int comboId = KarateManPotNew.GetNewCombo();
+
+            BeatAction.New(gameObject, new List<BeatAction.Action>() 
+            { 
+                new BeatAction.Action(beat, delegate { CreateItemInstance(beat, "Item00", KarateManPotNew.ItemType.ComboPot1, comboId); }),
+                new BeatAction.Action(beat + 0.25f, delegate { CreateItemInstance(beat + 0.25f, "Item00", KarateManPotNew.ItemType.ComboPot2, comboId); }),
+                new BeatAction.Action(beat + 0.5f, delegate { CreateItemInstance(beat + 0.5f, "Item00", KarateManPotNew.ItemType.ComboPot3, comboId); }),
+                new BeatAction.Action(beat + 0.75f, delegate { CreateItemInstance(beat + 0.75f, "Item00", KarateManPotNew.ItemType.ComboPot4, comboId); }),
+                new BeatAction.Action(beat + 1f, delegate { CreateItemInstance(beat + 1f, "Item00", KarateManPotNew.ItemType.ComboPot5, comboId); }),
+                new BeatAction.Action(beat + 1.5f, delegate { CreateItemInstance(beat + 1.5f, "Item05", KarateManPotNew.ItemType.ComboBarrel, comboId); }),
+            });
+
+            MultiSound.Play(new MultiSound.Sound[] 
+            {
+                new MultiSound.Sound("karateman/punchy1", beat + 1f), 
+                new MultiSound.Sound("karateman/punchy2", beat + 1.25f), 
+                new MultiSound.Sound("karateman/punchy3", beat + 1.5f), 
+                new MultiSound.Sound("karateman/punchy4", beat + 1.75f), 
+                new MultiSound.Sound("karateman/ko", beat + 2f), 
+                new MultiSound.Sound("karateman/pow", beat + 2.5f) 
+            }, forcePlay: true);
+        }
+
+        GameObject CreateItemInstance(float beat, string awakeAnim, KarateManPotNew.ItemType type = KarateManPotNew.ItemType.Pot, int comboId = -1)
+        {
+            GameObject mobj = GameObject.Instantiate(Item, ItemHolder);
+            KarateManPotNew mobjDat = mobj.GetComponent<KarateManPotNew>();
+            mobjDat.type = type;
+            mobjDat.startBeat = beat;
+            mobjDat.awakeAnim = awakeAnim;
+            mobjDat.comboId = comboId;
+
+            mobj.SetActive(true);
+            
+            return mobj;
         }
     }
 }
