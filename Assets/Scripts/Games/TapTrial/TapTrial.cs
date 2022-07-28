@@ -12,7 +12,7 @@ namespace HeavenStudio.Games.Loaders
     public static class AgbTapLoader
     {
         public static Minigame AddGame(EventCaller eventCaller) {
-            return new Minigame("tapTrial", "Tap Trial \n<color=#eb5454>[WIP don't use]</color>", "93ffb3", false, false, new List<GameAction>()
+            return new Minigame("tapTrial", "Tap Trial \n<color=#eb5454>[WIP]</color>", "93ffb3", false, false, new List<GameAction>()
             {
                 new GameAction("bop",                   delegate { TapTrial.instance.Bop(eventCaller.currentEntity.toggle); }, .5f, false, new List<Param>()
                 {

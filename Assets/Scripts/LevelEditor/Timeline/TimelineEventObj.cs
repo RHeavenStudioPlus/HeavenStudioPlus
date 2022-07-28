@@ -452,6 +452,9 @@ namespace HeavenStudio.Editor.Track
                 case 3:
                     c = EditorTheme.theme.properties.Layer4Col.Hex2RGB();
                     break;
+                case 4:
+                    c = EditorTheme.theme.properties.Layer5Col.Hex2RGB();
+                    break;
             }
 
             // c = new Color(c.r, c.g, c.b, 0.85f);
