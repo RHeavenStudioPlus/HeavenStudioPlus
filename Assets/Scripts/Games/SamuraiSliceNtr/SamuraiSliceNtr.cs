@@ -12,7 +12,7 @@ namespace HeavenStudio.Games.Loaders
     public static class NtrSamuraiLoader
     {
         public static Minigame AddGame(EventCaller eventCaller) {
-            return new Minigame("samuraiSliceNtr", "Samurai Slice (DS) \n<color=#eb5454>[WIP]</color>", "00165D", false, false, new List<GameAction>()
+            return new Minigame("samuraiSliceNtr", "Samurai Slice (DS)", "00165D", false, false, new List<GameAction>()
             {
                 new GameAction("spawn object",                   delegate
                 {
