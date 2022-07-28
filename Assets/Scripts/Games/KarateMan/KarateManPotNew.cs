@@ -11,7 +11,18 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public float startBeat;
         public ItemType type;
         public int path = 1;
-        int status = 0;
+
+        public GameObject Shadow;
+        public GameObject ShadowInstance;
+
+        public string awakeAnim;
+        FlyStatus status = FlyStatus.Fly;
+
+        public int comboId = -1;
+        static int _lastCombo = -1;
+        public static int LastCombo { get { return _lastCombo; } }
+        public static int GetNewCombo() { _lastCombo++; return _lastCombo; }
+        public static void ResetLastCombo() { _lastCombo = -1; }
 
         public enum ItemType {
             Pot,        // path 1
@@ -43,26 +54,28 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         //pot trajectory stuff
         public Transform[] HitPosition;
         public float[] HitPositionOffset;
-        static Vector3 StartPositionOffset = new Vector3(3f, 0f, -8f);
+        public Vector3[] StartPositionOffset;
+        public float[] ItemSlipRt;
 
         float ProgressToHitPosition(float progress) {
-            return progress + (HitPositionOffset[path] -0.5f);
+            return progress + (HitPositionOffset[path] - 0.5f);
         }
 
         Vector3 ProgressToFlyPosition()
         {
             var cond = Conductor.instance;
-            float progress = Mathf.Min(cond.GetPositionFromBeat(startBeat, 2f), 1f);
+            float progress = Mathf.Min(cond.GetPositionFromBeat(startBeat, 2f), 1f - ItemSlipRt[path]);
             float progressToHitPosition = ProgressToHitPosition(progress);
 
+            Vector3 hitPosition = HitPosition[path].position;
 
             //https://www.desmos.com/calculator/ycn9v62i4f
             float offset = HitPositionOffset[path];
             float flyHeight = (progressToHitPosition*(progressToHitPosition-1f))/(offset*(offset-1f));
             float floorHeight = HitPosition[0].position.y;
 
-            Vector3 startPosition = transform.position + StartPositionOffset;
-            Vector3 endPosition = transform.position - StartPositionOffset;
+            Vector3 startPosition = hitPosition + StartPositionOffset[path];
+            Vector3 endPosition = hitPosition - StartPositionOffset[path];
             Vector3 flyPosition = new Vector3(
                 Mathf.Lerp(startPosition.x, endPosition.x, progress),
                 floorHeight + (HitPosition[path].position.y - floorHeight) * flyHeight,
@@ -73,6 +86,141 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 flyPosition.y = floorHeight;
             }
             return flyPosition;
+        }
+
+        void Awake()
+        {
+            switch (type)
+            {
+                case ItemType.ComboPot1:
+                    KarateManNew.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_ALT_DOWN, ComboStartJustOrNg, ComboStartThrough, ComboStartOut);
+                    path = 1;
+                    break;
+                case ItemType.ComboPot2:
+                    path = 1;
+                    break;
+                case ItemType.ComboPot3:
+                    path = 2;
+                    break;
+                case ItemType.ComboPot4:
+                    path = 3;
+                    //if the button isn't held anymore make Joe spin
+                    break;
+                case ItemType.ComboPot5:
+                    path = 4;
+                    break;
+                case ItemType.ComboBarrel:
+                    path = 5;
+                    //check for button release
+                    break;
+                default:
+                    KarateManNew.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_DOWN | InputType.DIRECTION_DOWN, ItemJustOrNg, ItemThrough, ItemOut);
+                    path = 1;
+                    comboId = -1;
+                    break;
+            }
+
+            float floorHeight = HitPosition[0].position.y;
+            transform.position = ProgressToFlyPosition();
+
+            Animator mobjAnim = GetComponent<Animator>();
+            mobjAnim.Play(awakeAnim, -1, 0);
+            transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + (-360f * Time.deltaTime) + UnityEngine.Random.Range(0f, 360f));
+
+            ShadowInstance = GameObject.Instantiate(Shadow, KarateManNew.instance.ItemHolder);
+            ShadowInstance.SetActive(true);
+            ShadowInstance.transform.position = new Vector3(transform.position.x, floorHeight - 0.5f, transform.position.z);
+        }
+
+        void Update()
+        {
+            var cond = Conductor.instance;
+            float floorHeight = HitPosition[0].position.y;
+            ShadowInstance.transform.position = new Vector3(transform.position.x, floorHeight - 0.5f, transform.position.z);
+            switch (status)
+            {
+                case FlyStatus.Fly:
+                    float prog = cond.GetPositionFromBeat(startBeat, 2f);
+                    transform.position = ProgressToFlyPosition();
+                    if (prog >= 2f) {
+                        GameObject.Destroy(ShadowInstance.gameObject);
+                        GameObject.Destroy(gameObject);
+                        return;
+                    }
+                    else if (prog < 1f - ItemSlipRt[path]) {
+                        transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + (90f * Time.deltaTime * (1/cond.pitchedSecPerBeat)));
+                    }
+                    break;
+                case FlyStatus.Hit:
+                    //TEMPORARY
+                    GameObject.Destroy(ShadowInstance.gameObject);
+                    GameObject.Destroy(gameObject);
+                    return;
+                case FlyStatus.NG:
+                    //TEMPORARY
+                    GameObject.Destroy(ShadowInstance.gameObject);
+                    GameObject.Destroy(gameObject);
+                    return;
+                case FlyStatus.HitWeak:
+                    break;
+            }
+        }
+
+        public void ItemJustOrNg(PlayerActionEvent caller, float state)
+        {
+            if (status == FlyStatus.Fly) {
+                KarateManNew.instance.Joe.Punch();
+                if (state <= -1f || state >= 1f) {
+                    Jukebox.PlayOneShot("miss");
+                    status = FlyStatus.NG;
+                }
+                else {
+                    Jukebox.PlayOneShotGame("karateman/potHit", forcePlay: true);
+                    status = FlyStatus.Hit;
+                }
+            }
+        }
+
+        public void ItemWrongAction(PlayerActionEvent caller, float state)
+        { 
+            //hitting a normal object with the alt input
+        }
+
+        public void ItemOut(PlayerActionEvent caller) {}
+
+        public void ItemThrough(PlayerActionEvent caller)
+        {
+            BeatAction.New(gameObject, new List<BeatAction.Action>()
+            {
+                new BeatAction.Action(startBeat + 2f, delegate { 
+                    //TODO: play miss sound
+                    //deduct flow if applicable
+                })
+            });
+        }
+
+        public void ComboStartJustOrNg(PlayerActionEvent caller, float state)
+        {
+            if (status == FlyStatus.Fly) {
+                KarateManNew.instance.Joe.Punch(1);
+                KarateManNew.instance.Joe.SetComboId(comboId);
+                if (state <= -1f || state >= 1f) {
+                    Jukebox.PlayOneShot("miss");
+                    status = FlyStatus.NG;
+                }
+                else {
+                    Jukebox.PlayOneShotGame("karateman/potHit", forcePlay: true);
+                    status = FlyStatus.Hit;
+                }
+            }
+        }
+
+        public void ComboStartOut(PlayerActionEvent caller) {}
+        public void ComboStartThrough(PlayerActionEvent caller) {}
+
+        public void ComboStartWrongAction(PlayerActionEvent caller, float state)
+        { 
+            //hitting a combo start object with the normal input
         }
     }
 }
