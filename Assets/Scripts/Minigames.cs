@@ -271,6 +271,7 @@ namespace HeavenStudio
                     },
                     hidden: true ),
                 }),
+
                 new Minigame("countIn", "Count-Ins", "", false, true, new List<GameAction>()
                 {
                     new GameAction("4 beat count-in",       delegate { var e = eventCaller.currentEntity; SoundEffects.FourBeatCountIn(e.beat, e.length / 4f, e.type); }, 4f, true, new List<Param>()
@@ -308,9 +309,10 @@ namespace HeavenStudio
                     new GameAction("four (alt)",                delegate { SoundEffects.Count(3, true); }, 1f, hidden: true),
                     new GameAction("go! (alt)",                 delegate { SoundEffects.Go(true); }, 1f, hidden: true),
                 }),
+
                 new Minigame("vfx", "Visual Effects", "", false, true, new List<GameAction>()
                 {
-                     new GameAction("flash",                 delegate
+                    new GameAction("flash",                 delegate
                     {
 
                         /*Color colA = eventCaller.currentEntity.colorA;
@@ -328,7 +330,8 @@ namespace HeavenStudio
                         new Param("valA", new EntityTypes.Float(0, 1, 1), "Start Opacity"),
                         new Param("valB", new EntityTypes.Float(0, 1, 0), "End Opacity"),
                         new Param("ease", EasingFunction.Ease.Linear, "Ease")
-                    } ),
+                    }, hidden: false ),
+
                     new GameAction("move camera",              delegate 
                     {
                         //TODO: move cam
