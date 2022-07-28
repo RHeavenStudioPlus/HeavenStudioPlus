@@ -59,6 +59,9 @@ namespace HeavenStudio.Editor
                     case 3:
                         c = theme.properties.Layer4Col.Hex2RGB();
                         break;
+                    case 4:
+                        c = theme.properties.Layer5Col.Hex2RGB();
+                        break;
                 }
 
                 layer.GetComponent<Image>().color = c;
