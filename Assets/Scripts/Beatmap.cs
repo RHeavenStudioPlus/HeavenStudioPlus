@@ -77,7 +77,7 @@ namespace HeavenStudio
                     }
                     catch (Exception ex)
                     {
-                        UnityEngine.Debug.LogError($"You probably misspelled a paramater, or defined the object type wrong. Exception log: {ex}");
+                        UnityEngine.Debug.LogError($"You probably misspelled a parameter, or defined the object type wrong. Exception log: {ex}");
                     }
                 }
             }

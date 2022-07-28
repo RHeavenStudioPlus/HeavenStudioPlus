@@ -19,6 +19,7 @@ namespace HeavenStudio.Editor
             public string Layer2Col;
             public string Layer3Col;
             public string Layer4Col;
+            public string Layer5Col;
 
             public string EventSelectedCol;
             public string EventNormalCol;
