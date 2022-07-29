@@ -98,18 +98,23 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     break;
                 case ItemType.ComboPot2:
                     path = 1;
+                    BeatAction.New(gameObject, new List<BeatAction.Action>() { new BeatAction.Action(startBeat + 1f, delegate { JoeComboSequence(); }) });
                     break;
                 case ItemType.ComboPot3:
                     path = 2;
+                    BeatAction.New(gameObject, new List<BeatAction.Action>() { new BeatAction.Action(startBeat + 1f, delegate { JoeComboSequence(); }) });
                     break;
                 case ItemType.ComboPot4:
                     path = 3;
                     //if the button isn't held anymore make Joe spin
+                    BeatAction.New(gameObject, new List<BeatAction.Action>() { new BeatAction.Action(startBeat + 1f, delegate { JoeComboSequence(); }) });
                     break;
                 case ItemType.ComboPot5:
                     path = 4;
+                    BeatAction.New(gameObject, new List<BeatAction.Action>() { new BeatAction.Action(startBeat + 1f, delegate { JoeComboSequence(); }) });
                     break;
                 case ItemType.ComboBarrel:
+                    KarateManNew.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_ALT_UP, ComboEndJustOrNg, ComboEndThrough, ComboEndOut);
                     path = 5;
                     //check for button release
                     break;
@@ -166,6 +171,59 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             }
         }
 
+        void JoeComboSequence()
+        {
+            var joe = KarateManNew.instance.Joe;
+            if (joe.GetShouldComboId() != comboId || !joe.inCombo) return;
+            switch (type)
+            {
+                case ItemType.ComboPot2:
+                    joe.Punch(2);
+                    if (joe.GetComboId() != comboId)
+                        Jukebox.PlayOneShotGame("karateman/swingNoHit_Alt", forcePlay: true);
+                    else
+                    {
+                        Jukebox.PlayOneShotGame("karateman/comboHit1", forcePlay: true);
+                        status = FlyStatus.Hit;
+                    }
+                    break;
+                case ItemType.ComboPot3:
+                    joe.ComboSequence(0);
+                    if (joe.GetComboId() != comboId) {}
+                    else
+                    {
+                        Jukebox.PlayOneShotGame("karateman/comboHit2", forcePlay: true);
+                        status = FlyStatus.Hit;
+                    }
+                    break;
+                case ItemType.ComboPot4:
+                    //if the button isn't held anymore make Joe spin
+                    if (joe.GetComboId() != comboId) {
+                        joe.ComboMiss(startBeat + 1f);
+                        Jukebox.PlayOneShotGame("karateman/comboMiss", forcePlay: true);
+                        joe.SetShouldComboId(-2);
+                    }
+                    else
+                    {
+                        joe.ComboSequence(1);
+                        Jukebox.PlayOneShotGame("karateman/comboHit3", forcePlay: true);
+                        status = FlyStatus.Hit;
+                    }
+                    break;
+                case ItemType.ComboPot5:
+                    joe.ComboSequence(2);
+                    if (joe.GetComboId() != comboId) {}
+                    else
+                    {
+                        Jukebox.PlayOneShotGame("karateman/comboHit3", forcePlay: true);
+                        status = FlyStatus.Hit;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
         public void ItemJustOrNg(PlayerActionEvent caller, float state)
         {
             if (status == FlyStatus.Fly) {
@@ -201,15 +259,18 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public void ComboStartJustOrNg(PlayerActionEvent caller, float state)
         {
-            if (status == FlyStatus.Fly) {
-                KarateManNew.instance.Joe.Punch(1);
-                KarateManNew.instance.Joe.SetComboId(comboId);
+            var joe = KarateManNew.instance.Joe;
+            if (status == FlyStatus.Fly && !joe.inCombo) {
+                joe.inCombo = true;
+                joe.Punch(1);
+                joe.SetComboId(comboId);
+                joe.SetShouldComboId(comboId);
                 if (state <= -1f || state >= 1f) {
                     Jukebox.PlayOneShot("miss");
                     status = FlyStatus.NG;
                 }
                 else {
-                    Jukebox.PlayOneShotGame("karateman/potHit", forcePlay: true);
+                    Jukebox.PlayOneShotGame("karateman/comboHit1", forcePlay: true);
                     status = FlyStatus.Hit;
                 }
             }
@@ -222,5 +283,27 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         { 
             //hitting a combo start object with the normal input
         }
+
+        public void ComboEndJustOrNg(PlayerActionEvent caller, float state)
+        {
+            var joe = KarateManNew.instance.Joe;
+            if (status == FlyStatus.Fly && joe.inCombo && joe.GetComboId() == comboId) {
+                joe.inCombo = false;
+                joe.SetComboId(-1);
+                joe.SetShouldComboId(-1);
+                //UpperCut
+                if (state <= -1f || state >= 1f) {
+                    Jukebox.PlayOneShot("miss");
+                    status = FlyStatus.NG;
+                }
+                else {
+                    Jukebox.PlayOneShotGame("karateman/comboHit4", forcePlay: true);
+                    status = FlyStatus.Hit;
+                }
+            }
+        }
+
+        public void ComboEndOut(PlayerActionEvent caller) {}
+        public void ComboEndThrough(PlayerActionEvent caller) {}
     }
 }
