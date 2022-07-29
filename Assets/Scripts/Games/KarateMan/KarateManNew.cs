@@ -160,7 +160,7 @@ namespace HeavenStudio.Games
         {
             instance = this;
             KarateManPotNew.ResetLastCombo();
-            cameraPosition = CameraPosition[0].position;
+            cameraPosition = CameraPosition[1].position;
         }
 
         private void Start()
@@ -177,10 +177,10 @@ namespace HeavenStudio.Games
         {
 
             string outSound;
-            if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
-                outSound = "karateman/objectOut";
-            else
+            if (Starpelly.Mathp.GetDecimalFromFloat(beat + 0.5f) == 0f)
                 outSound = "karateman/offbeatObjectOut";
+            else
+                outSound = "karateman/objectOut";
 
             switch (type)
             {
@@ -188,10 +188,10 @@ namespace HeavenStudio.Games
                     CreateItemInstance(beat, "Item00");
                     break;
                 case (int) HitType.Lightbulb:
-                    if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
-                        outSound = "karateman/lightbulbOut";
-                    else
+                    if (Starpelly.Mathp.GetDecimalFromFloat(beat + 0.5f) == 0f)
                         outSound = "karateman/offbeatLightbulbOut";
+                    else
+                        outSound = "karateman/lightbulbOut";
                     CreateItemInstance(beat, "Item01", KarateManPotNew.ItemType.Bulb);
                     break;
                 case (int) HitType.Rock:
@@ -219,10 +219,10 @@ namespace HeavenStudio.Games
         public void CreateBulbSpecial(float beat, int type, Color c)
         {
             string outSound;
-            if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
-                outSound = "karateman/lightbulbOut";
-            else
+            if (Starpelly.Mathp.GetDecimalFromFloat(beat + 0.5f) == 0f)
                 outSound = "karateman/offbeatLightbulbOut";
+            else
+                outSound = "karateman/lightbulbOut";
             var mobj = CreateItemInstance(beat, "Item01", KarateManPotNew.ItemType.Bulb);
             if (type == (int) LightBulbType.Custom)
                 mobj.GetComponent<KarateManPotNew>().SetBulbColor(c);
