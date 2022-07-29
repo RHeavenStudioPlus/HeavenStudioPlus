@@ -27,7 +27,7 @@ namespace HeavenStudio.Games.Loaders
                         new Param("type", KarateMan.LightBulbType.Normal, "Type", "The preset bulb type. Yellow is used for kicks while Blue is used for combos"),
                         new Param("colorA", new Color(), "Custom Color", "The color to use when the bulb type is set to Custom")
                     }),
-                new GameAction("kick",                  delegate { }, 4f),
+                new GameAction("kick",                  delegate { KarateMan.instance.Kick(eventCaller.currentEntity.beat); }, 4f),
                 new GameAction("combo",                 delegate { KarateMan.instance.Combo(eventCaller.currentEntity.beat); }, 4f),
                 new GameAction("hitX",                  delegate { var e = eventCaller.currentEntity; KarateMan.instance.DoWord(e.beat, e.type); }, 1f, false, 
                     new List<Param>()
@@ -331,6 +331,21 @@ namespace HeavenStudio.Games
                 new MultiSound.Sound("karateman/punchy4", beat + 1.75f), 
                 new MultiSound.Sound("karateman/ko", beat + 2f), 
                 new MultiSound.Sound("karateman/pow", beat + 2.5f) 
+            }, forcePlay: true);
+        }
+
+        public void Kick(float beat)
+        {
+            Jukebox.PlayOneShotGame("karateman/barrelOutKicks", forcePlay: true);
+
+            CreateItemInstance(beat, "Item05", KarateManPot.ItemType.KickBarrel);
+
+            MultiSound.Play(new MultiSound.Sound[] 
+            {
+                new MultiSound.Sound("karateman/punchKick1", beat + 1f), 
+                new MultiSound.Sound("karateman/punchKick2", beat + 1.5f), 
+                new MultiSound.Sound("karateman/punchKick3", beat + 1.75f), 
+                new MultiSound.Sound("karateman/punchKick4", beat + 2.5f),
             }, forcePlay: true);
         }
 

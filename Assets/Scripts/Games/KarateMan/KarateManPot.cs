@@ -130,6 +130,13 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     KarateMan.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_ALT_DOWN, ComboEndWrongActionAlt, ItemOut, ItemOut);
                     path = 5;
                     break;
+                case ItemType.KickBarrel:
+                    //todo: needs own action for spawning the bomb
+                    KarateMan.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_DOWN | InputType.DIRECTION_DOWN, ItemJustOrNg, ItemThrough, ItemOut);
+                    KarateMan.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_ALT_DOWN, ItemWrongAction, ItemOut, ItemOut);
+                    path = 1;
+                    comboId = -1;
+                    break;
                 default:
                     KarateMan.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_DOWN | InputType.DIRECTION_DOWN, ItemJustOrNg, ItemThrough, ItemOut);
                     KarateMan.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_ALT_DOWN, ItemWrongAction, ItemOut, ItemOut);
@@ -166,7 +173,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                         return;
                     }
                     else if (prog < 1f - ItemSlipRt[path]) {
-                        transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + (90f * Time.deltaTime * (1/cond.pitchedSecPerBeat)));
+                        transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + (125f * Time.deltaTime * (1/cond.pitchedSecPerBeat)));
                     }
                     break;
                 case FlyStatus.Hit:
@@ -226,6 +233,9 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 case ItemType.ComboBarrel:
                     Jukebox.PlayOneShotGame("karateman/comboHit4", forcePlay: true);
                     break;
+                case ItemType.KickBarrel:
+                    Jukebox.PlayOneShotGame("karateman/barrelBreak", forcePlay: true);
+                    break;
                 default:
                     Jukebox.PlayOneShotGame("karateman/potHit", forcePlay: true);
                     break;
@@ -239,14 +249,11 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             switch (type)
             {
                 case ItemType.Rock:
-                    return 2;
                 case ItemType.Ball:
-                    return 2;
                 case ItemType.Cooking:
-                    return 2;
                 case ItemType.Alien:
-                    return 2;
                 case ItemType.TacoBell:
+                case ItemType.KickBarrel:
                     return 2;
                 default:
                     return 0;
