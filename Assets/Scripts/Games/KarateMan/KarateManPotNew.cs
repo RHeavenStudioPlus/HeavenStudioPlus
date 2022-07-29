@@ -86,7 +86,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             Vector3 endPosition = hitPosition - StartPositionOffset[path];
             Vector3 flyPosition = new Vector3(
                 Mathf.Lerp(startPosition.x, endPosition.x, progress),
-                floorHeight + (HitPosition[path].position.y - floorHeight) * flyHeight,
+                floorHeight + (HitPosition[path].position.y - floorHeight + (StartPositionOffset[path].y * (1 - Mathf.Min(cond.GetPositionFromBeat(startBeat, 1f), 1f)))) * flyHeight,
                 Mathf.Lerp(startPosition.z, endPosition.z, progress)
             );
 
