@@ -6,7 +6,7 @@ using HeavenStudio.Util;
 
 namespace HeavenStudio.Games.Scripts_KarateMan
 {
-    public class KarateManPotNew : PlayerActionObject
+    public class KarateManPot : PlayerActionObject
     {
         public float startBeat;
         public ItemType type;
@@ -101,8 +101,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             switch (type)
             {
                 case ItemType.ComboPot1:
-                    KarateManNew.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_ALT_DOWN, ComboStartJustOrNg, ComboStartThrough, ComboStartOut);
-                    KarateManNew.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_DOWN | InputType.DIRECTION_DOWN, ComboStartWrongAction, ComboStartOut, ComboStartOut);
+                    KarateMan.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_ALT_DOWN, ComboStartJustOrNg, ComboStartThrough, ComboStartOut);
+                    KarateMan.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_DOWN | InputType.DIRECTION_DOWN, ComboStartWrongAction, ComboStartOut, ComboStartOut);
                     path = 1;
                     break;
                 case ItemType.ComboPot2:
@@ -124,15 +124,15 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     break;
                 case ItemType.ComboBarrel:
                     //check for button release
-                    KarateManNew.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_ALT_UP, ComboEndJustOrNg, ComboEndThrough, ComboEndOut);
+                    KarateMan.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_ALT_UP, ComboEndJustOrNg, ComboEndThrough, ComboEndOut);
                     //button presses
-                    KarateManNew.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_DOWN | InputType.DIRECTION_DOWN, ComboEndWrongAction, ItemOut, ItemOut);
-                    KarateManNew.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_ALT_DOWN, ComboEndWrongActionAlt, ItemOut, ItemOut);
+                    KarateMan.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_DOWN | InputType.DIRECTION_DOWN, ComboEndWrongAction, ItemOut, ItemOut);
+                    KarateMan.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_ALT_DOWN, ComboEndWrongActionAlt, ItemOut, ItemOut);
                     path = 5;
                     break;
                 default:
-                    KarateManNew.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_DOWN | InputType.DIRECTION_DOWN, ItemJustOrNg, ItemThrough, ItemOut);
-                    KarateManNew.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_ALT_DOWN, ItemWrongAction, ItemOut, ItemOut);
+                    KarateMan.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_DOWN | InputType.DIRECTION_DOWN, ItemJustOrNg, ItemThrough, ItemOut);
+                    KarateMan.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_ALT_DOWN, ItemWrongAction, ItemOut, ItemOut);
                     path = 1;
                     comboId = -1;
                     break;
@@ -145,7 +145,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             mobjAnim.Play(awakeAnim, -1, 0);
             transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + (-360f * Time.deltaTime) + UnityEngine.Random.Range(0f, 360f));
 
-            ShadowInstance = GameObject.Instantiate(Shadow, KarateManNew.instance.ItemHolder);
+            ShadowInstance = GameObject.Instantiate(Shadow, KarateMan.instance.ItemHolder);
             ShadowInstance.SetActive(true);
             ShadowInstance.transform.position = new Vector3(transform.position.x, floorHeight - 0.5f, transform.position.z);
         }
@@ -255,7 +255,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         void JoeComboSequence()
         {
-            var joe = KarateManNew.instance.Joe;
+            if (GameManager.instance.currentGame != "karateman") return;
+            var joe = KarateMan.instance.Joe;
             if (joe.GetShouldComboId() != comboId || !joe.inCombo) return;
             switch (type)
             {
@@ -286,6 +287,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     else
                     {
                         joe.ComboSequence(1);
+                        joe.lockedInCombo = true;
                         ItemHitEffect();
                     }
                     break;
@@ -304,7 +306,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public void ItemJustOrNg(PlayerActionEvent caller, float state)
         {
-            var joe = KarateManNew.instance.Joe;
+            if (GameManager.instance.currentGame != "karateman") return;
+            var joe = KarateMan.instance.Joe;
             if (status == FlyStatus.Fly && !joe.inCombo) {
                 joe.Punch(ItemPunchHand());
                 if (state <= -1f || state >= 1f) {
@@ -320,9 +323,10 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public void ItemWrongAction(PlayerActionEvent caller, float state)
         { 
+            if (GameManager.instance.currentGame != "karateman") return;
             //hitting a normal object with the alt input
             //WHEN SCORING THIS IS A MISS
-            var joe = KarateManNew.instance.Joe;
+            var joe = KarateMan.instance.Joe;
             if (status == FlyStatus.Fly && !joe.inCombo) {
                 joe.ForceFailCombo(Conductor.instance.songPositionInBeats);
                 if (state <= -1f || state >= 1f) {
@@ -339,6 +343,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public void ItemThrough(PlayerActionEvent caller)
         {
+            if (GameManager.instance.currentGame != "karateman") return;
             if (status != FlyStatus.Fly || gameObject == null) return;
             BeatAction.New(gameObject, new List<BeatAction.Action>()
             {
@@ -351,7 +356,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public void ComboStartJustOrNg(PlayerActionEvent caller, float state)
         {
-            var joe = KarateManNew.instance.Joe;
+            if (GameManager.instance.currentGame != "karateman") return;
+            var joe = KarateMan.instance.Joe;
             if (status == FlyStatus.Fly && !joe.inCombo) {
                 joe.inCombo = true;
                 joe.Punch(1);
@@ -375,9 +381,10 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public void ComboStartWrongAction(PlayerActionEvent caller, float state)
         { 
+            if (GameManager.instance.currentGame != "karateman") return;
             //hitting a combo start with the normal input
             //WHEN SCORING THIS IS A MISS
-            var joe = KarateManNew.instance.Joe;
+            var joe = KarateMan.instance.Joe;
             if (status == FlyStatus.Fly && !joe.inCombo) {
                 joe.Punch(ItemPunchHand());
                 if (state <= -1f || state >= 1f) {
@@ -392,7 +399,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public void ComboEndJustOrNg(PlayerActionEvent caller, float state)
         {
-            var joe = KarateManNew.instance.Joe;
+            if (GameManager.instance.currentGame != "karateman") return;
+            var joe = KarateMan.instance.Joe;
             if (status == FlyStatus.Fly && joe.inCombo && joe.GetComboId() == comboId) {
                 joe.inCombo = false;
                 joe.SetComboId(-1);
@@ -411,8 +419,9 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public void ComboEndOut(PlayerActionEvent caller) {}
         public void ComboEndThrough(PlayerActionEvent caller) 
         {
+            if (GameManager.instance.currentGame != "karateman") return;
             if (status != FlyStatus.Fly || gameObject == null) return;
-            var joe = KarateManNew.instance.Joe;
+            var joe = KarateMan.instance.Joe;
             if (joe.GetComboId() != comboId || !joe.inCombo) return;
             BeatAction.New(gameObject, new List<BeatAction.Action>()
             {
@@ -427,12 +436,14 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public void ComboEndWrongAction(PlayerActionEvent caller, float state)
         {
-            KarateManNew.instance.Joe.Punch(1);
+            if (GameManager.instance.currentGame != "karateman") return;
+            KarateMan.instance.Joe.Punch(1);
         }
 
         public void ComboEndWrongActionAlt(PlayerActionEvent caller, float state)
         {
-            KarateManNew.instance.Joe.ForceFailCombo(Conductor.instance.songPositionInBeats);
+            if (GameManager.instance.currentGame != "karateman") return;
+            KarateMan.instance.Joe.ForceFailCombo(Conductor.instance.songPositionInBeats);
         }
     }
 }
