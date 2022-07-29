@@ -15,6 +15,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         float lastPunchTime = Single.MinValue;
         float lastComboMissTime = Single.MinValue;
+        float lastUpperCutTime = Single.MinValue;
         public bool inCombo = false;
         int inComboId = -1;
         int shouldComboId = -1;
@@ -38,20 +39,19 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
             if (inCombo && shouldComboId == -2)
             {
-                float missProg = cond.GetPositionFromBeat(lastComboMissTime, 3.25f);
+                float missProg = cond.GetPositionFromBeat(lastComboMissTime, 3f);
                 if (missProg >= 0f && missProg < 1f)
                 {
-                    anim.DoScaledAnimation("LowKickMiss", lastComboMissTime, 3.25f);
+                    anim.DoScaledAnimation("LowKickMiss", lastComboMissTime, 3f);
                 }
                 else if (missProg >= 1f)
                 {
                     anim.speed = 1f;
-                    bop.startBeat = lastComboMissTime + 3.25f;
+                    bop.startBeat = lastComboMissTime + 3f;
                     lastComboMissTime = Single.MinValue;
                     inCombo = false;
                     inComboId = -1;
                     shouldComboId = -1;
-                    Debug.Log("Getup");
                 }
             }
 
@@ -68,22 +68,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 if (!KarateManNew.instance.IsExpectingInputNow())
                 {
                     //start a forced-fail combo sequence
-                    float beat = cond.songPositionInBeats;
-                    BeatAction.New(gameObject, new List<BeatAction.Action>()
-                    {
-                        new BeatAction.Action(beat, delegate { Punch(1); inCombo = true; inComboId = -1; shouldComboId = -1;}),
-                        new BeatAction.Action(beat + 0.25f, delegate { Punch(2); }),
-                        new BeatAction.Action(beat + 0.5f, delegate { ComboSequence(0); }),
-                        new BeatAction.Action(beat + 0.75f, delegate { shouldComboId = -2; ComboMiss(beat + 0.75f); }),
-                    });
-
-                    MultiSound.Play(new MultiSound.Sound[] 
-                    {
-                        new MultiSound.Sound("karateman/swingNoHit", beat), 
-                        new MultiSound.Sound("karateman/swingNoHit_Alt", beat + 0.25f), 
-                        new MultiSound.Sound("karateman/swingNoHit_Alt", beat + 0.5f), 
-                        new MultiSound.Sound("karateman/comboMiss", beat + 0.75f),  
-                    }, forcePlay: true);
+                    ForceFailCombo(cond.songPositionInBeats);
                 }
             }
             else if (PlayerInput.AltPressedUp())
@@ -132,6 +117,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public void ComboSequence(int seq)
         {
             var cond = Conductor.instance;
+            bop.startBeat = cond.songPositionInBeats + 1f;
             switch (seq)
             {
                 case 0:
@@ -141,19 +127,51 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     anim.Play("LowKick", -1, 0);
                     break;
                 case 2:
-                    anim.Play("BackHand", -1, 0);
+                    anim.DoScaledAnimationAsync("BackHand", 0.5f);
+                    break;
+                case 3:
+                    anim.DoScaledAnimationAsync("UpperCut", 0.5f);
+                    break;
+                case 4:
+                    anim.Play("ToReady", -1, 0);
+                    bop.startBeat = cond.songPositionInBeats + 0.5f;
                     break;
                 default:
                     break;
             }
-            bop.startBeat = cond.songPositionInBeats + 1f;
         }
 
         public void ComboMiss(float beat)
         {
             var cond = Conductor.instance;
             lastComboMissTime = beat;
-            bop.startBeat = beat + 3.25f;
+            bop.startBeat = beat + 3f;
+        }
+
+        public void ComboEnd(float beat, bool miss = false)
+        {
+            var cond = Conductor.instance;
+            bop.startBeat = cond.songPositionInBeats + 1f;
+        }
+
+        public void ForceFailCombo(float beat)
+        {
+            if (inCombo) return;
+            BeatAction.New(gameObject, new List<BeatAction.Action>()
+            {
+                new BeatAction.Action(beat, delegate { Punch(1); inCombo = true; inComboId = -1; shouldComboId = -1;}),
+                new BeatAction.Action(beat + 0.25f, delegate { Punch(2); }),
+                new BeatAction.Action(beat + 0.5f, delegate { ComboSequence(0); }),
+                new BeatAction.Action(beat + 0.75f, delegate { shouldComboId = -2; ComboMiss(beat + 0.75f); }),
+            });
+
+            MultiSound.Play(new MultiSound.Sound[] 
+            {
+                new MultiSound.Sound("karateman/swingNoHit", beat), 
+                new MultiSound.Sound("karateman/swingNoHit_Alt", beat + 0.25f), 
+                new MultiSound.Sound("karateman/swingNoHit_Alt", beat + 0.5f), 
+                new MultiSound.Sound("karateman/comboMiss", beat + 0.75f),  
+            }, forcePlay: true);
         }
     }
 }

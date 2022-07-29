@@ -20,7 +20,7 @@ namespace HeavenStudio.Games.Loaders
                     {
                         new Param("type", KarateManNew.HitType.Pot, "Object", "The object to fire")
                     }),
-                new GameAction("bulb",                  delegate {}, 2, false, 
+                new GameAction("bulb",                  delegate { var e = eventCaller.currentEntity; KarateManNew.instance.CreateBulbSpecial(e.beat, e.type, e.colorA); }, 2, false, 
                     new List<Param>()
                     {
                         new Param("type", KarateManNew.LightBulbType.Normal, "Type", "The preset bulb type. Yellow is used for kicks while Blue is used for combos"),
@@ -28,12 +28,37 @@ namespace HeavenStudio.Games.Loaders
                     }),
                 new GameAction("kick",                  delegate { }, 4.5f),
                 new GameAction("combo",                 delegate { var e = eventCaller.currentEntity; KarateManNew.instance.Combo(e.beat); }, 4f),
-                new GameAction("hit3",                  delegate { }, 1f, false, 
+                new GameAction("hitX",                  delegate { }, 1f, false, 
                     new List<Param>()
                     {
                         new Param("type", KarateManNew.HitThree.HitThree, "Type", "What should be called out")
                     }),
                 new GameAction("prepare",               delegate { }, 1f, true),
+                new GameAction("set background effects",  delegate {
+                }, 0.5f, false, new List<Param>()
+                {
+                    new Param("type", KarateMan.BackgroundType.Yellow, "Background Type", "The preset background type"),
+                    new Param("type2", KarateMan.ShadowType.Tinted, "Shadow Type", "The shadow type. If Tinted doesn't work with your background color try Custom"),
+                    new Param("colorA", new Color(), "Custom Background Color", "The background color to use when background type is set to Custom"),
+                    new Param("colorB", new Color(), "Custom Shadow Color", "The shadow color to use when shadow type is set to Custom"),
+                    new Param("type3", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed")
+
+                }),
+
+                // These are still here for backwards-compatibility but are hidden in the editor
+                new GameAction("pot",                   delegate { }, 2, hidden: true),
+                new GameAction("rock",                  delegate { }, 2, hidden: true),
+                new GameAction("ball",                  delegate { }, 2, hidden: true),
+                new GameAction("tacobell",              delegate { }, 2, hidden: true),
+                new GameAction("hit4",                  delegate { }, hidden: true),
+                new GameAction("bgfxon",                delegate { }, hidden: true),
+                new GameAction("bgfxoff",               delegate { }, hidden: true),
+                new GameAction("hit3",                  delegate { }, 1f, false, 
+                    new List<Param>()
+                    {
+                        new Param("type", KarateManNew.HitThree.HitThree, "Type", "What should be called out")
+                    }, 
+                hidden: true),
                 new GameAction("set background color",  delegate { }, 0.5f, false, 
                     new List<Param>()
                     {
@@ -43,20 +68,12 @@ namespace HeavenStudio.Games.Loaders
                         new Param("colorB", new Color(), "Custom Shadow Color", "The shadow color to use when shadow type is set to Custom"),
 
                     }),
-                new GameAction("set background fx",  delegate { }, 0.5f, false, 
-                    new List<Param>()
-                    {
-                        new Param("type", KarateManNew.BackgroundFXType.None, "FX Type", "The background effect to be displayed")
-
-                    }),
-                // These are still here for backwards-compatibility but are hidden in the editor
-                new GameAction("pot",                   delegate { }, 2, hidden: true),
-                new GameAction("rock",                  delegate { }, 2, hidden: true),
-                new GameAction("ball",                  delegate { }, 2, hidden: true),
-                new GameAction("tacobell",              delegate { }, 2, hidden: true),
-                new GameAction("hit4",                  delegate { }, hidden: true),
-                new GameAction("bgfxon",                delegate { }, hidden: true),
-                new GameAction("bgfxoff",               delegate { }, hidden: true),
+                new GameAction("set background fx",  delegate {
+                }, 0.5f, false, new List<Param>()
+                {
+                    new Param("type", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed")
+                },
+                hidden: true)
 
             });
         }
@@ -78,7 +95,6 @@ namespace HeavenStudio.Games
             Ball = 3,
             CookingPot = 6,
             Alien = 7,
-
             TacoBell = 999
         }
 
@@ -87,7 +103,10 @@ namespace HeavenStudio.Games
             HitTwo,
             HitThree,
             HitThreeAlt,
-            HitFour
+            HitFour,
+            Grr,
+            Warning,
+            HitOne,
         }
 
         public enum LightBulbType
@@ -158,24 +177,57 @@ namespace HeavenStudio.Games
         {
 
             string outSound;
+            if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
+                outSound = "karateman/objectOut";
+            else
+                outSound = "karateman/offbeatObjectOut";
 
             switch (type)
             {
                 case (int) HitType.Pot:
-                    if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
-                        outSound = "karateman/objectOut";
-                    else
-                        outSound = "karateman/offbeatObjectOut";
                     CreateItemInstance(beat, "Item00");
                     break;
-                default:
+                case (int) HitType.Lightbulb:
                     if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
-                        outSound = "karateman/objectOut";
+                        outSound = "karateman/lightbulbOut";
                     else
-                        outSound = "karateman/offbeatObjectOut";
+                        outSound = "karateman/offbeatLightbulbOut";
+                    CreateItemInstance(beat, "Item01", KarateManPotNew.ItemType.Bulb);
+                    break;
+                case (int) HitType.Rock:
+                    CreateItemInstance(beat, "Item02", KarateManPotNew.ItemType.Rock);
+                    break;
+                case (int) HitType.Ball:
+                    CreateItemInstance(beat, "Item03", KarateManPotNew.ItemType.Ball);
+                    break;
+                case (int) HitType.CookingPot:
+                    CreateItemInstance(beat, "Item06", KarateManPotNew.ItemType.Cooking);
+                    break;
+                case (int) HitType.Alien:
+                    CreateItemInstance(beat, "Item07", KarateManPotNew.ItemType.Alien);
+                    break;
+                case (int) HitType.TacoBell:
+                    CreateItemInstance(beat, "Item99", KarateManPotNew.ItemType.TacoBell);
+                    break;
+                default:
                     CreateItemInstance(beat, "Item00");
                     break;
             }
+            Jukebox.PlayOneShotGame(outSound, forcePlay: true);
+        }
+
+        public void CreateBulbSpecial(float beat, int type, Color c)
+        {
+            string outSound;
+            if (Starpelly.Mathp.GetDecimalFromFloat(beat) == 0f)
+                outSound = "karateman/lightbulbOut";
+            else
+                outSound = "karateman/offbeatLightbulbOut";
+            var mobj = CreateItemInstance(beat, "Item01", KarateManPotNew.ItemType.Bulb);
+            if (type == (int) LightBulbType.Custom)
+                mobj.GetComponent<KarateManPotNew>().SetBulbColor(c);
+            else
+                mobj.GetComponent<KarateManPotNew>().SetBulbColor(LightBulbColors[type]);
             Jukebox.PlayOneShotGame(outSound, forcePlay: true);
         }
 
