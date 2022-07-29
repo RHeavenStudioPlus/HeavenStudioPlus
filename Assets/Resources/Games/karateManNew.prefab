@@ -197,6 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 3234329793564267697}
+  inCombo: 0
 --- !u!1 &676219503303960657
 GameObject:
   m_ObjectHideFlags: 0
@@ -1322,7 +1323,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4.0277777, y: 6.111111}
+  m_Size: {x: 4.7777777, y: 6.5555553}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1645,15 +1646,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -5000
-  m_Sprite: {fileID: 21300000, guid: dfc112e96025f744bb5d0c7e300291c2, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.4392157}
+  m_Sprite: {fileID: 21300000, guid: 28e26f10ed5280947ab4a982344f2a12, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.6117647}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2977027034337794333
@@ -2712,6 +2713,7 @@ MonoBehaviour:
   Shadow: {fileID: 2136808730019920255}
   ShadowInstance: {fileID: 0}
   awakeAnim: 
+  comboId: -1
   HitPosition:
   - {fileID: 320160549894608069}
   - {fileID: 8785326923463350633}
@@ -2904,7 +2906,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &4756044026693426509
