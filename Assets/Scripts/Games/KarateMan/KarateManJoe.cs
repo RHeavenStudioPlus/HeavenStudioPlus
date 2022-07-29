@@ -8,7 +8,7 @@ using HeavenStudio.Util;
 
 namespace HeavenStudio.Games.Scripts_KarateMan
 {
-    public class KarateManJoeNew : MonoBehaviour
+    public class KarateManJoe : MonoBehaviour
     {
         public Animator anim;
         public GameEvent bop = new GameEvent();
@@ -17,6 +17,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         float lastComboMissTime = Single.MinValue;
         float lastUpperCutTime = Single.MinValue;
         public bool inCombo = false;
+        public bool lockedInCombo = false;
         int inComboId = -1;
         int shouldComboId = -1;
         public void SetComboId(int id) { inComboId = id; }
@@ -57,7 +58,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
             if (PlayerInput.Pressed(true) && !inCombo)
             {
-                if (!KarateManNew.instance.IsExpectingInputNow())
+                if (!KarateMan.instance.IsExpectingInputNow())
                 {
                     Punch(1);
                     Jukebox.PlayOneShotGame("karateman/swingNoHit", forcePlay: true);
@@ -65,7 +66,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             }
             else if (PlayerInput.AltPressed() && !inCombo)
             {
-                if (!KarateManNew.instance.IsExpectingInputNow())
+                if (!KarateMan.instance.IsExpectingInputNow())
                 {
                     //start a forced-fail combo sequence
                     ForceFailCombo(cond.songPositionInBeats);
@@ -73,9 +74,9 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             }
             else if (PlayerInput.AltPressedUp())
             {
-                if (!KarateManNew.instance.IsExpectingInputNow())
+                if (!KarateMan.instance.IsExpectingInputNow())
                 {
-                    if (inComboId != -1 && !KarateManNew.instance.IsExpectingInputNow())
+                    if (inComboId != -1 && !lockedInCombo)
                     {
                         inComboId = -1;
                     }
@@ -85,6 +86,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public bool Punch(int forceHand = 0)
         {
+            if (GameManager.instance.currentGame != "karateman") return false;
             var cond = Conductor.instance;
             bool straight = false;
             switch (forceHand)
@@ -116,6 +118,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public void ComboSequence(int seq)
         {
+            if (GameManager.instance.currentGame != "karateman") return;
             var cond = Conductor.instance;
             bop.startBeat = cond.songPositionInBeats + 1f;
             switch (seq)
@@ -131,10 +134,12 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     break;
                 case 3:
                     anim.DoScaledAnimationAsync("UpperCut", 0.5f);
+                    lockedInCombo = false;
                     break;
                 case 4:
                     anim.Play("ToReady", -1, 0);
                     bop.startBeat = cond.songPositionInBeats + 0.5f;
+                    lockedInCombo = false;
                     break;
                 default:
                     break;
@@ -146,12 +151,6 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             var cond = Conductor.instance;
             lastComboMissTime = beat;
             bop.startBeat = beat + 3f;
-        }
-
-        public void ComboEnd(float beat, bool miss = false)
-        {
-            var cond = Conductor.instance;
-            bop.startBeat = cond.songPositionInBeats + 1f;
         }
 
         public void ForceFailCombo(float beat)
