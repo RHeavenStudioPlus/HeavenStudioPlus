@@ -25,6 +25,12 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public int GetComboId() { return inComboId; }
         public int GetShouldComboId() { return shouldComboId; }
 
+        public bool wantKick = false;
+        public bool inKick = false;
+        float lastChargeTime = Single.MinValue;
+
+        bool inSpecial { get { return inCombo || inKick; } }
+
         private void Awake()
         {
 
@@ -44,6 +50,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 if (missProg >= 0f && missProg < 1f)
                 {
                     anim.DoScaledAnimation("LowKickMiss", lastComboMissTime, 3f);
+                    bop.startBeat = lastComboMissTime + 3f;
                 }
                 else if (missProg >= 1f)
                 {
@@ -56,7 +63,24 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 }
             }
 
-            if (PlayerInput.Pressed(true) && !inCombo)
+            if (inKick)
+            {
+                float chargeProg = cond.GetPositionFromBeat(lastChargeTime,  2.75f);
+                if (chargeProg >= 0f && chargeProg < 1f)
+                {
+                    anim.DoScaledAnimation("ManCharge", lastChargeTime, 2.75f);
+                    bop.startBeat = lastChargeTime + 2.75f;
+                }
+                else if (chargeProg >= 1f)
+                {
+                    anim.speed = 1f;
+                    bop.startBeat = lastChargeTime + 2.75f;
+                    lastChargeTime = Single.MinValue;
+                    inKick = false;
+                }
+            }
+
+            if (PlayerInput.Pressed(true) && !inSpecial)
             {
                 if (!KarateMan.instance.IsExpectingInputNow())
                 {
@@ -64,7 +88,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     Jukebox.PlayOneShotGame("karateman/swingNoHit", forcePlay: true);
                 }
             }
-            else if (PlayerInput.AltPressed() && !inCombo)
+            else if (PlayerInput.AltPressed() && !inSpecial)
             {
                 if (!KarateMan.instance.IsExpectingInputNow())
                 {
@@ -82,6 +106,12 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     }
                 }
             }
+
+            if ((!GameManager.instance.autoplay) && (PlayerInput.PressedUp(true) && wantKick && !PlayerInput.Pressing(true)))
+            {
+                //stopped holding, don't charge
+                wantKick = false;
+            }
         }
 
         public bool Punch(int forceHand = 0)
@@ -95,20 +125,20 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     if (cond.songPositionInBeats - lastPunchTime < 0.25f + (Minigame.LateTime() - 1f))
                     {
                         lastPunchTime = Single.MinValue;
-                        anim.Play("Straight", -1, 0);
+                        anim.DoScaledAnimationAsync("Straight", 0.5f);
                         straight = true;
                     }
                     else
                     {
                         lastPunchTime = cond.songPositionInBeats;
-                        anim.Play("Jab", -1, 0);
+                        anim.DoScaledAnimationAsync("Jab", 0.5f);
                     }
                     break;
                 case 1:
-                    anim.Play("Jab", -1, 0);
+                    anim.DoScaledAnimationAsync("Jab", 0.5f);
                     break;
                 case 2:
-                    anim.Play("Straight", -1, 0);
+                    anim.DoScaledAnimationAsync("Straight", 0.5f);
                     straight = true;
                     break;
             }
@@ -171,6 +201,30 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 new MultiSound.Sound("karateman/swingNoHit_Alt", beat + 0.5f), 
                 new MultiSound.Sound("karateman/comboMiss", beat + 0.75f),  
             }, forcePlay: true);
+        }
+
+        public void StartKickCharge(float beat)
+        {
+            wantKick = true;
+            BeatAction.New(gameObject, new List<BeatAction.Action>()
+            {
+                new BeatAction.Action(beat, delegate { 
+                    if (wantKick)
+                    {
+                        wantKick = false;
+                        inKick = true;
+                        lastChargeTime = beat;
+                        bop.startBeat = beat + 2.75f;
+                    }
+                })
+            });
+        }
+
+        public void Kick(float beat)
+        {
+            if (!inKick) return;
+            inKick = false;
+            bop.startBeat = beat + 2f;
         }
     }
 }
