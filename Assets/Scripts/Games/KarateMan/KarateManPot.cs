@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using NaughtyBezierCurves;
+
 using HeavenStudio.Util;
 
 namespace HeavenStudio.Games.Scripts_KarateMan
@@ -14,6 +16,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public GameObject Shadow;
         public GameObject ShadowInstance;
+
+        public GameObject HitMark;
 
         public string awakeAnim;
         FlyStatus status = FlyStatus.Fly;
@@ -57,6 +61,9 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public float[] HitPositionOffset;
         public Vector3[] StartPositionOffset;
         public float[] ItemSlipRt;
+        public BezierCurve3D[] ItemCurves;
+        public BezierCurve3D CurrentCurve;
+        public float curveTargetBeat;
 
         public SpriteRenderer BulbLight;
 
@@ -131,8 +138,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     path = 5;
                     break;
                 case ItemType.KickBarrel:
-                    //todo: needs own action for spawning the bomb
-                    KarateMan.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_DOWN | InputType.DIRECTION_DOWN, ItemJustOrNg, ItemThrough, ItemOut);
+                    KarateMan.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_DOWN | InputType.DIRECTION_DOWN, KickChargeJustOrNg, ItemThrough, ItemOut);
                     KarateMan.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_ALT_DOWN, ItemWrongAction, ItemOut, ItemOut);
                     path = 1;
                     comboId = -1;
@@ -161,7 +167,6 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         {
             var cond = Conductor.instance;
             float floorHeight = HitPosition[0].position.y;
-            ShadowInstance.transform.position = new Vector3(transform.position.x, floorHeight - 0.5f, transform.position.z);
             switch (status)
             {
                 case FlyStatus.Fly:
@@ -177,10 +182,24 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     }
                     break;
                 case FlyStatus.Hit:
-                    //TEMPORARY
-                    GameObject.Destroy(ShadowInstance.gameObject);
-                    GameObject.Destroy(gameObject);
-                    return;
+                    prog = cond.GetPositionFromBeat(startBeat, curveTargetBeat);
+                    if (cond.songPositionInBeats >= startBeat + 2f || CurrentCurve == null) {
+                        GameObject.Destroy(ShadowInstance.gameObject);
+                        GameObject.Destroy(gameObject);
+                        return;
+                    }
+                    else {
+                        if (prog <= 1f)
+                        {
+                            transform.position = CurrentCurve.GetPoint(prog);
+                            transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + (-180f * Time.deltaTime * (1/cond.pitchedSecPerBeat)));
+                        }
+                        else
+                        {
+                            transform.position = CurrentCurve.GetPoint(1f);
+                        }
+                    }
+                    break;
                 case FlyStatus.NG:
                     //TEMPORARY
                     GameObject.Destroy(ShadowInstance.gameObject);
@@ -189,45 +208,82 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 case FlyStatus.HitWeak:
                     break;
             }
+            ShadowInstance.transform.position = new Vector3(transform.position.x, floorHeight - 0.5f, transform.position.z);
+        }
+
+        void CreateHitMark(bool useLocalPos = false)
+        {
+            GameObject hitMark = GameObject.Instantiate(HitMark, KarateMan.instance.ItemHolder);
+            if (useLocalPos)
+                hitMark.transform.localPosition = transform.position;
+            else
+                hitMark.transform.position = HitPosition[path].position;
+            
+            hitMark.SetActive(true);
         }
 
         //handles hitsound and particles
-        void ItemHitEffect()
+        void ItemHitEffect(bool straight = false)
         {
+            startBeat = Conductor.instance.songPositionInBeats;
+            CreateHitMark(type == ItemType.KickBomb);
             switch (type)
             {
                 case ItemType.Bulb:
+                    CurrentCurve = ItemCurves[straight ? 1 : 0];
+                    curveTargetBeat = 2f;
                     Jukebox.PlayOneShotGame("karateman/lightbulbHit", forcePlay: true);
                     break;
                 case ItemType.Rock:
+                    CurrentCurve = ItemCurves[1];
+                    curveTargetBeat = 2f;
                     Jukebox.PlayOneShotGame("karateman/rockHit", forcePlay: true);
                     break;
                 case ItemType.Ball:
+                    CurrentCurve = ItemCurves[1];
+                    curveTargetBeat = 2f;
                     Jukebox.PlayOneShotGame("karateman/soccerHit", forcePlay: true);
                     break;
                 case ItemType.Cooking:
+                    CurrentCurve = ItemCurves[1];
+                    curveTargetBeat = 2f;
                     Jukebox.PlayOneShotGame("karateman/cookingPot", forcePlay: true);
+                    //todo: pot lid
                     break;
                 case ItemType.Alien:
+                    CurrentCurve = ItemCurves[1];
+                    curveTargetBeat = 2f;
                     Jukebox.PlayOneShotGame("karateman/alienHit", forcePlay: true);
                     break;
                 case ItemType.TacoBell:
+                    CurrentCurve = ItemCurves[1];
+                    curveTargetBeat = 2f;
                     Jukebox.PlayOneShotGame("karateman/rockHit", forcePlay: true);
                     Jukebox.PlayOneShotGame("karateman/tacobell", forcePlay: true);
                     break;
                 case ItemType.ComboPot1:
+                    CurrentCurve = ItemCurves[straight ? 1 : 0];
+                    curveTargetBeat = 2f;
                     Jukebox.PlayOneShotGame("karateman/comboHit1", forcePlay: true);
                     break;
                 case ItemType.ComboPot2:
+                    CurrentCurve = ItemCurves[0];
+                    curveTargetBeat = 2f;
                     Jukebox.PlayOneShotGame("karateman/comboHit1", forcePlay: true);
                     break;
                 case ItemType.ComboPot3:
+                    CurrentCurve = ItemCurves[2];
+                    curveTargetBeat = 1f;
                     Jukebox.PlayOneShotGame("karateman/comboHit2", forcePlay: true);
                     break;
                 case ItemType.ComboPot4:
+                    CurrentCurve = ItemCurves[3];
+                    curveTargetBeat = 1f;
                     Jukebox.PlayOneShotGame("karateman/comboHit3", forcePlay: true);
                     break;
                 case ItemType.ComboPot5:
+                    CurrentCurve = ItemCurves[4];
+                    curveTargetBeat = 1f;
                     Jukebox.PlayOneShotGame("karateman/comboHit3", forcePlay: true);
                     break;
                 case ItemType.ComboBarrel:
@@ -237,6 +293,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     Jukebox.PlayOneShotGame("karateman/barrelBreak", forcePlay: true);
                     break;
                 default:
+                    CurrentCurve = ItemCurves[straight ? 1 : 0];
+                    curveTargetBeat = 2f;
                     Jukebox.PlayOneShotGame("karateman/potHit", forcePlay: true);
                     break;
             }
@@ -316,13 +374,13 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             if (GameManager.instance.currentGame != "karateman") return;
             var joe = KarateMan.instance.Joe;
             if (status == FlyStatus.Fly && !joe.inCombo) {
-                joe.Punch(ItemPunchHand());
+                bool straight = joe.Punch(ItemPunchHand());
                 if (state <= -1f || state >= 1f) {
                     Jukebox.PlayOneShot("miss");
                     status = FlyStatus.NG;
                 }
                 else {
-                    ItemHitEffect();
+                    ItemHitEffect(straight);
                     status = FlyStatus.Hit;
                 }
             }
@@ -365,7 +423,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         {
             if (GameManager.instance.currentGame != "karateman") return;
             var joe = KarateMan.instance.Joe;
-            if (status == FlyStatus.Fly && !joe.inCombo) {
+            if (status == FlyStatus.Fly && !(joe.inKick || joe.wantKick || joe.inCombo)) {
                 joe.inCombo = true;
                 joe.Punch(1);
                 joe.SetComboId(comboId);
@@ -393,13 +451,13 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             //WHEN SCORING THIS IS A MISS
             var joe = KarateMan.instance.Joe;
             if (status == FlyStatus.Fly && !joe.inCombo) {
-                joe.Punch(ItemPunchHand());
+                bool straight = joe.Punch(ItemPunchHand());
                 if (state <= -1f || state >= 1f) {
                     Jukebox.PlayOneShot("miss");
                     status = FlyStatus.NG;
                 }
                 else {
-                    ItemHitEffect();
+                    ItemHitEffect(straight);
                 }
             }
         }
@@ -451,6 +509,40 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         {
             if (GameManager.instance.currentGame != "karateman") return;
             KarateMan.instance.Joe.ForceFailCombo(Conductor.instance.songPositionInBeats);
+        }
+
+        public void KickChargeJustOrNg(PlayerActionEvent caller, float state)
+        {
+            if (GameManager.instance.currentGame != "karateman") return;
+            var joe = KarateMan.instance.Joe;
+            if (status == FlyStatus.Fly && !(joe.inKick || joe.wantKick || joe.inCombo)) {
+                joe.Punch(ItemPunchHand());
+                if (state <= -1f || state >= 1f) {
+                    Jukebox.PlayOneShot("miss");
+                    status = FlyStatus.NG;
+                }
+                else {
+                    //spawn the bomb
+                    joe.StartKickCharge(startBeat + 1.25f);
+                    ItemHitEffect();
+                    status = FlyStatus.Hit;
+                }
+            }
+        }
+
+        public void KickChargeOut(PlayerActionEvent caller) {}
+
+        public void KickChargeThrough(PlayerActionEvent caller)
+        {
+            if (GameManager.instance.currentGame != "karateman") return;
+            if (status != FlyStatus.Fly || gameObject == null) return;
+            BeatAction.New(gameObject, new List<BeatAction.Action>()
+            {
+                new BeatAction.Action(startBeat + 2f, delegate { 
+                    //TODO: play miss sound
+                    //deduct flow if applicable
+                })
+            });
         }
     }
 }
