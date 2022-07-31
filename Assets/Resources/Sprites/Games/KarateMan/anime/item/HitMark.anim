@@ -21,7 +21,7 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: -348202296468608855, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-    - time: 0.033333335
+    - time: 0.06666667
       value: {fileID: 0}
     attribute: m_Sprite
     path: Bottom
@@ -30,7 +30,7 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: -348202296468608855, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-    - time: 0.033333335
+    - time: 0.06666667
       value: {fileID: 0}
     attribute: m_Sprite
     path: Top
@@ -67,7 +67,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.050000004
+    m_StopTime: 0.083333336
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -87,7 +87,7 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.033333335
+  - time: 0.06666667
     functionName: KillHitMark
     data: 
     objectReferenceParameter: {fileID: 0}
