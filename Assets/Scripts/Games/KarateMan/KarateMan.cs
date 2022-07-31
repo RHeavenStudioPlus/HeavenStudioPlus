@@ -35,8 +35,7 @@ namespace HeavenStudio.Games.Loaders
                         new Param("type", KarateMan.HitThree.HitThree, "Type", "The warning text to show")
                     }),
                 new GameAction("prepare",               delegate { }, 1f, true),
-                new GameAction("set background effects",  delegate {
-                }, 0.5f, false, new List<Param>()
+                new GameAction("set background effects",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgAndShadowCol(e.beat, e.type, e.type2, e.colorA, e.colorB, e.type3); }, 0.5f, false, new List<Param>()
                 {
                     new Param("type", KarateMan.BackgroundType.Yellow, "Background Type", "The preset background type"),
                     new Param("type2", KarateMan.ShadowType.Tinted, "Shadow Type", "The shadow type. If Tinted doesn't work with your background color try Custom"),
@@ -60,7 +59,7 @@ namespace HeavenStudio.Games.Loaders
                         new Param("type", KarateMan.HitThree.HitThree, "Type", "The warning text to show")
                     }, 
                 hidden: true),
-                new GameAction("set background color",  delegate { }, 0.5f, false, 
+                new GameAction("set background color",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgAndShadowCol(e.beat, e.type, e.type2, e.colorA, e.colorB, 0); }, 0.5f, false, 
                     new List<Param>()
                     {
                         new Param("type", KarateMan.BackgroundType.Yellow, "Background Type", "The preset background type"),
@@ -161,6 +160,9 @@ namespace HeavenStudio.Games
         public Animator Word;
         float wordClearTime = Single.MinValue;
         const float hitVoiceOffset = 0.042f;
+
+        //backgrounds
+        public SpriteRenderer BGPlane;
 
         private void Awake()
         {
@@ -307,6 +309,14 @@ namespace HeavenStudio.Games
             Jukebox.PlayOneShotGame(outSound, forcePlay: true);
         }
 
+        public void SetBgAndShadowCol(float beat, int bgType, int shadowType, Color a, Color b, int fx)
+        {
+            if (bgType == (int) BackgroundType.Custom)
+                BGPlane.color = a;
+            else
+                BGPlane.color = BackgroundColors[bgType];
+        }
+
         public void Combo(float beat)
         {
             Jukebox.PlayOneShotGame("karateman/barrelOutCombos", forcePlay: true);
@@ -349,7 +359,7 @@ namespace HeavenStudio.Games
             }, forcePlay: true);
         }
 
-        GameObject CreateItemInstance(float beat, string awakeAnim, KarateManPot.ItemType type = KarateManPot.ItemType.Pot, int comboId = -1)
+        public GameObject CreateItemInstance(float beat, string awakeAnim, KarateManPot.ItemType type = KarateManPot.ItemType.Pot, int comboId = -1)
         {
             GameObject mobj = GameObject.Instantiate(Item, ItemHolder);
             KarateManPot mobjDat = mobj.GetComponent<KarateManPot>();

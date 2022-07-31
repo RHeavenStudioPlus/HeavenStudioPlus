@@ -29,7 +29,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public bool inKick = false;
         float lastChargeTime = Single.MinValue;
 
-        bool inSpecial { get { return inCombo || inKick; } }
+        bool inSpecial { get { return inCombo || Conductor.instance.GetPositionFromBeat(lastChargeTime, 2.75f) <= 0.25f; } }
 
         private void Awake()
         {
@@ -65,7 +65,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
             if (inKick)
             {
-                float chargeProg = cond.GetPositionFromBeat(lastChargeTime,  2.75f);
+                float chargeProg = cond.GetPositionFromBeat(lastChargeTime, 2.75f);
                 if (chargeProg >= 0f && chargeProg < 1f)
                 {
                     anim.DoScaledAnimation("ManCharge", lastChargeTime, 2.75f);
@@ -107,10 +107,18 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 }
             }
 
-            if ((!GameManager.instance.autoplay) && (PlayerInput.PressedUp(true) && wantKick && !PlayerInput.Pressing(true)))
+            if ((!GameManager.instance.autoplay) && (PlayerInput.PressedUp(true) && !PlayerInput.Pressing(true)))
             {
-                //stopped holding, don't charge
-                wantKick = false;
+                if (wantKick)
+                {
+                    //stopped holding, don't charge
+                    wantKick = false;
+                }
+                else if (inKick && cond.GetPositionFromBeat(lastChargeTime, 2.75f) <= 0.5f && !KarateMan.instance.IsExpectingInputNow())
+                {
+                    Kick(cond.songPositionInBeats);
+                    Jukebox.PlayOneShotGame("karateman/swingKick", forcePlay: true);
+                }
             }
         }
 
@@ -119,6 +127,11 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             if (GameManager.instance.currentGame != "karateman") return false;
             var cond = Conductor.instance;
             bool straight = false;
+
+            anim.speed = 1f;
+            lastChargeTime = Single.MinValue;
+            inKick = false;
+
             switch (forceHand)
             {
                 case 0:
@@ -223,8 +236,13 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public void Kick(float beat)
         {
             if (!inKick) return;
+            //play the kick animation and reset stance
+            anim.speed = 1f;
+            bop.startBeat = beat + 2.5f;
+            lastChargeTime = Single.MinValue;
             inKick = false;
-            bop.startBeat = beat + 2f;
+
+            anim.DoScaledAnimationAsync("ManKick", 0.5f);
         }
     }
 }
