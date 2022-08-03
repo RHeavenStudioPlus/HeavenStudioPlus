@@ -16,6 +16,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public GameObject Shadow;
         public GameObject ShadowInstance;
+        SpriteRenderer shadowRenderer;
 
         //hit effects
         public GameObject HitMark;
@@ -171,6 +172,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + (-360f * Time.deltaTime) + UnityEngine.Random.Range(0f, 360f));
 
             ShadowInstance = GameObject.Instantiate(Shadow, KarateMan.instance.ItemHolder);
+            shadowRenderer = ShadowInstance.GetComponent<SpriteRenderer>();
+            shadowRenderer.color = KarateMan.instance.GetShadowColor();
             ShadowInstance.SetActive(true);
             ShadowInstance.transform.position = new Vector3(transform.position.x, floorHeight - 0.5f, transform.position.z);
         }
@@ -263,6 +266,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     break;
             }
             ShadowInstance.transform.position = new Vector3(transform.position.x, floorHeight - 0.5f, transform.position.z);
+            shadowRenderer.color = KarateMan.instance.GetShadowColor();
         }
 
         void CreateHitMark(bool useLocalPos = false)

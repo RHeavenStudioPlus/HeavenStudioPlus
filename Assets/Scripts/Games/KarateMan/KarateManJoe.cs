@@ -12,6 +12,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
     {
         public Animator anim;
         public GameEvent bop = new GameEvent();
+        public SpriteRenderer[] Shadows;
 
         float lastPunchTime = Single.MinValue;
         float lastComboMissTime = Single.MinValue;
@@ -41,6 +42,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             var cond = Conductor.instance;
             if (cond.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1, false) && cond.songPositionInBeats > bop.startBeat && !inCombo)
             {
+                anim.speed = 1f;
                 anim.Play("Beat", -1, 0);
             }
 
@@ -243,6 +245,14 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             inKick = false;
 
             anim.DoScaledAnimationAsync("ManKick", 0.5f);
+        }
+
+        public void UpdateShadowColour()
+        {
+            foreach (var shadow in Shadows)
+            {
+                shadow.color = KarateMan.instance.GetShadowColor();
+            }
         }
     }
 }
