@@ -176,10 +176,16 @@ namespace HeavenStudio.Games
         //backgrounds
         public SpriteRenderer BGPlane;
         public GameObject BGEffect;
+        int bgType = (int) BackgroundType.Yellow;
+        Color bgColour;
 
         public BackgroundFXType currentBgEffect = BackgroundFXType.None;
         Animator bgEffectAnimator;
         SpriteRenderer bgEffectSpriteRenderer;
+
+        //shadows
+        ShadowType currentShadowType = ShadowType.Tinted;
+        Color customShadowColour = Color.white;
 
         private void Awake()
         {
@@ -193,6 +199,8 @@ namespace HeavenStudio.Games
             GameCamera.additionalPosition = cameraPosition - GameCamera.defaultPosition;
             bgEffectAnimator = BGEffect.GetComponent<Animator>();
             bgEffectSpriteRenderer = BGEffect.GetComponent<SpriteRenderer>();
+
+            SetBgAndShadowCol(0f, bgType, (int) currentShadowType, BackgroundColors[bgType], customShadowColour, (int)currentBgEffect);
         }
 
         private void Update()
@@ -381,11 +389,14 @@ namespace HeavenStudio.Games
 
         public void SetBgAndShadowCol(float beat, int bgType, int shadowType, Color a, Color b, int fx)
         {
-            if (bgType == (int) BackgroundType.Custom)
-                BGPlane.color = a;
+            this.bgType = bgType;
+            if (this.bgType == (int) BackgroundType.Custom)
+                bgColour = a;
             else
-                BGPlane.color = BackgroundColors[bgType];
+                bgColour = BackgroundColors[this.bgType];
+            BGPlane.color = bgColour;
 
+            UpdateShadowColour(shadowType, b);
             SetBgFx(fx);
         }
 
@@ -448,6 +459,29 @@ namespace HeavenStudio.Games
             mobj.SetActive(true);
             
             return mobj;
+        }
+
+        public static Color ShadowBlendColor = new Color(195 / 255f, 48 / 255f, 2 / 255f);
+        public Color GetShadowColor()
+        {
+            if(currentShadowType == ShadowType.Custom)
+            {
+                return customShadowColour;
+            }
+            else if(bgType < (int) BackgroundType.Custom)
+            {
+                return ShadowColors[bgType];
+            }
+            
+            return Color.LerpUnclamped(bgColour, ShadowBlendColor, 0.45f);
+        }
+
+        public void UpdateShadowColour(int type, Color colour)
+        {
+            currentShadowType = (ShadowType) type;
+            customShadowColour = colour;
+
+            Joe.UpdateShadowColour();
         }
     }
 }
