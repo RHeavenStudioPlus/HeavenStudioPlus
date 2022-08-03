@@ -44,6 +44,10 @@ namespace HeavenStudio.Games.Loaders
                     new Param("type3", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed")
 
                 }),
+                new GameAction("special camera",               delegate { var e = eventCaller.currentEntity; KarateMan.instance.DoSpecialCamera(e.beat, e.length, e.toggle); }, 8f, true, new List<Param>()
+                {
+                    new Param("toggle", true, "Return Camera", "Camera zooms back in?"),
+                }),
 
                 // These are still here for backwards-compatibility but are hidden in the editor
                 new GameAction("pot",                   delegate { KarateMan.instance.CreateItem(eventCaller.currentEntity.beat, (int) KarateMan.HitType.Pot); }, 2, hidden: true),
@@ -51,15 +55,15 @@ namespace HeavenStudio.Games.Loaders
                 new GameAction("ball",                  delegate { KarateMan.instance.CreateItem(eventCaller.currentEntity.beat, (int) KarateMan.HitType.Ball); }, 2, hidden: true),
                 new GameAction("tacobell",              delegate { KarateMan.instance.CreateItem(eventCaller.currentEntity.beat, (int) KarateMan.HitType.TacoBell); }, 2, hidden: true),
                 new GameAction("hit4",                  delegate { KarateMan.instance.DoWord(eventCaller.currentEntity.beat, (int) KarateMan.HitThree.HitFour); }, hidden: true),
-                new GameAction("bgfxon",                delegate { }, hidden: true),
-                new GameAction("bgfxoff",               delegate { }, hidden: true),
+                new GameAction("bgfxon",                delegate { KarateMan.instance.SetBgFx((int) KarateMan.BackgroundFXType.Sunburst); }, hidden: true),
+                new GameAction("bgfxoff",               delegate { KarateMan.instance.SetBgFx((int) KarateMan.BackgroundFXType.None); }, hidden: true),
                 new GameAction("hit3",                  delegate { var e = eventCaller.currentEntity; KarateMan.instance.DoWord(e.beat, e.type); }, 1f, false, 
                     new List<Param>()
                     {
                         new Param("type", KarateMan.HitThree.HitThree, "Type", "The warning text to show")
                     }, 
                 hidden: true),
-                new GameAction("set background color",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgAndShadowCol(e.beat, e.type, e.type2, e.colorA, e.colorB, 0); }, 0.5f, false, 
+                new GameAction("set background color",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgAndShadowCol(e.beat, e.type, e.type2, e.colorA, e.colorB, (int) KarateMan.instance.currentBgEffect); }, 0.5f, false, 
                     new List<Param>()
                     {
                         new Param("type", KarateMan.BackgroundType.Yellow, "Background Type", "The preset background type"),
@@ -69,8 +73,7 @@ namespace HeavenStudio.Games.Loaders
 
                     },
                 hidden: true),
-                new GameAction("set background fx",  delegate {
-                }, 0.5f, false, new List<Param>()
+                new GameAction("set background fx",  delegate { KarateMan.instance.SetBgFx(eventCaller.currentEntity.type); }, 0.5f, false, new List<Param>()
                 {
                     new Param("type", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed")
                 },
@@ -144,6 +147,12 @@ namespace HeavenStudio.Games
             Custom
         }
 
+        public enum CameraAngle
+        {
+            Normal,
+            Special
+        }
+
         public Color[] LightBulbColors;
         public Color[] BackgroundColors;
         public Color[] ShadowColors;
@@ -151,6 +160,8 @@ namespace HeavenStudio.Games
         //camera positions (normal, special)
         public Transform[] CameraPosition;
         Vector3 cameraPosition;
+        float startCamSpecial = Single.MinValue;
+        float wantsReturn = Single.MinValue;
 
         //pot trajectory stuff
         public Transform ItemHolder;
@@ -164,6 +175,11 @@ namespace HeavenStudio.Games
 
         //backgrounds
         public SpriteRenderer BGPlane;
+        public GameObject BGEffect;
+
+        public BackgroundFXType currentBgEffect = BackgroundFXType.None;
+        Animator bgEffectAnimator;
+        SpriteRenderer bgEffectSpriteRenderer;
 
         private void Awake()
         {
@@ -175,15 +191,68 @@ namespace HeavenStudio.Games
         private void Start()
         {
             GameCamera.additionalPosition = cameraPosition - GameCamera.defaultPosition;
+            bgEffectAnimator = BGEffect.GetComponent<Animator>();
+            bgEffectSpriteRenderer = BGEffect.GetComponent<SpriteRenderer>();
         }
 
         private void Update()
         {
-            GameCamera.additionalPosition = cameraPosition - GameCamera.defaultPosition;
-            if (Conductor.instance.songPositionInBeats >= wordClearTime)
+            var cond = Conductor.instance;
+            switch (currentBgEffect)
+            {
+                case BackgroundFXType.Sunburst:
+                    bgEffectAnimator.DoNormalizedAnimation("Sunburst", (cond.songPositionInBeats*0.5f) % 1f);
+                    break;
+                case BackgroundFXType.Rings:
+                    bgEffectAnimator.DoNormalizedAnimation("Rings", (cond.songPositionInBeats*0.5f) % 1f);
+                    break;
+                default:
+                    bgEffectAnimator.Play("NoPose", -1, 0);
+                    break;
+            }
+            if (cond.songPositionInBeats >= wordClearTime)
             {
                 Word.Play("NoPose");
             }
+
+            if (cond.songPositionInBeats >= startCamSpecial && cond.songPositionInBeats <= wantsReturn)
+            {
+                float camX = 0f;
+                float camY = 0f;
+                float camZ = 0f;
+                if (cond.songPositionInBeats <= startCamSpecial + 2f)
+                {
+                    float prog = cond.GetPositionFromBeat(startCamSpecial, 2f);
+                    camX = EasingFunction.EaseOutCubic(CameraPosition[0].position.x, CameraPosition[1].position.x, prog);
+                    camY = EasingFunction.EaseOutCubic(CameraPosition[0].position.y, CameraPosition[1].position.y, prog);
+                    camZ = EasingFunction.EaseOutCubic(CameraPosition[0].position.z, CameraPosition[1].position.z, prog);
+                    cameraPosition = new Vector3(camX, camY, camZ);
+                }
+                else if (cond.songPositionInBeats >= wantsReturn - 2f)
+                {
+                    float prog = cond.GetPositionFromBeat(wantsReturn - 2f, 2f);
+                    camX = EasingFunction.EaseOutQuad(CameraPosition[1].position.x, CameraPosition[0].position.x, prog);
+                    camY = EasingFunction.EaseOutQuad(CameraPosition[1].position.y, CameraPosition[0].position.y, prog);
+                    camZ = EasingFunction.EaseOutQuad(CameraPosition[1].position.z, CameraPosition[0].position.z, prog);
+                    cameraPosition = new Vector3(camX, camY, camZ);
+                }
+                else
+                {
+                    cameraPosition = CameraPosition[1].position;
+                }
+            }
+            else
+            {
+                cameraPosition = CameraPosition[0].position;
+            }
+            GameCamera.additionalPosition = cameraPosition - GameCamera.defaultPosition;
+            BGEffect.transform.position = new Vector3(GameCamera.instance.transform.position.x, GameCamera.instance.transform.position.y, 0);
+        }
+
+        public void DoSpecialCamera(float beat, float length, bool returns)
+        {
+            startCamSpecial = beat;
+            wantsReturn = returns ? beat + Mathf.Max(length, 4f) : Single.MaxValue;
         }
 
         public void DoWord(float beat, int type)
@@ -316,6 +385,13 @@ namespace HeavenStudio.Games
                 BGPlane.color = a;
             else
                 BGPlane.color = BackgroundColors[bgType];
+
+            SetBgFx(fx);
+        }
+
+        public void SetBgFx(int fx)
+        {
+            currentBgEffect = (BackgroundFXType) fx;
         }
 
         public void Combo(float beat)
