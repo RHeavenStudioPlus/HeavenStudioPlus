@@ -25,7 +25,7 @@ namespace HeavenStudio.Games.Loaders
                     new List<Param>()
                     {
                         new Param("type", KarateMan.LightBulbType.Normal, "Type", "The preset bulb type. Yellow is used for kicks while Blue is used for combos"),
-                        new Param("colorA", new Color(), "Custom Color", "The color to use when the bulb type is set to Custom")
+                        new Param("colorA", new Color(1f,1f,1f), "Custom Color", "The color to use when the bulb type is set to Custom")
                     }),
                 new GameAction("kick",                  delegate { KarateMan.instance.Kick(eventCaller.currentEntity.beat); }, 4f),
                 new GameAction("combo",                 delegate { KarateMan.instance.Combo(eventCaller.currentEntity.beat); }, 4f),
@@ -67,13 +67,14 @@ namespace HeavenStudio.Games.Loaders
                         new Param("colorA", new Color(), "Custom Background Color", "The background color to use when background type is set to Custom"),
                         new Param("colorB", new Color(), "Custom Shadow Color", "The shadow color to use when shadow type is set to Custom"),
 
-                    }),
+                    },
+                hidden: true),
                 new GameAction("set background fx",  delegate {
                 }, 0.5f, false, new List<Param>()
                 {
                     new Param("type", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed")
                 },
-                hidden: true)
+                hidden: true),
 
             });
         }
