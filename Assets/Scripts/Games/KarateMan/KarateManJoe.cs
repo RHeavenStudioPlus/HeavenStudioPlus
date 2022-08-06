@@ -125,6 +125,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     Jukebox.PlayOneShotGame("karateman/swingKick", forcePlay: true);
                 }
             }
+
+            UpdateShadowColour();
         }
 
         public bool Punch(int forceHand = 0)
