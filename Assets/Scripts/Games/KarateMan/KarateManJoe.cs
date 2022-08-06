@@ -11,6 +11,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
     public class KarateManJoe : MonoBehaviour
     {
         public Animator anim;
+        public Animator FaceAnim;
         public GameEvent bop = new GameEvent();
         public SpriteRenderer[] Shadows;
 
@@ -29,6 +30,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public bool wantKick = false;
         public bool inKick = false;
         float lastChargeTime = Single.MinValue;
+        bool canEmote = false;
 
         bool inSpecial { get { return inCombo || Conductor.instance.GetPositionFromBeat(lastChargeTime, 2.75f) <= 0.25f; } }
 
@@ -44,6 +46,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             {
                 anim.speed = 1f;
                 anim.Play("Beat", -1, 0);
+                lastChargeTime = Single.MinValue;
             }
 
             if (inCombo && shouldComboId == -2)
@@ -71,12 +74,12 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 if (chargeProg >= 0f && chargeProg < 1f)
                 {
                     anim.DoScaledAnimation("ManCharge", lastChargeTime, 2.75f);
-                    bop.startBeat = lastChargeTime + 2.75f;
+                    bop.startBeat = lastChargeTime + 1.75f;
                 }
                 else if (chargeProg >= 1f)
                 {
                     anim.speed = 1f;
-                    bop.startBeat = lastChargeTime + 2.75f;
+                    bop.startBeat = lastChargeTime + 1.75f;
                     lastChargeTime = Single.MinValue;
                     inKick = false;
                 }
@@ -229,7 +232,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                         wantKick = false;
                         inKick = true;
                         lastChargeTime = beat;
-                        bop.startBeat = beat + 2.75f;
+                        bop.startBeat = beat + 1.75f;
                     }
                 })
             });
@@ -247,12 +250,33 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             anim.DoScaledAnimationAsync("ManKick", 0.5f);
         }
 
+        public void MarkCanEmote()
+        {
+            canEmote = true;
+        }
+
+        public void MarkNoEmote()
+        {
+            canEmote = false;
+        }
+
         public void UpdateShadowColour()
         {
             foreach (var shadow in Shadows)
             {
                 shadow.color = KarateMan.instance.GetShadowColor();
             }
+        }
+
+        public void SetFaceExpressionForced(int face)
+        {
+            FaceAnim.DoScaledAnimationAsync("Face" + face.ToString("D2"));
+        }
+
+        public void SetFaceExpression(int face, bool ignoreCheck = false)
+        {
+            if (canEmote || ignoreCheck)
+                FaceAnim.DoScaledAnimationAsync("Face" + face.ToString("D2"));
         }
     }
 }

@@ -495,6 +495,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     curveTargetBeat = 1f;
                     Jukebox.PlayOneShot("miss");
                     status = FlyStatus.NG;
+                    joe.SetFaceExpression((int) KarateMan.KarateManFaces.Sad);
                 }
                 else {
                     ItemHitEffect(straight);
@@ -530,11 +531,12 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         {
             if (GameManager.instance.currentGame != "karateman") return;
             if (status != FlyStatus.Fly || gameObject == null) return;
-            BeatAction.New(gameObject, new List<BeatAction.Action>()
+            BeatAction.New(KarateMan.instance.Joe.gameObject, new List<BeatAction.Action>()
             {
                 new BeatAction.Action(startBeat + 2f, delegate { 
                     //TODO: play miss sound
                     //deduct flow if applicable
+                    KarateMan.instance.Joe.SetFaceExpression((int) KarateMan.KarateManFaces.Surprise);
                 })
             });
         }
@@ -564,7 +566,16 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public void ComboStartOut(PlayerActionEvent caller) {}
         public void ComboStartThrough(PlayerActionEvent caller) 
         {
+            if (GameManager.instance.currentGame != "karateman") return;
             if (status != FlyStatus.Fly || gameObject == null) return;
+            BeatAction.New(KarateMan.instance.Joe.gameObject, new List<BeatAction.Action>()
+            {
+                new BeatAction.Action(startBeat + 2f, delegate { 
+                    //TODO: play miss sound
+                    //deduct flow if applicable
+                    KarateMan.instance.Joe.SetFaceExpression((int) KarateMan.KarateManFaces.Surprise);
+                })
+            });
         }
 
         public void ComboStartWrongAction(PlayerActionEvent caller, float state)
@@ -603,9 +614,25 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     curveTargetBeat = 1f;
                     Jukebox.PlayOneShot("miss");
                     status = FlyStatus.NG;
+
+                    BeatAction.New(joe.gameObject, new List<BeatAction.Action>()
+                    {
+                        new BeatAction.Action(startBeat + 2f, delegate {
+                            joe.SetFaceExpression((int) KarateMan.KarateManFaces.Sad);
+                        })
+                    });
                 }
                 else {
                     ItemHitEffect();
+                    BeatAction.New(joe.gameObject, new List<BeatAction.Action>()
+                    {
+                        new BeatAction.Action(startBeat + 1.5f, delegate {
+                            joe.SetFaceExpression((int) KarateMan.KarateManFaces.Happy);
+                        }),
+                        new BeatAction.Action(startBeat + 3.5f, delegate {
+                            joe.SetFaceExpression((int) KarateMan.KarateManFaces.Normal);
+                        })
+                    });
                 }
             }
         }
@@ -616,16 +643,32 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             if (GameManager.instance.currentGame != "karateman") return;
             if (status != FlyStatus.Fly || gameObject == null) return;
             var joe = KarateMan.instance.Joe;
-            if (joe.GetComboId() != comboId || !joe.inCombo) return;
-            BeatAction.New(gameObject, new List<BeatAction.Action>()
+            if (joe.GetComboId() != comboId || !joe.inCombo)
             {
-                new BeatAction.Action(startBeat + 1.5f, delegate { 
-                    joe.inCombo = false;
-                    joe.SetComboId(-1);
-                    joe.SetShouldComboId(-1);
-                    joe.ComboSequence(4);
-                })
-            });
+                BeatAction.New(joe.gameObject, new List<BeatAction.Action>()
+                {
+                    new BeatAction.Action(startBeat + 2f, delegate { 
+                        //TODO: play miss sound
+                        //deduct flow if applicable
+                        joe.SetFaceExpression((int) KarateMan.KarateManFaces.Surprise);
+                    })
+                });
+            }
+            else
+            {
+                BeatAction.New(joe.gameObject, new List<BeatAction.Action>()
+                {
+                    new BeatAction.Action(startBeat + 1.5f, delegate { 
+                        joe.inCombo = false;
+                        joe.SetComboId(-1);
+                        joe.SetShouldComboId(-1);
+                        joe.ComboSequence(4);
+                    }),
+                    new BeatAction.Action(startBeat + 2.5f, delegate { 
+                        joe.SetFaceExpression((int) KarateMan.KarateManFaces.VerySad);
+                    })
+                });
+            }
         }
 
         public void ComboEndWrongAction(PlayerActionEvent caller, float state)
@@ -651,6 +694,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     CurrentCurve = ItemCurves[6];
                     curveTargetBeat = 1f;
                     Jukebox.PlayOneShot("miss");
+                    joe.SetFaceExpression((int) KarateMan.KarateManFaces.Sad);
                     status = FlyStatus.NG;
                 }
                 else {
@@ -665,13 +709,15 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public void KickChargeThrough(PlayerActionEvent caller)
         {
+            var joe = KarateMan.instance.Joe;
             if (GameManager.instance.currentGame != "karateman") return;
             if (status != FlyStatus.Fly || gameObject == null) return;
-            BeatAction.New(gameObject, new List<BeatAction.Action>()
+            BeatAction.New(joe.gameObject, new List<BeatAction.Action>()
             {
                 new BeatAction.Action(startBeat + 2f, delegate { 
                     //TODO: play miss sound
                     //deduct flow if applicable
+                    joe.SetFaceExpression((int) KarateMan.KarateManFaces.Surprise);
                 })
             });
         }
@@ -687,6 +733,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     CurrentCurve = ItemCurves[8];
                     curveTargetBeat = 1f;
                     Jukebox.PlayOneShot("miss");
+                    joe.SetFaceExpression((int) KarateMan.KarateManFaces.Sad);
                     status = FlyStatus.NG;
                 }
                 else {
@@ -695,6 +742,16 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     CurrentCurve = ItemCurves[7];
                     startBeat = Conductor.instance.songPositionInBeats;
                     curveTargetBeat = 3f;
+
+                    BeatAction.New(joe.gameObject, new List<BeatAction.Action>()
+                    {
+                        new BeatAction.Action(startBeat + 1.25f, delegate {
+                            joe.SetFaceExpression((int) KarateMan.KarateManFaces.Smirk);
+                        }),
+                        new BeatAction.Action(startBeat + 3.25f, delegate {
+                            joe.SetFaceExpression((int) KarateMan.KarateManFaces.Normal);
+                        })
+                    });
                 }
             }
         }
@@ -705,11 +762,12 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         {
             if (GameManager.instance.currentGame != "karateman") return;
             if (status != FlyStatus.Fly || gameObject == null) return;
-            BeatAction.New(gameObject, new List<BeatAction.Action>()
+            BeatAction.New(KarateMan.instance.Joe.gameObject, new List<BeatAction.Action>()
             {
                 new BeatAction.Action(startBeat + 2f, delegate { 
                     //TODO: play miss sound
                     //deduct flow if applicable
+                    KarateMan.instance.Joe.SetFaceExpression((int) KarateMan.KarateManFaces.VerySad);
                 })
             });
         }
