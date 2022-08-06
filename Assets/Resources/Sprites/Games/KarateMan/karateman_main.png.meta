@@ -260,6 +260,9 @@ TextureImporter:
   - first:
       213: -2448975393399883157
     second: karateman_rainy_3
+  - first:
+      213: 8584846578326269484
+    second: karateman_fire
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -973,10 +976,10 @@ TextureImporter:
       name: karateman_snow
       rect:
         serializedVersion: 2
-        x: 3620
-        y: 3844
-        width: 248
-        height: 248
+        x: 3622
+        y: 3846
+        width: 244
+        height: 244
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2132,8 +2135,8 @@ TextureImporter:
         y: 3664
         width: 145
         height: 282
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2153,8 +2156,8 @@ TextureImporter:
         y: 3248
         width: 212
         height: 328
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2174,8 +2177,8 @@ TextureImporter:
         y: 3019
         width: 290
         height: 203
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.36}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2195,8 +2198,8 @@ TextureImporter:
         y: 2799
         width: 360
         height: 201
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.48}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2204,6 +2207,27 @@ TextureImporter:
       bones: []
       spriteID: b6a3abcdadd730ed0800000000000000
       internalID: -2448975393399883157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_fire
+      rect:
+        serializedVersion: 2
+        x: 3369
+        y: 3849
+        width: 239
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2e6d508a70832770800000000000000
+      internalID: 8584846578326269484
       vertices: []
       indices: 
       edges: []
