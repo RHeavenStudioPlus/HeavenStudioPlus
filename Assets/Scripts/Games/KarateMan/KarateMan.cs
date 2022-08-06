@@ -56,7 +56,11 @@ namespace HeavenStudio.Games.Loaders
                 {
                     new Param("type", KarateMan.ParticleType.None, "Particle Type", "The type of particle effect to spawn"),
                     new Param("valA", new EntityTypes.Float(0f, 64f, 1f), "Wind Strength", "The strength of the particle wind. (Does not work on the Rain particle.)"),
-                    new Param("valB", new EntityTypes.Float(1f, 12f, 1f), "Particle Intensity", "The intensity of the particle effect.")
+                    new Param("valB", new EntityTypes.Float(1f, 12f, 1f), "Particle Intensity", "The intensity of the particle effect")
+                }),
+                new GameAction("force facial expression",  delegate { KarateMan.instance.SetFaceExpression(eventCaller.currentEntity.type); }, 0.5f, false, new List<Param>()
+                {
+                    new Param("type", KarateMan.KarateManFaces.Normal, "Facial Expression", "The facial expression to force Joe to. Special moves may override this")
                 }),
 
                 // These are still here for backwards-compatibility but are hidden in the editor
@@ -155,6 +159,7 @@ namespace HeavenStudio.Games
         {
             Plain,
             Gradient,
+            Radial,
             Blood,
             //ManMan?
         }
@@ -177,6 +182,18 @@ namespace HeavenStudio.Games
             Snow,
             Fire,
             Rain
+        }
+        
+        public enum KarateManFaces
+        {
+            Normal,
+            Smirk,
+            Surprise,
+            Sad,
+            Lenny,
+            Happy,
+            VerySad,
+            Blush
         }
 
         public Color[] LightBulbColors;
@@ -590,6 +607,11 @@ namespace HeavenStudio.Games
                     break;
             }
             Wind.windMain = windStrength;
+        }
+
+        public void SetFaceExpression(int face)
+        {
+            Joe.SetFaceExpression(face);
         }
     }
 }

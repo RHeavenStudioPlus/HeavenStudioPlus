@@ -5209,6 +5209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 3234329793564267697}
+  FaceAnim: {fileID: 5536880711032662789}
   Shadows:
   - {fileID: 6959523891618734576}
   - {fileID: 7256772822833254697}
@@ -20412,6 +20413,7 @@ GameObject:
   m_Component:
   - component: {fileID: 632063457541129794}
   - component: {fileID: 9065825703577906459}
+  - component: {fileID: 5536880711032662789}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -20485,6 +20487,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &5536880711032662789
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588002223575483339}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 42f59a0269f309549baa9ac01ce6812a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1684620099579289651
 GameObject:
   m_ObjectHideFlags: 0
@@ -61491,7 +61512,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4.3333335, y: 3.8888888}
+  m_Size: {x: 6.111111, y: 9.222222}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
