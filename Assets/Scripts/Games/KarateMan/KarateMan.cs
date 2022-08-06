@@ -5,8 +5,6 @@ using UnityEngine;
 
 using HeavenStudio.Util;
 
-//THIS CLASS IS TO BE RENAMED
-
 namespace HeavenStudio.Games.Loaders
 {
     using static Minigames;
@@ -44,9 +42,21 @@ namespace HeavenStudio.Games.Loaders
                     new Param("type3", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed")
 
                 }),
+                new GameAction("set background texture",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgTexture(e.type, e.type2, e.colorA); }, 0.5f, false, new List<Param>()
+                {
+                    new Param("type", KarateMan.BackgroundTextureType.Plain, "Texture", "The type of background texture to use"),
+                    new Param("type2", KarateMan.ShadowType.Tinted, "Color Filter Type", "The method used to apply colour to the texture"),
+                    new Param("colorA", new Color(), "Custom Filter Color", "The filter color to use when color filter type is set to Custom"),
+                }),
                 new GameAction("special camera",               delegate { var e = eventCaller.currentEntity; KarateMan.instance.DoSpecialCamera(e.beat, e.length, e.toggle); }, 8f, true, new List<Param>()
                 {
                     new Param("toggle", true, "Return Camera", "Camera zooms back in?"),
+                }),
+                new GameAction("particle effects",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetParticleEffect(e.beat, e.type, e.valA, e.valB); }, 0.5f, false, new List<Param>()
+                {
+                    new Param("type", KarateMan.ParticleType.None, "Particle Type", "The type of particle effect to spawn"),
+                    new Param("valA", new EntityTypes.Float(0f, 64f, 1f), "Wind Strength", "The strength of the particle wind. (Does not work on the Rain particle.)"),
+                    new Param("valB", new EntityTypes.Float(1f, 12f, 1f), "Particle Intensity", "The intensity of the particle effect.")
                 }),
 
                 // These are still here for backwards-compatibility but are hidden in the editor
@@ -141,6 +151,14 @@ namespace HeavenStudio.Games
             Fade
         }
 
+        public enum BackgroundTextureType
+        {
+            Plain,
+            Gradient,
+            Blood,
+            //ManMan?
+        }
+
         public enum ShadowType
         {
             Tinted,
@@ -153,39 +171,68 @@ namespace HeavenStudio.Games
             Special
         }
 
+        public enum ParticleType
+        {
+            None,
+            Snow,
+            Fire,
+            Rain
+        }
+
         public Color[] LightBulbColors;
         public Color[] BackgroundColors;
         public Color[] ShadowColors;
 
         //camera positions (normal, special)
+        [Header("Camera Positions")]
         public Transform[] CameraPosition;
         Vector3 cameraPosition;
         float startCamSpecial = Single.MinValue;
         float wantsReturn = Single.MinValue;
+        float cameraReturnLength = 2f;
+        CameraAngle cameraAngle = CameraAngle.Normal;
 
         //pot trajectory stuff
+        [Header("References")]
         public Transform ItemHolder;
         public GameObject Item;
         public KarateManJoe Joe;
 
-        //warning text
+        [Header("Word")]
         public Animator Word;
         float wordClearTime = Single.MinValue;
         const float hitVoiceOffset = 0.042f;
 
-        //backgrounds
+        [Header("Backgrounds")]
         public SpriteRenderer BGPlane;
         public GameObject BGEffect;
         int bgType = (int) BackgroundType.Yellow;
         Color bgColour;
-
         public BackgroundFXType currentBgEffect = BackgroundFXType.None;
+
         Animator bgEffectAnimator;
         SpriteRenderer bgEffectSpriteRenderer;
 
-        //shadows
-        ShadowType currentShadowType = ShadowType.Tinted;
+        int textureFiltertype = (int) ShadowType.Tinted;
+        public GameObject BGGradient;
+        SpriteRenderer bgGradientRenderer;
+
+        [Header("Shadows")]
+        int currentShadowType = (int) ShadowType.Tinted;
         Color customShadowColour = Color.white;
+
+        [Header("Particles")]
+            //wind
+        public WindZone Wind;
+            //snow
+        public ParticleSystem SnowEffect;
+        public GameObject SnowEffectGO;
+            //fire
+        public ParticleSystem FireEffect;
+        public GameObject FireEffectGO;
+            //rain
+        public ParticleSystem RainEffect;
+        public GameObject RainEffectGO;
 
         private void Awake()
         {
@@ -199,6 +246,8 @@ namespace HeavenStudio.Games
             GameCamera.additionalPosition = cameraPosition - GameCamera.defaultPosition;
             bgEffectAnimator = BGEffect.GetComponent<Animator>();
             bgEffectSpriteRenderer = BGEffect.GetComponent<SpriteRenderer>();
+
+            bgGradientRenderer = BGGradient.GetComponent<SpriteRenderer>();
 
             SetBgAndShadowCol(0f, bgType, (int) currentShadowType, BackgroundColors[bgType], customShadowColour, (int)currentBgEffect);
         }
@@ -228,17 +277,17 @@ namespace HeavenStudio.Games
                 float camX = 0f;
                 float camY = 0f;
                 float camZ = 0f;
-                if (cond.songPositionInBeats <= startCamSpecial + 2f)
+                if (cond.songPositionInBeats <= startCamSpecial + cameraReturnLength)
                 {
-                    float prog = cond.GetPositionFromBeat(startCamSpecial, 2f);
+                    float prog = cond.GetPositionFromBeat(startCamSpecial, cameraReturnLength);
                     camX = EasingFunction.EaseOutCubic(CameraPosition[0].position.x, CameraPosition[1].position.x, prog);
                     camY = EasingFunction.EaseOutCubic(CameraPosition[0].position.y, CameraPosition[1].position.y, prog);
                     camZ = EasingFunction.EaseOutCubic(CameraPosition[0].position.z, CameraPosition[1].position.z, prog);
                     cameraPosition = new Vector3(camX, camY, camZ);
                 }
-                else if (cond.songPositionInBeats >= wantsReturn - 2f)
+                else if (cond.songPositionInBeats >= wantsReturn - cameraReturnLength)
                 {
-                    float prog = cond.GetPositionFromBeat(wantsReturn - 2f, 2f);
+                    float prog = cond.GetPositionFromBeat(wantsReturn - cameraReturnLength, cameraReturnLength);
                     camX = EasingFunction.EaseOutQuad(CameraPosition[1].position.x, CameraPosition[0].position.x, prog);
                     camY = EasingFunction.EaseOutQuad(CameraPosition[1].position.y, CameraPosition[0].position.y, prog);
                     camZ = EasingFunction.EaseOutQuad(CameraPosition[1].position.z, CameraPosition[0].position.z, prog);
@@ -251,6 +300,8 @@ namespace HeavenStudio.Games
             }
             else
             {
+                if (cameraAngle == CameraAngle.Special)
+                    cameraAngle = CameraAngle.Normal;
                 cameraPosition = CameraPosition[0].position;
             }
             GameCamera.additionalPosition = cameraPosition - GameCamera.defaultPosition;
@@ -259,8 +310,13 @@ namespace HeavenStudio.Games
 
         public void DoSpecialCamera(float beat, float length, bool returns)
         {
-            startCamSpecial = beat;
-            wantsReturn = returns ? beat + Mathf.Max(length, 4f) : Single.MaxValue;
+            if (cameraAngle == CameraAngle.Normal)
+            {
+                startCamSpecial = beat;
+                cameraAngle = CameraAngle.Special;
+            }
+            wantsReturn = returns ? beat + length : Single.MaxValue;
+            cameraReturnLength = Mathf.Min(2f, length*0.5f);
         }
 
         public void DoWord(float beat, int type)
@@ -398,11 +454,33 @@ namespace HeavenStudio.Games
 
             UpdateShadowColour(shadowType, b);
             SetBgFx(fx);
+            if (textureFiltertype == (int) ShadowType.Tinted)
+                bgGradientRenderer.color = Color.LerpUnclamped(bgColour, ShadowBlendColor, 0.45f);
         }
 
         public void SetBgFx(int fx)
         {
             currentBgEffect = (BackgroundFXType) fx;
+        }
+
+        public void SetBgTexture(int type, int filterType, Color filterColor)
+        {
+            Color col;
+            textureFiltertype = filterType;
+            if (textureFiltertype == (int) ShadowType.Tinted)
+                col = Color.LerpUnclamped(bgColour, ShadowBlendColor, 0.45f);
+            else
+                col = filterColor;
+            switch (type)
+            {
+                case (int) BackgroundTextureType.Gradient:
+                    BGGradient.SetActive(true);
+                    bgGradientRenderer.color = col;
+                    break;
+                default:
+                    BGGradient.SetActive(false);
+                    break;
+            }
         }
 
         public void Combo(float beat)
@@ -464,7 +542,7 @@ namespace HeavenStudio.Games
         public static Color ShadowBlendColor = new Color(195 / 255f, 48 / 255f, 2 / 255f);
         public Color GetShadowColor()
         {
-            if(currentShadowType == ShadowType.Custom)
+            if(currentShadowType == (int) ShadowType.Custom)
             {
                 return customShadowColour;
             }
@@ -478,10 +556,40 @@ namespace HeavenStudio.Games
 
         public void UpdateShadowColour(int type, Color colour)
         {
-            currentShadowType = (ShadowType) type;
+            currentShadowType = type;
             customShadowColour = colour;
 
             Joe.UpdateShadowColour();
+        }
+
+        public void SetParticleEffect(float beat, int type, float windStrength, float particleStrength)
+        {
+            ParticleSystem.EmissionModule emm = SnowEffect.emission;
+            switch (type)
+            {
+                case (int) ParticleType.Snow:
+                    SnowEffectGO.SetActive(true);
+                    SnowEffect.Play();
+                    emm = SnowEffect.emission;
+                    emm.rateOverTime = particleStrength * 16f;
+                    break;
+                case (int) ParticleType.Fire:
+                    FireEffectGO.SetActive(true);
+                    FireEffect.Play();
+                    emm = FireEffect.emission;
+                    emm.rateOverTime = particleStrength * 8f;
+                    break;
+                case (int) ParticleType.Rain:
+                    RainEffectGO.SetActive(true);
+                    RainEffect.Play();
+                    emm = RainEffect.emission;
+                    emm.rateOverTime = particleStrength * 32f;
+                    break;
+                default:
+                    SnowEffect.Stop();
+                    break;
+            }
+            Wind.windMain = windStrength;
         }
     }
 }
