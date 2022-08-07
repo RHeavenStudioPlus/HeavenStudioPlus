@@ -33,13 +33,12 @@ namespace HeavenStudio.Games.Loaders
                         new Param("type", KarateMan.HitThree.HitThree, "Type", "The warning text to show")
                     }),
                 new GameAction("prepare",               delegate { }, 1f, true),
-                new GameAction("set background effects",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgAndShadowCol(e.beat, e.length, e.type, e.type2, e.colorA, e.colorB, e.type3, e.colorC); }, 0.5f, true, new List<Param>()
+                new GameAction("set background effects",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgAndShadowCol(e.beat, e.length, e.type, e.type2, e.colorA, e.colorB, e.type3); }, 0.5f, true, new List<Param>()
                 {
                     new Param("type", KarateMan.BackgroundType.Yellow, "Background Type", "The preset background type"),
                     new Param("type2", KarateMan.ShadowType.Tinted, "Shadow Type", "The shadow type. If Tinted doesn't work with your background color try Custom"),
                     new Param("colorA", new Color(), "Custom Background Color", "The background color to use when background type is set to Custom"),
-                    new Param("colorB", new Color(), "Custom Shadow Color", "The shadow color to use when shadow type is set to Custom"),
-                    new Param("colorC", new Color(), "Fading Shadow Color", "When using the Fade background effect, make shadow colour fade to this colour"),
+                    new Param("colorB", new Color(), "Custom Shadow Color", "The shadow color to use when shadow type is set to Custom. When fading the background colour shadows fade to this color"),
                     new Param("type3", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed. Fade uses the entity length to determine colour fading speed")
 
                 }),
@@ -79,7 +78,7 @@ namespace HeavenStudio.Games.Loaders
                         new Param("type", KarateMan.HitThree.HitThree, "Type", "The warning text to show")
                     }, 
                 hidden: true),
-                new GameAction("set background color",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgAndShadowCol(e.beat, e.length, e.type, e.type2, e.colorA, e.colorB, (int) KarateMan.instance.currentBgEffect, e.colorB); }, 0.5f, false, 
+                new GameAction("set background color",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgAndShadowCol(e.beat, e.length, e.type, e.type2, e.colorA, e.colorB, (int) KarateMan.instance.currentBgEffect); }, 0.5f, false, 
                     new List<Param>()
                     {
                         new Param("type", KarateMan.BackgroundType.Yellow, "Background Type", "The preset background type"),
@@ -275,7 +274,7 @@ namespace HeavenStudio.Games
 
             bgGradientRenderer = BGGradient.GetComponent<SpriteRenderer>();
 
-            SetBgAndShadowCol(0f, 0f, bgType, (int) currentShadowType, BackgroundColors[bgType], customShadowColour, (int)currentBgEffect, customShadowColour);
+            SetBgAndShadowCol(0f, 0f, bgType, (int) currentShadowType, BackgroundColors[bgType], customShadowColour, (int)currentBgEffect);
         }
 
         private void Update()
@@ -546,10 +545,10 @@ namespace HeavenStudio.Games
             return mobj;
         }
 
-        public void SetBgAndShadowCol(float beat, float length, int bgType, int shadowType, Color a, Color b, int fx, Color c)
+        public void SetBgAndShadowCol(float beat, float length, int bgType, int shadowType, Color a, Color b, int fx)
         {
             SetBgFx(fx, beat, length);
-            UpdateShadowColour(shadowType, b, c);
+            UpdateShadowColour(shadowType, b);
 
             this.bgType = bgType;
             if (this.bgType == (int) BackgroundType.Custom)
@@ -557,6 +556,10 @@ namespace HeavenStudio.Games
             else
                 bgColour = BackgroundColors[this.bgType];
             BGPlane.color = bgColour;
+
+            //😢
+            if (fx != (int) BackgroundFXType.Fade)
+                oldShadowColour = GetShadowColor(true);
 
             if (textureFiltertype == (int) ShadowType.Tinted)
                 filterColour = Color.LerpUnclamped(bgColour, ShadowBlendColor, 0.45f);
@@ -617,7 +620,7 @@ namespace HeavenStudio.Games
             lastCol = oldShadowColour;
 
             if(currentShadowType == (int) ShadowType.Custom)
-                nextCol = fadeShadowColour;
+                nextCol = customShadowColour;
             else if(bgType < (int) BackgroundType.Custom)
                 nextCol = ShadowColors[bgType];
             else
@@ -632,7 +635,7 @@ namespace HeavenStudio.Games
             return next ? nextCol : lastCol;
         }
 
-        public void UpdateShadowColour(int type, Color colour, Color fadeColour)
+        public void UpdateShadowColour(int type, Color colour)
         {
 
             if(currentShadowType == (int) ShadowType.Custom)
@@ -644,7 +647,6 @@ namespace HeavenStudio.Games
 
             currentShadowType = type;
             customShadowColour = colour;
-            fadeShadowColour = fadeColour;
         }
 
         public void SetParticleEffect(float beat, int type, float windStrength, float particleStrength)

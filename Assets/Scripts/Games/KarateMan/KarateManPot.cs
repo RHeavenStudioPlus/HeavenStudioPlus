@@ -49,7 +49,9 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             ComboPot3,  // path 2
             ComboPot4,  // path 3
             ComboPot5,  // path 4
-            ComboBarrel // path 5
+            ComboBarrel,// path 5
+
+            CookingLid, //only used for hit
         }
 
         public enum FlyStatus {
@@ -151,6 +153,13 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     CurrentCurve = ItemCurves[6];
                     curveTargetBeat = 2 * 0.75f;
                     path = 1;
+                    comboId = -1;
+                    break;
+                case ItemType.CookingLid:
+                    CurrentCurve = ItemCurves[9];
+                    path = 1;
+                    curveTargetBeat = 2f;
+                    status = FlyStatus.Hit;
                     comboId = -1;
                     break;
                 default:
@@ -331,7 +340,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     Jukebox.PlayOneShotGame("karateman/cookingPot", forcePlay: true);
                     p = Instantiate(HitParticles[1], HitPosition[1].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), KarateMan.instance.ItemHolder);
                     p.Play();
-                    //todo: pot lid
+                    KarateMan.instance.CreateItemInstance(startBeat + 1f, "Item09", ItemType.CookingLid);
+                    GetComponent<Animator>().Play("Item08", -1, 0);
                     break;
                 case ItemType.Alien:
                     CurrentCurve = ItemCurves[1];
