@@ -30,9 +30,11 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public bool wantKick = false;
         public bool inKick = false;
         float lastChargeTime = Single.MinValue;
+        float unPrepareTime = Single.MinValue;
         bool canEmote = false;
+        public int wantFace = 0;
 
-        bool inSpecial { get { return inCombo || Conductor.instance.GetPositionFromBeat(lastChargeTime, 2.75f) <= 0.25f; } }
+        bool inSpecial { get { return inCombo || lockedInCombo || Conductor.instance.GetPositionFromBeat(lastChargeTime, 2.75f) <= 0.25f; } }
 
         private void Awake()
         {
@@ -42,7 +44,15 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         private void Update()
         {
             var cond = Conductor.instance;
-            if (cond.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1, false) && cond.songPositionInBeats > bop.startBeat && !inCombo)
+
+            if (unPrepareTime != Single.MinValue && cond.songPositionInBeats >= unPrepareTime)
+            {
+                unPrepareTime = Single.MinValue;
+                anim.speed = 1f;
+                anim.Play("Beat", -1, 0);
+            }
+
+            if (cond.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1, false) && cond.songPositionInBeats > bop.startBeat && cond.songPositionInBeats >= unPrepareTime && !inCombo)
             {
                 anim.speed = 1f;
                 anim.Play("Beat", -1, 0);
@@ -127,6 +137,12 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             }
 
             UpdateShadowColour();
+
+            if (canEmote && wantFace >= 0)
+            {
+                SetFaceExpressionForced(wantFace);
+                if (wantFace == (int) KarateMan.KarateManFaces.Surprise) wantFace = -1;
+            }
         }
 
         public bool Punch(int forceHand = 0)
@@ -136,6 +152,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             bool straight = false;
 
             anim.speed = 1f;
+            unPrepareTime = Single.MinValue;
             lastChargeTime = Single.MinValue;
             inKick = false;
 
@@ -171,6 +188,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             if (GameManager.instance.currentGame != "karateman") return;
             var cond = Conductor.instance;
             bop.startBeat = cond.songPositionInBeats + 1f;
+            unPrepareTime = Single.MinValue;
             switch (seq)
             {
                 case 0:
@@ -201,6 +219,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             var cond = Conductor.instance;
             lastComboMissTime = beat;
             bop.startBeat = beat + 3f;
+            unPrepareTime = Single.MinValue;
+            anim.DoNormalizedAnimation("LowKickMiss");
         }
 
         public void ForceFailCombo(float beat)
@@ -226,6 +246,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public void StartKickCharge(float beat)
         {
             wantKick = true;
+            unPrepareTime = Single.MinValue;
             BeatAction.New(gameObject, new List<BeatAction.Action>()
             {
                 new BeatAction.Action(beat, delegate { 
@@ -245,7 +266,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             if (!inKick) return;
             //play the kick animation and reset stance
             anim.speed = 1f;
-            bop.startBeat = beat + 2.5f;
+            bop.startBeat = beat + 1f;
+            unPrepareTime = Single.MinValue;
             lastChargeTime = Single.MinValue;
             inKick = false;
 
@@ -270,13 +292,22 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             }
         }
 
+        public void Prepare(float beat, float length)
+        {
+            anim.speed = 0f;
+            anim.Play("Beat", -1, 0);
+            unPrepareTime = beat + length;
+        }
+
         public void SetFaceExpressionForced(int face)
         {
+            wantFace = -2;
             FaceAnim.DoScaledAnimationAsync("Face" + face.ToString("D2"));
         }
 
         public void SetFaceExpression(int face, bool ignoreCheck = false)
         {
+            wantFace = face;
             if (canEmote || ignoreCheck)
                 FaceAnim.DoScaledAnimationAsync("Face" + face.ToString("D2"));
         }
