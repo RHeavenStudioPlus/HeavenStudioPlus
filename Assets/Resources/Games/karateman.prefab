@@ -12636,7 +12636,7 @@ ParticleSystem:
     y:
       serializedVersion: 2
       minMaxState: 0
-      scalar: -2.5
+      scalar: -1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -15293,8 +15293,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 6630505047486178256}
   handleType: 0
-  leftHandleLocalPosition: {x: -4, y: -1, z: -0}
-  rightHandleLocalPosition: {x: 4, y: 1, z: 0}
+  leftHandleLocalPosition: {x: -3, y: -1.5, z: -0}
+  rightHandleLocalPosition: {x: 3, y: 1.5, z: 0}
 --- !u!1 &1315523421705938671
 GameObject:
   m_ObjectHideFlags: 0
@@ -20613,7 +20613,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1795663421957276498}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20, y: -3.5, z: -2}
+  m_LocalPosition: {x: 15, y: -3.5, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4689631526136439814}
@@ -20727,8 +20727,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 7440330371911974480}
   handleType: 0
-  leftHandleLocalPosition: {x: -12, y: -1, z: -0}
-  rightHandleLocalPosition: {x: 12, y: 1, z: 0}
+  leftHandleLocalPosition: {x: -6, y: -2, z: -0}
+  rightHandleLocalPosition: {x: 6, y: 2, z: 0}
 --- !u!1 &2109778452581044891
 GameObject:
   m_ObjectHideFlags: 0
@@ -21601,7 +21601,7 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: 0, y: -3, z: 0}
+    m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
     m_Scale: {x: 0, y: 0, z: 0}
     placementMode: 0
@@ -36426,8 +36426,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 4654694281393269592}
   handleType: 0
-  leftHandleLocalPosition: {x: -1.5, y: 2.5, z: 0}
-  rightHandleLocalPosition: {x: 1.5, y: -2.5, z: -0}
+  leftHandleLocalPosition: {x: 0, y: 1, z: 0.024614334}
+  rightHandleLocalPosition: {x: -0, y: -1, z: -0.024614334}
 --- !u!1 &3040834920837458945
 GameObject:
   m_ObjectHideFlags: 0
@@ -52124,7 +52124,7 @@ ParticleSystem:
     startRotation:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1.5707963
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -52175,7 +52175,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 1280
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -52240,9 +52240,9 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: 0, y: 12, z: 0}
+    m_Position: {x: 10, y: 14, z: 0}
     m_Rotation: {x: -90, y: 0, z: 0}
-    m_Scale: {x: 40, y: 16, z: 1}
+    m_Scale: {x: 60, y: 16, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -52493,7 +52493,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 15
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -53921,11 +53921,11 @@ ParticleSystem:
     randomizePerFrame: 0
   ExternalForcesModule:
     serializedVersion: 2
-    enabled: 0
+    enabled: 1
     multiplierCurve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 8
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -55304,7 +55304,7 @@ ParticleSystem:
     m_EnergyLossOnCollision:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -56355,13 +56355,13 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_SortMode: 4
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
-  m_LengthScale: 2
+  m_LengthScale: 1
   m_SortingFudge: 0
   m_NormalDirection: 1
   m_ShadowBias: 0
@@ -56372,7 +56372,7 @@ ParticleSystemRenderer:
   m_EnableGPUInstancing: 1
   m_ApplyActiveColorSpace: 1
   m_AllowRoll: 1
-  m_FreeformStretching: 0
+  m_FreeformStretching: 1
   m_RotateWithStretchDirection: 1
   m_VertexStreams: 00010304
   m_Mesh: {fileID: 0}
@@ -76698,7 +76698,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5016970758835767014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20, y: -3.5, z: 0}
+  m_LocalPosition: {x: 15, y: -3.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5150790184898265248}
@@ -76718,8 +76718,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 3313832072412894528}
   handleType: 0
-  leftHandleLocalPosition: {x: -1, y: 2, z: 0}
-  rightHandleLocalPosition: {x: 1, y: -2, z: -0}
+  leftHandleLocalPosition: {x: -1, y: 3, z: 0}
+  rightHandleLocalPosition: {x: 1, y: -3, z: -0}
 --- !u!1 &5218911297968347512
 GameObject:
   m_ObjectHideFlags: 0
@@ -86602,8 +86602,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 6630505047486178256}
   handleType: 0
-  leftHandleLocalPosition: {x: -1, y: 1.5, z: 0}
-  rightHandleLocalPosition: {x: 1, y: -1.5, z: -0}
+  leftHandleLocalPosition: {x: 0, y: 2, z: 0}
+  rightHandleLocalPosition: {x: -0, y: -2, z: -0}
 --- !u!1 &5905694198237952078
 GameObject:
   m_ObjectHideFlags: 0
@@ -86825,7 +86825,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -101868,8 +101868,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 692487349845718181}
   handleType: 0
-  leftHandleLocalPosition: {x: -8, y: -2, z: -0}
-  rightHandleLocalPosition: {x: 8, y: 2, z: 0}
+  leftHandleLocalPosition: {x: -5, y: -2, z: -0}
+  rightHandleLocalPosition: {x: 5, y: 2, z: 0}
 --- !u!1 &7015206745496403491
 GameObject:
   m_ObjectHideFlags: 0
@@ -101942,7 +101942,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7031693769840288682}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18, y: -3.5, z: 0.15}
+  m_LocalPosition: {x: 14, y: -3.5, z: 0.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1675496839687250270}
@@ -101962,8 +101962,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 692487349845718181}
   handleType: 0
-  leftHandleLocalPosition: {x: -5, y: 3, z: 0}
-  rightHandleLocalPosition: {x: 5, y: -3, z: -0}
+  leftHandleLocalPosition: {x: -2, y: 3, z: 0}
+  rightHandleLocalPosition: {x: 2, y: -3, z: -0}
 --- !u!1 &7117799636702328791
 GameObject:
   m_ObjectHideFlags: 0
@@ -102139,8 +102139,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 210535419838892513}
   handleType: 0
-  leftHandleLocalPosition: {x: -2, y: -3.5, z: -0}
-  rightHandleLocalPosition: {x: 2, y: 3.5, z: 0}
+  leftHandleLocalPosition: {x: -2.5, y: -3.5, z: -0}
+  rightHandleLocalPosition: {x: 2.5, y: 3.5, z: 0}
 --- !u!1 &7395954162971010416
 GameObject:
   m_ObjectHideFlags: 0
@@ -102349,7 +102349,7 @@ WindZone:
   m_WindMain: 0
   m_WindTurbulence: 1
   m_WindPulseMagnitude: 0.5
-  m_WindPulseFrequency: 0.01
+  m_WindPulseFrequency: 0.033333335
 --- !u!1 &7655509461159504414
 GameObject:
   m_ObjectHideFlags: 0
@@ -102375,7 +102375,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7655509461159504414}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12, y: -3.5, z: 0}
+  m_LocalPosition: {x: 11, y: -3.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7654967304496385897}
@@ -102395,8 +102395,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 210535419838892513}
   handleType: 0
-  leftHandleLocalPosition: {x: -1.5, y: 2, z: 0}
-  rightHandleLocalPosition: {x: 1.5, y: -2, z: -0}
+  leftHandleLocalPosition: {x: -0.5, y: 2, z: 0}
+  rightHandleLocalPosition: {x: 0.5, y: -2, z: -0}
 --- !u!1 &7660798116759458000
 GameObject:
   m_ObjectHideFlags: 0
@@ -107433,8 +107433,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 4654694281393269592}
   handleType: 0
-  leftHandleLocalPosition: {x: -2, y: -2.5, z: -0}
-  rightHandleLocalPosition: {x: 2, y: 2.5, z: 0}
+  leftHandleLocalPosition: {x: -4, y: -2, z: 0}
+  rightHandleLocalPosition: {x: 4, y: 2, z: -0}
 --- !u!1 &7919762816917508181
 GameObject:
   m_ObjectHideFlags: 0
@@ -117671,8 +117671,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve: {fileID: 3313832072412894528}
   handleType: 0
-  leftHandleLocalPosition: {x: -10, y: -5, z: -0}
-  rightHandleLocalPosition: {x: 10, y: 5, z: 0}
+  leftHandleLocalPosition: {x: -6, y: -3, z: -0}
+  rightHandleLocalPosition: {x: 6, y: 3, z: 0}
 --- !u!1 &9202986449610168952
 GameObject:
   m_ObjectHideFlags: 0

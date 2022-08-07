@@ -4231,15 +4231,6 @@ AnimationClip:
     script: {fileID: 0}
   - curve:
     - time: 0
-      value: {fileID: 8497358629359107968, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-    - time: 0.1
-      value: {fileID: 4149267612586432800, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-    attribute: m_Sprite
-    path: Head
-    classID: 212
-    script: {fileID: 0}
-  - curve:
-    - time: 0
       value: {fileID: 0}
     - time: 0.95
       value: {fileID: -3126141815255192416, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
@@ -5025,13 +5016,6 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     - serializedVersion: 2
-      path: 130111906
-      attribute: 0
-      script: {fileID: 0}
-      typeID: 212
-      customType: 23
-      isPPtrCurve: 1
-    - serializedVersion: 2
       path: 3951233754
       attribute: 0
       script: {fileID: 0}
@@ -5130,8 +5114,6 @@ AnimationClip:
     - {fileID: 9058691655761496151, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
     - {fileID: 9058691655761496151, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
     - {fileID: 9058691655761496151, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-    - {fileID: 8497358629359107968, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
-    - {fileID: 4149267612586432800, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
     - {fileID: 0}
     - {fileID: -3126141815255192416, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
     - {fileID: -3724082816408167037, guid: 868cd67f05ca7c646bae00fcc2ba7eaa, type: 3}
@@ -14412,14 +14394,14 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.95
-    functionName: SetFaceExpressionForced
+    functionName: MarkCanEmote
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.1666666
-    functionName: MarkCanEmote
+  - time: 0.95
+    functionName: SetFaceExpressionForced
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

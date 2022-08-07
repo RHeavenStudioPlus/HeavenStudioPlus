@@ -13,7 +13,10 @@ namespace HeavenStudio.Games.Loaders
         public static Minigame AddGame(EventCaller eventCaller) {
             return new Minigame("karateman", "Karate Man [INDEV REWORK]", "70A8D8", false, false, new List<GameAction>()
             {
-                new GameAction("bop",                   delegate { }, 0.5f, true),
+                new GameAction("bop",                   delegate { KarateMan.instance.ToggleBop(eventCaller.currentEntity.toggle); }, 0.5f, true, new List<Param>()
+                {
+                    new Param("toggle", true, "Bop", "Whether to bop to the beat or not")
+                }),
                 new GameAction("hit",                   delegate { var e = eventCaller.currentEntity; KarateMan.instance.CreateItem(e.beat, e.type); }, 2, false, 
                     new List<Param>()
                     {
@@ -32,7 +35,7 @@ namespace HeavenStudio.Games.Loaders
                     {
                         new Param("type", KarateMan.HitThree.HitThree, "Type", "The warning text to show")
                     }),
-                new GameAction("prepare",               delegate { }, 1f, true),
+                new GameAction("prepare",               delegate { var e = eventCaller.currentEntity; KarateMan.instance.Prepare(e.beat, e.length);}, 1f, true),
                 new GameAction("set background effects",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgAndShadowCol(e.beat, e.length, e.type, e.type2, e.colorA, e.colorB, e.type3); }, 0.5f, true, new List<Param>()
                 {
                     new Param("type", KarateMan.BackgroundType.Yellow, "Background Type", "The preset background type"),
@@ -56,8 +59,8 @@ namespace HeavenStudio.Games.Loaders
                 new GameAction("particle effects",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetParticleEffect(e.beat, e.type, e.valA, e.valB); }, 0.5f, false, new List<Param>()
                 {
                     new Param("type", KarateMan.ParticleType.None, "Particle Type", "The type of particle effect to spawn. Using \"None\" will stop all effects"),
-                    new Param("valA", new EntityTypes.Float(0f, 64f, 1f), "Wind Strength", "The strength of the particle wind. (Does not work on the Rain particle.)"),
-                    new Param("valB", new EntityTypes.Float(1f, 12f, 1f), "Particle Intensity", "The intensity of the particle effect")
+                    new Param("valA", new EntityTypes.Float(0f, 64f, 1f), "Wind Strength", "The strength of the particle wind"),
+                    new Param("valB", new EntityTypes.Float(1f, 16f, 1f), "Particle Intensity", "The intensity of the particle effect")
                 }),
                 new GameAction("force facial expression",  delegate { KarateMan.instance.SetFaceExpression(eventCaller.currentEntity.type); }, 0.5f, false, new List<Param>()
                 {
@@ -280,6 +283,9 @@ namespace HeavenStudio.Games
         private void Update()
         {
             var cond = Conductor.instance;
+            if (!cond.isPlaying)
+                SetBgEffectsToLast(cond.songPositionInBeats);
+            
             switch (currentBgEffect)
             {
                 case BackgroundFXType.Sunburst:
@@ -365,67 +371,79 @@ namespace HeavenStudio.Games
             cameraReturnLength = Mathf.Min(2f, length*0.5f);
         }
 
-        public void DoWord(float beat, int type)
+        public void DoWord(float beat, int type, bool doSound = true)
         {
+            String word = "NoPose";
+            float clear = 0f;
             switch (type)
             {
                 case (int) HitThree.HitTwo:
-                    Word.Play("Word02");
-                    wordClearTime = beat + 4f;
-                    MultiSound.Play(new MultiSound.Sound[] 
-                    {
-                        new MultiSound.Sound("karateman/hit", beat + 0.5f, offset: hitVoiceOffset), 
-                        new MultiSound.Sound("karateman/two", beat + 1f),
-                    }, forcePlay: true);
+                    word = "Word02";
+                    clear = beat + 4f;
+                    if (doSound)
+                        MultiSound.Play(new MultiSound.Sound[] 
+                        {
+                            new MultiSound.Sound("karateman/hit", beat + 0.5f, offset: hitVoiceOffset), 
+                            new MultiSound.Sound("karateman/two", beat + 1f),
+                        }, forcePlay: true);
                     break;
                 case (int) HitThree.HitThree:
-                    Word.Play("Word03");
-                    wordClearTime = beat + 4f;
-                    MultiSound.Play(new MultiSound.Sound[] 
-                    {
-                        new MultiSound.Sound("karateman/hit", beat + 0.5f, offset: hitVoiceOffset), 
-                        new MultiSound.Sound("karateman/three", beat + 1f),
-                    }, forcePlay: true);
+                    word = "Word03";
+                    clear = beat + 4f;
+                    if (doSound)
+                        MultiSound.Play(new MultiSound.Sound[] 
+                        {
+                            new MultiSound.Sound("karateman/hit", beat + 0.5f, offset: hitVoiceOffset), 
+                            new MultiSound.Sound("karateman/three", beat + 1f),
+                        }, forcePlay: true);
                     break;
                 case (int) HitThree.HitThreeAlt:
-                    Word.Play("Word03");
-                    wordClearTime = beat + 4f;
-                    MultiSound.Play(new MultiSound.Sound[] 
-                    {
-                        new MultiSound.Sound("karateman/hitAlt", beat + 0.5f, offset: hitVoiceOffset), 
-                        new MultiSound.Sound("karateman/threeAlt", beat + 1f),
-                    }, forcePlay: true);
+                    word = "Word03";
+                    clear = beat + 4f;
+                    if (doSound)
+                        MultiSound.Play(new MultiSound.Sound[] 
+                        {
+                            new MultiSound.Sound("karateman/hitAlt", beat + 0.5f, offset: hitVoiceOffset), 
+                            new MultiSound.Sound("karateman/threeAlt", beat + 1f),
+                        }, forcePlay: true);
                     break;
                 case (int) HitThree.HitFour:
-                    Word.Play("Word04");
-                    wordClearTime = beat + 4f;
-                    MultiSound.Play(new MultiSound.Sound[] 
-                    {
-                        new MultiSound.Sound("karateman/hit", beat + 0.5f, offset: hitVoiceOffset), 
-                        new MultiSound.Sound("karateman/four", beat + 1f),
-                    }, forcePlay: true);
+                    word = "Word04";
+                    clear = beat + 4f;
+                    if (doSound)
+                        MultiSound.Play(new MultiSound.Sound[] 
+                        {
+                            new MultiSound.Sound("karateman/hit", beat + 0.5f, offset: hitVoiceOffset), 
+                            new MultiSound.Sound("karateman/four", beat + 1f),
+                        }, forcePlay: true);
                     break;
                 case (int) HitThree.Grr:
-                    Word.Play("Word01");
-                    wordClearTime = beat + 1f;
+                    word = "Word01";
+                    clear = beat + 1f;
                     break;
                 case (int) HitThree.Warning:
-                    Word.Play("Word05");
-                    wordClearTime = beat + 1f;
+                    word = "Word05";
+                    clear = beat + 1f;
                     break;
                 case (int) HitThree.Combo:
-                    Word.Play("Word00");
-                    wordClearTime = beat + 3f;
+                    word = "Word00";
+                    clear = beat + 3f;
                     break;
                 case (int) HitThree.HitOne: //really?
-                    Word.Play("Word06");
-                    wordClearTime = beat + 4f;
-                    MultiSound.Play(new MultiSound.Sound[] 
-                    {
-                        new MultiSound.Sound("karateman/hit", beat + 0.5f, offset: hitVoiceOffset), 
-                        new MultiSound.Sound("karateman/one", beat + 1f),
-                    }, forcePlay: true);
+                    word = "Word06";
+                    clear = beat + 4f;
+                    if (doSound)
+                        MultiSound.Play(new MultiSound.Sound[] 
+                        {
+                            new MultiSound.Sound("karateman/hit", beat + 0.5f, offset: hitVoiceOffset), 
+                            new MultiSound.Sound("karateman/one", beat + 1f),
+                        }, forcePlay: true);
                     break;
+            }
+            if (Conductor.instance.songPositionInBeats <= clear && Conductor.instance.songPositionInBeats >= beat)
+            {
+                Word.Play(word);
+                wordClearTime = clear;
             }
         }
 
@@ -545,6 +563,37 @@ namespace HeavenStudio.Games
             return mobj;
         }
 
+        void SetBgEffectsToLast(float beat)
+        {
+            var bgfx = GameManager.instance.Beatmap.entities.FindAll(en => en.datamodel == "karateman/set background effects");
+            for (int i = 0; i < bgfx.Count; i++)
+            {
+                var e = bgfx[i];
+                if (e.beat > beat)
+                    break;
+                SetBgAndShadowCol(e.beat, e.length, e.type, e.type2, e.colorA, e.colorB, e.type3);
+            }
+            var bgtex = GameManager.instance.Beatmap.entities.FindAll(en => en.datamodel == "karateman/set background texture");
+            for (int i = 0; i < bgtex.Count; i++)
+            {
+                var e = bgtex[i];
+                if (e.beat > beat)
+                    break;
+                SetBgTexture(e.type, e.type2, e.colorA, e.colorB);
+            }
+            // has issues when creating a new hitx entity so this is deactivated for now
+            // var hitx = GameManager.instance.Beatmap.entities.FindAll(en => en.datamodel == "karateman/hitX");
+            // for (int i = 0; i < hitx.Count; i++)
+            // {
+            //     var e = hitx[i];
+            //     if (e.beat > beat)
+            //         break;
+            //     Debug.Log("hitx");
+            //     DoWord(e.beat, e.type, false);
+            // }
+            
+        }
+
         public void SetBgAndShadowCol(float beat, float length, int bgType, int shadowType, Color a, Color b, int fx)
         {
             SetBgFx(fx, beat, length);
@@ -629,7 +678,6 @@ namespace HeavenStudio.Games
             float fadeProg = Conductor.instance.GetPositionFromBeat(bgFadeTime, bgFadeDuration);
             if (fadeProg <= 1f && fadeProg >= 0)
             {
-                Debug.Log(fadeProg);
                 return Color.LerpUnclamped(lastCol, nextCol, fadeProg);
             }
             return next ? nextCol : lastCol;
@@ -651,20 +699,20 @@ namespace HeavenStudio.Games
 
         public void SetParticleEffect(float beat, int type, float windStrength, float particleStrength)
         {
-            ParticleSystem.EmissionModule emm = SnowEffect.emission;
+            ParticleSystem.EmissionModule emm;
             switch (type)
             {
                 case (int) ParticleType.Snow:
                     SnowEffectGO.SetActive(true);
                     SnowEffect.Play();
                     emm = SnowEffect.emission;
-                    emm.rateOverTime = particleStrength * 16f;
+                    emm.rateOverTime = particleStrength * 6f;
                     break;
                 case (int) ParticleType.Fire:
                     FireEffectGO.SetActive(true);
                     FireEffect.Play();
                     emm = FireEffect.emission;
-                    emm.rateOverTime = particleStrength * 8f;
+                    emm.rateOverTime = particleStrength * 6f;
                     break;
                 case (int) ParticleType.Rain:
                     RainEffectGO.SetActive(true);
@@ -679,6 +727,19 @@ namespace HeavenStudio.Games
                     break;
             }
             Wind.windMain = windStrength;
+        }
+
+        public void ToggleBop(bool toggle)
+        {
+            if (toggle)
+                Joe.bop.length = Single.MaxValue;
+            else
+                Joe.bop.length = 0;
+        }
+
+        public void Prepare(float beat, float length)
+        {
+            Joe.Prepare(beat, length);
         }
 
         public void SetFaceExpression(int face)
