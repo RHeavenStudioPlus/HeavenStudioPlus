@@ -677,7 +677,19 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             }
         }
 
-        public void ComboEndOut(PlayerActionEvent caller) {}
+        public void ComboEndOut(PlayerActionEvent caller) {
+            if (GameManager.instance.currentGame != "karateman") return;
+            var joe = KarateMan.instance.Joe;
+            if (status == FlyStatus.Fly && joe.inCombo && joe.GetComboId() == comboId && joe.comboWaiting)
+            {
+                joe.inCombo = false;
+                joe.SetComboId(-1);
+                joe.SetShouldComboId(-1);
+                joe.ComboSequence(3);
+                Jukebox.PlayOneShotGame("karateman/swingKick", forcePlay: true);
+            }
+        }
+
         public void ComboEndThrough(PlayerActionEvent caller) 
         {
             if (GameManager.instance.currentGame != "karateman") return;
