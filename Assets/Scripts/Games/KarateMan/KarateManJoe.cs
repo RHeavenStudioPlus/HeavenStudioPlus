@@ -20,6 +20,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         float lastUpperCutTime = Single.MinValue;
         public bool inCombo = false;
         public bool lockedInCombo = false;
+        public bool comboWaiting = false;
         int inComboId = -1;
         int shouldComboId = -1;
         public void SetComboId(int id) { inComboId = id; }
@@ -199,15 +200,18 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     break;
                 case 2:
                     anim.DoScaledAnimationAsync("BackHand", 0.5f);
+                    comboWaiting = true;
                     break;
                 case 3:
                     anim.DoScaledAnimationAsync("UpperCut", 0.5f);
                     lockedInCombo = false;
+                    comboWaiting = false;
                     break;
                 case 4:
                     anim.Play("ToReady", -1, 0);
                     bop.startBeat = cond.songPositionInBeats + 0.5f;
                     lockedInCombo = false;
+                    comboWaiting = false;
                     break;
                 default:
                     break;
