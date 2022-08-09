@@ -19,9 +19,9 @@ namespace HeavenStudio
         /**
             default cam position, for quick-resetting
         **/
-        static Vector3 defaultPosition = new Vector3(0, 0, -10);
-        static Vector3 defaultRotEluer = new Vector3(0, 0, 0);
-        static Vector3 defaultScale = new Vector3(16, 9, 1);
+        public static Vector3 defaultPosition = new Vector3(0, 0, -10);
+        public static Vector3 defaultRotEluer = new Vector3(0, 0, 0);
+        public static Vector3 defaultScale = new Vector3(16, 9, 1);
 
         /**
             camera's current transformation
