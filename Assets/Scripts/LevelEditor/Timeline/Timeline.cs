@@ -610,32 +610,22 @@ namespace HeavenStudio.Editor.Track
             return eventObj;
         }
 
-<<<<<<< HEAD
-        public TimelineEventObj CopyEventObject(Beatmap.Entity e)
-        {
-            Beatmap.Entity clone = e.DeepCopy();
-            TimelineEventObj dup = AddEventObject(clone.datamodel, false, new Vector3(clone.beat, -clone.track * Timeline.instance.LayerHeight()), clone, true, RandomID());
-=======
         private List<TimelineEventObj> duplicatedEventObjs = new List<TimelineEventObj>();
         public TimelineEventObj CopyEventObject(TimelineEventObj e)
         {
             Beatmap.Entity clone = e.entity.DeepCopy();
             TimelineEventObj dup = AddEventObject(clone.datamodel, false, new Vector3(clone.beat, -clone.track * Timeline.instance.LayerHeight()), clone, true, RandomID());
             duplicatedEventObjs.Add(dup);
->>>>>>> d65cae24d2db1df6a0e5bb4d3bd4e86fe633985f
 
             return dup;
         }
 
-<<<<<<< HEAD
-=======
         public void FinalizeDuplicateEventStack()
         {
             CommandManager.instance.Execute(new Commands.Duplicate(duplicatedEventObjs));
             duplicatedEventObjs = new List<TimelineEventObj>();
         }
 
->>>>>>> d65cae24d2db1df6a0e5bb4d3bd4e86fe633985f
         public void DestroyEventObject(Beatmap.Entity entity)
         {
             if (EventParameterManager.instance.entity == entity)
