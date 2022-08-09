@@ -227,6 +227,42 @@ TextureImporter:
   - first:
       213: -8767211005568948338
     second: karateman_alien
+  - first:
+      213: 237928650075338379
+    second: karateman_main_77
+  - first:
+      213: -3681997404604053129
+    second: karateman_num_combo_jp
+  - first:
+      213: 2032791596022008982
+    second: karateman_main_79
+  - first:
+      213: -6472041035611429736
+    second: karateman_kick_prepare_1
+  - first:
+      213: 2567461309920692425
+    second: karateman_kick_prepare_2
+  - first:
+      213: 8122102479721970976
+    second: karateman_kick2
+  - first:
+      213: 6513971964286789039
+    second: karateman_kick_
+  - first:
+      213: -1722264585180191320
+    second: karateman_rainy_0
+  - first:
+      213: 3029966505128252368
+    second: karateman_rainy_1
+  - first:
+      213: -5751451155775978979
+    second: karateman_rainy_2
+  - first:
+      213: -2448975393399883157
+    second: karateman_rainy_3
+  - first:
+      213: 8584846578326269484
+    second: karateman_fire
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -940,10 +976,10 @@ TextureImporter:
       name: karateman_snow
       rect:
         serializedVersion: 2
-        x: 3620
-        y: 3844
-        width: 248
-        height: 248
+        x: 3622
+        y: 3846
+        width: 244
+        height: 244
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1717,10 +1753,10 @@ TextureImporter:
       name: karateman_num_2
       rect:
         serializedVersion: 2
-        x: 2276
-        y: 1348
-        width: 280
-        height: 280
+        x: 2281
+        y: 1352
+        width: 272
+        height: 272
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1940,6 +1976,258 @@ TextureImporter:
       bones: []
       spriteID: e87ea268a0c945680800000000000000
       internalID: -8767211005568948338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_main_77
+      rect:
+        serializedVersion: 2
+        x: 3904
+        y: 4032
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b86f0adb8da4d4300800000000000000
+      internalID: 237928650075338379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_num_combo_jp
+      rect:
+        serializedVersion: 2
+        x: 2566
+        y: 1353
+        width: 373
+        height: 270
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7794aaa5edae6ecc0800000000000000
+      internalID: -3681997404604053129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_main_79
+      rect:
+        serializedVersion: 2
+        x: 1819
+        y: 1276
+        width: 200
+        height: 225
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69c8a47bf2de53c10800000000000000
+      internalID: 2032791596022008982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_kick_prepare_1
+      rect:
+        serializedVersion: 2
+        x: 1530
+        y: 164
+        width: 290
+        height: 440
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89421ace7f0be26a0800000000000000
+      internalID: -6472041035611429736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_kick_prepare_2
+      rect:
+        serializedVersion: 2
+        x: 1240
+        y: 164
+        width: 290
+        height: 440
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c8c168557471a320800000000000000
+      internalID: 2567461309920692425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_kick2
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 4
+        width: 440
+        height: 309
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02db52d2c2187b070800000000000000
+      internalID: 8122102479721970976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_kick_
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 313
+        width: 440
+        height: 451
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa5ea203df6466a50800000000000000
+      internalID: 6513971964286789039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_rainy_0
+      rect:
+        serializedVersion: 2
+        x: 3906
+        y: 3664
+        width: 145
+        height: 282
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a569171c794918e0800000000000000
+      internalID: -1722264585180191320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_rainy_1
+      rect:
+        serializedVersion: 2
+        x: 3840
+        y: 3248
+        width: 212
+        height: 328
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d35083ab7a9c0a20800000000000000
+      internalID: 3029966505128252368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_rainy_2
+      rect:
+        serializedVersion: 2
+        x: 3782
+        y: 3019
+        width: 290
+        height: 203
+      alignment: 9
+      pivot: {x: 0.5, y: 0.36}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1286f475adbe20b0800000000000000
+      internalID: -5751451155775978979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_rainy_3
+      rect:
+        serializedVersion: 2
+        x: 3720
+        y: 2799
+        width: 360
+        height: 201
+      alignment: 9
+      pivot: {x: 0.5, y: 0.48}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6a3abcdadd730ed0800000000000000
+      internalID: -2448975393399883157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_fire
+      rect:
+        serializedVersion: 2
+        x: 3369
+        y: 3849
+        width: 239
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2e6d508a70832770800000000000000
+      internalID: 8584846578326269484
       vertices: []
       indices: 
       edges: []
