@@ -21,7 +21,7 @@ namespace HeavenStudio.Editor.Track
         private Vector2 lastMousePos;
         public List<TimelineEventObj> eventObjs = new List<TimelineEventObj>();
         private bool lastFrameDrag;
-        public int LayerCount = 4;
+        public int LayerCount = 5;
         public bool metronomeEnabled;
         public bool resizable;
         private bool movingPlayback;
@@ -662,12 +662,12 @@ namespace HeavenStudio.Editor.Track
         public float SnapToLayer(float y)
         {
             float size = LayerHeight();
-            return Mathf.Clamp(Mathp.Round2Nearest(y, size), -size * 3f, 0f);
+            return Mathf.Clamp(Mathp.Round2Nearest(y, size), -size * 4f, 0f);
         }
 
         public float LayerHeight()
         {
-            return LayersRect.rect.height / 4f;
+            return LayersRect.rect.height / 5f;
         }
 
         public void SetPlaybackSpeed(float speed)
