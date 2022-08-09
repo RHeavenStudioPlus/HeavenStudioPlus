@@ -42,11 +42,6 @@ namespace HeavenStudio.Editor.Track
         private bool resizingLeft;
         private bool resizingRight;
         private bool inResizeRegion;
-<<<<<<< HEAD
-        private bool wasDuplicated;
-        public Vector2 lastMovePos;
-=======
->>>>>>> d65cae24d2db1df6a0e5bb4d3bd4e86fe633985f
         public bool isCreating;
         public string eventObjID;
 
@@ -64,11 +59,6 @@ namespace HeavenStudio.Editor.Track
                 Destroy(resizeGraphic.gameObject);
             }
 
-<<<<<<< HEAD
-            lastMovePos = transform.localPosition;
-
-=======
->>>>>>> d65cae24d2db1df6a0e5bb4d3bd4e86fe633985f
             // what the fuck????
             // moveTemp = new GameObject();
             // moveTemp.transform.SetParent(this.transform.parent);
@@ -165,13 +155,6 @@ namespace HeavenStudio.Editor.Track
             {
                 if (Timeline.instance.eventObjs.FindAll(c => c.moving).Count > 0 && selected)
                 {
-                    //duplicate the entity if holding alt or r-click
-                    if ((!wasDuplicated) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetMouseButton(1)))
-                    {
-                        wasDuplicated = true;
-                        var te = Timeline.instance.CopyEventObject(entity);
-                    }
-
                     Vector3 mousePos = Editor.instance.EditorCamera.ScreenToWorldPoint(Input.mousePosition);
                     //duplicate the entity if holding alt or m-click
                     if ((!wasDuplicated) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetMouseButton(2)))
@@ -334,7 +317,6 @@ namespace HeavenStudio.Editor.Track
                 }
 
                 moving = false;
-                wasDuplicated = false;
 
                 Cancel();
                 if (isCreating == true)
