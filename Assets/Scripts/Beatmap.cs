@@ -42,6 +42,9 @@ namespace HeavenStudio
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public Color colorA;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public Color colorB;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public Color colorC;
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public Color colorD;
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public Color colorE;
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public Color colorF;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public string text1;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public string text2;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public string text3;
@@ -74,7 +77,7 @@ namespace HeavenStudio
                     }
                     catch (Exception ex)
                     {
-                        UnityEngine.Debug.LogError($"You probably misspelled a paramater, or defined the object type wrong. Exception log: {ex}");
+                        UnityEngine.Debug.LogError($"You probably misspelled a parameter, or defined the object type wrong. Exception log: {ex}");
                     }
                 }
             }

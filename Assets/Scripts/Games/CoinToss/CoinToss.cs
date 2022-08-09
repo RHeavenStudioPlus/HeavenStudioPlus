@@ -12,32 +12,42 @@ namespace HeavenStudio.Games.Loaders
     {
         public static Minigame AddGame(EventCaller eventCaller)
         {
-            return new Minigame("coinToss", "Coin Toss \n [One coin at a time!]", "B4E6F6", false, false, new List<GameAction>()
+            return new Minigame("coinToss", "Coin Toss", "B4E6F6", false, false, new List<GameAction>()
             {
                 new GameAction("toss",                 delegate { CoinToss.instance.TossCoin(eventCaller.currentEntity.beat, eventCaller.currentEntity.toggle); }, 7, false, parameters: new List<Param>()
                 {
                     new Param("toggle", false, "Audience Reaction", "Enable Audience Reaction"),
                 }),
 
-                new GameAction("set background color",  delegate { var e = eventCaller.currentEntity; CoinToss.instance.ChangeBackgroundColor(e.colorA, 0f); }, 0.5f, false, new List<Param>()
+                new GameAction("set background color",  delegate { var e = eventCaller.currentEntity; CoinToss.instance.ChangeBackgroundColor(e.colorA, 0f); CoinToss.instance.ChangeBackgroundColor(e.colorB, 0f, true); }, 0.5f, false, new List<Param>()
                 {
-                    new Param("colorA", CoinToss.defaultBgColor, "Background Color", "The background color to change to")
+                    new Param("colorA", CoinToss.defaultBgColor, "Background Color", "The background color to change to"),
+                    new Param("colorB", CoinToss.defaultFgColor, "Foreground Color", "The foreground color to change to")
                 } ),
-                new GameAction("fade background color", delegate { var e = eventCaller.currentEntity; CoinToss.instance.FadeBackgroundColor(e.colorA, e.colorB, e.length); }, 1f, true, new List<Param>()
+                new GameAction("fade background color", delegate { var e = eventCaller.currentEntity; CoinToss.instance.FadeBackgroundColor(e.colorA, e.colorB, e.length); CoinToss.instance.FadeBackgroundColor(e.colorC, e.colorD, e.length, true); }, 1f, true, new List<Param>()
                 {
-                    new Param("colorA", Color.white, "Start Color", "The starting color in the fade"),
-                    new Param("colorB", CoinToss.defaultBgColor, "End Color", "The ending color in the fade")
+                    new Param("colorA", Color.white, "BG Start Color", "The starting color in the fade"),
+                    new Param("colorB", CoinToss.defaultBgColor, "BG End Color", "The ending color in the fade"),
+                    new Param("colorC", Color.white, "FG Start Color", "The starting color in the fade"),
+                    new Param("colorD", CoinToss.defaultFgColor, "FG End Color", "The ending color in the fade")
                 } ),
 
-                new GameAction("set foreground color",  delegate { var e = eventCaller.currentEntity; CoinToss.instance.ChangeBackgroundColor(e.colorA, 0f, true); }, 0.5f, false, new List<Param>()
+                
+                
+                //left in for backwards-compatibility, but cannot be placed
+
+                new GameAction("set foreground color", delegate { var e = eventCaller.currentEntity; CoinToss.instance.ChangeBackgroundColor(e.colorA, 0f, true); }, 0.5f, false, new List<Param>
+           
                 {
-                    new Param("colorA", CoinToss.defaultFgColor, "Background Color", "The background color to change to")
-                } ),
+                    new Param("colorA", CoinToss.defaultFgColor, "Foreground Color", "The foreground color to change to")
+
+                }, hidden: true ),
+
                 new GameAction("fade foreground color", delegate { var e = eventCaller.currentEntity; CoinToss.instance.FadeBackgroundColor(e.colorA, e.colorB, e.length, true); }, 1f, true, new List<Param>()
                 {
                     new Param("colorA", Color.white, "Start Color", "The starting color in the fade"),
                     new Param("colorB", CoinToss.defaultFgColor, "End Color", "The ending color in the fade")
-                } ),
+                }, hidden: true ),
             },
             new List<string>() {"ntr", "aim"},
             "ntrcoin", "en",

@@ -9,7 +9,7 @@ namespace HeavenStudio.Games.Loaders
     public static class PcoSomenLoader
     {
         public static Minigame AddGame(EventCaller eventCaller) {
-            return new Minigame("rhythmSomen", "Rhythm Sōmen \n<color=#eb5454>[WIP don't use]</color>", "000000", false, false, new List<GameAction>()
+            return new Minigame("rhythmSomen", "Rhythm Sōmen", "000000", false, false, new List<GameAction>()
             {
                 new GameAction("crane (far)",                   delegate { RhythmSomen.instance.DoFarCrane(eventCaller.currentEntity.beat); }, 4.0f, false),
                 new GameAction("crane (close)",                   delegate { RhythmSomen.instance.DoCloseCrane(eventCaller.currentEntity.beat); }, 3.0f, false),

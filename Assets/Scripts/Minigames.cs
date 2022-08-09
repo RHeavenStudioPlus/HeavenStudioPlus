@@ -219,7 +219,17 @@ namespace HeavenStudio
                     new GameAction("switchGame",            delegate { GameManager.instance.SwitchGame(eventCaller.currentSwitchGame, eventCaller.currentEntity.beat); }, 0.5f, inactiveFunction: delegate { GameManager.instance.SwitchGame(eventCaller.currentSwitchGame, eventCaller.currentEntity.beat); }),
                     new GameAction("end",                   delegate { Debug.Log("end"); GameManager.instance.Stop(0); Timeline.instance?.SetTimeButtonColors(true, false, false);}),
                     new GameAction("skill star",            delegate {  }, 1f, true),
-                    new GameAction("flash",                 delegate 
+                   
+                    new GameAction("toggle inputs",            delegate
+                    {
+                        GameManager.instance.ToggleInputs(eventCaller.currentEntity.toggle);
+                    }, 0.5f, true, new List<Param>()
+                    {
+                        new Param("toggle", true, "Enable Inputs")
+                    }),
+
+                    // DEPRECATED! Now in VFX
+                     new GameAction("flash",                 delegate
                     {
 
                         /*Color colA = eventCaller.currentEntity.colorA;
@@ -230,23 +240,15 @@ namespace HeavenStudio
 
                         GameManager.instance.fade.SetFade(eventCaller.currentEntity.beat, eventCaller.currentEntity.length, startCol, endCol, eventCaller.currentEntity.ease);*/
 
-                    }, 1f, true, new List<Param>() 
+                    }, 1f, true, new List<Param>()
                     {
                         new Param("colorA", Color.white, "Start Color"),
                         new Param("colorB", Color.white, "End Color"),
                         new Param("valA", new EntityTypes.Float(0, 1, 1), "Start Opacity"),
                         new Param("valB", new EntityTypes.Float(0, 1, 0), "End Opacity"),
                         new Param("ease", EasingFunction.Ease.Linear, "Ease")
-                    } ),
-                    new GameAction("toggle inputs",            delegate
-                    {
-                        GameManager.instance.ToggleInputs(eventCaller.currentEntity.toggle);
-                    }, 0.5f, true, new List<Param>()
-                    {
-                        new Param("toggle", true, "Enable Inputs")
-                    }),
+                    }, hidden: true ),
 
-                    // DEPRECATED! Now in VFX
                     new GameAction("move camera",              delegate 
                     {
                     }, 1f, true, new List<Param>() 
@@ -269,6 +271,7 @@ namespace HeavenStudio
                     },
                     hidden: true ),
                 }),
+
                 new Minigame("countIn", "Count-Ins", "", false, true, new List<GameAction>()
                 {
                     new GameAction("4 beat count-in",       delegate { var e = eventCaller.currentEntity; SoundEffects.FourBeatCountIn(e.beat, e.length / 4f, e.type); }, 4f, true, new List<Param>()
@@ -306,8 +309,29 @@ namespace HeavenStudio
                     new GameAction("four (alt)",                delegate { SoundEffects.Count(3, true); }, 1f, hidden: true),
                     new GameAction("go! (alt)",                 delegate { SoundEffects.Go(true); }, 1f, hidden: true),
                 }),
+
                 new Minigame("vfx", "Visual Effects", "", false, true, new List<GameAction>()
                 {
+                    new GameAction("flash",                 delegate
+                    {
+
+                        /*Color colA = eventCaller.currentEntity.colorA;
+                        Color colB = eventCaller.currentEntity.colorB;
+
+                        Color startCol = new Color(colA.r, colA.g, colA.b, eventCaller.currentEntity.valA);
+                        Color endCol = new Color(colB.r, colB.g, colB.b, eventCaller.currentEntity.valB);
+
+                        GameManager.instance.fade.SetFade(eventCaller.currentEntity.beat, eventCaller.currentEntity.length, startCol, endCol, eventCaller.currentEntity.ease);*/
+
+                    }, 1f, true, new List<Param>()
+                    {
+                        new Param("colorA", Color.white, "Start Color"),
+                        new Param("colorB", Color.white, "End Color"),
+                        new Param("valA", new EntityTypes.Float(0, 1, 1), "Start Opacity"),
+                        new Param("valB", new EntityTypes.Float(0, 1, 0), "End Opacity"),
+                        new Param("ease", EasingFunction.Ease.Linear, "Ease")
+                    }, hidden: false ),
+
                     new GameAction("move camera",              delegate 
                     {
                         //TODO: move cam
