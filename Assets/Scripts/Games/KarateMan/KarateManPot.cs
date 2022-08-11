@@ -26,6 +26,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         FlyStatus status = FlyStatus.Fly;
         Color effectTint = Color.white;
 
+        Material[] renderMaterials;
+
         public int comboId = -1;
         static int _lastCombo = -1;
         public static int LastCombo { get { return _lastCombo; } }

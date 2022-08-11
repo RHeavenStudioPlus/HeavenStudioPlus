@@ -61591,7 +61591,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4468064543835661468
 Transform:
   m_ObjectHideFlags: 0
@@ -96547,6 +96547,10 @@ MonoBehaviour:
   ItemHolder: {fileID: 8380209919518305174}
   Item: {fileID: 4158625219071088136}
   Joe: {fileID: 5897754239051819249}
+  MappingMaterial: {fileID: 2100000, guid: 01a12550d4a6d8141bbbdf4ce2700eea, type: 2}
+  BodyColor: {r: 1, g: 1, b: 1, a: 0}
+  HighlightColor: {r: 0.54901963, g: 0.54901963, b: 0.54901963, a: 1}
+  ItemColor: {r: 1, g: 1, b: 1, a: 1}
   Word: {fileID: 8471847813194768760}
   BGPlane: {fileID: 5423016352081307686}
   BGEffect: {fileID: 185016033042157469}
@@ -102304,7 +102308,7 @@ SpriteRenderer:
   m_Size: {x: 3.8888888, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &7583125520394986553
