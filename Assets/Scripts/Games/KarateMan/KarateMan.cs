@@ -35,6 +35,10 @@ namespace HeavenStudio.Games.Loaders
                     {
                         new Param("type", KarateMan.HitThree.HitThree, "Type", "The warning text to show")
                     }),
+                new GameAction("special camera",               delegate { var e = eventCaller.currentEntity; KarateMan.instance.DoSpecialCamera(e.beat, e.length, e.toggle); }, 8f, true, new List<Param>()
+                {
+                    new Param("toggle", true, "Return Camera", "Camera zooms back in?"),
+                }),
                 new GameAction("prepare",               delegate { var e = eventCaller.currentEntity; KarateMan.instance.Prepare(e.beat, e.length);}, 1f, true),
                 new GameAction("set background effects",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgAndShadowCol(e.beat, e.length, e.type, e.type2, e.colorA, e.colorB, e.type3); }, 0.5f, true, new List<Param>()
                 {
@@ -52,9 +56,11 @@ namespace HeavenStudio.Games.Loaders
                     new Param("colorA", new Color(), "Custom Filter Color", "The filter color to use when color filter type is set to Custom"),
                     new Param("colorB", new Color(), "Fading Filter Color", "When using the Fade background effect, make filter colour fade to this colour"),
                 }),
-                new GameAction("special camera",               delegate { var e = eventCaller.currentEntity; KarateMan.instance.DoSpecialCamera(e.beat, e.length, e.toggle); }, 8f, true, new List<Param>()
+                new GameAction("set object colors",    delegate { var e = eventCaller.currentEntity; KarateMan.instance.UpdateMaterialColour(e.colorA, e.colorB, e.colorC); }, 0.5f, true, new List<Param>()
                 {
-                    new Param("toggle", true, "Return Camera", "Camera zooms back in?"),
+                    new Param("colorA", new Color(), "Joe Body Color", "The color to use for Karate Joe's body"),
+                    new Param("colorB", new Color(), "Joe Highlight Color", "The color to use for Karate Joe's highlights"),
+                    new Param("colorC", new Color(), "Item Color", "The color to use for the thrown items"),
                 }),
                 new GameAction("particle effects",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetParticleEffect(e.beat, e.type, e.valA, e.valB); }, 0.5f, false, new List<Param>()
                 {
@@ -219,6 +225,12 @@ namespace HeavenStudio.Games
         public GameObject Item;
         public KarateManJoe Joe;
 
+        [Header("Colour Map")]
+        public Material MappingMaterial;
+        public Color BodyColor;
+        public Color HighlightColor;
+        public Color ItemColor;
+
         [Header("Word")]
         public Animator Word;
         float wordClearTime = Single.MinValue;
@@ -278,6 +290,7 @@ namespace HeavenStudio.Games
             bgGradientRenderer = BGGradient.GetComponent<SpriteRenderer>();
 
             SetBgAndShadowCol(0f, 0f, bgType, (int) currentShadowType, BackgroundColors[bgType], customShadowColour, (int)currentBgEffect);
+            UpdateMaterialColour(BodyColor, HighlightColor, ItemColor);
         }
 
         private void Update()
@@ -695,6 +708,15 @@ namespace HeavenStudio.Games
 
             currentShadowType = type;
             customShadowColour = colour;
+        }
+
+        public void UpdateMaterialColour(Color mainCol, Color highlightCol, Color objectCol)
+        {
+            MappingMaterial.SetColor("_ColorAlpha", mainCol);
+            MappingMaterial.SetColor("_ColorBravo", new Color(1, 0, 0, 1));
+            MappingMaterial.SetColor("_ColorDelta", highlightCol);
+            ItemColor = objectCol;
+            //TODO: joe fist colour when punching Straight with low flow
         }
 
         public void SetParticleEffect(float beat, int type, float windStrength, float particleStrength)
