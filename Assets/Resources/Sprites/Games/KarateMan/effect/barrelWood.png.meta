@@ -76,7 +76,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 487.5
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -95,7 +95,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -107,7 +107,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -125,15 +125,15 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 32
-        width: 24
-        height: 32
+        y: 156
+        width: 117
+        height: 156
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 3f303db64038de4c0800000000000000
       internalID: -4256602017783151629
@@ -145,16 +145,16 @@ TextureImporter:
       name: barrelWood_1
       rect:
         serializedVersion: 2
-        x: 26
-        y: 32
-        width: 24
-        height: 32
+        x: 126.75
+        y: 156
+        width: 117
+        height: 156
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 7ce0e1d2604bec630800000000000000
       internalID: 3949291861870251719
@@ -166,16 +166,16 @@ TextureImporter:
       name: barrelWood_2
       rect:
         serializedVersion: 2
-        x: 52
-        y: 32
-        width: 24
-        height: 32
+        x: 253.5
+        y: 156
+        width: 117
+        height: 156
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 7f6581d972e274490800000000000000
       internalID: -7762184685075540233
@@ -187,16 +187,16 @@ TextureImporter:
       name: barrelWood_3
       rect:
         serializedVersion: 2
-        x: 78
-        y: 32
-        width: 24
-        height: 32
+        x: 380.25
+        y: 156
+        width: 117
+        height: 156
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: cc620c8313c4d7d50800000000000000
       internalID: 6736624391905355468
@@ -208,16 +208,16 @@ TextureImporter:
       name: barrelWood_4
       rect:
         serializedVersion: 2
-        x: 104
-        y: 32
-        width: 24
-        height: 32
+        x: 507
+        y: 156
+        width: 117
+        height: 156
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 5e58f5b4b65e05a90800000000000000
       internalID: -7327104344742984219
@@ -231,14 +231,14 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 24
-        height: 32
+        width: 117
+        height: 156
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 6ec25a65df9222140800000000000000
       internalID: 4693359929730608358
@@ -250,16 +250,16 @@ TextureImporter:
       name: barrelWood_6
       rect:
         serializedVersion: 2
-        x: 26
+        x: 126.75
         y: 0
-        width: 24
-        height: 32
+        width: 117
+        height: 156
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 6e8ed5ac148a8c3e0800000000000000
       internalID: -2033190231236286234
@@ -271,16 +271,16 @@ TextureImporter:
       name: barrelWood_7
       rect:
         serializedVersion: 2
-        x: 52
+        x: 253.5
         y: 0
-        width: 24
-        height: 32
+        width: 117
+        height: 156
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: 0d99d142c9ded67d0800000000000000
       internalID: -2923419328216983088
@@ -292,16 +292,16 @@ TextureImporter:
       name: barrelWood_8
       rect:
         serializedVersion: 2
-        x: 78
+        x: 380.25
         y: 0
-        width: 24
-        height: 32
+        width: 117
+        height: 156
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: faf60687f07bba840800000000000000
       internalID: 5236480268820311983
@@ -313,16 +313,16 @@ TextureImporter:
       name: barrelWood_9
       rect:
         serializedVersion: 2
-        x: 104
+        x: 507
         y: 0
-        width: 24
-        height: 32
+        width: 117
+        height: 156
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
       spriteID: ec8c0c853350e0770800000000000000
       internalID: 8578800058277873870
