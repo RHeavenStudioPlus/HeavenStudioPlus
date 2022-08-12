@@ -30,6 +30,7 @@ namespace HeavenStudio
             public int track;
 
             // consideration: use arrays instead of hardcoding fixed parameter names
+            // note from zeo: yeah definately use arrays
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float length;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float valA;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float valB;
@@ -38,6 +39,9 @@ namespace HeavenStudio
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public int type;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public int type2;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public int type3;
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public int type4;
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public int type5;
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public int type6;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public EasingFunction.Ease ease;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public Color colorA;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public Color colorB;
