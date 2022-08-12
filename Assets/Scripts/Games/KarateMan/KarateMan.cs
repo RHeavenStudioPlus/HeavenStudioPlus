@@ -13,7 +13,7 @@ namespace HeavenStudio.Games.Loaders
         public static Minigame AddGame(EventCaller eventCaller) {
             return new Minigame("karateman", "Karate Man [INDEV REWORK]", "70A8D8", false, false, new List<GameAction>()
             {
-                new GameAction("bop",                   delegate { KarateMan.instance.ToggleBop(eventCaller.currentEntity.toggle); }, 0.5f, true, new List<Param>()
+                new GameAction("bop",                   delegate { KarateMan.instance.ToggleBop(eventCaller.currentEntity.toggle); }, 0.5f, false, new List<Param>()
                 {
                     new Param("toggle", true, "Bop", "Whether to bop to the beat or not")
                 }),
@@ -56,7 +56,7 @@ namespace HeavenStudio.Games.Loaders
                     new Param("colorA", new Color(), "Custom Filter Color", "The filter color to use when color filter type is set to Custom"),
                     new Param("colorB", new Color(), "Fading Filter Color", "When using the Fade background effect, make filter colour fade to this colour"),
                 }),
-                new GameAction("set object colors",    delegate { var e = eventCaller.currentEntity; KarateMan.instance.UpdateMaterialColour(e.colorA, e.colorB, e.colorC); }, 0.5f, true, new List<Param>()
+                new GameAction("set object colors",    delegate { var e = eventCaller.currentEntity; KarateMan.instance.UpdateMaterialColour(e.colorA, e.colorB, e.colorC); }, 0.5f, false, new List<Param>()
                 {
                     new Param("colorA", new Color(), "Joe Body Color", "The color to use for Karate Joe's body"),
                     new Param("colorB", new Color(), "Joe Highlight Color", "The color to use for Karate Joe's highlights"),
@@ -291,6 +291,7 @@ namespace HeavenStudio.Games
 
             SetBgAndShadowCol(0f, 0f, bgType, (int) currentShadowType, BackgroundColors[bgType], customShadowColour, (int)currentBgEffect);
             UpdateMaterialColour(BodyColor, HighlightColor, ItemColor);
+            ToggleBop(true);
         }
 
         private void Update()

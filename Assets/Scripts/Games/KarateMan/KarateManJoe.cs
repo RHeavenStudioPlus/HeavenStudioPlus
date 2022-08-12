@@ -39,7 +39,6 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         private void Awake()
         {
-
         }
 
         private void Update()
@@ -53,7 +52,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 anim.Play("Beat", -1, 0);
             }
 
-            if (cond.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1, false) && cond.songPositionInBeats > bop.startBeat && cond.songPositionInBeats >= unPrepareTime && !inCombo)
+            if (cond.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1, false) && cond.songPositionInBeats > bop.startBeat && cond.songPositionInBeats < bop.startBeat + bop.length && cond.songPositionInBeats >= unPrepareTime && !inCombo)
             {
                 anim.speed = 1f;
                 anim.Play("Beat", -1, 0);

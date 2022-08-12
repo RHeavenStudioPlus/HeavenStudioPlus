@@ -31117,7 +31117,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.5694444, y: 1.6805556}
+  m_Size: {x: 3.5694444, y: 1.6805557}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -61611,6 +61611,7 @@ Transform:
   - {fileID: 7124728438334572711}
   - {fileID: 2322646606158329272}
   - {fileID: 5350646417728134167}
+  - {fileID: 7866149883590960440}
   m_Father: {fileID: 3325930061220206449}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -61684,6 +61685,31 @@ MonoBehaviour:
   - {fileID: 4838905935631281929}
   - {fileID: 6348241087457618039}
   awakeAnim: 
+  cellRenderers:
+  - {fileID: 3539874015363083757}
+  - {fileID: 6100859660585592015}
+  - {fileID: 5284027654662856434}
+  - {fileID: 8717773036192970139}
+  - {fileID: 6902659065314665230}
+  - {fileID: 7106630173843556496}
+  - {fileID: 5747805804250125440}
+  - {fileID: 1280364348460651971}
+  ItemAlienMap:
+  - {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 1}
+  - {r: 0.99215686, g: 0.99607843, b: 0.99607843, a: 1}
+  - {r: 0, g: 0, b: 0, a: 0}
+  ItemBombMap:
+  - {r: 1, g: 0.08235294, b: 0.12941177, a: 1}
+  - {r: 1, g: 0.9372549, b: 0.03137255, a: 1}
+  - {r: 0, g: 0, b: 0, a: 0}
+  ItemBarrelMap:
+  - {r: 0.4509804, g: 0.3019608, b: 0.27058825, a: 1}
+  - {r: 0.3019608, g: 0.16862746, b: 0.03529412, a: 1}
+  - {r: 0.7137255, g: 0.30980393, b: 0.42352942, a: 1}
+  ItemCookingLidMap:
+  - {r: 0, g: 0, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
   comboId: -1
   HitPosition:
   - {fileID: 320160549894608069}
@@ -61726,7 +61752,7 @@ MonoBehaviour:
   - {fileID: 3313832072412894528}
   CurrentCurve: {fileID: 0}
   curveTargetBeat: 0
-  BulbLight: {fileID: 6100859660585592015}
+  BulbLight: {fileID: 6791490746777997791}
 --- !u!1 &4199646893499933531
 GameObject:
   m_ObjectHideFlags: 0
@@ -76722,6 +76748,88 @@ MonoBehaviour:
   handleType: 0
   leftHandleLocalPosition: {x: -1, y: 3, z: 0}
   rightHandleLocalPosition: {x: 1, y: -3, z: -0}
+--- !u!1 &5042991525231704989
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7866149883590960440}
+  - component: {fileID: 6791490746777997791}
+  m_Layer: 0
+  m_Name: MainNoMap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7866149883590960440
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042991525231704989}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.64, y: 0.64, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4468064543835661468}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &6791490746777997791
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042991525231704989}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 3.8888888, y: 3.8888888}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &5218911297968347512
 GameObject:
   m_ObjectHideFlags: 0
@@ -96548,7 +96656,7 @@ MonoBehaviour:
   Item: {fileID: 4158625219071088136}
   Joe: {fileID: 5897754239051819249}
   MappingMaterial: {fileID: 2100000, guid: 01a12550d4a6d8141bbbdf4ce2700eea, type: 2}
-  BodyColor: {r: 1, g: 1, b: 1, a: 0}
+  BodyColor: {r: 1, g: 1, b: 1, a: 1}
   HighlightColor: {r: 0.54901963, g: 0.54901963, b: 0.54901963, a: 1}
   ItemColor: {r: 1, g: 1, b: 1, a: 1}
   Word: {fileID: 8471847813194768760}
