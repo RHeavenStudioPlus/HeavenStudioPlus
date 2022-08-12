@@ -26,7 +26,12 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         FlyStatus status = FlyStatus.Fly;
         Color effectTint = Color.white;
 
-        Material[] renderMaterials;
+        [SerializeField] SpriteRenderer[] cellRenderers;
+        Material[] cellMaterials;
+        [SerializeField] Color[] ItemAlienMap;
+        [SerializeField] Color[] ItemBombMap;
+        [SerializeField] Color[] ItemBarrelMap;
+        [SerializeField] Color[] ItemCookingLidMap;
 
         public int comboId = -1;
         static int _lastCombo = -1;
@@ -110,6 +115,57 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             return flyPosition;
         }
 
+        void SetColourMapping()
+        {
+            Color alpha, bravo, delta;
+            switch (type)
+            {
+                case ItemType.Alien:
+                    alpha = ItemAlienMap[0];
+                    bravo = ItemAlienMap[1];
+                    delta = KarateMan.instance.ItemColor;
+                    break;
+                case ItemType.KickBomb:
+                    alpha = ItemBombMap[0];
+                    bravo = ItemBombMap[1];
+                    delta = KarateMan.instance.ItemColor;
+                    break;
+                case ItemType.KickBarrel:
+                case ItemType.ComboBarrel:
+                    alpha = ItemBarrelMap[0];
+                    bravo = ItemBarrelMap[1];
+                    delta = ItemBarrelMap[2];
+                    break;
+                case ItemType.Cooking:
+                case ItemType.CookingLid:
+                    alpha = ItemCookingLidMap[0];
+                    bravo = ItemCookingLidMap[1];
+                    delta = KarateMan.instance.ItemColor;
+                    break;
+                default:
+                    alpha = KarateMan.instance.ItemColor;
+                    bravo = KarateMan.instance.ItemColor;
+                    delta = KarateMan.instance.ItemColor;
+                    break;
+            }
+            for (int i = 0; i < cellRenderers.Length; i++) {
+                SpriteRenderer r = cellRenderers[i];
+                if (r.material != null)
+                {
+                    if (cellMaterials == null)
+                    {
+                        cellMaterials = new Material[cellRenderers.Length];
+                        cellMaterials[i] = Instantiate(r.material);
+                        r.material = cellMaterials[i];
+                    }
+
+                    r.material.SetColor("_ColorAlpha", alpha);
+                    r.material.SetColor("_ColorBravo", bravo);
+                    r.material.SetColor("_ColorDelta", delta);
+                }
+            }
+        }
+
         void Awake()
         {
             switch (type)
@@ -178,8 +234,6 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             else
                 transform.position = CurrentCurve.GetPoint(0f);
 
-            Animator mobjAnim = GetComponent<Animator>();
-            mobjAnim.Play(awakeAnim, -1, 0);
             transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + (-360f * Time.deltaTime) + UnityEngine.Random.Range(0f, 360f));
 
             ShadowInstance = GameObject.Instantiate(Shadow, KarateMan.instance.ItemHolder);
@@ -187,6 +241,13 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             shadowRenderer.color = KarateMan.instance.GetShadowColor();
             ShadowInstance.SetActive(true);
             ShadowInstance.transform.position = new Vector3(transform.position.x, floorHeight - 0.5f, transform.position.z);
+        }
+
+        void Start()
+        {
+            Animator mobjAnim = GetComponent<Animator>();
+            mobjAnim.Play(awakeAnim, -1, 0);
+            SetColourMapping();
         }
 
         void Update()
@@ -278,6 +339,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             }
             ShadowInstance.transform.position = new Vector3(transform.position.x, floorHeight - 0.5f, transform.position.z);
             shadowRenderer.color = KarateMan.instance.GetShadowColor();
+            SetColourMapping();
         }
 
         void CreateHitMark(bool useLocalPos = false)
