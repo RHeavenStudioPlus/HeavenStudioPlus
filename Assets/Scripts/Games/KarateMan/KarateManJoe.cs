@@ -32,10 +32,13 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public bool inKick = false;
         float lastChargeTime = Single.MinValue;
         float unPrepareTime = Single.MinValue;
+        float noNuriJabTime = Single.MinValue;
         bool canEmote = false;
         public int wantFace = 0;
 
-        bool inSpecial { get { return inCombo || lockedInCombo || Conductor.instance.GetPositionFromBeat(lastChargeTime, 2.75f) <= 0.25f; } }
+        public bool inSpecial { get { return inCombo || lockedInCombo || 
+            Conductor.instance.GetPositionFromBeat(lastChargeTime, 2.75f) <= 0.25f || inNuriLock; } }
+        public bool inNuriLock { get { return (Conductor.instance.songPositionInBeats >= noNuriJabTime && Conductor.instance.songPositionInBeats < noNuriJabTime + 1f); } }
 
         private void Awake()
         {
@@ -44,6 +47,25 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         private void Update()
         {
             var cond = Conductor.instance;
+
+            UpdateShadowColour();
+
+            if (canEmote && wantFace >= 0)
+            {
+                SetFaceExpressionForced(wantFace);
+                if (wantFace == (int) KarateMan.KarateManFaces.Surprise) wantFace = -1;
+            }
+
+            if (cond.songPositionInBeats >= noNuriJabTime && cond.songPositionInBeats < noNuriJabTime + 1f)
+            {
+                anim.DoScaledAnimation("JabNoNuri", noNuriJabTime, 1f);
+                bop.startBeat = noNuriJabTime + 1f;
+            }
+            else if (cond.songPositionInBeats >= noNuriJabTime + 1f && noNuriJabTime != Single.MinValue)
+            {
+                bop.startBeat = noNuriJabTime + 1f;
+                noNuriJabTime = Single.MinValue;
+            }
 
             if (unPrepareTime != Single.MinValue && cond.songPositionInBeats >= unPrepareTime)
             {
@@ -103,7 +125,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     Jukebox.PlayOneShotGame("karateman/swingNoHit", forcePlay: true);
                 }
             }
-            else if (PlayerInput.AltPressed() && !inSpecial)
+            else if (PlayerInput.AltPressed() && KarateMan.instance.IsComboEnable && !inSpecial)
             {
                 if (!KarateMan.instance.IsExpectingInputNow())
                 {
@@ -136,13 +158,6 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 }
             }
 
-            UpdateShadowColour();
-
-            if (canEmote && wantFace >= 0)
-            {
-                SetFaceExpressionForced(wantFace);
-                if (wantFace == (int) KarateMan.KarateManFaces.Surprise) wantFace = -1;
-            }
         }
 
         public bool Punch(int forceHand = 0)
@@ -177,6 +192,11 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 case 2:
                     anim.DoScaledAnimationAsync("Straight", 0.5f);
                     straight = true;
+                    break;
+                case 3:
+                    lastPunchTime = Single.MinValue;
+                    anim.DoNormalizedAnimation("JabNoNuri");
+                    noNuriJabTime = cond.songPositionInBeats;
                     break;
             }
             bop.startBeat = cond.songPositionInBeats + 0.5f;
