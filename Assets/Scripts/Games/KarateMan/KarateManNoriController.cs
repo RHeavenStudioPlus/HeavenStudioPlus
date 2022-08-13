@@ -14,6 +14,9 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public Transform NoriHolder;
         public Material NoriMaterial;
 
+        public Color[] NoriColorsTengoku;
+        public Color[] NoriColorsMania;
+
         public float Nori;
         public int MaxNori;
         Animator[] NoriHeartAnimators;
@@ -96,6 +99,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 if (Nori >= MaxNori) return;
                 Nori += 1;
                 NoriHeartAnimators[(int) Nori - 1].Play("NoriFull", -1, (Time.time * PeriodHigh) % 1f);
+                UpdateHeartColours();
             }
         }
 
@@ -107,6 +111,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 if (Nori <= 0) return;
                 Nori -= 1;
                 NoriHeartAnimators[(int) Nori].Play("NoriNone", -1, (Time.time * PeriodLow) % 1f);
+                UpdateHeartColours();
             }
         }
 
@@ -123,6 +128,38 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             }
         }
 
+        void UpdateHeartColours()
+        {
+            if (noriMode == (int) KarateMan.NoriMode.None) return;
+            if (noriMode == (int) KarateMan.NoriMode.Tengoku)
+            {
+                for (int i = 0; i < NoriHeartMaterials.Length; i++)
+                {
+                    Material mat = NoriHeartMaterials[i];
+                    if (Nori == MaxNori)
+                    {
+                        mat.SetColor("_ColorAlpha", NoriColorsTengoku[3]);
+                    }
+                    else
+                    {
+                        if (KarateMan.instance.NoriPerformance < 0.6)
+                            mat.SetColor("_ColorAlpha", NoriColorsTengoku[0]);
+                        else
+                        {
+                            if (i < 2)
+                                mat.SetColor("_ColorAlpha", NoriColorsTengoku[1]);
+                            else
+                                mat.SetColor("_ColorAlpha", NoriColorsTengoku[2]);
+                        }
+                    }
+                }
+            }
+            else
+            {
+
+            }
+        }
+
         void Update()
         {
             Transform target = GameCamera.instance.transform;
@@ -130,6 +167,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             Vector3 displacement = target.forward * CameraOffset; 
             transform.position = target.position + displacement;
             transform.rotation = target.rotation;
+
+            UpdateHeartColours();
         }
     }
 }
