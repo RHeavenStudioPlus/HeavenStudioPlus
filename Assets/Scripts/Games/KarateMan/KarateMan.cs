@@ -45,21 +45,18 @@ namespace HeavenStudio.Games.Loaders
                     new Param("type", KarateMan.NoriMode.None, "Flow Bar type", "The type of Flow bar to use"),
                     new Param("toggle", true, "Enable Combos", "Allow the player to combo? (Contextual combos will still be allowed even when off)"),
                 }),
-                new GameAction("set background effects",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgAndShadowCol(e.beat, e.length, e.type, e.type2, e.colorA, e.colorB, e.type3); }, 0.5f, true, new List<Param>()
+                new GameAction("set background effects",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgAndShadowCol(e.beat, e.length, e.type, e.type2, e.colorA, e.colorB, e.type3); KarateMan.instance.SetBgTexture(e.type4, e.type5, e.colorC, e.colorD); }, 0.5f, true, new List<Param>()
                 {
                     new Param("type", KarateMan.BackgroundType.Yellow, "Background Type", "The preset background type"),
                     new Param("type2", KarateMan.ShadowType.Tinted, "Shadow Type", "The shadow type. If Tinted doesn't work with your background color try Custom"),
                     new Param("colorA", new Color(), "Custom Background Color", "The background color to use when background type is set to Custom"),
                     new Param("colorB", new Color(), "Custom Shadow Color", "The shadow color to use when shadow type is set to Custom. When fading the background colour shadows fade to this color"),
-                    new Param("type3", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed. Fade uses the entity length to determine colour fading speed")
+                    new Param("type3", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed. Fade uses the entity length to determine colour fading speed"),
+                    new Param("type4", KarateMan.BackgroundTextureType.Plain, "Texture", "The type of background texture to use"),
+                    new Param("type5", KarateMan.ShadowType.Tinted, "Color Filter Type", "The method used to apply colour to the texture"),
+                    new Param("colorC", new Color(), "Custom Filter Color", "The filter color to use when color filter type is set to Custom"),
+                    new Param("colorD", new Color(), "Fading Filter Color", "When using the Fade background effect, make filter colour fade to this colour"),
 
-                }),
-                new GameAction("set background texture",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgTexture(e.type, e.type2, e.colorA, e.colorB); }, 0.5f, false, new List<Param>()
-                {
-                    new Param("type", KarateMan.BackgroundTextureType.Plain, "Texture", "The type of background texture to use"),
-                    new Param("type2", KarateMan.ShadowType.Tinted, "Color Filter Type", "The method used to apply colour to the texture"),
-                    new Param("colorA", new Color(), "Custom Filter Color", "The filter color to use when color filter type is set to Custom"),
-                    new Param("colorB", new Color(), "Fading Filter Color", "When using the Fade background effect, make filter colour fade to this colour"),
                 }),
                 new GameAction("set object colors",    delegate { var e = eventCaller.currentEntity; KarateMan.instance.UpdateMaterialColour(e.colorA, e.colorB, e.colorC); }, 0.5f, false, new List<Param>()
                 {
@@ -105,6 +102,15 @@ namespace HeavenStudio.Games.Loaders
                 new GameAction("set background fx",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgFx(e.type, e.beat, e.length); }, 0.5f, false, new List<Param>()
                 {
                     new Param("type", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed")
+                },
+                hidden: true),
+
+                 new GameAction("set background texture",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgTexture(e.type, e.type2, e.colorA, e.colorB); }, 0.5f, false, new List<Param>()
+                {
+                    new Param("type", KarateMan.BackgroundTextureType.Plain, "Texture", "The type of background texture to use"),
+                    new Param("type2", KarateMan.ShadowType.Tinted, "Color Filter Type", "The method used to apply colour to the texture"),
+                    new Param("colorA", new Color(), "Custom Filter Color", "The filter color to use when color filter type is set to Custom"),
+                    new Param("colorB", new Color(), "Fading Filter Color", "When using the Fade background effect, make filter colour fade to this colour"),
                 },
                 hidden: true),
 
