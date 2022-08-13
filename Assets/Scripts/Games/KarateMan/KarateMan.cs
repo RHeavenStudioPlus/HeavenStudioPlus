@@ -40,6 +40,11 @@ namespace HeavenStudio.Games.Loaders
                     new Param("toggle", true, "Return Camera", "Camera zooms back in?"),
                 }),
                 new GameAction("prepare",               delegate { var e = eventCaller.currentEntity; KarateMan.instance.Prepare(e.beat, e.length);}, 1f, true),
+                new GameAction("set gameplay modifiers",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetGameplayMods(e.type, e.toggle); }, 0.5f, false, new List<Param>()
+                {
+                    new Param("type", KarateMan.NoriMode.None, "Flow Bar type", "The type of Flow bar to use"),
+                    new Param("toggle", true, "Enable Combos", "Allow the player to combo? (Contextual combos will still be allowed even when off)"),
+                }),
                 new GameAction("set background effects",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgAndShadowCol(e.beat, e.length, e.type, e.type2, e.colorA, e.colorB, e.type3); }, 0.5f, true, new List<Param>()
                 {
                     new Param("type", KarateMan.BackgroundType.Yellow, "Background Type", "The preset background type"),
@@ -206,6 +211,16 @@ namespace HeavenStudio.Games
             Blush
         }
 
+        public enum NoriMode
+        {
+            None,
+            Tengoku,
+            Mania,
+        }
+        public bool IsComboEnable = true;   //only stops Out combo inputs, this basically makes combo contextual
+        public bool IsNoriActive { get { return Nori.MaxNori > 0; } }
+        public float NoriPerformance { get { if (IsNoriActive) return Nori.Nori / Nori.MaxNori; else return 1f; } }
+
         public Color[] LightBulbColors;
         public Color[] BackgroundColors;
         public Color[] ShadowColors;
@@ -224,6 +239,8 @@ namespace HeavenStudio.Games
         public Transform ItemHolder;
         public GameObject Item;
         public KarateManJoe Joe;
+        public GameObject NoriGO;
+        public KarateManNoriController Nori;
 
         [Header("Colour Map")]
         public Material MappingMaterial;
@@ -381,7 +398,7 @@ namespace HeavenStudio.Games
                 startCamSpecial = beat;
                 cameraAngle = CameraAngle.Special;
             }
-            wantsReturn = returns ? beat + length : Single.MaxValue;
+            wantsReturn = returns ? beat + length - 0.001f : Single.MaxValue;
             cameraReturnLength = Mathf.Min(2f, length*0.5f);
         }
 
@@ -663,6 +680,13 @@ namespace HeavenStudio.Games
                     break;
             }
             UpdateFilterColour(bgColour, filterColour);
+        }
+
+        public void SetGameplayMods(int mode, bool combo)
+        {
+            NoriGO.SetActive(true);
+            Nori.SetNoriMode(mode);
+            IsComboEnable = combo;
         }
 
         void UpdateFilterColour(Color bgColor, Color filterColor)
