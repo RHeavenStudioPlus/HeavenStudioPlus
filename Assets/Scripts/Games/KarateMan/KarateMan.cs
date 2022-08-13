@@ -40,7 +40,7 @@ namespace HeavenStudio.Games.Loaders
                     new Param("toggle", true, "Return Camera", "Camera zooms back in?"),
                 }),
                 new GameAction("prepare",               delegate { var e = eventCaller.currentEntity; KarateMan.instance.Prepare(e.beat, e.length);}, 1f, true),
-                new GameAction("set gameplay modifiers",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetGameplayMods(e.type, e.toggle); }, 0.5f, false, new List<Param>()
+                new GameAction("set gameplay modifiers",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetGameplayMods(e.beat, e.type, e.toggle); }, 0.5f, false, new List<Param>()
                 {
                     new Param("type", KarateMan.NoriMode.None, "Flow Bar type", "The type of Flow bar to use"),
                     new Param("toggle", true, "Enable Combos", "Allow the player to combo? (Contextual combos will still be allowed even when off)"),
@@ -400,6 +400,49 @@ namespace HeavenStudio.Games
             BGEffect.transform.position = new Vector3(GameCamera.instance.transform.position.x, GameCamera.instance.transform.position.y, 0);
         }
 
+        static List<Beatmap.Entity> allHits = new List<Beatmap.Entity>();
+        static List<Beatmap.Entity> allEnds = new List<Beatmap.Entity>();
+        public static int CountHitsToEnd(float fromBeat)
+        {
+            allHits = EventCaller.GetAllInGameManagerList("karateman", new string[] { "hit", "bulb", "kick", "combo" });
+            allEnds = EventCaller.GetAllInGameManagerList("gameManager", new string[] { "switchGame", "end" });
+
+            allHits.Sort((x, y) => x.beat.CompareTo(y.beat));
+            allEnds.Sort((x, y) => x.beat.CompareTo(y.beat));
+            float endBeat = Single.MaxValue;
+
+            //get the beat of the closest end event
+            foreach (Beatmap.Entity end in allEnds)
+            {
+                if (end.beat > fromBeat)
+                {
+                    endBeat = end.beat;
+                    break;
+                }
+            }
+
+            //count each hit event beginning from our current beat to the beat of the closest game switch or end
+            // this still counts hits even if they happen after a switch / end!!!
+            int count = 0;
+            string type;
+            for (int i = 0; i < allHits.Count; i++)
+            {
+                Beatmap.Entity h = allHits[i];
+                if (h.beat >= fromBeat)
+                {
+                    if (h.beat < endBeat)
+                    {
+                        //kicks and combos count for 2 hits
+                        type = (h.datamodel.Split('/'))[1];
+                        count += (type == "kick" || type == "combo" ? 2 : 1);
+                    }
+                    else
+                        break;
+                }
+            }
+            return count;
+        }
+
         public void DoSpecialCamera(float beat, float length, bool returns)
         {
             if (cameraAngle == CameraAngle.Normal)
@@ -683,9 +726,11 @@ namespace HeavenStudio.Games
             {
                 case (int) BackgroundTextureType.Blood:
                     BGBlood.SetActive(true);
+                    BGGradient.SetActive(false);
                     break;
                 case (int) BackgroundTextureType.Gradient:
                     BGGradient.SetActive(true);
+                    BGBlood.SetActive(false);
                     break;
                 default:
                     BGGradient.SetActive(false);
@@ -695,10 +740,10 @@ namespace HeavenStudio.Games
             UpdateFilterColour(bgColour, filterColour);
         }
 
-        public void SetGameplayMods(int mode, bool combo)
+        public void SetGameplayMods(float beat, int mode, bool combo)
         {
             NoriGO.SetActive(true);
-            Nori.SetNoriMode(mode);
+            Nori.SetNoriMode(beat, mode);
             IsComboEnable = combo;
         }
 

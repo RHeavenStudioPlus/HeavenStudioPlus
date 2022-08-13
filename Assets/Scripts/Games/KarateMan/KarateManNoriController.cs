@@ -11,7 +11,12 @@ namespace HeavenStudio.Games.Scripts_KarateMan
     {
         public GameObject NoriController;
         public GameObject NoriHeart;
-        public Transform NoriHolder;
+        public Transform NoriHolderTengoku;
+        public Transform NoriHolderMania00;
+        public Transform NoriHolderMania01;
+
+        public GameObject NoriManiaInk00;
+        public GameObject NoriManiaInk01;
         public Material NoriMaterial;
 
         public Color[] NoriColorsTengoku;
@@ -21,16 +26,21 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public int MaxNori;
         Animator[] NoriHeartAnimators;
         Material[] NoriHeartMaterials;
+        Transform NoriHolder;
 
         static Vector2 HeartScale = new Vector2(60, 52);
-        static float ScaleFactorTengoku = 1/46f;
-        static float ScaleFactorMania = 1/72f;
+        static float ScaleFactorTengoku = 1 / 46f;
+        static float ScaleFactorMania = 1 / 72f;
 
         static float CameraOffset = 10;
-        static float PeriodLow = 24/60f;
-        static float PeriodHigh = 15/60f;
+        static float PeriodLow = 24 / 60f;
+        static float PeriodHigh = 15 / 60f;
 
-        int noriMode = (int) KarateMan.NoriMode.None;
+        int noriMode = (int)KarateMan.NoriMode.None;
+
+        int inputsToSwitch = 0;
+        //takes 10% of inputs to fill the nori bar
+        float hitNoriAdd { get { return MaxNori / (inputsToSwitch * 0.15f); } }
 
 
         void Start()
@@ -38,13 +48,16 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         }
 
-        public void SetNoriMode(int mode, int startingNori = 0)
+        public void SetNoriMode(float fromBeat, int mode, int startingNori = 0)
         {
             float scaleFactor = 0f;
             //clear all children of the holder
-            foreach (Transform child in NoriHolder)
+            if (NoriHolder != null)
             {
-                Destroy(child.gameObject);
+                foreach (Transform child in NoriHolder)
+                {
+                    Destroy(child.gameObject);
+                }
             }
 
             switch (mode)
@@ -53,15 +66,26 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     MaxNori = 5;
                     Nori = Mathf.Clamp(startingNori, 0, MaxNori);
                     scaleFactor = ScaleFactorTengoku;
+                    NoriHolder = NoriHolderTengoku;
+                    NoriManiaInk00.SetActive(false);
+                    NoriManiaInk01.SetActive(false);
                     break;
                 case (int) KarateMan.NoriMode.Mania:
                     MaxNori = 10;
                     Nori = Mathf.Clamp(startingNori, 0, MaxNori);
                     scaleFactor = ScaleFactorMania;
+                    NoriHolder = NoriHolderMania00;
+                    NoriManiaInk00.SetActive(true);
+                    NoriManiaInk01.SetActive(false);
+
+                    inputsToSwitch = KarateMan.CountHitsToEnd(fromBeat);
+                    Debug.Log($"inputs to segment end: {inputsToSwitch}");
                     break;
                 default:
                     MaxNori = 0;
                     Nori = 0;
+                    NoriManiaInk00.SetActive(false);
+                    NoriManiaInk01.SetActive(false);
                     return;
             }
 
@@ -96,11 +120,24 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             if (noriMode == (int) KarateMan.NoriMode.None) return;
             if (noriMode == (int) KarateMan.NoriMode.Tengoku)
             {
-                if (Nori >= MaxNori) return;
                 Nori += 1;
-                NoriHeartAnimators[(int) Nori - 1].Play("NoriFull", -1, (Time.time * PeriodHigh) % 1f);
-                UpdateHeartColours();
+                if (Nori > MaxNori) Nori = MaxNori;
+                if (Nori - 1 >= 0)
+                    NoriHeartAnimators[(int) Nori - 1].Play("NoriFull", -1, (Time.time * PeriodHigh) % 1f);
             }
+            else
+            {
+                float oldNori = Nori;
+                Nori += hitNoriAdd;
+                if (Nori > MaxNori) Nori = MaxNori;
+                Debug.Log($"Nori: {Nori}, added {hitNoriAdd}, old nori: {oldNori}");
+                for (int i = 0; i < MaxNori; i++)
+                {
+                    if (i <= (int) Nori && i >= (int) oldNori)
+                        NoriHeartAnimators[i].Play("NoriFull", -1, (Time.time * PeriodHigh) % 1f);
+                }
+            }
+            UpdateHeartColours();
         }
 
         public void DoNG()
@@ -108,11 +145,32 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             if (noriMode == (int) KarateMan.NoriMode.None) return;
             if (noriMode == (int) KarateMan.NoriMode.Tengoku)
             {
-                if (Nori <= 0) return;
                 Nori -= 1;
+                if (Nori < 0) Nori = 0;
                 NoriHeartAnimators[(int) Nori].Play("NoriNone", -1, (Time.time * PeriodLow) % 1f);
-                UpdateHeartColours();
             }
+            else
+            {
+                Nori -= hitNoriAdd;
+                if (Nori < 0) Nori = 0;
+                Debug.Log($"Nori: {Nori}, removed {hitNoriAdd}");
+                if (Nori == 0)
+                {
+                    foreach (Animator anim in NoriHeartAnimators)
+                    {
+                        anim.Play("NoriNone", -1, (Time.time * PeriodLow) % 1f);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < MaxNori; i++)
+                    {
+                        if (i > (int) Nori)
+                            NoriHeartAnimators[i].Play("NoriNone", -1, (Time.time * PeriodLow) % 1f);
+                    }
+                }
+            }
+            UpdateHeartColours();
         }
 
         public void DoThrough()
@@ -126,16 +184,40 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     anim.Play("NoriNone", -1, (Time.time * PeriodLow) % 1f);
                 }
             }
+            else
+            {
+                Nori -= hitNoriAdd * 2;
+                if (Nori < 0) Nori = 0;
+                Debug.Log($"Nori: {Nori}, removed {hitNoriAdd * 4}");
+                if (Nori == 0)
+                {
+                    foreach (Animator anim in NoriHeartAnimators)
+                    {
+                        anim.Play("NoriNone", -1, (Time.time * PeriodLow) % 1f);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < MaxNori; i++)
+                    {
+                        if (i > (int) Nori)
+                            NoriHeartAnimators[i].Play("NoriNone", -1, (Time.time * PeriodLow) % 1f);
+                    }
+                }
+            }
+            UpdateHeartColours();
         }
 
         void UpdateHeartColours()
         {
+            var cond = Conductor.instance;
             if (noriMode == (int) KarateMan.NoriMode.None) return;
-            if (noriMode == (int) KarateMan.NoriMode.Tengoku)
+            float flashPeriod;
+            for (int i = 0; i < NoriHeartMaterials.Length; i++)
             {
-                for (int i = 0; i < NoriHeartMaterials.Length; i++)
+                Material mat = NoriHeartMaterials[i];
+                if (noriMode == (int) KarateMan.NoriMode.Tengoku)
                 {
-                    Material mat = NoriHeartMaterials[i];
                     if (Nori == MaxNori)
                     {
                         mat.SetColor("_ColorAlpha", NoriColorsTengoku[3]);
@@ -153,10 +235,33 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                         }
                     }
                 }
-            }
-            else
-            {
-
+                else
+                {
+                    Color c = NoriColorsMania[0];
+                    Color s = Color.black;
+                    if (Nori == MaxNori)
+                    {
+                        flashPeriod = Mathf.Sin((cond.songPositionInBeats - i / (float) MaxNori) * Mathf.PI);
+                        c = NoriColorsMania[2] + (NoriColorsMania[3] * ((1 - flashPeriod * 0.5f) + 0.5f));
+                        s = Color.HSVToRGB(((cond.songPositionInBeats + 0.5f) * 4) % 1, 1, flashPeriod * 0.75f + 0.25f);
+                    }
+                    else
+                    {
+                        flashPeriod = Mathf.Sin(cond.songPositionInBeats * Mathf.PI);
+                        if (KarateMan.instance.NoriPerformance < 0.6)
+                            c = NoriColorsMania[0];
+                        else
+                        {
+                            if (i < MaxNori - 2)
+                                c = NoriColorsMania[1];
+                            else
+                                c = NoriColorsMania[2];
+                        }
+                        c *= (flashPeriod * 0.5f) + 1f;
+                    }
+                    mat.SetColor("_ColorAlpha", c);
+                    mat.SetColor("_AddColor", s);
+                }
             }
         }
 
@@ -169,6 +274,10 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             transform.rotation = target.rotation;
 
             UpdateHeartColours();
+
+            float inkRot = (Conductor.instance.songPositionInBeats/ 8f) % 1f;
+            NoriManiaInk00.transform.localRotation = Quaternion.Euler(0, 0, inkRot * 360);
+            NoriManiaInk01.transform.localRotation = Quaternion.Euler(0, 0, inkRot * 360);
         }
     }
 }
