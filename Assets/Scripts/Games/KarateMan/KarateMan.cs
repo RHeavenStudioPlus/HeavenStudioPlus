@@ -277,6 +277,8 @@ namespace HeavenStudio.Games
         Color filterColourNext;
         public GameObject BGGradient;
         SpriteRenderer bgGradientRenderer;
+        public GameObject BGBlood;
+        SpriteRenderer bgBloodRenderer;
 
         [Header("Shadows")]
         int currentShadowType = (int) ShadowType.Tinted;
@@ -311,6 +313,7 @@ namespace HeavenStudio.Games
             bgEffectSpriteRenderer = BGEffect.GetComponent<SpriteRenderer>();
 
             bgGradientRenderer = BGGradient.GetComponent<SpriteRenderer>();
+            bgBloodRenderer = BGBlood.GetComponent<SpriteRenderer>();
 
             SetBgAndShadowCol(0f, 0f, bgType, (int) currentShadowType, BackgroundColors[bgType], customShadowColour, (int)currentBgEffect);
             UpdateMaterialColour(BodyColor, HighlightColor, ItemColor);
@@ -678,11 +681,15 @@ namespace HeavenStudio.Games
             }
             switch (type)
             {
+                case (int) BackgroundTextureType.Blood:
+                    BGBlood.SetActive(true);
+                    break;
                 case (int) BackgroundTextureType.Gradient:
                     BGGradient.SetActive(true);
                     break;
                 default:
                     BGGradient.SetActive(false);
+                    BGBlood.SetActive(false);
                     break;
             }
             UpdateFilterColour(bgColour, filterColour);
@@ -704,6 +711,7 @@ namespace HeavenStudio.Games
                 col = filterColor;
             
             bgGradientRenderer.color = col;
+            bgBloodRenderer.color = col;
         }
 
         public static Color ShadowBlendColor = new Color(195 / 255f, 48 / 255f, 2 / 255f);
