@@ -15,6 +15,12 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public GameEvent bop = new GameEvent();
         public SpriteRenderer[] Shadows;
 
+        public Color BombGlowTint;
+        float bombGlowStart = Single.MinValue;
+        float bombGlowLength = 0f;
+        float bombGlowIntensity;
+        const float bombGlowRatio = 1f;
+
         float lastPunchTime = Single.MinValue;
         float lastComboMissTime = Single.MinValue;
         float lastUpperCutTime = Single.MinValue;
@@ -48,6 +54,20 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         {
             var cond = Conductor.instance;
 
+            if (cond.songPositionInBeats < bombGlowStart)
+            {
+                bombGlowIntensity = 1f;
+            }
+            else
+            {
+                float glowProg = cond.GetPositionFromBeat(bombGlowStart, bombGlowLength);
+                bombGlowIntensity = 1f - glowProg;
+                if (cond.songPositionInBeats >= bombGlowStart + bombGlowLength)
+                {
+                    bombGlowStart = Single.MinValue;
+                    bombGlowLength = 0f;
+                }
+            }
             UpdateShadowColour();
 
             if (canEmote && wantFace >= 0)
@@ -314,6 +334,19 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             {
                 shadow.color = KarateMan.instance.GetShadowColor();
             }
+
+            Color mainCol = KarateMan.BodyColor;
+            Color highlightCol = KarateMan.HighlightColor;
+
+            if (bombGlowIntensity > 0)
+            {
+                highlightCol = Color.LerpUnclamped(highlightCol, mainCol, bombGlowIntensity);
+                mainCol += BombGlowTint * bombGlowIntensity * bombGlowRatio;
+            }
+
+            KarateMan.instance.MappingMaterial.SetColor("_ColorAlpha", mainCol);
+            KarateMan.instance.MappingMaterial.SetColor("_ColorBravo", new Color(1, 0, 0, 1));
+            KarateMan.instance.MappingMaterial.SetColor("_ColorDelta", highlightCol);
         }
 
         public void Prepare(float beat, float length)
@@ -333,6 +366,20 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             wantFace = face;
             if (canEmote || ignoreCheck)
                 FaceAnim.DoScaledAnimationAsync("Face" + face.ToString("D2"));
+        }
+
+        public void ApplyBombGlow()
+        {
+            bombGlowStart = Single.MaxValue;
+            bombGlowLength = 0f;
+            bombGlowIntensity = 1f;
+        }
+
+        public void RemoveBombGlow(float beat, float length = 0.5f)
+        {
+            bombGlowStart = beat;
+            bombGlowLength = length;
+            bombGlowIntensity = 0f;
         }
     }
 }
