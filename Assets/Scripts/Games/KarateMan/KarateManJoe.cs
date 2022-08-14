@@ -325,7 +325,6 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public void SetFaceExpressionForced(int face)
         {
-            wantFace = -2;
             FaceAnim.DoScaledAnimationAsync("Face" + face.ToString("D2"));
         }
 
