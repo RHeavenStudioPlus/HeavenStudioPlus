@@ -574,6 +574,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         {
             if (GameManager.instance.currentGame != "karateman") return;
             var joe = KarateMan.instance.Joe;
+            Debug.Log("ItemJustOrNg | accuracy: " + state);
             if (status == FlyStatus.Fly && !(joe.inCombo || joe.inNuriLock)) {
                 if (state <= -1f || state >= 1f) {
                     bool straight = joe.Punch(ItemPunchHand());

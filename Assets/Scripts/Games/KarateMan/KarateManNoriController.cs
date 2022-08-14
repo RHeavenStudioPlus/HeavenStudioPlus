@@ -39,8 +39,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         int noriMode = (int)KarateMan.NoriMode.None;
 
         int inputsToSwitch = 0;
-        //takes 10% of inputs to fill the nori bar
-        float hitNoriAdd { get { return MaxNori / (inputsToSwitch * 0.15f); } }
+        //takes 12% of inputs to fill the nori bar
+        float hitNoriAdd { get { return MaxNori / (inputsToSwitch * 0.12f); } }
 
 
         void Start()
@@ -79,7 +79,6 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     NoriManiaInk01.SetActive(false);
 
                     inputsToSwitch = KarateMan.CountHitsToEnd(fromBeat);
-                    Debug.Log($"inputs to segment end: {inputsToSwitch}");
                     break;
                 default:
                     MaxNori = 0;
@@ -118,6 +117,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public void DoHit()
         {
             if (noriMode == (int) KarateMan.NoriMode.None) return;
+            float oldNori = Nori;
             if (noriMode == (int) KarateMan.NoriMode.Tengoku)
             {
                 Nori += 1;
@@ -127,15 +127,17 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             }
             else
             {
-                float oldNori = Nori;
                 Nori += hitNoriAdd;
                 if (Nori > MaxNori) Nori = MaxNori;
-                Debug.Log($"Nori: {Nori}, added {hitNoriAdd}, old nori: {oldNori}");
                 for (int i = 0; i < MaxNori; i++)
                 {
                     if (i <= (int) Nori && i >= (int) oldNori)
                         NoriHeartAnimators[i].Play("NoriFull", -1, (Time.time * PeriodHigh) % 1f);
                 }
+            }
+            if (KarateMan.instance.NoriPerformance >= 0.6 && oldNori / MaxNori < 0.6)
+            {
+                Jukebox.PlayOneShotGame("karateman/nori_just");
             }
             UpdateHeartColours();
         }
@@ -143,6 +145,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public void DoNG()
         {
             if (noriMode == (int) KarateMan.NoriMode.None) return;
+            float oldNori = Nori;
             if (noriMode == (int) KarateMan.NoriMode.Tengoku)
             {
                 Nori -= 1;
@@ -153,7 +156,6 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             {
                 Nori -= hitNoriAdd;
                 if (Nori < 0) Nori = 0;
-                Debug.Log($"Nori: {Nori}, removed {hitNoriAdd}");
                 if (Nori == 0)
                 {
                     foreach (Animator anim in NoriHeartAnimators)
@@ -170,6 +172,10 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     }
                 }
             }
+            if (KarateMan.instance.NoriPerformance < 0.6 && oldNori / MaxNori >= 0.6)
+            {
+                Jukebox.PlayOneShotGame("karateman/nori_ng");
+            }
             UpdateHeartColours();
         }
 
@@ -178,6 +184,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             if (noriMode == (int) KarateMan.NoriMode.None) return;
             if (noriMode == (int) KarateMan.NoriMode.Tengoku)
             {
+                if (Nori >= MaxNori)
+                    Jukebox.PlayOneShotGame("karateman/nori_through");
                 Nori = 0;
                 foreach (Animator anim in NoriHeartAnimators)
                 {
@@ -188,7 +196,6 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             {
                 Nori -= hitNoriAdd * 2;
                 if (Nori < 0) Nori = 0;
-                Debug.Log($"Nori: {Nori}, removed {hitNoriAdd * 4}");
                 if (Nori == 0)
                 {
                     foreach (Animator anim in NoriHeartAnimators)
@@ -243,7 +250,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     {
                         flashPeriod = Mathf.Sin((cond.songPositionInBeats - i / (float) MaxNori) * Mathf.PI);
                         c = NoriColorsMania[2] + (NoriColorsMania[3] * ((1 - flashPeriod * 0.5f) + 0.5f));
-                        s = Color.HSVToRGB(((cond.songPositionInBeats + 0.5f) * 4) % 1, 1, flashPeriod * 0.75f + 0.25f);
+                        s = Color.HSVToRGB(((cond.songPositionInBeats + 0.5f) * 4) % 1, 1, flashPeriod * 0.6f + 0.4f);
                     }
                     else
                     {
