@@ -14,9 +14,11 @@ namespace HeavenStudio.Games.Loaders
             return new Minigame("karateman", "Karate Man [INDEV REWORK]", "70A8D8", false, false, new List<GameAction>()
             {
                 new GameAction("bop",                   delegate { KarateMan.instance.ToggleBop(eventCaller.currentEntity.toggle); }, 0.5f, false, new List<Param>()
-                {
-                    new Param("toggle", true, "Bop", "Whether to bop to the beat or not")
-                }),
+                    {
+                        new Param("toggle", true, "Bop", "Whether to bop to the beat or not")
+                    },
+                    inactiveFunction: delegate { KarateMan.ToggleBopUnloaded(eventCaller.currentEntity.toggle); }
+                ),
                 new GameAction("hit",                   delegate { var e = eventCaller.currentEntity; KarateMan.instance.CreateItem(e.beat, e.type); }, 2, false, 
                     new List<Param>()
                     {
@@ -34,11 +36,15 @@ namespace HeavenStudio.Games.Loaders
                     new List<Param>()
                     {
                         new Param("type", KarateMan.HitThree.HitThree, "Type", "The warning text to show")
-                    }),
-                new GameAction("special camera",               delegate { var e = eventCaller.currentEntity; KarateMan.instance.DoSpecialCamera(e.beat, e.length, e.toggle); }, 8f, true, new List<Param>()
-                {
-                    new Param("toggle", true, "Return Camera", "Camera zooms back in?"),
-                }),
+                    },
+                    inactiveFunction: delegate { var e = eventCaller.currentEntity; KarateMan.DoWordSound(e.beat, e.type); }
+                ),
+                new GameAction("special camera",               delegate { var e = eventCaller.currentEntity; KarateMan.DoSpecialCamera(e.beat, e.length, e.toggle); }, 8f, true, new List<Param>()
+                    {
+                        new Param("toggle", true, "Return Camera", "Camera zooms back in?"),
+                    },
+                    inactiveFunction: delegate { var e = eventCaller.currentEntity; KarateMan.DoSpecialCamera(e.beat, e.length, e.toggle); }    
+                ),
                 new GameAction("prepare",               delegate { var e = eventCaller.currentEntity; KarateMan.instance.Prepare(e.beat, e.length);}, 1f, true),
                 new GameAction("set gameplay modifiers",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetGameplayMods(e.beat, e.type, e.toggle); }, 0.5f, false, new List<Param>()
                 {
@@ -46,24 +52,28 @@ namespace HeavenStudio.Games.Loaders
                     new Param("toggle", true, "Enable Combos", "Allow the player to combo? (Contextual combos will still be allowed even when off)"),
                 }),
                 new GameAction("set background effects",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgAndShadowCol(e.beat, e.length, e.type, e.type2, e.colorA, e.colorB, e.type3); KarateMan.instance.SetBgTexture(e.type4, e.type5, e.colorC, e.colorD); }, 0.5f, true, new List<Param>()
-                {
-                    new Param("type", KarateMan.BackgroundType.Yellow, "Background Type", "The preset background type"),
-                    new Param("type2", KarateMan.ShadowType.Tinted, "Shadow Type", "The shadow type. If Tinted doesn't work with your background color try Custom"),
-                    new Param("colorA", new Color(), "Custom Background Color", "The background color to use when background type is set to Custom"),
-                    new Param("colorB", new Color(), "Custom Shadow Color", "The shadow color to use when shadow type is set to Custom. When fading the background colour shadows fade to this color"),
-                    new Param("type3", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed. Fade uses the entity length to determine colour fading speed"),
-                    new Param("type4", KarateMan.BackgroundTextureType.Plain, "Texture", "The type of background texture to use"),
-                    new Param("type5", KarateMan.ShadowType.Tinted, "Color Filter Type", "The method used to apply colour to the texture"),
-                    new Param("colorC", new Color(), "Custom Filter Color", "The filter color to use when color filter type is set to Custom"),
-                    new Param("colorD", new Color(), "Fading Filter Color", "When using the Fade background effect, make filter colour fade to this colour"),
+                    {
+                        new Param("type", KarateMan.BackgroundType.Yellow, "Background Type", "The preset background type"),
+                        new Param("type2", KarateMan.ShadowType.Tinted, "Shadow Type", "The shadow type. If Tinted doesn't work with your background color try Custom"),
+                        new Param("colorA", new Color(), "Custom Background Color", "The background color to use when background type is set to Custom"),
+                        new Param("colorB", new Color(), "Custom Shadow Color", "The shadow color to use when shadow type is set to Custom. When fading the background colour shadows fade to this color"),
+                        new Param("type3", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed. Fade uses the entity length to determine colour fading speed"),
+                        new Param("type4", KarateMan.BackgroundTextureType.Plain, "Texture", "The type of background texture to use"),
+                        new Param("type5", KarateMan.ShadowType.Tinted, "Color Filter Type", "The method used to apply colour to the texture"),
+                        new Param("colorC", new Color(), "Custom Filter Color", "The filter color to use when color filter type is set to Custom"),
+                        new Param("colorD", new Color(), "Fading Filter Color", "When using the Fade background effect, make filter colour fade to this colour"),
 
-                }),
+                    },
+                    inactiveFunction: delegate { var e = eventCaller.currentEntity; KarateMan.SetBgEffectsUnloaded(e.beat, e.length, e.type, e.type2, e.colorA, e.colorB, e.type3, e.type4, e.type5, e.colorC, e.colorD); }
+                ),
                 new GameAction("set object colors",    delegate { var e = eventCaller.currentEntity; KarateMan.instance.UpdateMaterialColour(e.colorA, e.colorB, e.colorC); }, 0.5f, false, new List<Param>()
-                {
-                    new Param("colorA", new Color(), "Joe Body Color", "The color to use for Karate Joe's body"),
-                    new Param("colorB", new Color(), "Joe Highlight Color", "The color to use for Karate Joe's highlights"),
-                    new Param("colorC", new Color(), "Item Color", "The color to use for the thrown items"),
-                }),
+                    {
+                        new Param("colorA", new Color(), "Joe Body Color", "The color to use for Karate Joe's body"),
+                        new Param("colorB", new Color(), "Joe Highlight Color", "The color to use for Karate Joe's highlights"),
+                        new Param("colorC", new Color(), "Item Color", "The color to use for the thrown items"),
+                    },
+                    inactiveFunction: delegate { var e = eventCaller.currentEntity; KarateMan.UpdateMaterialColourUnloaded(e.colorA, e.colorB, e.colorC); }
+                ),
                 new GameAction("particle effects",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetParticleEffect(e.beat, e.type, e.valA, e.valB); }, 0.5f, false, new List<Param>()
                 {
                     new Param("type", KarateMan.ParticleType.None, "Particle Type", "The type of particle effect to spawn. Using \"None\" will stop all effects"),
@@ -89,7 +99,7 @@ namespace HeavenStudio.Games.Loaders
                         new Param("type", KarateMan.HitThree.HitThree, "Type", "The warning text to show")
                     }, 
                 hidden: true),
-                new GameAction("set background color",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgAndShadowCol(e.beat, e.length, e.type, e.type2, e.colorA, e.colorB, (int) KarateMan.instance.currentBgEffect); }, 0.5f, false, 
+                new GameAction("set background color",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgAndShadowCol(e.beat, e.length, e.type, e.type2, e.colorA, e.colorB, (int) KarateMan.currentBgEffect); }, 0.5f, false, 
                     new List<Param>()
                     {
                         new Param("type", KarateMan.BackgroundType.Yellow, "Background Type", "The preset background type"),
@@ -223,7 +233,7 @@ namespace HeavenStudio.Games
             Tengoku,
             Mania,
         }
-        public bool IsComboEnable = true;   //only stops Out combo inputs, this basically makes combo contextual
+        public static bool IsComboEnable = true;   //only stops Out combo inputs, this basically makes combo contextual
         public bool IsNoriActive { get { return Nori.MaxNori > 0; } }
         public float NoriPerformance { get { if (IsNoriActive) return Nori.Nori / Nori.MaxNori; else return 1f; } }
 
@@ -235,10 +245,10 @@ namespace HeavenStudio.Games
         [Header("Camera Positions")]
         public Transform[] CameraPosition;
         Vector3 cameraPosition;
-        float startCamSpecial = Single.MinValue;
-        float wantsReturn = Single.MinValue;
-        float cameraReturnLength = 2f;
-        CameraAngle cameraAngle = CameraAngle.Normal;
+        static float startCamSpecial = Single.MinValue;
+        static float wantsReturn = Single.MinValue;
+        static float cameraReturnLength = 2f;
+        static CameraAngle cameraAngle = CameraAngle.Normal;
 
         //pot trajectory stuff
         [Header("References")]
@@ -250,31 +260,32 @@ namespace HeavenStudio.Games
 
         [Header("Colour Map")]
         public Material MappingMaterial;
-        public Color BodyColor;
-        public Color HighlightColor;
-        public Color ItemColor;
+        public static Color BodyColor;
+        public static Color HighlightColor;
+        public static Color ItemColor;
 
         [Header("Word")]
         public Animator Word;
-        float wordClearTime = Single.MinValue;
+        static float wordClearTime = Single.MinValue;
         const float hitVoiceOffset = 0.042f;
 
         [Header("Backgrounds")]
+        static int bgType = (int) BackgroundType.Yellow;
+        public static int currentBgEffect = (int) BackgroundFXType.None;
+        static float bgFadeTime = Single.MinValue;
+        static float bgFadeDuration = 0f;
+        static Color bgColour = Color.white;
         public SpriteRenderer BGPlane;
         public GameObject BGEffect;
-        int bgType = (int) BackgroundType.Yellow;
-        Color bgColour;
         Color bgColourLast;
-        public BackgroundFXType currentBgEffect = BackgroundFXType.None;
-        float bgFadeTime = Single.MinValue;
-        float bgFadeDuration = 0f;
 
         Animator bgEffectAnimator;
         SpriteRenderer bgEffectSpriteRenderer;
 
-        int textureFiltertype = (int) ShadowType.Tinted;
-        Color filterColour;
-        Color filterColourNext;
+        static int textureType = (int) BackgroundTextureType.Plain;
+        static int textureFilterType = (int) ShadowType.Tinted;
+        static Color filterColour = Color.white;
+        static Color filterColourNext = Color.white;
         public GameObject BGGradient;
         SpriteRenderer bgGradientRenderer;
         public GameObject BGBlood;
@@ -283,10 +294,9 @@ namespace HeavenStudio.Games
         SpriteRenderer bgRadialRenderer;
 
         [Header("Shadows")]
-        int currentShadowType = (int) ShadowType.Tinted;
-        Color customShadowColour = Color.white;
-        Color fadeShadowColour = Color.white;
-        Color oldShadowColour;
+        static int currentShadowType = (int) ShadowType.Tinted;
+        static Color customShadowColour = Color.white;
+        static Color oldShadowColour;
 
         [Header("Particles")]
             //wind
@@ -300,6 +310,14 @@ namespace HeavenStudio.Games
             //rain
         public ParticleSystem RainEffect;
         public GameObject RainEffectGO;
+
+        [Header("Unloaded Game Calls")]
+        public static Queue<Beatmap.Entity> ItemQueue = new Queue<Beatmap.Entity>();
+        public static bool WantBop = true;
+        public static bool WantNori = true;
+        public static int WantNoriType = (int) NoriMode.None;
+        public static float WantBgChangeStart = 0f;
+        public static float WantBgChangeLength = 0f;
 
         private void Awake()
         {
@@ -318,9 +336,10 @@ namespace HeavenStudio.Games
             bgBloodRenderer = BGBlood.GetComponent<SpriteRenderer>();
             bgRadialRenderer = BGRadial.GetComponent<SpriteRenderer>();
 
-            SetBgAndShadowCol(0f, 0f, bgType, (int) currentShadowType, BackgroundColors[bgType], customShadowColour, (int)currentBgEffect);
+            SetBgAndShadowCol(WantBgChangeStart, WantBgChangeLength, bgType, (int) currentShadowType, BackgroundColors[bgType], customShadowColour, (int)currentBgEffect);
+            SetBgTexture(textureType, textureFilterType, filterColour, filterColour);
             UpdateMaterialColour(BodyColor, HighlightColor, ItemColor);
-            ToggleBop(true);
+            ToggleBop(WantBop);
         }
 
         private void Update()
@@ -331,10 +350,10 @@ namespace HeavenStudio.Games
             
             switch (currentBgEffect)
             {
-                case BackgroundFXType.Sunburst:
+                case (int) BackgroundFXType.Sunburst:
                     bgEffectAnimator.DoNormalizedAnimation("Sunburst", (cond.songPositionInBeats*0.5f) % 1f);
                     break;
-                case BackgroundFXType.Rings:
+                case (int) BackgroundFXType.Rings:
                     bgEffectAnimator.DoNormalizedAnimation("Rings", (cond.songPositionInBeats*0.5f) % 1f);
                     break;
                 default:
@@ -446,7 +465,7 @@ namespace HeavenStudio.Games
             return count;
         }
 
-        public void DoSpecialCamera(float beat, float length, bool returns)
+        public static void DoSpecialCamera(float beat, float length, bool returns)
         {
             if (cameraAngle == CameraAngle.Normal)
             {
@@ -458,6 +477,11 @@ namespace HeavenStudio.Games
         }
 
         public void DoWord(float beat, int type, bool doSound = true)
+        {
+            Word.Play(DoWordSound(beat, type, doSound));
+        }
+
+        public static string DoWordSound(float beat, int type, bool doSound = true)
         {
             String word = "NoPose";
             float clear = 0f;
@@ -528,9 +552,9 @@ namespace HeavenStudio.Games
             }
             if (Conductor.instance.songPositionInBeats <= clear && Conductor.instance.songPositionInBeats >= beat)
             {
-                Word.Play(word);
                 wordClearTime = clear;
             }
+            return word;
         }
 
         public void CreateItem(float beat, int type)
@@ -680,23 +704,38 @@ namespace HeavenStudio.Games
             
         }
 
-        public void SetBgAndShadowCol(float beat, float length, int bgType, int shadowType, Color a, Color b, int fx)
+        public static void SetBgEffectsUnloaded(float beat, float length, int newBgType, int newShadowType, Color bgCol, Color shadowCol, int bgFx, int texture, int textureFilter, Color filterCol, Color filterColNext)
+        {
+            WantBgChangeStart = beat;
+            WantBgChangeLength = length;
+            bgType = newBgType;
+            currentShadowType = newShadowType;
+            bgColour = bgCol;
+            customShadowColour = shadowCol;
+            currentBgEffect = bgFx;
+            textureType = texture;
+            textureFilterType = textureFilter;
+            filterColour = filterCol;
+            filterColourNext = filterColNext;
+        }
+
+        public void SetBgAndShadowCol(float beat, float length, int newBgType, int shadowType, Color a, Color b, int fx)
         {
             SetBgFx(fx, beat, length);
             UpdateShadowColour(shadowType, b);
 
-            this.bgType = bgType;
-            if (this.bgType == (int) BackgroundType.Custom)
+            bgType = newBgType;
+            if (bgType == (int) BackgroundType.Custom)
                 bgColour = a;
             else
-                bgColour = BackgroundColors[this.bgType];
+                bgColour = BackgroundColors[newBgType];
             BGPlane.color = bgColour;
 
             //😢
             if (fx != (int) BackgroundFXType.Fade)
                 oldShadowColour = GetShadowColor(true);
 
-            if (textureFiltertype == (int) ShadowType.Tinted)
+            if (textureFilterType == (int) ShadowType.Tinted)
                 filterColour = Color.LerpUnclamped(bgColour, ShadowBlendColor, 0.45f);
         }
 
@@ -710,22 +749,23 @@ namespace HeavenStudio.Games
                     bgFadeDuration = length;
                     break;
                 default:
-                    currentBgEffect = (BackgroundFXType) fx;
+                    currentBgEffect = fx;
                     break;
             }
         }
 
         public void SetBgTexture(int type, int filterType, Color filterColor, Color nextColor)
         {
-            textureFiltertype = filterType;
-            if (textureFiltertype == (int) ShadowType.Tinted)
+            textureType = type;
+            textureFilterType = filterType;
+            if (textureFilterType == (int) ShadowType.Tinted)
                 filterColour = Color.LerpUnclamped(bgColour, filterColor, 0.45f);
             else
             {
                 filterColour = filterColor;
                 filterColourNext = nextColor;
             }
-            switch (type)
+            switch (textureType)
             {
                 case (int) BackgroundTextureType.Blood:
                     BGBlood.SetActive(true);
@@ -761,7 +801,7 @@ namespace HeavenStudio.Games
         void UpdateFilterColour(Color bgColor, Color filterColor)
         {
             Color col;
-            if (textureFiltertype == (int) ShadowType.Tinted)
+            if (textureFilterType == (int) ShadowType.Tinted)
                 col = Color.LerpUnclamped(bgColor, ShadowBlendColor, 0.45f);
             else
                 col = filterColor;
@@ -812,7 +852,13 @@ namespace HeavenStudio.Games
             MappingMaterial.SetColor("_ColorBravo", new Color(1, 0, 0, 1));
             MappingMaterial.SetColor("_ColorDelta", highlightCol);
             ItemColor = objectCol;
-            //TODO: joe fist colour when punching Straight with low flow
+        }
+
+        public static void UpdateMaterialColourUnloaded(Color mainCol, Color highlightCol, Color objectCol)
+        {
+            BodyColor = mainCol;
+            HighlightColor = highlightCol;
+            ItemColor = objectCol;
         }
 
         public void SetParticleEffect(float beat, int type, float windStrength, float particleStrength)
@@ -853,6 +899,11 @@ namespace HeavenStudio.Games
                 Joe.bop.length = Single.MaxValue;
             else
                 Joe.bop.length = 0;
+        }
+
+        public static void ToggleBopUnloaded(bool toggle)
+        {
+            WantBop = toggle;
         }
 
         public void Prepare(float beat, float length)

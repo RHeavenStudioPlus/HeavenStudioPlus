@@ -123,12 +123,12 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 case ItemType.Alien:
                     alpha = ItemAlienMap[0];
                     bravo = ItemAlienMap[1];
-                    delta = KarateMan.instance.ItemColor;
+                    delta = KarateMan.ItemColor;
                     break;
                 case ItemType.KickBomb:
                     alpha = ItemBombMap[0];
                     bravo = ItemBombMap[1];
-                    delta = KarateMan.instance.ItemColor;
+                    delta = KarateMan.ItemColor;
                     break;
                 case ItemType.KickBarrel:
                 case ItemType.ComboBarrel:
@@ -140,12 +140,12 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 case ItemType.CookingLid:
                     alpha = ItemCookingLidMap[0];
                     bravo = ItemCookingLidMap[1];
-                    delta = KarateMan.instance.ItemColor;
+                    delta = KarateMan.ItemColor;
                     break;
                 default:
-                    alpha = KarateMan.instance.ItemColor;
-                    bravo = KarateMan.instance.ItemColor;
-                    delta = KarateMan.instance.ItemColor;
+                    alpha = KarateMan.ItemColor;
+                    bravo = KarateMan.ItemColor;
+                    delta = KarateMan.ItemColor;
                     break;
             }
             for (int i = 0; i < cellRenderers.Length; i++) {
@@ -625,7 +625,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public void ItemWrongAction(PlayerActionEvent caller, float state)
         { 
             if (GameManager.instance.currentGame != "karateman") return;
-            if (!KarateMan.instance.IsComboEnable) return;
+            if (!KarateMan.IsComboEnable) return;
             //hitting a normal object with the alt input
             //WHEN SCORING THIS IS A MISS
             var joe = KarateMan.instance.Joe;
@@ -863,7 +863,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public void ComboEndWrongActionAlt(PlayerActionEvent caller, float state)
         {
             if (GameManager.instance.currentGame != "karateman") return;
-            if (KarateMan.instance.IsComboEnable && !(KarateMan.instance.Joe.inCombo || KarateMan.instance.Joe.inNuriLock))
+            if (KarateMan.IsComboEnable && !(KarateMan.instance.Joe.inCombo || KarateMan.instance.Joe.inNuriLock))
                 KarateMan.instance.Joe.ForceFailCombo(Conductor.instance.songPositionInBeats);
         }
 

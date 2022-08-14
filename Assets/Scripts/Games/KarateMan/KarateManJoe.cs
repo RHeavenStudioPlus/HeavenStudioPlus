@@ -126,7 +126,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 }
             }
             
-            if (PlayerInput.AltPressed() && KarateMan.instance.IsComboEnable && !inSpecial)
+            if (PlayerInput.AltPressed() && KarateMan.IsComboEnable && !inSpecial)
             {
                 if (!KarateMan.instance.IsExpectingInputNow())
                 {
