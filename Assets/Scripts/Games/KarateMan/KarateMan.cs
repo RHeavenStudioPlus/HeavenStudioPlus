@@ -279,6 +279,8 @@ namespace HeavenStudio.Games
         SpriteRenderer bgGradientRenderer;
         public GameObject BGBlood;
         SpriteRenderer bgBloodRenderer;
+        public GameObject BGRadial;
+        SpriteRenderer bgRadialRenderer;
 
         [Header("Shadows")]
         int currentShadowType = (int) ShadowType.Tinted;
@@ -314,6 +316,7 @@ namespace HeavenStudio.Games
 
             bgGradientRenderer = BGGradient.GetComponent<SpriteRenderer>();
             bgBloodRenderer = BGBlood.GetComponent<SpriteRenderer>();
+            bgRadialRenderer = BGRadial.GetComponent<SpriteRenderer>();
 
             SetBgAndShadowCol(0f, 0f, bgType, (int) currentShadowType, BackgroundColors[bgType], customShadowColour, (int)currentBgEffect);
             UpdateMaterialColour(BodyColor, HighlightColor, ItemColor);
@@ -727,14 +730,22 @@ namespace HeavenStudio.Games
                 case (int) BackgroundTextureType.Blood:
                     BGBlood.SetActive(true);
                     BGGradient.SetActive(false);
+                    BGRadial.SetActive(false);
                     break;
                 case (int) BackgroundTextureType.Gradient:
                     BGGradient.SetActive(true);
                     BGBlood.SetActive(false);
+                    BGRadial.SetActive(false);
+                    break;
+                case (int) BackgroundTextureType.Radial:
+                    BGRadial.SetActive(true);
+                    BGBlood.SetActive(false);
+                    BGGradient.SetActive(false);
                     break;
                 default:
                     BGGradient.SetActive(false);
                     BGBlood.SetActive(false);
+                    BGRadial.SetActive(false);
                     break;
             }
             UpdateFilterColour(bgColour, filterColour);
@@ -757,6 +768,7 @@ namespace HeavenStudio.Games
             
             bgGradientRenderer.color = col;
             bgBloodRenderer.color = col;
+            bgRadialRenderer.color = col;
         }
 
         public static Color ShadowBlendColor = new Color(195 / 255f, 48 / 255f, 2 / 255f);
