@@ -125,7 +125,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     Jukebox.PlayOneShotGame("karateman/swingNoHit", forcePlay: true);
                 }
             }
-            else if (PlayerInput.AltPressed() && KarateMan.instance.IsComboEnable && !inSpecial)
+            
+            if (PlayerInput.AltPressed() && KarateMan.instance.IsComboEnable && !inSpecial)
             {
                 if (!KarateMan.instance.IsExpectingInputNow())
                 {

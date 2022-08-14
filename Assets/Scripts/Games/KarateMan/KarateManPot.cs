@@ -166,13 +166,16 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             }
         }
 
+
+        PlayerActionEvent OnHit;
+        PlayerActionEvent OnHitWrongAction;
         void Awake()
         {
             switch (type)
             {
                 case ItemType.ComboPot1:
-                    KarateMan.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_ALT_DOWN, ComboStartJustOrNg, ComboStartThrough, ComboStartOut);
-                    KarateMan.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_DOWN | InputType.DIRECTION_DOWN, ComboStartWrongAction, ComboStartOut, ComboStartOut);
+                    OnHit =             KarateMan.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_ALT_DOWN, ComboStartJustOrNg, ComboStartThrough, ComboStartOut);
+                    OnHitWrongAction =  KarateMan.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_DOWN | InputType.DIRECTION_DOWN, ComboStartWrongAction, ComboStartOut, ComboStartOut);
                     path = 1;
                     break;
                 case ItemType.ComboPot2:
@@ -194,20 +197,20 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     break;
                 case ItemType.ComboBarrel:
                     //check for button release
-                    KarateMan.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_ALT_UP, ComboEndJustOrNg, ComboEndThrough, ComboEndOut);
+                    OnHit =             KarateMan.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_ALT_UP, ComboEndJustOrNg, ComboEndThrough, ComboEndOut);
                     //button presses
                     KarateMan.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_DOWN | InputType.DIRECTION_DOWN, ComboEndWrongAction, ItemOut, ItemOut);
                     KarateMan.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_ALT_DOWN, ComboEndWrongActionAlt, ItemOut, ItemOut);
                     path = 5;
                     break;
                 case ItemType.KickBarrel:
-                    KarateMan.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_DOWN | InputType.DIRECTION_DOWN, KickChargeJustOrNg, ItemThrough, ItemOut);
-                    KarateMan.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_ALT_DOWN, ItemWrongAction, ItemOut, ItemOut);
+                    OnHit =             KarateMan.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_DOWN | InputType.DIRECTION_DOWN, KickChargeJustOrNg, ItemThrough, ItemOut);
+                    OnHitWrongAction =  KarateMan.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_ALT_DOWN, ItemWrongAction, ItemOut, ItemOut);
                     path = 1;
                     comboId = -1;
                     break;
                 case ItemType.KickBomb:
-                    KarateMan.instance.ScheduleInput(startBeat, 0.75f, InputType.STANDARD_UP | InputType.DIRECTION_UP, KickJustOrNg, KickThrough, KickOut);
+                    OnHit =             KarateMan.instance.ScheduleInput(startBeat, 0.75f, InputType.STANDARD_UP | InputType.DIRECTION_UP, KickJustOrNg, KickThrough, KickOut);
                     CurrentCurve = ItemCurves[6];
                     curveTargetBeat = 2 * 0.75f;
                     path = 1;
@@ -221,8 +224,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     comboId = -1;
                     break;
                 default:
-                    KarateMan.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_DOWN | InputType.DIRECTION_DOWN, ItemJustOrNg, ItemThrough, ItemOut);
-                    KarateMan.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_ALT_DOWN, ItemWrongAction, ItemOut, ItemOut);
+                    OnHit =             KarateMan.instance.ScheduleInput(startBeat, 1f, InputType.STANDARD_DOWN | InputType.DIRECTION_DOWN, ItemJustOrNg, ItemThrough, ItemOut);
+                    OnHitWrongAction =  KarateMan.instance.ScheduleUserInput(startBeat, 1f, InputType.STANDARD_ALT_DOWN, ItemWrongAction, ItemOut, ItemOut);
                     path = 1;
                     comboId = -1;
                     break;
@@ -574,7 +577,6 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         {
             if (GameManager.instance.currentGame != "karateman") return;
             var joe = KarateMan.instance.Joe;
-            Debug.Log("ItemJustOrNg | accuracy: " + state);
             if (status == FlyStatus.Fly && !(joe.inCombo || joe.inNuriLock)) {
                 if (state <= -1f || state >= 1f) {
                     bool straight = joe.Punch(ItemPunchHand());
@@ -616,6 +618,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     KarateMan.instance.Nori.DoHit();
                 }
             }
+            OnHit.CanHit(false);
+            OnHitWrongAction.CanHit(false);
         }
 
         public void ItemWrongAction(PlayerActionEvent caller, float state)
@@ -649,6 +653,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 });
                 KarateMan.instance.Nori.DoThrough();
             }
+            OnHit.CanHit(false);
+            OnHitWrongAction.CanHit(false);
         }
 
         public void ItemOut(PlayerActionEvent caller) {}
@@ -670,6 +676,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 }),
             });
             KarateMan.instance.Nori.DoThrough();
+            OnHit.CanHit(false);
+            OnHitWrongAction.CanHit(false);
         }
 
         public void ComboStartJustOrNg(PlayerActionEvent caller, float state)
@@ -695,6 +703,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     KarateMan.instance.Nori.DoHit();
                 }
             }
+            OnHit.CanHit(false);
+            OnHitWrongAction.CanHit(false);
         }
 
         public void ComboStartOut(PlayerActionEvent caller) {}
@@ -715,6 +725,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 }),
             });
             KarateMan.instance.Nori.DoThrough();
+            OnHit.CanHit(false);
+            OnHitWrongAction.CanHit(false);
         }
 
         public void ComboStartWrongAction(PlayerActionEvent caller, float state)
@@ -737,6 +749,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 }
                 KarateMan.instance.Nori.DoThrough();
             }
+            OnHit.CanHit(false);
+            OnHitWrongAction.CanHit(false);
         }
 
         public void ComboEndJustOrNg(PlayerActionEvent caller, float state)
@@ -781,6 +795,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     KarateMan.instance.Nori.DoHit();
                 }
             }
+            OnHit.CanHit(false);
         }
 
         public void ComboEndOut(PlayerActionEvent caller) {
@@ -794,6 +809,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 joe.ComboSequence(3);
                 Jukebox.PlayOneShotGame("karateman/swingKick", forcePlay: true);
             }
+            OnHit.CanHit(false);
         }
 
         public void ComboEndThrough(PlayerActionEvent caller) 
@@ -834,6 +850,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 });
             }
             KarateMan.instance.Nori.DoThrough();
+            OnHit.CanHit(false);
         }
 
         public void ComboEndWrongAction(PlayerActionEvent caller, float state)
@@ -879,6 +896,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     KarateMan.instance.Nori.DoHit();
                 }
             }
+            OnHit.CanHit(false);
+            OnHitWrongAction.CanHit(false);
         }
 
         public void KickChargeOut(PlayerActionEvent caller) {}
@@ -900,6 +919,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 }),
             });
             KarateMan.instance.Nori.DoThrough();
+            OnHit.CanHit(false);
+            OnHitWrongAction.CanHit(false);
         }
 
         public void KickJustOrNg(PlayerActionEvent caller, float state)
@@ -948,6 +969,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     KarateMan.instance.Nori.DoHit();
                 }
             }
+            OnHit.CanHit(false);
         }
 
         public void KickOut(PlayerActionEvent caller) {}
@@ -965,6 +987,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 })
             });
             KarateMan.instance.Nori.DoThrough();
+            OnHit.CanHit(false);
         }
     }
 }
