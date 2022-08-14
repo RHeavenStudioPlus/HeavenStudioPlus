@@ -374,13 +374,14 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         {
             ParticleSystem p;
             CreateHitMark(type == ItemType.KickBomb);
+            KarateMan game = KarateMan.instance;
             switch (type)
             {
                 case ItemType.Bulb:
                     CurrentCurve = ItemCurves[straight ? 1 : 0];
                     curveTargetBeat = straight ? 1f : 1.5f;;
                     Jukebox.PlayOneShotGame("karateman/lightbulbHit", forcePlay: true);
-                    p = Instantiate(HitParticles[5], HitPosition[1].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), KarateMan.instance.ItemHolder);
+                    p = Instantiate(HitParticles[5], HitPosition[1].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), game.ItemHolder);
 
                     if (effectTint.a == 0)
                         break;
@@ -404,30 +405,30 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     CurrentCurve = ItemCurves[1];
                     curveTargetBeat = 1f;
                     Jukebox.PlayOneShotGame("karateman/rockHit", forcePlay: true);
-                    p = Instantiate(HitParticles[4], HitPosition[1].position, Quaternion.identity, KarateMan.instance.ItemHolder);
+                    p = Instantiate(HitParticles[4], HitPosition[1].position, Quaternion.identity, game.ItemHolder);
                     p.Play();
                     break;
                 case ItemType.Ball:
                     CurrentCurve = ItemCurves[1];
                     curveTargetBeat = 1f;
                     Jukebox.PlayOneShotGame("karateman/soccerHit", forcePlay: true);
-                    p = Instantiate(HitParticles[1], HitPosition[1].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), KarateMan.instance.ItemHolder);
+                    p = Instantiate(HitParticles[1], HitPosition[1].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), game.ItemHolder);
                     p.Play();
                     break;
                 case ItemType.Cooking:
                     CurrentCurve = ItemCurves[1];
                     curveTargetBeat = 1f;
                     Jukebox.PlayOneShotGame("karateman/cookingPot", forcePlay: true);
-                    p = Instantiate(HitParticles[1], HitPosition[1].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), KarateMan.instance.ItemHolder);
+                    p = Instantiate(HitParticles[1], HitPosition[1].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), game.ItemHolder);
                     p.Play();
-                    KarateMan.instance.CreateItemInstance(startBeat + 1f, "Item09", ItemType.CookingLid);
+                    game.CreateItemInstance(startBeat + 1f, "Item09", ItemType.CookingLid);
                     GetComponent<Animator>().Play("Item08", -1, 0);
                     break;
                 case ItemType.Alien:
                     CurrentCurve = ItemCurves[1];
                     curveTargetBeat = 1f;
                     Jukebox.PlayOneShotGame("karateman/alienHit", forcePlay: true);
-                    p = Instantiate(HitParticles[1], HitPosition[1].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), KarateMan.instance.ItemHolder);
+                    p = Instantiate(HitParticles[1], HitPosition[1].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), game.ItemHolder);
                     p.Play();
                     break;
                 case ItemType.TacoBell:
@@ -435,69 +436,73 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     curveTargetBeat = 1f;
                     Jukebox.PlayOneShotGame("karateman/rockHit", forcePlay: true);
                     Jukebox.PlayOneShotGame("karateman/tacobell", forcePlay: true);
-                    p = Instantiate(HitParticles[1], HitPosition[1].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), KarateMan.instance.ItemHolder);
+                    p = Instantiate(HitParticles[1], HitPosition[1].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), game.ItemHolder);
                     p.Play();
                     break;
                 case ItemType.ComboPot1:
                     CurrentCurve = ItemCurves[straight ? 1 : 0];
                     curveTargetBeat = 1.5f;
                     Jukebox.PlayOneShotGame("karateman/comboHit1", forcePlay: true);
-                    p = Instantiate(HitParticles[1], HitPosition[1].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), KarateMan.instance.ItemHolder);
+                    p = Instantiate(HitParticles[1], HitPosition[1].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), game.ItemHolder);
                     p.Play();
                     break;
                 case ItemType.ComboPot2:
                     CurrentCurve = ItemCurves[0];
                     curveTargetBeat = 1.5f;
                     Jukebox.PlayOneShotGame("karateman/comboHit1", forcePlay: true);
-                    p = Instantiate(HitParticles[1], HitPosition[1].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), KarateMan.instance.ItemHolder);
+                    p = Instantiate(HitParticles[1], HitPosition[1].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), game.ItemHolder);
                     p.Play();
                     break;
                 case ItemType.ComboPot3:
                     CurrentCurve = ItemCurves[2];
                     curveTargetBeat = 1f;
                     Jukebox.PlayOneShotGame("karateman/comboHit2", forcePlay: true);
-                    p = Instantiate(HitParticles[1], HitPosition[2].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), KarateMan.instance.ItemHolder);
+                    p = Instantiate(HitParticles[1], HitPosition[2].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), game.ItemHolder);
                     p.Play();
                     break;
                 case ItemType.ComboPot4:
                     CurrentCurve = ItemCurves[3];
                     curveTargetBeat = 1f;
                     Jukebox.PlayOneShotGame("karateman/comboHit3", forcePlay: true);
-                    p = Instantiate(HitParticles[1], HitPosition[3].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), KarateMan.instance.ItemHolder);
+                    p = Instantiate(HitParticles[1], HitPosition[3].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), game.ItemHolder);
                     p.Play();
                     break;
                 case ItemType.ComboPot5:
                     CurrentCurve = ItemCurves[4];
                     curveTargetBeat = 1f;
                     Jukebox.PlayOneShotGame("karateman/comboHit3", forcePlay: true);
-                    p = Instantiate(HitParticles[1], HitPosition[4].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), KarateMan.instance.ItemHolder);
+                    p = Instantiate(HitParticles[1], HitPosition[4].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), game.ItemHolder);
                     p.Play();
                     break;
                 case ItemType.ComboBarrel:
                     Jukebox.PlayOneShotGame("karateman/comboHit4", forcePlay: true);
-                    p = Instantiate(HitParticles[0], HitPosition[5].position, Quaternion.identity, KarateMan.instance.ItemHolder);
+                    p = Instantiate(HitParticles[0], HitPosition[5].position, Quaternion.identity, game.ItemHolder);
                     p.Play();
-                    p = Instantiate(HitParticles[1], HitPosition[5].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), KarateMan.instance.ItemHolder);
+                    p = Instantiate(HitParticles[1], HitPosition[5].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), game.ItemHolder);
                     p.Play();
                     break;
                 case ItemType.KickBarrel:
-                    KarateMan.instance.CreateItemInstance(startBeat + 1f, "Item04", ItemType.KickBomb);
+                    game.CreateItemInstance(startBeat + 1f, "Item04", ItemType.KickBomb);
                     Jukebox.PlayOneShotGame("karateman/barrelBreak", forcePlay: true);
-                    p = Instantiate(HitParticles[0], HitPosition[1].position, Quaternion.Euler(0, 0, -5f), KarateMan.instance.ItemHolder);
+                    p = Instantiate(HitParticles[0], HitPosition[1].position, Quaternion.Euler(0, 0, -5f), game.ItemHolder);
                     p.Play();
-                    p = Instantiate(HitParticles[1], HitPosition[1].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), KarateMan.instance.ItemHolder);
+                    p = Instantiate(HitParticles[1], HitPosition[1].position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f)), game.ItemHolder);
                     p.Play();
+
+                    game.Joe.ApplyBombGlow();
                     break;
                 case ItemType.KickBomb:
                     Jukebox.PlayOneShotGame("karateman/bombKick", forcePlay: true);
-                    p = Instantiate(HitParticles[2], ItemCurves[6].GetPoint(0.5f), Quaternion.identity, KarateMan.instance.ItemHolder);
+                    p = Instantiate(HitParticles[2], ItemCurves[6].GetPoint(0.5f), Quaternion.identity, game.ItemHolder);
                     p.Play();
+
+                    game.Joe.RemoveBombGlow(startBeat + 0.75f);
                     break;
                 default:
                     CurrentCurve = ItemCurves[straight ? 1 : 0];
                     curveTargetBeat = straight ? 1f : 1.5f;
                     Jukebox.PlayOneShotGame("karateman/potHit", forcePlay: true);
-                    p = Instantiate(HitParticles[3], HitPosition[1].position, Quaternion.identity, KarateMan.instance.ItemHolder);
+                    p = Instantiate(HitParticles[3], HitPosition[1].position, Quaternion.identity, game.ItemHolder);
                     p.Play();
                     break;
             }
@@ -947,6 +952,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     });
 
                     KarateMan.instance.Nori.DoNG();
+                    joe.RemoveBombGlow(startBeat + 0.75f);
                 }
                 else {
                     ItemHitEffect();
@@ -988,6 +994,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             });
             KarateMan.instance.Nori.DoThrough();
             OnHit.CanHit(false);
+            KarateMan.instance.Joe.RemoveBombGlow(startBeat + 0.75f * 2, 1.5f);
         }
     }
 }

@@ -66,13 +66,13 @@ namespace HeavenStudio.Games.Loaders
                     },
                     inactiveFunction: delegate { var e = eventCaller.currentEntity; KarateMan.SetBgEffectsUnloaded(e.beat, e.length, e.type, e.type2, e.colorA, e.colorB, e.type3, e.type4, e.type5, e.colorC, e.colorD); }
                 ),
-                new GameAction("set object colors",    delegate { var e = eventCaller.currentEntity; KarateMan.instance.UpdateMaterialColour(e.colorA, e.colorB, e.colorC); }, 0.5f, false, new List<Param>()
+                new GameAction("set object colors",    delegate { var e = eventCaller.currentEntity; KarateMan.UpdateMaterialColour(e.colorA, e.colorB, e.colorC); }, 0.5f, false, new List<Param>()
                     {
                         new Param("colorA", new Color(), "Joe Body Color", "The color to use for Karate Joe's body"),
                         new Param("colorB", new Color(), "Joe Highlight Color", "The color to use for Karate Joe's highlights"),
                         new Param("colorC", new Color(), "Item Color", "The color to use for the thrown items"),
                     },
-                    inactiveFunction: delegate { var e = eventCaller.currentEntity; KarateMan.UpdateMaterialColourUnloaded(e.colorA, e.colorB, e.colorC); }
+                    inactiveFunction: delegate { var e = eventCaller.currentEntity; KarateMan.UpdateMaterialColour(e.colorA, e.colorB, e.colorC); }
                 ),
                 new GameAction("particle effects",  delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetParticleEffect(e.beat, e.type, e.valA, e.valB); }, 0.5f, false, new List<Param>()
                 {
@@ -124,7 +124,11 @@ namespace HeavenStudio.Games.Loaders
                 },
                 hidden: true),
 
-            });
+            },
+            new List<string>() {"agb", "ntr", "rvl", "ctr", "pco", "normal"},
+            "karate", "en",
+            new List<string>() {"en"}
+            );
         }
     }
 }
@@ -247,7 +251,7 @@ namespace HeavenStudio.Games
         Vector3 cameraPosition;
         static float startCamSpecial = Single.MinValue;
         static float wantsReturn = Single.MinValue;
-        static float cameraReturnLength = 2f;
+        static float cameraReturnLength = 0f;
         static CameraAngle cameraAngle = CameraAngle.Normal;
 
         //pot trajectory stuff
@@ -260,9 +264,9 @@ namespace HeavenStudio.Games
 
         [Header("Colour Map")]
         public Material MappingMaterial;
-        public static Color BodyColor;
-        public static Color HighlightColor;
-        public static Color ItemColor;
+        public static Color BodyColor = Color.white;
+        public static Color HighlightColor = Color.white;
+        public static Color ItemColor = Color.white;
 
         [Header("Word")]
         public Animator Word;
@@ -846,15 +850,7 @@ namespace HeavenStudio.Games
             customShadowColour = colour;
         }
 
-        public void UpdateMaterialColour(Color mainCol, Color highlightCol, Color objectCol)
-        {
-            MappingMaterial.SetColor("_ColorAlpha", mainCol);
-            MappingMaterial.SetColor("_ColorBravo", new Color(1, 0, 0, 1));
-            MappingMaterial.SetColor("_ColorDelta", highlightCol);
-            ItemColor = objectCol;
-        }
-
-        public static void UpdateMaterialColourUnloaded(Color mainCol, Color highlightCol, Color objectCol)
+        public static void UpdateMaterialColour(Color mainCol, Color highlightCol, Color objectCol)
         {
             BodyColor = mainCol;
             HighlightColor = highlightCol;
