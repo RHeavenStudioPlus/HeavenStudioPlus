@@ -341,7 +341,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             if (bombGlowIntensity > 0)
             {
                 highlightCol = Color.LerpUnclamped(highlightCol, mainCol, bombGlowIntensity);
-                mainCol += BombGlowTint * bombGlowIntensity * bombGlowRatio;
+                mainCol = Color.LerpUnclamped(mainCol, BombGlowTint, bombGlowIntensity * bombGlowRatio);
             }
 
             KarateMan.instance.MappingMaterial.SetColor("_ColorAlpha", mainCol);

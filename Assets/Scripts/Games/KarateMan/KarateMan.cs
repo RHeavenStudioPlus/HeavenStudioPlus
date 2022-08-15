@@ -11,7 +11,7 @@ namespace HeavenStudio.Games.Loaders
     public static class RvlNewKarateLoader
     {
         public static Minigame AddGame(EventCaller eventCaller) {
-            return new Minigame("karateman", "Karate Man [INDEV REWORK]", "70A8D8", false, false, new List<GameAction>()
+            return new Minigame("karateman", "Karate Man", "70A8D8", false, false, new List<GameAction>()
             {
                 new GameAction("bop",                   delegate { KarateMan.instance.ToggleBop(eventCaller.currentEntity.toggle); }, 0.5f, false, new List<Param>()
                     {
@@ -19,19 +19,32 @@ namespace HeavenStudio.Games.Loaders
                     },
                     inactiveFunction: delegate { KarateMan.ToggleBopUnloaded(eventCaller.currentEntity.toggle); }
                 ),
-                new GameAction("hit",                   delegate { var e = eventCaller.currentEntity; KarateMan.instance.CreateItem(e.beat, e.type); }, 2, false, 
+                new GameAction("hit",                   delegate { var e = eventCaller.currentEntity; KarateMan.instance.CreateItem(e.beat, e.type, e.type2); }, 2, false, 
                     new List<Param>()
                     {
-                        new Param("type", KarateMan.HitType.Pot, "Object", "The object to fire")
+                        new Param("type", KarateMan.HitType.Pot, "Object", "The object to fire"),
+                        new Param("type2", KarateMan.KarateManFaces.Normal, "Success Expression", "The facial expression to set Joe to on hit")
                     }),
-                new GameAction("bulb",                  delegate { var e = eventCaller.currentEntity; KarateMan.instance.CreateBulbSpecial(e.beat, e.type, e.colorA); }, 2, false, 
+                new GameAction("bulb",                  delegate { var e = eventCaller.currentEntity; KarateMan.instance.CreateBulbSpecial(e.beat, e.type, e.colorA, e.type2); }, 2, false, 
                     new List<Param>()
                     {
                         new Param("type", KarateMan.LightBulbType.Normal, "Type", "The preset bulb type. Yellow is used for kicks while Blue is used for combos"),
-                        new Param("colorA", new Color(1f,1f,1f), "Custom Color", "The color to use when the bulb type is set to Custom")
+                        new Param("colorA", new Color(1f,1f,1f), "Custom Color", "The color to use when the bulb type is set to Custom"),
+                        new Param("type2", KarateMan.KarateManFaces.Normal, "Success Expression", "The facial expression to set Joe to on hit")
                     }),
-                new GameAction("kick",                  delegate { KarateMan.instance.Kick(eventCaller.currentEntity.beat); }, 4f),
-                new GameAction("combo",                 delegate { KarateMan.instance.Combo(eventCaller.currentEntity.beat); }, 4f),
+                new GameAction("kick",                  delegate { var e = eventCaller.currentEntity; KarateMan.instance.Kick(e.beat, e.toggle, e.type); }, 4f, false,
+                    new List<Param>()
+                    {
+                        new Param("toggle", false, "Contains Ball", "Barrel contains a ball instead of a bomb?"),
+                        new Param("type", KarateMan.KarateManFaces.Smirk, "Success Expression", "The facial expression to set Joe to on hit")
+                    }
+                ),
+                new GameAction("combo",                 delegate { var e = eventCaller.currentEntity; KarateMan.instance.Combo(e.beat, e.type); }, 4f, false,
+                    new List<Param>()
+                    {
+                        new Param("type", KarateMan.KarateManFaces.Happy, "Success Expression", "The facial expression to set Joe to on hit")
+                    }
+                ),
                 new GameAction("hitX",                  delegate { var e = eventCaller.currentEntity; KarateMan.instance.DoWord(e.beat, e.type); }, 1f, false, 
                     new List<Param>()
                     {
@@ -86,10 +99,10 @@ namespace HeavenStudio.Games.Loaders
                 }),
 
                 // These are still here for backwards-compatibility but are hidden in the editor
-                new GameAction("pot",                   delegate { KarateMan.instance.CreateItem(eventCaller.currentEntity.beat, (int) KarateMan.HitType.Pot); }, 2, hidden: true),
-                new GameAction("rock",                  delegate { KarateMan.instance.CreateItem(eventCaller.currentEntity.beat, (int) KarateMan.HitType.Rock); }, 2, hidden: true),
-                new GameAction("ball",                  delegate { KarateMan.instance.CreateItem(eventCaller.currentEntity.beat, (int) KarateMan.HitType.Ball); }, 2, hidden: true),
-                new GameAction("tacobell",              delegate { KarateMan.instance.CreateItem(eventCaller.currentEntity.beat, (int) KarateMan.HitType.TacoBell); }, 2, hidden: true),
+                new GameAction("pot",                   delegate { KarateMan.instance.CreateItem(eventCaller.currentEntity.beat, 0, (int) KarateMan.HitType.Pot); }, 2, hidden: true),
+                new GameAction("rock",                  delegate { KarateMan.instance.CreateItem(eventCaller.currentEntity.beat, 0, (int) KarateMan.HitType.Rock); }, 2, hidden: true),
+                new GameAction("ball",                  delegate { KarateMan.instance.CreateItem(eventCaller.currentEntity.beat, 0, (int) KarateMan.HitType.Ball); }, 2, hidden: true),
+                new GameAction("tacobell",              delegate { KarateMan.instance.CreateItem(eventCaller.currentEntity.beat, 0, (int) KarateMan.HitType.TacoBell); }, 2, hidden: true),
                 new GameAction("hit4",                  delegate { KarateMan.instance.DoWord(eventCaller.currentEntity.beat, (int) KarateMan.HitThree.HitFour); }, hidden: true),
                 new GameAction("bgfxon",                delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgFx((int) KarateMan.BackgroundFXType.Sunburst, e.beat, e.length); }, hidden: true),
                 new GameAction("bgfxoff",               delegate { var e = eventCaller.currentEntity; KarateMan.instance.SetBgFx((int) KarateMan.BackgroundFXType.None, e.beat, e.length); }, hidden: true),
@@ -148,6 +161,7 @@ namespace HeavenStudio.Games
             Ball = 3,
             CookingPot = 6,
             Alien = 7,
+            Bomb = 8,
             TacoBell = 999
         }
 
@@ -316,11 +330,11 @@ namespace HeavenStudio.Games
         public GameObject RainEffectGO;
 
         [Header("Unloaded Game Calls")]
-        public static Queue<Beatmap.Entity> ItemQueue = new Queue<Beatmap.Entity>();
+        //public static Queue<Beatmap.Entity> ItemQueue = new Queue<Beatmap.Entity>();
         public static bool WantBop = true;
         public static bool WantNori = true;
         public static int WantNoriType = (int) NoriMode.None;
-        public static float WantBgChangeStart = 0f;
+        public static float WantBgChangeStart = Single.MinValue;
         public static float WantBgChangeLength = 0f;
 
         private void Awake()
@@ -561,7 +575,7 @@ namespace HeavenStudio.Games
             return word;
         }
 
-        public void CreateItem(float beat, int type)
+        public void CreateItem(float beat, int type, int expression)
         {
 
             string outSound;
@@ -573,46 +587,49 @@ namespace HeavenStudio.Games
             switch (type)
             {
                 case (int) HitType.Pot:
-                    CreateItemInstance(beat, "Item00");
+                    CreateItemInstance(beat, "Item00", expression);
                     break;
                 case (int) HitType.Lightbulb:
                     if (Starpelly.Mathp.GetDecimalFromFloat(beat + 0.5f) == 0f)
                         outSound = "karateman/offbeatLightbulbOut";
                     else
                         outSound = "karateman/lightbulbOut";
-                    var mobj = CreateItemInstance(beat, "Item01", KarateManPot.ItemType.Bulb);
+                    var mobj = CreateItemInstance(beat, "Item01", expression, KarateManPot.ItemType.Bulb);
                     mobj.GetComponent<KarateManPot>().SetBulbColor(LightBulbColors[0]);
                     break;
                 case (int) HitType.Rock:
-                    CreateItemInstance(beat, "Item02", KarateManPot.ItemType.Rock);
+                    CreateItemInstance(beat, "Item02", expression, KarateManPot.ItemType.Rock);
                     break;
                 case (int) HitType.Ball:
-                    CreateItemInstance(beat, "Item03", KarateManPot.ItemType.Ball);
+                    CreateItemInstance(beat, "Item03", expression, KarateManPot.ItemType.Ball);
                     break;
                 case (int) HitType.CookingPot:
-                    CreateItemInstance(beat, "Item06", KarateManPot.ItemType.Cooking);
+                    CreateItemInstance(beat, "Item06", expression, KarateManPot.ItemType.Cooking);
                     break;
                 case (int) HitType.Alien:
-                    CreateItemInstance(beat, "Item07", KarateManPot.ItemType.Alien);
+                    CreateItemInstance(beat, "Item07", expression, KarateManPot.ItemType.Alien);
+                    break;
+                case (int) HitType.Bomb:
+                    CreateItemInstance(beat, "Item04", expression, KarateManPot.ItemType.Bomb);
                     break;
                 case (int) HitType.TacoBell:
-                    CreateItemInstance(beat, "Item99", KarateManPot.ItemType.TacoBell);
+                    CreateItemInstance(beat, "Item99", expression, KarateManPot.ItemType.TacoBell);
                     break;
                 default:
-                    CreateItemInstance(beat, "Item00");
+                    CreateItemInstance(beat, "Item00", expression);
                     break;
             }
             Jukebox.PlayOneShotGame(outSound, forcePlay: true);
         }
 
-        public void CreateBulbSpecial(float beat, int type, Color c)
+        public void CreateBulbSpecial(float beat, int type, Color c, int expression)
         {
             string outSound;
             if (Starpelly.Mathp.GetDecimalFromFloat(beat + 0.5f) == 0f)
                 outSound = "karateman/offbeatLightbulbOut";
             else
                 outSound = "karateman/lightbulbOut";
-            var mobj = CreateItemInstance(beat, "Item01", KarateManPot.ItemType.Bulb);
+            var mobj = CreateItemInstance(beat, "Item01", expression, KarateManPot.ItemType.Bulb);
 
             if (type == (int) LightBulbType.Custom)
                 mobj.GetComponent<KarateManPot>().SetBulbColor(c);
@@ -621,7 +638,7 @@ namespace HeavenStudio.Games
             Jukebox.PlayOneShotGame(outSound, forcePlay: true);
         }
 
-        public void Combo(float beat)
+        public void Combo(float beat, int expression)
         {
             Jukebox.PlayOneShotGame("karateman/barrelOutCombos", forcePlay: true);
 
@@ -629,12 +646,12 @@ namespace HeavenStudio.Games
 
             BeatAction.New(gameObject, new List<BeatAction.Action>() 
             { 
-                new BeatAction.Action(beat, delegate { CreateItemInstance(beat, "Item00", KarateManPot.ItemType.ComboPot1, comboId); }),
-                new BeatAction.Action(beat + 0.25f, delegate { CreateItemInstance(beat + 0.25f, "Item00", KarateManPot.ItemType.ComboPot2, comboId); }),
-                new BeatAction.Action(beat + 0.5f, delegate { CreateItemInstance(beat + 0.5f, "Item00", KarateManPot.ItemType.ComboPot3, comboId); }),
-                new BeatAction.Action(beat + 0.75f, delegate { CreateItemInstance(beat + 0.75f, "Item00", KarateManPot.ItemType.ComboPot4, comboId); }),
-                new BeatAction.Action(beat + 1f, delegate { CreateItemInstance(beat + 1f, "Item00", KarateManPot.ItemType.ComboPot5, comboId); }),
-                new BeatAction.Action(beat + 1.5f, delegate { CreateItemInstance(beat + 1.5f, "Item05", KarateManPot.ItemType.ComboBarrel, comboId); }),
+                new BeatAction.Action(beat, delegate { CreateItemInstance(beat, "Item00", 0, KarateManPot.ItemType.ComboPot1, comboId); }),
+                new BeatAction.Action(beat + 0.25f, delegate { CreateItemInstance(beat + 0.25f, "Item00", 0, KarateManPot.ItemType.ComboPot2, comboId); }),
+                new BeatAction.Action(beat + 0.5f, delegate { CreateItemInstance(beat + 0.5f, "Item00", 0, KarateManPot.ItemType.ComboPot3, comboId); }),
+                new BeatAction.Action(beat + 0.75f, delegate { CreateItemInstance(beat + 0.75f, "Item00", 0, KarateManPot.ItemType.ComboPot4, comboId); }),
+                new BeatAction.Action(beat + 1f, delegate { CreateItemInstance(beat + 1f, "Item00", 0, KarateManPot.ItemType.ComboPot5, comboId); }),
+                new BeatAction.Action(beat + 1.5f, delegate { CreateItemInstance(beat + 1.5f, "Item05", expression, KarateManPot.ItemType.ComboBarrel, comboId); }),
             });
 
             MultiSound.Play(new MultiSound.Sound[] 
@@ -648,11 +665,11 @@ namespace HeavenStudio.Games
             }, forcePlay: true);
         }
 
-        public void Kick(float beat)
+        public void Kick(float beat, bool ball, int expression)
         {
             Jukebox.PlayOneShotGame("karateman/barrelOutKicks", forcePlay: true);
 
-            CreateItemInstance(beat, "Item05", KarateManPot.ItemType.KickBarrel);
+            CreateItemInstance(beat, "Item05", expression, KarateManPot.ItemType.KickBarrel, content: ball);
 
             MultiSound.Play(new MultiSound.Sound[] 
             {
@@ -663,7 +680,7 @@ namespace HeavenStudio.Games
             }, forcePlay: true);
         }
 
-        public GameObject CreateItemInstance(float beat, string awakeAnim, KarateManPot.ItemType type = KarateManPot.ItemType.Pot, int comboId = -1)
+        public GameObject CreateItemInstance(float beat, string awakeAnim, int successExpression, KarateManPot.ItemType type = KarateManPot.ItemType.Pot, int comboId = -1, bool content = false)
         {
             GameObject mobj = GameObject.Instantiate(Item, ItemHolder);
             KarateManPot mobjDat = mobj.GetComponent<KarateManPot>();
@@ -671,6 +688,8 @@ namespace HeavenStudio.Games
             mobjDat.startBeat = beat;
             mobjDat.awakeAnim = awakeAnim;
             mobjDat.comboId = comboId;
+            mobjDat.OnHitExpression = successExpression;
+            mobjDat.KickBarrelContent = content;
 
             mobj.SetActive(true);
             
