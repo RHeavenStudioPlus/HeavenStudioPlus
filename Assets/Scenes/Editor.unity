@@ -17665,10 +17665,16 @@ MonoBehaviour:
     type: 0
     type2: 0
     type3: 0
+    type4: 0
+    type5: 0
+    type6: 0
     ease: 0
     colorA: {r: 0, g: 0, b: 0, a: 0}
     colorB: {r: 0, g: 0, b: 0, a: 0}
     colorC: {r: 0, g: 0, b: 0, a: 0}
+    colorD: {r: 0, g: 0, b: 0, a: 0}
+    colorE: {r: 0, g: 0, b: 0, a: 0}
+    colorF: {r: 0, g: 0, b: 0, a: 0}
     text1: 
     text2: 
     text3: 
@@ -18161,10 +18167,16 @@ MonoBehaviour:
     type: 0
     type2: 0
     type3: 0
+    type4: 0
+    type5: 0
+    type6: 0
     ease: 0
     colorA: {r: 0, g: 0, b: 0, a: 0}
     colorB: {r: 0, g: 0, b: 0, a: 0}
     colorC: {r: 0, g: 0, b: 0, a: 0}
+    colorD: {r: 0, g: 0, b: 0, a: 0}
+    colorE: {r: 0, g: 0, b: 0, a: 0}
+    colorF: {r: 0, g: 0, b: 0, a: 0}
     text1: 
     text2: 
     text3: 
@@ -19227,7 +19239,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1589389271}
   m_Direction: 2
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.9972352
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -20727,7 +20739,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.000061035156}
-  m_SizeDelta: {x: 0, y: 3210.16}
+  m_SizeDelta: {x: 0, y: 3337.16}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &975391006
 MonoBehaviour:
@@ -22010,7 +22022,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1649292126}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.14444143
+  m_Size: 0.13893081
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -24808,7 +24820,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 129.9342}
+  m_AnchoredPosition: {x: 0, y: 129.91093}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1154875944
@@ -25265,7 +25277,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -49.999878}
+  m_AnchoredPosition: {x: 0, y: -49.99991}
   m_SizeDelta: {x: -48, y: -148}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1182686745
@@ -34801,7 +34813,7 @@ RectTransform:
   m_Father: {fileID: 475433193}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.8555586}
+  m_AnchorMin: {x: 0, y: 0.8610692}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -38232,7 +38244,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -84.99002}
+  m_AnchoredPosition: {x: 0, y: -84.99005}
   m_SizeDelta: {x: 320, y: -113.92}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1852819572
@@ -41791,8 +41803,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 602.5, y: -1688.66}
-  m_SizeDelta: {x: 1165, y: 3033}
+  m_AnchoredPosition: {x: 602.5, y: -1752.16}
+  m_SizeDelta: {x: 1165, y: 3160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2010444526
 MonoBehaviour:
@@ -41818,12 +41830,13 @@ MonoBehaviour:
     <alpha=#88>(Rhythm Heaven Mania)<alpha=#FF></indent>\n-<indent=5%>minenice</indent>\n-<indent=5%>huantian</indent>\n-<indent=5%>Slaith12</indent>\n-<indent=5%>Mytiaoga</indent>\n-<indent=5%>Carson</indent>\n-<indent=5%>saladplainzone</indent>\n-<indent=5%>Pengu123</indent>\n\n<align=\"center\"><b>Artwork</b></align>\n-<indent=5%>Ko
     Takeuchi <alpha=#88>(Original <i>Rhythm Heaven</i> Assets)<alpha=#FF></indent>\n-<indent=5%>Starpelly
     <alpha=#88>(Rhythm Heaven Mania)<alpha=#FF></indent>\n-<indent=5%>OctaHeart <alpha=#88>(Logo)<alpha=#FF></indent>\n-<indent=5%>dexiedoo_octo</indent>\n-<indent=5%>Sofuto</indent>\n-<indent=5%>MilaDraws</indent>\n-<indent=5%>Talk</indent>\n-<indent=5%>saladplainzone</indent>\n-<indent=5%>Mocha</indent>\n-<indent=5%>Seanski2</indent>\n-<indent=5%>The
-    Culinator</indent>\n-<indent=5%>Brandix</indent>\n-<indent=5%>Metasepia</indent>\n-<indent=5%>Jellirby</indent>\n-<indent=5%>Radomila</indent>\n-<indent=5%>flaticon.com</indent>\n\n<align=\"center\"><b>Font</b></align>\n-<indent=5%>Super_Tailx_50
+    Culinator</indent>\n-<indent=5%>Brandix</indent>\n-<indent=5%>Metasepia</indent>\n-<indent=5%>Jellirby</indent>\n-<indent=5%>Radomila</indent>\n-<indent=5%>UnbrokenMage</indent>\n-<indent=5%>GlennianHeroes</indent>\n-<indent=5%>flaticon.com</indent>\n\n<align=\"center\"><b>Font</b></align>\n-<indent=5%>Super_Tailx_50
     <alpha=#88>(Logo)<alpha=#FF></indent>\n-<indent=5%>Christian Robertson <alpha=#88>(Roboto)<alpha=#FF></indent>\n-<indent=5%>Nintendo
     <alpha=#88>(Rodin)<alpha=#FF></indent>\n-<indent=5%>minenice <alpha=#88>(Sprite
     Glyphs)<alpha=#FF></indent>\n\n<align=\"center\"><b>Other Resources & Technologies</b></align>\n-<indent=5%>Nintendo
     <alpha=#88>(Concept, Sound, Design)<alpha=#FF></indent>\n-<indent=5%>Powered
-    by Unity 2020.3.25f1</indent>\n-<indent=5%>Adobe Photoshop 2022</indent>\n-<indent=5%>GIMP</indent>\n-<indent=5%>paint.net</indent>\n-<indent=5%>Krita</indent>\n-<indent=5%>Visual
+    by Unity 2020.3.25f1</indent>\n-<indent=5%>JoyShockLibrary <alpha=#88>Jibb Smart,
+    fork by minenice<alpha=#FF></indent>\n-<indent=5%>Adobe Photoshop 2022</indent>\n-<indent=5%>GIMP</indent>\n-<indent=5%>paint.net</indent>\n-<indent=5%>Krita</indent>\n-<indent=5%>Visual
     Studio 2022</indent>\n-<indent=5%>Visual Studio Code</indent>\n-<indent=5%>Newtonsoft.Json</indent>\n-<indent=5%>DOTween</indent>\n-<indent=5%>Starpelly
     Library</indent>\n-<indent=5%>StandaloneFileBrowser</indent>\n-<indent=5%>unity-gui-windows</indent>\n-<indent=5%>NaughtyBezierCurves</indent>\n-<indent=5%>VorbisPlugin</indent>\n-<indent=5%>RHRE
     SFX Database</indent>\n-<indent=5%>Github Copilot</indent>\n\n<align=\"center\"><b>Legal</b>\n<color=\"red\">Rhythm
