@@ -9,7 +9,6 @@ namespace HeavenStudio.Games
     public class PlayerActionObject : MonoBehaviour
     {
         public bool inList = false;
-        public int lastState;
         public Minigame.Eligible state = new Minigame.Eligible();
 
         public List<Minigame.Eligible> eligibleHitsList = new List<Minigame.Eligible>();
@@ -50,7 +49,6 @@ namespace HeavenStudio.Games
 
         public void ResetState()
         {
-            lastState = 0;
             ResetAce();
         }
 
@@ -58,22 +56,19 @@ namespace HeavenStudio.Games
         public void StateCheck(float normalizedBeat, bool autoPlay = false)
         {
             CheckForAce(normalizedBeat, autoPlay);
-            if (normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.PerfectTime() && lastState == 0)
+            if (normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.PerfectTime())
             {
                 MakeEligible(true, false, false);
-                lastState++;
             }
             // Perfect State
-            else if (normalizedBeat > Minigame.PerfectTime() && normalizedBeat < Minigame.LateTime() && lastState == 1)
+            else if (normalizedBeat > Minigame.PerfectTime() && normalizedBeat < Minigame.LateTime())
             {
                 MakeEligible(false, true, false);
-                lastState++;
             }
             // Late State
-            else if (normalizedBeat > Minigame.LateTime() && normalizedBeat < Minigame.EndTime() && lastState == 2)
+            else if (normalizedBeat > Minigame.LateTime() && normalizedBeat < Minigame.EndTime())
             {
                 MakeEligible(false, false, true);
-                lastState++;
             }
             else if (normalizedBeat < Minigame.EarlyTime() || normalizedBeat > Minigame.EndTime())
             {
@@ -126,22 +121,19 @@ namespace HeavenStudio.Games
         public void StateCheckNoList(float normalizedBeat)
         {
             CheckForAce(normalizedBeat);
-            if (normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.PerfectTime() && lastState == 0)
+            if (normalizedBeat > Minigame.EarlyTime() && normalizedBeat < Minigame.PerfectTime())
             {
                 ModifyState(true, false, false);
-                lastState++;
             }
             // Perfect State
-            else if (normalizedBeat > Minigame.PerfectTime() && normalizedBeat < Minigame.LateTime() && lastState == 1)
+            else if (normalizedBeat > Minigame.PerfectTime() && normalizedBeat < Minigame.LateTime())
             {
                 ModifyState(false, true, false);
-                lastState++;
             }
             // Late State
-            else if (normalizedBeat > Minigame.LateTime() && normalizedBeat < Minigame.EndTime() && lastState == 2)
+            else if (normalizedBeat > Minigame.LateTime() && normalizedBeat < Minigame.EndTime())
             {
                 ModifyState(false, false, true);
-                lastState++;
             }
             else if (normalizedBeat < Minigame.EarlyTime() || normalizedBeat > Minigame.EndTime())
             {
