@@ -239,6 +239,18 @@ TextureImporter:
   - first:
       213: 8406083837722042950
     second: fanClub_IdolParts_14
+  - first:
+      213: 6636417687825593121
+    second: idol_Clt_body_down2
+  - first:
+      213: -1062733307327837823
+    second: idol_Clt_body_down3
+  - first:
+      213: -3841009503096452941
+    second: idol_Clt_body_down4
+  - first:
+      213: -4623714488368751446
+    second: idol_Clt_body_up1
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -302,7 +314,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -314,7 +326,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -1953,7 +1965,7 @@ TextureImporter:
         width: 543
         height: 588
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1974,7 +1986,7 @@ TextureImporter:
         width: 546
         height: 591
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1982,6 +1994,90 @@ TextureImporter:
       bones: []
       spriteID: 642239b86b868a470800000000000000
       internalID: 8406083837722042950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Clt_body_down2
+      rect:
+        serializedVersion: 2
+        x: 2548
+        y: 4456
+        width: 358
+        height: 292
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 123b6ffc9ba491c50800000000000000
+      internalID: 6636417687825593121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Clt_body_down3
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 4450
+        width: 361
+        height: 292
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1898fb500b96041f0800000000000000
+      internalID: -1062733307327837823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Clt_body_down4
+      rect:
+        serializedVersion: 2
+        x: 2896
+        y: 4408
+        width: 364
+        height: 295
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b8490d153ef1bac0800000000000000
+      internalID: -3841009503096452941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idol_Clt_body_up1
+      rect:
+        serializedVersion: 2
+        x: 3286
+        y: 4387
+        width: 277
+        height: 331
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aac14f99b2445dfb0800000000000000
+      internalID: -4623714488368751446
       vertices: []
       indices: 
       edges: []
