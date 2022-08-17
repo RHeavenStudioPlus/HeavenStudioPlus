@@ -48,10 +48,10 @@ namespace HeavenStudio.Games.Loaders
                     new Param("colorA", Color.white, "Start Color", "The starting color in the fade"),
                     new Param("colorB", Tunnel.defaultFgColor, "End Color", "The ending color in the fade")
                 }, hidden: true ),
-            },
-            new List<string>() {"ntr", "aim"},
-            "ntrcoin", "en",
-            new List<string>() {}
+            }
+            //new List<string>() {"ntr", "aim"},
+            //"ntrcoin", "en",
+            //new List<string>() {}
             );
         }
     }
@@ -170,7 +170,7 @@ namespace HeavenStudio.Games
         public void ChangeBackgroundColor(Color color, float beats, bool isFg = false)
         {
             var seconds = Conductor.instance.secPerBeat * beats;
-
+            
             if(!isFg)
             {
                 if (bgColorTween != null)
