@@ -173,7 +173,7 @@ namespace HeavenStudio
                 }
                 if (prog > 1f)
                 {
-                    shakeLast = new Vector3(e.valA, e.valA);
+                    shakeResult = new Vector3(0, 0);
                 }
             }
         }
