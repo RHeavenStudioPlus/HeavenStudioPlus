@@ -150,6 +150,7 @@ namespace HeavenStudio
                     float dy = func(rotEluerLast.y, e.valB, Mathf.Min(prog, 1f));
                     float dz = func(rotEluerLast.z, e.valC, Mathf.Min(prog, 1f));
                     rotEluer = new Vector3(dx, dy, dz);
+
                 }
                 if (prog > 1f)
                 {
@@ -169,7 +170,8 @@ namespace HeavenStudio
                     EasingFunction.Function func = EasingFunction.GetEasingFunction(e.ease);
                     float dx = func(positionLast.x, e.valA, Mathf.Min(prog, 1f));
                     float dy = func(positionLast.y, e.valA, Mathf.Min(prog, 1f));
-                    shakeResult = new Vector3(dx, dy);
+                    shakeResult = new Vector3(Mathf.Sin(dx * 3.14159265f * 5f) * e.valA, Mathf.Sin(dy * 3.14159265f * 10f) * e.valA);
+
                 }
                 if (prog > 1f)
                 {

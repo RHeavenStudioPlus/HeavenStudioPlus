@@ -337,7 +337,7 @@ namespace HeavenStudio
                         //TODO: move cam
                     }, 1f, true, new List<Param>()
                     {
-                        new Param("valA", new EntityTypes.Float(0, 50, 10), "Intensity")
+                        new Param("valA", new EntityTypes.Float(0, 10, 2), "Intensity")
                     } ),
 
                     new GameAction("move camera",              delegate 
