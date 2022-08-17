@@ -23,6 +23,7 @@ namespace HeavenStudio
         public static Vector3 defaultPosition = new Vector3(0, 0, -10);
         public static Vector3 defaultRotEluer = new Vector3(0, 0, 0);
         public static Vector3 defaultScale = new Vector3(16, 9, 1);
+        public static Vector3 defaultShake = new Vector3(0, 0, 0);
 
         /**
             camera's current transformation
@@ -182,6 +183,7 @@ namespace HeavenStudio
             position = defaultPosition;
             rotEluer = defaultRotEluer;
             scale = defaultScale;
+            shakeResult = defaultShake;
         }
 
         public static void ResetAdditionalTransforms()
