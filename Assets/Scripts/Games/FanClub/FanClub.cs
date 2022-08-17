@@ -151,7 +151,7 @@ namespace HeavenStudio.Games
         public static FanClub instance;
 
         const int FAN_COUNT = 12;
-        const float RADIUS = 1.3f;
+        const float RADIUS = 1.5f;
         private void Awake()
         {
             instance = this;
