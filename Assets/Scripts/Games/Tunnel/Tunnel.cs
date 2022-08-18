@@ -14,40 +14,14 @@ namespace HeavenStudio.Games.Loaders
         {
             return new Minigame("tunnel", "Tunnel", "B4E6F6", false, false, new List<GameAction>()
             {
-                new GameAction("toss",                 delegate { Tunnel.instance.TossCoin(eventCaller.currentEntity.beat, eventCaller.currentEntity.toggle); }, 7, false, parameters: new List<Param>()
+
+
+                new GameAction("Start",                 delegate { Tunnel.instance.StartCowbell(eventCaller.currentEntity.beat, eventCaller.currentEntity.toggle); }, 1, false, parameters: new List<Param>()
                 {
-                    new Param("toggle", false, "Audience Reaction", "Enable Audience Reaction"),
+                    new Param("toggle", false, "Driver can stop", "Lets the driver stop if the player makes too many mistakes"),
                 }),
 
-                new GameAction("set background color",  delegate { var e = eventCaller.currentEntity; Tunnel.instance.ChangeBackgroundColor(e.colorA, 0f); Tunnel.instance.ChangeBackgroundColor(e.colorB, 0f, true); }, 0.5f, false, new List<Param>()
-                {
-                    new Param("colorA", Tunnel.defaultBgColor, "Background Color", "The background color to change to"),
-                    new Param("colorB", Tunnel.defaultFgColor, "Foreground Color", "The foreground color to change to")
-                } ),
-                new GameAction("fade background color", delegate { var e = eventCaller.currentEntity; Tunnel.instance.FadeBackgroundColor(e.colorA, e.colorB, e.length); Tunnel.instance.FadeBackgroundColor(e.colorC, e.colorD, e.length, true); }, 1f, true, new List<Param>()
-                {
-                    new Param("colorA", Color.white, "BG Start Color", "The starting color in the fade"),
-                    new Param("colorB", Tunnel.defaultBgColor, "BG End Color", "The ending color in the fade"),
-                    new Param("colorC", Color.white, "FG Start Color", "The starting color in the fade"),
-                    new Param("colorD", Tunnel.defaultFgColor, "FG End Color", "The ending color in the fade")
-                } ),
-
                 
-                
-                //left in for backwards-compatibility, but cannot be placed
-
-                new GameAction("set foreground color", delegate { var e = eventCaller.currentEntity; Tunnel.instance.ChangeBackgroundColor(e.colorA, 0f, true); }, 0.5f, false, new List<Param>
-           
-                {
-                    new Param("colorA", Tunnel.defaultFgColor, "Foreground Color", "The foreground color to change to")
-
-                }, hidden: true ),
-
-                new GameAction("fade foreground color", delegate { var e = eventCaller.currentEntity; Tunnel.instance.FadeBackgroundColor(e.colorA, e.colorB, e.length, true); }, 1f, true, new List<Param>()
-                {
-                    new Param("colorA", Color.white, "Start Color", "The starting color in the fade"),
-                    new Param("colorB", Tunnel.defaultFgColor, "End Color", "The ending color in the fade")
-                }, hidden: true ),
             }
             //new List<string>() {"ntr", "aim"},
             //"ntrcoin", "en",
@@ -70,26 +44,7 @@ namespace HeavenStudio.Games
 
         public static Tunnel instance { get; set; }
 
-        private static Color _defaultBgColor;
-        public static Color defaultBgColor
-        {
-            get
-            {
-                ColorUtility.TryParseHtmlString("#F7F742", out _defaultBgColor);
-                return _defaultBgColor;
-            }
-        }
-
         
-        private static Color _defaultFgColor;
-        public static Color defaultFgColor
-        {
-            get
-            {
-                ColorUtility.TryParseHtmlString("#FFFF83", out _defaultFgColor);
-                return _defaultFgColor;
-            }
-        }
 
         [Header("Backgrounds")]
         public SpriteRenderer fg;
@@ -101,23 +56,30 @@ namespace HeavenStudio.Games
         [Header("Animators")]
         public Animator handAnimator;
 
-        public Boolean isThrowing;
+        public PlayerActionEvent cowbell;
 
-        public bool audienceReacting;
 
-        public PlayerActionEvent coin;
+        public int driverState;
 
         private void Awake()
         {
             instance = this;
-            isThrowing = false;
+        }
 
-            coin = null;
+
+        private void Start()
+        {
+            driverState = 0;
+
+            cowbell = null;
         }
 
         private void Update()
         {
-           //nothing
+            if (PlayerInput.Pressed() && !IsExpectingInputNow())
+            {
+                HitCowbell();
+            }
         }
 
         private void LateUpdate()
@@ -125,79 +87,47 @@ namespace HeavenStudio.Games
             //nothing
         }
 
-        public void TossCoin(float beat, bool audienceReacting)
+
+        public void HitCowbell()
         {
-            if (coin != null) return;
+            Jukebox.PlayOneShot("count-ins/cowbell");
+        }
+
+        public void StartCowbell(float beat, bool audienceReacting)
+        {
+            //if (coin != null) return;
 
             //Play sound and animations
-            Jukebox.PlayOneShotGame("coinToss/throw");
-            handAnimator.Play("Throw", 0, 0);
+
+            //handAnimator.Play("Throw", 0, 0);
             //Game state says the hand is throwing the coin
-            isThrowing = true;
+            //isThrowing = true;
 
-            this.audienceReacting = audienceReacting;
+            //this.audienceReacting = audienceReacting;
 
-            coin = ScheduleInput(beat, 6f, InputType.STANDARD_DOWN, CatchSuccess, CatchMiss, CatchEmpty);
+            //coin = ScheduleInput(beat, 6f, InputType.STANDARD_DOWN, CatchSuccess, CatchMiss, CatchEmpty);
+            //cowbell = ScheduleInput(beat, 0f, InputType.STANDARD_DOWN, CowbellSuccess, CowbellMiss, CowbellEmpty);
             //coin.perfectOnly = true;
         }
 
-        public void CatchSuccess(PlayerActionEvent caller, float state)
+        public void CowbellSuccess(PlayerActionEvent caller, float state)
         {
-            Jukebox.PlayOneShotGame("coinToss/catch");
-            if(this.audienceReacting) Jukebox.PlayOneShotGame("coinToss/applause");
-            handAnimator.Play("Catch_success", 0, 0);
-
-            isThrowing = false; 
+            HitCowbell();
         }
 
-        public void CatchMiss(PlayerActionEvent caller)
-        {
-            Jukebox.PlayOneShotGame("coinToss/miss");
-            if(this.audienceReacting) Jukebox.PlayOneShotGame("coinToss/disappointed");
-            handAnimator.Play("Pickup", 0, 0);
 
-            isThrowing = false;
+        public void CowbellMiss(PlayerActionEvent caller)
+        {
+            //HitCowbell();
         }
 
-        public void CatchEmpty(PlayerActionEvent caller)
+        public void CowbellEmpty(PlayerActionEvent caller)
         {
-            handAnimator.Play("Catch_empty", 0, 0);
-            isThrowing = false;
-
-            coin.CanHit(false);
+            //HitCowbell();
         }
 
-        public void ChangeBackgroundColor(Color color, float beats, bool isFg = false)
-        {
-            var seconds = Conductor.instance.secPerBeat * beats;
-            
-            if(!isFg)
-            {
-                if (bgColorTween != null)
-                    bgColorTween.Kill(true);
-            } else
-            {
-                if (fgColorTween != null)
-                    fgColorTween.Kill(true);
-            }
-            
 
-            if (seconds == 0)
-            {
-                if(!isFg) bg.color = color;
-                if (isFg) fg.color = color;
-            }
-            else
-            {
-                if(!isFg) bgColorTween = bg.DOColor(color, seconds);
-                if(isFg)  fgColorTween = fg.DOColor(color, seconds);
-            }
-        }
 
-        public void FadeBackgroundColor(Color start, Color end, float beats, bool isFg = false)
-        {
-            ChangeBackgroundColor(start, 0f, isFg);
-            ChangeBackgroundColor(end, beats, isFg);
-        }
+        
     }
 }
