@@ -53,13 +53,28 @@ namespace HeavenStudio.Games
         Tween bgColorTween;
         Tween fgColorTween;
 
+
+        [Header("References")]
+        public GameObject frontHand;
+
+
         [Header("Animators")]
         public Animator handAnimator;
+
+        [Header("Curves")]
+        public BezierCurve3D handCurve;
+
+
 
         public PlayerActionEvent cowbell;
 
 
+
+
         public int driverState;
+
+        public float handStart;
+        public float handProgress;
 
         private void Awake()
         {
@@ -70,16 +85,26 @@ namespace HeavenStudio.Games
         private void Start()
         {
             driverState = 0;
+            handStart = -1f;
+
 
             cowbell = null;
         }
 
         private void Update()
         {
-            if (PlayerInput.Pressed() && !IsExpectingInputNow())
+            if (PlayerInput.Pressed()) //&& !IsExpectingInputNow())
             {
                 HitCowbell();
+                handStart = Conductor.instance.songPositionInBeats;
             }
+
+
+            //update hand position
+            handProgress = Math.Min(Conductor.instance.songPositionInBeats - handStart, 1);
+
+            frontHand.transform.position = handCurve.GetPoint(handProgress);
+
         }
 
         private void LateUpdate()
