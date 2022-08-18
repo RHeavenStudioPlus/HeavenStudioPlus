@@ -57,6 +57,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4566486539923839763}
   - component: {fileID: 4999880999856862259}
+  - component: {fileID: 3427933536187583819}
   m_Layer: 0
   m_Name: Cowbell
   m_TagString: Untagged
@@ -129,6 +130,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &3427933536187583819
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551892326966028107}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4e16a12fb43efcb42bcaf1d4c013906e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1048069017443487285
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +364,7 @@ MonoBehaviour:
   fg: {fileID: 0}
   bg: {fileID: 0}
   frontHand: {fileID: 1048069017443487285}
-  handAnimator: {fileID: 0}
+  cowbellAnimator: {fileID: 3427933536187583819}
   handCurve: {fileID: 1548392426751435551}
   cowbell: {fileID: 0}
   driverState: 0
