@@ -59,7 +59,7 @@ namespace HeavenStudio.Games
 
 
         [Header("Animators")]
-        public Animator handAnimator;
+        public Animator cowbellAnimator;
 
         [Header("Curves")]
         public BezierCurve3D handCurve;
@@ -96,14 +96,15 @@ namespace HeavenStudio.Games
             if (PlayerInput.Pressed()) //&& !IsExpectingInputNow())
             {
                 HitCowbell();
-                handStart = Conductor.instance.songPositionInBeats;
+                
             }
 
 
             //update hand position
             handProgress = Math.Min(Conductor.instance.songPositionInBeats - handStart, 1);
 
-            frontHand.transform.position = handCurve.GetPoint(handProgress);
+
+            frontHand.transform.position = handCurve.GetPoint(EasingFunction.EaseOutQuad(0, 1, handProgress));
 
         }
 
@@ -116,6 +117,10 @@ namespace HeavenStudio.Games
         public void HitCowbell()
         {
             Jukebox.PlayOneShot("count-ins/cowbell");
+
+            handStart = Conductor.instance.songPositionInBeats;
+            
+            cowbellAnimator.Play("Shake",-1,0);
         }
 
         public void StartCowbell(float beat, bool audienceReacting)
