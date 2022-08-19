@@ -732,7 +732,7 @@ namespace HeavenStudio.Games
             {
                 if (Spectators[i].GetComponent<NtrIdolFan>().IsJumping())
                     continue;
-                Spectators[i].GetComponent<Animator>().Play("FanPrepare");
+                Spectators[i].GetComponent<Animator>().Play("FanPrepare", -1, 0);
             }
         }
 
@@ -741,7 +741,7 @@ namespace HeavenStudio.Games
             BeatAction.New(this.gameObject, new List<BeatAction.Action>()
             {
                 new BeatAction.Action(beat, delegate { PlayAnimationAll("FanClap", true, true);}),
-                new BeatAction.Action(beat + 0.25f, delegate { PlayAnimationAll("FanFree", true);}),
+                new BeatAction.Action(beat + 0.1f, delegate { PlayAnimationAll("FanFree", true, true);}),
             });
         }
 
@@ -750,7 +750,7 @@ namespace HeavenStudio.Games
             BeatAction.New(this.gameObject, new List<BeatAction.Action>()
             {
                 new BeatAction.Action(beat, delegate { PlayAnimationAll("FanClap", true, true);}),
-                new BeatAction.Action(beat + 1f, delegate { PlayAnimationAll("FanFree", true);}),
+                new BeatAction.Action(beat + 1f, delegate { PlayAnimationAll("FanFree", true, true);}),
             });
         }
 
