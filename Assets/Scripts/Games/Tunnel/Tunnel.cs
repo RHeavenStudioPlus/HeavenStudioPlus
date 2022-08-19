@@ -16,7 +16,7 @@ namespace HeavenStudio.Games.Loaders
             {
 
 
-                new GameAction("Start",                 delegate { Tunnel.instance.StartCowbell(eventCaller.currentEntity.beat, eventCaller.currentEntity.toggle); }, 1, false, parameters: new List<Param>()
+                new GameAction("Cowbell",                 delegate { Tunnel.instance.StartCowbell(eventCaller.currentEntity.beat, eventCaller.currentEntity.toggle, eventCaller.currentEntity.length); }, 1f, true, parameters: new List<Param>()
                 {
                     new Param("toggle", false, "Driver can stop", "Lets the driver stop if the player makes too many mistakes"),
                 }),
@@ -75,6 +75,7 @@ namespace HeavenStudio.Games
 
         public float handStart;
         public float handProgress;
+        public bool started;
 
         private void Awake()
         {
@@ -93,10 +94,10 @@ namespace HeavenStudio.Games
 
         private void Update()
         {
-            if (PlayerInput.Pressed()) //&& !IsExpectingInputNow())
+            if (PlayerInput.Pressed() && !IsExpectingInputNow())
             {
                 HitCowbell();
-                
+                print("unexpected input");
             }
 
 
@@ -123,8 +124,16 @@ namespace HeavenStudio.Games
             cowbellAnimator.Play("Shake",-1,0);
         }
 
-        public void StartCowbell(float beat, bool audienceReacting)
+        public void StartCowbell(float beat, bool audienceReacting, float length)
         {
+            started = true;
+
+
+            for (int i = 1; i <= length; i++)
+            {
+                ScheduleInput(beat, i, InputType.STANDARD_DOWN, CowbellSuccess, CowbellMiss, CowbellEmpty);
+            }
+
             //if (coin != null) return;
 
             //Play sound and animations
@@ -156,6 +165,8 @@ namespace HeavenStudio.Games
             //HitCowbell();
         }
 
+
+        
 
 
         
