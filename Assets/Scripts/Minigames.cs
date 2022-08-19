@@ -217,7 +217,13 @@ namespace HeavenStudio
                 new Minigame("gameManager", "Game Manager", "", false, true, new List<GameAction>()
                 {
                     new GameAction("switchGame",            delegate { GameManager.instance.SwitchGame(eventCaller.currentSwitchGame, eventCaller.currentEntity.beat); }, 0.5f, inactiveFunction: delegate { GameManager.instance.SwitchGame(eventCaller.currentSwitchGame, eventCaller.currentEntity.beat); }),
-                    new GameAction("end",                   delegate { Debug.Log("end"); GameManager.instance.Stop(0); Timeline.instance?.SetTimeButtonColors(true, false, false);}),
+                    new GameAction("end",                   delegate { 
+                        Debug.Log("end"); 
+                        if (Timeline.instance != null)
+                            Timeline.instance?.Stop(0);
+                        else
+                            GameManager.instance.Stop(0);
+                    }),
                     new GameAction("skill star",            delegate {  }, 1f, true),
                    
                     new GameAction("toggle inputs",            delegate
