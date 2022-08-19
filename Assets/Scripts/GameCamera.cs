@@ -148,8 +148,8 @@ namespace HeavenStudio
                     EasingFunction.Function func = EasingFunction.GetEasingFunction(e.ease);
                     float dx = func(rotEluerLast.x, e.valA, Mathf.Min(prog, 1f));
                     float dy = func(rotEluerLast.y, e.valB, Mathf.Min(prog, 1f));
-                    float dz = func(rotEluerLast.z, e.valC, Mathf.Min(prog, 1f));
-                    rotEluer = new Vector3(dx, dy, dz);
+                    float dz = func(-rotEluerLast.z, e.valC, Mathf.Min(prog, 1f));
+                    rotEluer = new Vector3(dx, dy, dz);    //I'm stupid and forgot to negate the rotation gfd 😢
 
                 }
                 if (prog > 1f)
@@ -159,7 +159,6 @@ namespace HeavenStudio
             }
         }
 
-        //scren shake spaghetti
         private void SetShakeIntensity()
         {
             foreach (var e in shakeEvents)
@@ -167,11 +166,8 @@ namespace HeavenStudio
                 float prog = Conductor.instance.GetPositionFromBeat(e.beat, e.length);
                 if (prog >= 0f)
                 {
-                    EasingFunction.Function func = EasingFunction.GetEasingFunction(e.ease);
-                    float dx = func(positionLast.x, e.valA, Mathf.Min(prog, 1f));
-                    float dy = func(positionLast.y, e.valA, Mathf.Min(prog, 1f));
-                    shakeResult = new Vector3(Mathf.Cos(dx * e.length * 20f) * (e.valA / 2), Mathf.Cos(dy * e.length * 30f) * (e.valA / 2));
-
+                    float fac = Mathf.Cos(Time.time * 80f) * 0.5f;
+                    shakeResult = new Vector3(fac * e.valA, fac * e.valB);
                 }
                 if (prog > 1f)
                 {
