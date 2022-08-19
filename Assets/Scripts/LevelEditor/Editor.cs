@@ -70,6 +70,8 @@ namespace HeavenStudio.Editor
         public bool editingInputField = false;
         public bool isCursorEnabled = true;
 
+        private byte[] MusicBytes;
+
         public static Editor instance { get; private set; }
 
         private void Start()
@@ -158,7 +160,7 @@ namespace HeavenStudio.Editor
                 {
                     if (Input.GetKeyDown(KeyCode.N))
                     {
-                        LoadRemix("");
+                        NewRemix();
                     }
                     else if (Input.GetKeyDown(KeyCode.O))
                     {
@@ -294,6 +296,22 @@ namespace HeavenStudio.Editor
                 }
             }
 
+            try
+            {
+                if (clip != null)
+                    MusicBytes = OggVorbis.VorbisPlugin.GetOggVorbis(Conductor.instance.musicSource.clip, 1);
+                else
+                {
+                    MusicBytes = null;
+                    Debug.LogWarning("Failed to load music file! The stream is currently empty.");
+                }
+            }
+            catch (System.Exception)
+            {
+                MusicBytes = null;
+                Debug.LogWarning("Failed to load music file! The stream is currently empty.");
+            }
+
             return clip;
         }
 
@@ -343,20 +361,23 @@ namespace HeavenStudio.Editor
                     using (var zipStream = levelFile.Open())
                         zipStream.Write(Encoding.UTF8.GetBytes(GetJson()), 0, Encoding.UTF8.GetBytes(GetJson()).Length);
 
-                    if (changedMusic || currentRemixPath != path)
+                    if (MusicBytes != null)
                     {
-                        // this gets rid of the music file for some reason, someone remind me to find a fix for this soon
+                        var musicFile = archive.CreateEntry("song.ogg", System.IO.Compression.CompressionLevel.NoCompression);
+                        using (var zipStream = musicFile.Open())
+                            zipStream.Write(MusicBytes, 0, MusicBytes.Length);
                     }
-
-                    byte[] bytes = OggVorbis.VorbisPlugin.GetOggVorbis(Conductor.instance.musicSource.clip, 1);
-                    var musicFile = archive.CreateEntry("song.ogg", System.IO.Compression.CompressionLevel.NoCompression);
-                    using (var zipStream = musicFile.Open())
-                        zipStream.Write(bytes, 0, bytes.Length);
                 }
 
                 currentRemixPath = path;
                 UpdateEditorStatus(false);
             }
+        }
+
+        public void NewRemix()
+        {
+            MusicBytes = null;
+            LoadRemix("");
         }
 
         public void LoadRemix(string json = "")
@@ -367,6 +388,8 @@ namespace HeavenStudio.Editor
             Timeline.instance.VolumeInfo.UpdateStartingVolumeText();
             Timeline.instance.TempoInfo.UpdateOffsetText();
             Timeline.FitToSong();
+
+            currentRemixPath = string.Empty;
         }
 
         public void OpenRemix()
@@ -408,12 +431,11 @@ namespace HeavenStudio.Editor
                                 {
                                     using (var stream = entry.Open())
                                     {
-                                        byte[] bytes;
                                         using (var ms = new MemoryStream())
                                         {
                                             stream.CopyTo(ms);
-                                            bytes = ms.ToArray();
-                                            Conductor.instance.musicSource.clip = OggVorbis.VorbisPlugin.ToAudioClip(bytes, "music");
+                                            MusicBytes = ms.ToArray();
+                                            Conductor.instance.musicSource.clip = OggVorbis.VorbisPlugin.ToAudioClip(MusicBytes, "music");
                                             loadedMusic = true;
                                             Timeline.FitToSong();
                                         }
