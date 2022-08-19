@@ -21,7 +21,9 @@ namespace HeavenStudio.Games.Loaders
                     new Param("toggle", false, "Driver can stop", "Lets the driver stop if the player makes too many mistakes"),
                 }),
 
-                
+                new GameAction("Count In",                 delegate { Tunnel.instance.CountIn(eventCaller.currentEntity.beat,  eventCaller.currentEntity.length); }, 1f, true),
+
+
             }
             //new List<string>() {"ntr", "aim"},
             //"ntrcoin", "en",
@@ -124,7 +126,7 @@ namespace HeavenStudio.Games
             cowbellAnimator.Play("Shake",-1,0);
         }
 
-        public void StartCowbell(float beat, bool audienceReacting, float length)
+        public void StartCowbell(float beat, bool driverStops, float length)
         {
             started = true;
 
@@ -167,8 +169,26 @@ namespace HeavenStudio.Games
 
 
         
+        public void CountIn(float beat, float length)
+        {
+            for (int i = 0; i <= length; i++)
+            {
+                if(i % 2 == 0)
+                {
+                    Jukebox.PlayOneShotGame("tunnel/en/one", beat+i);
+                    print("cueing one at " + (beat + i));
+                }
+                else
+                {
+                    Jukebox.PlayOneShotGame("tunnel/en/two", beat+i);
+                    print("cueing two at " + (beat + i));
+                }
+                
+            }
+
+        }
 
 
-        
+
     }
 }
