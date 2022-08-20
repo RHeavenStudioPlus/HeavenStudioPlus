@@ -1,6 +1,6 @@
 using DG.Tweening;
 using NaughtyBezierCurves;
-using HeavenStudio.Util;
+using  HeavenStudio.Util;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,14 +35,8 @@ namespace HeavenStudio.Games.Loaders
 
 namespace HeavenStudio.Games
 {
-    //using Scripts_CoinToss;
     public class Tunnel : Minigame
     {
-
-        //Right now, you can only throw one coin at a time.
-        //..Which makes sense, you only have one coin in the original game
-
-        //Though it would need a bit of code rewrite to make it work with multiple coins
 
         public static Tunnel instance { get; set; }
 
