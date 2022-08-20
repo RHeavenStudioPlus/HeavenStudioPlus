@@ -62,6 +62,7 @@ namespace HeavenStudio.Games
 
         [Header("Animators")]
         public Animator cowbellAnimator;
+        public Animator driverAnimator;
 
         [Header("Curves")]
         public BezierCurve3D handCurve;
@@ -99,7 +100,8 @@ namespace HeavenStudio.Games
             if (PlayerInput.Pressed() && !IsExpectingInputNow())
             {
                 HitCowbell();
-                print("unexpected input");
+                //print("unexpected input");
+                driverAnimator.Play("Angry1", -1, 0);
             }
 
 
@@ -154,12 +156,25 @@ namespace HeavenStudio.Games
         public void CowbellSuccess(PlayerActionEvent caller, float state)
         {
             HitCowbell();
+            //print(state);
+            if(Math.Abs(state) >= 0.5)
+            {
+                driverAnimator.Play("Disturbed", -1, 0);
+
+            }
+            else
+            {
+                driverAnimator.Play("Idle", -1, 0);
+            }
+
         }
 
 
         public void CowbellMiss(PlayerActionEvent caller)
         {
             //HitCowbell();
+
+            driverAnimator.Play("Angry1", -1, 0);
         }
 
         public void CowbellEmpty(PlayerActionEvent caller)
