@@ -68,10 +68,7 @@ namespace HeavenStudio.Games
         public BezierCurve3D handCurve;
 
 
-
-        public PlayerActionEvent cowbell;
-
-
+        public GameEvent cowbell = new GameEvent();
 
 
         public int driverState;
@@ -90,13 +87,21 @@ namespace HeavenStudio.Games
         {
             driverState = 0;
             handStart = -1f;
-
-
-            cowbell = null;
         }
 
         private void Update()
         {
+
+            var cond = Conductor.instance;
+            if (cond.ReportBeat(ref cowbell.lastReportedBeat, cowbell.startBeat % 1))
+            {
+                if (cond.songPositionInBeats >= cowbell.startBeat && cond.songPositionInBeats < cowbell.startBeat + cowbell.length)
+                {
+                    ScheduleInput(cond.songPositionInBeats, 1, InputType.STANDARD_DOWN, CowbellSuccess, CowbellMiss, CowbellEmpty);
+                }
+            }
+
+
             if (PlayerInput.Pressed() && !IsExpectingInputNow())
             {
                 HitCowbell();
@@ -132,25 +137,16 @@ namespace HeavenStudio.Games
         {
             started = true;
 
+            cowbell.length = length;
+            cowbell.startBeat = beat;
 
-            for (int i = 1; i <= length; i++)
-            {
-                ScheduleInput(beat, i, InputType.STANDARD_DOWN, CowbellSuccess, CowbellMiss, CowbellEmpty);
-            }
 
-            //if (coin != null) return;
+            //for (int i = 1; i <= length; i++)
+            //{
+            //ScheduleInput(beat, i, InputType.STANDARD_DOWN, CowbellSuccess, CowbellMiss, CowbellEmpty);
+            //}
 
-            //Play sound and animations
-
-            //handAnimator.Play("Throw", 0, 0);
-            //Game state says the hand is throwing the coin
-            //isThrowing = true;
-
-            //this.audienceReacting = audienceReacting;
-
-            //coin = ScheduleInput(beat, 6f, InputType.STANDARD_DOWN, CatchSuccess, CatchMiss, CatchEmpty);
-            //cowbell = ScheduleInput(beat, 0f, InputType.STANDARD_DOWN, CowbellSuccess, CowbellMiss, CowbellEmpty);
-            //coin.perfectOnly = true;
+            
         }
 
         public void CowbellSuccess(PlayerActionEvent caller, float state)
