@@ -12,25 +12,51 @@ namespace HeavenStudio.Games.Loaders
         public static Minigame AddGame(EventCaller eventCaller) {
             return new Minigame("spaceball", "Spaceball", "00A518", false, false, new List<GameAction>()
             {
-                new GameAction("shoot",                 delegate { Spaceball.instance.Shoot(eventCaller.currentEntity.beat, false, eventCaller.currentEntity.type); }, 2, false, new List<Param>()
+                new GameAction("shoot", "Pitch Ball")
                 {
-                    new Param("type", Spaceball.BallType.Baseball, "Type", "The type of ball/object to shoot") 
-                } ),
-				new GameAction("shootHigh",             delegate { Spaceball.instance.Shoot(eventCaller.currentEntity.beat, true, eventCaller.currentEntity.type); }, 3, false, new List<Param>()
+                    function = delegate { Spaceball.instance.Shoot(eventCaller.currentEntity.beat, false, eventCaller.currentEntity.type); }, 
+                    defaultLength = 2, 
+                    parameters = new List<Param>()
+                    {
+                        new Param("type", Spaceball.BallType.Baseball, "Type", "The type of ball/object to shoot") 
+                    } 
+                },
+				new GameAction("shootHigh", "Pitch High Ball")
                 {
-                    new Param("type", Spaceball.BallType.Baseball, "Type", "The type of ball/object to shoot") 
-                } ),
-				new GameAction("costume",               delegate { Spaceball.instance.Costume(eventCaller.currentEntity.type); }, 1f, false, new List<Param>() 
+                    function = delegate { Spaceball.instance.Shoot(eventCaller.currentEntity.beat, true, eventCaller.currentEntity.type); }, 
+                    defaultLength = 3,
+                    parameters = new List<Param>()
+                    {
+                        new Param("type", Spaceball.BallType.Baseball, "Type", "The type of ball/object to shoot") 
+                    } 
+                },
+				new GameAction("costume", "Change Batter Costume")
                 {
-                    new Param("type", Spaceball.CostumeType.Standard, "Type", "The costume to change to") 
-                } ),
-                new GameAction("alien",                 delegate { Spaceball.instance.alien.Show(eventCaller.currentEntity.beat); } ),
-                new GameAction("camera",                delegate { Spaceball.instance.OverrideCurrentZoom(); }, 4, true, new List<Param>() 
+                    function = delegate { Spaceball.instance.Costume(eventCaller.currentEntity.type); },
+                    parameters = new List<Param>() 
+                    {
+                        new Param("type", Spaceball.CostumeType.Standard, "Type", "The costume to change to") 
+                    } 
+                },
+                new GameAction("alien", "Show Alien")
                 {
-                    new Param("valA", new EntityTypes.Integer(1, 320, 10), "Zoom", "The camera's zoom level (Lower value = Zoomed in)"),
-                    new Param("ease", EasingFunction.Ease.Linear, "Ease", "The easing function to use while zooming") 
-                } ),
-                new GameAction("prepare dispenser",     delegate { Spaceball.instance.PrepareDispenser(); }, 1 ),
+                    function = delegate { Spaceball.instance.alien.Show(eventCaller.currentEntity.beat); } 
+                },
+                new GameAction("camera", "Zoom Camera")
+                {
+                    function = delegate { Spaceball.instance.OverrideCurrentZoom(); }, 
+                    defaultLength = 4, 
+                    resizable = true, 
+                    parameters = new List<Param>() 
+                    {
+                        new Param("valA", new EntityTypes.Integer(1, 320, 10), "Zoom", "The camera's zoom level (Lower value = Zoomed in)"),
+                        new Param("ease", EasingFunction.Ease.Linear, "Ease", "The easing function to use while zooming") 
+                    } 
+                },
+                new GameAction("prepare dispenser", "Dispenser Prepare")
+                {
+                    function = delegate { Spaceball.instance.PrepareDispenser(); }, 
+                },
             });
         }
     }
