@@ -705,14 +705,15 @@ namespace HeavenStudio.Games
                 if (e.beat > beat)
                     break;
                 SetBgAndShadowCol(e.beat, e.length, e.type, e.type2, e.colorA, e.colorB, e.type3);
+                SetBgTexture(e.type4, e.type5, e.colorC, e.colorD);
             }
-            var bgtex = GameManager.instance.Beatmap.entities.FindAll(en => en.datamodel == "karateman/set background texture");
-            for (int i = 0; i < bgtex.Count; i++)
+            var camfx = GameManager.instance.Beatmap.entities.FindAll(en => en.datamodel == "karateman/special camera");
+            for (int i = 0; i < camfx.Count; i++)
             {
-                var e = bgtex[i];
+                var e = camfx[i];
                 if (e.beat > beat)
                     break;
-                SetBgTexture(e.type, e.type2, e.colorA, e.colorB);
+                DoSpecialCamera(e.beat, e.length, e.toggle);
             }
             // has issues when creating a new hitx entity so this is deactivated for now
             // var hitx = GameManager.instance.Beatmap.entities.FindAll(en => en.datamodel == "karateman/hitX");
@@ -756,7 +757,10 @@ namespace HeavenStudio.Games
 
             //😢
             if (fx != (int) BackgroundFXType.Fade)
+            {
+                bgColourLast = bgColour;
                 oldShadowColour = GetShadowColor(true);
+            }
 
             if (textureFilterType == (int) ShadowType.Tinted)
                 filterColour = Color.LerpUnclamped(bgColour, ShadowBlendColor, 0.45f);
