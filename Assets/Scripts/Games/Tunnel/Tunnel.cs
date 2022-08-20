@@ -182,20 +182,27 @@ namespace HeavenStudio.Games
         
         public void CountIn(float beat, float length)
         {
+
+            List<MultiSound.Sound> cuelist = new List<MultiSound.Sound>();
+            
+
             for (int i = 0; i <= length; i++)
             {
                 if(i % 2 == 0)
                 {
-                    Jukebox.PlayOneShotGame("tunnel/en/one", beat+i);
-                    print("cueing one at " + (beat + i));
+                    //Jukebox.PlayOneShotGame("tunnel/en/one", beat+i);
+                    //print("cueing one at " + (beat + i));
+                    cuelist.Add(new MultiSound.Sound("tunnel/en/one", beat + i));
                 }
                 else
                 {
-                    Jukebox.PlayOneShotGame("tunnel/en/two", beat+i);
-                    print("cueing two at " + (beat + i));
+                    //Jukebox.PlayOneShotGame("tunnel/en/two", beat+i);
+                    //print("cueing two at " + (beat + i));
+                    cuelist.Add(new MultiSound.Sound("tunnel/en/two", beat + i));
                 }
                 
             }
+            MultiSound.Play(cuelist.ToArray());
 
         }
 
