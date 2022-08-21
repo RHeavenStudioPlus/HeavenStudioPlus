@@ -259,7 +259,7 @@ namespace HeavenStudio
                         },
                         delegate
                         {
-                            GameManager.instance.ToggleInputs(eventCaller.currentEntity.toggle);
+                            GameManager.instance.ToggleInputs(eventCaller.currentEntity["toggle"]);
                         }
                     ),
 
@@ -300,14 +300,14 @@ namespace HeavenStudio
                         {
                             new Param("type", SoundEffects.CountInType.Normal, "Type", "The sounds to play for the count-in")
                         },
-                        delegate { var e = eventCaller.currentEntity; SoundEffects.FourBeatCountIn(e.beat, e.length / 4f, e.type); }
+                        delegate { var e = eventCaller.currentEntity; SoundEffects.FourBeatCountIn(e.beat, e.length / 4f, e["type"]); }
                     ),
                     new GameAction("8 beat count-in", "8 Beat Count-In", 8f, true,
                         new List<Param>()
                         {
                             new Param("type", SoundEffects.CountInType.Normal, "Type", "The sounds to play for the count-in")
                         },
-                        delegate { var e = eventCaller.currentEntity; SoundEffects.EightBeatCountIn(e.beat, e.length / 8f, e.type); }
+                        delegate { var e = eventCaller.currentEntity; SoundEffects.EightBeatCountIn(e.beat, e.length / 8f, e["type"]); }
                     ),
                     new GameAction("count", "Count", 1f, false,
                         new List<Param>()
@@ -315,7 +315,7 @@ namespace HeavenStudio
                             new Param("type", SoundEffects.CountNumbers.One, "Number", "The sound to play"),
                             new Param("toggle", false, "Alt", "Whether or not the alternate version should be played")
                         },
-                        delegate { var e = eventCaller.currentEntity; SoundEffects.Count(e.type, e.toggle); }
+                        delegate { var e = eventCaller.currentEntity; SoundEffects.Count(e["type"], e["toggle"]); }
                     ),
                     new GameAction("cowbell", "Cowbell",
                         function: delegate { SoundEffects.Cowbell(); }
@@ -331,7 +331,7 @@ namespace HeavenStudio
                         {
                             new Param("toggle", false, "Alt", "Whether or not the alternate version should be played")
                         },
-                        function: delegate { SoundEffects.Go(eventCaller.currentEntity.toggle); }
+                        function: delegate { SoundEffects.Go(eventCaller.currentEntity["toggle"]); }
                     ),
 
                     // These are still here for backwards-compatibility but are hidden in the editor

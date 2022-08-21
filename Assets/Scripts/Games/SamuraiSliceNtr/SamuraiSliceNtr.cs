@@ -18,7 +18,7 @@ namespace HeavenStudio.Games.Loaders
                 {
                     function = delegate
                     {
-                        SamuraiSliceNtr.instance.ObjectIn(eventCaller.currentEntity.beat, eventCaller.currentEntity.type, (int) eventCaller.currentEntity.valA);
+                        SamuraiSliceNtr.instance.ObjectIn(eventCaller.currentEntity.beat, eventCaller.currentEntity["type"], (int) eventCaller.currentEntity["valA"]);
                     }, 
                     defaultLength = 8,
                     parameters = new List<Param>()

@@ -16,7 +16,7 @@ namespace HeavenStudio.Games.Loaders
             {
                 new GameAction("flick", "Flick Food")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; ForkLifter.instance.Flick(e.beat, e.type); }, 
+                    function = delegate { var e = eventCaller.currentEntity; ForkLifter.instance.Flick(e.beat, e["type"]); }, 
                     defaultLength = 3,
                     parameters = new List<Param>()
                     {

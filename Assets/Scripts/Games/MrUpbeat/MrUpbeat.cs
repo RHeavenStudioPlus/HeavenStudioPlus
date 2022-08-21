@@ -30,7 +30,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("ding!", "Finish Stepping")
                 {
-                    function = delegate { MrUpbeat.instance.Ding(eventCaller.currentEntity.toggle); },
+                    function = delegate { MrUpbeat.instance.Ding(eventCaller.currentEntity["toggle"]); },
                     defaultLength = 0.5f, 
                     parameters = new List<Param>()
                     {
@@ -82,7 +82,7 @@ namespace HeavenStudio.Games
 
         private void Update()
         {
-            List<Beatmap.Entity> gos = GameManager.instance.Beatmap.entities.FindAll(c => c.datamodel == "mrUpbeat/go");
+            List<DynamicBeatmap.DynamicEntity> gos = GameManager.instance.Beatmap.entities.FindAll(c => c.datamodel == "mrUpbeat/go");
             for (int i = 0; i < gos.Count; i++)
             {
                 if ((gos[i].beat - 0.15f) <= Conductor.instance.songPositionInBeats && (gos[i].beat + gos[i].length) - 0.15f > Conductor.instance.songPositionInBeats)
@@ -118,7 +118,7 @@ namespace HeavenStudio.Games
 
         public override void OnGameSwitch(float beat)
         {
-            foreach (Beatmap.Entity entity in GameManager.instance.Beatmap.entities)
+            foreach (var entity in GameManager.instance.Beatmap.entities)
             {
                 if (entity.beat > beat) //the list is sorted based on the beat of the entity, so this should work fine.
                 {

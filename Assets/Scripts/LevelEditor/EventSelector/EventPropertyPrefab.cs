@@ -121,10 +121,11 @@ namespace HeavenStudio.Editor
                     break;
 
                 case Color _:
+                case EntityTypes.SerializableColor _:
                     colorPreview.colorPicker.onColorChanged += _ =>
                         parameterManager.entity[propertyName] = colorPreview.colorPicker.color;
 
-                    var paramCol = (Color) parameterManager.entity[propertyName];
+                    Color paramCol = parameterManager.entity[propertyName];
 
                     ColorBTN.onClick.AddListener(
                         () =>

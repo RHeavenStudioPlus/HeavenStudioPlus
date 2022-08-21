@@ -16,7 +16,7 @@ namespace HeavenStudio.Games.Loaders
             {
                 new GameAction("toss", "Toss Coin")
                 {
-                    function = delegate { CoinToss.instance.TossCoin(eventCaller.currentEntity.beat, eventCaller.currentEntity.toggle); }, 
+                    function = delegate { CoinToss.instance.TossCoin(eventCaller.currentEntity.beat, eventCaller.currentEntity["toggle"]); }, 
                     defaultLength = 7, 
                     parameters = new List<Param>()
                     {
@@ -25,7 +25,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("set background color", "Set Background Color")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; CoinToss.instance.ChangeBackgroundColor(e.colorA, 0f); CoinToss.instance.ChangeBackgroundColor(e.colorB, 0f, true); }, 
+                    function = delegate { var e = eventCaller.currentEntity; CoinToss.instance.ChangeBackgroundColor(e["colorA"], 0f); CoinToss.instance.ChangeBackgroundColor(e["colorB"], 0f, true); }, 
                     defaultLength = 0.5f,  
                     parameters = new List<Param>()
                     {
@@ -35,7 +35,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("fade background color", "Fade Background Color")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; CoinToss.instance.FadeBackgroundColor(e.colorA, e.colorB, e.length); CoinToss.instance.FadeBackgroundColor(e.colorC, e.colorD, e.length, true); },
+                    function = delegate { var e = eventCaller.currentEntity; CoinToss.instance.FadeBackgroundColor(e["colorA"], e["colorB"], e.length); CoinToss.instance.FadeBackgroundColor(e["colorC"], e["colorD"], e.length, true); },
                     resizable = true, 
                     parameters = new List<Param>()
                     {
@@ -49,7 +49,7 @@ namespace HeavenStudio.Games.Loaders
                 //left in for backwards-compatibility, but cannot be placed
                 new GameAction("set foreground color", "")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; CoinToss.instance.ChangeBackgroundColor(e.colorA, 0f, true); }, 
+                    function = delegate { var e = eventCaller.currentEntity; CoinToss.instance.ChangeBackgroundColor(e["colorA"], 0f, true); }, 
                     defaultLength = 0.5f, 
                     parameters = new List<Param>
             
@@ -62,7 +62,7 @@ namespace HeavenStudio.Games.Loaders
 
                 new GameAction("fade foreground color", "")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; CoinToss.instance.FadeBackgroundColor(e.colorA, e.colorB, e.length, true); },
+                    function = delegate { var e = eventCaller.currentEntity; CoinToss.instance.FadeBackgroundColor(e["colorA"], e["colorB"], e.length, true); },
                     resizable = true, 
                     parameters = new List<Param>()
                     {

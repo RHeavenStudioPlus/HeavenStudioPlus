@@ -21,7 +21,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("play piano", "Play Note")
                 {
-                    function = delegate { BuiltToScaleDS.instance.PlayPiano(eventCaller.currentEntity.beat, eventCaller.currentEntity.length, eventCaller.currentEntity.type); }, 
+                    function = delegate { BuiltToScaleDS.instance.PlayPiano(eventCaller.currentEntity.beat, eventCaller.currentEntity.length, eventCaller.currentEntity["type"]); }, 
                     resizable = true, 
                     parameters = new List<Param>() 
                     {
@@ -87,7 +87,7 @@ namespace HeavenStudio.Games
             elevatorAnim.Play("MakeRod", 0, 1f);
         }
 
-        List<Beatmap.Entity> spawnedBlockEvents = new List<Beatmap.Entity>();
+        List<DynamicBeatmap.DynamicEntity> spawnedBlockEvents = new List<DynamicBeatmap.DynamicEntity>();
         void Update()
         {
             if (!Conductor.instance.isPlaying && !Conductor.instance.isPaused)

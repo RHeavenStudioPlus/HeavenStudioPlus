@@ -14,13 +14,13 @@ namespace HeavenStudio.Games.Loaders
             {
                 new GameAction("ball dispense", "Ball Dispense")
                 {
-                    function = delegate { SpaceSoccer.instance.Dispense(eventCaller.currentEntity.beat, !eventCaller.currentEntity.toggle); }, 
+                    function = delegate { SpaceSoccer.instance.Dispense(eventCaller.currentEntity.beat, !eventCaller.currentEntity["toggle"]); }, 
                     defaultLength = 2f,
                     parameters = new List<Param>()
                     {
                         new Param("toggle", false, "Disable Sound", "Disables the dispense sound")
                     },
-                    inactiveFunction = delegate { if (!eventCaller.currentEntity.toggle) { SpaceSoccer.DispenseSound(eventCaller.currentEntity.beat); } }
+                    inactiveFunction = delegate { if (!eventCaller.currentEntity["toggle"]) { SpaceSoccer.DispenseSound(eventCaller.currentEntity.beat); } }
                 },
                 new GameAction("high kick-toe!", "High Kick-Toe!")
                 {
@@ -82,7 +82,7 @@ namespace HeavenStudio.Games
 
         public override void OnGameSwitch(float beat)
         {
-            foreach(Beatmap.Entity entity in GameManager.instance.Beatmap.entities)
+            foreach(var entity in GameManager.instance.Beatmap.entities)
             {
                 if(entity.beat > beat) //the list is sorted based on the beat of the entity, so this should work fine.
                 {

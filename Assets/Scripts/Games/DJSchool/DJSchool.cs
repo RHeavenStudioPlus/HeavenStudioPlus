@@ -14,7 +14,7 @@ namespace HeavenStudio.Games.Loaders
             {
                 new GameAction("bop", "Bop")
                 {
-                    function = delegate { DJSchool.instance.Bop(eventCaller.currentEntity.toggle);  }, 
+                    function = delegate { DJSchool.instance.Bop(eventCaller.currentEntity["toggle"]);  }, 
                     defaultLength = 0.5f,
                     parameters = new List<Param>()
                     {
@@ -23,9 +23,9 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("and stop ooh", "And Stop!")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; DJSchool.instance.AndStop(e.beat, e.toggle);  }, 
+                    function = delegate { var e = eventCaller.currentEntity; DJSchool.instance.AndStop(e.beat, e["toggle"]);  }, 
                     defaultLength = 2.5f, 
-                    inactiveFunction = delegate { var e = eventCaller.currentEntity; DJSchool.WarnAndStop(e.beat, e.toggle);  },
+                    inactiveFunction = delegate { var e = eventCaller.currentEntity; DJSchool.WarnAndStop(e.beat, e["toggle"]);  },
                     parameters = new List<Param>()
                     {
                         new Param("toggle", true, "Ooh", "Whether or not the \"ooh\" sound should be played")
@@ -33,9 +33,9 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("break c'mon ooh", "Break, C'mon!")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; DJSchool.instance.BreakCmon(e.beat, e.type, e.toggle);  }, 
+                    function = delegate { var e = eventCaller.currentEntity; DJSchool.instance.BreakCmon(e.beat, e["type"], e["toggle"]);  }, 
                     defaultLength = 3f,
-                    inactiveFunction = delegate { var e = eventCaller.currentEntity; DJSchool.WarnBreakCmon(e.beat, e.type, e.toggle); },
+                    inactiveFunction = delegate { var e = eventCaller.currentEntity; DJSchool.WarnBreakCmon(e.beat, e["type"], e["toggle"]); },
                     parameters = new List<Param>()
                     {
                         new Param("type", DJSchool.DJVoice.Standard, "Voice", "The voice line to play"),
@@ -44,7 +44,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("scratch-o hey", "Scratch-o")
                 {
-                    function = delegate { DJSchool.instance.ScratchoHey(eventCaller.currentEntity.beat, eventCaller.currentEntity.type, eventCaller.currentEntity.toggle);  }, 
+                    function = delegate { DJSchool.instance.ScratchoHey(eventCaller.currentEntity.beat, eventCaller.currentEntity["type"], eventCaller.currentEntity["toggle"]);  }, 
                     defaultLength = 3f,
                     parameters = new List<Param>()
                     {
@@ -54,9 +54,9 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("dj voice lines", "DJ Yellow Banter")
                 {
-                    function = delegate { DJSchool.instance.voiceLines(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);  }, 
+                    function = delegate { DJSchool.instance.voiceLines(eventCaller.currentEntity.beat, eventCaller.currentEntity["type"]);  }, 
                     defaultLength = 2f,
-                    inactiveFunction = delegate { DJSchool.WarnDJVoiceLines(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);  },
+                    inactiveFunction = delegate { DJSchool.WarnDJVoiceLines(eventCaller.currentEntity.beat, eventCaller.currentEntity["type"]);  },
                     parameters = new List<Param>()
                     {
                         new Param("type", DJSchool.DJVoiceLines.CheckItOut, "Voice Lines", "The voice line to play"),
@@ -64,7 +64,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("sound FX", "Scratchy Music")
                 {
-                    function = delegate { DJSchool.instance.soundFX(eventCaller.currentEntity.toggle); }, 
+                    function = delegate { DJSchool.instance.soundFX(eventCaller.currentEntity["toggle"]); }, 
                     defaultLength = 0.5f,
                     parameters = new List<Param>()
                     {
