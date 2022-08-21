@@ -60,7 +60,7 @@ namespace HeavenStudio.Games
             instance = this;
             wizard.Init();
 
-            Beatmap.Entity nextStart = GameManager.instance.Beatmap.entities.Find(c => c.datamodel == "wizardsWaltz/start interval" && c.beat + c.length >= Conductor.instance.songPositionInBeats);
+            var nextStart = GameManager.instance.Beatmap.entities.Find(c => c.datamodel == "wizardsWaltz/start interval" && c.beat + c.length >= Conductor.instance.songPositionInBeats);
 
             if (nextStart != null)
             {

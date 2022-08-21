@@ -22,6 +22,8 @@ namespace HeavenStudio
                 // software version (MajorMinorPatch, revision)
                 {"productversion", 000},
                 {"productsubversion", 0},
+                //file format version
+                {"riqversion", 0},
 
                 // general chart info
                 {"remixtitle", "New Remix"},    // chart name
@@ -73,7 +75,7 @@ namespace HeavenStudio
             public int track;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float length;
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)] public float swing;
-            public Dictionary<string, object> DynamicData = new Dictionary<string, object>();
+            public Dictionary<string, dynamic> DynamicData = new Dictionary<string, dynamic>();
 
             public string datamodel;
             [JsonIgnore] public Editor.Track.TimelineEventObj eventObj;
@@ -89,7 +91,7 @@ namespace HeavenStudio
                 return JsonConvert.DeserializeObject<DynamicEntity>(JsonConvert.SerializeObject(this));
             }
 
-            public object this[string propertyName]
+            public dynamic this[string propertyName]
             {
                 get
                 {
@@ -108,7 +110,7 @@ namespace HeavenStudio
                 }
             }
 
-            public void CreateProperty(string name, object defaultValue)
+            public void CreateProperty(string name, dynamic defaultValue)
             {
                 if (!DynamicData.ContainsKey(name))
                     DynamicData.Add(name, defaultValue);
@@ -159,5 +161,101 @@ namespace HeavenStudio
                 }
             }
         }
+
+        /// <summary>
+        /// converts from the old "rhmania" / "tengoku" format to the new "riq" format
+        /// </summary>
+        /// <param name="beatmap">a deserialized .rhmania or .tengoku beatmap</param>
+        /// <returns>a .riq beatmap</returns>
+        public static DynamicBeatmap BeatmapConverter(Beatmap beatmap)
+        {
+            DynamicBeatmap dynamicBeatmap = new DynamicBeatmap();
+            dynamicBeatmap.bpm = beatmap.bpm;
+            dynamicBeatmap.musicVolume = beatmap.musicVolume;
+            dynamicBeatmap.firstBeatOffset = beatmap.firstBeatOffset;
+
+            foreach (var entity in beatmap.entities)
+            {
+                dynamicBeatmap.entities.Add(new DynamicEntity()
+                {
+                    beat = entity.beat,
+                    track = entity.track,
+                    length = entity.length,
+                    swing = entity.swing,
+                    datamodel = entity.datamodel,
+                    DynamicData = new Dictionary<string, dynamic>()
+                    {
+                        { "valA", entity.valA },
+                        { "valB", entity.valB },
+                        { "valC", entity.valC },
+
+                        { "toggle", entity.toggle },
+
+                        { "type", entity.type },
+                        { "type2", entity.type2 },
+                        { "type3", entity.type3 },
+                        { "type4", entity.type4 },
+                        { "type5", entity.type5 },
+                        { "type6", entity.type6 },
+
+                        { "ease", entity.ease },
+
+                        { "colorA", entity.colorA },
+                        { "colorB", entity.colorB },
+                        { "colorC", entity.colorC },
+                        { "colorD", entity.colorD },
+                        { "colorE", entity.colorE },
+                        { "colorF", entity.colorF },
+
+                        { "text1", entity.text1 },
+                        { "text2", entity.text2 },
+                        { "text3", entity.text3 },
+                    }
+                });
+            }
+            foreach (var tempoChange in beatmap.tempoChanges)
+            {
+                dynamicBeatmap.tempoChanges.Add(new TempoChange()
+                {
+                    beat = tempoChange.beat,
+                    length = tempoChange.length,
+                    tempo = tempoChange.tempo
+                });
+            }
+            foreach (var volumeChange in beatmap.volumeChanges)
+            {
+                dynamicBeatmap.volumeChanges.Add(new VolumeChange()
+                {
+                    beat = volumeChange.beat,
+                    length = volumeChange.length,
+                    volume = volumeChange.volume
+                });
+            }
+            return dynamicBeatmap;
+        }
+
+        /// <summary>
+        /// FUTURE: converts from a karateka mania chart ("bor") to the "riq" format
+        /// </summary>
+        /// <param name="bor">a rawtext .bor chart</param>
+        /// <returns>a .riq beatmap</returns>
+        /// <remarks>not implemented yet</remarks>
+        public static DynamicBeatmap KManiaBorConverter(String bor)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// updates an "riq" beatmap
+        /// </summary>
+        /// <param name="beatmap">old beatmap</param>
+        /// <param name="version">version of old beatmap</param>
+        /// <returns>updated beatmap</returns>
+        /// <remarks>not implemented yet</remarks>
+        public static DynamicBeatmap BeatmapUpdater(DynamicBeatmap beatmap, int version)
+        {
+            return beatmap;
+        }
+
     }
 }

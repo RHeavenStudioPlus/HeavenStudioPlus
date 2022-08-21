@@ -16,7 +16,7 @@ namespace HeavenStudio.Games.Loaders
             {
                 new GameAction("bop", "Bop")
                 {
-                    function = delegate { TapTrial.instance.Bop(eventCaller.currentEntity.toggle); }, 
+                    function = delegate { TapTrial.instance.Bop(eventCaller.currentEntity["toggle"]); }, 
                     defaultLength = .5f,
                     parameters = new List<Param>()
                     {
@@ -61,7 +61,7 @@ namespace HeavenStudio.Games.Loaders
                 new GameAction("scroll event", "Scroll Background")
                 {
 
-                    function = delegate { TapTrial.instance.scrollEvent(eventCaller.currentEntity.toggle, eventCaller.currentEntity.toggle); }, 
+                    function = delegate { TapTrial.instance.scrollEvent(eventCaller.currentEntity["toggle"], eventCaller.currentEntity["toggle"]); }, 
                     defaultLength = .5f,
                     parameters = new List<Param>()
                     {
@@ -72,7 +72,7 @@ namespace HeavenStudio.Games.Loaders
                 new GameAction("giraffe events", "Giraffe Animations")
                 {
 
-                    function = delegate { TapTrial.instance.giraffeEvent(eventCaller.currentEntity.toggle, eventCaller.currentEntity.toggle); }, 
+                    function = delegate { TapTrial.instance.giraffeEvent(eventCaller.currentEntity["toggle"], eventCaller.currentEntity["toggle"]); }, 
                     defaultLength = .5f,
                     parameters = new List<Param>()
                     {

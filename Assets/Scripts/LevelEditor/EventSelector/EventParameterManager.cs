@@ -20,7 +20,7 @@ namespace HeavenStudio.Editor
         [SerializeField] private GameObject ColorP;
         [SerializeField] private GameObject StringP;
 
-        public Beatmap.Entity entity;
+        public DynamicBeatmap.DynamicEntity entity;
 
         public bool active;
 
@@ -61,13 +61,13 @@ namespace HeavenStudio.Editor
             Editor.instance.SetGameEventTitle($"Select game event for {gridGameSelector.SelectedMinigame.Replace("\n", "")}");
         }
 
-        public void StartParams(Beatmap.Entity entity)
+        public void StartParams(DynamicBeatmap.DynamicEntity entity)
         {
             active = true;
             AddParams(entity);
         }
 
-        private void AddParams(Beatmap.Entity entity)
+        private void AddParams(DynamicBeatmap.DynamicEntity entity)
         {
             var minigame = EventCaller.instance.GetMinigame(entity.datamodel.Split(0));
             int actionIndex = minigame.actions.IndexOf(minigame.actions.Find(c => c.actionName == entity.datamodel.Split(1)));
@@ -118,7 +118,7 @@ namespace HeavenStudio.Editor
             {
                 prefab = DropdownP;
             }
-            else if (objType == typeof(Color))
+            else if (objType == typeof(Color) || objType == typeof(EntityTypes.SerializableColor))
             {
                 prefab = ColorP;
             }

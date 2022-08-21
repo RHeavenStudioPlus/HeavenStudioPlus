@@ -19,7 +19,7 @@ namespace HeavenStudio.Games.Loaders
                 {
                     function = delegate
                     {
-                        TrickClass.instance.TossObject(eventCaller.currentEntity.beat, eventCaller.currentEntity.type);
+                        TrickClass.instance.TossObject(eventCaller.currentEntity.beat, eventCaller.currentEntity["type"]);
                     }, 
                     defaultLength = 3,
                     parameters = new List<Param>()
@@ -110,7 +110,7 @@ namespace HeavenStudio.Games
                 if (timeToEvent > 0f && timeToEvent <= 1f)
                 {
                     string anim = "WarnBall";
-                    switch (e.type)
+                    switch (e["type"])
                     {
                         case (int) TrickObjType.Plane:
                             anim = "WarnPlane";

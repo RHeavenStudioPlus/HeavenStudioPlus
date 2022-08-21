@@ -18,7 +18,7 @@ namespace HeavenStudio.Games.Loaders
             {
                 new GameAction("set distance", "Set Distance")
                 {
-                    function = delegate { AirRally.instance.SetDistance(e.currentEntity.type); }, 
+                    function = delegate { AirRally.instance.SetDistance(e.currentEntity["type"]); }, 
                     defaultLength = .5f, 
                     parameters = new List<Param>()
                     {
@@ -28,7 +28,7 @@ namespace HeavenStudio.Games.Loaders
                 //new GameAction("start rally",                    delegate { AirRally.instance.StartRally(true); }, .5f, false),
                 new GameAction("rally", "Rally")
                 {
-                    function = delegate { AirRally.instance.Rally(e.currentEntity.beat, e.currentEntity.toggle, e.currentEntity.length); }, 
+                    function = delegate { AirRally.instance.Rally(e.currentEntity.beat, e.currentEntity["toggle"], e.currentEntity.length); }, 
                     defaultLength = 2f, 
                     resizable = true, 
                     parameters = new List<Param>()
@@ -38,7 +38,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("ba bum bum bum", "Ba Bum Bum Bum")
                 {
-                    function = delegate { AirRally.instance.BaBumBumBum(e.currentEntity.beat, e.currentEntity.toggle, e.currentEntity.type); }, 
+                    function = delegate { AirRally.instance.BaBumBumBum(e.currentEntity.beat, e.currentEntity["toggle"], e.currentEntity["type"]); }, 
                     defaultLength = 7f, 
                     parameters = new List<Param>()
                     { 
@@ -48,7 +48,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("forthington voice lines", "Forthington Voice Lines")
                 {
-                    function = delegate { AirRally.instance.ForthVoice(e.currentEntity.type, e.currentEntity.type2); }, 
+                    function = delegate { AirRally.instance.ForthVoice(e.currentEntity["type"], e.currentEntity["type2"]); }, 
                     parameters = new List<Param>()
                     { 
                         new Param("type", AirRally.CountSound.one, "Type", "The number Forthington will say"),

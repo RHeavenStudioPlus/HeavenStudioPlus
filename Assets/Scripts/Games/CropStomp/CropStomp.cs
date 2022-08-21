@@ -174,7 +174,7 @@ namespace HeavenStudio.Games
             }
         }
 
-        List<Beatmap.Entity> cuedMoleSounds = new List<Beatmap.Entity>();
+        List<DynamicBeatmap.DynamicEntity> cuedMoleSounds = new List<DynamicBeatmap.DynamicEntity>();
         private void Update()
         {
             var cond = Conductor.instance;
@@ -329,7 +329,7 @@ namespace HeavenStudio.Games
                 return;
             }
             inactiveStart = beat;
-            Beatmap.Entity gameSwitch = GameManager.instance.Beatmap.entities.Find(c => c.beat >= beat && c.datamodel == "gameManager/switchGame/cropStomp");
+            DynamicBeatmap.DynamicEntity gameSwitch = GameManager.instance.Beatmap.entities.Find(c => c.beat >= beat && c.datamodel == "gameManager/switchGame/cropStomp");
             if (gameSwitch == null)
                 return;
             int length = Mathf.CeilToInt((gameSwitch.beat - beat)/2);

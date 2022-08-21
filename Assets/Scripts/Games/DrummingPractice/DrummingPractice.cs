@@ -22,7 +22,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("drum", "Hit Drum")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; DrummingPractice.instance.Prepare(e.beat, e.toggle); }, 
+                    function = delegate { var e = eventCaller.currentEntity; DrummingPractice.instance.Prepare(e.beat, e["toggle"]); }, 
                     defaultLength = 2f, 
                     parameters = new List<Param>()
                     {
@@ -31,7 +31,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("set mii", "Set Miis")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; DrummingPractice.instance.SetMiis(e.type, e.type2, e.type3, e.toggle); }, 
+                    function = delegate { var e = eventCaller.currentEntity; DrummingPractice.instance.SetMiis(e["type"], e["type2"], e["type3"], e["toggle"]); }, 
                     defaultLength = 0.5f, 
                     parameters = new List<Param>()
                     {
@@ -43,7 +43,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("set background color", "Set Background Color")
                 {
-                    function = delegate {var e = eventCaller.currentEntity; DrummingPractice.instance.SetBackgroundColor(e.colorA, e.colorB, e.colorC); }, 
+                    function = delegate {var e = eventCaller.currentEntity; DrummingPractice.instance.SetBackgroundColor(e["colorA"], e["colorB"], e["colorC"]); }, 
                     defaultLength = 0.5f,
                     parameters = new List<Param>()
                     {
@@ -100,7 +100,7 @@ namespace HeavenStudio.Games
         
         public override void OnGameSwitch(float beat)
         {
-            Beatmap.Entity changeMii = GameManager.instance.Beatmap.entities.FindLast(c => c.datamodel == "drummingPractice/set mii" && c.beat <= beat);
+            var changeMii = GameManager.instance.Beatmap.entities.FindLast(c => c.datamodel == "drummingPractice/set mii" && c.beat <= beat);
             if(changeMii != null)
             {
                 EventCaller.instance.CallEvent(changeMii, true);

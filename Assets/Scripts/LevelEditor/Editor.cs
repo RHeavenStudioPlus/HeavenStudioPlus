@@ -339,7 +339,7 @@ namespace HeavenStudio.Editor
         {
             var extensions = new[]
             {
-                new ExtensionFilter("Heaven Studio Remix File", "tengoku")
+                new ExtensionFilter("Heaven Studio Remix File", "riq")
             };
             
             StandaloneFileBrowser.SaveFilePanelAsync("Save Remix As", "", "remix_level", extensions, (string path) =>
@@ -380,9 +380,9 @@ namespace HeavenStudio.Editor
             LoadRemix("");
         }
 
-        public void LoadRemix(string json = "")
+        public void LoadRemix(string json = "", string type = "riq")
         {
-            GameManager.instance.LoadRemix(json);
+            GameManager.instance.LoadRemix(json, type);
             Timeline.instance.LoadRemix();
             Timeline.instance.TempoInfo.UpdateStartingBPMText();
             Timeline.instance.VolumeInfo.UpdateStartingVolumeText();
@@ -396,7 +396,8 @@ namespace HeavenStudio.Editor
         {
             var extensions = new[]
             {
-                new ExtensionFilter("Heaven Studio Remix File", new string[] { "tengoku", "rhmania" })
+                new ExtensionFilter("Heaven Studio Remix File", new string[] { "riq" }),
+                new ExtensionFilter("Legacy Heaven Studio Remix", new string[] { "tengoku", "rhmania" })
             };
 
             StandaloneFileBrowser.OpenFilePanelAsync("Open Remix", "", extensions, false, (string[] paths) =>
@@ -405,6 +406,7 @@ namespace HeavenStudio.Editor
 
                 if (path == string.Empty) return;
                 loadedMusic = false;
+                string extension = path.GetExtension();
 
                 using var zipFile = File.Open(path, FileMode.Open);
                 using var archive = new ZipArchive(zipFile, ZipArchiveMode.Read);
@@ -416,7 +418,7 @@ namespace HeavenStudio.Editor
                         {
                             using var stream = entry.Open();
                             using var reader = new StreamReader(stream);
-                            LoadRemix(reader.ReadToEnd());
+                            LoadRemix(reader.ReadToEnd(), extension);
 
                             break;
                         }
@@ -435,7 +437,10 @@ namespace HeavenStudio.Editor
                     }
 
                 if (!loadedMusic)
+                {
                     Conductor.instance.musicSource.clip = null;
+                    MusicBytes = null;
+                }
 
                 currentRemixPath = path;
                 remixName = Path.GetFileName(path);

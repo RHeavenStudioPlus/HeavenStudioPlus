@@ -30,14 +30,14 @@ namespace HeavenStudio.Games.Loaders
                     //idem
                     new GameAction("slumber", "Slumber")
                     {
-                        function = delegate {var e = eventCaller.currentEntity; PajamaParty.instance.DoSleepSequence(e.beat, e.toggle, e.type);}, 
+                        function = delegate {var e = eventCaller.currentEntity; PajamaParty.instance.DoSleepSequence(e.beat, e["toggle"], e["type"]);}, 
                         defaultLength = 8f,
                         parameters = new List<Param>()
                         {
                             new Param("type", PajamaParty.SleepType.Normal, "Sleep Type", "Type of sleep action to use"),
                             new Param("toggle", false, "Alt. Animation", "Use an alternate animation for Mako")
                         }, 
-                        inactiveFunction = delegate {var e = eventCaller.currentEntity; PajamaParty.WarnSleepSequence(e.beat, e.toggle);}
+                        inactiveFunction = delegate {var e = eventCaller.currentEntity; PajamaParty.WarnSleepSequence(e.beat, e["toggle"]);}
                     },
                     new GameAction("throw", "Throw Pillows")
                     {

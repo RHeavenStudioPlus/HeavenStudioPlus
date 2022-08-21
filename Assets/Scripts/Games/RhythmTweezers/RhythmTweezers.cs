@@ -34,7 +34,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("next vegetable", "Swap Vegetable")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.NextVegetable(e.beat, e.type, e.colorA, e.colorB); }, 
+                    function = delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.NextVegetable(e.beat, e["type"], e["colorA"], e["colorB"]); }, 
                     defaultLength = 0.5f, 
                     parameters = new List<Param>() 
                     {
@@ -45,7 +45,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("change vegetable", "Change Vegetable (Instant)")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.ChangeVegetableImmediate(e.type, e.colorA, e.colorB); }, 
+                    function = delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.ChangeVegetableImmediate(e["type"], e["colorA"], e["colorB"]); }, 
                     defaultLength = 0.5f, 
                     parameters = new List<Param>() 
                     {
@@ -66,7 +66,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("set background color", "Background Colour")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.ChangeBackgroundColor(e.colorA, 0f); }, 
+                    function = delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.ChangeBackgroundColor(e["colorA"], 0f); }, 
                     defaultLength = 0.5f,
                     parameters = new List<Param>() 
                     {
@@ -75,7 +75,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("fade background color", "Background Fade")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.FadeBackgroundColor(e.colorA, e.colorB, e.length); },
+                    function = delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.FadeBackgroundColor(e["colorA"], e["colorB"], e.length); },
                     resizable = true, 
                     parameters = new List<Param>() 
                     {

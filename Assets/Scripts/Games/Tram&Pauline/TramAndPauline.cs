@@ -19,7 +19,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("SFX", "SFX")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; TramAndPauline.instance.SFX(e.beat,  e.toggle);  }, 
+                    function = delegate { var e = eventCaller.currentEntity; TramAndPauline.instance.SFX(e.beat,  e["toggle"]);  }, 
                     defaultLength = 2.5f, 
                     parameters = new List<Param>()
                     {

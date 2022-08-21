@@ -19,7 +19,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("alien speak", "Alien Speak")
                 {
-                    function = delegate { FirstContact.instance.alienSpeak(eventCaller.currentEntity.beat, eventCaller.currentEntity.valA);  }, 
+                    function = delegate { FirstContact.instance.alienSpeak(eventCaller.currentEntity.beat, eventCaller.currentEntity["valA"]);  }, 
                     defaultLength = 0.5f,
                     parameters = new List<Param>()
                     {
@@ -37,7 +37,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("mission control", "Show Mission Control")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; FirstContact.instance.missionControlDisplay(e.beat, e.toggle, e.length);  }, 
+                    function = delegate { var e = eventCaller.currentEntity; FirstContact.instance.missionControlDisplay(e.beat, e["toggle"], e.length);  }, 
                     resizable = true, 
                     parameters = new List<Param>
                     {
@@ -46,7 +46,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("look at", "Look At")
                 {
-                    function = delegate { FirstContact.instance.lookAtDirection(eventCaller.currentEntity.type, eventCaller.currentEntity.type);  }, 
+                    function = delegate { FirstContact.instance.lookAtDirection(eventCaller.currentEntity["type"], eventCaller.currentEntity["type"]);  }, 
                     defaultLength = .5f,
                     parameters = new List<Param>()
                     {
@@ -56,7 +56,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("live bar beat", "Live Bar Beat")
                 {
-                    function = delegate { FirstContact.instance.liveBarBeat(eventCaller.currentEntity.toggle);  }, 
+                    function = delegate { FirstContact.instance.liveBarBeat(eventCaller.currentEntity["toggle"]);  }, 
                     defaultLength = .5f,
                     parameters = new List<Param>()
                     {
@@ -64,7 +64,7 @@ namespace HeavenStudio.Games.Loaders
                     }
                 },
                 
-                //new GameAction("Version of First Contact",                   delegate { FirstContact.instance.versionOfFirstContact(eventCaller.currentEntity.type);  }, .5f, false, new List<Param>
+                //new GameAction("Version of First Contact",                   delegate { FirstContact.instance.versionOfFirstContact(eventCaller.currentEntity["type"]);  }, .5f, false, new List<Param>
                 //{
                 //    new Param("type", FirstContact.VersionOfContact.FirstContact, "Version", "Version of First Contact to play"),
                 //}),

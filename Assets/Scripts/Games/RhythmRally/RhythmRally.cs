@@ -61,8 +61,8 @@ namespace HeavenStudio.Games.Loaders
                 {
                     function = delegate {
                         var e = eventCaller.currentEntity;
-                        var rotation = new Vector3(0, e.valA, 0);
-                        RhythmRally.instance.ChangeCameraAngle(rotation, e.valB, e.length, (Ease)e.type, (RotateMode)e.type2);
+                        var rotation = new Vector3(0, e["valA"], 0);
+                        RhythmRally.instance.ChangeCameraAngle(rotation, e["valB"], e.length, (Ease)e["type"], (RotateMode)e["type2"]);
                     }, 
                     defaultLength = 4, 
                     resizable = true, 
@@ -259,7 +259,7 @@ namespace HeavenStudio.Games
                 // Check if the opponent should swing.
                 if (!served && timeBeforeNextHit <= 0f)
                 {
-                    List<Beatmap.Entity> rallies = GameManager.instance.Beatmap.entities.FindAll(c => c.datamodel == "rhythmRally/rally" || c.datamodel == "rhythmRally/slow rally");
+                    var rallies = GameManager.instance.Beatmap.entities.FindAll(c => c.datamodel == "rhythmRally/rally" || c.datamodel == "rhythmRally/slow rally");
                     for (int i = 0; i < rallies.Count; i++)
                     {
                         var rally = rallies[i];
