@@ -137,13 +137,13 @@ namespace HeavenStudio
         {
             public string actionName;
             public string displayName;
-            public EventCallback function;
-            public float defaultLength;
-            public bool resizable;
-            public List<Param> parameters;
-            public bool hidden;
-            public EventCallback inactiveFunction;
-            public EventCallback preFunction;
+            public EventCallback function = delegate { };
+            public float defaultLength = 1;
+            public bool resizable = false;
+            public List<Param> parameters = null;
+            public bool hidden = false;
+            public EventCallback inactiveFunction = delegate { };
+            public EventCallback preFunction = delegate { };
 
             /// <summary>
             /// <para>Creates a block that can be used in the editor. The block's function and attributes are defined in the parentheses.</para>

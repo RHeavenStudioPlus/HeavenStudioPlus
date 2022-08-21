@@ -13,9 +13,21 @@ namespace HeavenStudio.Games.Loaders
         public static Minigame AddGame(EventCaller eventCaller) {
             return new Minigame("cropStomp", "Crop Stomp", "BFDEA6", false, false, new List<GameAction>()
             {
-                new GameAction("start marching",        delegate { CropStomp.instance.StartMarching(eventCaller.currentEntity.beat); }, 2f, false, inactiveFunction: delegate { CropStomp.MarchInactive(eventCaller.currentEntity.beat); }),
-                new GameAction("veggies",               delegate { }, 4f, true),
-                new GameAction("mole",               delegate { }, 2f, false),
+                new GameAction("start marching", "Start Marching")
+                {
+                    function = delegate { CropStomp.instance.StartMarching(eventCaller.currentEntity.beat); }, 
+                    defaultLength = 2f,
+                    inactiveFunction = delegate { CropStomp.MarchInactive(eventCaller.currentEntity.beat); }
+                },
+                new GameAction("veggies", "Veggies")
+                {
+                    defaultLength = 4f, 
+                    resizable = true
+                },
+                new GameAction("mole", "Mole")
+                {
+                    defaultLength = 2f
+                },
             });
         }
     }

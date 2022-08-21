@@ -15,12 +15,28 @@ namespace HeavenStudio.Games.Loaders
         public static Minigame AddGame(EventCaller eventCaller) {
             return new Minigame("mrUpbeat", "Mr. Upbeat", "FFFFFF", false, false, new List<GameAction>()
             {
-                new GameAction("prepare",               delegate { MrUpbeat.instance.SetInterval(eventCaller.currentEntity.beat); }, 0.5f, true, inactiveFunction: delegate { MrUpbeat.Beep(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }),
-                new GameAction("go",                    delegate { MrUpbeat.instance.Go(eventCaller.currentEntity.beat);  }, 4f, true),
-                new GameAction("ding!",                 delegate { MrUpbeat.instance.Ding(eventCaller.currentEntity.toggle); }, 0.5f, parameters: new List<Param>()
+                new GameAction("prepare", "Prepare")
                 {
-                    new Param("toggle", false, "Applause")
-                }),
+                    function = delegate { MrUpbeat.instance.SetInterval(eventCaller.currentEntity.beat); }, 
+                    defaultLength = 0.5f, 
+                    resizable = true, 
+                    inactiveFunction = delegate { MrUpbeat.Beep(eventCaller.currentEntity.beat, eventCaller.currentEntity.length); }
+                },
+                new GameAction("go", "Start Stepping")
+                {
+                    function = delegate { MrUpbeat.instance.Go(eventCaller.currentEntity.beat);  }, 
+                    defaultLength = 4f, 
+                    resizable = true
+                },
+                new GameAction("ding!", "Finish Stepping")
+                {
+                    function = delegate { MrUpbeat.instance.Ding(eventCaller.currentEntity.toggle); },
+                    defaultLength = 0.5f, 
+                    parameters = new List<Param>()
+                    {
+                        new Param("toggle", false, "Applause")
+                    }
+                },
             });
         }
     }
