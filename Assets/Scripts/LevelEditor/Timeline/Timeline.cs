@@ -505,9 +505,11 @@ namespace HeavenStudio.Editor.Track
 
         public TimelineEventObj AddEventObject(string eventName, bool dragNDrop = false, Vector3 pos = new Vector3(), Beatmap.Entity entity = null, bool addEvent = false, string eventId = "")
         {
+            var game = EventCaller.instance.GetMinigame(eventName.Split(0));
+            var action = EventCaller.instance.GetGameAction(game, eventName.Split(1));
             GameObject g = Instantiate(TimelineEventObjRef.gameObject, TimelineEventObjRef.parent);
             g.transform.localPosition = pos;
-            g.transform.GetChild(3).GetComponent<TMP_Text>().text = eventName.Split('/')[1];
+            g.transform.GetChild(3).GetComponent<TMP_Text>().text = action.displayName;
 
             TimelineEventObj eventObj = g.GetComponent<TimelineEventObj>();
 
@@ -572,9 +574,8 @@ namespace HeavenStudio.Editor.Track
 
                     tempEntity = en;
 
-                    // default param value
-                    var game = EventCaller.instance.GetMinigame(eventName.Split(0));
-                    var ep = EventCaller.instance.GetGameAction(game, eventName.Split(1)).parameters;
+                    // default param values
+                    var ep = action.parameters;
 
                     if (ep != null)
                     {
