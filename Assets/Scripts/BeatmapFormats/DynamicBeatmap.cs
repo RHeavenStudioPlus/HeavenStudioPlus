@@ -110,37 +110,12 @@ namespace HeavenStudio
                         case "datamodel":
                             return datamodel;
                         default:
-                            //TODO: do this checking and conversion on load instead of at runtime
-                            Minigames.Minigame game = EventCaller.instance.GetMinigame(datamodel.Split(0));
-                            Minigames.GameAction action = EventCaller.instance.GetGameAction(game, datamodel.Split(1));
-                            Minigames.Param param = EventCaller.instance.GetGameParam(game, datamodel.Split(1), propertyName);
-                            var type = param.parameter.GetType();
                             if (DynamicData.ContainsKey(propertyName))
-                            {
-                                var pType = DynamicData[propertyName].GetType();
-                                if (pType == type)
-                                {
-                                    return DynamicData[propertyName];
-                                }
-                                else
-                                {
-                                    if (type == typeof(EntityTypes.Integer))
-                                        return (int) DynamicData[propertyName];
-                                    else if (type == typeof(EntityTypes.Float))
-                                        return (float) DynamicData[propertyName];
-                                    else if (type.IsEnum)
-                                        return (int) DynamicData[propertyName];
-                                    else if (pType == typeof(Newtonsoft.Json.Linq.JObject))
-                                    {
-                                        DynamicData[propertyName] = DynamicData[propertyName].ToObject(type);
-                                        return DynamicData[propertyName];
-                                    }
-                                    else
-                                        return Convert.ChangeType(DynamicData[propertyName], type);
-                                }
-                            }
+                                return DynamicData[propertyName];
                             else
                             {
+                                Minigames.Minigame game = EventCaller.instance.GetMinigame(datamodel.Split(0));
+                                Minigames.Param param = EventCaller.instance.GetGameParam(game, datamodel.Split(1), propertyName);
                                 return param.parameter;
                             }
                     }
@@ -222,44 +197,49 @@ namespace HeavenStudio
             dynamicBeatmap.musicVolume = beatmap.musicVolume;
             dynamicBeatmap.firstBeatOffset = beatmap.firstBeatOffset;
 
-            foreach (var entity in beatmap.entities)
+            Minigames.Minigame game;
+            Minigames.GameAction action;
+            System.Type type, pType;
+            foreach (var e in beatmap.entities)
             {
+                game = EventCaller.instance.GetMinigame(e.datamodel.Split(0));
+                action = EventCaller.instance.GetGameAction(game, e.datamodel.Split(1));
+
+                Dictionary<string, dynamic> dynamicData = new Dictionary<string, dynamic>();
+                //check each param of the action
+                if (action.parameters != null)
+                {
+                    foreach (var param in action.parameters)
+                    {
+                        type = param.parameter.GetType();
+                        pType = e[param.propertyName].GetType();
+                        if (pType == type)
+                        {
+                            dynamicData.Add(param.propertyName, e[param.propertyName]);
+                        }
+                        else
+                        {
+                            if (type == typeof(EntityTypes.Integer))
+                                dynamicData.Add(param.propertyName, (int) e[param.propertyName]);
+                            else if (type == typeof(EntityTypes.Float))
+                                dynamicData.Add(param.propertyName, (float) e[param.propertyName]);
+                            else if (type.IsEnum && param.propertyName != "ease")
+                                dynamicData.Add(param.propertyName, (int) e[param.propertyName]);
+                            else if (pType == typeof(Newtonsoft.Json.Linq.JObject))
+                                dynamicData.Add(param.propertyName, e[param.propertyName].ToObject(type));
+                            else
+                                dynamicData.Add(param.propertyName, Convert.ChangeType(e[param.propertyName], type));
+                        }
+                    }
+                }
                 dynamicBeatmap.entities.Add(new DynamicEntity()
                 {
-                    beat = entity.beat,
-                    track = entity.track,
-                    length = entity.length,
-                    swing = entity.swing,
-                    datamodel = entity.datamodel,
-                    //TODO: only convert properties that actually exist in each GameAction
-                    DynamicData = new Dictionary<string, dynamic>()
-                    {
-                        { "valA", entity.valA },
-                        { "valB", entity.valB },
-                        { "valC", entity.valC },
-
-                        { "toggle", entity.toggle },
-
-                        { "type", entity.type },
-                        { "type2", entity.type2 },
-                        { "type3", entity.type3 },
-                        { "type4", entity.type4 },
-                        { "type5", entity.type5 },
-                        { "type6", entity.type6 },
-
-                        { "ease", (int) entity.ease },
-
-                        { "colorA", (Color) entity.colorA },
-                        { "colorB", (Color) entity.colorB },
-                        { "colorC", (Color) entity.colorC },
-                        { "colorD", (Color) entity.colorD },
-                        { "colorE", (Color) entity.colorE },
-                        { "colorF", (Color) entity.colorF },
-
-                        { "text1", entity.text1 },
-                        { "text2", entity.text2 },
-                        { "text3", entity.text3 },
-                    }
+                    beat = e.beat,
+                    track = e.track,
+                    length = e.length,
+                    swing = e.swing,
+                    datamodel = e.datamodel,
+                    DynamicData = dynamicData
                 });
             }
             foreach (var tempoChange in beatmap.tempoChanges)
@@ -306,5 +286,49 @@ namespace HeavenStudio
             return beatmap;
         }
 
+        /// <summary>
+        /// processes an riq beatmap after it is loaded
+        /// </summary>
+        public void PostProcess()
+        {
+            Minigames.Minigame game;
+            Minigames.GameAction action;
+            System.Type type, pType;
+            foreach (var e in entities)
+            {
+                game = EventCaller.instance.GetMinigame(e.datamodel.Split(0));
+                action = EventCaller.instance.GetGameAction(game, e.datamodel.Split(1));
+                Dictionary<string, dynamic> dynamicData = new Dictionary<string, dynamic>();
+                //check each param of the action
+                if (action.parameters != null)
+                {
+                    foreach (var param in action.parameters)
+                    {
+                        type = param.parameter.GetType();
+                        pType = e[param.propertyName].GetType();
+                        if (pType == type)
+                        {
+                            dynamicData.Add(param.propertyName, e[param.propertyName]);
+                        }
+                        else
+                        {
+                            if (type == typeof(EntityTypes.Integer))
+                                dynamicData.Add(param.propertyName, (int) e[param.propertyName]);
+                            else if (type == typeof(EntityTypes.Float))
+                                dynamicData.Add(param.propertyName, (float) e[param.propertyName]);
+                            else if (type == typeof(EasingFunction.Ease) && pType == typeof(string))
+                                dynamicData.Add(param.propertyName, Enum.Parse(typeof(EasingFunction.Ease), (string) e[param.propertyName]));
+                            else if (type.IsEnum)
+                                dynamicData.Add(param.propertyName, (int) e[param.propertyName]);
+                            else if (pType == typeof(Newtonsoft.Json.Linq.JObject))
+                                dynamicData.Add(param.propertyName, e[param.propertyName].ToObject(type));
+                            else
+                                dynamicData.Add(param.propertyName, Convert.ChangeType(e[param.propertyName], type));
+                        }
+                    }
+                }
+                e.DynamicData = dynamicData;
+            }
+        }
     }
 }
