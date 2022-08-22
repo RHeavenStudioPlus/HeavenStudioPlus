@@ -13,6 +13,7 @@ namespace HeavenStudio
     [Serializable]
     public class DynamicBeatmap
     {
+        public static int CurrentRiqVersion = 0;
         public float bpm;
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
@@ -24,7 +25,7 @@ namespace HeavenStudio
                 {"productversion", 000},
                 {"productsubversion", 0},
                 //file format version
-                {"riqversion", 0},
+                {"riqversion", CurrentRiqVersion},
 
                 // general chart info
                 {"remixtitle", "New Remix"},    // chart name
@@ -96,38 +97,52 @@ namespace HeavenStudio
             {
                 get
                 {
-                    //TODO: do this checking and conversion on load instead of at runtime
-                    Minigames.Minigame game = EventCaller.instance.GetMinigame(datamodel.Split(0));
-                    Minigames.GameAction action = EventCaller.instance.GetGameAction(game, datamodel.Split(1));
-                    Minigames.Param param = EventCaller.instance.GetGameParam(game, datamodel.Split(1), propertyName);
-                    var type = param.parameter.GetType();
-                    if (DynamicData.ContainsKey(propertyName))
+                    switch (propertyName)
                     {
-                        var pType = DynamicData[propertyName].GetType();
-                        if (pType == type)
-                        {
-                            return DynamicData[propertyName];
-                        }
-                        else
-                        {
-                            if (type == typeof(EntityTypes.Integer))
-                                return (int) DynamicData[propertyName];
-                            else if (type == typeof(EntityTypes.Float))
-                                return (float) DynamicData[propertyName];
-                            else if (type.IsEnum)
-                                return (int) DynamicData[propertyName];
-                            else if (pType == typeof(Newtonsoft.Json.Linq.JObject))
+                        case "beat":
+                            return beat;
+                        case "track":
+                            return track;
+                        case "length":
+                            return length;
+                        case "swing":
+                            return swing;
+                        case "datamodel":
+                            return datamodel;
+                        default:
+                            //TODO: do this checking and conversion on load instead of at runtime
+                            Minigames.Minigame game = EventCaller.instance.GetMinigame(datamodel.Split(0));
+                            Minigames.GameAction action = EventCaller.instance.GetGameAction(game, datamodel.Split(1));
+                            Minigames.Param param = EventCaller.instance.GetGameParam(game, datamodel.Split(1), propertyName);
+                            var type = param.parameter.GetType();
+                            if (DynamicData.ContainsKey(propertyName))
                             {
-                                DynamicData[propertyName] = DynamicData[propertyName].ToObject(type);
-                                return DynamicData[propertyName];
+                                var pType = DynamicData[propertyName].GetType();
+                                if (pType == type)
+                                {
+                                    return DynamicData[propertyName];
+                                }
+                                else
+                                {
+                                    if (type == typeof(EntityTypes.Integer))
+                                        return (int) DynamicData[propertyName];
+                                    else if (type == typeof(EntityTypes.Float))
+                                        return (float) DynamicData[propertyName];
+                                    else if (type.IsEnum)
+                                        return (int) DynamicData[propertyName];
+                                    else if (pType == typeof(Newtonsoft.Json.Linq.JObject))
+                                    {
+                                        DynamicData[propertyName] = DynamicData[propertyName].ToObject(type);
+                                        return DynamicData[propertyName];
+                                    }
+                                    else
+                                        return Convert.ChangeType(DynamicData[propertyName], type);
+                                }
                             }
                             else
-                                return Convert.ChangeType(DynamicData[propertyName], type);
-                        }
-                    }
-                    else
-                    {
-                        return param.parameter;
+                            {
+                                return param.parameter;
+                            }
                     }
                 }
                 set
