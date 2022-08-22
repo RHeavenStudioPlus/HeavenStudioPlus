@@ -120,10 +120,10 @@ namespace HeavenStudio.Editor
                     );
                     break;
 
-                case EntityTypes.SerializableColor _:
+                // case EntityTypes.SerializableColor _:
                 case Color _:
                     colorPreview.colorPicker.onColorChanged += _ =>
-                        parameterManager.entity[propertyName] = new EntityTypes.SerializableColor { Color = colorPreview.colorPicker.color };
+                        parameterManager.entity[propertyName] = colorPreview.colorPicker.color;
 
                     Color paramCol = parameterManager.entity[propertyName];
 

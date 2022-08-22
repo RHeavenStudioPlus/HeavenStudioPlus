@@ -28,6 +28,11 @@ namespace HeavenStudio
             return game.actions.Find(c => c.actionName == action);
         }
 
+        public Minigames.Param GetGameParam(Minigames.Minigame game, string action, string param)
+        {
+            return GetGameAction(game, action).parameters.Find(c => c.propertyName == param);
+        }
+
         public void Init()
         {
             instance = this;

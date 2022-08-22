@@ -4,6 +4,7 @@ using System.ComponentModel;
 using UnityEngine;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 using HeavenStudio.Util;
 
@@ -95,7 +96,38 @@ namespace HeavenStudio
             {
                 get
                 {
-                    return DynamicData[propertyName];
+                    Minigames.Minigame game = EventCaller.instance.GetMinigame(datamodel.Split(0));
+                    Minigames.GameAction action = EventCaller.instance.GetGameAction(game, datamodel.Split(1));
+                    Minigames.Param param = EventCaller.instance.GetGameParam(game, datamodel.Split(1), propertyName);
+                    var type = param.parameter.GetType();
+                    if (DynamicData.ContainsKey(propertyName))
+                    {
+                        var pType = DynamicData[propertyName].GetType();
+                        if (pType == type)
+                        {
+                            return DynamicData[propertyName];
+                        }
+                        else
+                        {
+                            if (type == typeof(EntityTypes.Integer))
+                                return (int) DynamicData[propertyName];
+                            else if (type == typeof(EntityTypes.Float))
+                                return (float) DynamicData[propertyName];
+                            else if (type.IsEnum)
+                                return (int) DynamicData[propertyName];
+                            else if (pType == typeof(Newtonsoft.Json.Linq.JObject))
+                            {
+                                DynamicData[propertyName] = DynamicData[propertyName].ToObject(type);
+                                return DynamicData[propertyName];
+                            }
+                            else
+                                return Convert.ChangeType(DynamicData[propertyName], type);
+                        }
+                    }
+                    else
+                    {
+                        return param.parameter;
+                    }
                 }
                 set
                 {
@@ -200,12 +232,12 @@ namespace HeavenStudio
 
                         { "ease", (int) entity.ease },
 
-                        { "colorA", (EntityTypes.SerializableColor) entity.colorA },
-                        { "colorB", (EntityTypes.SerializableColor) entity.colorB },
-                        { "colorC", (EntityTypes.SerializableColor) entity.colorC },
-                        { "colorD", (EntityTypes.SerializableColor) entity.colorD },
-                        { "colorE", (EntityTypes.SerializableColor) entity.colorE },
-                        { "colorF", (EntityTypes.SerializableColor) entity.colorF },
+                        { "colorA", (Color) entity.colorA },
+                        { "colorB", (Color) entity.colorB },
+                        { "colorC", (Color) entity.colorC },
+                        { "colorD", (Color) entity.colorD },
+                        { "colorE", (Color) entity.colorE },
+                        { "colorF", (Color) entity.colorF },
 
                         { "text1", entity.text1 },
                         { "text2", entity.text2 },

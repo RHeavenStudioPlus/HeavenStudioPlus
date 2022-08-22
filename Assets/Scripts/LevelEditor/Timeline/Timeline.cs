@@ -592,10 +592,6 @@ namespace HeavenStudio.Editor.Track
                             {
                                 returnVal = ((EntityTypes.Float)ep[i].parameter).val;
                             }
-                            else if (propertyType == typeof(Color))
-                            {
-                                returnVal = new EntityTypes.SerializableColor { Color = (UnityEngine.Color) ep[i].parameter };
-                            }
                             else if (propertyType.IsEnum)
                             {
                                 returnVal = (int) ep[i].parameter;

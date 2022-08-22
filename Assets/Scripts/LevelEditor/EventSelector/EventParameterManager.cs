@@ -118,7 +118,7 @@ namespace HeavenStudio.Editor
             {
                 prefab = DropdownP;
             }
-            else if (objType == typeof(Color) || objType == typeof(EntityTypes.SerializableColor))
+            else if (objType == typeof(Color))
             {
                 prefab = ColorP;
             }
