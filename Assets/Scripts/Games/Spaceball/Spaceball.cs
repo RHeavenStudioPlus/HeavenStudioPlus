@@ -206,7 +206,7 @@ namespace HeavenStudio.Games
                 else
                     currentZoomCamDistance = dist;
 
-                lastEase = allCameraEvents[currentZoomIndex]["ease"];
+                lastEase = (EasingFunction.Ease) allCameraEvents[currentZoomIndex]["ease"];
             }
         }
 

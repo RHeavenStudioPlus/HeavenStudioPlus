@@ -594,7 +594,7 @@ namespace HeavenStudio.Editor.Track
                             }
                             else if (propertyType == typeof(Color))
                             {
-                                returnVal = new EntityTypes.SerializableColor{ Color = (Color)ep[i].parameter };
+                                returnVal = new EntityTypes.SerializableColor { Color = (UnityEngine.Color) ep[i].parameter };
                             }
                             else if (propertyType.IsEnum)
                             {

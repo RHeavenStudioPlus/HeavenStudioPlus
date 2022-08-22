@@ -198,14 +198,14 @@ namespace HeavenStudio
                         { "type5", entity.type5 },
                         { "type6", entity.type6 },
 
-                        { "ease", entity.ease },
+                        { "ease", (int) entity.ease },
 
-                        { "colorA", entity.colorA },
-                        { "colorB", entity.colorB },
-                        { "colorC", entity.colorC },
-                        { "colorD", entity.colorD },
-                        { "colorE", entity.colorE },
-                        { "colorF", entity.colorF },
+                        { "colorA", (EntityTypes.SerializableColor) entity.colorA },
+                        { "colorB", (EntityTypes.SerializableColor) entity.colorB },
+                        { "colorC", (EntityTypes.SerializableColor) entity.colorC },
+                        { "colorD", (EntityTypes.SerializableColor) entity.colorD },
+                        { "colorE", (EntityTypes.SerializableColor) entity.colorE },
+                        { "colorF", (EntityTypes.SerializableColor) entity.colorF },
 
                         { "text1", entity.text1 },
                         { "text2", entity.text2 },
