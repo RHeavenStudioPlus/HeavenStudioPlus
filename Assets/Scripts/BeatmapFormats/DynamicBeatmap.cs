@@ -96,6 +96,7 @@ namespace HeavenStudio
             {
                 get
                 {
+                    //TODO: do this checking and conversion on load instead of at runtime
                     Minigames.Minigame game = EventCaller.instance.GetMinigame(datamodel.Split(0));
                     Minigames.GameAction action = EventCaller.instance.GetGameAction(game, datamodel.Split(1));
                     Minigames.Param param = EventCaller.instance.GetGameParam(game, datamodel.Split(1), propertyName);
@@ -215,6 +216,7 @@ namespace HeavenStudio
                     length = entity.length,
                     swing = entity.swing,
                     datamodel = entity.datamodel,
+                    //TODO: only convert properties that actually exist in each GameAction
                     DynamicData = new Dictionary<string, dynamic>()
                     {
                         { "valA", entity.valA },
