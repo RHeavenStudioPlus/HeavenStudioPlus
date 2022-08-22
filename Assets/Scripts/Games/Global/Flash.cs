@@ -92,7 +92,7 @@ namespace HeavenStudio.Games.Global
                         endCol = new Color(colB.r, colB.g, colB.b, startEntity["valB"]);
                     }
 
-                    SetFade(startEntity.beat, startEntity.length, startCol, endCol, startEntity["ease"]);
+                    SetFade(startEntity.beat, startEntity.length, startCol, endCol, (EasingFunction.Ease) startEntity["ease"]);
                 }
             }
         }

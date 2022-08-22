@@ -125,7 +125,7 @@ namespace HeavenStudio
                 float prog = Conductor.instance.GetPositionFromBeat(e.beat, e.length);
                 if (prog >= 0f)
                 {
-                    EasingFunction.Function func = EasingFunction.GetEasingFunction(e["ease"]);
+                    EasingFunction.Function func = EasingFunction.GetEasingFunction((EasingFunction.Ease) e["ease"]);
                     float dx = func(positionLast.x, e["valA"], Mathf.Min(prog, 1f));
                     float dy = func(positionLast.y, e["valB"], Mathf.Min(prog, 1f));
                     float dz = func(positionLast.z, -e["valC"], Mathf.Min(prog, 1f));
@@ -145,7 +145,7 @@ namespace HeavenStudio
                 float prog = Conductor.instance.GetPositionFromBeat(e.beat, e.length);
                 if (prog >= 0f)
                 {
-                    EasingFunction.Function func = EasingFunction.GetEasingFunction(e["ease"]);
+                    EasingFunction.Function func = EasingFunction.GetEasingFunction((EasingFunction.Ease) e["ease"]);
                     float dx = func(rotEluerLast.x, e["valA"], Mathf.Min(prog, 1f));
                     float dy = func(rotEluerLast.y, e["valB"], Mathf.Min(prog, 1f));
                     float dz = func(-rotEluerLast.z, e["valC"], Mathf.Min(prog, 1f));
