@@ -125,7 +125,6 @@ namespace HeavenStudio
 
         public void LoadRemix(string json = "", string type = "riq", int version = 0)
         {
-            SortEventsList();
 
             if (json != "")
             {
@@ -138,6 +137,7 @@ namespace HeavenStudio
                         break;
                     case "riq":
                         Beatmap = JsonConvert.DeserializeObject<DynamicBeatmap>(json);
+                        Beatmap.PostProcess();
                         break;
                     default:
                         NewRemix();
@@ -148,6 +148,7 @@ namespace HeavenStudio
             {
                 NewRemix();
             }
+            SortEventsList();
             Conductor.instance.SetBpm(Beatmap.bpm);
             Conductor.instance.SetVolume(Beatmap.musicVolume);
             Conductor.instance.firstBeatOffset = Beatmap.firstBeatOffset;
@@ -336,6 +337,7 @@ namespace HeavenStudio
         {
             Beatmap.entities.Sort((x, y) => x.beat.CompareTo(y.beat));
             Beatmap.tempoChanges.Sort((x, y) => x.beat.CompareTo(y.beat));
+            Beatmap.volumeChanges.Sort((x, y) => x.beat.CompareTo(y.beat));
         }
 
         public void SetCurrentEventToClosest(float beat)

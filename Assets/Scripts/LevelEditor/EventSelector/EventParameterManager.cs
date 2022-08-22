@@ -78,7 +78,7 @@ namespace HeavenStudio.Editor
                 eventSelector.SetActive(false);
                 this.entity = entity;
 
-                Editor.instance.SetGameEventTitle($"Properties for {entity.datamodel} at beat {entity.beat}");
+                Editor.instance.SetGameEventTitle($"Properties for {entity.datamodel}");
 
                 DestroyParams();
 
