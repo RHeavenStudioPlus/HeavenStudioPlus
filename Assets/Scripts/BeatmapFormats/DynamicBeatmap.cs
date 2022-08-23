@@ -125,14 +125,23 @@ namespace HeavenStudio
                 }
                 set
                 {
-                    if (DynamicData.ContainsKey(propertyName))
+                    switch (propertyName)
                     {
-                        DynamicData[propertyName] = value;
+                        case "beat":
+                        case "track":
+                        case "length":
+                        case "swing":
+                        case "datamodel":
+                            UnityEngine.Debug.LogWarning($"Property name {propertyName} is reserved and cannot be set.");
+                            break;
+                        default:
+                            if (DynamicData.ContainsKey(propertyName))
+                                DynamicData[propertyName] = value;
+                            else
+                                UnityEngine.Debug.LogError($"This entity does not have a property named {propertyName}! Attempted to insert value of type {value.GetType()}");
+                            break;
                     }
-                    else
-                    {
-                        UnityEngine.Debug.LogError($"This entity does not have a property named {propertyName}! Attempted to insert value of type {value.GetType()}");
-                    }
+                    
                 }
             }
 
