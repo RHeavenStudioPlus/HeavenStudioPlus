@@ -24,8 +24,10 @@ namespace HeavenStudio
                 // software version (MajorMinorPatch, revision)
                 {"productversion", 000},
                 {"productsubversion", 0},
-                //file format version
+                // file format version
                 {"riqversion", CurrentRiqVersion},
+                // mapper set properties? (use this to flash the button)
+                {"propertiesmodified", false},
 
                 // general chart info
                 {"remixtitle", "New Remix"},    // chart name
@@ -89,8 +91,9 @@ namespace HeavenStudio
 
             public DynamicEntity DeepCopy()
             {
-                //lol the AI generated this
-                return JsonConvert.DeserializeObject<DynamicEntity>(JsonConvert.SerializeObject(this));
+                DynamicEntity copy = (DynamicEntity)this.MemberwiseClone();
+                copy.DynamicData = new Dictionary<string, dynamic>(this.DynamicData);
+                return copy;
             }
 
             public dynamic this[string propertyName]
@@ -166,11 +169,11 @@ namespace HeavenStudio
             }
         }
 
-        public object this[string propertyName]
+        public dynamic this[string propertyName]
         {
             get
             {
-                return properties[propertyName];
+                return properties[propertyName] ?? null;
             }
             set
             {
