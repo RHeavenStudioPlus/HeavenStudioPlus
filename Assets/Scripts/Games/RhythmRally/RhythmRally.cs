@@ -20,7 +20,7 @@ namespace HeavenStudio.Games.Loaders
                     defaultLength = 0.5f, 
                     resizable = true
                 },
-                new GameAction("whistle", "Whisle")
+                new GameAction("whistle", "Whistle")
                 {
                     function = delegate { RhythmRally.instance.PlayWhistle(); },
                     defaultLength = 0.5f
