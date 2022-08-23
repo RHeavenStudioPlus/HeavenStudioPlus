@@ -29,10 +29,11 @@ namespace HeavenStudio
                 // mapper set properties? (use this to flash the button)
                 {"propertiesmodified", false},
 
+                ////// CATEGORY 1: SONG INFO
                 // general chart info
                 {"remixtitle", "New Remix"},    // chart name
                 {"remixauthor", "Your Name"},   // charter's name
-                {"remixlevel", 1},              // chart difficulty
+                {"remixlevel", 1},              // chart difficulty (maybe offer a suggestion but still have the mapper determine it)
                 {"remixtempo", 120f},           // avg. chart tempo
                 {"remixtags", ""},              // chart tags
                 {"icontype", 0},                // chart icon (presets, custom - future)
@@ -43,6 +44,7 @@ namespace HeavenStudio
                 {"idolsong", "Song Name"},      // song name
                 {"idolcredit", "Artist"},       // song artist
 
+                ////// CATEGORY 2: PROLOGUE AND EPILOGUE
                 // chart prologue
                 {"prologuetype", 0},            // prologue card animation (future)
                 {"prologuecaption", "Remix"},   // prologue card sub-title (future)
@@ -70,6 +72,7 @@ namespace HeavenStudio
         public List<DynamicEntity> entities = new List<DynamicEntity>();
         public List<TempoChange> tempoChanges = new List<TempoChange>();
         public List<VolumeChange> volumeChanges = new List<VolumeChange>();
+        public List<ChartSection> beatmapSections = new List<ChartSection>();
         public float firstBeatOffset;
 
         [Serializable]
@@ -171,6 +174,20 @@ namespace HeavenStudio
             public float beat;
             public float length;
             public float volume;
+
+            public object Clone()
+            {
+                return this.MemberwiseClone();
+            }
+        }
+
+        [Serializable]
+        public class ChartSection : ICloneable
+        {
+            public float beat;
+            public bool startPerfect;
+            public string sectionName;
+            public bool isCheckpoint;   // really don't think we need this but who knows
 
             public object Clone()
             {
