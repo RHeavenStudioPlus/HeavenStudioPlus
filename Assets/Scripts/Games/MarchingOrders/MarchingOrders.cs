@@ -9,7 +9,7 @@ namespace HeavenStudio.Games.Loaders
     public static class AbgMarcherLoader
     {
         public static Minigame AddGame(EventCaller eventCaller) {
-            return new Minigame("marchingOrders", "Marching Orders \n<color=#eb5454>[WIP]</color>", "000000", false, false, new List<GameAction>()
+            return new Minigame("marchingOrders", "Marching Orders \n<color=#eb5454>[WIP]</color>", "00A43B", false, false, new List<GameAction>()
                 {
 					//from krispy:
 					//i'm not that good at coding but i'll try my best to make a minigame
@@ -25,7 +25,11 @@ namespace HeavenStudio.Games.Loaders
 					//new GameAction("attention", delegate {}, 2f, false),
 					//new GameAction("march", delegate {}, 2f, false),
 					//new GameAction("halt", delegate {}, 2f, false),
-					//new GameAction("face, turn", delegate {}, 4f, false),
+					//new GameAction("face turn", delegate {}, 4f, false, parameters: new List<Param>()
+					//{
+                    //    new Param("type", MarchingOrders.DirectionFaceTurn.Right, "Direction", "The direction sarge wants the cadets to face"),
+					//	new Param("type2", MarchingOrders.FaceTurnLength.Normal, "Length", "How fast or slow the event lasts"),
+                    //}),
                 });
         }
     }
@@ -33,9 +37,18 @@ namespace HeavenStudio.Games.Loaders
 
 namespace HeavenStudio.Games
 {
-    // using Scripts_MarchingOrders;
+    //using Scripts_MarchingOrders;
     public class MarchingOrders : Minigame
     {
+		public enum DirectionFaceTurn {
+            Right,
+            Left,
+		}
+		public enum FaceTurnLength {
+            Normal,
+            Fast,
+		}
+		
         // Start is called before the first frame update
         void Awake()
         {
