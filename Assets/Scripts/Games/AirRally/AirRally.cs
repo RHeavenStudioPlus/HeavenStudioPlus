@@ -33,7 +33,7 @@ namespace HeavenStudio.Games.Loaders
                 new GameAction("forthington voice lines",                    delegate { AirRally.instance.ForthVoice(e.currentEntity.type, e.currentEntity.type2); }, 1f, false, new List<Param>()
                 { 
                     new Param("type", AirRally.CountSound.one, "Type", "The number Forthington will say"),
-                    new Param("type", AirRally.DistanceSound.close, "Type", "How far is Forthington?")
+                    new Param("type2", AirRally.DistanceSound.close, "Type", "How far is Forthington?")
                 }),
                 
             });

@@ -25,7 +25,7 @@ namespace HeavenStudio.Games.Loaders
                 new GameAction("look at",                   delegate { FirstContact.instance.lookAtDirection(eventCaller.currentEntity.type, eventCaller.currentEntity.type);  }, .5f, false, new List<Param>()
                 {
                     new Param("type", FirstContact.alienLookAt.lookAtTranslator, "alien look at what", "[Alien] will look at what"),
-                    new Param("type", FirstContact.translatorLookAt.lookAtAlien, "translator look at what", "[Translator] will look at what"),
+                    new Param("type2", FirstContact.translatorLookAt.lookAtAlien, "translator look at what", "[Translator] will look at what"),
                 }),
                 new GameAction("live bar beat",                   delegate { FirstContact.instance.liveBarBeat(eventCaller.currentEntity.toggle);  }, .5f, false, new List<Param>()
                 {
