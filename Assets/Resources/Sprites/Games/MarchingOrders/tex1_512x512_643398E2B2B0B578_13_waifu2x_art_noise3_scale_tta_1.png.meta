@@ -7,16 +7,16 @@ TextureImporter:
     second: a1
   - first:
       213: -2507892177621278130
-    second: a2
+    second: bgFloor
   - first:
       213: -3480662173297360594
-    second: a4
+    second: bgConveyor
   - first:
       213: 2782121640304946352
-    second: a3
+    second: bgPipes
   - first:
       213: -7114735164637011585
-    second: a5
+    second: bgWalls
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -118,28 +118,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: a1
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 96
-        width: 16
-        height: 16
-      alignment: 9
-      pivot: {x: 0.48379898, y: 0.54860353}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7ab206bae075d0ea0800000000000000
-      internalID: -5904967815896487001
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: a2
+      name: bgFloor
       rect:
         serializedVersion: 2
         x: 176
@@ -160,7 +139,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: a4
+      name: bgConveyor
       rect:
         serializedVersion: 2
         x: 32
@@ -181,7 +160,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: a3
+      name: bgPipes
       rect:
         serializedVersion: 2
         x: 32
@@ -202,7 +181,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: a5
+      name: bgWalls
       rect:
         serializedVersion: 2
         x: 32
