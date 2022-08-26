@@ -357,7 +357,7 @@ Transform:
   m_LocalScale: {x: 2.082, y: 2.082, z: 2.09291}
   m_Children: []
   m_Father: {fileID: 1558448215581441312}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3540459721523927521
 SpriteRenderer:
@@ -398,7 +398,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -2
   m_Sprite: {fileID: -2507892177621278130, guid: 846441fe5edbde04f9bafc98728df9b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -522,9 +522,9 @@ Transform:
   m_Children:
   - {fileID: 7150405460527854978}
   - {fileID: 8718636106605944465}
-  - {fileID: 1361520185717226678}
   - {fileID: 6576414245721136236}
   - {fileID: 984938186019639657}
+  - {fileID: 1361520185717226678}
   - {fileID: 261519192782193763}
   - {fileID: 4516561034748738355}
   - {fileID: 4676267018483621227}
@@ -693,7 +693,7 @@ Transform:
   m_LocalScale: {x: 2.082, y: 2.082, z: 2.09291}
   m_Children: []
   m_Father: {fileID: 1558448215581441312}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1930671809848167571
 SpriteRenderer:
@@ -734,7 +734,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -2
+  m_SortingOrder: -3
   m_Sprite: {fileID: 2782121640304946352, guid: 846441fe5edbde04f9bafc98728df9b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1163,7 +1163,7 @@ Transform:
   m_LocalScale: {x: 2.082, y: 2.082, z: 2.09291}
   m_Children: []
   m_Father: {fileID: 1558448215581441312}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4355670708046231056
 SpriteRenderer:
@@ -1204,7 +1204,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -2
   m_Sprite: {fileID: 2782121640304946352, guid: 846441fe5edbde04f9bafc98728df9b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
