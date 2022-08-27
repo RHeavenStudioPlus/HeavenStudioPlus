@@ -273,7 +273,7 @@ namespace HeavenStudio.Editor.Track
             SliderControl();
 
             #region Keyboard Shortcuts
-            if (!userIsEditingInputField)
+            if ((!userIsEditingInputField) && Editor.instance.isShortcutsEnabled)
             {
                 
                 if (Input.GetKeyDown(KeyCode.Space))

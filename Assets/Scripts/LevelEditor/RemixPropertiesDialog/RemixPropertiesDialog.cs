@@ -7,18 +7,21 @@ using TMPro;
 
 namespace HeavenStudio.Editor 
 {
-    public class RemixPropertiesDialog : MonoBehaviour
+    public class RemixPropertiesDialog : Dialog
     {
-        [SerializeField] private GameObject propertiesMenu;
-
         private void Start() {}
 
-        public void SwitchSettingsDialog()
+        public void SwitchPropertiesDialog()
         {
-            if(propertiesMenu.activeSelf) {
-                propertiesMenu.SetActive(false);
+            if(dialog.activeSelf) {
+                Editor.instance.canSelect = true;
+                Editor.instance.inAuthorativeMenu = false;
+                dialog.SetActive(false);
             } else {
-                propertiesMenu.SetActive(true);
+                ResetAllDialogs();
+                Editor.instance.canSelect = false;
+                Editor.instance.inAuthorativeMenu = true;
+                dialog.SetActive(true);
             }
         }
 
