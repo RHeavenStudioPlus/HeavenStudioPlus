@@ -34,7 +34,7 @@ namespace HeavenStudio.Games.Loaders
 					//the cues do nothing at the moment, so i temporarily disabled them
 					//new GameAction("marching", delegate { MarchingOrders.instance.CadetsMarch(eventCaller.currentEntity.beat); }, 4f, true),
 					
-					//new GameAction("attention", delegate {}, 2f, false),
+					new GameAction("attention", delegate { MarchingOrders.instance.SargeAttention(eventCaller.currentEntity.beat); }, 2f, false),
 					//new GameAction("march", delegate {}, 2f, false),
 					//new GameAction("halt", delegate {}, 2f, false),
 					//new GameAction("face turn", delegate {}, 4f, false, parameters: new List<Param>()
@@ -77,6 +77,17 @@ namespace HeavenStudio.Games
 		
 		public void CadetsMarch(float beat)
 		{
+			
+		}
+		
+		public void SargeAttention(float beat)
+		{
+			//ScheduleInput(beat, 1f, InputType.DIRECTION_DOWN_DOWN, SitSuccess, SitMiss, SitEmpty);
+            MultiSound.Play(new MultiSound.Sound[] {
+            new MultiSound.Sound("marchingOrders/attention1", beat - 0.25f),
+            new MultiSound.Sound("marchingOrders/attention2", beat),
+            new MultiSound.Sound("marchingOrders/attention3", beat + 0.5f),
+            });
 			
 		}
     }
