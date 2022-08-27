@@ -4,24 +4,23 @@ using UnityEngine;
 
 using HeavenStudio.Editor;
 
-public class NewRemixDialog : MonoBehaviour
+public class NewRemixDialog : Dialog
 {
-    [SerializeField] private GameObject diag;
-
     public void SwitchNewDialog()
     {
-        if(diag.activeSelf) {
-            diag.SetActive(false);
+        if(dialog.activeSelf) {
+            dialog.SetActive(false);
         } else {
-            diag.SetActive(true);
+            ResetAllDialogs();
+            dialog.SetActive(true);
         }
     }
 
     public void Confirm()
     {
         Editor.instance.NewRemix();
-        if(diag.activeSelf) {
-            diag.SetActive(false);
+        if(dialog.activeSelf) {
+            dialog.SetActive(false);
         }
     }
 }

@@ -52,9 +52,13 @@ namespace HeavenStudio.Editor
         [SerializeField] private Button FullScreenBTN;
         [SerializeField] private Button TempoFinderBTN;
         [SerializeField] private Button SnapDiagBTN;
+        [SerializeField] private Button ChartParamBTN;
 
         [SerializeField] private Button EditorThemeBTN;
         [SerializeField] private Button EditorSettingsBTN;
+
+        [Header("Dialogs")]
+        [SerializeField] private Dialog[] Dialogs;
 
         [Header("Tooltip")]
         public TMP_Text tooltipText;
@@ -68,7 +72,10 @@ namespace HeavenStudio.Editor
         public bool discordDuringTesting = false;
         public bool canSelect = true;
         public bool editingInputField = false;
+        public bool inAuthorativeMenu = false;
         public bool isCursorEnabled = true;
+
+        public bool isShortcutsEnabled { get { return (!inAuthorativeMenu) && (!editingInputField); } }
 
         private byte[] MusicBytes;
 
@@ -111,6 +118,7 @@ namespace HeavenStudio.Editor
             Tooltip.AddTooltip(FullScreenBTN.gameObject, "Preview <color=#adadad>[Tab]</color>");
             Tooltip.AddTooltip(TempoFinderBTN.gameObject, "Tempo Finder");
             Tooltip.AddTooltip(SnapDiagBTN.gameObject, "Snap Settings");
+            Tooltip.AddTooltip(ChartParamBTN.gameObject, "Remix Properties");
 
             Tooltip.AddTooltip(EditorSettingsBTN.gameObject, "Editor Settings <color=#adadad>[Ctrl+Shift+O]</color>");
             UpdateEditorStatus(true);
@@ -119,7 +127,7 @@ namespace HeavenStudio.Editor
         public void LateUpdate()
         {
             #region Keyboard Shortcuts
-            if (!editingInputField)
+            if (isShortcutsEnabled)
             {
                 if (Input.GetKeyDown(KeyCode.Tab))
                 {
@@ -160,7 +168,7 @@ namespace HeavenStudio.Editor
                 {
                     if (Input.GetKeyDown(KeyCode.N))
                     {
-                        NewRemix();
+                        NewBTN.onClick.Invoke();
                     }
                     else if (Input.GetKeyDown(KeyCode.O))
                     {
