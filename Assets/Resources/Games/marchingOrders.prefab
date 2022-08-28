@@ -1106,6 +1106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4161079182365989534}
+  - component: {fileID: -355020381370293803}
   m_Layer: 0
   m_Name: marchingOrders
   m_TagString: Untagged
@@ -1134,6 +1135,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-355020381370293803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7932591990038472721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88781b295be0fe245b61208a9de66199, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EligibleHits: []
+  scheduledInputs: []
+  firstEnable: 0
+  Sarge: {fileID: 2588778952987738506}
+  Cadet1: {fileID: 0}
+  Cadet2: {fileID: 0}
+  Cadet3: {fileID: 0}
+  CadetPlayer: {fileID: 0}
+  Player: {fileID: 8848288323294350469}
 --- !u!1 &8579906743383480424
 GameObject:
   m_ObjectHideFlags: 0
@@ -1269,7 +1291,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5783637365262278501, guid: 263eb1d1933d9544a8db7c1844e53bb6, type: 3}
       propertyPath: m_Name
-      value: Cadets1
+      value: Cadet1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 263eb1d1933d9544a8db7c1844e53bb6, type: 3}
@@ -1331,7 +1353,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5783637365262278501, guid: 263eb1d1933d9544a8db7c1844e53bb6, type: 3}
       propertyPath: m_Name
-      value: Cadets3
+      value: Cadet3
       objectReference: {fileID: 0}
     - target: {fileID: 5783637365262278501, guid: 263eb1d1933d9544a8db7c1844e53bb6, type: 3}
       propertyPath: m_IsActive
@@ -1397,7 +1419,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5783637365262278501, guid: 263eb1d1933d9544a8db7c1844e53bb6, type: 3}
       propertyPath: m_Name
-      value: Cadets2
+      value: Cadet2
       objectReference: {fileID: 0}
     - target: {fileID: 5783637365262278501, guid: 263eb1d1933d9544a8db7c1844e53bb6, type: 3}
       propertyPath: m_IsActive
@@ -1463,7 +1485,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5783637365262278501, guid: 263eb1d1933d9544a8db7c1844e53bb6, type: 3}
       propertyPath: m_Name
-      value: CadetsPlayer
+      value: CadetPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 5783637365262278501, guid: 263eb1d1933d9544a8db7c1844e53bb6, type: 3}
       propertyPath: m_IsActive
@@ -1471,6 +1493,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 263eb1d1933d9544a8db7c1844e53bb6, type: 3}
+--- !u!1 &8848288323294350469 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5783637365262278501, guid: 263eb1d1933d9544a8db7c1844e53bb6, type: 3}
+  m_PrefabInstance: {fileID: 3064968737360712672}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3369076211363356189 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 308962927016676861, guid: 263eb1d1933d9544a8db7c1844e53bb6, type: 3}
