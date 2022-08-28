@@ -34,13 +34,13 @@ namespace HeavenStudio.Games.Loaders
                     //the cues do nothing at the moment, so i temporarily disabled them
                     //new GameAction("marching", delegate { MarchingOrders.instance.CadetsMarch(eventCaller.currentEntity.beat); }, 4f, true),
                     
-                    //new GameAction("attention", delegate { var e = eventCaller.currentEntity; MarchingOrders.instance.SargeAttention(e.beat); }, 2f, false),
-                    //new GameAction("march", delegate {}, 2f, false),
+                    new GameAction("attention", delegate { MarchingOrders.instance.SargeAttention(eventCaller.currentEntity.beat); }, 2.25f, false),
+                    new GameAction("march", delegate { MarchingOrders.instance.SargeMarch(eventCaller.currentEntity.beat); }, 2.0f, false),
                     //new GameAction("halt", delegate {}, 2f, false),
                     //new GameAction("face turn", delegate {}, 4f, false, parameters: new List<Param>()
                     //{
                     //    new Param("type", MarchingOrders.DirectionFaceTurn.Right, "Direction", "The direction sarge wants the cadets to face"),
-                    //     new Param("type2", MarchingOrders.FaceTurnLength.Normal, "Length", "How fast or slow the event lasts"),
+                    //    new Param("type2", MarchingOrders.FaceTurnLength.Normal, "Length", "How fast or slow the event lasts"),
                     //}),
                 });
         }
@@ -52,6 +52,12 @@ namespace HeavenStudio.Games
     //using Scripts_MarchingOrders;
     public class MarchingOrders : Minigame
     {
+        public Animator Sarge;
+        public Animator Cadet1;
+        public Animator Cadet2;
+        public Animator Cadet3;
+		public Animator CadetPlayer;
+        public GameObject Player;
         public static MarchingOrders instance;
         
         public enum DirectionFaceTurn
@@ -84,12 +90,27 @@ namespace HeavenStudio.Games
         
         public void SargeAttention(float beat)
         {
-            //MultiSound.Play(new MultiSound.Sound[] {
-            //new MultiSound.Sound("marchingOrders/attention1", beat),
-            //new MultiSound.Sound("marchingOrders/attention2", beat + 0.25f),
-            //new MultiSound.Sound("marchingOrders/attention3", beat + 0.75f),
-            //});
+            MultiSound.Play(new MultiSound.Sound[] {
+            new MultiSound.Sound("marchingOrders/attention1", beat),
+            new MultiSound.Sound("marchingOrders/attention2", beat + 0.25f),
+            new MultiSound.Sound("marchingOrders/attention3", beat + 0.75f),
+            });
+			
+			BeatAction.New(Player, new List<BeatAction.Action>() 
+                {
+                new BeatAction.Action(beat + 0.25f,     delegate { Sarge.Play("Talk", -1, 0);}),
+                });
         }
+		
+		public void SargeMarch(float beat)
+        {
+        	Jukebox.PlayOneShot("games/marchingOrders/march1");
+			BeatAction.New(Player, new List<BeatAction.Action>() 
+                {
+                new BeatAction.Action(beat,     delegate { Sarge.Play("Talk", -1, 0);}),
+                });
+        }
+        
     }
 }
 
