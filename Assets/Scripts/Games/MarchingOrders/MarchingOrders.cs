@@ -82,7 +82,11 @@ namespace HeavenStudio.Games
         // Update is called once per frame
         void Update()
         {
-            
+			if (PlayerInput.Pressed() && !IsExpectingInputNow())
+            {
+            Jukebox.PlayOneShotGame("miss");
+            Sarge.Play("Anger", -1, 0);
+            }
         }
         
 		public void Bop(float beat)
@@ -112,10 +116,6 @@ namespace HeavenStudio.Games
 			BeatAction.New(Player, new List<BeatAction.Action>() 
                 {
                 new BeatAction.Action(beat + 0.25f,     delegate { Sarge.Play("Talk", -1, 0);}),
-                new BeatAction.Action(beat + 0.25f,     delegate { Cadet1.Play("Idle", -1, 0);}),
-				new BeatAction.Action(beat + 0.25f,     delegate { Cadet2.Play("Idle", -1, 0);}),
-				new BeatAction.Action(beat + 0.25f,     delegate { Cadet3.Play("Idle", -1, 0);}),
-				new BeatAction.Action(beat + 0.25f,     delegate { CadetPlayer.Play("Idle", -1, 0);}),
                 });
         }
 		
@@ -129,10 +129,6 @@ namespace HeavenStudio.Games
 			BeatAction.New(Player, new List<BeatAction.Action>() 
                 {
                 new BeatAction.Action(beat,     delegate { Sarge.Play("Talk", -1, 0);}),
-                new BeatAction.Action(beat,     delegate { Cadet1.Play("Idle", -1, 0);}),
-				new BeatAction.Action(beat,     delegate { Cadet2.Play("Idle", -1, 0);}),
-				new BeatAction.Action(beat,     delegate { Cadet3.Play("Idle", -1, 0);}),
-				new BeatAction.Action(beat,     delegate { CadetPlayer.Play("Idle", -1, 0);}),
                 });
         }
         
