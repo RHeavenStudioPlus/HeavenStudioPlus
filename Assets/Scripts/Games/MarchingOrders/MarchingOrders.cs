@@ -32,11 +32,12 @@ namespace HeavenStudio.Games.Loaders
                     
                     
                     //the cues do nothing at the moment, so i temporarily disabled them
+                    new GameAction("bop", delegate { MarchingOrders.instance.Bop(eventCaller.currentEntity.beat); }, 1f, false),
                     //new GameAction("marching", delegate { MarchingOrders.instance.CadetsMarch(eventCaller.currentEntity.beat); }, 4f, true),
                     
                     new GameAction("attention", delegate { MarchingOrders.instance.SargeAttention(eventCaller.currentEntity.beat); }, 2.25f, false),
                     new GameAction("march", delegate { MarchingOrders.instance.SargeMarch(eventCaller.currentEntity.beat); }, 2.0f, false),
-                    //new GameAction("halt", delegate {}, 2f, false),
+                    new GameAction("halt", delegate {}, 2f, false),
                     //new GameAction("face turn", delegate {}, 4f, false, parameters: new List<Param>()
                     //{
                     //    new Param("type", MarchingOrders.DirectionFaceTurn.Right, "Direction", "The direction sarge wants the cadets to face"),
@@ -52,6 +53,7 @@ namespace HeavenStudio.Games
     //using Scripts_MarchingOrders;
     public class MarchingOrders : Minigame
     {
+		[Header("References")]
         public Animator Sarge;
         public Animator Cadet1;
         public Animator Cadet2;
@@ -83,6 +85,17 @@ namespace HeavenStudio.Games
             
         }
         
+		public void Bop(float beat)
+        {
+        	BeatAction.New(Player, new List<BeatAction.Action>() 
+                {
+                new BeatAction.Action(beat,     delegate { Cadet1.Play("Bop", -1, 0);}),
+				new BeatAction.Action(beat,     delegate { Cadet2.Play("Bop", -1, 0);}),
+				new BeatAction.Action(beat,     delegate { Cadet3.Play("Bop", -1, 0);}),
+				new BeatAction.Action(beat,     delegate { CadetPlayer.Play("Bop", -1, 0);}),
+                });
+        }
+		
         public void CadetsMarch(float beat)
         {
         	
@@ -99,15 +112,27 @@ namespace HeavenStudio.Games
 			BeatAction.New(Player, new List<BeatAction.Action>() 
                 {
                 new BeatAction.Action(beat + 0.25f,     delegate { Sarge.Play("Talk", -1, 0);}),
+                new BeatAction.Action(beat + 0.25f,     delegate { Cadet1.Play("Idle", -1, 0);}),
+				new BeatAction.Action(beat + 0.25f,     delegate { Cadet2.Play("Idle", -1, 0);}),
+				new BeatAction.Action(beat + 0.25f,     delegate { Cadet3.Play("Idle", -1, 0);}),
+				new BeatAction.Action(beat + 0.25f,     delegate { CadetPlayer.Play("Idle", -1, 0);}),
                 });
         }
 		
 		public void SargeMarch(float beat)
         {
-        	Jukebox.PlayOneShot("games/marchingOrders/march1");
+			MultiSound.Play(new MultiSound.Sound[] {
+            new MultiSound.Sound("marchingOrders/march1", beat),
+            new MultiSound.Sound("marchingOrders/march2", beat + 1f),
+            });
+			
 			BeatAction.New(Player, new List<BeatAction.Action>() 
                 {
                 new BeatAction.Action(beat,     delegate { Sarge.Play("Talk", -1, 0);}),
+                new BeatAction.Action(beat,     delegate { Cadet1.Play("Idle", -1, 0);}),
+				new BeatAction.Action(beat,     delegate { Cadet2.Play("Idle", -1, 0);}),
+				new BeatAction.Action(beat,     delegate { Cadet3.Play("Idle", -1, 0);}),
+				new BeatAction.Action(beat,     delegate { CadetPlayer.Play("Idle", -1, 0);}),
                 });
         }
         
