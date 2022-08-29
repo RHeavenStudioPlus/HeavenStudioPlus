@@ -32,12 +32,12 @@ namespace HeavenStudio.Games.Loaders
                     
                     
                     //the cues do nothing at the moment, so i temporarily disabled them
-                    new GameAction("bop", delegate { MarchingOrders.instance.Bop(eventCaller.currentEntity.beat); }, 1f, false),
+                    new GameAction("bop", delegate { var e = eventCaller.currentEntity; MarchingOrders.instance.Bop(e.beat, e.length); }, 1f, true),
                     //new GameAction("marching", delegate { MarchingOrders.instance.CadetsMarch(eventCaller.currentEntity.beat); }, 4f, true),
                     
-                    new GameAction("attention", delegate { MarchingOrders.instance.SargeAttention(eventCaller.currentEntity.beat); }, 2.25f, false),
-                    new GameAction("march", delegate { MarchingOrders.instance.SargeMarch(eventCaller.currentEntity.beat); }, 2.0f, false),
-                    new GameAction("halt", delegate {}, 2f, false),
+                    new GameAction("attention", delegate { var e = eventCaller.currentEntity; MarchingOrders.instance.SargeAttention(e.beat); }, 2.25f, false),
+                    new GameAction("march", delegate { var e = eventCaller.currentEntity; MarchingOrders.instance.SargeMarch(e.beat); }, 2.0f, false),
+                    new GameAction("halt", delegate { var e = eventCaller.currentEntity; MarchingOrders.instance.SargeHalt(e.beat); }, 2f, false),
                     //new GameAction("face turn", delegate {}, 4f, false, parameters: new List<Param>()
                     //{
                     //    new Param("type", MarchingOrders.DirectionFaceTurn.Right, "Direction", "The direction sarge wants the cadets to face"),
@@ -53,6 +53,7 @@ namespace HeavenStudio.Games
     //using Scripts_MarchingOrders;
     public class MarchingOrders : Minigame
     {
+		//code is just copied from other minigame code, i will polish them later
 		[Header("References")]
         public Animator Sarge;
         public Animator Cadet1;
@@ -60,6 +61,11 @@ namespace HeavenStudio.Games
         public Animator Cadet3;
 		public Animator CadetPlayer;
         public GameObject Player;
+		
+		
+		public GameEvent bop = new GameEvent();
+		public GameEvent noBop = new GameEvent();
+		
         public static MarchingOrders instance;
         
         public enum DirectionFaceTurn
@@ -82,6 +88,19 @@ namespace HeavenStudio.Games
         // Update is called once per frame
         void Update()
         {
+			var cond = Conductor.instance;
+            if (cond.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1))
+            {
+                if (cond.songPositionInBeats >= bop.startBeat && cond.songPositionInBeats < bop.startBeat + bop.length)
+                {
+                    if (!(cond.songPositionInBeats >= noBop.startBeat && cond.songPositionInBeats < noBop.startBeat + noBop.length))
+                        Cadet1.Play("Bop", -1, 0);
+					    Cadet2.Play("Bop", -1, 0);
+					    Cadet3.Play("Bop", -1, 0);
+						CadetPlayer.Play("Bop", -1, 0);
+                }
+            }
+			
 			if (PlayerInput.Pressed() && !IsExpectingInputNow())
             {
             Jukebox.PlayOneShotGame("miss");
@@ -89,15 +108,10 @@ namespace HeavenStudio.Games
             }
         }
         
-		public void Bop(float beat)
+		public void Bop(float beat, float length)
         {
-        	BeatAction.New(Player, new List<BeatAction.Action>() 
-                {
-                new BeatAction.Action(beat,     delegate { Cadet1.Play("Bop", -1, 0);}),
-				new BeatAction.Action(beat,     delegate { Cadet2.Play("Bop", -1, 0);}),
-				new BeatAction.Action(beat,     delegate { Cadet3.Play("Bop", -1, 0);}),
-				new BeatAction.Action(beat,     delegate { CadetPlayer.Play("Bop", -1, 0);}),
-                });
+            bop.length = length;
+            bop.startBeat = beat;
         }
 		
         public void CadetsMarch(float beat)
@@ -129,9 +143,25 @@ namespace HeavenStudio.Games
 			BeatAction.New(Player, new List<BeatAction.Action>() 
                 {
                 new BeatAction.Action(beat,     delegate { Sarge.Play("Talk", -1, 0);}),
-                });
+				new BeatAction.Action(beat + 1f,     delegate { Cadet1.Play("MarchL", -1, 0);}),
+                new BeatAction.Action(beat + 1f,     delegate { Cadet2.Play("MarchL", -1, 0);}),
+				new BeatAction.Action(beat + 1f,     delegate { Cadet3.Play("MarchL", -1, 0);}),
+				new BeatAction.Action(beat + 1f,     delegate { CadetPlayer.Play("MarchL", -1, 0);}),
+				});
         }
         
+		public void SargeHalt(float beat)
+        {
+			MultiSound.Play(new MultiSound.Sound[] {
+            new MultiSound.Sound("marchingOrders/halt1", beat),
+            new MultiSound.Sound("marchingOrders/halt2", beat + 1f),
+            });
+			
+			BeatAction.New(Player, new List<BeatAction.Action>() 
+                {
+                new BeatAction.Action(beat,     delegate { Sarge.Play("Talk", -1, 0);}),
+				});
+        }
     }
 }
 
