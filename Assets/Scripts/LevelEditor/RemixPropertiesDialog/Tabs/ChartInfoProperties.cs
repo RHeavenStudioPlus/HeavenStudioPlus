@@ -4,13 +4,10 @@ using TMPro;
 
 namespace HeavenStudio.Editor 
 {
-    public class ChartInfoProperties : MonoBehaviour
+    public class ChartInfoProperties : TabsContent
     {
         [Header("General References")]
         [SerializeField] private GameObject propertyHolder;
-
-        [Header("Editable Properties")]
-        [SerializeField] private string[] propertyNames;
 
         [Header("Property Prefabs")]
         [SerializeField] private GameObject IntegerP;
@@ -20,7 +17,7 @@ namespace HeavenStudio.Editor
         [SerializeField] private GameObject ColorP;
         [SerializeField] private GameObject StringP;
 
-        private void AddParam(string propertyName, object type, string caption, string tooltip = "")
+        public void AddParam(RemixPropertiesDialog diag, string propertyName, object type, string caption, string tooltip = "")
         {
             GameObject prefab = IntegerP;
             GameObject input;
@@ -31,43 +28,43 @@ namespace HeavenStudio.Editor
             {
                 prefab = IntegerP;
                 input = InitPrefab(prefab, tooltip);
-                var property = input.GetComponent<NumberPropertyPrefab>();
-                property.SetProperties(propertyName, type, caption);
+                var property = input.GetComponent<NumberChartPropertyPrefab>();
+                property.SetProperties(diag, propertyName, type, caption);
             }
             else if (objType == typeof(EntityTypes.Float))
             {
                 prefab = FloatP;
                 input = InitPrefab(prefab, tooltip);
-                var property = input.GetComponent<NumberPropertyPrefab>();
-                property.SetProperties(propertyName, type, caption);
+                var property = input.GetComponent<NumberChartPropertyPrefab>();
+                property.SetProperties(diag, propertyName, type, caption);
             }
             else if (type is bool)
             {
                 prefab = BooleanP;
                 input = InitPrefab(prefab, tooltip);
-                var property = input.GetComponent<BoolPropertyPrefab>();
-                property.SetProperties(propertyName, type, caption);
+                var property = input.GetComponent<BoolChartPropertyPrefab>();
+                property.SetProperties(diag, propertyName, type, caption);
             }
             else if (objType.IsEnum)
             {
                 prefab = DropdownP;
                 input = InitPrefab(prefab, tooltip);
-                var property = input.GetComponent<EnumPropertyPrefab>();
-                property.SetProperties(propertyName, type, caption);
+                var property = input.GetComponent<EnumChartPropertyPrefab>();
+                property.SetProperties(diag, propertyName, type, caption);
             }
             else if (objType == typeof(Color))
             {
                 prefab = ColorP;
                 input = InitPrefab(prefab, tooltip);
-                var property = input.GetComponent<ColorPropertyPrefab>();
-                property.SetProperties(propertyName, type, caption);
+                var property = input.GetComponent<ColorChartPropertyPrefab>();
+                property.SetProperties(diag, propertyName, type, caption);
             }
             else if (objType == typeof(string))
             {
                 prefab = StringP;
                 input = InitPrefab(prefab, tooltip);
-                var property = input.GetComponent<StringPropertyPrefab>();
-                property.SetProperties(propertyName, type, caption);
+                var property = input.GetComponent<StringChartPropertyPrefab>();
+                property.SetProperties(diag, propertyName, type, caption);
             }
             else
             {
@@ -87,6 +84,14 @@ namespace HeavenStudio.Editor
                 Tooltip.AddTooltip(input, "", tooltip);
 
             return input;
+        }
+
+        public override void OnOpenTab()
+        {
+        }
+
+        public override void OnCloseTab()
+        {
         }
     }
 }
