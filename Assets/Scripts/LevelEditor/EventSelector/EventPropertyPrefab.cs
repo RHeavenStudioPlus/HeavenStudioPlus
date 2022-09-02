@@ -172,7 +172,7 @@ namespace HeavenStudio.Editor
                     dropdown.value = selected;
 
                     dropdown.onValueChanged.AddListener(_ =>
-                        parameterManager.entity[propertyName] = Enum.ToObject(enumType, dropdown.value)
+                        parameterManager.entity[propertyName] = (int) enumVals.GetValue(dropdown.value)
                     );
                     break;
 
