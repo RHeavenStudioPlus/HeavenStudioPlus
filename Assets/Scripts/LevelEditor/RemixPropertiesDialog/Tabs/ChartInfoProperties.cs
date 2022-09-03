@@ -8,6 +8,7 @@ namespace HeavenStudio.Editor
     {
         [Header("General References")]
         [SerializeField] private GameObject propertyHolder;
+        RemixPropertiesDialog dialog;
 
         [Header("Property Prefabs")]
         [SerializeField] private GameObject IntegerP;
@@ -16,6 +17,14 @@ namespace HeavenStudio.Editor
         [SerializeField] private GameObject DropdownP;
         [SerializeField] private GameObject ColorP;
         [SerializeField] private GameObject StringP;
+
+        [Header("Layout Prefabs")]
+        [SerializeField] private GameObject DividerP;
+
+        public void Init(RemixPropertiesDialog diag)
+        {
+            dialog = diag;
+        }
 
         public void AddParam(RemixPropertiesDialog diag, string propertyName, object type, string caption, bool isReadOnly = false, string tooltip = "")
         {
@@ -73,6 +82,12 @@ namespace HeavenStudio.Editor
             }
         }
 
+        public void AddDivider(RemixPropertiesDialog diag)
+        {
+            GameObject prefab = DividerP;
+            InitPrefab(prefab);
+        }
+
         private GameObject InitPrefab(GameObject prefab, string tooltip = "")
         {
             GameObject input = Instantiate(prefab);
@@ -88,6 +103,7 @@ namespace HeavenStudio.Editor
 
         public override void OnOpenTab()
         {
+            dialog.SetupDialog();
         }
 
         public override void OnCloseTab()

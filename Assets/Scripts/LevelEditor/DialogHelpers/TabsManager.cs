@@ -23,6 +23,14 @@ namespace HeavenStudio.Editor
             activeContent.GetComponent<TabsContent>().OnOpenTab();
         }
 
+        public void OpenContent()
+        {
+            if (activeContent != null)
+            {
+                activeContent.GetComponent<TabsContent>().OnOpenTab();
+            }
+        }
+
         public void CloseContent()
         {
             if (activeContent != null)
