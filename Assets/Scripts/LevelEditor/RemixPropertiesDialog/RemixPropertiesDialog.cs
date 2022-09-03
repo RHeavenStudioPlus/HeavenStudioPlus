@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,10 +11,8 @@ namespace HeavenStudio.Editor
     public class RemixPropertiesDialog : Dialog
     {
         [Header("Editable Properties")]
-        [SerializeField] string[] infoTags;
-        [SerializeField] string[] infoLabels;
-        [SerializeField] string[] flavourTags;
-        [SerializeField] string[] flavourLabels;
+        [SerializeField] PropertyTag[] infoTags;
+        [SerializeField] PropertyTag[] flavourTags;
 
         [Header("Containers")]
         [SerializeField] ChartInfoProperties infoContainer;
@@ -21,17 +20,20 @@ namespace HeavenStudio.Editor
 
         public DynamicBeatmap chart;
 
-        private void Start() {}
+        private void Start() { }
 
         public void SwitchPropertiesDialog()
         {
-            if(dialog.activeSelf) {
+            if (dialog.activeSelf)
+            {
                 Editor.instance.canSelect = true;
                 Editor.instance.inAuthorativeMenu = false;
                 dialog.SetActive(false);
 
                 CleanDialog();
-            } else {
+            }
+            else
+            {
                 ResetAllDialogs();
                 Editor.instance.canSelect = false;
                 Editor.instance.inAuthorativeMenu = true;
@@ -41,37 +43,44 @@ namespace HeavenStudio.Editor
             }
         }
 
-        private void SetupDialog() {
+        private void SetupDialog()
+        {
             chart = GameManager.instance.Beatmap;
-            string[] tags = infoTags;
-            string[] labels = infoLabels;
+            PropertyTag[] tags = infoTags;
             int i = 0;
 
-            foreach (string property in tags) {
-                if (chart.properties.ContainsKey(property)) {
-                    infoContainer.AddParam(this, property, chart.properties[property], labels[i]);
+            foreach (PropertyTag property in tags)
+            {
+                if (chart.properties.ContainsKey(property.tag))
+                {
+                    Debug.Log($"Found property: {property.tag} with label {property.label}");
+                    infoContainer.AddParam(this, property.tag, chart.properties[property.tag], property.label, property.isReadOnly);
                 }
                 else
                 {
-                    if (property == "divider")
+                    if (property.tag == "divider")
                     {
                         //TODO: prefab that's just a dividing line
                     }
                     else
                     {
-                        Debug.LogWarning("Property Menu generation Warning: Property " + property + " not found");
+                        Debug.LogWarning("Property Menu generation Warning: Property " + property.tag + " not found, skipping...");
                     }
                 }
                 i++;
             }
         }
 
-        private void CleanDialog() {
-            foreach (Transform child in dialog.transform) {
-                Destroy(child.gameObject);
-            }
-        }
+        private void CleanDialog() {}
 
         private void Update() {}
+
+        [Serializable]
+        public class PropertyTag
+        {
+            public string tag;
+            public string label;
+            public bool isReadOnly;
+        }
     }
 }
