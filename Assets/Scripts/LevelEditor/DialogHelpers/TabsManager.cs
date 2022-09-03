@@ -15,10 +15,20 @@ namespace HeavenStudio.Editor
         {
             if (activeContent != null)
             {
+                activeContent.GetComponent<TabsContent>().OnCloseTab();
                 activeContent.SetActive(false);
             }
             activeContent = content;
             activeContent.SetActive(true);
+            activeContent.GetComponent<TabsContent>().OnOpenTab();
+        }
+
+        public void CloseContent()
+        {
+            if (activeContent != null)
+            {
+                activeContent.GetComponent<TabsContent>().OnCloseTab();
+            }
         }
     }
 }

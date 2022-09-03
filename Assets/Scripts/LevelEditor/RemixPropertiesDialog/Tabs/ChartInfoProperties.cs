@@ -17,7 +17,7 @@ namespace HeavenStudio.Editor
         [SerializeField] private GameObject ColorP;
         [SerializeField] private GameObject StringP;
 
-        public void AddParam(RemixPropertiesDialog diag, string propertyName, object type, string caption, string tooltip = "")
+        public void AddParam(RemixPropertiesDialog diag, string propertyName, object type, string caption, bool isReadOnly = false, string tooltip = "")
         {
             GameObject prefab = IntegerP;
             GameObject input;
@@ -92,6 +92,9 @@ namespace HeavenStudio.Editor
 
         public override void OnCloseTab()
         {
+            foreach (Transform child in propertyHolder.transform) {
+                Destroy(child.gameObject);
+            }
         }
     }
 }
