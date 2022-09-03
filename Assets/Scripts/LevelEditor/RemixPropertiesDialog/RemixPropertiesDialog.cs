@@ -10,6 +10,9 @@ namespace HeavenStudio.Editor
 {
     public class RemixPropertiesDialog : Dialog
     {
+        [Header("General References")]
+        [SerializeField] TabsManager tabsManager;
+
         [Header("Editable Properties")]
         [SerializeField] PropertyTag[] infoTags;
         [SerializeField] PropertyTag[] flavourTags;
@@ -26,24 +29,26 @@ namespace HeavenStudio.Editor
         {
             if (dialog.activeSelf)
             {
+                tabsManager.CloseContent();
                 Editor.instance.canSelect = true;
                 Editor.instance.inAuthorativeMenu = false;
                 dialog.SetActive(false);
-
-                CleanDialog();
             }
             else
             {
                 ResetAllDialogs();
+
+                infoContainer.Init(this);
+                //flavourContainer.Init(this);
+
+                tabsManager.OpenContent();
                 Editor.instance.canSelect = false;
                 Editor.instance.inAuthorativeMenu = true;
                 dialog.SetActive(true);
-
-                SetupDialog();
             }
         }
 
-        private void SetupDialog()
+        public void SetupDialog()
         {
             chart = GameManager.instance.Beatmap;
             PropertyTag[] tags = infoTags;
@@ -60,7 +65,7 @@ namespace HeavenStudio.Editor
                 {
                     if (property.tag == "divider")
                     {
-                        //TODO: prefab that's just a dividing line
+                        infoContainer.AddDivider(this);
                     }
                     else
                     {
