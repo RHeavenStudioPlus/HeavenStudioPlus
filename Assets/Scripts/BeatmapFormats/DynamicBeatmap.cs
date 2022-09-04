@@ -26,28 +26,29 @@ namespace HeavenStudio
                 {"productsubversion", 0},
                 // file format version
                 {"riqversion", CurrentRiqVersion},
-                // mapper set properties? (use this to flash the button)
+                // mapper set properties? (future: use this to flash the button)
                 {"propertiesmodified", false},
 
                 ////// CATEGORY 1: SONG INFO
                 // general chart info
-                {"remixtitle", "New Remix"},    // chart name
-                {"remixauthor", "Your Name"},   // charter's name
-                {"remixlevel", 1},              // chart difficulty (maybe offer a suggestion but still have the mapper determine it)
-                {"remixtempo", 120f},           // avg. chart tempo
-                {"remixtags", ""},              // chart tags
-                {"icontype", 0},                // chart icon (presets, custom - future)
-                {"iconurl", ""},                // custom icon location (future)
+                {"remixtitle", "New Remix"},        // chart name
+                {"remixauthor", "Your Name"},       // charter's name
+                {"remixdesc", "Remix Description"}, // chart description
+                {"remixlevel", 1},                  // chart difficulty (maybe offer a suggestion but still have the mapper determine it)
+                {"remixtempo", 120f},               // avg. chart tempo
+                {"remixtags", ""},                  // chart tags
+                {"icontype", 0},                    // chart icon (presets, custom - future)
+                {"iconurl", ""},                    // custom icon location (future)
 
                 // chart song info
-                {"idolgenre", "Song Genre"},    // song genre
-                {"idolsong", "Song Name"},      // song name
-                {"idolcredit", "Artist"},       // song artist
+                {"idolgenre", "Song Genre"},        // song genre
+                {"idolsong", "Song Name"},          // song name
+                {"idolcredit", "Artist"},           // song artist
 
                 ////// CATEGORY 2: PROLOGUE AND EPILOGUE
                 // chart prologue
-                {"prologuetype", 0},            // prologue card animation (future)
-                {"prologuecaption", "Remix"},   // prologue card sub-title (future)
+                {"prologuetype", 0},                // prologue card animation (future)
+                {"prologuecaption", "Remix"},       // prologue card sub-title (future)
 
                 // chart results screen messages
                 {"resultcaption", "Rhythm League Notes"},                       // result screen header
@@ -331,6 +332,7 @@ namespace HeavenStudio
         /// </summary>
         public void PostProcess()
         {
+            DynamicBeatmap beatmapModel = new DynamicBeatmap();
             Minigames.Minigame game;
             Minigames.GameAction action;
             System.Type type, pType;
@@ -375,6 +377,14 @@ namespace HeavenStudio
                     }
                 }
                 e.DynamicData = dynamicData;
+            }
+            //go thru each property of the model beatmap and add any missing keyvalue pair
+            foreach (var prop in beatmapModel.properties)
+            {
+                if (!properties.ContainsKey(prop.Key))
+                {
+                    properties.Add(prop.Key, prop.Value);
+                }
             }
         }
     }

@@ -23,6 +23,9 @@ namespace HeavenStudio.Editor
         [SerializeField] private GameObject HeaderP;
         [SerializeField] private GameObject SubHeaderP;
 
+        [Header("Editable Properties")]
+        [SerializeField] RemixPropertiesDialog.PropertyTag[] tags;
+
         public void Init(RemixPropertiesDialog diag)
         {
             dialog = diag;
@@ -116,7 +119,7 @@ namespace HeavenStudio.Editor
 
         public override void OnOpenTab()
         {
-            dialog.SetupDialog();
+            dialog.SetupDialog(tags, this);
         }
 
         public override void OnCloseTab()
