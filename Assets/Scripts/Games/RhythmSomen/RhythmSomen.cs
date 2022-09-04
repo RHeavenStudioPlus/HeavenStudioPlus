@@ -11,10 +11,25 @@ namespace HeavenStudio.Games.Loaders
         public static Minigame AddGame(EventCaller eventCaller) {
             return new Minigame("rhythmSomen", "Rhythm Sōmen", "000000", false, false, new List<GameAction>()
             {
-                new GameAction("crane (far)",                   delegate { RhythmSomen.instance.DoFarCrane(eventCaller.currentEntity.beat); }, 4.0f, false),
-                new GameAction("crane (close)",                   delegate { RhythmSomen.instance.DoCloseCrane(eventCaller.currentEntity.beat); }, 3.0f, false),
-                new GameAction("crane (both)",                   delegate { RhythmSomen.instance.DoBothCrane(eventCaller.currentEntity.beat); }, 4.0f, false),
-                new GameAction("offbeat bell",                   delegate { RhythmSomen.instance.DoBell(eventCaller.currentEntity.beat); }, 1.0f, false),
+                new GameAction("crane (far)", "Far Crane")
+                {
+                    function = delegate { RhythmSomen.instance.DoFarCrane(eventCaller.currentEntity.beat); }, 
+                    defaultLength = 4.0f, 
+                },
+                new GameAction("crane (close)", "Close Crane")
+                {
+                    function = delegate { RhythmSomen.instance.DoCloseCrane(eventCaller.currentEntity.beat); }, 
+                    defaultLength = 3.0f, 
+                },
+                new GameAction("crane (both)", "Both Cranes")
+                {
+                    function = delegate { RhythmSomen.instance.DoBothCrane(eventCaller.currentEntity.beat); }, 
+                    defaultLength = 4.0f, 
+                },
+                new GameAction("offbeat bell", "Offbeat Warning")
+                {
+                    function = delegate { RhythmSomen.instance.DoBell(eventCaller.currentEntity.beat); },
+                },
             });
         }
     }
