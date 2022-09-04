@@ -16,13 +16,23 @@ namespace HeavenStudio.Games.Loaders
             {
 
 
-                new GameAction("Cowbell",                 delegate { Tunnel.instance.StartCowbell(eventCaller.currentEntity.beat, eventCaller.currentEntity.toggle, eventCaller.currentEntity.length); }, 1f, true, parameters: new List<Param>()
+                new GameAction("cowbell", "Cowbell")
                 {
-                    new Param("toggle", false, "Driver can stop", "Lets the driver stop if the player makes too many mistakes"),
-                }),
+                    function = delegate { Tunnel.instance.StartCowbell(eventCaller.currentEntity.beat, eventCaller.currentEntity["toggle"], eventCaller.currentEntity.length); },
+                    defaultLength = 1f,
+                    resizable = true,
+                    parameters = new List<Param>()
+                    {
+                        new Param("toggle", false, "Driver can stop", "Lets the driver stop if the player makes too many mistakes"),
+                    }
 
-                new GameAction("Count In",                 delegate { Tunnel.instance.CountIn(eventCaller.currentEntity.beat,  eventCaller.currentEntity.length); }, 1f, true),
-
+                },
+                new GameAction("countin", "Count In")
+                {
+                    function = delegate { Tunnel.instance.CountIn(eventCaller.currentEntity.beat,  eventCaller.currentEntity.length); }, 
+                    defaultLength = 3f, 
+                    resizable = true,
+                }
 
             }
             //new List<string>() {"ntr", "aim"},
