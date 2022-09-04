@@ -13,13 +13,8 @@ namespace HeavenStudio.Editor
         [Header("General References")]
         [SerializeField] TabsManager tabsManager;
 
-        [Header("Editable Properties")]
-        [SerializeField] PropertyTag[] infoTags;
-        [SerializeField] PropertyTag[] flavourTags;
-
         [Header("Containers")]
-        [SerializeField] ChartInfoProperties infoContainer;
-        // [SerializeField] ChartFlavourProperties flavourContainer;
+        [SerializeField] ChartInfoProperties[] containers;
 
         public DynamicBeatmap chart;
 
@@ -38,48 +33,51 @@ namespace HeavenStudio.Editor
             {
                 ResetAllDialogs();
 
-                infoContainer.Init(this);
-                //flavourContainer.Init(this);
+                foreach (var container in containers)
+                {
+                    container.Init(this);
+                }
 
                 tabsManager.OpenContent();
                 Editor.instance.canSelect = false;
                 Editor.instance.inAuthorativeMenu = true;
                 dialog.SetActive(true);
+
+                chart = GameManager.instance.Beatmap;
+                chart["propertiesmodified"] = true;
             }
         }
 
-        public void SetupDialog()
+        public void SetupDialog(PropertyTag[] tags, ChartInfoProperties container)
         {
             chart = GameManager.instance.Beatmap;
-            PropertyTag[] tags = infoTags;
-            int i = 0;
+            chart["propertiesmodified"] = true;
 
             foreach (PropertyTag property in tags)
             {
                 if (chart.properties.ContainsKey(property.tag))
                 {
-                    infoContainer.AddParam(this, property.tag, chart.properties[property.tag], property.label, property.isReadOnly);
+                    container.AddParam(this, property.tag, chart.properties[property.tag], property.label, property.isReadOnly);
                 }
                 else
                 {
                     if (property.tag == "divider")
                     {
-                        infoContainer.AddDivider(this);
+                        container.AddDivider(this);
                     }
                     else if (property.tag == "header")
                     {
-                        infoContainer.AddHeader(this, property.label);
+                        container.AddHeader(this, property.label);
                     }
                     else if (property.tag == "subheader")
                     {
-                        infoContainer.AddSubHeader(this, property.label);
+                        container.AddSubHeader(this, property.label);
                     }
                     else
                     {
                         Debug.LogWarning("Property Menu generation Warning: Property " + property.tag + " not found, skipping...");
                     }
                 }
-                i++;
             }
         }
 
