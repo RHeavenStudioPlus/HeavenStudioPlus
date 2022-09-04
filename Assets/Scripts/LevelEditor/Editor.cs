@@ -307,17 +307,30 @@ namespace HeavenStudio.Editor
             try
             {
                 if (clip != null)
-                    MusicBytes = OggVorbis.VorbisPlugin.GetOggVorbis(Conductor.instance.musicSource.clip, 1);
+                    MusicBytes = OggVorbis.VorbisPlugin.GetOggVorbis(clip, 1);
                 else
                 {
                     MusicBytes = null;
                     Debug.LogWarning("Failed to load music file! The stream is currently empty.");
                 }
             }
-            catch (System.Exception)
+            catch (System.ArgumentNullException)
             {
+                clip = null;
                 MusicBytes = null;
                 Debug.LogWarning("Failed to load music file! The stream is currently empty.");
+            }
+            catch (System.ArgumentOutOfRangeException)
+            {
+                clip = null;
+                MusicBytes = null;
+                Debug.LogWarning("Failed to load music file! The stream is malformed.");
+            }
+            catch (System.ArgumentException)
+            {
+                clip = null;
+                MusicBytes = null;
+                Debug.LogWarning("Failed to load music file! Only 1 or 2 channels are supported!.");
             }
 
             return clip;

@@ -58,12 +58,19 @@ namespace HeavenStudio.Editor
             {
                 if (chart.properties.ContainsKey(property.tag))
                 {
-                    Debug.Log($"Found property: {property.tag} with label {property.label}");
                     infoContainer.AddParam(this, property.tag, chart.properties[property.tag], property.label, property.isReadOnly);
                 }
                 else
                 {
                     if (property.tag == "divider")
+                    {
+                        infoContainer.AddDivider(this);
+                    }
+                    else if (property.tag == "heading")
+                    {
+                        infoContainer.AddDivider(this);
+                    }
+                    else if (property.tag == "subheading")
                     {
                         infoContainer.AddDivider(this);
                     }
