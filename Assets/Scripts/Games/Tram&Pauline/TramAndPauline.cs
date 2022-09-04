@@ -12,11 +12,20 @@ namespace HeavenStudio.Games.Loaders
         {
             return new Minigame("tram&Pauline", "Tram & Pauline \n<color=#eb5454>[WIP]</color>", "E7A59C", false, false, new List<GameAction>()
             {
-                new GameAction("curtains",          delegate { TramAndPauline.instance.Curtains(eventCaller.currentEntity.beat); }, 0.5f),
-                new GameAction("SFX",          delegate { var e = eventCaller.currentEntity; TramAndPauline.instance.SFX(e.beat,  e.toggle);  }, 2.5f, false, new List<Param>()
+                new GameAction("curtains", "Curtains")
                 {
-                   new Param("type", TramAndPauline.SoundEffects.Henge, "calls", "the sound effects to choose from"),
-                }),
+                    function = delegate { TramAndPauline.instance.Curtains(eventCaller.currentEntity.beat); }, 
+                    defaultLength = 0.5f
+                },
+                new GameAction("SFX", "SFX")
+                {
+                    function = delegate { var e = eventCaller.currentEntity; TramAndPauline.instance.SFX(e.beat,  e["toggle"]);  }, 
+                    defaultLength = 2.5f, 
+                    parameters = new List<Param>()
+                    {
+                        new Param("type", TramAndPauline.SoundEffects.Henge, "calls", "the sound effects to choose from"),
+                    }
+                },
 
             });
         }
