@@ -20,6 +20,8 @@ namespace HeavenStudio.Editor
 
         [Header("Layout Prefabs")]
         [SerializeField] private GameObject DividerP;
+        [SerializeField] private GameObject HeaderP;
+        [SerializeField] private GameObject SubHeaderP;
 
         public void Init(RemixPropertiesDialog diag)
         {
@@ -84,10 +86,21 @@ namespace HeavenStudio.Editor
 
         public void AddDivider(RemixPropertiesDialog diag)
         {
-            GameObject prefab = DividerP;
-            InitPrefab(prefab);
+            InitPrefab(DividerP);
         }
 
+        public void AddHeader(RemixPropertiesDialog diag, string text)
+        {
+            var input = InitPrefab(HeaderP);
+            input.GetComponent<RemixPropertyPrefab>().InitProperties(diag, "", text);
+        }
+
+        public void AddSubHeader(RemixPropertiesDialog diag, string text)
+        {
+            var input = InitPrefab(SubHeaderP);
+            input.GetComponent<RemixPropertyPrefab>().InitProperties(diag, "", text);
+        }
+        
         private GameObject InitPrefab(GameObject prefab, string tooltip = "")
         {
             GameObject input = Instantiate(prefab);
