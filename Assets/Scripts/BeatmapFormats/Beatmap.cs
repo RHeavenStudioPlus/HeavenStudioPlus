@@ -67,7 +67,7 @@ namespace HeavenStudio
                 return JsonConvert.DeserializeObject<Entity>(JsonConvert.SerializeObject(this));
             }
 
-            public object this[string propertyName]
+            public dynamic this[string propertyName]
             {
                 get
                 {
