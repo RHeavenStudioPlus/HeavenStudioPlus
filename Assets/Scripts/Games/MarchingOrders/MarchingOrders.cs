@@ -32,15 +32,36 @@ namespace HeavenStudio.Games.Loaders
                     
                     
                     //the cues do nothing at the moment, so i temporarily disabled them
-                    new GameAction("bop", delegate { var e = eventCaller.currentEntity; MarchingOrders.instance.Bop(e.beat, e.length); }, 1f, true),
-                    //new GameAction("marching", delegate { MarchingOrders.instance.CadetsMarch(eventCaller.currentEntity.beat); }, 4f, true),
+                    new GameAction("bop", "Bop")
+					{
+					    function = delegate { var e = eventCaller.currentEntity; MarchingOrders.instance.Bop(e.beat, e.length); },
+                        defaultLength = 1f,
+					    resizable = true
+				    },
+					
+					//new GameAction("marching", delegate { MarchingOrders.instance.CadetsMarch(eventCaller.currentEntity.beat); }, 4f, true),
                     
-                    new GameAction("attention", delegate { var e = eventCaller.currentEntity; MarchingOrders.instance.SargeAttention(e.beat); }, 2.25f, false,
-					inactiveFunction: delegate { var e = eventCaller.currentEntity; MarchingOrders.AttentionSound(e.beat);}),
-                    new GameAction("march", delegate { var e = eventCaller.currentEntity; MarchingOrders.instance.SargeMarch(e.beat); }, 2.0f, false,
-                    inactiveFunction: delegate { var e = eventCaller.currentEntity; MarchingOrders.MarchSound(e.beat);}),
-					new GameAction("halt", delegate { var e = eventCaller.currentEntity; MarchingOrders.instance.SargeHalt(e.beat); }, 2f, false),
-                    //new GameAction("face turn", delegate {}, 4f, false, parameters: new List<Param>()
+                    new GameAction("attention", "Attention...")
+					{
+					    function = delegate { var e = eventCaller.currentEntity; MarchingOrders.instance.SargeAttention(e.beat); },
+					    defaultLength = 2.25f,
+						inactiveFunction = delegate { var e = eventCaller.currentEntity; MarchingOrders.AttentionSound(e.beat);}
+                    },
+					
+					new GameAction("march", "March!")
+					{
+						function = delegate { var e = eventCaller.currentEntity; MarchingOrders.instance.SargeMarch(e.beat); },
+						defaultLength = 2f,
+                        inactiveFunction = delegate { var e = eventCaller.currentEntity; MarchingOrders.MarchSound(e.beat);}
+					},
+					
+					new GameAction("halt", "Halt!")
+					{
+						function = delegate { var e = eventCaller.currentEntity; MarchingOrders.instance.SargeHalt(e.beat); },
+						defaultLength = 2f
+                    },
+					
+					//new GameAction("face turn", delegate {}, 4f, false, parameters: new List<Param>()
                     //{
                     //    new Param("type", MarchingOrders.DirectionFaceTurn.Right, "Direction", "The direction sarge wants the cadets to face"),
                     //    new Param("type2", MarchingOrders.FaceTurnLength.Normal, "Length", "How fast or slow the event lasts"),
@@ -105,7 +126,7 @@ namespace HeavenStudio.Games
 			
 			if (PlayerInput.Pressed() && !IsExpectingInputNow())
             {
-            Jukebox.PlayOneShotGame("miss");
+            Jukebox.PlayOneShot("miss");
             Sarge.Play("Anger", -1, 0);
             }
         }
