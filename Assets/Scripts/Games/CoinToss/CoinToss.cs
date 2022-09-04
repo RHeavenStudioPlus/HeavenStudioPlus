@@ -167,7 +167,7 @@ namespace HeavenStudio.Games
         public void CatchSuccess(PlayerActionEvent caller, float state)
         {
             Jukebox.PlayOneShotGame("coinToss/catch");
-            if(this.audienceReacting) Jukebox.PlayOneShotGame("coinToss/applause");
+            if(this.audienceReacting) Jukebox.PlayOneShot("applause");
             handAnimator.Play("Catch_success", 0, 0);
 
             isThrowing = false; 
@@ -175,8 +175,8 @@ namespace HeavenStudio.Games
 
         public void CatchMiss(PlayerActionEvent caller)
         {
-            Jukebox.PlayOneShotGame("coinToss/miss");
-            if(this.audienceReacting) Jukebox.PlayOneShotGame("coinToss/disappointed");
+            Jukebox.PlayOneShot("miss");
+            if(this.audienceReacting) Jukebox.PlayOneShot("audience/disappointed");
             handAnimator.Play("Pickup", 0, 0);
 
             isThrowing = false;
