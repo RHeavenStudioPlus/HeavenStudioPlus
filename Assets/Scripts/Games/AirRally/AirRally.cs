@@ -52,7 +52,7 @@ namespace HeavenStudio.Games.Loaders
                     parameters = new List<Param>()
                     { 
                         new Param("type", AirRally.CountSound.one, "Type", "The number Forthington will say"),
-                        new Param("type", AirRally.DistanceSound.close, "Type", "How far is Forthington?")
+                        new Param("type2", AirRally.DistanceSound.close, "Type", "How far is Forthington?")
                     }
                 }
             });
