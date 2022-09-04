@@ -66,13 +66,13 @@ namespace HeavenStudio.Editor
                     {
                         infoContainer.AddDivider(this);
                     }
-                    else if (property.tag == "heading")
+                    else if (property.tag == "header")
                     {
-                        infoContainer.AddDivider(this);
+                        infoContainer.AddHeader(this, property.label);
                     }
-                    else if (property.tag == "subheading")
+                    else if (property.tag == "subheader")
                     {
-                        infoContainer.AddDivider(this);
+                        infoContainer.AddSubHeader(this, property.label);
                     }
                     else
                     {
