@@ -397,6 +397,10 @@ namespace HeavenStudio.Editor
 
         public void NewRemix()
         {
+            if (Timeline.instance != null)
+                Timeline.instance?.Stop(0);
+            else
+                GameManager.instance.Stop(0);
             MusicBytes = null;
             LoadRemix("");
         }
