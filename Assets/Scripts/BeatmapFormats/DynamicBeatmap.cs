@@ -234,6 +234,8 @@ namespace HeavenStudio
                 game = EventCaller.instance.GetMinigame(e.datamodel.Split(0));
                 action = EventCaller.instance.GetGameAction(game, e.datamodel.Split(1));
 
+                // Debug.Log($"{game.name} {action.displayName} @ beat {e.beat}");
+
                 Dictionary<string, dynamic> dynamicData = new Dictionary<string, dynamic>();
                 //check each param of the action
                 if (action.parameters != null)
@@ -242,25 +244,34 @@ namespace HeavenStudio
                     {
                         type = param.parameter.GetType();
                         pType = e[param.propertyName].GetType();
-                        if (pType == type)
+                        // Debug.Log($"adding parameter {param.propertyName} of type {type}");
+                        if (!dynamicData.ContainsKey(param.propertyName))
                         {
-                            dynamicData.Add(param.propertyName, e[param.propertyName]);
+                            if (pType == type)
+                            {
+                                dynamicData.Add(param.propertyName, e[param.propertyName]);
+                            }
+                            else
+                            {
+                                if (type == typeof(EntityTypes.Integer))
+                                    dynamicData.Add(param.propertyName, (int) e[param.propertyName]);
+                                else if (type == typeof(EntityTypes.Float))
+                                    dynamicData.Add(param.propertyName, (float) e[param.propertyName]);
+                                else if (type.IsEnum && param.propertyName != "ease")
+                                    dynamicData.Add(param.propertyName, (int) e[param.propertyName]);
+                                else if (pType == typeof(Newtonsoft.Json.Linq.JObject))
+                                    dynamicData.Add(param.propertyName, e[param.propertyName].ToObject(type));
+                                else
+                                    dynamicData.Add(param.propertyName, Convert.ChangeType(e[param.propertyName], type));
+                            }
                         }
                         else
                         {
-                            if (type == typeof(EntityTypes.Integer))
-                                dynamicData.Add(param.propertyName, (int) e[param.propertyName]);
-                            else if (type == typeof(EntityTypes.Float))
-                                dynamicData.Add(param.propertyName, (float) e[param.propertyName]);
-                            else if (type.IsEnum && param.propertyName != "ease")
-                                dynamicData.Add(param.propertyName, (int) e[param.propertyName]);
-                            else if (pType == typeof(Newtonsoft.Json.Linq.JObject))
-                                dynamicData.Add(param.propertyName, e[param.propertyName].ToObject(type));
-                            else
-                                dynamicData.Add(param.propertyName, Convert.ChangeType(e[param.propertyName], type));
+                            Debug.LogWarning($"Property {param.propertyName} already exists in the entity's dynamic data! Skipping...");
                         }
                     }
                 }
+
                 dynamicBeatmap.entities.Add(new DynamicEntity()
                 {
                     beat = e.beat,
@@ -333,26 +344,33 @@ namespace HeavenStudio
                 {
                     foreach (var param in action.parameters)
                     {
-                        type = param.parameter.GetType();
-                        pType = e[param.propertyName].GetType();
-                        if (pType == type)
+                        if (!dynamicData.ContainsKey(param.propertyName))
                         {
-                            dynamicData.Add(param.propertyName, e[param.propertyName]);
+                            type = param.parameter.GetType();
+                            pType = e[param.propertyName].GetType();
+                            if (pType == type)
+                            {
+                                dynamicData.Add(param.propertyName, e[param.propertyName]);
+                            }
+                            else
+                            {
+                                if (type == typeof(EntityTypes.Integer))
+                                    dynamicData.Add(param.propertyName, (int)e[param.propertyName]);
+                                else if (type == typeof(EntityTypes.Float))
+                                    dynamicData.Add(param.propertyName, (float)e[param.propertyName]);
+                                else if (type == typeof(EasingFunction.Ease) && pType == typeof(string))
+                                    dynamicData.Add(param.propertyName, Enum.Parse(typeof(EasingFunction.Ease), (string)e[param.propertyName]));
+                                else if (type.IsEnum)
+                                    dynamicData.Add(param.propertyName, (int)e[param.propertyName]);
+                                else if (pType == typeof(Newtonsoft.Json.Linq.JObject))
+                                    dynamicData.Add(param.propertyName, e[param.propertyName].ToObject(type));
+                                else
+                                    dynamicData.Add(param.propertyName, Convert.ChangeType(e[param.propertyName], type));
+                            }
                         }
                         else
                         {
-                            if (type == typeof(EntityTypes.Integer))
-                                dynamicData.Add(param.propertyName, (int) e[param.propertyName]);
-                            else if (type == typeof(EntityTypes.Float))
-                                dynamicData.Add(param.propertyName, (float) e[param.propertyName]);
-                            else if (type == typeof(EasingFunction.Ease) && pType == typeof(string))
-                                dynamicData.Add(param.propertyName, Enum.Parse(typeof(EasingFunction.Ease), (string) e[param.propertyName]));
-                            else if (type.IsEnum)
-                                dynamicData.Add(param.propertyName, (int) e[param.propertyName]);
-                            else if (pType == typeof(Newtonsoft.Json.Linq.JObject))
-                                dynamicData.Add(param.propertyName, e[param.propertyName].ToObject(type));
-                            else
-                                dynamicData.Add(param.propertyName, Convert.ChangeType(e[param.propertyName], type));
+                            Debug.LogWarning($"Property {param.propertyName} already exists in the entity's dynamic data! Skipping...");
                         }
                     }
                 }
