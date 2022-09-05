@@ -1,6 +1,6 @@
 //notes:
 //  BEFORE NEW PROPS
-//1. minenice will also use this to test out randomly named parameters so coding has to rest until the new props update
+//1. minenice will also use this to test out randomly named parameters so coding has to rest until the new props update [DONE]
 //2. see fan club for separate prefabs (cadets) [DONE]
 //3. temporarily take sounds from rhre, wait until someone records the full code, including misses, or record it myself (unlikely) [IN PROGRESS]
 //  AFTER NEW PROPS
@@ -23,15 +23,6 @@ namespace HeavenStudio.Games.Loaders
         public static Minigame AddGame(EventCaller eventCaller) {
             return new Minigame("marchingOrders", "Marching Orders \n<color=#eb5454>[WIP]</color>", "00A43B", false, false, new List<GameAction>()
                 {
-                //from krispy:
-                    //i'm not that good at coding but i'll try my best to make a minigame
-                    //please don't take over... i'll get back into it once i know coding
-                    //thank you and have a nice day!
-                    
-                    
-                    
-                    
-                    //the cues do nothing at the moment, so i temporarily disabled them
                     new GameAction("bop", "Bop")
 					{
 					    function = delegate { var e = eventCaller.currentEntity; MarchingOrders.instance.Bop(e.beat, e.length); },
@@ -117,17 +108,17 @@ namespace HeavenStudio.Games
                 if (cond.songPositionInBeats >= bop.startBeat && cond.songPositionInBeats < bop.startBeat + bop.length)
                 {
                     if (!(cond.songPositionInBeats >= noBop.startBeat && cond.songPositionInBeats < noBop.startBeat + noBop.length))
-                        Cadet1.Play("Bop", -1, 0);
-					    Cadet2.Play("Bop", -1, 0);
-					    Cadet3.Play("Bop", -1, 0);
-						CadetPlayer.Play("Bop", -1, 0);
+                        Cadet1.DoScaledAnimationAsync("Bop", 0.5f);
+					    Cadet2.DoScaledAnimationAsync("Bop", 0.5f);
+					    Cadet3.DoScaledAnimationAsync("Bop", 0.5f);
+						CadetPlayer.DoScaledAnimationAsync("Bop", 0.5f);
                 }
             }
 			
 			if (PlayerInput.Pressed() && !IsExpectingInputNow())
             {
             Jukebox.PlayOneShot("miss");
-            Sarge.Play("Anger", -1, 0);
+            Sarge.DoScaledAnimationAsync("Anger", 0.5f);
             }
         }
         
@@ -152,7 +143,7 @@ namespace HeavenStudio.Games
 			
 			BeatAction.New(Player, new List<BeatAction.Action>() 
                 {
-                new BeatAction.Action(beat + 0.25f,     delegate { Sarge.Play("Talk", -1, 0);}),
+                new BeatAction.Action(beat + 0.25f,     delegate { Sarge.DoScaledAnimationAsync("Talk", 0.5f);}),
                 });
         }
 		
@@ -165,11 +156,11 @@ namespace HeavenStudio.Games
 			
 			BeatAction.New(Player, new List<BeatAction.Action>() 
                 {
-                new BeatAction.Action(beat,     delegate { Sarge.Play("Talk", -1, 0);}),
-				new BeatAction.Action(beat + 1f,     delegate { Cadet1.Play("MarchL", -1, 0);}),
-                new BeatAction.Action(beat + 1f,     delegate { Cadet2.Play("MarchL", -1, 0);}),
-				new BeatAction.Action(beat + 1f,     delegate { Cadet3.Play("MarchL", -1, 0);}),
-				new BeatAction.Action(beat + 1f,     delegate { CadetPlayer.Play("MarchL", -1, 0);}),
+                new BeatAction.Action(beat,     delegate { Sarge.DoScaledAnimationAsync("Talk", 0.5f);}),
+				new BeatAction.Action(beat + 1f,     delegate { Cadet1.DoScaledAnimationAsync("MarchL", 0.5f);}),
+                new BeatAction.Action(beat + 1f,     delegate { Cadet2.DoScaledAnimationAsync("MarchL", 0.5f);}),
+				new BeatAction.Action(beat + 1f,     delegate { Cadet3.DoScaledAnimationAsync("MarchL", 0.5f);}),
+				new BeatAction.Action(beat + 1f,     delegate { CadetPlayer.DoScaledAnimationAsync("MarchL", 0.5f);}),
 				});
         }
         
@@ -182,7 +173,7 @@ namespace HeavenStudio.Games
 			
 			BeatAction.New(Player, new List<BeatAction.Action>() 
                 {
-                new BeatAction.Action(beat,     delegate { Sarge.Play("Talk", -1, 0);}),
+                new BeatAction.Action(beat,     delegate { Sarge.DoScaledAnimationAsync("Talk", 0.5f);}),
 				});
         }
 		
