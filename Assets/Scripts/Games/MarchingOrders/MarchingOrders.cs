@@ -88,6 +88,8 @@ namespace HeavenStudio.Games
 		public GameEvent noBop = new GameEvent();
 		public GameEvent marching = new GameEvent();
 		
+		private int marchCount;
+		
         public static MarchingOrders instance;
         
         public enum DirectionFaceTurn
@@ -127,10 +129,13 @@ namespace HeavenStudio.Games
             {
                 if (cond.songPositionInBeats >= marching.startBeat && cond.songPositionInBeats < marching.startBeat + marching.length)
                 {
-                       Jukebox.PlayOneShotGame("marchingOrders/step1");
-					   Cadet1.DoScaledAnimationAsync("MarchL", 0.5f);
-					   Cadet2.DoScaledAnimationAsync("MarchL", 0.5f);
-					   Cadet3.DoScaledAnimationAsync("MarchL", 0.5f);
+					marchCount += 1;
+                    var marchAnim = (marchCount % 2 != 0 ? "MarchR" : "MarchL");
+
+                    Jukebox.PlayOneShotGame("marchingOrders/step1");
+					Cadet1.DoScaledAnimationAsync(marchAnim, 0.5f);
+					Cadet2.DoScaledAnimationAsync(marchAnim, 0.5f);
+					Cadet3.DoScaledAnimationAsync(marchAnim, 0.5f);
                 }
             }
 			
