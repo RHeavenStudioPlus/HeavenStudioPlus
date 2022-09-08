@@ -59,11 +59,16 @@ namespace HeavenStudio.Games.Loaders
                         inactiveFunction = delegate { var e = eventCaller.currentEntity; MarchingOrders.HaltSound(e.beat);}
                     },
 					
-					//new GameAction("face turn", delegate {}, 4f, false, parameters: new List<Param>()
-                    //{
-                    //    new Param("type", MarchingOrders.DirectionFaceTurn.Right, "Direction", "The direction sarge wants the cadets to face"),
-                    //    new Param("type2", MarchingOrders.FaceTurnLength.Normal, "Length", "How fast or slow the event lasts"),
-                    //}),
+					new GameAction("face turn", "Direction to Turn")
+                    {
+						function = delegate { var e = eventCaller.currentEntity; MarchingOrders.instance.SargeFaceTurn(e.beat, e["type"], e["type2"]); },
+						defaultLength = 4f,
+						parameters = new List<Param>()
+                        {
+                            new Param("type", MarchingOrders.DirectionFaceTurn.Right, "Direction", "The direction sarge wants the cadets to face"),
+                            new Param("type2", MarchingOrders.FaceTurnLength.Normal, "Length", "How fast or slow the event lasts"),
+                        }
+                    },
                 });
         }
     }
@@ -81,14 +86,19 @@ namespace HeavenStudio.Games
         public Animator Cadet2;
         public Animator Cadet3;
 		public Animator CadetPlayer;
-        public GameObject Player;
+		public Animator CadetHead1;
+		public Animator CadetHead2;
+		public Animator CadetHead3;
+		public Animator CadetHeadPlayer;
 		
+        public GameObject Player;
 		
 		public GameEvent bop = new GameEvent();
 		public GameEvent noBop = new GameEvent();
 		public GameEvent marching = new GameEvent();
 		
 		private int marchCount;
+		private int turnLength;
 		
         public static MarchingOrders instance;
         
@@ -174,6 +184,8 @@ namespace HeavenStudio.Games
 		
 		public void SargeMarch(float beat)
         {
+			marchCount = 0;
+			
 			MultiSound.Play(new MultiSound.Sound[] {
             new MultiSound.Sound("marchingOrders/march1", beat),
             new MultiSound.Sound("marchingOrders/march2", beat + 1f),
@@ -205,6 +217,61 @@ namespace HeavenStudio.Games
 				new BeatAction.Action(beat + 1f,     delegate { Cadet3.DoScaledAnimationAsync("Halt", 0.5f);}),
 				});
         }
+		
+		public void SargeFaceTurn(float beat, int type, int type2)
+        {
+			switch (type2)
+			{
+			    case (int) MarchingOrders.FaceTurnLength.Fast:
+					turnLength = 0;
+					break;
+				default:
+				    turnLength = 1;
+					break;
+            }
+			
+			
+			switch (type)
+            {
+                case (int) MarchingOrders.DirectionFaceTurn.Left:
+					MultiSound.Play(new MultiSound.Sound[] {
+					new MultiSound.Sound("marchingOrders/leftFaceTurn1", beat),
+					new MultiSound.Sound("marchingOrders/leftFaceTurn2", beat + 0.5f),
+					new MultiSound.Sound("marchingOrders/leftFaceTurn3", beat + turnLength + 1f),
+					new MultiSound.Sound("marchingOrders/leftFaceTurn4", beat + turnLength + 2f),
+					}, forcePlay:true);
+					
+						BeatAction.New(Player, new List<BeatAction.Action>() 
+							{
+							new BeatAction.Action(beat + turnLength + 2f,     delegate { CadetHead1.DoScaledAnimationAsync("FaceL", 0.5f);}),
+							new BeatAction.Action(beat + turnLength + 2f,     delegate { CadetHead2.DoScaledAnimationAsync("FaceL", 0.5f);}),
+							new BeatAction.Action(beat + turnLength + 2f,     delegate { CadetHead3.DoScaledAnimationAsync("FaceL", 0.5f);}),
+							});
+					break;
+				default:
+                    MultiSound.Play(new MultiSound.Sound[] {
+					new MultiSound.Sound("marchingOrders/rightFaceTurn1", beat),
+					new MultiSound.Sound("marchingOrders/rightFaceTurn2", beat + 0.5f),
+					new MultiSound.Sound("marchingOrders/rightFaceTurn3", beat + turnLength + 1f),
+					new MultiSound.Sound("marchingOrders/rightFaceTurn4", beat + turnLength + 2f),
+					}, forcePlay:true);
+					
+						BeatAction.New(Player, new List<BeatAction.Action>() 
+							{
+							new BeatAction.Action(beat + turnLength + 2f,     delegate { CadetHead1.DoScaledAnimationAsync("FaceR", 0.5f);}),
+							new BeatAction.Action(beat + turnLength + 2f,     delegate { CadetHead2.DoScaledAnimationAsync("FaceR", 0.5f);}),
+							new BeatAction.Action(beat + turnLength + 2f,     delegate { CadetHead3.DoScaledAnimationAsync("FaceR", 0.5f);}),
+							});
+                    break;
+			}
+			
+			BeatAction.New(Player, new List<BeatAction.Action>() 
+				{
+				new BeatAction.Action(beat,     delegate { Sarge.DoScaledAnimationAsync("Talk", 0.5f);}),
+				new BeatAction.Action(beat + turnLength + 1f,     delegate { Sarge.DoScaledAnimationAsync("Talk", 0.5f);}),
+				});
+		}
+		
 		
 		public static void AttentionSound(float beat)
         {
