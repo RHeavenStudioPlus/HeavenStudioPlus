@@ -168,8 +168,8 @@ namespace HeavenStudio.Games
             switch (type)
                 {
                     case (int) CoinToss.CoinVariation.Cowbell:
+					    Jukebox.PlayOneShotGame("coinToss/cowbell1"); //this was intentional. it was to avoid the throw and cowbells to go offbeat.
 			            MultiSound.Play(new MultiSound.Sound[] {
-                        new MultiSound.Sound("coinToss/cowbell1", beat),
                         new MultiSound.Sound("coinToss/cowbell2", beat + 1f),
                         new MultiSound.Sound("coinToss/cowbell1", beat + 2f),
                         new MultiSound.Sound("coinToss/cowbell2", beat + 3f),
