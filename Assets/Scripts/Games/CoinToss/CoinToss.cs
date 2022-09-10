@@ -168,14 +168,15 @@ namespace HeavenStudio.Games
             switch (type)
                 {
                     case (int) CoinToss.CoinVariation.Cowbell:
-					    Jukebox.PlayOneShotGame("coinToss/cowbell1"); //this was intentional. it was to avoid the throw and cowbells to go offbeat.
+					    //this was intentional. it was to avoid the throw and cowbells to go offbeat.
+					    Jukebox.PlayOneShotGame("coinToss/cowbell1");
 			            MultiSound.Play(new MultiSound.Sound[] {
-                        new MultiSound.Sound("coinToss/cowbell2", beat + 1f),
-                        new MultiSound.Sound("coinToss/cowbell1", beat + 2f),
-                        new MultiSound.Sound("coinToss/cowbell2", beat + 3f),
-						new MultiSound.Sound("coinToss/cowbell1", beat + 4f),
-                        new MultiSound.Sound("coinToss/cowbell2", beat + 5f),
-						new MultiSound.Sound("coinToss/cowbell1", beat + 6f),
+                        new MultiSound.Sound("coinToss/cowbell2", beat + 1f, offset: 0.01f),
+                        new MultiSound.Sound("coinToss/cowbell1", beat + 2f, offset: 0.01f),
+                        new MultiSound.Sound("coinToss/cowbell2", beat + 3f, offset: 0.01f),
+						new MultiSound.Sound("coinToss/cowbell1", beat + 4f, offset: 0.01f),
+                        new MultiSound.Sound("coinToss/cowbell2", beat + 5f, offset: 0.01f),
+						new MultiSound.Sound("coinToss/cowbell1", beat + 6f, offset: 0.01f),
                         });
 					    break;
 					default:
