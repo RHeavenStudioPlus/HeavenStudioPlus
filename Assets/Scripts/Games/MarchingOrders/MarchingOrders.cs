@@ -82,6 +82,7 @@ namespace HeavenStudio.Games
         //code is just copied from other minigame code, i will polish them later
         [Header("References")]
         public Animator Sarge;
+        public Animator Steam;
         public Animator Cadet1;
         public Animator Cadet2;
         public Animator Cadet3;
@@ -141,12 +142,12 @@ namespace HeavenStudio.Games
                 if (cond.songPositionInBeats >= marching.startBeat && cond.songPositionInBeats < marching.startBeat + marching.length)
                 {
                     marchOtherCount += 1;
-                    var marchAnim = (marchOtherCount % 2 != 0 ? "MarchR" : "MarchL");
+                    var marchOtherAnim = (marchOtherCount % 2 != 0 ? "MarchR" : "MarchL");
 
                     Jukebox.PlayOneShotGame("marchingOrders/step1");
-                    Cadet1.DoScaledAnimationAsync(marchAnim, 0.5f);
-                    Cadet2.DoScaledAnimationAsync(marchAnim, 0.5f);
-                    Cadet3.DoScaledAnimationAsync(marchAnim, 0.5f);
+                    Cadet1.DoScaledAnimationAsync(marchOtherAnim, 0.5f);
+                    Cadet2.DoScaledAnimationAsync(marchOtherAnim, 0.5f);
+                    Cadet3.DoScaledAnimationAsync(marchOtherAnim, 0.5f);
                 }
             }
             
@@ -154,6 +155,13 @@ namespace HeavenStudio.Games
             {
             Jukebox.PlayOneShot("miss");
             Sarge.DoScaledAnimationAsync("Anger", 0.5f);
+			Steam.DoScaledAnimationAsync("Steam", 0.5f);
+			
+			marchPlayerCount += 1;
+                    var marchPlayerAnim = (marchPlayerCount % 2 != 0 ? "MarchR" : "MarchL");
+
+                    Jukebox.PlayOneShotGame("marchingOrders/step1");
+                    CadetPlayer.DoScaledAnimationAsync(marchPlayerAnim, 0.5f);
             }
         }
         
