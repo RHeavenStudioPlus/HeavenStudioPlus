@@ -155,9 +155,9 @@ namespace HeavenStudio.Games
             {
             Jukebox.PlayOneShot("miss");
             Sarge.DoScaledAnimationAsync("Anger", 0.5f);
-			Steam.DoScaledAnimationAsync("Steam", 0.5f);
-			
-			marchPlayerCount += 1;
+            Steam.DoScaledAnimationAsync("Steam", 0.5f);
+            
+            marchPlayerCount += 1;
                     var marchPlayerAnim = (marchPlayerCount % 2 != 0 ? "MarchR" : "MarchL");
 
                     Jukebox.PlayOneShotGame("marchingOrders/step1");
@@ -244,7 +244,7 @@ namespace HeavenStudio.Games
             switch (type)
             {
                 case (int) MarchingOrders.DirectionFaceTurn.Left:
-				    //ScheduleInput(beat, turnLength + 2f, InputType.DIRECTION_RIGHT_DOWN, LeftSuccess, LeftMiss, LeftEmpty);
+                    //ScheduleInput(beat, turnLength + 2f, InputType.DIRECTION_RIGHT_DOWN, LeftSuccess, LeftMiss, LeftEmpty);
                     MultiSound.Play(new MultiSound.Sound[] {
                     new MultiSound.Sound("marchingOrders/leftFaceTurn1", beat),
                     new MultiSound.Sound("marchingOrders/leftFaceTurn2", beat + 0.5f),
