@@ -31,17 +31,16 @@ namespace HeavenStudio.Games.Loaders
                     },
                     defaultLength = 3,
                 },
-                new GameAction("toggleBubble", "Toggle Speech Bubble")
+                new GameAction("bop", "Bop")
                 {
-                    function = delegate { TrickClass.instance.BubbleToggle(); },
-                    defaultLength = 1,
-                },
-                new GameAction("bop", "")
-                {
-                    function = delegate { var e = eventCaller.currentEntity; TrickClass.instance.Bop(e.beat, e.length); },
+                    function = delegate { var e = eventCaller.currentEntity; TrickClass.instance.Bop(e.beat, e.length, e["bop"], e["autoBop"]); },
                     resizable = true, 
-                    hidden = true
-                }
+                    parameters = new List<Param>()
+                    {
+                        new Param("bop", true, "Bop", "Should the girl and boy bop?"),
+                        new Param("autoBop", false, "Bop (Auto)", "Should the girl and boy auto bop?")
+                    }
+                },
             });
         }
     }
@@ -87,6 +86,7 @@ namespace HeavenStudio.Games
 
         public static TrickClass instance;
         public GameEvent bop = new GameEvent();
+        bool goBop = true;
 
         public float playerCanDodge = Single.MinValue;
         float playerBopStart = Single.MinValue;
@@ -107,7 +107,7 @@ namespace HeavenStudio.Games
         private void Update()
         {
             var cond = Conductor.instance;
-            if (cond.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1))
+            if (cond.ReportBeat(ref bop.lastReportedBeat, bop.startBeat % 1) && goBop)
             {
                 if (cond.songPositionInBeats > playerBopStart)
                     playerAnim.DoScaledAnimationAsync("Bop");
@@ -154,10 +154,27 @@ namespace HeavenStudio.Games
             }
         }
 
-        public void Bop(float beat, float length)
+        public void Bop(float beat, float length, bool shouldBop, bool autoBop)
         {
-            bop.startBeat = beat;
-            bop.length = length;
+            var cond = Conductor.instance;
+            goBop = autoBop;
+            if (shouldBop)
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    BeatAction.New(instance.gameObject, new List<BeatAction.Action>()
+                    {
+                        new BeatAction.Action(beat + i, delegate
+                        {
+                            if (cond.songPositionInBeats > playerBopStart)
+                                playerAnim.DoScaledAnimationAsync("Bop");
+
+                            if (cond.songPositionInBeats > girlBopStart)
+                                girlAnim.DoScaledAnimationAsync("Bop");
+                        })
+                    });
+                }
+            }
         }
 
         public void BubbleToggle()
