@@ -62,8 +62,8 @@ body:
       label: RIQ file
       description: If relevant, upload a RIQ file where this bug happens
       placeholder: Upload a RIQ here
-      validations:
-        required: false
+    validations:
+      required: false
   - type: textarea
     id: files
     attributes:
