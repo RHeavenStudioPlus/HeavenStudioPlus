@@ -34,7 +34,8 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("sigh", "Sigh")
                 {
-                    function = delegate { Jukebox.PlayOneShot("games/forkLifter/sigh"); }
+
+                    function = delegate { SoundByte.PlayOneShot("games/forkLifter/sigh"); }
                 },
                 new GameAction("color", "Background Color")
                 {
@@ -147,12 +148,13 @@ namespace HeavenStudio.Games
             instance = this;
         }
 
-        public override void OnGameSwitch(float beat)
+        public override void OnGameSwitch(double beat)
         {
             base.OnGameSwitch(beat);
             ForkLifterHand.CheckNextFlick();
         }
 
+        
         public void Bop(float beat, float length, bool doesBop, bool autoBop)
         {
             playerInstance.shouldBop = (autoBop || doesBop);
@@ -165,9 +167,9 @@ namespace HeavenStudio.Games
             }
         }
 
-        public void Flick(float beat, int type)
+        public void Flick(double beat, int type)
         {
-            Jukebox.PlayOneShotGame("forkLifter/flick");
+            SoundByte.PlayOneShotGame("forkLifter/flick");
             handAnim.Play("Hand_Flick", 0, 0);
             ForkLifterHand.currentFlickIndex++;
             GameObject fo = Instantiate(flickedObject);

@@ -20,8 +20,8 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
         public int row;
         public int col;
 
-        float lastReportedBeat;
-        float startJumpTime = Single.MinValue;
+        double lastReportedBeat;
+        double startJumpTime = double.MinValue;
         float jumpLength = 1f;
         float jumpHeight = 4f;
         int jumpAlt;
@@ -29,7 +29,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
         bool shouldntBop = false;
         bool hasJumped = false;
 
-        float startThrowTime = Single.MinValue;
+        double startThrowTime = double.MinValue;
         float throwLength = 4f;
         float throwHeight = 12f;
 
@@ -78,7 +78,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
                     Monkey.transform.rotation = Quaternion.Euler(0, 0, 0);
                     jumpAlt = 0;
                 }
-                startJumpTime = Single.MinValue;
+                startJumpTime = double.MinValue;
                 Monkey.transform.localPosition = new Vector3(0, 0);
                 Shadow.transform.localScale = new Vector3(1.2f, 0.8f, 1f);
             }
@@ -95,7 +95,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
             }
             else
             {
-                startThrowTime = Single.MinValue;
+                startThrowTime = double.MinValue;
                 if (hasThrown)
                 {
                     Projectile.transform.localPosition = new Vector3(0, 0);
@@ -116,7 +116,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
             }
         }
 
-        public void Jump(float beat, int alt = 1)
+        public void Jump(double beat, int alt = 1)
         {
             startJumpTime = beat;
             jumpAlt = 0;
@@ -126,24 +126,24 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
             }
         }
 
-        public void Charge(float beat)
+        public void Charge(double beat)
         {
             shouldntBop = true;
             anim.DoUnscaledAnimation("MonkeyReady");
         }
 
-        public void Throw(float beat)
+        public void Throw(double beat)
         {
             anim.DoUnscaledAnimation("MonkeyThrow");
             startThrowTime = beat;
             Projectile.SetActive(true);
         }
 
-        public void ReadySleep(float beat, int action)
+        public void ReadySleep(double beat, int action)
         {
             shouldntBop = true;
             var cond = Conductor.instance;
-            startThrowTime = Single.MinValue;
+            startThrowTime = double.MinValue;
             Projectile.transform.localPosition = new Vector3(0, 0);
             Projectile.transform.rotation = Quaternion.Euler(0, 0, 0);
             if (hasThrown)
@@ -152,7 +152,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
                 hasThrown = false;
             }
 
-            startJumpTime = Single.MinValue;
+            startJumpTime = double.MinValue;
             Monkey.transform.localPosition = new Vector3(0, 0);
             Shadow.transform.localScale = new Vector3(1.2f, 0.8f, 1f);
             

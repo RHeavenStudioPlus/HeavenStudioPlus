@@ -97,11 +97,11 @@ namespace HeavenStudio.Games
         CtrPillowMonkey[,] monkeys;
 
         //cues while unoaded
-        static float WantThreeJump = Single.MinValue;
-        static float WantFiveJump = Single.MinValue;
-        static float WantThrowSequence = Single.MinValue;
-        static float WantSleepSequence = Single.MinValue;
-        static float WantInstantSleep = Single.MinValue;
+        static double WantThreeJump = double.MinValue;
+        static double WantFiveJump = double.MinValue;
+        static double WantThrowSequence = double.MinValue;
+        static double WantSleepSequence = double.MinValue;
+        static double WantInstantSleep = Single.MinValue;
         static bool WantSleepType = false;
         static int WantSleepAction = (int) PajamaParty.SleepType.Normal;
         static int WantInstantSleepAction = (int) PajamaParty.SleepType.Normal;
@@ -153,27 +153,53 @@ namespace HeavenStudio.Games
             }
         }
 
-        public override void OnGameSwitch(float beat)
+        public override void OnGameSwitch(double beat)
         {
-            if (WantThreeJump != Single.MinValue)
+            if (WantThreeJump != double.MinValue)
             {
                 DoThreeJump(WantThreeJump, false);
-                WantThreeJump = Single.MinValue;
+                WantThreeJump = double.MinValue;
             }
-            if (WantFiveJump != Single.MinValue)
+            if (WantFiveJump != double.MinValue)
             {
                 DoFiveJump(WantFiveJump, false);
-                WantFiveJump = Single.MinValue;
+                WantFiveJump = double.MinValue;
             }
-            if (WantThrowSequence != Single.MinValue)
+            if (WantThrowSequence != double.MinValue)
             {
                 DoThrowSequence(WantThrowSequence, false);
-                WantThrowSequence = Single.MinValue;
+                WantThrowSequence = double.MinValue;
             }
-            if (WantSleepSequence != Single.MinValue)
+            if (WantSleepSequence != double.MinValue)
             {
                 DoSleepSequence(WantSleepSequence, WantSleepType, WantSleepAction, false);
-                WantSleepSequence = Single.MinValue;
+                WantSleepSequence = double.MinValue;
+            }
+            if (WantInstantSleep != double.MinValue)
+            {
+                DoInstantSleep(WantInstantSleep, WantInstantSleepAction);
+                WantInstantSleep = double.MinValue;
+            }
+        }
+
+        public void Bop(double beat, double length, bool doesBop, bool autoBop)
+        {
+            void Bops(bool bop) {
+                Mako.shouldBop = bop;
+                for (int y = 0; y < 5; y++) {
+                    for (int x = 0; x < 5; x++) {
+                        if (!(y == 0 && x == 2)) monkeys[x, y].shouldBop = bop;
+                    }
+                }
+            }
+            
+            Bops(autoBop || doesBop);
+            if (!autoBop && doesBop) {
+                BeatAction.New(gameObject, new List<BeatAction.Action>() {
+                    new BeatAction.Action(beat + length, delegate {
+                        Bops(false);
+                    })
+                });
             }
             if (WantInstantSleep != Single.MinValue)
             {
@@ -182,7 +208,7 @@ namespace HeavenStudio.Games
             }
         }
 
-        public void Bop(float beat, float length, bool doesBop, bool autoBop)
+        public void Bop(double beat, double length, bool doesBop, bool autoBop)
         {
             void Bops(bool bop) {
                 Mako.shouldBop = bop;
@@ -203,7 +229,7 @@ namespace HeavenStudio.Games
             }
         }
 
-        public void DoThreeJump(float beat, bool doSound = true)
+        public void DoThreeJump(double beat, bool doSound = true)
         {
             Mako.ScheduleJump(beat);
             if (doSound)
@@ -238,7 +264,7 @@ namespace HeavenStudio.Games
             });
         }
 
-        public static void WarnThreeJump(float beat)
+        public static void WarnThreeJump(double beat)
         {
             MultiSound.Play(new MultiSound.Sound[] { 
                 new MultiSound.Sound("pajamaParty/three1", beat), 
@@ -248,7 +274,7 @@ namespace HeavenStudio.Games
             WantThreeJump = beat;
         }
 
-        public void DoFiveJump(float beat, bool doSound = true)
+        public void DoFiveJump(double beat, bool doSound = true)
         {
             Mako.ScheduleJump(beat);
             if (doSound)
@@ -270,7 +296,7 @@ namespace HeavenStudio.Games
             });
         }
 
-        public static void WarnFiveJump(float beat)
+        public static void WarnFiveJump(double beat)
         {
             MultiSound.Play(new MultiSound.Sound[] {
                 new MultiSound.Sound("pajamaParty/five1", beat),
@@ -282,7 +308,7 @@ namespace HeavenStudio.Games
             WantFiveJump = beat;
         }
 
-        public void DoThrowSequence(float beat, bool doSound = true)
+        public void DoThrowSequence(double beat, bool doSound = true)
         {
             Mako.ScheduleThrow(beat);
             if (doSound)
@@ -295,13 +321,13 @@ namespace HeavenStudio.Games
             });
         }
 
-        public static void WarnThrowSequence(float beat)
+        public static void WarnThrowSequence(double beat)
         {
             PlayThrowSequenceSound(beat, true);
             WantThrowSequence = beat;
         }
 
-        public static void PlayThrowSequenceSound(float beat, bool force = false)
+        public static void PlayThrowSequenceSound(double beat, bool force = false)
         {
             MultiSound.Play(new MultiSound.Sound[] { 
                 new MultiSound.Sound("pajamaParty/throw1", beat), 
@@ -315,7 +341,7 @@ namespace HeavenStudio.Games
             }, forcePlay: force);
         }
 
-        public void DoSleepSequence(float beat, bool alt = false, int action = (int) PajamaParty.SleepType.Normal, bool doSound = true)
+        public void DoSleepSequence(double beat, bool alt = false, int action = (int) PajamaParty.SleepType.Normal, bool doSound = true)
         {
             Mako.StartSleepSequence(beat, alt, action);
             MonkeySleep(beat, action);
@@ -329,7 +355,7 @@ namespace HeavenStudio.Games
                 });
         }
 
-        public static void WarnSleepSequence(float beat, bool alt = false, int action = (int) PajamaParty.SleepType.Normal)
+        public static void WarnSleepSequence(double beat, bool alt = false, int action = (int) PajamaParty.SleepType.Normal)
         {
             MultiSound.Play(new MultiSound.Sound[] { 
                 new MultiSound.Sound("pajamaParty/siesta1", beat), 
@@ -343,7 +369,7 @@ namespace HeavenStudio.Games
             WantSleepAction = action;
         }
 
-        public void DoInstantSleep(float deslumber, int action)
+        public void DoInstantSleep(double deslumber, int action)
         {
             Mako.anim.Play("MakoSleepJust", -1, 1);
             for (int y = 0; y < 5; y++) {
@@ -356,7 +382,7 @@ namespace HeavenStudio.Games
             BeatAction.New(gameObject, new List<BeatAction.Action>() {
                 new BeatAction.Action(deslumber, delegate { 
                     Mako.anim.DoScaledAnimationAsync("MakoAwake", 0.5f);
-                    Jukebox.PlayOneShotGame("pajamaParty/siestaDone"); 
+                    SoundByte.PlayOneShotGame("pajamaParty/siestaDone"); 
                     for (int y = 0; y < 5; y++) {
                         for (int x = 0; x < 5; x++) {
                             if (!(y == 0 && x == 2)) monkeys[x, y].anim.DoScaledAnimationAsync("MonkeyAwake", 0.5f);
@@ -366,7 +392,7 @@ namespace HeavenStudio.Games
             });
         }
 
-        public static void WarnInstantSleep(float beat, float length, int action)
+        public static void WarnInstantSleep(double beat, double length, int action)
         {
             WantInstantSleep = beat + length - 1;
             WantInstantSleepAction = action;
@@ -377,7 +403,7 @@ namespace HeavenStudio.Games
             Bed.GetComponent<Animator>().Play("BedImpact", -1, 0);
         }
 
-        public void JumpRow(int row, float beat, int alt = 1)
+        public void JumpRow(int row, double beat, int alt = 1)
         {
             if (row > 4 || row < 0)
             {
@@ -392,7 +418,7 @@ namespace HeavenStudio.Games
             }
         }
 
-        public void JumpCol(int col, float beat, int alt = 1)
+        public void JumpCol(int col, double beat, int alt = 1)
         {
             if (col > 4 || col < 0)
             {
@@ -407,7 +433,7 @@ namespace HeavenStudio.Games
             }
         }
 
-        public void MonkeyCharge(float beat)
+        public void MonkeyCharge(double beat)
         {
             foreach (CtrPillowMonkey monkey in monkeys)
             {
@@ -418,7 +444,7 @@ namespace HeavenStudio.Games
             }
         }
 
-        public void MonkeyThrow(float beat)
+        public void MonkeyThrow(double beat)
         {
             foreach (CtrPillowMonkey monkey in monkeys)
             {
@@ -429,7 +455,7 @@ namespace HeavenStudio.Games
             }
         }
 
-        public void MonkeySleep(float beat, int action)
+        public void MonkeySleep(double beat, int action)
         {
             foreach (CtrPillowMonkey monkey in monkeys)
             {
