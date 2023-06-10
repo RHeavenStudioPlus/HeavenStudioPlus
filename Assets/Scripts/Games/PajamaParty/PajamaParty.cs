@@ -201,32 +201,6 @@ namespace HeavenStudio.Games
                     })
                 });
             }
-            if (WantInstantSleep != Single.MinValue)
-            {
-                DoInstantSleep(WantInstantSleep, WantInstantSleepAction);
-                WantInstantSleep = Single.MinValue;
-            }
-        }
-
-        public void Bop(double beat, double length, bool doesBop, bool autoBop)
-        {
-            void Bops(bool bop) {
-                Mako.shouldBop = bop;
-                for (int y = 0; y < 5; y++) {
-                    for (int x = 0; x < 5; x++) {
-                        if (!(y == 0 && x == 2)) monkeys[x, y].shouldBop = bop;
-                    }
-                }
-            }
-            
-            Bops(autoBop || doesBop);
-            if (!autoBop && doesBop) {
-                BeatAction.New(gameObject, new List<BeatAction.Action>() {
-                    new BeatAction.Action(beat + length, delegate {
-                        Bops(false);
-                    })
-                });
-            }
         }
 
         public void DoThreeJump(double beat, bool doSound = true)

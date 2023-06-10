@@ -27,7 +27,7 @@ namespace HeavenStudio.Games.Scripts_ForkLifter
         public int currentEarlyPeasOnFork;
         public int currentPerfectPeasOnFork;
         public int currentLatePeasOnFork;
-        private float lastReportedBeat;
+        private double lastReportedBeat;
 
         private bool isEating = false;
 
