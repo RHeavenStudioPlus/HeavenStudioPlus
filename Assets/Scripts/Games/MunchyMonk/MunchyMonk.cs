@@ -221,7 +221,7 @@ namespace HeavenStudio.Games
         // the variables for scroll
         bool scrollRampUp;
         double scrollBeat;
-        float scrollLength;
+        double scrollLength;
         float scrollMod;
         static float scrollModCurrent = 0;
         EasingFunction.Ease scrollEase;
@@ -229,7 +229,7 @@ namespace HeavenStudio.Games
         // the variables for the monk moving 
         bool isMoving;
         double movingStartBeat;
-        float movingLength;
+        double movingLength;
         string moveAnim;
         EasingFunction.Ease lastEase;
         ScrollObject[] scrollObjects;
@@ -563,7 +563,7 @@ namespace HeavenStudio.Games
             if (vineBoom) SoundByte.PlayOneShotGame("fanClub/arisa_dab", forcePlay: true);
         }
 
-        public void MonkMove(double beat, float length, int goToSide, int ease)
+        public void MonkMove(double beat, double length, int goToSide, int ease)
         {
             movingStartBeat = beat;
             movingLength = length;
@@ -602,7 +602,7 @@ namespace HeavenStudio.Games
                 MunchyMonk.instance.Baby.SetActive(!disableBaby);
         }
 
-        public void ScrollBG(double beat, float length, float scrollSpeed, int ease)
+        public void ScrollBG(double beat, double length, float scrollSpeed, int ease)
         {
             scrollBeat = beat;
             scrollLength = length;
@@ -611,11 +611,11 @@ namespace HeavenStudio.Games
             scrollEase = (EasingFunction.Ease)ease;
         }
 
-        public void MoveCloudMonkey(float beat, float length, bool go, int direction)
+        public void MoveCloudMonkey(double beat, double length, bool go, int direction)
         {
             bool wasActive = CloudMonkey.activeInHierarchy;
             CloudMonkey.SetActive(true);
-            CloudMonkeyScroll.SpeedMod = ((direction == 0 ? 34 : -34)/length)*(Conductor.instance.songBpm/100);
+            CloudMonkeyScroll.SpeedMod = (float)((direction == 0 ? 34 : -34)/length)*(Conductor.instance.songBpm/100);
             CloudMonkeyScroll.AutoScroll = go;
             if (!wasActive) CloudMonkey.transform.position = new Vector3((direction == 0 ? -5f : 15.5f), 0, 0);
         }

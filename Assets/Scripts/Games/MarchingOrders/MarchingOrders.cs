@@ -170,7 +170,6 @@ namespace HeavenStudio.Games.Loaders
 
 namespace HeavenStudio.Games
 {
-    using Scripts_MarchingOrders;
     public class MarchingOrders : Minigame
     {
         public static MarchingOrders instance;
@@ -197,10 +196,10 @@ namespace HeavenStudio.Games
         bool goBop;
         bool shouldClap;
         bool keepMarching;
-        private int marchOtherCount;
-        private int marchPlayerCount;
-        private double lastMissBeat;
-        private double lastReportedBeat;
+        int marchOtherCount;
+        int marchPlayerCount;
+        double lastMissBeat;
+        double lastReportedBeat;
         public static double wantMarch = double.MinValue;
         
 

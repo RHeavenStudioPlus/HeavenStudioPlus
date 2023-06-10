@@ -30,7 +30,6 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
 
         private bool startedSleeping = false;
 
-        float startThrowTime = Single.MinValue;
         double startThrowTime = double.MinValue;
         float throwLength = 0;
         float throwHeight = 0;

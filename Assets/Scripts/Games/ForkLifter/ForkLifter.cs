@@ -155,7 +155,7 @@ namespace HeavenStudio.Games
         }
 
         
-        public void Bop(float beat, float length, bool doesBop, bool autoBop)
+        public void Bop(double beat, double length, bool doesBop, bool autoBop)
         {
             playerInstance.shouldBop = (autoBop || doesBop);
             if (!autoBop && doesBop) {
