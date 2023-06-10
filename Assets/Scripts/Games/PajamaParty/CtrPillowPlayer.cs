@@ -16,8 +16,8 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
         public GameObject Projectile_Root;
 
         public Animator anim;
-        float lastReportedBeat;
-        float startJumpTime = Single.MinValue;
+        double lastReportedBeat;
+        double startJumpTime = double.MinValue;
         float jumpLength = 0;
         float jumpHeight = 0;
         bool jumpNg = false;
@@ -31,6 +31,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
         private bool startedSleeping = false;
 
         float startThrowTime = Single.MinValue;
+        double startThrowTime = double.MinValue;
         float throwLength = 0;
         float throwHeight = 0;
         
@@ -54,8 +55,8 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
 
             if (PlayerInput.Pressed() && canJump && !PajamaParty.instance.IsExpectingInputNow(InputType.STANDARD_DOWN))
             {
-                Jukebox.PlayOneShot("miss");
-                PlayerJump(cond.songPositionInBeats, true, false);
+                SoundByte.PlayOneShot("miss");
+                PlayerJump(cond.songPositionInBeatsAsDouble, true, false);
                 PajamaParty.instance.ScoreMiss();
             }
             if (PlayerInput.AltPressed() && canCharge)
@@ -64,8 +65,8 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
             }
             if (PlayerInput.AltPressedUp() && charging && !PajamaParty.instance.IsExpectingInputNow(InputType.STANDARD_ALT_UP))
             {
-                Jukebox.PlayOneShot("miss");
-                EndCharge(cond.songPositionInBeats, false, false);
+                SoundByte.PlayOneShot("miss");
+                EndCharge(cond.songPositionInBeatsAsDouble, false, false);
                 PajamaParty.instance.ScoreMiss();
             }
 
@@ -97,7 +98,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
                         anim.DoScaledAnimationAsync("MakoLand");
                     jumpNg = false;
                 }
-                startJumpTime = Single.MinValue;
+                startJumpTime = double.MinValue;
                 Player.transform.localPosition = new Vector3(0, 0);
                 Shadow.transform.localScale = new Vector3(1.65f, 1f, 1f);
             }
@@ -121,7 +122,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
             }
             else
             {
-                startThrowTime = Single.MinValue;
+                startThrowTime = double.MinValue;
                 Projectile_Root.transform.localPosition = new Vector3(0, 0);
                 if (hasThrown)
                 {
@@ -136,7 +137,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
                         anim.DoUnscaledAnimation("MakoCatch");
                     }
                     //TODO: change when locales are a thing
-                    Jukebox.PlayOneShotGame("pajamaParty/catch" + UnityEngine.Random.Range(0, 2)); //bruh
+                    SoundByte.PlayOneShotGame("pajamaParty/catch" + UnityEngine.Random.Range(0, 2)); //bruh
 
                     Projectile.SetActive(false);
                     hasThrown = false;
@@ -156,7 +157,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
             }
         }
 
-        public void ProjectileThrow(float beat, bool drop = false, bool ng = false)
+        public void ProjectileThrow(double beat, bool drop = false, bool ng = false)
         {
             throwNg = ng;
             Projectile.SetActive(true);
@@ -176,7 +177,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
             }
         }
 
-        public void PlayerJump(float beat, bool pressout = false, bool ng = false)
+        public void PlayerJump(double beat, bool pressout = false, bool ng = false)
         {
             startedSleeping = false;
             startJumpTime = beat;
@@ -197,7 +198,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
             charging = true;
         }
 
-        public void EndCharge(float beat, bool hit = true, bool ng = false)
+        public void EndCharge(double beat, bool hit = true, bool ng = false)
         {
             ProjectileThrow(beat, !hit, ng);
             var cond = Conductor.instance;
@@ -214,7 +215,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
                         beat + 0.5f,
                         delegate { 
                             anim.DoScaledAnimationAsync("MakoPickUp");
-                            Jukebox.PlayOneShotGame("pajamaParty/catch" + UnityEngine.Random.Range(0, 2)); //bruh
+                            SoundByte.PlayOneShotGame("pajamaParty/catch" + UnityEngine.Random.Range(0, 2)); //bruh
                             Projectile.SetActive(false);
                             canCharge = true;
                             canJump = true;
@@ -224,7 +225,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
             }
         }
 
-        public void PlayerThrough(float beat)
+        public void PlayerThrough(double beat)
         {
             var cond = Conductor.instance;
             anim.DoScaledAnimationAsync("MakoThrough", 0.5f);
@@ -244,7 +245,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
         }
 
         // jumping cues (timings for both are the same)
-            public void ScheduleJump(float beat)
+            public void ScheduleJump(double beat)
             {
                 PajamaParty.instance.ScheduleInput(beat, 2f, InputType.STANDARD_DOWN, JumpJustOrNg, JumpThrough, JumpOut);
             }
@@ -256,13 +257,13 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
                     var cond = Conductor.instance;
                     if (state <= -1f || state >= 1f)
                     {
-                        Jukebox.PlayOneShot("miss");
-                        PlayerJump(cond.songPositionInBeats, false, true);
+                        SoundByte.PlayOneShot("miss");
+                        PlayerJump(cond.songPositionInBeatsAsDouble, false, true);
                     }
                     else
                     {
-                        Jukebox.PlayOneShotGame("pajamaParty/jumpJust");
-                        PlayerJump(cond.songPositionInBeats, false, false);
+                        SoundByte.PlayOneShotGame("pajamaParty/jumpJust");
+                        PlayerJump(cond.songPositionInBeatsAsDouble, false, false);
                     }
                     caller.CanHit(false);
                 }
@@ -275,13 +276,13 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
                 if (canJump)
                 {    
                     var cond = Conductor.instance;
-                    PlayerThrough(cond.songPositionInBeats);
+                    PlayerThrough(cond.songPositionInBeatsAsDouble);
                 }
             }
         //////
 
         // throw cue
-            public void ScheduleThrow(float beat)
+            public void ScheduleThrow(double beat)
             {
                 PajamaParty.instance.ScheduleInput(beat, 2f, InputType.STANDARD_ALT_DOWN, ChargeJustOrNg, ThrowThrough, JumpOut);
                 PajamaParty.instance.ScheduleInput(beat, 3f, InputType.STANDARD_ALT_UP, ThrowJustOrNg, ThrowThrough, JumpOut);
@@ -290,7 +291,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
             public void ChargeJustOrNg(PlayerActionEvent caller, float state) {
                 StartCharge();
                 throwNg = (state <= -1f || state >= 1f);
-                Jukebox.PlayOneShotGame("pajamaParty/throw4");
+                SoundByte.PlayOneShotGame("pajamaParty/throw4");
             }
 
             public void ThrowJustOrNg(PlayerActionEvent caller, float state)
@@ -300,13 +301,13 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
                     var cond = Conductor.instance;
                     if (state <= -1f || state >= 1f)
                     {
-                        Jukebox.PlayOneShot("miss");
-                        EndCharge(cond.songPositionInBeats, true, true);
+                        SoundByte.PlayOneShot("miss");
+                        EndCharge(cond.songPositionInBeatsAsDouble, true, true);
                     }
                     else
                     {
-                        Jukebox.PlayOneShotGame("pajamaParty/throw5");
-                        EndCharge(cond.songPositionInBeats, true, (throwNg || false));
+                        SoundByte.PlayOneShotGame("pajamaParty/throw5");
+                        EndCharge(cond.songPositionInBeatsAsDouble, true, (throwNg || false));
                     }
                     caller.CanHit(false);
                 }
@@ -317,13 +318,13 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
                 if (canCharge)
                 {    
                     var cond = Conductor.instance;
-                    PlayerThrough(cond.songPositionInBeats);
+                    PlayerThrough(cond.songPositionInBeatsAsDouble);
                 }
             }
         //
 
         // sleep cue
-            public void StartSleepSequence(float beat, bool alt, int action)
+            public void StartSleepSequence(double beat, bool alt, int action)
             {
                 startedSleeping = true;
                 if (hasJumped)
@@ -332,12 +333,12 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
                     PajamaParty.instance.DoBedImpact();
                     jumpNg = false;
                 }
-                startJumpTime = Single.MinValue;
+                startJumpTime = double.MinValue;
                 Player.transform.localPosition = new Vector3(0, 0);
                 Shadow.transform.localScale = new Vector3(1.65f, 1f, 1f);
 
                 Projectile.GetComponent<Animator>().Play("NoPose", -1, 0);
-                startThrowTime = Single.MinValue;
+                startThrowTime = double.MinValue;
                 Projectile_Root.transform.localPosition = new Vector3(0, 0);
                 Projectile.transform.rotation = Quaternion.Euler(0, 0, 0);
                 if (hasThrown)
@@ -361,7 +362,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
 
                     anim.DoScaledAnimationAsync("MakoLand");
                 }
-                startJumpTime = Single.MinValue;
+                startJumpTime = double.MinValue;
                 Player.transform.localPosition = new Vector3(0, 0);
                 Shadow.transform.localScale = new Vector3(1.65f, 1f, 1f);
 
@@ -414,7 +415,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
                         anim.DoUnscaledAnimation("MakoSleepNg");
                     else
                     {
-                        Jukebox.PlayOneShotGame("pajamaParty/siesta4");
+                        SoundByte.PlayOneShotGame("pajamaParty/siesta4");
                         anim.DoScaledAnimationAsync("MakoSleepJust");
 
                         if (!longSleep)
@@ -425,7 +426,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
                                     caller.startBeat + 7f,
                                     delegate { 
                                         anim.DoScaledAnimationAsync("MakoAwake");
-                                        Jukebox.PlayOneShotGame("pajamaParty/siestaDone");
+                                        SoundByte.PlayOneShotGame("pajamaParty/siestaDone");
                                     }
                                 ),
                             });
@@ -452,7 +453,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
                 if (canSleep)
                 {
                     anim.DoScaledAnimationAsync("MakoSleepOut", 0.5f);
-                    Jukebox.PlayOneShotGame("pajamaParty/siestaBad");
+                    SoundByte.PlayOneShotGame("pajamaParty/siestaBad");
                     caller.CanHit(false);
                     canSleep = false;
                 }
