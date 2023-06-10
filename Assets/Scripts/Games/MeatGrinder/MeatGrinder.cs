@@ -119,10 +119,7 @@ namespace HeavenStudio.Games
                 intervalStarted = false;
                 beatInterval = 4f;
             }
-            foreach (var evt in scheduledInputs)
-            {
-                evt.Disable();
-            }
+            foreach (var evt in scheduledInputs) evt.Disable();
         }
 
         private void Update() 
@@ -131,13 +128,13 @@ namespace HeavenStudio.Games
                 TackAnim.DoScaledAnimationAsync("TackEmptyHit", 0.5f);
                 TackAnim.SetBool("tackMeated", false);
                 Jukebox.PlayOneShotGame(sfxName+"whiff");
-                if (bossAnnoyed) BossAnim.DoScaledAnimationAsync("Bop", 0.5f);
+                bossAnnoyed = false;
             }
 
             if (bossAnnoyed) BossAnim.SetBool("bossAnnoyed", true);
 
             if (queuedIntervals.Count > 0) {
-                foreach (var interval in queuedIntervals) { StartInterval(interval.beat, interval.length); }
+                foreach (var interval in queuedIntervals) StartInterval(interval.beat, interval.length);
                 queuedIntervals.Clear();
             }
         }
@@ -178,9 +175,7 @@ namespace HeavenStudio.Games
                 length = length,
             });
 
-            MultiSound.Play(new MultiSound.Sound[] {
-                new MultiSound.Sound("meatGrinder/startSignal", beat - 1),
-            }, forcePlay: true);
+            Jukebox.PlayOneShotGame("meatGrinder/startSignal", beat - 1, forcePlay: true);
 
             if (GameManager.instance.currentGame == "meatGrinder") {
                 BeatAction.New(MeatGrinder.instance.gameObject, new List<BeatAction.Action>() {

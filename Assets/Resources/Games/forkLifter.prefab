@@ -252,17 +252,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cdbd028573cd4841b9c1d04402b370f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inList: 0
-  state:
-    gameObject: {fileID: 0}
-    early: 0
-    perfect: 0
-    late: 0
-    createBeat: 0
-  eligibleHitsList: []
-  aceTimes: 0
-  isEligible: 0
-  triggersAutoplay: 1
   startBeat: 0
   type: 0
 --- !u!1 &5813499710761815890
@@ -2465,7 +2454,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5813499712187904561}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.8296, y: 0.2744, z: 0}
+  m_LocalPosition: {x: -1.846, y: 0.27, z: 0}
   m_LocalScale: {x: 0.98477775, y: 0.98477775, z: 0.9847778}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2540,7 +2529,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5813499712412291570
 Transform:
   m_ObjectHideFlags: 0

@@ -46,12 +46,13 @@ namespace HeavenStudio.Games.Loaders
                     },
                     new GameAction("march", "March!")
                     {
-                        function = delegate { var e = eventCaller.currentEntity; MarchingOrders.SargeMarch(e.beat, e["disableVoice"]); },
-                        inactiveFunction = delegate { var e = eventCaller.currentEntity; MarchingOrders.SargeMarch(e.beat, e["disableVoice"]); },
+                        function = delegate { var e = eventCaller.currentEntity; MarchingOrders.SargeMarch(e.beat, e["disableVoice"], e["shouldMarch"]); },
+                        inactiveFunction = delegate { var e = eventCaller.currentEntity; MarchingOrders.SargeMarch(e.beat, e["disableVoice"], e["shouldMarch"]); },
                         defaultLength = 2f,
                         parameters = new List<Param>
                         {
-                            new Param("disableVoice", false, "Disable Voice", "Disable the Drill Sergeant's call")
+                            new Param("disableVoice", false, "Disable Voice", "Disable the Drill Sergeant's call"),
+                            new Param("shouldMarch", true, "March", "Disable automatic marching"),
                         },
                         priority = 5,
                     },
@@ -96,7 +97,7 @@ namespace HeavenStudio.Games.Loaders
                         parameters = new List<Param>()
                         {
                             new Param("start", true, "Start Moving", "Start moving the conveyor"),
-                            new Param("direction", MarchingOrders.Direction.Right, "Direction", "Direction"),
+                            new Param("direction", MarchingOrders.Direction.Right, "Direction", "The direction the cadets will move"),
                         },
                         defaultLength = 7f,
                         resizable = true,
@@ -129,19 +130,19 @@ namespace HeavenStudio.Games.Loaders
                             var e = eventCaller.currentEntity;
                             MarchingOrders.instance.ForceMarching(e.beat, e.length);
                         },
-                        preFunctionLength = 1,
+                        preFunctionLength = 0.2f,
                         resizable = true,
                     },
                     
                     // hidden in the editor but here cuz backwards compatibility
                     new GameAction("marching", "Start Marching (old)")
                     {
-                        hidden = true,
+                        hidden = false,
                         preFunction = delegate {
                             var e = eventCaller.currentEntity;
                             MarchingOrders.instance.ForceMarching(e.beat, e.length);
                         },
-                        preFunctionLength = 1,
+                        preFunctionLength = 0.2f,
                         resizable = true,
                     },
                     new GameAction("face turn", "Direction to Turn (old)")
@@ -267,8 +268,8 @@ namespace HeavenStudio.Games
 
             if (ConveyorGo[0].AutoScroll && (ConveyorGo[1].gameObject.transform.position.x < 0)) {
                 foreach (var scroll in ConveyorGo) scroll.AutoScroll = false;
-                ConveyorGo[0].gameObject.transform.position = new Vector3(0, 0);
-                ConveyorGo[1].gameObject.transform.position = new Vector3(6.181f, -3.37f);
+                ConveyorGo[0].gameObject.transform.position = new Vector3(6.181f, -3.37f);
+                ConveyorGo[1].gameObject.transform.position = new Vector3(0, 0);
             }
 
             // input stuff below
@@ -377,11 +378,9 @@ namespace HeavenStudio.Games
             });
         }
         
-        public static void SargeMarch(float beat, bool noVoice)
+        public static void SargeMarch(float beat, bool noVoice, bool march)
         {
-            if (MarchingOrders.wantMarch != float.MinValue) return;
-            MarchingOrders.wantMarch = beat + 1;
-
+            if (march) MarchingOrders.wantMarch = beat + 1;
             if (!noVoice) PlaySoundSequence("marchingOrders", "susume", beat);
 
             if (GameManager.instance.currentGame == "marchingOrders") {
@@ -393,7 +392,7 @@ namespace HeavenStudio.Games
         public void ForceMarching(float beat, float length)
         {
             for (int i = 0; i < length; i++) {
-                ScheduleInput(beat + i - 1, 1f, InputType.STANDARD_DOWN, MarchHit, GenericMiss, Empty);
+                ScheduleInput(beat + i - 0.2f, 0.2f, InputType.STANDARD_DOWN, MarchHit, GenericMiss, Empty);
                 BeatAction.New(instance.gameObject, new List<BeatAction.Action>() {
                     new BeatAction.Action(beat + i, delegate {
                         marchOtherCount++;
