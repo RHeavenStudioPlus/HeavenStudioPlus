@@ -166,6 +166,13 @@ namespace HeavenStudio
                     var parameters = new List<Minigames.Param>();
                     foreach (var item in e.dynamicData)
                     {
+                        Debug.Log($"k: {item.Key}, v: {item.Value}");
+                        if (item.Key == "track")
+                            continue;
+                        if (item.Value == null) 
+                        {
+                            e[item.Key] = 0;
+                        }
                         var value = item.Value;
                         if (value.GetType() == typeof(long))
                             value = new EntityTypes.Integer(int.MinValue, int.MaxValue, (int)value);
@@ -244,6 +251,10 @@ namespace HeavenStudio
             foreach (var tempo in data.tempoChanges)
             {
                 PreProcessSpecialEntity(tempo, tempoChangeModel);
+            }
+            if (data.tempoChanges[0]["tempo"] <= 0)
+            {
+                data.tempoChanges[0]["tempo"] = 120;
             }
 
             foreach (var vol in data.volumeChanges)
