@@ -393,10 +393,8 @@ namespace HeavenStudio.Editor
             StandaloneFileBrowser.OpenFilePanelAsync("Open Remix", "", extensions, false, (string[] paths) =>
             {
                 var path = Path.Combine(paths);
-
                 if (path == string.Empty) return;
-
-                GlobalGameManager.ShowLoadingMessage("Loading", $"Loading remix from {path}");
+                
                 try
                 {
                     string tmpDir = RiqFileHandler.ExtractRiq(path);
@@ -417,8 +415,6 @@ namespace HeavenStudio.Editor
                 remixName = Path.GetFileName(path);
                 UpdateEditorStatus(false);
                 CommandManager.instance.Clear();
-                
-                GlobalGameManager.instance.HideDialog();
             });
         }
 
