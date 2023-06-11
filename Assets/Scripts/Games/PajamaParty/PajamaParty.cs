@@ -33,7 +33,7 @@ namespace HeavenStudio.Games.Loaders
                     },
                     new GameAction("jump (back to front)", "Back to Front Jumps")
                     {
-                        function =delegate { PajamaParty.instance.DoFiveJump(eventCaller.currentEntity.beat); }, 
+                        function = delegate { PajamaParty.instance.DoFiveJump(eventCaller.currentEntity.beat); }, 
                         defaultLength = 4f, 
                         inactiveFunction = delegate { PajamaParty.WarnFiveJump(eventCaller.currentEntity.beat); }
                     },

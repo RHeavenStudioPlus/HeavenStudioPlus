@@ -18,12 +18,38 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+using Jukebox;
+
 namespace HeavenStudio.Games.Loaders
 {
     using static Minigames;
     public static class AgbMarcherLoader
     {
-        public static Minigame AddGame(EventCaller eventCaller) {
+        public static Minigame AddGame(EventCaller eventCaller)
+        {
+            RiqEntity FaceTurnUpdater(string datamodel, RiqEntity entity)
+            {
+                if (datamodel == "marchingOrders/face turn")
+                {
+                    if (entity["type2"] == (int)MarchingOrders.FaceTurnLength.Normal)
+                    {
+                        entity.datamodel = "marchingOrders/faceTurn";
+                    }
+                    else
+                    {
+                        entity.datamodel = "marchingOrders/faceTurnFast";
+                    }
+                    entity.CreateProperty("direction", entity["type"]);
+                    entity.CreateProperty("point", false);
+
+                    entity.dynamicData.Remove("type");
+                    entity.dynamicData.Remove("type2");
+                    return entity;
+                }
+                return null;
+            }
+            RiqBeatmap.OnUpdateEntity += FaceTurnUpdater;
+
             return new Minigame("marchingOrders", "Marching Orders", "ffb108", false, false, new List<GameAction>()
                 {
                     new GameAction("bop", "Bop")
@@ -148,11 +174,6 @@ namespace HeavenStudio.Games.Loaders
                     new GameAction("face turn", "Direction to Turn (old)")
                     {
                         hidden = true,
-                        function = delegate {
-                            var e = eventCaller.currentEntity;
-                            MarchingOrders.instance.FaceTurn(e.beat, e["type"], e["type2"], false);
-                        },
-                        defaultLength = 4f,
                         parameters = new List<Param>()
                         {
                             new Param("type", MarchingOrders.Direction.Right, "Direction", "The direction the sergeant wants the cadets to face"),
