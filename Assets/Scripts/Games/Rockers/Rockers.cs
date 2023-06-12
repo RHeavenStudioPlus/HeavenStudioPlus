@@ -113,7 +113,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("passTurn", "Pass Turn")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; Rockers.instance.PassTurn(e.beat, e.length, e["moveCamera"]); },
+                    function = delegate { var e = eventCaller.currentEntity; Rockers.instance.PassTurn(e.beat, e["moveCamera"]); },
                     resizable = true,
                     parameters = new List<Param>
                     {
@@ -972,7 +972,7 @@ namespace HeavenStudio.Games
             }
         }
 
-        public void PassTurn(double beat, float length, bool moveCamera)
+        public void PassTurn(double beat, bool moveCamera)
         {
             if (crHandlerInstance.queuedEvents.Count > 0)
             {
@@ -983,21 +983,21 @@ namespace HeavenStudio.Games
                     if (crEvent.tag == "riff")
                     {
                         RockersInput riffComp = Instantiate(rockerInputRef, transform);
-                        riffComp.Init(crEvent["gleeClub"], new int[6] { crEvent["1"], crEvent["2"], crEvent["3"], crEvent["4"], crEvent["5"], crEvent["6"] }, beat, length + crEvent.relativeBeat,
+                        riffComp.Init(crEvent["gleeClub"], new int[6] { crEvent["1"], crEvent["2"], crEvent["3"], crEvent["4"], crEvent["5"], crEvent["6"] }, beat, 1 + crEvent.relativeBeat,
                             (PremadeSamples)crEvent["sample"], crEvent["sampleTones"]);
-                        ScheduleInput(beat, length + crEvent.relativeBeat + crEvent.length, InputType.STANDARD_DOWN, JustMute, MuteMiss, Empty);
+                        ScheduleInput(beat, 1 + crEvent.relativeBeat + crEvent.length, InputType.STANDARD_DOWN, JustMute, MuteMiss, Empty);
                     }
                     else if (crEvent.tag == "bend")
                     {
                         RockerBendInput bendComp = Instantiate(rockerBendInputRef, transform);
-                        bendComp.Init(crEvent["Pitch"], beat, length + crEvent.relativeBeat);
-                        ScheduleInput(beat, length + crEvent.relativeBeat + crEvent.length, InputType.DIRECTION_UP, JustUnBend, UnBendMiss, Empty);
+                        bendComp.Init(crEvent["Pitch"], beat, 1 + crEvent.relativeBeat);
+                        ScheduleInput(beat, 1 + crEvent.relativeBeat + crEvent.length, InputType.DIRECTION_UP, JustUnBend, UnBendMiss, Empty);
                     }
                 }
                 crHandlerInstance.queuedEvents.Clear();
                 BeatAction.New(instance.gameObject, new List<BeatAction.Action>()
                 {
-                    new BeatAction.Action(beat + length, delegate 
+                    new BeatAction.Action(beat + 1, delegate 
                     { 
                         JJ.UnHold();
                         if (crHandlerInstance.queuedEvents.Count > 0)
@@ -1009,15 +1009,15 @@ namespace HeavenStudio.Games
                                 if (crEvent.tag == "riff")
                                 {
                                     RockersInput riffComp = Instantiate(rockerInputRef, transform);
-                                    riffComp.Init(crEvent["gleeClub"], new int[6] { crEvent["1"], crEvent["2"], crEvent["3"], crEvent["4"], crEvent["5"], crEvent["6"] }, beat, length + crEvent.relativeBeat,
+                                    riffComp.Init(crEvent["gleeClub"], new int[6] { crEvent["1"], crEvent["2"], crEvent["3"], crEvent["4"], crEvent["5"], crEvent["6"] }, beat, 1 + crEvent.relativeBeat,
                                         (PremadeSamples)crEvent["sample"], crEvent["sampleTones"]);
-                                    ScheduleInput(beat, length + crEvent.relativeBeat + crEvent.length, InputType.STANDARD_DOWN, JustMute, MuteMiss, Empty);
+                                    ScheduleInput(beat, 1 + crEvent.relativeBeat + crEvent.length, InputType.STANDARD_DOWN, JustMute, MuteMiss, Empty);
                                 }
                                 else if (crEvent.tag == "bend")
                                 {
                                     RockerBendInput bendComp = Instantiate(rockerBendInputRef, transform);
-                                    bendComp.Init(crEvent["Pitch"], beat, length + crEvent.relativeBeat);
-                                    ScheduleInput(beat, length + crEvent.relativeBeat + crEvent.length, InputType.DIRECTION_UP, JustUnBend, UnBendMiss, Empty);
+                                    bendComp.Init(crEvent["Pitch"], beat, 1 + crEvent.relativeBeat);
+                                    ScheduleInput(beat, 1 + crEvent.relativeBeat + crEvent.length, InputType.DIRECTION_UP, JustUnBend, UnBendMiss, Empty);
                                 }
                             }
                             crHandlerInstance.queuedEvents.Clear();

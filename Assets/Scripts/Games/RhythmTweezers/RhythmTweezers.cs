@@ -37,8 +37,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("passTurn", "Pass Turn")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.PassTurn(e.beat, e.length); },
-                    resizable = true,
+                    function = delegate { var e = eventCaller.currentEntity; RhythmTweezers.instance.PassTurn(e.beat); },
                     preFunction = delegate { var e = eventCaller.currentEntity; RhythmTweezers.PrePassTurn(e.beat, e.length); }
                 },
                 new GameAction("next vegetable", "Swap Vegetable")
@@ -349,7 +348,7 @@ namespace HeavenStudio.Games
             crHandlerInstance.StartInterval(beat, interval);
         }
 
-        public void PassTurn(double beat, float length)
+        public void PassTurn(double beat)
         {
             if (crHandlerInstance.queuedEvents.Count > 0)
             {
@@ -359,18 +358,18 @@ namespace HeavenStudio.Games
                     if (crEvent.tag == "Hair")
                     {
                         Hair hairToInput = spawnedHairs.Find(x => x.createBeat == crEvent.beat);
-                        hairToInput.StartInput(beat + length, crEvent.relativeBeat);
+                        hairToInput.StartInput(beat + 1, crEvent.relativeBeat);
                     }
                     else if (crEvent.tag == "Long")
                     {
                         LongHair hairToInput = spawnedLongs.Find(x => x.createBeat == crEvent.beat);
-                        hairToInput.StartInput(beat + length, crEvent.relativeBeat);
+                        hairToInput.StartInput(beat + 1, crEvent.relativeBeat);
                     }
                 }
                 crHandlerInstance.queuedEvents.Clear();
                 BeatAction.New(instance.gameObject, new List<BeatAction.Action>()
                 {
-                    new BeatAction.Action(beat + length, delegate
+                    new BeatAction.Action(beat + 1, delegate
                     {
                         if (crHandlerInstance.queuedEvents.Count > 0)
                         {
@@ -380,12 +379,12 @@ namespace HeavenStudio.Games
                                 if (crEvent.tag == "Hair")
                                 {
                                     Hair hairToInput = spawnedHairs.Find(x => x.createBeat == crEvent.beat);
-                                    hairToInput.StartInput(beat + length, crEvent.relativeBeat);
+                                    hairToInput.StartInput(beat + 1, crEvent.relativeBeat);
                                 }
                                 else if (crEvent.tag == "Long")
                                 {
                                     LongHair hairToInput = spawnedLongs.Find(x => x.createBeat == crEvent.beat);
-                                    hairToInput.StartInput(beat + length, crEvent.relativeBeat);
+                                    hairToInput.StartInput(beat + 1, crEvent.relativeBeat);
                                 }
                             }
                             crHandlerInstance.queuedEvents.Clear();
