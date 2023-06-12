@@ -230,7 +230,7 @@ namespace HeavenStudio.Games
                 //Open player transporters
                     /*
                     new BeatAction.Action(beat + interval - 1f, delegate {
-                         ballTransporterLeftPlayer.GetComponent<Animator>().Play("BallTransporterLeftOpen", 0, 0);
+                         ballTransporterRightPlayer.GetComponent<Animator>().Play("BallTransporterRightOpen", 0, 0);
                     }),
                     new BeatAction.Action(beat + interval - 1f, delegate {
                         ballTransporterRightPlayer.GetComponent<Animator>().Play("BallTransporterRightOpen", 0, 0);
@@ -268,6 +268,8 @@ namespace HeavenStudio.Games
         {
             if (crHandlerInstance.queuedEvents.Count > 0)
             {
+                ballTransporterRightPlayer.GetComponent<Animator>().Play("BallTransporterRightOpen", 0, 0);
+                ballTransporterLeftPlayer.GetComponent<Animator>().Play("BallTransporterLeftOpen", 0, 0);
                 foreach (var ball in crHandlerInstance.queuedEvents)
                 {
                     SpawnPlayerBall(beat + ball.relativeBeat, ball.tag == "big");
@@ -285,7 +287,20 @@ namespace HeavenStudio.Games
                             }
                             crHandlerInstance.queuedEvents.Clear();
                         }
-                    })
+                    }),
+                    new BeatAction.Action(beat + crHandlerInstance.intervalLength + 2, delegate { if (!crHandlerInstance.IntervalIsActive()) ballTransporterLeftNPC.GetComponent<Animator>().Play("BallTransporterLeftClose", 0, 0); }),
+                    new BeatAction.Action(beat + crHandlerInstance.intervalLength + 2, delegate { if (!crHandlerInstance.IntervalIsActive()) ballTransporterRightNPC.GetComponent<Animator>().Play("BallTransporterRightClose", 0, 0); }),
+                    new BeatAction.Action(beat + crHandlerInstance.intervalLength + 2, delegate { if (gandwHasEntered) gandwAnim.Play("MrGameAndWatchLeverDown", 0, 0); }),
+                    //Close player transporters
+                    new BeatAction.Action(beat + crHandlerInstance.intervalLength * 2 + 2, delegate { ballTransporterLeftPlayer.GetComponent<Animator>().Play("BallTransporterLeftClose", 0, 0); }),
+                    new BeatAction.Action(beat + crHandlerInstance.intervalLength * 2 + 2, delegate { ballTransporterRightPlayer.GetComponent<Animator>().Play("BallTransporterRightClose", 0, 0); }),
+                    new BeatAction.Action(beat + crHandlerInstance.intervalLength * 2 + 2, delegate {
+                        if (bigModePlayer)
+                        {
+                            PlayerBallTransporters.GetComponent<Animator>().Play("PlayerExitBigMode", 0, 0);
+                            bigModePlayer = false;
+                        }
+                    }),
                 });
             }
         }
