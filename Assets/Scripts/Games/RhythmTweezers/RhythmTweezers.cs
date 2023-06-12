@@ -368,6 +368,30 @@ namespace HeavenStudio.Games
                     }
                 }
                 crHandlerInstance.queuedEvents.Clear();
+                BeatAction.New(instance.gameObject, new List<BeatAction.Action>()
+                {
+                    new BeatAction.Action(beat + length, delegate
+                    {
+                        if (crHandlerInstance.queuedEvents.Count > 0)
+                        {
+                            hairsLeft += crHandlerInstance.queuedEvents.Count;
+                            foreach (var crEvent in crHandlerInstance.queuedEvents)
+                            {
+                                if (crEvent.tag == "Hair")
+                                {
+                                    Hair hairToInput = spawnedHairs.Find(x => x.createBeat == crEvent.beat);
+                                    hairToInput.StartInput(beat + length, crEvent.relativeBeat);
+                                }
+                                else if (crEvent.tag == "Long")
+                                {
+                                    LongHair hairToInput = spawnedLongs.Find(x => x.createBeat == crEvent.beat);
+                                    hairToInput.StartInput(beat + length, crEvent.relativeBeat);
+                                }
+                            }
+                            crHandlerInstance.queuedEvents.Clear();
+                        }
+                    })
+                });
             }
         }
 
