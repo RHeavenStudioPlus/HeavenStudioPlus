@@ -102,7 +102,10 @@ namespace HeavenStudio.Games.Loaders
 
 namespace HeavenStudio.Games
 {
+    using HeavenStudio.Games.Scripts_DoubleDate;
     using Scripts_WorkingDough;
+    using System.Net.Sockets;
+
     public class WorkingDough : Minigame
     {
         [Header("Components")]
@@ -173,10 +176,6 @@ namespace HeavenStudio.Games
         string gandwMovingAnimName;
 
         [Header("Curves")]
-        public BezierCurve3D npcEnterUpCurve;
-        public BezierCurve3D npcEnterDownCurve;
-        public BezierCurve3D npcExitUpCurve;
-        public BezierCurve3D npcExitDownCurve;
         public BezierCurve3D playerEnterUpCurve;
         public BezierCurve3D playerEnterDownCurve;
         public BezierCurve3D playerExitUpCurve;
@@ -187,12 +186,29 @@ namespace HeavenStudio.Games
         public BezierCurve3D playerBarelyCurveSecond;
         public BezierCurve3D playerWrongInputTooWeakFirstCurve;
         public BezierCurve3D playerWrongInputTooWeakSecondCurve;
-        public BezierCurve3D firstBGCurveBig;
-        public BezierCurve3D secondBGCurveBig;
-        public BezierCurve3D thirdBGCurveBig;
-        public BezierCurve3D firstBGCurveSmall;
-        public BezierCurve3D secondBGCurveSmall;
-        public BezierCurve3D thirdBGCurveSmall;
+        [SerializeField] SuperCurveObject.Path[] ballBouncePaths;
+        new void OnDrawGizmos()
+        {
+            base.OnDrawGizmos();
+            foreach (SuperCurveObject.Path path in ballBouncePaths)
+            {
+                if (path.preview)
+                {
+                    smallBallNPC.GetComponent<NPCDoughBall>().DrawEditorGizmo(path);
+                }
+            }
+        }
+        public SuperCurveObject.Path GetPath(string name)
+        {
+            foreach (SuperCurveObject.Path path in ballBouncePaths)
+            {
+                if (path.name == name)
+                {
+                    return path;
+                }
+            }
+            return default(SuperCurveObject.Path);
+        }
 
         [Header("Resources")]
         public Sprite whiteArrowSprite;
@@ -272,13 +288,9 @@ namespace HeavenStudio.Games
             var spawnedBall = GameObject.Instantiate(objectToSpawn, ballHolder);
 
             var ballComponent = spawnedBall.GetComponent<NPCDoughBall>();
-            ballComponent.startBeat = beat;
-            ballComponent.exitUpCurve = npcExitUpCurve;
-            ballComponent.enterUpCurve = npcEnterUpCurve;
-            ballComponent.exitDownCurve = npcExitDownCurve;
-            ballComponent.enterDownCurve = npcEnterDownCurve;
-
             spawnedBall.SetActive(true);
+            ballComponent.Init(beat);
+
 
             if (isBig && !bigMode)
             {
@@ -309,12 +321,7 @@ namespace HeavenStudio.Games
             var spawnedBall = GameObject.Instantiate(objectToSpawn, ballHolder);
 
             var ballComponent = spawnedBall.GetComponent<NPCDoughBall>();
-            ballComponent.startBeat = beat - 1f;
-            ballComponent.exitUpCurve = npcExitUpCurve;
-            ballComponent.enterUpCurve = npcEnterUpCurve;
-            ballComponent.exitDownCurve = npcExitDownCurve;
-            ballComponent.enterDownCurve = npcEnterDownCurve;
-            ballComponent.currentFlyingStage = (FlyingStage)(2 - (int)Math.Abs(offSet));
+            ballComponent.Init(beat);
 
             if (isBig && !bigMode)
             {
@@ -718,12 +725,8 @@ namespace HeavenStudio.Games
             var spawnedBall = GameObject.Instantiate(objectToSpawn, ballHolder);
 
             var ballComponent = spawnedBall.GetComponent<BGBall>();
-            ballComponent.startBeat = beat;
-            ballComponent.firstCurve = isBig ? firstBGCurveBig : firstBGCurveSmall;
-            ballComponent.secondCurve = isBig ? secondBGCurveBig : secondBGCurveSmall;
-            ballComponent.thirdCurve = isBig ? thirdBGCurveBig : thirdBGCurveSmall;
-
             spawnedBall.SetActive(true);
+            ballComponent.Init(beat);
             BeatAction.New(instance.gameObject, new List<BeatAction.Action>()
             {
                 new BeatAction.Action(beat + 9f, delegate { if (!spaceshipRisen) spaceshipAnimator.Play("AbsorbBall", 0, 0); }),

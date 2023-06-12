@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2090388953
+CRC: 3596492217
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ad96894296d74ec5b5b200f0f4a27631
+    Hash: 26fc96c0b54cb5ee3474b9ad21d4b9e0
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 8b55a6917405b0202af0602af7feed59
+    Hash: 3668fa81f90fca9e5e9f534bf7badde8
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -51,7 +51,11 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
-SerializeReferenceClassIdentifiers: []
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: HeavenStudio.SuperCurveObject/Path
+- AssemblyName: Assembly-CSharp
+  ClassName: HeavenStudio.SuperCurveObject/PathPos
 Assets:
 - Assets/Resources/Sprites/Games/WorkingDough/Animations/PlayerNoBigMode.anim
 - Assets/Resources/Sprites/Games/WorkingDough/Animations/OnGround.anim
