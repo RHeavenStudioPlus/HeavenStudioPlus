@@ -11,11 +11,13 @@ namespace HeavenStudio.Games.Scripts_WorkingDough
     {
         private double startBeat = double.MinValue;
         private Path path;
+        [SerializeField] private GameObject gandw;
 
-        public void Init(double beat)
+        public void Init(double beat, bool hasGandw)
         {
             startBeat = beat;
             path = WorkingDough.instance.GetPath("NPCBall");
+            if (gandw != null) gandw.SetActive(hasGandw);
             Update();
         }
 

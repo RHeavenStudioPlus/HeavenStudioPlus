@@ -35,12 +35,14 @@ namespace HeavenStudio.Games.Scripts_WorkingDough
         private PlayerActionEvent wrongInput;
         private PlayerActionEvent rightInput;
 
+        [SerializeField] private GameObject gandw;
+
         private void Awake()
         {
             game = WorkingDough.instance;
         }
 
-        public void Init(double beat, bool isBig)
+        public void Init(double beat, bool isBig, bool hasGandw)
         {
             startBeat = beat;
             big = isBig;
@@ -52,6 +54,7 @@ namespace HeavenStudio.Games.Scripts_WorkingDough
             rightInput = game.ScheduleInput(beat, 1, isBig ? InputType.STANDARD_ALT_DOWN : InputType.STANDARD_DOWN, Just, Miss, Empty);
             wrongInput = game.ScheduleUserInput(beat, 1, isBig ? InputType.STANDARD_DOWN : InputType.STANDARD_ALT_DOWN, WrongInput, Empty, Empty);
             currentState = State.Entering;
+            if (gandw != null) gandw.SetActive(hasGandw);
             Update();
         }
 
@@ -144,11 +147,12 @@ namespace HeavenStudio.Games.Scripts_WorkingDough
                 SoundByte.PlayOneShotGame("workingDough/hitSmallPlayer");
                 game.doughDudesPlayer.GetComponent<Animator>().Play("SmallDoughJump", 0, 0);
             }
+            bool hasGandw = gandw.activeSelf;
             BeatAction.New(game.gameObject, new List<BeatAction.Action>()
             {
                 new BeatAction.Action(beat + 0.9f, delegate { game.arrowSRRightPlayer.sprite = game.redArrowSprite; }),
                 new BeatAction.Action(beat + 1f, delegate { game.arrowSRRightPlayer.sprite = game.whiteArrowSprite; }),
-                new BeatAction.Action(beat + 2f, delegate { game.SpawnBGBall(beat + 2f, big); }),
+                new BeatAction.Action(beat + 2f, delegate { game.SpawnBGBall(beat + 2f, big, hasGandw); }),
             });
             Update();
         }
