@@ -116,14 +116,15 @@ namespace HeavenStudio.Games.Scripts_WorkingDough
             if (state >= 1f || state <= -1f)
             {
                 currentState = State.Barely;
+                SoundByte.PlayOneShot("miss");
                 if (big)
                 {
-                    SoundByte.PlayOneShotGame("workingDough/BigBarely");
+                    SoundByte.PlayOneShotGame("workingDough/bigPlayer");
                     game.doughDudesPlayer.GetComponent<Animator>().Play("BigDoughJump", 0, 0);
                 }
                 else
                 {
-                    SoundByte.PlayOneShotGame("workingDough/SmallBarely");
+                    SoundByte.PlayOneShotGame("workingDough/smallPlayer");
                     game.doughDudesPlayer.GetComponent<Animator>().Play("SmallDoughJump", 0, 0);
                 }
                 Update();
@@ -132,13 +133,15 @@ namespace HeavenStudio.Games.Scripts_WorkingDough
             currentState = State.Hit;
             if (big)
             {
-                SoundByte.PlayOneShotGame("workingDough/rightBig");
+                SoundByte.PlayOneShotGame("workingDough/bigPlayer");
+                SoundByte.PlayOneShotGame("workingDough/hitBigPlayer");
                 game.doughDudesPlayer.GetComponent<Animator>().Play("BigDoughJump", 0, 0);
                 game.backgroundAnimator.Play("BackgroundFlash", 0, 0);
             }
             else
             {
-                SoundByte.PlayOneShotGame("workingDough/rightSmall");
+                SoundByte.PlayOneShotGame("workingDough/smallPlayer");
+                SoundByte.PlayOneShotGame("workingDough/hitSmallPlayer");
                 game.doughDudesPlayer.GetComponent<Animator>().Play("SmallDoughJump", 0, 0);
             }
             BeatAction.New(game.gameObject, new List<BeatAction.Action>()
@@ -164,14 +167,16 @@ namespace HeavenStudio.Games.Scripts_WorkingDough
                 currentState = State.Weak;
                 startBeat = beat;
                 game.doughDudesPlayer.GetComponent<Animator>().Play("SmallDoughJump", 0, 0);
-                SoundByte.PlayOneShotGame("workingDough/BigBallTooWeak");
+                SoundByte.PlayOneShotGame("workingDough/smallPlayer");
+                SoundByte.PlayOneShotGame("workingDough/tooBig");
                 Update();
             }
             else
             {
                 GameObject.Instantiate(game.breakParticleEffect, game.breakParticleHolder);
                 game.doughDudesPlayer.GetComponent<Animator>().Play("BigDoughJump", 0, 0);
-                SoundByte.PlayOneShotGame("workingDough/BreakBall");
+                SoundByte.PlayOneShotGame("workingDough/bigPlayer");
+                SoundByte.PlayOneShotGame("workingDough/tooSmall");
                 Destroy(gameObject);
             }
         }

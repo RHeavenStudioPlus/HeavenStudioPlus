@@ -323,7 +323,8 @@ namespace HeavenStudio.Games
             }
 
             MultiSound.Play(new MultiSound.Sound[] {
-                new MultiSound.Sound(isBig ? "workingDough/NPCBigBall" : "workingDough/NPCSmallBall", beat + 1f),
+                new MultiSound.Sound(isBig ? "workingDough/hitBigOther" : "workingDough/hitSmallOther", beat + 1f),
+                new MultiSound.Sound(isBig ? "workingDough/bigOther" : "workingDough/smallOther", beat + 1f),
             });
 
             arrowSRLeftNPC.sprite = redArrowSprite;
@@ -472,12 +473,12 @@ namespace HeavenStudio.Games
             if (PlayerInput.Pressed() && !IsExpectingInputNow(InputType.STANDARD_DOWN))
             {
                 doughDudesPlayer.GetComponent<Animator>().Play("SmallDoughJump", 0, 0);
-                SoundByte.PlayOneShotGame("workingDough/PlayerSmallJump");
+                SoundByte.PlayOneShotGame("workingDough/smallPlayer");
             }
             else if (PlayerInput.AltPressed() && !IsExpectingInputNow(InputType.STANDARD_ALT_DOWN))
             {
                 doughDudesPlayer.GetComponent<Animator>().Play("BigDoughJump", 0, 0);
-                SoundByte.PlayOneShotGame("workingDough/PlayerBigJump");
+                SoundByte.PlayOneShotGame("workingDough/bigPlayer");
             }
         }
 
@@ -526,7 +527,6 @@ namespace HeavenStudio.Games
             {
                 new BeatAction.Action(beat + length, delegate { spaceshipAnimator.Play("SpaceshipLaunch", 0, 0); }),
                 new BeatAction.Action(beat + length, delegate { SoundByte.PlayOneShotGame("workingDough/LaunchRobot"); }),
-                new BeatAction.Action(beat + length, delegate { SoundByte.PlayOneShotGame("workingDough/Rocket"); }),
             });
         }
 
