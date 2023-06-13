@@ -147,7 +147,8 @@ namespace HeavenStudio.Games.Scripts_WorkingDough
                 SoundByte.PlayOneShotGame("workingDough/hitSmallPlayer");
                 game.doughDudesPlayer.GetComponent<Animator>().Play("SmallDoughJump", 0, 0);
             }
-            bool hasGandw = gandw.activeSelf;
+            bool hasGandw = false;
+            if (gandw != null) hasGandw = gandw.activeSelf;
             BeatAction.New(game.gameObject, new List<BeatAction.Action>()
             {
                 new BeatAction.Action(beat + 0.9f, delegate { game.arrowSRRightPlayer.sprite = game.redArrowSprite; }),
