@@ -46,6 +46,9 @@ namespace HeavenStudio
         [NonSerialized] public RiqEntity currentSection, nextSection;
         public double sectionProgress { get; private set; }
 
+        bool AudioLoadDone;
+        bool ChartLoadError;
+
         public event Action<double> onBeatChanged;
         public event Action<RiqEntity> onSectionChange;
 
@@ -104,6 +107,8 @@ namespace HeavenStudio
 
         public void Init(bool preLoaded = false)
         {
+            AudioLoadDone = false;
+            ChartLoadError = false;
             currentPreEvent= 0;
             currentPreSwitch = 0;
             currentPreSequence = 0;
@@ -141,6 +146,7 @@ namespace HeavenStudio
             }
             else
             {
+                RiqFileHandler.ClearCache();
                 NewRemix();
             }
 
@@ -163,7 +169,8 @@ namespace HeavenStudio
         }
 
         public void NewRemix()
-        {
+        {         
+            AudioLoadDone = false;
             Beatmap = new("1", "HeavenStudio");
             Beatmap.data.properties = Minigames.propertiesModel;
             Beatmap.AddNewTempoChange(0, 120f);
@@ -171,10 +178,12 @@ namespace HeavenStudio
             Beatmap.data.offset = 0f;
             Conductor.instance.musicSource.clip = null;
             RiqFileHandler.WriteRiq(Beatmap);
+            AudioLoadDone = true;
         }
 
         public IEnumerator LoadMusic()
         {
+            ChartLoadError = false;
             IEnumerator load = RiqFileHandler.LoadSong();
             while (true)
             {
@@ -191,20 +200,27 @@ namespace HeavenStudio
                 {
                     Debug.LogWarning("chart has no music: " + f.Message);
                     Conductor.instance.musicSource.clip = null;
+                    AudioLoadDone = true;
+                    yield break;
                 }
                 catch (Exception e)
                 {
                     Debug.LogError($"Failed to load music: {e.Message}");
                     GlobalGameManager.ShowErrorMessage("Error Loading Music", e.Message + "\n\n" + e.StackTrace);
+                    AudioLoadDone = true;
+                    ChartLoadError = true;
                     yield break;
                 }
                 yield return current;
             }
             Conductor.instance.musicSource.clip = RiqFileHandler.StreamedAudioClip;
+            AudioLoadDone = true;
         }
 
         public void LoadRemix(bool editor = false)
         {
+            AudioLoadDone = false;
+            ChartLoadError = false;
             try
             {
                 Beatmap = RiqFileHandler.ReadRiq();
@@ -213,6 +229,7 @@ namespace HeavenStudio
             {
                 Debug.LogError($"Failed to load remix: {e.Message}");
                 GlobalGameManager.ShowErrorMessage("Error Loading RIQ", e.Message + "\n\n" + e.StackTrace);
+                ChartLoadError = true;
                 return;
             }
             if (!editor)
@@ -559,7 +576,7 @@ namespace HeavenStudio
             // wait for first game to be loaded
             yield return new WaitUntil(() => Beatmap != null && Beatmap.Entities.Count > 0);
             //wait for audio clip to be loaded
-            yield return new WaitUntil(() => Conductor.instance.musicSource.clip != null);
+            yield return new WaitUntil(() => AudioLoadDone || (ChartLoadError && !GlobalGameManager.IsShowingDialog));
 
             SkillStarManager.instance.KillStar();
             TimingAccuracyDisplay.instance.StopStarFlash();
