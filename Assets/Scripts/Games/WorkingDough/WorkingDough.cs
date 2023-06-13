@@ -498,7 +498,13 @@ namespace HeavenStudio.Games
                         ballTransporterRightNPC.GetComponent<Animator>().Play("BallTransporterRightOpened", 0, 0);
                         if (gandwHasEntered && !bgDisabled) gandwAnim.Play("GANDWLeverUp", 0, 0);
                     }
-                    if (ball.beat > beat - 1) SpawnBall(ball.beat - 1, ball.isBig, ball.hasGandw);
+                    if (ball.beat > beat - 1)
+                    {
+                        BeatAction.New(instance.gameObject, new List<BeatAction.Action>()
+                        {
+                            new BeatAction.Action(ball.beat - 1, delegate { SpawnBall(ball.beat - 1, ball.isBig, ball.hasGandw); })
+                        });
+                    }
 
                 }
                 queuedBalls.Clear();
