@@ -41,6 +41,8 @@ namespace HeavenStudio.Games.Loaders
                     }
                     entity.CreateProperty("direction", entity["type"]);
                     entity.CreateProperty("point", false);
+                    // don't actually need to do this here
+                    //entity.version = 1;
 
                     entity.dynamicData.Remove("type");
                     entity.dynamicData.Remove("type2");
@@ -49,6 +51,17 @@ namespace HeavenStudio.Games.Loaders
                 return null;
             }
             RiqBeatmap.OnUpdateEntity += FaceTurnUpdater;
+
+            RiqEntity MarchUpdater(string datamodel, RiqEntity entity)
+            {
+                if (datamodel == "marchingOrders/marching")
+                {
+                    entity.beat = double.NaN;
+                    return entity;
+                }
+                return null;
+            }
+            RiqBeatmap.OnUpdateEntity += MarchUpdater;
 
             return new Minigame("marchingOrders", "Marching Orders", "ffb108", false, false, new List<GameAction>()
                 {
@@ -163,13 +176,7 @@ namespace HeavenStudio.Games.Loaders
                     // hidden in the editor but here cuz backwards compatibility
                     new GameAction("marching", "Start Marching (old)")
                     {
-                        hidden = false,
-                        preFunction = delegate {
-                            var e = eventCaller.currentEntity;
-                            MarchingOrders.instance.ForceMarching(e.beat, e.length);
-                        },
-                        preFunctionLength = 0.2f,
-                        resizable = true,
+                        hidden = true,
                     },
                     new GameAction("face turn", "Direction to Turn (old)")
                     {
