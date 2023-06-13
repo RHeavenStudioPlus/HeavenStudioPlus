@@ -26,6 +26,7 @@ namespace HeavenStudio.Games.Loaders
                     defaultLength = 0.5f,
                     priority = 1,
                     inactiveFunction = delegate { var e = eventCaller.currentEntity; WorkingDough.OnSpawnBallInactive(e.beat, false); },
+                    function = delegate { var e = eventCaller.currentEntity; WorkingDough.instance.OnSpawnBall(e.beat, false); }
                 },
                 new GameAction("big ball", "Big Ball")
                 {
@@ -33,10 +34,12 @@ namespace HeavenStudio.Games.Loaders
                     defaultLength = 0.5f,
                     priority = 1,
                     inactiveFunction = delegate { var e = eventCaller.currentEntity; WorkingDough.OnSpawnBallInactive(e.beat, true); },
+                    function = delegate { var e = eventCaller.currentEntity; WorkingDough.instance.OnSpawnBall(e.beat, true); }
                 },
                 new GameAction("passTurn", "Pass Turn")
                 {
-                    function = delegate { WorkingDough.instance.PassTurn(eventCaller.currentEntity.beat); }
+                    preFunction = delegate { WorkingDough.PrePassTurn(eventCaller.currentEntity.beat); },
+                    preFunctionLength = 1
                 },
                 new GameAction("launch spaceship", "Launch Spaceship")
                 {
@@ -151,6 +154,7 @@ namespace HeavenStudio.Games
         public bool bigMode;
         public bool bigModePlayer;
         static List<QueuedBall> queuedBalls = new List<QueuedBall>();
+        static List<double> passedTurns = new List<double>();
         struct QueuedBall
         {
             public double beat;
@@ -264,7 +268,19 @@ namespace HeavenStudio.Games
             crHandlerInstance.StartInterval(beat, interval);
         }
 
-        public void PassTurn(double beat)
+        public static void PrePassTurn(double beat)
+        {
+            if (GameManager.instance.currentGame == "workingDough")
+            {
+                instance.PassTurn(beat);
+            }
+            else
+            {
+                passedTurns.Add(beat);
+            }
+        }
+
+        private void PassTurn(double beat)
         {
             if (crHandlerInstance.queuedEvents.Count > 0)
             {
@@ -272,29 +288,29 @@ namespace HeavenStudio.Games
                 ballTransporterLeftPlayer.GetComponent<Animator>().Play("BallTransporterLeftOpen", 0, 0);
                 foreach (var ball in crHandlerInstance.queuedEvents)
                 {
-                    SpawnPlayerBall(beat + ball.relativeBeat, ball.tag == "big");
+                    SpawnPlayerBall(beat + ball.relativeBeat - 1, ball.tag == "big");
                 }
                 crHandlerInstance.queuedEvents.Clear();
                 BeatAction.New(instance.gameObject, new List<BeatAction.Action>()
                 {
-                    new BeatAction.Action(beat + 1, delegate
+                    new BeatAction.Action(beat, delegate
                     {
                         if (crHandlerInstance.queuedEvents.Count > 0)
                         {
                             foreach (var ball in crHandlerInstance.queuedEvents)
                             {
-                                SpawnPlayerBall(beat + ball.relativeBeat, ball.tag == "big");
+                                SpawnPlayerBall(beat + ball.relativeBeat - 1, ball.tag == "big");
                             }
                             crHandlerInstance.queuedEvents.Clear();
                         }
                     }),
-                    new BeatAction.Action(beat + crHandlerInstance.intervalLength + 2, delegate { if (!crHandlerInstance.IntervalIsActive()) ballTransporterLeftNPC.GetComponent<Animator>().Play("BallTransporterLeftClose", 0, 0); }),
-                    new BeatAction.Action(beat + crHandlerInstance.intervalLength + 2, delegate { if (!crHandlerInstance.IntervalIsActive()) ballTransporterRightNPC.GetComponent<Animator>().Play("BallTransporterRightClose", 0, 0); }),
-                    new BeatAction.Action(beat + crHandlerInstance.intervalLength + 2, delegate { if (gandwHasEntered) gandwAnim.Play("MrGameAndWatchLeverDown", 0, 0); }),
+                    new BeatAction.Action(beat + crHandlerInstance.intervalLength + 1, delegate { if (!crHandlerInstance.IntervalIsActive()) ballTransporterLeftNPC.GetComponent<Animator>().Play("BallTransporterLeftClose", 0, 0); }),
+                    new BeatAction.Action(beat + crHandlerInstance.intervalLength + 1, delegate { if (!crHandlerInstance.IntervalIsActive()) ballTransporterRightNPC.GetComponent<Animator>().Play("BallTransporterRightClose", 0, 0); }),
+                    new BeatAction.Action(beat + crHandlerInstance.intervalLength + 1, delegate { if (gandwHasEntered) gandwAnim.Play("MrGameAndWatchLeverDown", 0, 0); }),
                     //Close player transporters
-                    new BeatAction.Action(beat + crHandlerInstance.intervalLength * 2 + 2, delegate { ballTransporterLeftPlayer.GetComponent<Animator>().Play("BallTransporterLeftClose", 0, 0); }),
-                    new BeatAction.Action(beat + crHandlerInstance.intervalLength * 2 + 2, delegate { ballTransporterRightPlayer.GetComponent<Animator>().Play("BallTransporterRightClose", 0, 0); }),
-                    new BeatAction.Action(beat + crHandlerInstance.intervalLength * 2 + 2, delegate {
+                    new BeatAction.Action(beat + crHandlerInstance.intervalLength * 2 + 1, delegate { ballTransporterLeftPlayer.GetComponent<Animator>().Play("BallTransporterLeftClose", 0, 0); }),
+                    new BeatAction.Action(beat + crHandlerInstance.intervalLength * 2 + 1, delegate { ballTransporterRightPlayer.GetComponent<Animator>().Play("BallTransporterRightClose", 0, 0); }),
+                    new BeatAction.Action(beat + crHandlerInstance.intervalLength * 2 + 1, delegate {
                         if (bigModePlayer)
                         {
                             PlayerBallTransporters.GetComponent<Animator>().Play("PlayerExitBigMode", 0, 0);
@@ -307,7 +323,6 @@ namespace HeavenStudio.Games
 
         public void SpawnBall(double beat, bool isBig)
         {
-            crHandlerInstance.AddEvent(beat, 0, isBig ? "big" : "small");
             var objectToSpawn = isBig ? bigBallNPC : smallBallNPC;
             var spawnedBall = GameObject.Instantiate(objectToSpawn, ballHolder);
 
@@ -338,11 +353,6 @@ namespace HeavenStudio.Games
                 new BeatAction.Action(beat + 1.9f, delegate { arrowSRRightNPC.sprite = redArrowSprite; }),
                 new BeatAction.Action(beat + 2f, delegate { arrowSRRightNPC.sprite = whiteArrowSprite; }),
             });
-        }
-
-        public void OnSpawnBall(double beat, bool isBig)
-        {
-
         }
 
         public static void PreSpawnBall(double beat, bool isBig)
@@ -382,6 +392,11 @@ namespace HeavenStudio.Games
             {
                 crHandlerInstance = new CallAndResponseHandler(8);
             }
+            crHandlerInstance.AddEvent(beat, 0, isBig ? "big" : "small");
+        }
+
+        public void OnSpawnBall(double beat, bool isBig)
+        {
             crHandlerInstance.AddEvent(beat, 0, isBig ? "big" : "small");
         }
 
@@ -469,6 +484,14 @@ namespace HeavenStudio.Games
 
                 }
                 queuedBalls.Clear();
+            }
+            if (passedTurns.Count > 0)
+            {
+                foreach (var passTurn in passedTurns)
+                {
+                    PassTurn(passTurn);
+                }
+                passedTurns.Clear();
             }
             if (PlayerInput.Pressed() && !IsExpectingInputNow(InputType.STANDARD_DOWN))
             {
