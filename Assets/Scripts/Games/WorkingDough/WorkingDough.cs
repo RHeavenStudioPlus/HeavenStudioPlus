@@ -304,13 +304,13 @@ namespace HeavenStudio.Games
                             crHandlerInstance.queuedEvents.Clear();
                         }
                     }),
-                    new BeatAction.Action(beat + crHandlerInstance.intervalLength + 1, delegate { if (!crHandlerInstance.IntervalIsActive()) ballTransporterLeftNPC.GetComponent<Animator>().Play("BallTransporterLeftClose", 0, 0); }),
-                    new BeatAction.Action(beat + crHandlerInstance.intervalLength + 1, delegate { if (!crHandlerInstance.IntervalIsActive()) ballTransporterRightNPC.GetComponent<Animator>().Play("BallTransporterRightClose", 0, 0); }),
-                    new BeatAction.Action(beat + crHandlerInstance.intervalLength + 1, delegate { if (gandwHasEntered) gandwAnim.Play("MrGameAndWatchLeverDown", 0, 0); }),
+                    new BeatAction.Action(beat + 1, delegate { if (!crHandlerInstance.IntervalIsActive()) ballTransporterLeftNPC.GetComponent<Animator>().Play("BallTransporterLeftClose", 0, 0); }),
+                    new BeatAction.Action(beat + 1, delegate { if (!crHandlerInstance.IntervalIsActive()) ballTransporterRightNPC.GetComponent<Animator>().Play("BallTransporterRightClose", 0, 0); }),
+                    new BeatAction.Action(beat + 1, delegate { if (gandwHasEntered) gandwAnim.Play("MrGameAndWatchLeverDown", 0, 0); }),
                     //Close player transporters
-                    new BeatAction.Action(beat + crHandlerInstance.intervalLength * 2 + 1, delegate { ballTransporterLeftPlayer.GetComponent<Animator>().Play("BallTransporterLeftClose", 0, 0); }),
-                    new BeatAction.Action(beat + crHandlerInstance.intervalLength * 2 + 1, delegate { ballTransporterRightPlayer.GetComponent<Animator>().Play("BallTransporterRightClose", 0, 0); }),
-                    new BeatAction.Action(beat + crHandlerInstance.intervalLength * 2 + 1, delegate {
+                    new BeatAction.Action(beat + crHandlerInstance.intervalLength + 1, delegate { ballTransporterLeftPlayer.GetComponent<Animator>().Play("BallTransporterLeftClose", 0, 0); }),
+                    new BeatAction.Action(beat + crHandlerInstance.intervalLength + 1, delegate { ballTransporterRightPlayer.GetComponent<Animator>().Play("BallTransporterRightClose", 0, 0); }),
+                    new BeatAction.Action(beat + crHandlerInstance.intervalLength + 1, delegate {
                         if (bigModePlayer)
                         {
                             PlayerBallTransporters.GetComponent<Animator>().Play("PlayerExitBigMode", 0, 0);
@@ -337,10 +337,6 @@ namespace HeavenStudio.Games
                 bigMode = true;
             }
 
-            MultiSound.Play(new MultiSound.Sound[] {
-                new MultiSound.Sound(isBig ? "workingDough/hitBigOther" : "workingDough/hitSmallOther", beat + 1f),
-                new MultiSound.Sound(isBig ? "workingDough/bigOther" : "workingDough/smallOther", beat + 1f),
-            });
 
             arrowSRLeftNPC.sprite = redArrowSprite;
             BeatAction.New(doughDudesNPC, new List<BeatAction.Action>()
@@ -398,6 +394,8 @@ namespace HeavenStudio.Games
         public void OnSpawnBall(double beat, bool isBig)
         {
             crHandlerInstance.AddEvent(beat, 0, isBig ? "big" : "small");
+            SoundByte.PlayOneShotGame(isBig ? "workingDough/hitBigOther" : "workingDough/hitSmallOther");
+            SoundByte.PlayOneShotGame(isBig ? "workingDough/bigOther" : "workingDough/smallOther");
         }
 
         public static void InactiveInterval(double beat, float interval)
@@ -458,17 +456,8 @@ namespace HeavenStudio.Games
             }
         }
 
-        void Update()
+        public override void OnGameSwitch(double beat)
         {
-            Conductor cond = Conductor.instance;
-            if (!cond.isPlaying || cond.isPaused)
-            {
-                if (queuedBalls.Count > 0) queuedBalls.Clear();
-            }
-
-            if (spaceshipRising) spaceshipAnimator.DoScaledAnimation("RiseSpaceship", risingStartBeat, risingLength);
-            if (liftingDoughDudes) doughDudesHolderAnim.DoScaledAnimation(liftingAnimName, liftingStartBeat, liftingLength);
-            if (gandwMoving) gandwAnim.DoScaledAnimation(gandwMovingAnimName, gandMovingStartBeat, gandMovingLength);
             if (queuedBalls.Count > 0)
             {
                 foreach (var ball in queuedBalls)
@@ -480,11 +469,24 @@ namespace HeavenStudio.Games
                         ballTransporterRightNPC.GetComponent<Animator>().Play("BallTransporterRightOpened", 0, 0);
                         if (gandwHasEntered) gandwAnim.Play("GANDWLeverUp", 0, 0);
                     }
-                    SpawnBall(ball.beat, ball.isBig);
+                    if (ball.beat > beat - 1) SpawnBall(ball.beat - 1, ball.isBig);
 
                 }
                 queuedBalls.Clear();
             }
+        }
+
+        void Update()
+        {
+            Conductor cond = Conductor.instance;
+            if (!cond.isPlaying || cond.isPaused)
+            {
+                if (queuedBalls.Count > 0) queuedBalls.Clear();
+            }
+
+            if (spaceshipRising) spaceshipAnimator.DoScaledAnimation("RiseSpaceship", risingStartBeat, risingLength);
+            if (liftingDoughDudes) doughDudesHolderAnim.DoScaledAnimation(liftingAnimName, liftingStartBeat, liftingLength);
+            if (gandwMoving) gandwAnim.DoScaledAnimation(gandwMovingAnimName, gandMovingStartBeat, gandMovingLength);
             if (passedTurns.Count > 0)
             {
                 foreach (var passTurn in passedTurns)
