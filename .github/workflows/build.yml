@@ -52,7 +52,7 @@ jobs:
 
       # Required on Mac for permission reasons
       - name: Tar files
-        if: runner.targetPlatform == "StandaloneOSX"
+        if: runner.targetPlatform == 'StandaloneOSX'
         run: tar -cvf ${{ matrix.targetPlatform }}.tar ./build/${{ matrix.targetPlatform }}
 
       - name: Upload Artifact (Windows / Linux)
