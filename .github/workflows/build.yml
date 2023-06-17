@@ -1,4 +1,4 @@
-name: Build Windows
+name: Build Heaven Studio
 
 on:
   push:
@@ -13,6 +13,8 @@ jobs:
       matrix:
         targetPlatform:
           - StandaloneWindows64
+          - StandaloneOSX
+          - StandaloneLinux
 
     steps:
       - name: Checkout repository
@@ -20,7 +22,7 @@ jobs:
         # with:
         #   lfs: true
 
-      # Cache resued Library files to speed up compilation
+      # Cache reused Library files to speed up compilation
       - uses: actions/cache@v2
         with:
           path: Library
@@ -36,7 +38,6 @@ jobs:
       #   with:
       #     githubToken: ${{ secrets.GITHUB_TOKEN }}
 
-      # Build project with Unity
       - name: Build project
         uses: game-ci/unity-builder@v2
         env:
@@ -48,9 +49,26 @@ jobs:
           buildName: Heaven Studio
           buildsPath: build
           targetPlatform: ${{ matrix.targetPlatform }}
-          
-      # Output
-      - uses: actions/upload-artifact@v2
+
+      # Required on Mac for permission reasons
+      - name: Tar files
+        if: runner.targetPlatform == "StandaloneOSX"
+        run: tar -cvf ${{ matrix.targetPlatform }}.tar ./build/${{ matrix.targetPlatform }}
+
+      - name: Upload Artifact (Windows / Linux)
+        if: runner.targetPlatform != 'StandaloneOSX'
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.targetPlatform }}-build
           path: ./build/${{ matrix.targetPlatform }}/
+
+      - name: Upload Artifact (macOS)
+        if: runner.targetPlatform == 'StandaloneOSX'
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.targetPlatform }}-build
+          path: ${{ matrix.targetPlatform }}.tar
+
+      - name: debug thing
+        run: tree .
+
