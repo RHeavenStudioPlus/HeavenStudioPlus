@@ -50,20 +50,20 @@ jobs:
           buildsPath: build
           targetPlatform: ${{ matrix.targetPlatform }}
 
-      # Required on Mac for permission reasons
+      # Required on Mac/Linux to keep executable permissions
       - name: Tar files
-        if: matrix.targetPlatform == 'StandaloneOSX'
+        if: matrix.targetPlatform != 'StandaloneWindows64'
         run: tar -cvf ${{ matrix.targetPlatform }}.tar ./build/${{ matrix.targetPlatform }}
 
-      - name: Upload Artifact (Windows / Linux)
-        if: matrix.targetPlatform != 'StandaloneOSX'
+      - name: Upload Artifact (Windows)
+        if: matrix.targetPlatform == 'StandaloneWindows64'
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.targetPlatform }}-build
           path: ./build/${{ matrix.targetPlatform }}/
 
-      - name: Upload Artifact (macOS)
-        if: matrix.targetPlatform == 'StandaloneOSX'
+      - name: Upload Artifact (macOS / Linux)
+        if: matrix.targetPlatform != 'StandaloneWindows64'
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.targetPlatform }}-build
