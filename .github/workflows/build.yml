@@ -14,16 +14,16 @@ jobs:
         targetPlatform:
           - StandaloneWindows64
           - StandaloneOSX
-          - StandaloneLinux
+          - StandaloneLinux64
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         # with:
         #   lfs: true
 
       # Cache reused Library files to speed up compilation
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: Library
           key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
@@ -52,18 +52,18 @@ jobs:
 
       # Required on Mac for permission reasons
       - name: Tar files
-        if: runner.targetPlatform == 'StandaloneOSX'
+        if: matrix.targetPlatform == 'StandaloneOSX'
         run: tar -cvf ${{ matrix.targetPlatform }}.tar ./build/${{ matrix.targetPlatform }}
 
       - name: Upload Artifact (Windows / Linux)
-        if: runner.targetPlatform != 'StandaloneOSX'
+        if: matrix.targetPlatform != 'StandaloneOSX'
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.targetPlatform }}-build
           path: ./build/${{ matrix.targetPlatform }}/
 
       - name: Upload Artifact (macOS)
-        if: runner.targetPlatform == 'StandaloneOSX'
+        if: matrix.targetPlatform == 'StandaloneOSX'
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.targetPlatform }}-build
