@@ -2,7 +2,7 @@ name: Build Heaven Studio
 
 on:
   push:
-    branches: [ "master", "release_1" ]
+    branches: [ "master", "release_1", "actions_rework" ]
 
 jobs:
   build:
