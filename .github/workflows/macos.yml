@@ -47,6 +47,7 @@ jobs:
           unityVersion: auto
           buildName: Heaven Studio
           buildsPath: build
+          buildMethod: UnityBuilderAction.BuildScript.Build
           targetPlatform: ${{ matrix.targetPlatform }}
           
       - name: Tar files
