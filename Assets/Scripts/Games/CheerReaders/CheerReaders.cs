@@ -485,7 +485,7 @@ namespace HeavenStudio.Games
         public void OneTwoThree(double beat, int whoSpeaks)
         {
             canBop = false;
-            ScheduleInput(beat, 2, InputType.STANDARD_DOWN, JustFlip, MissFlip, None);
+            ScheduleInput(beat, 2, InputType.STANDARD_DOWN, JustFlip, MissFlip, Nothing);
             List<MultiSound.Sound> soundsToPlay = new List<MultiSound.Sound>()
             {
                 new MultiSound.Sound("cheerReaders/bookHorizontal", beat),
@@ -613,7 +613,7 @@ namespace HeavenStudio.Games
         public void ItsUpToYou(double beat, int whoSpeaks)
         {
             canBop = false;
-            ScheduleInput(beat, 2, InputType.STANDARD_DOWN, JustFlip, MissFlip, None);
+            ScheduleInput(beat, 2, InputType.STANDARD_DOWN, JustFlip, MissFlip, Nothing);
             List<MultiSound.Sound> soundsToPlay = new List<MultiSound.Sound>()
             {
                 new MultiSound.Sound("cheerReaders/bookVertical", beat),
@@ -771,7 +771,7 @@ namespace HeavenStudio.Games
         public void LetsGoReadABunchaBooks(double beat, int whoSpeaks)
         {
             canBop = false;
-            ScheduleInput(beat, 2, InputType.STANDARD_DOWN, JustFlip, MissFlip, None);
+            ScheduleInput(beat, 2, InputType.STANDARD_DOWN, JustFlip, MissFlip, Nothing);
             List<MultiSound.Sound> soundsToPlay = new List<MultiSound.Sound>()
             {
                 new MultiSound.Sound("cheerReaders/letsGoRead", beat),
@@ -957,7 +957,7 @@ namespace HeavenStudio.Games
         public void RahRahSisBoomBaBoom(double beat, int whoSpeaks, bool consecutive)
         {
             canBop = false;
-            ScheduleInput(beat, 2.5f, InputType.STANDARD_DOWN, JustFlipBoom, MissFlip, None);
+            ScheduleInput(beat, 2.5f, InputType.STANDARD_DOWN, JustFlipBoom, MissFlip, Nothing);
             List<MultiSound.Sound> soundsToPlay = new List<MultiSound.Sound>()
             {
                 new MultiSound.Sound("cheerReaders/bookDiagonal", beat + 0.5f),
@@ -1168,8 +1168,8 @@ namespace HeavenStudio.Games
         {
             canBop = false;
             float actualLength = length * 0.25f;
-            ScheduleInput(beat, 2 * actualLength, InputType.STANDARD_ALT_DOWN, JustHoldSpin, MissFlip, None);
-            ScheduleInput(beat, 3 * actualLength, InputType.STANDARD_ALT_UP, JustReleaseSpin, MissFlip, None);
+            ScheduleInput(beat, 2 * actualLength, InputType.STANDARD_ALT_DOWN, JustHoldSpin, MissFlip, Nothing);
+            ScheduleInput(beat, 3 * actualLength, InputType.STANDARD_ALT_UP, JustReleaseSpin, MissFlip, Nothing);
             List<MultiSound.Sound> soundsToPlay = new List<MultiSound.Sound>();
             if (whistle)
             {
@@ -1450,6 +1450,6 @@ namespace HeavenStudio.Games
             }
         }
 
-        void Void(PlayerActionEvent caller) {}
+        void Nothing(PlayerActionEvent caller) {}
     }
 }
