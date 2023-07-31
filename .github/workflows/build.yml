@@ -56,7 +56,6 @@ jobs:
       - name: Clean up
         run: |
           rm -rf ./Assets
-          rm -rf ./Library
           rm -rf ./Packages
           rm -rf ./ProjectSettings
 
