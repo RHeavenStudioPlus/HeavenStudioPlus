@@ -32,7 +32,7 @@ jobs:
           haskell: true
           large-packages: true
           docker-images: false
-          swap-storage: true
+          swap-storage: false
 
       - name: Checkout repository
         uses: actions/checkout@v3
