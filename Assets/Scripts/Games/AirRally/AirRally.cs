@@ -73,6 +73,10 @@ namespace HeavenStudio.Games.Loaders
                     {
                         AirRally.ForthCountIn4(e.currentEntity.beat, e.currentEntity.length);
                     },
+                    function = delegate
+                    {
+                        AirRally.instance.ForthCountIn4Do(e.currentEntity.beat, e.currentEntity.length);
+                    }
                 },
                 new GameAction("8beat", "8 Beat Count-In")
                 {
@@ -82,9 +86,14 @@ namespace HeavenStudio.Games.Loaders
                     {
                         AirRally.ForthCountIn8(e.currentEntity.beat, e.currentEntity.length);
                     },
+                    function = delegate
+                    {
+                        AirRally.instance.ForthCountIn8Do(e.currentEntity.beat, e.currentEntity.length);
+                    }
                 },
                 new GameAction("forthington voice lines", "Count")
                 {
+                    function = delegate { AirRally.instance.ForthVoiceDo(e.currentEntity.beat); },
                     preFunction = delegate { AirRally.ForthVoice(e.currentEntity.beat, e.currentEntity["type"]); }, 
                     parameters = new List<Param>()
                     { 
@@ -223,6 +232,79 @@ namespace HeavenStudio.Games
 
     public class AirRally : Minigame
     {
+        private static readonly float[] countInOffsets = new float[4]
+        {
+            0.142f, //one
+            0.140f, //two
+            0.150f, //three
+            0.160f, //four
+        };
+
+        private static readonly float[] nyaOffsets = new float[4]
+        {
+            -0.01f, //close
+            -0.01f, //far
+            0.003f, //farther
+            -0.01f //farthest
+        };
+
+        //both of the whoosh offsets are scheduled for the beat that the player hits the birdie,
+        //offset them to end just before the player hits the birdie
+
+        //for normal rally
+        private static readonly float[] whooshOffsetsRally = new float[4]
+        {
+            0f, //leave be
+            0.210f, //far
+            0.210f, //farther
+            0.170f //farthest
+        };
+
+        // for ba bum bum bum
+        private static readonly float[] whooshOffsetsBaBum = new float[4]
+        {
+            0f, //leave be
+            0.380f, //far
+            0.380f, //farther
+            0.380f //farthest
+        };
+
+        private static readonly float[,] baBumBumBumOffsets = new float[4, 4]
+        {
+            { // close
+                0.009f, // ba
+                0.017f, // bum1
+                0.014f, // bum2
+                0.010f, // bum3
+            },
+            { // far
+                0.003f, // ba
+                0.020f, // bum1
+                0.004f, // bum2
+                0.010f, // bum3
+            },
+            { // farther
+                0.008f, // ba
+                0.080f, // bum1
+                0.075f, // bum2
+                0.028f, // bum3
+            },
+            { // farthest
+                0.012f, // ba
+                0.040f, // bum1
+                0.026f, // bum2
+                0.040f, // bum3
+            },
+        };
+
+        private static readonly float[] baBumBumBumFarAltOffsets = new float[4]
+        {
+                0.001f, // ba
+                0.012f, // bum1
+                0.012f, // bum2
+                0.012f, // bum3
+        };
+
         public enum BirdType
         {
             Pterosaurs,
@@ -237,8 +319,8 @@ namespace HeavenStudio.Games
         [SerializeField] Animator Forthington;
         private Transform forthTrans;
         private Transform baxterTrans;
-        [SerializeField] GameObject Shuttlecock;
-        public GameObject ActiveShuttle;
+        [SerializeField] Shuttlecock Shuttlecock;
+        private Shuttlecock ActiveShuttle;
         [SerializeField] GameObject objHolder;
         [SerializeField] private CloudsManager cloudManagerMain, cloudManagerLeft, cloudManagerRight, cloudManagerTop, snowflakeManager;
         [SerializeField] private CloudsManager treeManagerMain, treeManagerLeft, treeManagerRight, treeManagerLeftInner, treeManagerRightInner;
@@ -275,6 +357,7 @@ namespace HeavenStudio.Games
         private float lastWayPointZForForth = 3.16f;
         private float wayPointZForForth = 3.16f;
         private HeavenStudio.Util.EasingFunction.Ease currentEase = HeavenStudio.Util.EasingFunction.Ease.EaseOutQuad;
+        private double nextGameSwitchBeatGlobal = double.MaxValue;
 
         void Start()
         {
@@ -299,7 +382,7 @@ namespace HeavenStudio.Games
             if(PlayerInput.Pressed() && !IsExpectingInputNow())
             {
                 Baxter.DoScaledAnimationAsync("Hit", 0.5f);
-                SoundByte.PlayOneShotGame("airRally/whooshForth_Close", -1f);
+                SoundByte.PlayOneShotGame("airRally/swing");
             }
 
             float normalizedEnterBeat = Conductor.instance.GetPositionFromBeat(enterStartBeat, enterLength);
@@ -326,6 +409,8 @@ namespace HeavenStudio.Games
             IslandSpeedUpdate();
             TreeUpdate();
         }
+
+        #region visual doodads
 
         public void Forward(bool reset)
         {
@@ -522,6 +607,7 @@ namespace HeavenStudio.Games
                 float newZ = func(lastWayPointZForForth, wayPointZForForth, normalizedBeat);
 
                 forthTrans.position = new Vector3(forthTrans.position.x, forthTrans.position.y, newZ);
+                if (shuttleActive) ActiveShuttle.SetStartAndEndPos();
             }
             else if (normalizedBeat > 1f)
             {
@@ -627,6 +713,8 @@ namespace HeavenStudio.Games
             DayNightCycleUpdate();
         }
 
+        #endregion
+
         private static bool IsCatchBeat(double beat)
         {
             return EventCaller.GetAllInGameManagerList("airRally", new string[] { "catch" }).Find(x => beat == x.beat) != null;
@@ -639,18 +727,18 @@ namespace HeavenStudio.Games
 
         public enum DistanceSound
         {
-            close,
-            far,
-            farther,
-            farthest
+            close = 0,
+            far = 1,
+            farther = 2,
+            farthest = 3
         }
 
         public enum CountSound
         {
-            one,
-            two,
-            three,
-            four
+            one = 0,
+            two = 1,
+            three = 2,
+            four = 3
         }
 
         public enum DayNightCycle
@@ -668,13 +756,13 @@ namespace HeavenStudio.Games
                 {
                     if (!shuttleActive)
                     {
-                        ActiveShuttle = GameObject.Instantiate(Shuttlecock, objHolder.transform);
-                        ActiveShuttle.SetActive(true);
-                        var shuttleScript = ActiveShuttle.GetComponent<Shuttlecock>();
-                        shuttleScript.flyPos = 0f;
-                        shuttleScript.startBeat = beat - 0.5;
-                        shuttleScript.flyBeats = 0.5;
-                        shuttleScript.isTossed = true;
+                        ActiveShuttle = Instantiate(Shuttlecock, objHolder.transform);
+                        ActiveShuttle.gameObject.SetActive(true);
+                        ActiveShuttle.flyPos = 0f;
+                        ActiveShuttle.startBeat = beat - 0.5;
+                        ActiveShuttle.flyBeats = 0.5;
+                        ActiveShuttle.isTossed = true;
+                        ActiveShuttle.SetStartAndEndPos();
 
                         shuttleActive = true;
 
@@ -683,13 +771,14 @@ namespace HeavenStudio.Games
                 }),
                 new BeatAction.Action(beat, delegate
                 {
-                    var shuttleScript = ActiveShuttle.GetComponent<Shuttlecock>();
-                    shuttleScript.flyPos = 0f;
-                    shuttleScript.isReturning = false;
-                    shuttleScript.startBeat = beat;
-                    shuttleScript.flyBeats = targetBeat - beat;
-                    shuttleScript.flyType = type;
-                    shuttleScript.isTossed = false;
+                    ActiveShuttle.flyPos = 0f;
+                    ActiveShuttle.isReturning = false;
+                    ActiveShuttle.startBeat = beat;
+                    ActiveShuttle.flyBeats = targetBeat - beat;
+                    ActiveShuttle.flyType = type;
+                    ActiveShuttle.isTossed = false;
+                    ActiveShuttle.currentDist = DistanceAtBeat(beat);
+                    ActiveShuttle.SetStartAndEndPos();
 
                     Forthington.DoScaledAnimationAsync("Hit", 0.5f);
                 })
@@ -698,13 +787,14 @@ namespace HeavenStudio.Games
 
         public void ReturnObject(double beat, double targetBeat, bool type)
         {
-            var shuttleScript = ActiveShuttle.GetComponent<Shuttlecock>();
-            shuttleScript.flyPos = 0f;
-            shuttleScript.isReturning = true;
-            shuttleScript.startBeat = beat;
-            shuttleScript.flyBeats = targetBeat - beat;
-            shuttleScript.flyType = type;
-            shuttleScript.isTossed = false;
+            ActiveShuttle.flyPos = 0f;
+            ActiveShuttle.isReturning = true;
+            ActiveShuttle.startBeat = beat;
+            ActiveShuttle.flyBeats = targetBeat - beat;
+            ActiveShuttle.flyType = type;
+            ActiveShuttle.isTossed = false;
+            ActiveShuttle.currentDist = DistanceAtBeat(beat);
+            ActiveShuttle.SetStartAndEndPos();
         }
 
         #region count-ins
@@ -713,16 +803,21 @@ namespace HeavenStudio.Games
             float realLength = length / 4;
             MultiSound.Play(new MultiSound.Sound[]
             {
-                new MultiSound.Sound("airRally/countIn1" + GetDistanceStringAtBeat(beat, true), beat),
-                new MultiSound.Sound("airRally/countIn2" + GetDistanceStringAtBeat(beat + (1 * realLength), true), beat + (1 * realLength)),
-                new MultiSound.Sound("airRally/countIn3" + GetDistanceStringAtBeat(beat + (2 * realLength), true), beat + (2 * realLength), 1, 1, false, 0.107f),
-                new MultiSound.Sound("airRally/countIn4" + GetDistanceStringAtBeat(beat + (3 * realLength), true), beat + (3 * realLength), 1, 1, false, 0.051f),
+                new MultiSound.Sound("airRally/countIn1" + GetDistanceStringAtBeat(beat, true), beat, 1, 1, false, countInOffsets[0]),
+                new MultiSound.Sound("airRally/countIn2" + GetDistanceStringAtBeat(beat + (1 * realLength), true), beat + (1 * realLength), 1, 1, false, countInOffsets[1]),
+                new MultiSound.Sound("airRally/countIn3" + GetDistanceStringAtBeat(beat + (2 * realLength), true), beat + (2 * realLength), 1, 1, false, countInOffsets[2]),
+                new MultiSound.Sound("airRally/countIn4" + GetDistanceStringAtBeat(beat + (3 * realLength), true), beat + (3 * realLength), 1, 1, false, countInOffsets[3]),
             }, forcePlay: true);
+        }
 
-            if (GameManager.instance.currentGame == "airRally")
-            {
-                BeatAction.New(instance.gameObject, instance.ForthCountIn4Action(beat, length));
-            }
+        public void ForthCountIn4Do(double beat, float length)
+        {
+            BeatAction.New(instance.gameObject, instance.ForthCountIn4Action(beat, length));
+        }
+
+        public void ForthCountIn8Do(double beat, float length)
+        {
+            BeatAction.New(instance.gameObject, instance.ForthCountIn8Action(beat, length));
         }
 
         private List<BeatAction.Action> ForthCountIn4Action(double beat, float length)
@@ -788,18 +883,13 @@ namespace HeavenStudio.Games
             float realLength = length / 8;
             MultiSound.Play(new MultiSound.Sound[]
             {
-                new MultiSound.Sound("airRally/countIn1" + GetDistanceStringAtBeat(beat, true), beat),
-                new MultiSound.Sound("airRally/countIn2" + GetDistanceStringAtBeat(beat + (2 * realLength), true), beat + (2 * realLength)),
-                new MultiSound.Sound("airRally/countIn1" + GetDistanceStringAtBeat(beat + (4 * realLength), true), beat + (4 * realLength)),
-                new MultiSound.Sound("airRally/countIn2" + GetDistanceStringAtBeat(beat + (5 * realLength), true), beat + (5 * realLength)),
-                new MultiSound.Sound("airRally/countIn3" + GetDistanceStringAtBeat(beat + (6 * realLength), true), beat + (6 * realLength), 1, 1, false, 0.107f),
-                new MultiSound.Sound("airRally/countIn4" + GetDistanceStringAtBeat(beat + (7 * realLength), true), beat + (7 * realLength), 1, 1, false, 0.051f),
+                new MultiSound.Sound("airRally/countIn1" + GetDistanceStringAtBeat(beat, true), beat, 1, 1, false, countInOffsets[0]),
+                new MultiSound.Sound("airRally/countIn2" + GetDistanceStringAtBeat(beat + (2 * realLength), true), beat + (2 * realLength), 1, 1, false, countInOffsets[1]),
+                new MultiSound.Sound("airRally/countIn1" + GetDistanceStringAtBeat(beat + (4 * realLength), true), beat + (4 * realLength), 1, 1, false, countInOffsets[0]),
+                new MultiSound.Sound("airRally/countIn2" + GetDistanceStringAtBeat(beat + (5 * realLength), true), beat + (5 * realLength), 1, 1, false, countInOffsets[1]),
+                new MultiSound.Sound("airRally/countIn3" + GetDistanceStringAtBeat(beat + (6 * realLength), true), beat + (6 * realLength), 1, 1, false, countInOffsets[2]),
+                new MultiSound.Sound("airRally/countIn4" + GetDistanceStringAtBeat(beat + (7 * realLength), true), beat + (7 * realLength), 1, 1, false, countInOffsets[3]),
             }, forcePlay: true);
-
-            if (GameManager.instance.currentGame == "airRally")
-            {
-                BeatAction.New(instance.gameObject, instance.ForthCountIn8Action(beat, length));
-            }
         }
 
         private BeatAction.Action ForthVoiceAction(double beat)
@@ -810,24 +900,17 @@ namespace HeavenStudio.Games
             });
         }
 
+        public void ForthVoiceDo(double beat)
+        {
+            BeatAction.New(instance.gameObject, new List<BeatAction.Action>()
+            {
+                instance.ForthVoiceAction(beat)
+            });
+        }
+        
         public static void ForthVoice(double beat, int type)
         {
-            if (GameManager.instance.currentGame == "airRally")
-            {
-                BeatAction.New(instance.gameObject, new List<BeatAction.Action>()
-                {
-                    instance.ForthVoiceAction(beat)
-                });
-            }
-            float offset = 0f;
-            if (type == 2)
-            {
-                offset = 0.107f;
-            }
-            else if (type == 3)
-            {
-                offset = 0.051f;
-            }
+            float offset = countInOffsets[type];
 
             DistanceSound distance = DistanceAtBeat(beat);
             
@@ -940,6 +1023,8 @@ namespace HeavenStudio.Games
 
         public override void OnGameSwitch(double beat)
         {
+            var nextGameSwitch = EventCaller.GetAllInGameManagerList("gameManager", new string[] { "switchGame" }).Find(x => x.beat > beat);
+            if (nextGameSwitch != null) nextGameSwitchBeatGlobal = nextGameSwitch.beat;
             PersistDayNight(beat);
             PersistEnter(beat);
             PersistIslandSpeed(beat);
@@ -985,11 +1070,15 @@ namespace HeavenStudio.Games
 
         public override void OnPlay(double beat)
         {
+            var nextGameSwitch = EventCaller.GetAllInGameManagerList("gameManager", new string[] { "switchGame" }).Find(x => x.beat > beat);
+            if (nextGameSwitch != null) nextGameSwitchBeatGlobal = nextGameSwitch.beat;
             PersistDayNight(beat);
             PersistEnter(beat);
             PersistIslandSpeed(beat);
             InitClouds(beat);
         }
+
+        #region persist
 
         private void InitClouds(double beat)
         {
@@ -1070,6 +1159,7 @@ namespace HeavenStudio.Games
 
             SetIslandSpeed(e.beat, e.length, e["speed"], e["endSpeed"], e["ease"]);
         }
+        #endregion
 
         public static void PreStartRally(double beat)
         {
@@ -1115,17 +1205,21 @@ namespace HeavenStudio.Games
 
         private void RallyRecursion(double beat)
         {
+            if (beat >= nextGameSwitchBeatGlobal) return;
             bool isBaBumBeat = IsBaBumBeat(beat);
             bool countBaBum = CountBaBum(beat);
             bool silent = IsSilentAtBeat(beat);
             bool isCatch = IsCatchBeat(beat + 2);
             bool altBum = AltBaBum(beat);
 
-            SoundByte.PlayOneShotGame("airRally/whooshForth_" + GetDistanceStringAtBeat(beat + 0.25), beat + 0.25);
+            string distanceString = GetDistanceStringAtBeat(beat);
+            if (distanceString != "Close") SoundByte.PlayOneShotGame("airRally/whooshForth_" + distanceString, beat + 1, 1, 1, false, false, whooshOffsetsRally[(int)DistanceAtBeat(beat)]);
+            if (!(silent || isBaBumBeat) || (isCatch && !silent)) 
+                SoundByte.PlayOneShotGame("airRally/nya_" + distanceString, beat, 1, 1, false, false, nyaOffsets[(int)DistanceAtBeat(beat)]);
 
             BeatAction.New(gameObject, new List<BeatAction.Action>()
             {
-                new BeatAction.Action(beat - 0.5, delegate
+                new BeatAction.Action(beat - 1, delegate
                 {
                     ServeObject(beat, beat + 1, false);
 
@@ -1139,7 +1233,6 @@ namespace HeavenStudio.Games
                     string distanceString = GetDistanceStringAtBeat(beat);
                     Baxter.DoScaledAnimationAsync((distanceString == "Close") ? "CloseReady" : "FarReady", 0.5f);
                     SoundByte.PlayOneShotGame("airRally/hitForth_" + distanceString);
-                    if (!(silent || isBaBumBeat) || (isCatch && !silent)) SoundByte.PlayOneShotGame("airRally/nya_" + distanceString);
                 }),
                 new BeatAction.Action(beat + 1, delegate
                 {
@@ -1178,6 +1271,7 @@ namespace HeavenStudio.Games
 
         private void BaBumBumBum(double beat, bool count, bool alt)
         {
+            if (beat >= nextGameSwitchBeatGlobal) return;
             bool isCatch = IsCatchBeat(beat + 6);
             bool isBaBumBeat = IsBaBumBeat(beat + 4);
             bool countBaBum = CountBaBum(beat + 4);
@@ -1185,15 +1279,26 @@ namespace HeavenStudio.Games
 
             List<MultiSound.Sound> sounds = new List<MultiSound.Sound>();
 
+            string distanceStringTwoBeat = GetDistanceStringAtBeat(beat + 2f);
+
             sounds.AddRange(new List<MultiSound.Sound>()
             {
-                new MultiSound.Sound("airRally/baBumBumBum_" + GetDistanceStringAlt(beat + - 0.5) + "1", beat - 0.5),
-                new MultiSound.Sound("airRally/baBumBumBum_" + GetDistanceStringAlt(beat) + "2", beat),
-                new MultiSound.Sound("airRally/baBumBumBum_" + GetDistanceStringAlt(beat + 1f) + "3", beat + 1),
-                new MultiSound.Sound("airRally/baBumBumBum_" + GetDistanceStringAlt(beat + 2f) + "4", beat + 2),
-                new MultiSound.Sound("airRally/hitForth_" + GetDistanceStringAtBeat(beat + 2f), beat + 2),
-                new MultiSound.Sound("airRally/whooshForth_" + GetDistanceStringAtBeat(beat + 2.5), beat + 2.5),
+                new MultiSound.Sound("airRally/baBumBumBum_" + GetDistanceStringAlt(beat - 0.5) + "1", beat - 0.5, offset: GetBaBumOffset(beat - 0.5, 0)),
+                new MultiSound.Sound("airRally/baBumBumBum_" + GetDistanceStringAlt(beat) + "2", beat, offset: GetBaBumOffset(beat, 0)),
+                new MultiSound.Sound("airRally/baBumBumBum_" + GetDistanceStringAlt(beat + 1f) + "3", beat + 1, offset: GetBaBumOffset(beat + 1, 0)),
+                new MultiSound.Sound("airRally/baBumBumBum_" + GetDistanceStringAlt(beat + 2f) + "4", beat + 2, offset: GetBaBumOffset(beat + 2, 0)),
+                
             });
+
+            if (distanceStringTwoBeat != "Close") 
+            {
+                sounds.Add(new MultiSound.Sound("airRally/whooshForth_" + distanceStringTwoBeat + "2", beat + 4, 1, 1, false, whooshOffsetsBaBum[(int)DistanceAtBeat(beat + 2)]));
+                sounds.Add(new MultiSound.Sound("airRally/hitForth_" + distanceStringTwoBeat + "2", beat + 2));
+            } 
+            else
+            {
+                sounds.Add(new MultiSound.Sound("airRally/hitForth_Close", beat + 2));
+            }
 
             string GetDistanceStringAlt(double beatAlt)
             {
@@ -1203,20 +1308,30 @@ namespace HeavenStudio.Games
                 return distanceString + altString;
             }
 
-            if (GetDistanceStringAtBeat(beat + 3f) == "Far") sounds.Add(new MultiSound.Sound("airRally/whooshForth_Far2", beat + 3f));
+            float GetBaBumOffset(double beatOffset, int index)
+            {
+                int theDistance = (int)DistanceAtBeat(beatOffset);
+                if (theDistance == 1 && alt)
+                {
+                    return baBumBumBumFarAltOffsets[index];
+                }
+                else
+                {
+                    return baBumBumBumOffsets[theDistance, index];
+                }
+            }
 
             if (count && !isBaBumBeat && !isCatch)
             {
                 sounds.AddRange(new List<MultiSound.Sound>()
                 {
-                    new MultiSound.Sound("airRally/countIn2" + GetDistanceStringAtBeat(beat + 3f, true), beat + 3),
-                    new MultiSound.Sound("airRally/countIn3" + GetDistanceStringAtBeat(beat + 4f, true), beat + 4, 1, 1, false, 0.107f),
-                    new MultiSound.Sound("airRally/countIn4" + GetDistanceStringAtBeat(beat + 5f, true), beat + 5, 1, 1, false, 0.051f),
+                    new MultiSound.Sound("airRally/countIn2" + GetDistanceStringAtBeat(beat + 3f, true), beat + 3, 1, 1, false, countInOffsets[1]),
+                    new MultiSound.Sound("airRally/countIn3" + GetDistanceStringAtBeat(beat + 4f, true), beat + 4, 1, 1, false, countInOffsets[2]),
+                    new MultiSound.Sound("airRally/countIn4" + GetDistanceStringAtBeat(beat + 5f, true), beat + 5, 1, 1, false, countInOffsets[3]),
                 });
             }
 
             MultiSound.Play(sounds.ToArray());
-            //ready after 2 beat, close, far, far, farthest
 
             BeatAction.New(gameObject, new List<BeatAction.Action>()
             {
@@ -1318,7 +1433,11 @@ namespace HeavenStudio.Games
                     _ => throw new System.NotImplementedException()
                 };
 
-                SoundByte.PlayOneShotGame("airRally/hitBaxter_" + distanceString);
+                if (distanceString == "Close")
+                {
+                    SoundByte.PlayOneShotGame("airRally/hitBaxter_Close");
+                }
+                else SoundByte.PlayOneShotGame("airRally/hitBaxter_" + distanceString + "2");
 
                 if (IsCatchBeat(caller.startBeat + caller.timer + 2))
                 {
