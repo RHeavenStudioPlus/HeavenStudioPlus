@@ -170,11 +170,8 @@ namespace HeavenStudio
             var chart = GameManager.instance.Beatmap;
             double offset = chart.data.offset;
             double dspTime = AudioSettings.dspTime;
-            absTimeAdjust = 0;
-            dspStart = dspTime;
-            startTime = DateTime.Now;
 
-            GameManager.instance.SortEventsList();
+            dspStart = dspTime;
 
             startPos = GetSongPosFromBeat(beat);
             firstBeatOffset = offset;
@@ -188,19 +185,20 @@ namespace HeavenStudio
                 {
                     musicScheduledTime = dspTime + musicStartDelay / SongPitch;
                     musicScheduledPitch = SongPitch;
-                    musicSource.PlayScheduled(musicScheduledTime);
                 }
                 else
                 {
                     musicScheduledTime = dspTime;
                     musicScheduledPitch = SongPitch;
-
-                    musicSource.Play();
                 }
+                musicSource.PlayScheduled(musicScheduledTime);
             }
 
             songPosBeat = GetBeatFromSongPos(time);
             startBeat = songPosBeat;
+
+            absTimeAdjust = 0;
+            startTime = DateTime.Now;
 
             isPlaying = true;
             isPaused = false;
