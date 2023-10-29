@@ -31,6 +31,7 @@ namespace HeavenStudio
 
         public static string buildTime = "00/00/0000 00:00:00";
 
+        public static bool HasShutDown = false;
         public static bool discordDuringTesting = false;
 
         static string loadedScene;
@@ -77,6 +78,7 @@ namespace HeavenStudio
         public static void Init()
         {
             Application.wantsToQuit += WantsToQuit;
+            Application.quitting += OnQuitting;
 
             BasicCheck();
 
@@ -142,6 +144,7 @@ namespace HeavenStudio
 
         IEnumerator LoadSceneAsync(string scene, float fadeOut)
         {
+            Application.backgroundLoadingPriority = ThreadPriority.Normal;
             //TODO: create flow mem loading icon
             asyncLoad = SceneManager.LoadSceneAsync(scene);
             while (!asyncLoad.isDone)
@@ -379,12 +382,19 @@ namespace HeavenStudio
             }
         }
 
-        void OnApplicationQuit()
+        private static void OnQuitting()
         {
-            Debug.Log("Disconnecting JoyShocks...");
-            PlayerInput.CleanUp();
-            Debug.Log("Clearing RIQ Cache...");
-            Jukebox.RiqFileHandler.ClearCache();
+            if (!HasShutDown)
+            {
+                Debug.Log("Disconnecting JoyShocks...");
+                PlayerInput.CleanUp();
+                Debug.Log("Clearing RIQ Cache...");
+                Jukebox.RiqFileHandler.ClearCache();
+                Debug.Log("Closing Discord GameSDK...");
+                DiscordRPC.DiscordController.instance?.Disconnect();
+
+                HasShutDown = true;
+            }
         }
 
         private static bool WantsToQuit()

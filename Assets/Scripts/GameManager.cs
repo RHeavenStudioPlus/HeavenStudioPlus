@@ -10,6 +10,7 @@ using Jukebox;
 using HeavenStudio.Util;
 using HeavenStudio.Games;
 using HeavenStudio.Common;
+using Cysharp.Threading.Tasks;
 
 namespace HeavenStudio
 {
@@ -50,6 +51,16 @@ namespace HeavenStudio
         [NonSerialized] public bool canInput = true;
         [NonSerialized] public RiqEntity currentSection, nextSection;
         public double sectionProgress { get; private set; }
+
+        public bool GameHasSplitColours
+        {
+            get
+            {
+                var inf = GetGameInfo(currentGame);
+                if (inf == null) return false;
+                return inf.splitColorL != null && inf.splitColorR != null;
+            }
+        }
 
         bool AudioLoadDone;
         bool ChartLoadError;
@@ -176,6 +187,7 @@ namespace HeavenStudio
             if (playOnStart)
             {
                 StartCoroutine(WaitReadyAndPlayCo(startBeat));
+                CircleCursor.LockCursor(true);
             }
         }
 
@@ -338,15 +350,15 @@ namespace HeavenStudio
         {
             int aLen = a.Length;
             int bLen = b.Length;
-        
+
             int ap = 0; int bp = 0;
-        
-            while (ap < aLen && bp < bLen && a [ap] == b [bp])
+
+            while (ap < aLen && bp < bLen && a[ap] == b[bp])
             {
                 ap++;
                 bp++;
             }
-        
+
             return (bp == bLen);
         }
 
@@ -365,8 +377,7 @@ namespace HeavenStudio
                     if (inf != null && inf.usesAssetBundle && !inf.AssetsLoaded)
                     {
                         Debug.Log($"ASYNC loading assetbundles for game {gameName}");
-                        StartCoroutine(inf.LoadCommonAssetBundleAsync());
-                        StartCoroutine(inf.LoadLocalizedAssetBundleAsync());
+                        inf.LoadAssetsAsync().Forget();
                     }
                     currentPreSwitch++;
                 }
@@ -391,8 +402,7 @@ namespace HeavenStudio
                         if (inf != null && inf.usesAssetBundle && !inf.AssetsLoaded)
                         {
                             Debug.Log($"ASYNC loading assetbundles for game {gameName}");
-                            StartCoroutine(inf.LoadCommonAssetBundleAsync());
-                            StartCoroutine(inf.LoadLocalizedAssetBundleAsync());
+                            inf.LoadAssetsAsync().Forget();
                         }
                         currentPreEvent++;
                     }
@@ -619,7 +629,8 @@ namespace HeavenStudio
                 if (miniGame != null)
                     miniGame.OnPlay(beat);
             }
-            
+
+            Application.backgroundLoadingPriority = ThreadPriority.Low;
             Conductor.instance.Play(beat);
         }
 
@@ -662,6 +673,10 @@ namespace HeavenStudio
             if (playOnStart || restart)
             {
                 Play(0, restartDelay);
+            }
+            else
+            {
+                Application.backgroundLoadingPriority = ThreadPriority.Normal;
             }
             // when rating screen gets added playOnStart will instead move to that scene
         }
@@ -946,7 +961,7 @@ namespace HeavenStudio
         {
             var gameInfo = GetGameInfo(game);
             //load the games' sound sequences
-            // TODO: this blocks the main thread, and sound sequences sould be stored in a ScriptableObject
+            // TODO: sound sequences sould be stored in a ScriptableObject
             if (gameInfo != null && gameInfo.LoadedSoundSequences == null)
                 gameInfo.LoadedSoundSequences = GetGame(game).GetComponent<Minigame>().SoundSequences;
         }
@@ -971,7 +986,9 @@ namespace HeavenStudio
                     if (gameInfo.usesAssetBundle)
                     {
                         //game is packed in an assetbundle, load from that instead
-                        // this is fucked!! figure out a way to make this async
+                        if (gameInfo.LoadedPrefab != null) return gameInfo.LoadedPrefab;
+                        // StartCoroutine(gameInfo.LoadCommonAudioClipsAsync());
+                        // StartCoroutine(gameInfo.LoadLocalizedAudioClipsAsync());
                         return gameInfo.GetCommonAssetBundle().LoadAsset<GameObject>(name);
                     }
                     name = gameInfo.LoadableName;
@@ -985,20 +1002,20 @@ namespace HeavenStudio
             return eventCaller.minigames.Find(c => c.name == name);
         }
 
+        Color colMain;
         public void SetCurrentGame(string game, bool useMinigameColor = true)
         {
             currentGame = game;
             if (GetGameInfo(currentGame) != null)
             {
-                CircleCursor.InnerCircle.GetComponent<SpriteRenderer>().color = Colors.Hex2RGB(GetGameInfo(currentGame).color);
-                if (useMinigameColor) HeavenStudio.StaticCamera.instance.SetAmbientGlowColour(Colors.Hex2RGB(GetGameInfo(currentGame).color), true);
-                //else HeavenStudio.StaticCamera.instance.SetAmbientGlowColour(HeavenStudio.GameCamera.currentColor, false);
+                colMain = Colors.Hex2RGB(GetGameInfo(currentGame).color);
+                CircleCursor.SetCursorColors(colMain, Colors.Hex2RGB(GetGameInfo(currentGame).splitColorL), Colors.Hex2RGB(GetGameInfo(currentGame).splitColorR));
+                if (useMinigameColor) HeavenStudio.StaticCamera.instance.SetAmbientGlowColour(colMain, true);
                 else HeavenStudio.StaticCamera.instance.SetAmbientGlowColour(Color.black, false);
             }
             else
             {
-                CircleCursor.InnerCircle.GetComponent<SpriteRenderer>().color = Color.white;
-                //HeavenStudio.StaticCamera.instance.SetAmbientGlowColour(HeavenStudio.GameCamera.currentColor, false);
+                CircleCursor.SetCursorColors(Color.white, Color.white, Color.white);
                 HeavenStudio.StaticCamera.instance.SetAmbientGlowColour(Color.black, false);
             }
         }
