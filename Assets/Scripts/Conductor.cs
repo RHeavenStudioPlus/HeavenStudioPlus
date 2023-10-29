@@ -6,6 +6,7 @@ using UnityEngine;
 using Starpelly;
 using Jukebox;
 using HeavenStudio.Util;
+using System.Data.Common;
 
 namespace HeavenStudio
 {
@@ -46,6 +47,7 @@ namespace HeavenStudio
         private double time;
         double dspTime;
         double absTime, absTimeAdjust;
+        double dspSizeSeconds;
         double dspMargin = 128 / 44100.0;
 
         // the dspTime we started at
@@ -133,7 +135,8 @@ namespace HeavenStudio
         {
             musicSource.priority = 0;
             AudioConfiguration config = AudioSettings.GetConfiguration();
-            dspMargin = 2 * (config.dspBufferSize / (double)config.sampleRate);
+            dspSizeSeconds = config.dspBufferSize / (double)config.sampleRate;
+            dspMargin = 2 * dspSizeSeconds;
             addedPitchChanges.Clear();
         }
 
@@ -148,7 +151,7 @@ namespace HeavenStudio
             time = startPos;
             firstBeatOffset = offset;
 
-            SeekMusicToTime(startPos);
+            SeekMusicToTime(startPos, offset);
 
             songPosBeat = GetBeatFromSongPos(time);
 
@@ -162,7 +165,9 @@ namespace HeavenStudio
             if (!isPaused)
             {
                 AudioConfiguration config = AudioSettings.GetConfiguration();
-                dspMargin = 2 * (config.dspBufferSize / (double)config.sampleRate);
+                dspSizeSeconds = config.dspBufferSize / (double)config.sampleRate;
+                Debug.Log($"dsp size: {dspSizeSeconds}");
+                dspMargin = 2 * dspSizeSeconds;
                 addedPitchChanges.Clear();
                 addedPitchChanges.Add(new AddedPitchChange { time = 0, pitch = SongPitch });
             }
@@ -171,34 +176,37 @@ namespace HeavenStudio
             double offset = chart.data.offset;
             double dspTime = AudioSettings.dspTime;
 
-            dspStart = dspTime;
-
             startPos = GetSongPosFromBeat(beat);
             firstBeatOffset = offset;
             time = startPos;
 
             if (musicSource.clip != null && startPos < musicSource.clip.length - offset)
             {
-                SeekMusicToTime(startPos);
+                SeekMusicToTime(startPos, offset);
                 double musicStartDelay = -offset - startPos;
                 if (musicStartDelay > 0)
                 {
                     musicScheduledTime = dspTime + musicStartDelay / SongPitch;
-                    musicScheduledPitch = SongPitch;
+                    dspStart = dspTime;
                 }
                 else
                 {
-                    musicScheduledTime = dspTime;
-                    musicScheduledPitch = SongPitch;
+                    musicScheduledTime = dspTime + dspMargin;
+                    dspStart = dspTime + dspMargin;
                 }
+                musicScheduledPitch = SongPitch;
                 musicSource.PlayScheduled(musicScheduledTime);
+            }
+            if (musicSource.clip == null)
+            {
+                dspStart = dspTime;
             }
 
             songPosBeat = GetBeatFromSongPos(time);
             startBeat = songPosBeat;
 
-            absTimeAdjust = 0;
             startTime = DateTime.Now;
+            absTimeAdjust = 0;
 
             isPlaying = true;
             isPaused = false;
@@ -266,9 +274,8 @@ namespace HeavenStudio
             StopOnlyAudio();
         }
 
-        void SeekMusicToTime(double fStartPos)
+        void SeekMusicToTime(double fStartPos, double offset)
         {
-            double offset = GameManager.instance.Beatmap.data.offset;
             if (musicSource.clip != null && fStartPos < musicSource.clip.length - offset)
             {
                 // https://www.desmos.com/calculator/81ywfok6xk
