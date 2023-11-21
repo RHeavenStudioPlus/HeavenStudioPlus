@@ -17,12 +17,14 @@ namespace HeavenStudio.Games.Loaders
             {
                 new GameAction("donut", "Donut")
                 {
-                    function = delegate { BlueBear.instance.SpawnTreat(eventCaller.currentEntity.beat, false); },
+                    preFunction = delegate { BlueBear.TreatSound(eventCaller.currentEntity.beat, false); },
+                    function = delegate { BlueBear.instance.SpawnTreat(eventCaller.currentEntity.beat, false, eventCaller.currentEntity.beat); },
                     defaultLength = 3,
                 },
                 new GameAction("cake", "Cake")
                 {
-                    function = delegate { BlueBear.instance.SpawnTreat(eventCaller.currentEntity.beat, true); },
+                    preFunction = delegate { BlueBear.TreatSound(eventCaller.currentEntity.beat, true); },
+                    function = delegate { BlueBear.instance.SpawnTreat(eventCaller.currentEntity.beat, true, eventCaller.currentEntity.beat); },
                     defaultLength = 4,
                 },
                 new GameAction("setEmotion", "Set Emotion")
@@ -38,6 +40,16 @@ namespace HeavenStudio.Games.Loaders
                 {
                     function = delegate { BlueBear.instance.Wind(); },
                     defaultLength = 0.5f
+                },
+                new GameAction("story", "Story")
+                {
+                    defaultLength = 4,
+                    parameters = new List<Param>()
+                    {
+                        new Param("story", BlueBear.StoryType.Date, "Story"),
+                        new Param("enter", true, "Enter")
+                    },
+                    resizable = true
                 },
                 new GameAction("crumb", "Set Crumb Threshold")
                 {
@@ -61,6 +73,7 @@ namespace HeavenStudio.Games.Loaders
 
 namespace HeavenStudio.Games
 {
+    using Jukebox;
     using Scripts_BlueBear;
     public class BlueBear : Minigame
     {
@@ -74,6 +87,14 @@ namespace HeavenStudio.Games
             InstaSad,
             Sigh
         }
+        public enum StoryType
+        {
+            Date,
+            Gift,
+            Girl,
+            Eat,
+            BreakUp
+        }
         [Header("Animators")]
         public Animator headAndBodyAnim; // Head and body
         public Animator bagsAnim; // Both bags sprite
@@ -84,6 +105,7 @@ namespace HeavenStudio.Games
         [Header("References")]
         [SerializeField] GameObject leftCrumb;
         [SerializeField] GameObject rightCrumb;
+        [SerializeField] private Animator _storyAnim;
         public GameObject donutBase;
         public GameObject cakeBase;
         public GameObject crumbsBase;
@@ -99,6 +121,7 @@ namespace HeavenStudio.Games
         float emotionLength;
         string emotionAnimName;
         bool crying;
+        private List<RiqEntity> _allStoryEvents = new();
 
         [Header("Curves")]
         public BezierCurve3D donutCurve;
@@ -169,20 +192,63 @@ namespace HeavenStudio.Games
 
         void OnDestroy()
         {
-            if (Conductor.instance.isPlaying || Conductor.instance.isPaused) return;
-            rightCrumbAppearThreshold = 15;
-            leftCrumbAppearThreshold = 30;
-            eatenTreats = 0;
             foreach (var evt in scheduledInputs)
             {
                 evt.Disable();
             }
+            if (Conductor.instance.isPlaying || Conductor.instance.isPaused) return;
+            rightCrumbAppearThreshold = 15;
+            leftCrumbAppearThreshold = 30;
+            eatenTreats = 0;
         }
 
         private void Awake()
         {
             instance = this;
             if (Conductor.instance.isPlaying || Conductor.instance.isPaused) EatTreat(true);
+            _allStoryEvents = EventCaller.GetAllInGameManagerList("blueBear", new string[] { "story" });
+            UpdateStory();
+        }
+
+        private int _storyIndex = 0;
+
+        private void UpdateStory()
+        {
+            var cond = Conductor.instance;
+
+            if (_storyIndex >= _allStoryEvents.Count) return;
+
+            var currentStory = _allStoryEvents[_storyIndex];
+
+            if (cond.songPositionInBeatsAsDouble >= currentStory.beat + currentStory.length && _storyIndex + 1 != _allStoryEvents.Count)
+            {
+                _storyIndex++;
+                UpdateStory();
+                return;
+            }
+
+            float normalizedBeat = Mathf.Clamp01(cond.GetPositionFromBeat(currentStory.beat, currentStory.length));
+
+            bool enter = currentStory["enter"];
+
+            switch (currentStory["story"])
+            {
+                case (int)StoryType.Date:
+                    _storyAnim.DoNormalizedAnimation(enter ? "Flashback0" : "Flashback0Exit", normalizedBeat);
+                    break;
+                case (int)StoryType.Gift:
+                    _storyAnim.DoNormalizedAnimation(enter ? "Flashback1" : "Flashback1Exit", normalizedBeat);
+                    break;
+                case (int)StoryType.Girl:
+                    _storyAnim.DoNormalizedAnimation(enter ? "Flashback2" : "Flashback2Exit", normalizedBeat);
+                    break;
+                case (int)StoryType.Eat:
+                    _storyAnim.DoNormalizedAnimation(enter ? "Flashback3" : "Flashback3Exit", normalizedBeat);
+                    break;
+                default:
+                    _storyAnim.DoNormalizedAnimation(enter ? "Breakup" : "BreakupExit", normalizedBeat);
+                    break;
+            }
         }
 
         private void Update()
@@ -206,6 +272,30 @@ namespace HeavenStudio.Games
                 if (normalizedBeat >= 0 && normalizedBeat <= 1f)
                 {
                     //headAndBodyAnim.DoNormalizedAnimation(emotionAnimName, normalizedBeat);
+                }
+            }
+            UpdateStory();
+        }
+
+        public override void OnPlay(double beat)
+        {
+            HandleTreatsOnStart(beat);
+        }
+
+        public override void OnGameSwitch(double beat)
+        {
+            HandleTreatsOnStart(beat);
+        }
+
+        private void HandleTreatsOnStart(double gameswitchBeat)
+        {
+            var allTreatEvents = EventCaller.GetAllInGameManagerList("blueBear", new string[] { "donut", "cake" });
+
+            foreach (var e in allTreatEvents)
+            {
+                if (e.beat + e.length - 1 > gameswitchBeat && e.beat < gameswitchBeat)
+                {
+                    SpawnTreat(e.beat, e.datamodel == "blueBear/cake", gameswitchBeat);
                 }
             }
         }
@@ -327,7 +417,7 @@ namespace HeavenStudio.Games
             }
         }
 
-        public void SpawnTreat(double beat, bool isCake)
+        public void SpawnTreat(double beat, bool isCake, double gameSwitchBeat)
         {
             var objectToSpawn = isCake ? cakeBase : donutBase;
             var newTreat = GameObject.Instantiate(objectToSpawn, foodHolder);
@@ -338,9 +428,12 @@ namespace HeavenStudio.Games
 
             newTreat.SetActive(true);
 
-            SoundByte.PlayOneShotGame(isCake ? "blueBear/cake" : "blueBear/donut");
+            if (beat >= gameSwitchBeat) SquashBag(isCake);
+        }
 
-            SquashBag(isCake);
+        public static void TreatSound(double beat, bool isCake)
+        {
+            SoundByte.PlayOneShot(isCake ? "games/blueBear/cake" : "games/blueBear/donut", beat);
         }
 
         public void SquashBag(bool isCake)
