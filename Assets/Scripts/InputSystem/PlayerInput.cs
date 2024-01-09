@@ -158,6 +158,7 @@ namespace HeavenStudio
             foreach (InputController i in inputDevices)
             {
                 if (i == null) continue;
+                Debug.Log($"Polling controller {i.GetDeviceName()} (frame {Time.frameCount})");
                 i.UpdateState();
             }
         }
