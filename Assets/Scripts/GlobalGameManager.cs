@@ -108,7 +108,6 @@ namespace HeavenStudio
 
             // ChangeAudioSettings(currentDspSize, currentSampleRate);
             AudioConfiguration config = AudioSettings.GetConfiguration();
-            if (currentDspSize == config.dspBufferSize && currentSampleRate == config.sampleRate) return;
             config.dspBufferSize = currentDspSize;
             config.sampleRate = currentSampleRate;
             AudioSettings.Reset(config);

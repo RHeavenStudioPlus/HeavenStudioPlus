@@ -67,6 +67,8 @@ public static class SavWav
         {
             var wav = GetWav(clip, out var length, trim);
             writer.Write(wav, 0, (int)length);
+            fileStream.Close();
+            fileStream.Dispose();
         }
     }
 
