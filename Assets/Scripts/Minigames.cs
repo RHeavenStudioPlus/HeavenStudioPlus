@@ -155,6 +155,8 @@ namespace HeavenStudio
             {
                 Directory.Delete(Path.Combine(Application.temporaryCachePath, "/savewav"), true);
             }
+            if (!Directory.Exists(Application.temporaryCachePath, "/savewav"))
+                Directory.CreateDirectory(Application.temporaryCachePath, "/savewav");
             if (audioType == AudioType.MPEG)
             {
                 Debug.Log($"mp3 loaded, Converting {filePath} to wav...");
