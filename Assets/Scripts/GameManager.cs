@@ -731,6 +731,7 @@ namespace HeavenStudio
 
             if (!paused)
             {
+                Conductor.instance.PlaySetup(beat);
                 Minigame miniGame = null;
                 if (currentGameO != null && currentGameO.TryGetComponent<Minigame>(out miniGame))
                 {
