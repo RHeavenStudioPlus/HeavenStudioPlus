@@ -82,9 +82,9 @@ namespace HeavenStudio
             {"resultcat3_hi", "You followed the example well."},                                                                // "Superb" message for input category 3 "repeat" (two-liner)
             {"resultcat3_ng", "Next time, follow the example better."},                                                         // "Try Again" message for input category 3 "repeat" (two-liner)
 
-            {"epilogue_hi", "Superb picture"},                                                                                  // epilogue "Superb" message
-            {"epilogue_ok", "OK picture"},                                                                                      // epilogue "OK" message
-            {"epilogue_ng", "Try Again picture"},                                                                               // epilogue "Try Again" message
+            {"epilogue_hi", "Superb"},                                                                                          // epilogue "Superb" message
+            {"epilogue_ok", "OK"},                                                                                              // epilogue "OK" message
+            {"epilogue_ng", "Try Again"},                                                                                       // epilogue "Try Again" message
 
             {"epilogue_hi_res", new EntityTypes.Resource(EntityTypes.Resource.ResourceType.Image, "Images/Epilogue/", "Hi")},   // epilogue "Superb" image resource path
             {"epilogue_ok_res", new EntityTypes.Resource(EntityTypes.Resource.ResourceType.Image, "Images/Epilogue/", "Ok")},   // epilogue "OK" image resource path
