@@ -260,13 +260,6 @@ namespace HeavenStudio
                         }
                         break;
                 }
-
-                epilogueFrame.sprite = rank switch
-                {
-                    Rank.Ok => epilogueFrmOk,
-                    Rank.Hi => epilogueFrmHi,
-                    _ => epilogueFrmNg
-                };
             }
 
             header.text = playedBeatmap != null ? playedBeatmap["resultcaption"] : "Rhythm League Notes";
@@ -302,6 +295,13 @@ namespace HeavenStudio
             {
                 imageResource = playedBeatmap != null ? playedBeatmap["epilogue_hi_res"] : null;
             }
+
+            epilogueFrame.sprite = rank switch
+            {
+                Rank.Ok => epilogueFrmOk,
+                Rank.Hi => epilogueFrmHi,
+                _ => epilogueFrmNg
+            };
 
             if (imageResource != null)
             {
