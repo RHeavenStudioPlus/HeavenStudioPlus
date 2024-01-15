@@ -503,7 +503,24 @@ namespace HeavenStudio
                 new ExtensionFilter("Heaven Studio Remix File ", new string[] { "riq" }),
             };
 
+#if HEAVENSTUDIO_PROD && !UNITY_EDITOR
+            string lvpath = Application.dataPath;
+            if (Application.platform == RuntimePlatform.OSXPlayer)
+            {
+                lvpath += "/../../Levels/";
+            }
+            else 
+            {
+                lvpath += "/../Levels/";
+            }
+            if (!Directory.Exists(lvpath))
+            {
+                Directory.CreateDirectory(lvpath);
+            }
+            StandaloneFileBrowser.OpenFilePanelAsync("Open Remix", lvpath, extensions, false, (string[] paths) =>
+#else
             StandaloneFileBrowser.OpenFilePanelAsync("Open Remix", "", extensions, false, (string[] paths) =>
+#endif
             {
                 var path = Path.Combine(paths);
                 if (path == string.Empty)
