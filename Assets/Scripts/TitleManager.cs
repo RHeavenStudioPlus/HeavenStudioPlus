@@ -47,6 +47,9 @@ namespace HeavenStudio
         [SerializeField] private TMP_Text chartIdolText;
         [SerializeField] private TMP_Text chartDescText;
         [SerializeField] private TMP_Text chartStyleText;
+        [SerializeField] private Image campaignOption;
+        [SerializeField] private Sprite campaignOn;
+        [SerializeField] private Sprite campaignOff;
 
         [SerializeField] private Selectable[] mainSelectables;
         [SerializeField] private Selectable defaultSelectable;
@@ -249,6 +252,9 @@ namespace HeavenStudio
                                 break;
                             case (int)InputController.ActionsPad.South:
                                 PlayPanelBack();
+                                break;
+                            case (int)InputController.ActionsPad.North:
+                                ToggleCampaign();
                                 break;
                         }
                     }
@@ -542,6 +548,15 @@ namespace HeavenStudio
                     chartIdolText.text = "♪ " + beatmap["idolcredit"];
                     chartStyleText.text = $"Recommended Control Style: {beatmap["playstyle"].ToString()}";
 
+                    if (PersistentDataManager.gameSettings.perfectChallengeType == PersistentDataManager.PerfectChallengeType.On)
+                    {
+                        campaignOption.sprite = campaignOn;
+                    }
+                    else
+                    {
+                        campaignOption.sprite = campaignOff;
+                    }
+
                     playPanel.SetActive(true);
                     playMenuRevealed = true;
                     SoundByte.PlayOneShot("ui/UISelect");
@@ -561,6 +576,7 @@ namespace HeavenStudio
             if (exiting) return;
             exiting = true;
             SoundByte.PlayOneShot("ui/UIEnter");
+            PersistentDataManager.SaveSettings();
             GlobalGameManager.LoadScene("Game", 0.35f, -1);
         }
 
@@ -568,8 +584,24 @@ namespace HeavenStudio
         {
             RiqFileHandler.ClearCache();
             SoundByte.PlayOneShot("ui/UICancel");
+            PersistentDataManager.SaveSettings();
             playPanel.SetActive(false);
             playMenuRevealed = false;
+        }
+
+        public void ToggleCampaign()
+        {
+            SoundByte.PlayOneShot("ui/UIOption");
+            if (PersistentDataManager.gameSettings.perfectChallengeType == PersistentDataManager.PerfectChallengeType.On)
+            {
+                PersistentDataManager.gameSettings.perfectChallengeType = PersistentDataManager.PerfectChallengeType.Off;
+                campaignOption.sprite = campaignOff;
+            }
+            else
+            {
+                PersistentDataManager.gameSettings.perfectChallengeType = PersistentDataManager.PerfectChallengeType.On;
+                campaignOption.sprite = campaignOn;
+            }
         }
 
         public void SocialsPressed()
@@ -582,7 +614,7 @@ namespace HeavenStudio
 // #endif
 //             snsPanel.SetActive(true);
             SoundByte.PlayOneShot("ui/UISelect");
-            Application.OpenURL("https://github.com/RHeavenStudio/HeavenStudio");
+            Application.OpenURL("https://linktr.ee/RHeavenStudio");
             // show a panel with our SNS links
         }
 
@@ -617,6 +649,7 @@ namespace HeavenStudio
         public void QuitPressed()
         {
             SoundByte.PlayOneShot("ui/PauseQuit");
+            PersistentDataManager.SaveSettings();
             Application.Quit();
         }
     }
