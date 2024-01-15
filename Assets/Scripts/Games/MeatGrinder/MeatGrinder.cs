@@ -269,7 +269,6 @@ namespace HeavenStudio.Games
                 float normalizedBeat = cond.GetPositionFromBeat(cartEase.beat, cartEase.length);
                 Util.EasingFunction.Function func = Util.EasingFunction.GetEasingFunction(cartEase.ease);
                 float newPos = func(0f, 1f, normalizedBeat);
-                Debug.Log($"{normalizedBeat}, {newPos}");
                 CartGuyParentAnim.DoNormalizedAnimation($"Move{cartDir}", newPos);
                 if (normalizedBeat >= 1) cartEase.length = 0;
             }
