@@ -22,7 +22,7 @@
 Full releases are published on our [itch.io page](https://rheavenstudio.itch.io/heaven-studio). GitHub Actions creates experimental builds on each commmit, but minimal support will be provided.
 
 ### Release 1.0.1 alpha builds
-These builds do not include some of the features from Nightly, instead focusing on stability. These builds will eventually culminate in the first stable release of Heaven Studio.
+These builds do not include some of the features from Nightly, instead focusing on stability.
 - [Windows](https://nightly.link/RHeavenStudio/HeavenStudio/workflows/build/release_1_patches/StandaloneWindows64-build.zip)
 - [Linux](https://nightly.link/RHeavenStudio/HeavenStudio/workflows/build/release_1_patches/StandaloneLinux64-build.zip)
 - [MacOS](https://nightly.link/RHeavenStudio/HeavenStudio/workflows/build/release_1_patches/StandaloneOSX-build.zip)
