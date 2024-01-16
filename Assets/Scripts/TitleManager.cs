@@ -510,18 +510,14 @@ namespace HeavenStudio
             };
 
 #if HEAVENSTUDIO_PROD && !UNITY_EDITOR
-            string lvpath = Application.dataPath;
-            if (Application.platform == RuntimePlatform.OSXPlayer)
+            string lvpath = "";
+            if (Application.platform != RuntimePlatform.OSXPlayer)
             {
-                lvpath += "/../../Levels/";
-            }
-            else 
-            {
-                lvpath += "/../Levels/";
-            }
-            if (!Directory.Exists(lvpath))
-            {
-                Directory.CreateDirectory(lvpath);
+                lvpath = Application.dataPath + "/../Levels/";
+                if (!Directory.Exists(lvpath))
+                {
+                    Directory.CreateDirectory(lvpath);
+                }
             }
             StandaloneFileBrowser.OpenFilePanelAsync("Open Remix", lvpath, extensions, false, (string[] paths) =>
 #else
