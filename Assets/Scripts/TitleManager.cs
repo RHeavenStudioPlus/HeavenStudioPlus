@@ -56,6 +56,7 @@ namespace HeavenStudio
         [SerializeField] private RectTransform selectedDisplayRect;
         [SerializeField] private GameObject selectedDisplayIcon;
         [SerializeField] private GameObject[] otherHiddenOnMouse;
+        static bool firstBoot = true;
 
         private AudioSource musicSource;
 
@@ -79,6 +80,7 @@ namespace HeavenStudio
         private Selectable currentSelectable, mouseSelectable;
         private RectTransform currentSelectableRect, lastSelectableRect;
         private float selectableLerpTimer;
+
 
         private void Start()
         {
@@ -151,15 +153,16 @@ namespace HeavenStudio
                             var nextController = newController;
                             var lastController = PlayerInput.GetInputController(1);
 
-                            if ((newController is InputMouse) && (lastController is not InputMouse))
+                            if ((newController is InputMouse) && !(lastController is InputMouse))
                             {
                                 Debug.Log("Mouse used, selecting keyboard instead");
                                 nextController = controllers[0];
                             }
                             Debug.Log("Assigning controller: " + newController.GetDeviceName());
 
-                            if (lastController != nextController)
+                            if (lastController != nextController && !firstBoot)
                             {
+                                firstBoot = false;
                                 if (nextController == null)
                                 {
                                     Debug.Log("invalid controller, using keyboard");
