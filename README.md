@@ -19,7 +19,7 @@
 
 
 ## Prebuilt Binaries
-Full releases are published on our [itch.io 0age](https://rheavenstudio.itch.io/heaven-studio). GitHub Actions creates experimental builds on each commmit, but minimal support will be provided.
+Full releases are published on our [itch.io page](https://rheavenstudio.itch.io/heaven-studio). GitHub Actions creates experimental builds on each commmit, but minimal support will be provided.
 
 ### Release 1.0.1 alpha builds
 These builds do not include some of the features from Nightly, instead focusing on stability. These builds will eventually culminate in the first stable release of Heaven Studio.
