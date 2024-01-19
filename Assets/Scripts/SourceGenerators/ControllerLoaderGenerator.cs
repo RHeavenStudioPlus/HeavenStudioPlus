@@ -1,39 +1,40 @@
 using static SatorImaging.UnitySourceGenerator.USGFullNameOf;
 using SatorImaging.UnitySourceGenerator;
+using System;
 using System.Text;
+using System.Linq;
+using System.Reflection;
+using System.Collections.Generic;
 using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Linq;
 using HeavenStudio;
+using HeavenStudio.InputSystem;
 
 // HOW TO USE: Add the following attribute to *target* class.
 //             Note that target class must be defined as partial.
-//[UnitySourceGenerator(typeof(MinigameLoaderGenerator), OverwriteIfFileExists = false)]
-public partial class MinigameLoaderGenerator
+//[UnitySourceGenerator(typeof(ControllerLoaderGenerator), OverwriteIfFileExists = false)]
+public partial class ControllerLoaderGenerator
 {
 #if UNITY_EDITOR   // USG: class definition is required to avoid build error but methods are not.
 #pragma warning disable IDE0051
 
     readonly static string MEMBER_ACCESS = "public static";
-    readonly static string MAIN_MEMBER_NAME = "LoadMinigames";
+    readonly static string MAIN_MEMBER_NAME = "InitInputControllers";
     static string OutputFileName() => MAIN_MEMBER_NAME + ".cs";  // -> Name.<TargetClass>.<GeneratorClass>.g.cs
 
     static bool Emit(USGContext context, StringBuilder sb)
     {
-        List<Func<EventCaller, Minigames.Minigame>> loadRunners = Assembly.GetExecutingAssembly()
+        List<PlayerInput.InputControllerInitializer> loadRunners = Assembly.GetExecutingAssembly()
         .GetTypes()
-        .Where(x => x.Namespace == "HeavenStudio.Games.Loaders" && x.GetMethod("AddGame", BindingFlags.Public | BindingFlags.Static) != null)
-        .Select(t => (Func<EventCaller, Minigames.Minigame>)Delegate.CreateDelegate(
-            typeof(Func<EventCaller, Minigames.Minigame>),
+        .Where(x => x.Namespace == "HeavenStudio.InputSystem.Loaders" && x.GetMethod("Initialize", BindingFlags.Public | BindingFlags.Static) != null)
+        .Select(t => (PlayerInput.InputControllerInitializer)Delegate.CreateDelegate(
+            typeof(PlayerInput.InputControllerInitializer),
             null,
-            t.GetMethod("AddGame", BindingFlags.Public | BindingFlags.Static),
+            t.GetMethod("Initialize", BindingFlags.Public | BindingFlags.Static),
             false
             ))
         .ToList();
@@ -54,17 +55,18 @@ public partial class MinigameLoaderGenerator
         // USG: write content into passed StringBuilder.
         sb.Append($@"
 using System;
-using System.Collections.Generic;
-using UnityEngine;
-using Debug = UnityEngine.Debug;
-using Object = UnityEngine.Object;
+using System.Linq;
+using System.Reflection;
 
-using HeavenStudio;
-using HeavenStudio.Games.Loaders;
+using System.Collections.Generic;
+
+using HeavenStudio.InputSystem;
+using HeavenStudio.InputSystem.Loaders;
+using Debug = UnityEngine.Debug;
 
 namespace {context.TargetClass.Namespace}
 {{
-    static partial class {context.TargetClass.Name}
+    partial class {context.TargetClass.Name}
     {{
 ");
         // class open ----------------------------------------------------------------------
@@ -72,13 +74,14 @@ namespace {context.TargetClass.Namespace}
 
         #region  // USG: MainMember
         sb.Append($@"
-        {MEMBER_ACCESS} void {MAIN_MEMBER_NAME}(EventCaller eventCaller)
+        {MEMBER_ACCESS} int {MAIN_MEMBER_NAME}()
         {{
 ");
         sb.IndentLevel(3);
 
         sb.Append($@"
-            Minigames.Minigame game;
+            InputController[] controllers;
+            PlayerInputRefresh = new();
 ");
 
         foreach (var loadRunner in loadRunners)
@@ -89,18 +92,21 @@ namespace {context.TargetClass.Namespace}
             string fullMethodLabel = $"{callingClass}.{method}";
 
             sb.Append($@"
-            Debug.Log(""Running game loader {callingClass}"");
-            game = {fullMethodLabel}(eventCaller); 
-            if (game != null)
+            controllers = {fullMethodLabel}();
+            if (controllers != null)
             {{
-                eventCaller.minigames.Add(game.name, game);
+                inputDevices.AddRange(controllers);
             }}
             else
             {{
-                Debug.LogWarning(""Game loader {callingClass} failed!"");
+                Debug.Log(""{fullMethodLabel} had no controllers to initialize."");
             }}
 ");
         }
+
+        sb.Append($@"
+            return inputDevices.Count;
+");
 
         // USG: semicolon?
         sb.Append($@"
