@@ -21,7 +21,7 @@ using System.IO;
 
 namespace HeavenStudio
 {
-    [UnitySourceGenerator(typeof(MinigameLoaderGenerator), OverwriteIfFileExists = false)]
+    [UnitySourceGenerator(typeof(MinigameLoaderGenerator), OverwriteIfFileExists = true)]
     public partial class Minigames
     {
         public enum RecommendedControlStyle
