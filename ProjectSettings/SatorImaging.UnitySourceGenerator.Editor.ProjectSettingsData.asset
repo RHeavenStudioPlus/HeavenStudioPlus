@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AutoEmitOnScriptUpdate: 1
-  AutoEmitDisabledPaths:
-  - Assets/Scripts/SourceGenerators/ControllerLoaderGenerator.cs
+  AutoEmitDisabledPaths: []
   DenseViewWidthThreshold: 512
   _disableAutoReloadInBackground: 0
   ImportedScriptPaths:
   - Assets/Scripts/Minigames.cs
   - Assets/Editor/CreateAssetBundles.cs
   - Assets/Editor/CreateMinigameScriptTemplate.cs
+  - Assets/Scripts/Games/Minigame.cs
+  - Assets/Scripts/Games/FanClub/FanClub.cs
+  - Assets/Scripts/GameManager.cs
   PathsToSkipImportEvent: []
   PathsToIgnoreOverwriteSettingOnAttribute: []
