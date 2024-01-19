@@ -110,7 +110,12 @@ namespace {context.TargetClass.Namespace}
 ");
 
         // USG: return true to tell USG to write content into OutputPath. false to do nothing.
-        return true;
+        // only write if changes are made.
+        if (!System.IO.File.Exists(context.OutputPath))
+            return true;
+
+        string oldContent = System.IO.File.ReadAllText(context.OutputPath);
+        return sb.ToString() != oldContent;
     }
 
 #pragma warning restore IDE0051
