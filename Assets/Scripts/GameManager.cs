@@ -1109,6 +1109,8 @@ namespace HeavenStudio
             {
                 _currentMinigame = minigame;
                 minigame.minigameName = game;
+                minigame.gameManager = this;
+                minigame.conductor = Conductor.instance;
             }
             Vector3 originalScale = currentGameO.transform.localScale;
             currentGameO.transform.parent = eventCaller.GamesHolder.transform;
