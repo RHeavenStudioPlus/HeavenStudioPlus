@@ -13,7 +13,7 @@ using HeavenStudio.InputSystem;
 
 namespace HeavenStudio
 {
-    [RequireComponent(typeof(PlayableDirector), typeof(AudioSource))]
+    [RequireComponent(typeof(PlayableDirector), typeof(AudioSource), typeof(PlayableDirector))]
     public class JudgementManager : MonoBehaviour
     {
         enum Rank
@@ -113,6 +113,7 @@ namespace HeavenStudio
         [SerializeField] Animator canvasAnim;
 
         AudioSource audioSource;
+        PlayableDirector director;
         List<int> usedCategories;
         float[] categoryInputs;
         double[] categoryScores;
@@ -521,6 +522,9 @@ namespace HeavenStudio
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
+            director = GetComponent<PlayableDirector>();
+            PrepareJudgement();
+            director.Play();
         }
 
         private IEnumerator WaitAndRank()
