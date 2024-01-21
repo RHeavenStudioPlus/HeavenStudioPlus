@@ -466,8 +466,15 @@ namespace HeavenStudio.Games
             if (passBallDict.TryGetValue(beat + lastLength, out var e))
             {
                 if (e.datamodel == "tossBoys/pop") return;
-                curReceiver = e["who"];
                 blurSet = e.datamodel == "tossBoys/blur";
+                if (blurSet)
+                {
+                    curReceiver = (int)WhichTossKid.None;
+                }
+                else
+                {
+                    curReceiver = e["who"];
+                }
                 currentLength = e.length;
                 nextIsSpecial = IsSpecialEvent(e.datamodel);
                 eventDatamodel = e.datamodel;

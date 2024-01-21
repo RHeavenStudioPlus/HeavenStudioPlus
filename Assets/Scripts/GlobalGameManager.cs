@@ -399,20 +399,35 @@ namespace HeavenStudio
                 height = (int)(width / 16f * 9f);
             }
 
-            GameRenderTexture.Release();
+            if (GameRenderTexture != null)
+            {
+                GameRenderTexture.Release();
 
-            GameRenderTexture.width = width;
-            GameRenderTexture.height = height;
+                GameRenderTexture.width = width;
+                GameRenderTexture.height = height;
 
-            GameRenderTexture.Create();
+                GameRenderTexture.Create();
+            }
+            else
+            {
+                GameRenderTexture = new RenderTexture(width, height, 24);
+                GameRenderTexture.Create();
+            }
 
+            if (OverlayRenderTexture != null)
+            {
+                OverlayRenderTexture.Release();
 
-            OverlayRenderTexture.Release();
+                OverlayRenderTexture.width = (int)(width * 1.5f);
+                OverlayRenderTexture.height = (int)(height * 1.5f);
 
-            OverlayRenderTexture.width = (int)(width * 1.5f);
-            OverlayRenderTexture.height = (int)(height * 1.5f);
-
-            OverlayRenderTexture.Create();
+                OverlayRenderTexture.Create();
+            }
+            else
+            {
+                OverlayRenderTexture = new RenderTexture((int)(width * 1.5f), (int)(height * 1.5f), 24);
+                OverlayRenderTexture.Create();
+            }
         }
 
         public static void ChangeMasterVolume(float value)
