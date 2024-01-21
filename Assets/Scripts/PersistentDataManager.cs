@@ -33,7 +33,7 @@ namespace HeavenStudio.Common
                 48000,
                 true,
                 true,
-                PerfectChallengeType.On,
+                PerfectChallengeType.Off,
                 true,
                 false,
                 true,
