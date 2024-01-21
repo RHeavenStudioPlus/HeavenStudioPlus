@@ -1110,7 +1110,7 @@ namespace HeavenStudio
             SetCurrentGame(game, useMinigameColor);
         }
 
-        private void DestroyGame()
+        public void DestroyGame()
         {
             SetGame("noGame");
         }
