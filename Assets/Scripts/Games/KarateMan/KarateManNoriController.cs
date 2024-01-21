@@ -52,6 +52,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public void SetNoriMode(double fromBeat, int mode, int startingNori = 0)
         {
+            if (GameManager.instance == null) return;
             float scaleFactor = 0f;
             //clear all children of the holder
             if (NoriHolder != null) {
@@ -288,6 +289,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         void Update()
         {
+            if (Conductor.instance == null) return;
             Transform target = GameCamera.instance.transform;
 
             Vector3 displacement = target.forward * CameraOffset;

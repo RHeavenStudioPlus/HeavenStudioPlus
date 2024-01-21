@@ -382,6 +382,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public void UpdateJoeColour()
         {
+            Material mappingMat = KarateMan.instance.MappingMaterial;
+            if (mappingMat == null) return;
             Color mainCol = KarateMan.instance.BodyColor;
             Color highlightCol = KarateMan.instance.HighlightColor;
 
@@ -391,9 +393,9 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 mainCol = Color.LerpUnclamped(mainCol, BombGlowTint, bombGlowIntensity * bombGlowRatio);
             }
 
-            KarateMan.instance.MappingMaterial.SetColor("_ColorAlpha", mainCol);
-            KarateMan.instance.MappingMaterial.SetColor("_ColorBravo", new Color(1, 0, 0, 1));
-            KarateMan.instance.MappingMaterial.SetColor("_ColorDelta", highlightCol);
+            mappingMat.SetColor("_ColorAlpha", mainCol);
+            mappingMat.SetColor("_ColorBravo", new Color(1, 0, 0, 1));
+            mappingMat.SetColor("_ColorDelta", highlightCol);
         }
 
         public void Prepare(double beat, float length)
