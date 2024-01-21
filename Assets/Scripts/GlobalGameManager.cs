@@ -240,7 +240,8 @@ namespace HeavenStudio
                 return null;
         }
 
-        public static void LoadScene(string scene, float fadeIn = 0.35f, float fadeOut = 0.35f)
+        public delegate void OnLoadSceneFadeInComplete();
+        public static void LoadScene(string scene, float fadeIn = 0.35f, float fadeOut = 0.35f, OnLoadSceneFadeInComplete callback = null)
         {
             if (scene == loadedScene)
                 return;
@@ -255,6 +256,7 @@ namespace HeavenStudio
             if (fadeIn <= 0)
             {
                 instance.fadeImage.color = new Color(0, 0, 0, 1);
+                callback?.Invoke();
                 AssetBundle.UnloadAllAssetBundles(true);
                 instance.StartCoroutine(instance.LoadSceneAsync(scene, fadeOut));
             }
@@ -263,6 +265,7 @@ namespace HeavenStudio
                 instance.fadeImage.color = new Color(0, 0, 0, 0);
                 instance.fadeImage.DOFade(1, fadeIn).OnComplete(() =>
                 {
+                    callback?.Invoke();
                     AssetBundle.UnloadAllAssetBundles(true);
                     instance.StartCoroutine(instance.LoadSceneAsync(scene, fadeOut));
                 });

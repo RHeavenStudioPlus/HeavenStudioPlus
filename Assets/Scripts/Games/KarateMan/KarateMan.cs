@@ -741,11 +741,13 @@ namespace HeavenStudio.Games
 
         public override void OnPlay(double beat)
         {
+            queuedCues.Clear();
             EntityPreCheck(beat);
         }
 
         void EntityPreCheck(double beat)
         {
+            if (gameManager == null) return;
             List<RiqEntity> prevEntities = GameManager.instance.Beatmap.Entities.FindAll(c => c.datamodel.Split(0) == "karateman");
 
             RiqEntity voice = prevEntities.FindLast(c => c.beat < beat && c.datamodel == "karateman/warnings");

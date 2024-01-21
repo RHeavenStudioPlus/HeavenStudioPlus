@@ -68,6 +68,7 @@ namespace HeavenStudio
 
         bool AudioLoadDone;
         bool ChartLoadError;
+        bool exiting;
 
         List<double> eventBeats, preSequenceBeats, tempoBeats, volumeBeats, sectionBeats;
         List<RiqEntity> allGameSwitches;
@@ -104,7 +105,7 @@ namespace HeavenStudio
         }
 
         // input accuracy (%)
-        bool skillStarCollected = false;
+        bool skillStarCollected = false, noMiss = true;
 
         // cleared sections
         List<bool> clearedSections = new List<bool>();
@@ -120,8 +121,8 @@ namespace HeavenStudio
 
         private void Awake()
         {
-            // autoplay = true;
             instance = this;
+            exiting = false;
         }
 
         public void Init(bool preLoaded = false)
@@ -340,11 +341,13 @@ namespace HeavenStudio
                     weight = weight * MarkerWeight,
                     category = MarkerCategory
                 });
-            }
-
-            if (accuracy < Minigame.rankOkThreshold && weight > 0)
-            {
-                SkillStarManager.instance.KillStar();
+                if (accuracy < Minigame.rankOkThreshold)
+                {
+                    SkillStarManager.instance.KillStar();
+                    GoForAPerfect.instance.Miss();
+                    SectionMedalsManager.instance.MakeIneligible();
+                    noMiss = false;
+                }
             }
 
             if (SkillStarManager.instance.IsEligible && !skillStarCollected && accuracy >= 1f)
@@ -361,22 +364,6 @@ namespace HeavenStudio
                 beat = beat,
                 cleared = clear
             });
-        }
-
-        static bool StringStartsWith(string a, string b)
-        {
-            int aLen = a.Length;
-            int bLen = b.Length;
-
-            int ap = 0; int bp = 0;
-
-            while (ap < aLen && bp < bLen && a[ap] == b[bp])
-            {
-                ap++;
-                bp++;
-            }
-
-            return (bp == bLen);
         }
 
         public List<Minigames.Minigame> SeekAheadAndPreload(double start, float seekTime = 8f)
@@ -665,6 +652,7 @@ namespace HeavenStudio
                 TimingAccuracyDisplay.instance.ResetArrow();
                 SkillStarManager.instance.Reset();
                 skillStarCollected = false;
+                noMiss = true;
 
                 GoForAPerfect.instance.perfect = true;
                 GoForAPerfect.instance.Disable();
@@ -791,12 +779,14 @@ namespace HeavenStudio
             }
             else if (playMode)
             {
+                exiting = true;
                 judgementInfo.star = skillStarCollected;
                 judgementInfo.perfect = GoForAPerfect.instance.perfect;
+                judgementInfo.noMiss = noMiss;
                 judgementInfo.time = DateTime.Now;
 
                 JudgementManager.SetPlayInfo(judgementInfo, Beatmap);
-                GlobalGameManager.LoadScene("Judgement", 0.35f, 0f);
+                GlobalGameManager.LoadScene("Judgement", 0.35f, 0f, DestroyGame);
                 CircleCursor.LockCursor(false);
             }
             Application.backgroundLoadingPriority = ThreadPriority.Normal;
@@ -1118,6 +1108,11 @@ namespace HeavenStudio
             currentGameO.name = game;
 
             SetCurrentGame(game, useMinigameColor);
+        }
+
+        private void DestroyGame()
+        {
+            SetGame("noGame");
         }
 
         private IEnumerator WaitAndSetGame(string game, bool useMinigameColor = true)
