@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3d5fbf07adc45644293e12694ebaae15
+guid: 3919f0f0b00e75e429634eb350867f75
 TextureImporter:
   internalIDToNameTable: []
   externalObjects:
@@ -7,7 +7,7 @@ TextureImporter:
       type: UnityEngine:GameObject
       assembly: UnityEngine.CoreModule
       name: MeshPrefab
-    second: {fileID: 4787243303282176002, guid: f52107c591edd614f813b504522039fa, type: 3}
+    second: {fileID: 957054681695064362, guid: 9be4a5abee852864dbefe1fdb3ed74b2, type: 3}
   serializedVersion: 12
   mipmaps:
     mipMapMode: 0
@@ -54,7 +54,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 128
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 0
+  spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -106,6 +106,18 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
@@ -123,6 +135,6 @@ TextureImporter:
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
-  userData: '{"mode":2,"transparentDetail":0.6000000238418579,"transparentAlphaTolerance":254,"opaqueDetail":0.30000001192092898,"opaqueAlphaTolerance":10,"opaqueExtrude":0.06400000303983689,"gridSize":0,"gridTolerance":0.0,"detectHoles":true,"edgeSmoothing":1.0,"useNonZero":false,"transparentShaderName":"Unlit/Transparent","opaqueShaderName":"Unlit/Texture","thickness":3.0,"overrideTag":false,"overrideLayer":false,"overrideSortingLayer":false,"tag":"Untagged","layer":0,"sortingLayerId":0,"sortingOrder":0,"isCorrectNormal":false}'
+  userData: '{"mode":2,"transparentDetail":0.30000001192092898,"transparentAlphaTolerance":10,"opaqueDetail":0.30000001192092898,"opaqueAlphaTolerance":10,"opaqueExtrude":0.06400000303983689,"gridSize":0,"gridTolerance":0.0,"detectHoles":true,"edgeSmoothing":1.0,"useNonZero":false,"transparentShaderName":"Unlit/Transparent","opaqueShaderName":"Unlit/Texture","thickness":1.0,"overrideTag":false,"overrideLayer":false,"overrideSortingLayer":false,"tag":"Untagged","layer":0,"sortingLayerId":0,"sortingOrder":0,"isCorrectNormal":false}'
   assetBundleName: 
   assetBundleVariant: 
