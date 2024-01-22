@@ -79,7 +79,7 @@ namespace HeavenStudio.Games.Loaders
                     defaultLength = 0.5f,
                     parameters = new()
                     {
-                        new("d", DoubleDate.DayTime.Sunset, "Time", "Set the time of day.")
+                        new("d", DoubleDate.DayTime.Noon, "Time", "Set the time of day.")
                     }
                 }
             },
@@ -123,7 +123,7 @@ namespace HeavenStudio.Games
 
         [Header("Variables")]
         [SerializeField] private Color _skyColor;
-        [SerializeField] private Color sunsetColor;
+        [SerializeField] private Color noonColor;
         [SerializeField] private float _animSpeed = 1.25f;
         [SerializeField] public float cloudSpeed;
         [SerializeField] public float cloudDistance;
@@ -192,7 +192,7 @@ namespace HeavenStudio.Games
         public enum DayTime
         {
             Day,
-            Sunset
+            Noon
         }
 
         private void DayTimeCheck(double beat)
@@ -206,9 +206,9 @@ namespace HeavenStudio.Games
 
         public void SetTime(int time)
         {
-            if (time == (int)DayTime.Sunset)
+            if (time == (int)DayTime.Noon)
             {
-                doubleDateCellAnim.SetColor("_Color", sunsetColor);
+                doubleDateCellAnim.SetColor("_Color", noonColor);
                 bgSquare.color = squareColor;
                 bgGradient.sprite = bgLong;
                 return;
@@ -246,7 +246,7 @@ namespace HeavenStudio.Games
         {
             instance = this;
             SetupBopRegion("doubleDate", "bop", "autoBop");
-            doubleDateCellAnim.SetColor("_Color", sunsetColor);
+            doubleDateCellAnim.SetColor("_Color", noonColor);
             squareColor = bgSquare.color;
         }
 
