@@ -31,10 +31,10 @@ namespace HeavenStudio.Common
             get
             {
                 return instance != null &&
-                                                TimingAccuracyDisplay.instance != null &&
-                                                SkillStarManager.instance != null &&
-                                                SectionMedalsManager.instance != null &&
-                                                HeavenStudio.Games.Global.Textbox.instance != null;
+                    TimingAccuracyDisplay.instance != null &&
+                    SkillStarManager.instance != null &&
+                    SectionMedalsManager.instance != null &&
+                    HeavenStudio.Games.Global.Textbox.instance != null;
             }
         }
 
