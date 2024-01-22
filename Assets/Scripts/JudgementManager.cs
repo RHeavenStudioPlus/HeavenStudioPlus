@@ -121,7 +121,7 @@ namespace HeavenStudio
         float[] categoryInputs;
         double[] categoryScores;
         string msg0, msg1, msg2;
-        float barTime = 0, barStartTime = float.MaxValue;
+        float barTime = 0, barStartTime = float.MaxValue, didEpilogueTime = float.MaxValue;
         Rank rank;
         bool twoMessage = false, barStarted = false, didRank = false, didEpilogue = false, subRank = false;
 
@@ -574,12 +574,13 @@ namespace HeavenStudio
                         audioSource.PlayOneShot(jglHi);
                     }
                     didEpilogue = true;
+                    didEpilogueTime = Time.realtimeSinceStartup + 1.5f;
                 }
-                else if (didEpilogue)
+                else if (didEpilogue && Time.realtimeSinceStartup > didEpilogueTime)
                 {
                     audioSource.Stop();
-                    RiqFileHandler.ClearCache();
                     GlobalGameManager.LoadScene("Title", 0.35f, 0.5f);
+                    RiqFileHandler.ClearCache();
                 }
                 else if (barStarted)
                 {

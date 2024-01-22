@@ -74,7 +74,7 @@ namespace HeavenStudio
 
         private bool logoRevealed;
 
-        private bool menuMode, snsRevealed, playMenuRevealed, exiting, firstPress, usingMouse;
+        private bool menuMode, snsRevealed, playMenuRevealed, exiting, firstPress, usingMouse, waitingForButtonUp;
 
         private Animator menuAnim, selectedDisplayAnim;
         private Selectable currentSelectable, mouseSelectable;
@@ -241,9 +241,9 @@ namespace HeavenStudio
                 targetBopBeat += 1;
             }
 
-            if (menuMode && !(exiting || GlobalGameManager.IsShowingDialog))
+            var controller = PlayerInput.GetInputController(1);
+            if (menuMode && !(exiting || GlobalGameManager.IsShowingDialog || firstPress || waitingForButtonUp))
             {
-                var controller = PlayerInput.GetInputController(1);
                 if (playMenuRevealed)
                 {
                     if (PlayerInput.CurrentControlStyle != InputController.ControlStyles.Touch)
@@ -282,9 +282,19 @@ namespace HeavenStudio
                         }
                     }
                 }
-                else if (!firstPress)
+                else
                 {
                     UpdateSelectable(controller);
+                }
+            }
+            if (waitingForButtonUp)
+            {
+                if (PlayerInput.CurrentControlStyle != InputController.ControlStyles.Touch)
+                {
+                    if (controller.GetActionUp(PlayerInput.CurrentControlStyle, (int)InputController.ActionsPad.East, out _))
+                    {
+                        waitingForButtonUp = false;
+                    }
                 }
             }
             if (firstPress) firstPress = false;
@@ -556,6 +566,8 @@ namespace HeavenStudio
                         campaignOption.sprite = campaignOff;
                     }
 
+                    firstPress = true;
+                    waitingForButtonUp = true;
                     playPanel.SetActive(true);
                     playMenuRevealed = true;
                     SoundByte.PlayOneShot("ui/UISelect");
@@ -572,6 +584,7 @@ namespace HeavenStudio
 
         public void PlayPanelAccept()
         {
+            if (waitingForButtonUp) return;
             if (exiting) return;
             exiting = true;
             SoundByte.PlayOneShot("ui/UIEnter");
