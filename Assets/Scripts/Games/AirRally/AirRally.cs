@@ -643,22 +643,22 @@ namespace HeavenStudio.Games
                 bgMat.SetColor("_Color", bgColorFrom);
                 cloudMat.SetColor("_Color", cloudColorFrom);
                 objectMat.SetColor("_Color", objectsColorFrom);
-                lightsColor = (lastTime == DayNightCycle.Night) ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0);
+                lightsColor = (lastTime == DayNightCycle.Twilight) ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0);
             }
             else if (normalizedBeat >= 0 && normalizedBeat <= 1f)
             {
                 bgMat.SetColor("_Color", GetEasedColor(bgColorFrom, bgColorTo));
                 cloudMat.SetColor("_Color", GetEasedColor(cloudColorFrom, cloudColorTo));
                 objectMat.SetColor("_Color", GetEasedColor(objectsColorFrom, objectsColorTo));
-                lightsColor = GetEasedColor((lastTime == DayNightCycle.Night) ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0),
-                    (currentTime == DayNightCycle.Night) ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0));
+                lightsColor = GetEasedColor((lastTime == DayNightCycle.Twilight) ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0),
+                    (currentTime == DayNightCycle.Twilight) ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0));
             }
             else if (normalizedBeat > 1)
             {
                 bgMat.SetColor("_Color", bgColorTo);
                 cloudMat.SetColor("_Color", cloudColorTo);
                 objectMat.SetColor("_Color", objectsColorTo);
-                lightsColor = (currentTime == DayNightCycle.Night) ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0);
+                lightsColor = (currentTime == DayNightCycle.Twilight) ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0);
             }
 
             island2Lights.color = lightsColor;
@@ -698,7 +698,7 @@ namespace HeavenStudio.Games
             {
                 DayNightCycle.Day => Color.white,
                 DayNightCycle.Noon => noonColor,
-                DayNightCycle.Night => nightColor,
+                DayNightCycle.Twilight => nightColor,
                 _ => throw new System.NotImplementedException()
             };
 
@@ -706,7 +706,7 @@ namespace HeavenStudio.Games
             {
                 DayNightCycle.Day => Color.white,
                 DayNightCycle.Noon => noonColor,
-                DayNightCycle.Night => nightColor,
+                DayNightCycle.Twilight => nightColor,
                 _ => throw new System.NotImplementedException()
             };
 
@@ -714,7 +714,7 @@ namespace HeavenStudio.Games
             {
                 DayNightCycle.Day => Color.white,
                 DayNightCycle.Noon => noonColorCloud,
-                DayNightCycle.Night => nightColorCloud,
+                DayNightCycle.Twilight => nightColorCloud,
                 _ => throw new System.NotImplementedException()
             };
 
@@ -722,7 +722,7 @@ namespace HeavenStudio.Games
             {
                 DayNightCycle.Day => Color.white,
                 DayNightCycle.Noon => noonColorCloud,
-                DayNightCycle.Night => nightColorCloud,
+                DayNightCycle.Twilight => nightColorCloud,
                 _ => throw new System.NotImplementedException()
             };
             DayNightCycleUpdate();
@@ -760,7 +760,7 @@ namespace HeavenStudio.Games
         {
             Day = 0,
             Noon = 1,
-            Night = 2
+            Twilight = 2
         }
 
         public void ServeObject(double beat, double targetBeat, bool type)
