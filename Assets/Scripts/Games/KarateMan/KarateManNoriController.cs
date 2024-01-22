@@ -302,6 +302,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             NoriManiaInk00.transform.localRotation = Quaternion.Euler(0, 0, inkRot * 360);
             NoriManiaInk01.transform.localRotation = Quaternion.Euler(0, 0, inkRot * 360);
         }
+
         public int CountHitsToEnd(double fromBeat)
         {
             List<RiqEntity> allHits = EventCaller.GetAllInGameManagerList("karateman", new string[] { "hit", "bulb", "kick", "combo" });

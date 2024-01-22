@@ -58,7 +58,7 @@ namespace HeavenStudio
             public List<MedalInfo> medals;
 
             public double finalScore;
-            public bool star, perfect;
+            public bool star, perfect, noMiss;
             public DateTime time;
         }
 
@@ -85,6 +85,7 @@ namespace HeavenStudio
         [SerializeField] AudioClip messageLast;
         [SerializeField] AudioClip barLoop, barStop;
         [SerializeField] AudioClip rankNg, rankOk, rankHi;
+        [SerializeField] AudioClip noMissSound, starSound;
         [SerializeField] AudioClip musNgStart, musOkStart, musHiStart;
         [SerializeField] AudioClip musNg, musOk, musHi;
         [SerializeField] AudioClip jglNg, jglOk, jglHi;
@@ -103,6 +104,8 @@ namespace HeavenStudio
         [SerializeField] AspectRatioFitter epilogueFitter;
         [SerializeField] Sprite epilogueNg, epilogueOk, epilogueHi;
         [SerializeField] Sprite epilogueFrmNg, epilogueFrmOk, epilogueFrmHi;
+        [SerializeField] GameObject noMissComment;
+        [SerializeField] GameObject starComment;
 
         [SerializeField] GameObject bg;
         [SerializeField] GameObject rankLogo;
@@ -127,6 +130,10 @@ namespace HeavenStudio
             bg.SetActive(false);
             rankLogo.SetActive(false);
             justOk.gameObject.SetActive(false);
+
+            noMissComment.SetActive(false);
+            starComment.SetActive(false);
+
             subRank = false;
 
             barText.text = "0";
@@ -604,6 +611,18 @@ namespace HeavenStudio
                     {
                         barText.color = numColourHi;
                         barSlider.fillRect.GetComponent<Image>().color = barColourHi;
+                    }
+
+                    if (judgementInfo.star)
+                    {
+                        starComment.SetActive(true);
+                        audioSource.PlayOneShot(starSound);
+                    }
+
+                    if (judgementInfo.noMiss)
+                    {
+                        noMissComment.SetActive(true);
+                        audioSource.PlayOneShot(noMissSound);
                     }
 
                     StartCoroutine(WaitAndRank());
