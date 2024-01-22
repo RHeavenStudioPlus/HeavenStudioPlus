@@ -65,6 +65,7 @@ public class SectionDialog : Dialog
         sectionName.text = sectionObj.chartEntity["sectionName"];
         challengeEnable.isOn = sectionObj.chartEntity["startPerfect"];
         markerWeight.value = sectionObj.chartEntity["weight"];
+        markerWeightManual.text = sectionObj.chartEntity["weight"].ToString("0.0");
 
         markerWeight.maxValue = MAX_WEIGHT;
         markerWeight.minValue = MIN_WEIGHT;
