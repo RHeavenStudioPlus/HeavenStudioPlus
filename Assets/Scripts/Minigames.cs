@@ -54,6 +54,7 @@ namespace HeavenStudio
             {"icontype", 0},                                                                                                    // chart icon (presets, custom - future)
             {"iconres", new EntityTypes.Resource(EntityTypes.Resource.ResourceType.Image, "Images/Select/", "Icon")},           // custom icon location (future)
             {"challengetype", 0},                                                                                               // perfect challenge type
+            {"accessiblewarning", false},                                                                                       // epilepsy warning
             {"playstyle", RecommendedControlStyle.Any},                                                                         // recommended control style
 
             // chart song info
