@@ -46,6 +46,7 @@ namespace HeavenStudio
         [SerializeField] private TMP_Text chartMapperText;
         [SerializeField] private TMP_Text chartIdolText;
         [SerializeField] private TMP_Text chartDescText;
+        [SerializeField] private GameObject flashWarning;
         [SerializeField] private TMP_Text chartStyleText;
         [SerializeField] private Image campaignOption;
         [SerializeField] private Sprite campaignOn;
@@ -242,7 +243,7 @@ namespace HeavenStudio
             }
 
             var controller = PlayerInput.GetInputController(1);
-            if (menuMode && !(exiting || GlobalGameManager.IsShowingDialog || firstPress || waitingForButtonUp))
+            if (menuMode && !(exiting || GlobalGameManager.IsShowingDialog || waitingForButtonUp))
             {
                 if (playMenuRevealed)
                 {
@@ -282,7 +283,7 @@ namespace HeavenStudio
                         }
                     }
                 }
-                else
+                else if (!firstPress)
                 {
                     UpdateSelectable(controller);
                 }
@@ -556,6 +557,7 @@ namespace HeavenStudio
                     chartDescText.text = beatmap["remixdesc"];
                     chartIdolText.text = "♪ " + beatmap["idolcredit"];
                     chartStyleText.text = $"Recommended Control Style: {beatmap["playstyle"].ToString()}";
+                    flashWarning.SetActive(beatmap["accessiblewarning"]);
 
                     if (PersistentDataManager.gameSettings.perfectChallengeType == PersistentDataManager.PerfectChallengeType.On)
                     {
@@ -566,7 +568,6 @@ namespace HeavenStudio
                         campaignOption.sprite = campaignOff;
                     }
 
-                    firstPress = true;
                     waitingForButtonUp = true;
                     playPanel.SetActive(true);
                     playMenuRevealed = true;
@@ -599,6 +600,7 @@ namespace HeavenStudio
             PersistentDataManager.SaveSettings();
             playPanel.SetActive(false);
             playMenuRevealed = false;
+            waitingForButtonUp = false;
         }
 
         public void ToggleCampaign()
