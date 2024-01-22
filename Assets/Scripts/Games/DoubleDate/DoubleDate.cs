@@ -123,7 +123,7 @@ namespace HeavenStudio.Games
 
         [Header("Variables")]
         [SerializeField] private Color _skyColor;
-        [SerializeField] private Color sunsetColor;
+        [SerializeField] private Color noonColor;
         [SerializeField] private float _animSpeed = 1.25f;
         [SerializeField] public float cloudSpeed;
         [SerializeField] public float cloudDistance;
@@ -208,7 +208,7 @@ namespace HeavenStudio.Games
         {
             if (time == (int)DayTime.Sunset)
             {
-                doubleDateCellAnim.SetColor("_Color", sunsetColor);
+                doubleDateCellAnim.SetColor("_Color", noonColor);
                 bgSquare.color = squareColor;
                 bgGradient.sprite = bgLong;
                 return;
@@ -246,7 +246,7 @@ namespace HeavenStudio.Games
         {
             instance = this;
             SetupBopRegion("doubleDate", "bop", "autoBop");
-            doubleDateCellAnim.SetColor("_Color", sunsetColor);
+            doubleDateCellAnim.SetColor("_Color", noonColor);
             squareColor = bgSquare.color;
         }
 

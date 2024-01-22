@@ -392,11 +392,6 @@ namespace HeavenStudio.Games
         {
             double beat = Conductor.instance?.songPositionInBeatsAsDouble ?? -1;
             GameManager.instance.ScoreInputAccuracy(beat, 0, true, NgLateTime(), weight, false);
-            if (weight > 0)
-            {
-                GoForAPerfect.instance.Miss();
-                SectionMedalsManager.instance.MakeIneligible();
-            }
         }
 
         public void ToggleSplitColoursDisplay(bool on)
