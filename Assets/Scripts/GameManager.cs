@@ -21,7 +21,7 @@ namespace HeavenStudio
 
         [Header("Lists")]
         [NonSerialized] public RiqBeatmap Beatmap = new();
-        private List<GameObject> preloadedGames = new();
+        private Dictionary<string, GameObject> cachedGamePrefabs = new();
         [NonSerialized] public ObjectPool<Sound> SoundObjects;
 
         [Header("Components")]
@@ -1092,9 +1092,11 @@ namespace HeavenStudio
         {
             ResetCamera(); // resetting camera before setting new minigame so minigames can set camera values in their awake call - Rasmus
 
-            Destroy(currentGameO);
+            GameObject prefab = GetGame(game);
+            if (prefab == null) return;
 
-            currentGameO = Instantiate(GetGame(game));
+            Destroy(currentGameO);
+            currentGameO = Instantiate(prefab);
             if (currentGameO.TryGetComponent<Minigame>(out var minigame))
             {
                 _currentMinigame = minigame;
@@ -1112,6 +1114,7 @@ namespace HeavenStudio
 
         public void DestroyGame()
         {
+            cachedGamePrefabs.Clear();
             SetGame("noGame");
         }
 
@@ -1152,29 +1155,40 @@ namespace HeavenStudio
                         .Select(x => GetGameInfo(x))
                         .Where(x => x != null)
                         .Where(x => !x.fxOnly)
-                        .Select(x => x.LoadableName);
-                    name = gameInfos.FirstOrDefault() ?? "noGame";
-                }
-                else
-                {
-                    if (gameInfo.usesAssetBundle)
+                        .Where(x => x.LoadableName is not "noGame" or "" or null);
+                    if (gameInfos.Count() > 0)
                     {
-                        //game is packed in an assetbundle, load from that instead
-                        if (gameInfo.AssetsLoaded && gameInfo.LoadedPrefab != null) return gameInfo.LoadedPrefab;
-
-                        try
-                        {
-                            return gameInfo.GetCommonAssetBundle().LoadAsset<GameObject>(name);
-                        }
-                        catch (Exception e)
-                        {
-                            Debug.LogWarning($"Failed to load assetbundle for game {name}, using sync loading: {e.Message}");
-                            return Resources.Load<GameObject>($"Games/{name}");
-                        }
+                        gameInfo = gameInfos.FirstOrDefault();
+                        if (gameInfo == null) return Resources.Load<GameObject>($"Games/noGame");
+                    }
+                    else
+                    {
+                        return Resources.Load<GameObject>($"Games/noGame");
                     }
                 }
+                if (gameInfo.usesAssetBundle)
+                {
+                    //game is packed in an assetbundle, load from that instead
+                    if (gameInfo.AssetsLoaded && gameInfo.LoadedPrefab != null) return gameInfo.LoadedPrefab;
+                    // couldn't load cached prefab, try loading from assetbundle
+                    try
+                    {
+                        Debug.LogWarning($"Game prefab wasn't cached, loading from assetbundle for game {name}");
+                        return gameInfo.LoadGamePrefab();
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogWarning($"Failed to load assetbundle for game {name}, using sync loading: {e.Message}");
+                        return Resources.Load<GameObject>($"Games/{name}");
+                    }
+                }
+                return Resources.Load<GameObject>($"Games/{name}");
             }
-            return Resources.Load<GameObject>($"Games/{name}");
+            else
+            {
+                Debug.LogWarning($"Game {name} not found, using noGame");
+                return Resources.Load<GameObject>($"Games/noGame");
+            }
         }
 
         public Minigames.Minigame GetGameInfo(string name)
