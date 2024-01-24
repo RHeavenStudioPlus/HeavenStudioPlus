@@ -189,6 +189,7 @@ namespace HeavenStudio
             RiqBeatmap chart = GameManager.instance.Beatmap;
             double offset = chart.data.offset;
             double dspTime = AudioSettings.dspTime;
+            dspStart = dspTime;
 
             startPos = GetSongPosFromBeat(beat);
             firstBeatOffset = offset;
@@ -212,10 +213,6 @@ namespace HeavenStudio
                 musicScheduledPitch = timelinePitch;
                 musicSource.pitch = timelinePitch;
                 Debug.Log($"playback scheduled for dsptime {dspStart}");
-            }
-            if (musicSource.clip == null)
-            {
-                dspStart = dspTime;
             }
 
             songPosBeat = beat;
@@ -404,7 +401,7 @@ namespace HeavenStudio
             }
         }
 
-        double MapTimeToPitchChanges(double time)
+        public double MapTimeToPitchChanges(double time)
         {
             double counter = 0;
             double lastChangeTime = 0;

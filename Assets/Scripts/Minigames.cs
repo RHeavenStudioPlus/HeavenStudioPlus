@@ -479,9 +479,7 @@ namespace HeavenStudio
             {
                 if (AssetsLoaded || !usesAssetBundle) return;
                 await UniTask.WhenAll(LoadCommonAssetBundleAsync(), LoadLocalizedAssetBundleAsync());
-                await UniTask.WhenAll(LoadGamePrefabAsync());
-                await UniTask.WhenAll(LoadCommonAudioClips());
-                await UniTask.WhenAll(LoadLocalizedAudioClips());
+                await UniTask.WhenAll(LoadGamePrefabAsync(), LoadCommonAudioClips(), LoadLocalizedAudioClips());
             }
 
             public async UniTask LoadCommonAssetBundleAsync()
@@ -547,6 +545,14 @@ namespace HeavenStudio
                 }
             }
 
+            public GameObject LoadGamePrefab()
+            {
+                if (!usesAssetBundle) return null;
+
+                loadedPrefab = GetCommonAssetBundle().LoadAsset<GameObject>(name);
+                return loadedPrefab;
+            }
+
             public async UniTask LoadCommonAudioClips()
             {
                 if (!commonLoaded) return;
@@ -556,14 +562,6 @@ namespace HeavenStudio
 
                 var assets = bundleCommon.LoadAllAssetsAsync();
                 await assets;
-
-                // await UniTask.SwitchToThreadPool();
-                // foreach (var asset in assets.allAssets)
-                // {
-                //     AudioClip clip = asset as AudioClip;
-                //     commonAudioClips.Add(clip.name, clip);
-                // }
-                // await UniTask.SwitchToMainThread();
             }
 
             public async UniTask LoadLocalizedAudioClips()
@@ -575,14 +573,6 @@ namespace HeavenStudio
 
                 var assets = bundleLocalized.LoadAllAssetsAsync();
                 await assets;
-
-                // await UniTask.SwitchToThreadPool();
-                // foreach (var asset in assets.allAssets)
-                // {
-                //     AudioClip clip = asset as AudioClip;
-                //     localeAudioClips.Add(clip.name, clip);
-                // }
-                // await UniTask.SwitchToMainThread();
             }
 
             public async UniTask UnloadAllAssets()
