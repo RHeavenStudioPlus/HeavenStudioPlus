@@ -46,7 +46,7 @@ namespace HeavenStudio
         // Current time of the song
         private double time;
         double dspTime;
-        double absTime, absTimeAdjust, lastAbsTime;
+        double absTime, absTimeAdjust;
         double dspSizeSeconds;
         double dspMargin = 128 / 44100.0;
         bool deferTimeKeeping = false;
@@ -56,7 +56,7 @@ namespace HeavenStudio
         private double dspStart;
         private float dspStartTime => (float)dspStart;
         public double dspStartTimeAsDouble => dspStart;
-        DateTime startTime, lastMixTime;
+        DateTime startTime;
 
         //the beat we started at
         private double startPos;
@@ -88,7 +88,6 @@ namespace HeavenStudio
         private float minigamePitch = 1f;
         public float SongPitch { get => isPaused ? 0f : (timelinePitch * minigamePitch); }
         public float TimelinePitch { get => timelinePitch; }
-        private float musicScheduledPitch = 1f;
         private double musicScheduledTime = 0;
 
         // volume modifier
@@ -201,16 +200,15 @@ namespace HeavenStudio
                 double musicStartDelay = -offset - startPos;
                 if (musicStartDelay > 0)
                 {
-                    musicScheduledTime = dspTime + (musicStartDelay / timelinePitch) + 2*dspSizeSeconds;
-                    dspStart = dspTime + 2*dspSizeSeconds;
+                    musicScheduledTime = dspTime + (musicStartDelay / timelinePitch) + 2 * dspSizeSeconds;
+                    dspStart = dspTime + 2 * dspSizeSeconds;
                 }
                 else
                 {
-                    musicScheduledTime = dspTime + 2*dspSizeSeconds;
-                    dspStart = dspTime + 2*dspSizeSeconds;
+                    musicScheduledTime = dspTime + 2 * dspSizeSeconds;
+                    dspStart = dspTime + 2 * dspSizeSeconds;
                 }
                 musicSource.PlayScheduled(musicScheduledTime);
-                musicScheduledPitch = timelinePitch;
                 musicSource.pitch = timelinePitch;
                 Debug.Log($"playback scheduled for dsptime {dspStart}");
             }
@@ -221,7 +219,6 @@ namespace HeavenStudio
 
             startTime = DateTime.Now;
             absTimeAdjust = 0;
-            lastAbsTime = 0;
             deferTimeKeeping = musicSource.clip != null;
 
             isPlaying = true;
@@ -242,7 +239,6 @@ namespace HeavenStudio
                 absTimeAdjust = 0;
                 dspStart = dsp;
             }
-            lastMixTime = DateTime.Now;
         }
 
         public void Pause()
