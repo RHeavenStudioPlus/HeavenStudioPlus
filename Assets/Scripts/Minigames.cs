@@ -497,7 +497,7 @@ namespace HeavenStudio
                 if (!usesAssetBundle) return;
                 if (bundleCommon != null) return;
 
-                AssetBundle bundle = await AssetBundle.LoadFromFileAsync(Path.Combine(Application.streamingAssetsPath, wantAssetBundle + "/common")).ToUniTask();
+                AssetBundle bundle = await AssetBundle.LoadFromFileAsync(Path.Combine(Application.streamingAssetsPath, wantAssetBundle + "/common")).ToUniTask(timing: PlayerLoopTiming.PreLateUpdate);
 
                 bundleCommon = bundle;
                 commonLoaded = true;
@@ -519,7 +519,7 @@ namespace HeavenStudio
                 if (!usesAssetBundle) return;
                 if (localeLoaded && bundleLocalized != null && currentLoadedLocale == defaultLocale) return;
 
-                AssetBundle bundle = await AssetBundle.LoadFromFileAsync(Path.Combine(Application.streamingAssetsPath, wantAssetBundle + "/locale." + defaultLocale)).ToUniTask();
+                AssetBundle bundle = await AssetBundle.LoadFromFileAsync(Path.Combine(Application.streamingAssetsPath, wantAssetBundle + "/locale." + defaultLocale)).ToUniTask(timing: PlayerLoopTiming.PreLateUpdate);
                 if (localeLoaded && bundleLocalized != null && currentLoadedLocale == defaultLocale) return;
 
                 bundleLocalized = bundle;
@@ -533,7 +533,7 @@ namespace HeavenStudio
                 if (!commonLoaded) return;
                 if (bundleCommon == null) return;
 
-                UnityEngine.Object asset = await bundleCommon.LoadAssetAsync<GameObject>(name).ToUniTask();
+                UnityEngine.Object asset = await bundleCommon.LoadAssetAsync<GameObject>(name).ToUniTask(timing: PlayerLoopTiming.PreLateUpdate);
                 loadedPrefab = asset as GameObject;
 
                 // load sound sequences here for now
