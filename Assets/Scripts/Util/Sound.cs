@@ -37,7 +37,7 @@ namespace HeavenStudio.Util
         bool queued = false;
         public bool available = true;
 
-        const double PREBAKE_TIME = 0.5;
+        const double PREBAKE_TIME = 0.25;
 
         private void Start()
         {
