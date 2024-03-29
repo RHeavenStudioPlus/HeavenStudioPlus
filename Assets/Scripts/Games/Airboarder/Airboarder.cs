@@ -132,11 +132,12 @@ namespace HeavenStudio.Games.Loaders
                         new Param("additive", true, "Additive Rotation", "Toggle if the above rotation should be added to the current angle instead of setting the target angle to travel to.")
                     }
                 },
-            }
+            },
             // ,
-            // new List<string>() {"ntr", "normal"},
+            new List<string>() {"ntr", "normal"},
             // "ntrAirboarder", "en",
             // new List<string>() { }
+            chronologicalSortKey: 99
             );
         }
     }

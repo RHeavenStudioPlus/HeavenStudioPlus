@@ -65,7 +65,8 @@ namespace HeavenStudio.Games.Loaders
                         new Param("auto", true, "Lights (Auto)", "Toggle if the lights should automatically activate until the another Lights event is reached.")
                     }
                 }
-            }, new List<string>() { "ntr", "normal" }, "ntrassembly", "en", new List<string>() { });
+            }, new List<string>() { "ntr", "normal" }, "ntrassembly", "en", new List<string>() { },
+            chronologicalSortKey: 1);
         }
     }
 }

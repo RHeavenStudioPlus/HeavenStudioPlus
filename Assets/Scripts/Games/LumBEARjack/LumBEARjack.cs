@@ -229,7 +229,9 @@ namespace HeavenStudio.Games.Loaders
                     },
                     resizable = true
                 },
-            }
+            },
+            new List<string>() {"ctr", "normal"},
+            chronologicalSortKey: 22
             );
         }
     }

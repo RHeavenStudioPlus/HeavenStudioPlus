@@ -53,7 +53,8 @@ namespace HeavenStudio.Games.Loaders
             },
             new List<string>() { "ntr", "aim" },
             "ntrcoin", "en",
-            new List<string>() { }
+            new List<string>() { },
+            chronologicalSortKey: 101
             );
         }
     }

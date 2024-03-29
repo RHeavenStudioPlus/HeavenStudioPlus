@@ -92,9 +92,10 @@ namespace HeavenStudio.Games.Loaders
                 },
 
             },
-            new List<string>() {"abg", "aim"},
+            new List<string>() {"agb", "aim"},
             "agbRhythmTestGBA", "en",
-            new List<string>() { "en" }
+            new List<string>() { "en" },
+            chronologicalSortKey: 0
             );
         }
     }

@@ -70,7 +70,8 @@ namespace HeavenStudio.Games.Loaders
             },
             new List<string>() {"agb", "normal"},
             "agbexplode", "en",
-            new List<string>() {}
+            new List<string>() {},
+            chronologicalSortKey: 28
             );
         }
     }

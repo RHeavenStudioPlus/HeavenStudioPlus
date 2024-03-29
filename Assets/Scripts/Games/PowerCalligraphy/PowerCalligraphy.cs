@@ -94,7 +94,8 @@ namespace HeavenStudio.Games.Loaders
                     defaultLength = 0.5f,
                 },
             },
-            new List<string>() { "agb", "normal" }, "agbCalligraphy", "en", new List<string>() { }
+            new List<string>() { "agb", "normal" }, "agbCalligraphy", "en", new List<string>() { },
+            chronologicalSortKey: 21
             );
         }
     }

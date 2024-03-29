@@ -178,7 +178,8 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new List<string>() { "agb", "normal" },
                 "agbmarcher", "en",
-                new List<string>() { "en", "jp" }
+                new List<string>() { "en", "jp" },
+                chronologicalSortKey: 3
                 );
         }
     }

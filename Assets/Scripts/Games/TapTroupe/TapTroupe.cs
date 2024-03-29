@@ -90,7 +90,8 @@ namespace HeavenStudio.Games.Loaders
             },
             new List<string>() {"rvl", "keep"},
             "rvllegs", "en",
-            new List<string>() {"en"}
+            new List<string>() {"en"},
+            chronologicalSortKey: 31
             );
         }
     }

@@ -110,7 +110,8 @@ namespace HeavenStudio.Games.Loaders
             },
             new List<string>() {"rvl", "repeat"},
             "rvldough", "en",
-            new List<string>() {}
+            new List<string>() {},
+            chronologicalSortKey: 11
             );
         }
     }

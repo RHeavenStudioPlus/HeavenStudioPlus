@@ -110,6 +110,11 @@ namespace HeavenStudio
             }
         }
 
+        public static List<RiqEntity> GetAllInGameManagerList(string gameName)
+        {
+            return instance.gameManager.Beatmap.Entities.FindAll(c => c.datamodel.Split('/')[0] == gameName);
+        }
+
         public static List<RiqEntity> GetAllInGameManagerList(string gameName, string[] include)
         {
             List<RiqEntity> temp1 = instance.gameManager.Beatmap.Entities.FindAll(c => c.datamodel.Split('/')[0] == gameName);

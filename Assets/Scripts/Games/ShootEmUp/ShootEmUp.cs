@@ -83,7 +83,8 @@ namespace HeavenStudio.Games.Loaders
                     }
                 },
             },
-            new List<string>() { "ntr", "normal" }, "ntrShootEmUp", "en", new List<string>() { }
+            new List<string>() { "ntr", "normal" }, "ntrShootEmUp", "en", new List<string>() { },
+            chronologicalSortKey: 7
             );
         }
     }

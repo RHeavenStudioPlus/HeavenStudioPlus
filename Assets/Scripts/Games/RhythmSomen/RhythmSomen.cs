@@ -48,7 +48,8 @@ namespace HeavenStudio.Games.Loaders
             },
             new List<string>() { "pco", "normal" },
             "pcosomen", "en",
-            new List<string>() { }
+            new List<string>() { },
+            chronologicalSortKey: 20130101
             );
         }
     }

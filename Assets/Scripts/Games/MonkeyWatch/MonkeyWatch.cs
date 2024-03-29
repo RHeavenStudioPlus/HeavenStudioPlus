@@ -135,7 +135,9 @@ namespace HeavenStudio.Games.Loaders
                         new Param("ease", Util.EasingFunction.Ease.Linear, "Ease")
                     }
                 }
-            });
+            },
+            new List<string>() {"rvl", "keep"},
+            chronologicalSortKey: 9);
         }
     }
 }

@@ -106,7 +106,8 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new List<string>() { "ctr", "normal" },
                 "ctrpillow", "en",
-                new List<string>() {"en", "jp", "ko"}
+                new List<string>() {"en", "jp", "ko"},
+                chronologicalSortKey: 66
             );
         }
     }

@@ -11,6 +11,7 @@ using DG.Tweening;
 using HeavenStudio.Util;
 using HeavenStudio.Editor.Track;
 using System.Text;
+using System.Configuration;
 
 namespace HeavenStudio.Editor
 {
@@ -258,35 +259,48 @@ namespace HeavenStudio.Editor
         // sorts depending on which sorting button you click
         public void Sort(string type)
         {
-            var mgsSort = mgsActive;
+            List<RectTransform> mgsSort = mgsActive;
             mgsSort.Sort((x, y) => string.Compare(x.name, y.name));
 
             switch (type)
             {
                 case "favorites":
-                SortFavorites(mgsSort);
-                break;
+                    SortFavorites(mgsSort);
+                    break;
                 case "chronologic":
-                SortChronologic(mgsSort);
-                break;
+                    SortChronologic(mgsSort);
+                    break;
+                case "usage":
+                    SortUsage(mgsSort);
+                    break;
                 default: // "alphabet"
-                SortAlphabet(mgsSort);
-                break;
+                    SortAlphabet(mgsSort);
+                    break;
             }
         }
 
         void SortAlphabet(List<RectTransform> mgs)
         {
-            for (int i = 0; i < mgsActive.Count; i++) {
-                mgs[i].SetSiblingIndex(i + fxActive.Count + 1);
+            List<RectTransform> alph = mgs.OrderBy(AlphabetSortKey).ToList();
+            
+            for (int i = 0; i < alph.Count; i++) {
+                alph[i].SetSiblingIndex(i + fxActive.Count + 1);
             }
+        }
+        string AlphabetSortKey(RectTransform minigame)
+        {
+            Minigames.Minigame mg = EventCaller.instance.GetMinigame(minigame.name);
+            if (mg.displayName.StartsWith("the ", System.StringComparison.InvariantCultureIgnoreCase))
+                return mg.displayName[4..];
+            else
+                return mg.displayName;
         }
 
         // if there are no favorites, the games will sort alphabetically
         void SortFavorites(List<RectTransform> allMgs)
         {
-            var favs = allMgs.FindAll(mg => mg.GetComponent<GridGameSelectorGame>().StarActive);
-            var mgs  = allMgs.FindAll(mg => !mg.GetComponent<GridGameSelectorGame>().StarActive);
+            List<RectTransform> favs = allMgs.FindAll(mg => mg.GetComponent<GridGameSelectorGame>().StarActive).OrderBy(AlphabetSortKey).ToList();
+            List<RectTransform> mgs  = allMgs.FindAll(mg => !mg.GetComponent<GridGameSelectorGame>().StarActive).OrderBy(AlphabetSortKey).ToList();
 
             if (Input.GetKey(KeyCode.LeftShift)) {
                 foreach (var fav in favs)
@@ -304,43 +318,49 @@ namespace HeavenStudio.Editor
 
         void SortChronologic(List<RectTransform> mgs)
         {
-            var systems = new List<RectTransform>[] {
-                new List<RectTransform>(),
-                new List<RectTransform>(),
-                new List<RectTransform>(),
-                new List<RectTransform>(),
-                new List<RectTransform>(),
-                new List<RectTransform>(),
-            };
-            for (int i = 0; i < mgs.Count; i++)
-            {
-                var mg = EventCaller.instance.GetMinigame(mgs[i].name);
-                var tags = mg.tags;
-                if (tags.Count != 0) {
-                    systems[tags[0] switch {
-                        "agb" => 0,
-                        "ntr" => 1,
-                        "rvl" => 2,
-                        "ctr" => 3,
-                        "mob" => 4,
-                        _     => 5,
-                    }].Add(mgs[i]);
-                } else if (mg.inferred) {
-                    systems[^1].Add(mgs[i]);
-                } else {
-                    Debug.LogWarning($"Chronological sorting has failed, does \"{mg.displayName}\" ({mg.name}) have an asset bundle assigned to it?");
-                }
+            List<RectTransform> chrono = mgs.OrderBy(GameOriginSortKey).ThenBy(ChronologicSortKey).ThenBy(AlphabetSortKey).ToList();
+            
+            for (int i = 0; i < chrono.Count; i++) {
+                chrono[i].SetSiblingIndex(i + fxActive.Count + 1);
             }
-            int j = fxActive.Count + 1;
-            foreach (var system in systems)
+        }
+        int GameOriginSortKey(RectTransform minigame)
+        {
+            Minigames.Minigame mg = EventCaller.instance.GetMinigame(minigame.name);
+            if (mg.tags.Count > 0)
             {
-                system.OrderBy(mg => mg.name);
-                for (int i = 0; i < system.Count; i++)
+                return mg.tags[0] switch
                 {
-                    system[i].SetSiblingIndex(j);
-                    j++;
-                }
+                    "agb" => 0,
+                    "ntr" => 1,
+                    "rvl" => 2,
+                    "ctr" => 3,
+                    _ => 10,
+                };
             }
+
+            return 10;
+        }
+        uint ChronologicSortKey(RectTransform minigame)
+        {
+            Minigames.Minigame mg = EventCaller.instance.GetMinigame(minigame.name);
+            if (mg.chronologicalSortKey is uint i)
+                return i;
+
+            return uint.MaxValue;
+        }
+
+        void SortUsage(List<RectTransform> mgs)
+        {
+            List<RectTransform> usage = mgs.OrderByDescending(UsageSortKey).ThenBy(AlphabetSortKey).ToList();
+
+            for (int i = 0; i < usage.Count; i++) {
+                usage[i].SetSiblingIndex(i + fxActive.Count + 1);
+            }
+        }
+        int UsageSortKey(RectTransform minigame)
+        {
+            return EventCaller.GetAllInGameManagerList(minigame.name).Count;
         }
 
         public void Search()

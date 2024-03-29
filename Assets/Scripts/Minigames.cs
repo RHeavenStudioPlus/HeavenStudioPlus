@@ -371,6 +371,15 @@ namespace HeavenStudio
             public bool hidden;
             public bool fxOnly;
             public List<GameAction> actions = new List<GameAction>();
+            
+
+            public uint? chronologicalSortKey;
+            // playinful: basically i figure this should just be whatever index number the minigame is
+            // in its game of origin. So, basically, like, if we're talking Rhythm Heaven DS, Built to
+            // Scale would be 1, then Fillbots would be 2, and so on. If it's an endless game, add 100.
+            // If it's a rhythm toy, add 200. If it's a 2-Player endless game, add 300. If it's a credits
+            // game... IDK, I guess just set it to 99. It works. If the game isn't a RH original then just
+            // put the date in YYYYMMDD format. Oh, and if it's a practice game set it to 0.
 
             public List<string> tags;
             public string defaultLocale = "en";
@@ -405,7 +414,7 @@ namespace HeavenStudio
                 set => soundSequences = value;
             }
 
-            public Minigame(string name, string displayName, string color, bool hidden, bool fxOnly, List<GameAction> actions, List<string> tags = null, string wantAssetBundle = null, string defaultLocale = "en", List<string> supportedLocales = null, bool inferred = false)
+            public Minigame(string name, string displayName, string color, bool hidden, bool fxOnly, List<GameAction> actions, List<string> tags = null, string wantAssetBundle = null, string defaultLocale = "en", List<string> supportedLocales = null, bool inferred = false, uint? chronologicalSortKey = null)
             {
                 this.name = name;
                 this.displayName = displayName;
@@ -422,9 +431,11 @@ namespace HeavenStudio
 
                 this.splitColorL = null;
                 this.splitColorR = null;
+
+                this.chronologicalSortKey = chronologicalSortKey;
             }
 
-            public Minigame(string name, string displayName, string color, string splitColorL, string splitColorR, bool hidden, bool fxOnly, List<GameAction> actions, List<string> tags = null, string wantAssetBundle = null, string defaultLocale = "en", List<string> supportedLocales = null, bool inferred = false)
+            public Minigame(string name, string displayName, string color, string splitColorL, string splitColorR, bool hidden, bool fxOnly, List<GameAction> actions, List<string> tags = null, string wantAssetBundle = null, string defaultLocale = "en", List<string> supportedLocales = null, bool inferred = false, uint? chronologicalSortKey = null)
             {
                 this.name = name;
                 this.displayName = displayName;
@@ -441,6 +452,8 @@ namespace HeavenStudio
 
                 this.splitColorL = splitColorL;
                 this.splitColorR = splitColorR;
+
+                this.chronologicalSortKey = chronologicalSortKey;
             }
 
             public AssetBundle GetLocalizedAssetBundle()

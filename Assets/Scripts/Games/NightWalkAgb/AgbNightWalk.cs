@@ -112,7 +112,9 @@ namespace HeavenStudio.Games.Loaders
                         new Param("repeat", new EntityTypes.Integer(0, 100, 1), "Repeat Amount", "How many times will this event repeat?"),
                     }
                 },
-            });
+            },
+            new List<string>() {"agb", "keep"},
+            chronologicalSortKey: 20);
         }
     }
 }

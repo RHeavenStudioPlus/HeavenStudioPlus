@@ -101,7 +101,8 @@ namespace HeavenStudio.Games.Loaders
             },
             new List<string>() { "mob", "normal" },
             "mobtrick", "en",
-            new List<string>() { }
+            new List<string>() { },
+            chronologicalSortKey: 20170124 // source: this sketchy site https://rhythm-heaven-fever.appstor.io/ it was the only mention of it online that had a date attached
             );
         }
     }

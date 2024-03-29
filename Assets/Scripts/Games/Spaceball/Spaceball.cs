@@ -68,7 +68,8 @@ namespace HeavenStudio.Games.Loaders
             },
             new List<string>() {"agb", "normal"},
             "agbbatter", "en",
-            new List<string>() {}
+            new List<string>() {},
+            chronologicalSortKey: 4
             );
         }
     }

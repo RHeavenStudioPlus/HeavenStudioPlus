@@ -76,7 +76,8 @@ namespace HeavenStudio.Games.Loaders
             },
             new List<string>() {"rvl", "normal"},
             "rvlfork", "en",
-            new List<string>() {}
+            new List<string>() {},
+            chronologicalSortKey: 6
             );
         }
     }

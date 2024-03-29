@@ -401,7 +401,8 @@ namespace HeavenStudio.Games.Loaders
             },
             new List<string>() { "agb", "ntr", "rvl", "ctr", "pco", "normal" },
             "karate", "en",
-            new List<string>() { "en" }
+            new List<string>() { "en" },
+            chronologicalSortKey: 1
             );
         }
     }

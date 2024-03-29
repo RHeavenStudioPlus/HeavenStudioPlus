@@ -68,7 +68,8 @@ namespace HeavenStudio.Games.Loaders
             },
             new List<string>() { "rvl", "normal" },
             "rvlrotation", "en",
-            new List<string>() { "en" }
+            new List<string>() { "en" },
+            chronologicalSortKey: 8
             );
         }
     }

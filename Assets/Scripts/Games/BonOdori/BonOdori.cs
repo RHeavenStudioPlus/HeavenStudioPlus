@@ -155,7 +155,8 @@ namespace HeavenStudio.Games.Loaders
                     }
                 },
             },
-            new List<string>() { "agb", "normal" }, "agbBonOdori", "en", new List<string>() { }
+            new List<string>() { "agb", "normal" }, "agbBonOdori", "en", new List<string>() { },
+            chronologicalSortKey: 10
             );
         }
     };

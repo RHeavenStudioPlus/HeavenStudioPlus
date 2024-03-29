@@ -139,7 +139,8 @@ namespace HeavenStudio.Games.Loaders
                 }},
                 new List<string>() { "rvl", "normal" },
                 "rvlmanzai", "jp",
-                new List<string>() { "jp" }
+                new List<string>() { "jp" },
+                chronologicalSortKey: 104
             );
         }
     }
