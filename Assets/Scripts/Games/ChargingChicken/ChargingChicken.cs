@@ -391,6 +391,7 @@ namespace HeavenStudio.Games
         double bubbleSizeChangeStart = 0;
         double bubbleSizeChangeEnd = 0;
         bool bubbleSizeChangeGrows = false;
+        float bubbleFinalScale = 1.038702f;
 
         string yardsTextString = "# yards to the goal.";
         bool yardsTextIsEditable = false;
@@ -812,34 +813,12 @@ namespace HeavenStudio.Games
                 isInputting = false; //stops the drums
             }
 
-            //chicken/water movement speed
-            if (nextIsland.isMoving) ChickenAnim.SetScaledAnimationSpeed((nextIsland.speed1 / 60) + 0.2f);
-            float waterFlowSpeed = (nextIsland.speed1 / 5.83f) + ((1f / Conductor.instance.pitchedSecPerBeat) * 0.1f);
-            if ((-waterFlowSpeed) - ((1f / Conductor.instance.pitchedSecPerBeat) * 0.2f) < 0) 
-            {
-                if (waterFlowSpeed > 0) WaterAnim.speed = waterFlowSpeed;
-                if (!flowForward)
-                {
-                    WaterAnim.DoScaledAnimationAsync("Scroll", waterFlowSpeed);
-                    flowForward = true; 
-                }
-            }
-            else 
-            { 
-                if ((-waterFlowSpeed) - ((1f / Conductor.instance.pitchedSecPerBeat) * 0.2f) > 0) WaterAnim.speed = (-waterFlowSpeed) - ((1f / Conductor.instance.pitchedSecPerBeat) * 0.2f);
-                if (flowForward)
-                {
-                    WaterAnim.DoScaledAnimationAsync("AntiScroll", (-waterFlowSpeed) - ((1f / Conductor.instance.pitchedSecPerBeat) * 0.2f));
-                    flowForward = false; 
-                }
-            }
-
             //bubble shrinkage
             if (bubbleSizeChangeStart < Conductor.instance.songPositionInBeatsAsDouble && Conductor.instance.songPositionInBeatsAsDouble <= bubbleSizeChangeEnd)
             {
                 float value = (Conductor.instance.GetPositionFromBeat(bubbleSizeChangeStart, bubbleSizeChangeEnd - bubbleSizeChangeStart));
-                float newScale = Util.EasingFunction.Linear(1.038702f, 0, value);
-                countBubble.transform.localScale = bubbleSizeChangeGrows ? new Vector3(1.038702f - newScale, 1.038702f - newScale, 1) : new Vector3(newScale, newScale, 1);
+                float newScale = Util.EasingFunction.Linear(bubbleFinalScale, 0, value);
+                countBubble.transform.localScale = bubbleSizeChangeGrows ? new Vector3(bubbleFinalScale - newScale, bubbleFinalScale - newScale, 1) : new Vector3(newScale, newScale, 1);
                 if (bubbleSizeChangeGrows) //refresh the text to remove mipmapping
                 {
                     bubbleText.text = "";
@@ -896,8 +875,13 @@ namespace HeavenStudio.Games
 
         public void LateUpdate()
         {
+            float islandDistance = nextIsland.GetDist();
+            float islandDT = nextIsland.GetDT();
+
+            float islandVelocity = islandDistance / islandDT;
+
             //parallax movement
-            float parallaxSpeed = nextIsland.speed1 / 20000;
+            float parallaxSpeed = islandDistance / 70;
             Stars.localPosition -= new Vector3((parallaxSpeed * 0.3f), 0, 0);
             if (Stars.localPosition.x < -48) Stars.localPosition += new Vector3(32, 0, 0);
 
@@ -912,6 +896,30 @@ namespace HeavenStudio.Games
             if (Birds.localPosition.x < -15) Birds.localPosition += new Vector3(25, 0, 0);
             Birds.localPosition = new Vector3(Birds.localPosition.x, (Birds.localPosition.x / (1.65f * -3)), 0);
             Birds.localScale = new Vector3(1 + (Birds.localPosition.x / 16.5f), 1 + (Birds.localPosition.x / 16.5f), 1);
+
+            //chicken/water movement speed
+            if (nextIsland.isMoving) ChickenAnim.SetScaledAnimationSpeed((islandVelocity / 60) + 0.2f);
+            float waterFlowSpeed = (islandVelocity / 5.83f) + ((1f / Conductor.instance.pitchedSecPerBeat) * 0.1f);
+
+            float reversePos = -WaterAnim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            if ((-waterFlowSpeed) - ((1f / Conductor.instance.pitchedSecPerBeat) * 0.2f) < 0) 
+            {
+                if (waterFlowSpeed > 0) WaterAnim.speed = waterFlowSpeed;
+                if (!flowForward)
+                {
+                    WaterAnim.DoScaledAnimationAsync("Scroll", waterFlowSpeed, startPos: reversePos);
+                    flowForward = true; 
+                }
+            }
+            else 
+            { 
+                if ((-waterFlowSpeed) - ((1f / Conductor.instance.pitchedSecPerBeat) * 0.2f) > 0) WaterAnim.speed = (-waterFlowSpeed) - ((1f / Conductor.instance.pitchedSecPerBeat) * 0.2f);
+                if (flowForward)
+                {
+                    WaterAnim.DoScaledAnimationAsync("AntiScroll", (-waterFlowSpeed) - ((1f / Conductor.instance.pitchedSecPerBeat) * 0.2f), startPos: reversePos);
+                    flowForward = false; 
+                }
+            }
         }
 
         public override void OnGameSwitch(double beat)
@@ -943,6 +951,7 @@ namespace HeavenStudio.Games
             PersistThings(Conductor.instance.songPositionInBeatsAsDouble);
 
             nextIsland = Instantiate(IslandBase, transform).GetComponent<Island>();
+            nextIsland.journeySave = 1;
             nextIsland.SmallLandmass.SetActive(true);
             WaterAnim.DoScaledAnimationAsync("Scroll", 0.2f);
         }
@@ -1013,11 +1022,13 @@ namespace HeavenStudio.Games
                     {
                         switch(whichDrum)
                         {
-                            case 8: 
-                            {
-                                SoundByte.PlayOneShotGame("chargingChicken/MISC1");
-                                break;
-                            }
+                            case 0: break;
+                            case 5: SoundByte.PlayOneShotGame("chargingChicken/feverkick"); break;
+                            case 6: SoundByte.PlayOneShotGame("chargingChicken/dskick"); break;
+                            case 7: SoundByte.PlayOneShotGame("chargingChicken/gbakick"); break;
+                            case 8: SoundByte.PlayOneShotGame("chargingChicken/MIS1"); break;
+                            case 9: SoundByte.PlayOneShotGame("chargingChicken/MISC21"); break;
+                            case 10: SoundByte.PlayOneShotGame("chargingChicken/practicekick"); break;
                             default: 
                             {
                                 SoundByte.PlayOneShotGame("chargingChicken/kick");
@@ -1100,20 +1111,23 @@ namespace HeavenStudio.Games
             }));
             BeatAction.New(GameManager.instance, hoseActions);
 
-            //drum loop
-            double loopLength;
-            if (drumLoops[whichDrum][0] != null) { loopLength = drumLoops[whichDrum][0].timing; }
-            else { loopLength = 4; }
+            if (whichDrum != 0)
+            {
+                //drum loop
+                double loopLength;
+                if (drumLoops[whichDrum][0] != null) { loopLength = drumLoops[whichDrum][0].timing; }
+                else { loopLength = 4; }
 
-            while ( length >= 0 )
-		    {
-                //add drums to the beataction
-                var drumActions = PlayDrumLoop(beat, whichDrum, length);
-                actions.AddRange(drumActions);
+                while ( length >= 0 )
+		        {
+                    //add drums to the beataction
+                    var drumActions = PlayDrumLoop(beat, whichDrum, length);
+                    actions.AddRange(drumActions);
 
-                //start the next drum loop
-                beat += loopLength;
-                length -= loopLength;
+                    //start the next drum loop
+                    beat += loopLength;
+                    length -= loopLength;
+                }
             }
 
             //set ending text
@@ -1630,16 +1644,14 @@ namespace HeavenStudio.Games
 
         public void BubbleShrink(double beat, double length, bool grows, bool instant)
         {
-            if (nextIsland.isRespawning || !isInputting) return;
-
             if (instant)
             {
-                countBubble.SetActive(grows);
-                countBubble.transform.localScale = new Vector3(1, 1, 1);
+                countBubble.SetActive(grows && isInputting);
+                countBubble.transform.localScale = new Vector3(bubbleFinalScale, bubbleFinalScale, 1);
                 return;
             }
 
-            if (grows) countBubble.SetActive(true);
+            if (grows) countBubble.SetActive(isInputting);
 
             bubbleSizeChangeStart = beat;
             bubbleSizeChangeEnd = beat + length;
@@ -1648,7 +1660,7 @@ namespace HeavenStudio.Games
             BeatAction.New(GameManager.instance, new List<BeatAction.Action>()
             {
                 new BeatAction.Action(beat + length, delegate { 
-                    if (!grows) { countBubble.SetActive(false); countBubble.transform.localScale = new Vector3(1, 1, 1); }
+                    if (!grows) { countBubble.SetActive(false); countBubble.transform.localScale = new Vector3(bubbleFinalScale, bubbleFinalScale, 1); }
                 }),
             });
         }
