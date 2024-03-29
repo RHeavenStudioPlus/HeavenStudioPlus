@@ -69,7 +69,9 @@ namespace HeavenStudio.Games.Loaders
                     }, 
                 },
                 
-            });
+            },
+            new List<string>() {"rvl", "normal"},
+            chronologicalSortKey: 301);
         }
     }
 }

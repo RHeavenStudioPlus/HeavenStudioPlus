@@ -172,7 +172,8 @@ namespace HeavenStudio.Games.Loaders
             },
             new List<string>() {"ntr", "repeat"},
             "ntrcork", "en",
-            new List<string>() {}
+            new List<string>() {},
+            chronologicalSortKey: 204
             );
         }
     }

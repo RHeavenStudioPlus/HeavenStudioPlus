@@ -80,7 +80,8 @@ namespace HeavenStudio.Games.Loaders
             },
             new List<string>() { "ctr", "normal" },
             "ctrteppan", "en",
-            new List<string>() { }
+            new List<string>() { },
+            chronologicalSortKey: 74
             );
         }
     }

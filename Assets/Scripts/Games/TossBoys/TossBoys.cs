@@ -103,7 +103,8 @@ namespace HeavenStudio.Games.Loaders
             },
             new List<string>() {"agb", "normal"},
             "agbtoss", "jp",
-            new List<string>() {}
+            new List<string>() {},
+            chronologicalSortKey: 27
             );
         }
     }

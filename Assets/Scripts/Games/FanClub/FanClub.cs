@@ -109,7 +109,8 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new List<string>() { "ntr", "normal" },
                 "ntridol", "jp",
-                new List<string>() { "jp" }
+                new List<string>() { "jp" },
+                chronologicalSortKey: 4
             );
         }
     }

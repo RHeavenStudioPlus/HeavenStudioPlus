@@ -81,7 +81,8 @@ namespace HeavenStudio.Games.Loaders
                         new Param("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action."),
                     }
                 },
-            }, new List<string>() { "rvl", "normal" }, "rvlbuilt", "en", new List<string>() { });
+            }, new List<string>() { "rvl", "normal" }, "rvlbuilt", "en", new List<string>() { },
+            chronologicalSortKey: 12);
         }
     }
 }

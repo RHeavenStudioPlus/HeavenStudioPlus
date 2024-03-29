@@ -118,10 +118,11 @@ namespace HeavenStudio.Games.Loaders
                     resizable = true
                 },
 
-            }
-            //new List<string>() { "ctr", "keep" },
+            },
+            new List<string>() { "ctr", "keep" },
             //"ctrsumou", "jp",
-            //new List<string>() { }
+            //new List<string>() { },
+            chronologicalSortKey: 31
             );
         }
     }

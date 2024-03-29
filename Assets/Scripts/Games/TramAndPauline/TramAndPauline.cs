@@ -71,7 +71,8 @@ namespace HeavenStudio.Games.Loaders
             },
             new List<string>() {"agb", "normal"},
             "agbtrampoline", "jp",
-            new List<string>() {}
+            new List<string>() {},
+            chronologicalSortKey: 16
             );
         }
     }

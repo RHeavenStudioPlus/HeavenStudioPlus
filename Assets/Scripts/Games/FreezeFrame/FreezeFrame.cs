@@ -204,7 +204,8 @@ namespace HeavenStudio.Games.Loaders
                 },
             },
             new List<string>() { "ntr", "normal" },
-            "ntrcameraman", "en"
+            "ntrcameraman", "en",
+            chronologicalSortKey: 13
             );
         }
     }

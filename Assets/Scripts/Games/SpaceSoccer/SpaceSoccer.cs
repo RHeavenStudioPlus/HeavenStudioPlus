@@ -151,7 +151,8 @@ namespace HeavenStudio.Games.Loaders
             },
             new List<string>() { "ntr", "keep" },
             "ntrsoccer", "en",
-            new List<string>() { "en" }
+            new List<string>() { "en" },
+            chronologicalSortKey: 26
             );
         }
     }

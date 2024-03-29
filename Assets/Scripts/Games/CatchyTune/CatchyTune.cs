@@ -59,7 +59,8 @@ namespace HeavenStudio.Games.Loaders
             new List<string>() { "ctr", "normal" },
             "ctrcatchy",
             "en",
-            new List<string>() { }
+            new List<string>() { },
+            chronologicalSortKey: 4
             );
         }
     }

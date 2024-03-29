@@ -39,7 +39,8 @@ namespace HeavenStudio.Games.Loaders
             },
             new List<string>() {"agb", "repeat"},
             "agbwizard", "en",
-            new List<string>() {}
+            new List<string>() {},
+            chronologicalSortKey: 13
             );
         }
     }

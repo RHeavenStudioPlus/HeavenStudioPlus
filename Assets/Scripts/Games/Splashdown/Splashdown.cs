@@ -75,7 +75,8 @@ namespace HeavenStudio.Games.Loaders
             },
             new List<string>() { "ntr", "normal" },
             "ntrdiving", "en",
-            new List<string>() { "en" }
+            new List<string>() { "en" },
+            chronologicalSortKey: 21
             );
         }
     }
