@@ -52,6 +52,7 @@ namespace HeavenStudio.Games.Scripts_ChargingChicken
         [NonSerialized]public bool grassFell = false;
 
         float previousPosition;
+        float previousTime;
 
         [SerializeField] GameObject PlatformBase;
 
@@ -112,18 +113,23 @@ namespace HeavenStudio.Games.Scripts_ChargingChicken
 
         public void Awake()
         {
-            StartCoroutine(CalcVelocity());
             previousPosition = IslandPos.localPosition.x;
+            previousTime = Time.time;
         }
 
-        IEnumerator CalcVelocity()
+        public float GetDist()
         {
-            while (true)
-            {
-                yield return new WaitForEndOfFrame();
-                if (IslandPos.localPosition.x <= previousPosition) speed1 = -(IslandPos.localPosition.x - previousPosition) / Time.deltaTime;
-                previousPosition = IslandPos.localPosition.x;
-            }
+            float sendDist = 0;
+            if (previousPosition != 0) sendDist = -(IslandPos.localPosition.x - previousPosition);
+            previousPosition = IslandPos.localPosition.x;
+            return sendDist;
+        }
+
+        public float GetDT()
+        {
+            float sendDT = Time.time - previousTime;
+            previousTime = Time.time;
+            return sendDT;
         }
 
         #endregion
@@ -239,9 +245,9 @@ namespace HeavenStudio.Games.Scripts_ChargingChicken
 
         public void SpawnStones(double beat, double length, bool tooLate)
         {
-            stonePlatformJourney = new StonePlatform[(int)(length * 4)];
+            stonePlatformJourney = new StonePlatform[(int)(length * ChargingChicken.platformsPerBeat)];
 
-            for ( int i = 0; i < length * 4; i++ )
+            for ( int i = 0; i < length * ChargingChicken.platformsPerBeat; i++ )
             {
                 stonePlatformJourney[i].thisPlatform = Instantiate(PlatformBase, transform);
                 stonePlatformJourney[i].stoneNumber = i;
