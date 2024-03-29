@@ -93,6 +93,16 @@ namespace HeavenStudio
                 Debug.LogWarning("Game loader PcoCanneryLoader failed!");
             }
 
+            game = RvlCatchOfTheDayLoader.AddGame(eventCaller);
+            if (game != null)
+            {
+                eventCaller.minigames.Add(game.name, game);
+            }
+            else
+            {
+                Debug.LogWarning("Game loader RvlCatchOfTheDayLoader failed!");
+            }
+
             game = CtrCatchLoader.AddGame(eventCaller);
             if (game != null)
             {
@@ -121,6 +131,16 @@ namespace HeavenStudio
             else
             {
                 Debug.LogWarning("Game loader RvlBookLoader failed!");
+            }
+            
+            game = NtrFreezeFrameLoader.AddGame(eventCaller);
+            if (game != null)
+            {
+                eventCaller.minigames.Add(game.name, game);
+            }
+            else
+            {
+                Debug.LogWarning("Game loader NtrCameraManLoader failed!");
             }
 
             game = AgbClapLoader.AddGame(eventCaller);
