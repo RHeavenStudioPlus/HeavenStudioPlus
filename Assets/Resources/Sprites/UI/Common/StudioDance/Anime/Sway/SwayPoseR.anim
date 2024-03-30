@@ -826,7 +826,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 4
+        value: 5
         inSlope: -0
         outSlope: 0
         tangentMode: 69
@@ -1576,6 +1576,15 @@ AnimationClip:
     path: Head/FacePoser/EyeL
     classID: 212
     script: {fileID: 0}
+  - curve:
+    - time: 0
+      value: {fileID: -505423905, guid: 62713d17eb1e1404bbafeb45c8b4b5b8, type: 3}
+    - time: 0.16666667
+      value: {fileID: -1296991250, guid: 62713d17eb1e1404bbafeb45c8b4b5b8, type: 3}
+    attribute: m_Sprite
+    path: Head/FacePoser/Mouth
+    classID: 212
+    script: {fileID: 0}
   m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
@@ -1934,6 +1943,13 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     - serializedVersion: 2
+      path: 2216076729
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    - serializedVersion: 2
       path: 11499848
       attribute: 1
       script: {fileID: 0}
@@ -2170,6 +2186,8 @@ AnimationClip:
     - {fileID: 460458272, guid: 62713d17eb1e1404bbafeb45c8b4b5b8, type: 3}
     - {fileID: -553841512, guid: 62713d17eb1e1404bbafeb45c8b4b5b8, type: 3}
     - {fileID: -1154888724, guid: 62713d17eb1e1404bbafeb45c8b4b5b8, type: 3}
+    - {fileID: -505423905, guid: 62713d17eb1e1404bbafeb45c8b4b5b8, type: 3}
+    - {fileID: -1296991250, guid: 62713d17eb1e1404bbafeb45c8b4b5b8, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -2942,7 +2960,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 4
+        value: 5
         inSlope: -0
         outSlope: 0
         tangentMode: 69
