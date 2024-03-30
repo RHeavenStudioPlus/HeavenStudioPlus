@@ -8,6 +8,8 @@ namespace HeavenStudio.StudioDance
     {
         [SerializeField] ChoreographyInfo debugChoreography;
         [SerializeField] ChoreographyInfo[] choreographies;
+        Conductor cond;
+        GameManager gm;
         private Animator animator;
         private double currentBeat = 0f;
 
@@ -40,17 +42,18 @@ namespace HeavenStudio.StudioDance
                 totalChoreographyLength += step.beatLength;
             }
 
-            if (!Conductor.instance.isPlaying)
+            if (cond is not null && animator is not null && !cond.isPlaying)
             {
-                animator.Play(currentChoreography.introState);
+                animator.Play(currentChoreography.introState, -1, 0f);
             }
         }
 
         private void Start()
         {
             animator = GetComponent<Animator>();
+            cond = Conductor.instance;
+            gm = GameManager.instance;
 
-            var gm = GameManager.instance;
             if (gm != null)
             {
                 gm.onBeatPulse += OnBeatPulse;
@@ -61,7 +64,19 @@ namespace HeavenStudio.StudioDance
                 SetChoreography(debugChoreography);
             }
 
-            animator.Play(currentChoreography.introState);
+            animator.Play(currentChoreography.introState, -1, 0f);
+        }
+
+        public void SetStartChoreography()
+        {
+            if (debugChoreography != null)
+            {
+                SetChoreography(debugChoreography);
+            }
+            else
+            {
+                SetChoreography(0);
+            }
         }
 
         private void OnBeatPulse(double beat)
@@ -71,43 +86,55 @@ namespace HeavenStudio.StudioDance
 
         private void Update()
         {
-            var cond = Conductor.instance;
             if (currentChoreography == null || cond == null) return;
             if (!cond.isPlaying)
             {
                 if (!isDance) return;
                 if (currentBeat % 2 != 0)
                 {
-                    animator.Play(currentChoreography.poseStateOdd);
+                    animator.Play(currentChoreography.poseStateOdd, -1, 0f);
                 }
                 else
                 {
-                    animator.Play(currentChoreography.poseStateEven);
+                    animator.Play(currentChoreography.poseStateEven, -1, 0f);
                 }
                 isDance = false;
                 return;
             }
             isDance = true;
 
-            double choreoBeat = cond.songPositionInBeatsAsDouble % totalChoreographyLength;
-            double cycleStartBeat = Math.Floor(cond.songPositionInBeatsAsDouble / totalChoreographyLength) * totalChoreographyLength;
+            float speed = 1f;
+            if (currentChoreography.halfSpeedBpm != currentChoreography.doubleSpeedBpm)
+            {
+                if (cond.songBpm < currentChoreography.halfSpeedBpm)
+                {
+                    speed = 0.5f;
+                }
+                else if (cond.songBpm > currentChoreography.doubleSpeedBpm)
+                {
+                    speed = 2f;
+                }
+            }
+
+            double choreoBeat = cond.songPositionInBeatsAsDouble % (totalChoreographyLength * speed);
+            double cycleStartBeat = Math.Floor(cond.songPositionInBeatsAsDouble / (totalChoreographyLength * speed)) * (totalChoreographyLength * speed);
 
             double beatSum = 0.0;
             double stepLength = 0.0;
             string stepState = "";
             foreach (ChoreographyInfo.ChoreographyStep s in currentChoreography.choreographySteps)
             {
-                if (choreoBeat > beatSum && choreoBeat < beatSum + s.beatLength)
+                if (choreoBeat > beatSum && choreoBeat < beatSum + (s.beatLength * speed))
                 {
-                    stepLength = s.beatLength;
+                    stepLength = s.beatLength * speed;
                     stepState = s.stateName;
                     break;
                 }
-                beatSum += s.beatLength;
+                beatSum += s.beatLength * speed;
             }
             if (stepState is not null or "")
             {
-                animator.DoScaledAnimation(stepState, cycleStartBeat + beatSum, stepLength);
+                animator.DoScaledAnimation(stepState, cycleStartBeat + beatSum, stepLength, animLayer: -1, clamp: true);
             }
         }
     }

@@ -20,5 +20,7 @@ namespace HeavenStudio.StudioDance
         public List<ChoreographyStep> choreographySteps;
         public string poseStateOdd;
         public string poseStateEven;
+        public double halfSpeedBpm;
+        public double doubleSpeedBpm;
     }
 }
