@@ -106,6 +106,7 @@ namespace HeavenStudio.Editor
 
             foreach (var minigame in EventCaller.instance.minigames.Values)
                 AddIcon(minigame);
+            GridGameSelectorRect.GetComponent<GridGameSelector>().Sort("alphabet");
 
             UpdateEditorStatus(true);
 #if HEAVENSTUDIO_PROD
