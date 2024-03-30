@@ -18,18 +18,20 @@ namespace HeavenStudio.StudioDance
         {
             windowBase.SetActive(true);
             content.SetActive(true);
+            dancer.SetStartChoreography();
 
             dropdown.ClearOptions();
-            int startIdx = 0;
+            int i = 0;
             foreach (ChoreographyInfo choreography in dancer.ChoreographyInfos)
             {
                 dropdown.options.Add(new TMP_Dropdown.OptionData(choreography.choreographyName));
                 if (choreography == dancer.CurrentChoreography)
                 {
-                    dropdown.value = startIdx;
+                    dropdown.value = i;
                 }
-                startIdx++;
+                i++;
             }
+            dropdown.RefreshShownValue();
         }
 
         public void CloseDanceWindow()

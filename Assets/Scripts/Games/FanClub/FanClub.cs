@@ -257,6 +257,7 @@ namespace HeavenStudio.Games
             //spawn 12, the 4th is our player (idx 3)
             Vector3 origin = spectatorAnchor.transform.localPosition;
             int sortOrigin = spectatorAnchor.GetComponent<SortingGroup>().sortingOrder;
+            int row = 1;
             Vector3 spawnPos = new Vector3(origin.x, origin.y, origin.z);
             spawnPos.x -= RADIUS * 2 * 3;
             for (int i = 0; i < FAN_COUNT; i++)
@@ -264,7 +265,8 @@ namespace HeavenStudio.Games
                 GameObject mobj = Instantiate(spectator, spectatorAnchor.transform.parent);
                 NtrIdolFan fan = mobj.GetComponent<NtrIdolFan>();
                 mobj.transform.localPosition = new Vector3(spawnPos.x, spawnPos.y, spawnPos.z);
-                mobj.GetComponent<SortingGroup>().sortingOrder = i + sortOrigin;
+                fan.SetRow(row, sortOrigin);
+                // mobj.GetComponent<SortingGroup>().sortingOrder = i + sortOrigin;
                 if (i == 3)
                 {
                     Player = fan;
@@ -283,7 +285,7 @@ namespace HeavenStudio.Games
                     spawnPos = new Vector3(origin.x, origin.y, origin.z);
                     spawnPos.x -= RADIUS * 2 * 4 - RADIUS;
                     spawnPos.y -= RADIUS;
-                    // spawnPos.z -= RADIUS/4;
+                    row++;
                 }
             }
 

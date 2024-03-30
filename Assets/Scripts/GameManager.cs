@@ -1191,6 +1191,7 @@ namespace HeavenStudio
             var gameInfo = GetGameInfo(name);
             if (gameInfo != null)
             {
+                GameObject prefab;
                 if (gameInfo.inferred)
                 {
                     return Resources.Load<GameObject>($"Games/noGame");
@@ -1226,10 +1227,28 @@ namespace HeavenStudio
                     catch (Exception e)
                     {
                         Debug.LogWarning($"Failed to load assetbundle for game {name}, using sync loading: {e.Message}");
-                        return Resources.Load<GameObject>($"Games/{name}");
+                        prefab = Resources.Load<GameObject>($"Games/{name}");
+                        if (prefab != null)
+                        {
+                            return prefab;
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"Game {name} not found, using noGame");
+                            return Resources.Load<GameObject>($"Games/noGame");
+                        }
                     }
                 }
-                return Resources.Load<GameObject>($"Games/{name}");
+                prefab = Resources.Load<GameObject>($"Games/{name}");
+                if (prefab != null)
+                {
+                    return prefab;
+                }
+                else
+                {
+                    Debug.LogWarning($"Game {name} not found, using noGame");
+                    return Resources.Load<GameObject>($"Games/noGame");
+                }
             }
             else
             {

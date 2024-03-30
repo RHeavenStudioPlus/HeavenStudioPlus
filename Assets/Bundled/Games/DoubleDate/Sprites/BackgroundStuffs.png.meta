@@ -1,0 +1,885 @@
+fileFormatVersion: 2
+guid: 1f442840d85d9e944819c7e21ab38483
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8188186736342864057
+    second: GradientIntro
+  - first:
+      213: 3234666907076744828
+    second: Leaf
+  - first:
+      213: -7537086625454320379
+    second: OrangeColor
+  - first:
+      213: -2993642936079139595
+    second: CloudSmall
+  - first:
+      213: -5389290914630838298
+    second: CloudBig
+  - first:
+      213: -3642036459305862908
+    second: GradientBackground
+  - first:
+      213: -7658259778974664015
+    second: BenchShadow
+  - first:
+      213: 8035776228164042473
+    second: School
+  - first:
+      213: -3822715106614595124
+    second: YelButterfly_1
+  - first:
+      213: 4445103687248729998
+    second: YelButterfly_2
+  - first:
+      213: -3834191621005131079
+    second: YelButterfly_3
+  - first:
+      213: 8670339520048406662
+    second: YelButterfly_4
+  - first:
+      213: -418361036620737776
+    second: WhitButterfly_1
+  - first:
+      213: 6969603088398452302
+    second: WhitButterfly_2
+  - first:
+      213: 5416217770464474296
+    second: WhitButterfly_3
+  - first:
+      213: 3567166853366906182
+    second: WhitButterfly_5
+  - first:
+      213: 3800982770954899463
+    second: YelButterfly_5
+  - first:
+      213: 8740589133797757656
+    second: YelButterfly_6
+  - first:
+      213: -1348292724443166489
+    second: YelButterfly_7
+  - first:
+      213: 2723614535909326082
+    second: YelButterfly_8
+  - first:
+      213: -8917727120351276589
+    second: BackgroundStuffs_26
+  - first:
+      213: -3885387492849114584
+    second: WhitButterfly_6
+  - first:
+      213: 8955798168525251696
+    second: WhitButterfly_7
+  - first:
+      213: 1067640931402255031
+    second: WhitButterfly_8
+  - first:
+      213: -4896779724645461058
+    second: YelButterfly_9
+  - first:
+      213: -1686646077985068754
+    second: WhitButterfly_9
+  - first:
+      213: -2183487432715666897
+    second: BottomSection
+  - first:
+      213: 3394962189828883030
+    second: TreeShadow_3
+  - first:
+      213: 6897222020553889196
+    second: TreeShadow_2
+  - first:
+      213: 471275613544938806
+    second: TreeShadow_1
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 81.92
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 1
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: GradientIntro
+      rect:
+        serializedVersion: 2
+        x: 28.671999
+        y: 2686.9758
+        width: 102.399994
+        height: 1380.3519
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b0184e247842a170800000000000000
+      internalID: 8188186736342864057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leaf
+      rect:
+        serializedVersion: 2
+        x: 199.0656
+        y: 3991.1423
+        width: 115.507195
+        height: 54.0672
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c76550bf968d3ec20800000000000000
+      internalID: 3234666907076744828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrangeColor
+      rect:
+        serializedVersion: 2
+        x: 3133.44
+        y: 3901.0303
+        width: 133.5296
+        height: 134.3488
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5059278b5a3e66790800000000000000
+      internalID: -7537086625454320379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CloudSmall
+      rect:
+        serializedVersion: 2
+        x: 235.9296
+        y: 3475.8655
+        width: 394.0352
+        height: 335.87198
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fc35a25c917476d0800000000000000
+      internalID: -2993642936079139595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CloudBig
+      rect:
+        serializedVersion: 2
+        x: 810.1888
+        y: 3403.776
+        width: 603.75037
+        height: 460.39038
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e7503287746535b0800000000000000
+      internalID: -5389290914630838298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GradientBackground
+      rect:
+        serializedVersion: 2
+        x: 3099.0334
+        y: 2301.1328
+        width: 104.0384
+        height: 1509.7855
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4097d08f223e47dc0800000000000000
+      internalID: -3642036459305862908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BenchShadow
+      rect:
+        serializedVersion: 2
+        x: 61.44
+        y: 2413.363
+        width: 1705.5743
+        height: 161.3824
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1babd846e4568b590800000000000000
+      internalID: -7658259778974664015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: School
+      rect:
+        serializedVersion: 2
+        x: 79.462395
+        y: 1229.6191
+        width: 2396.16
+        height: 988.77435
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9eefe3677efc48f60800000000000000
+      internalID: 8035776228164042473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YelButterfly_1
+      rect:
+        serializedVersion: 2
+        x: 2620.6208
+        y: 1658.88
+        width: 70.451195
+        height: 80.2816
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc1b7b83ddcf2fac0800000000000000
+      internalID: -3822715106614595124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YelButterfly_2
+      rect:
+        serializedVersion: 2
+        x: 2804.9407
+        y: 1672.8064
+        width: 84.3776
+        height: 58.1632
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e875d3c904e20bd30800000000000000
+      internalID: 4445103687248729998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YelButterfly_3
+      rect:
+        serializedVersion: 2
+        x: 3004.8254
+        y: 1668.7103
+        width: 76.1856
+        height: 48.332798
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b2c53df8073acac0800000000000000
+      internalID: -3834191621005131079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YelButterfly_4
+      rect:
+        serializedVersion: 2
+        x: 3204.7102
+        y: 1661.3375
+        width: 58.1632
+        height: 65.535995
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68024862bdb335870800000000000000
+      internalID: 8670339520048406662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhitButterfly_1
+      rect:
+        serializedVersion: 2
+        x: 3389.0303
+        y: 1658.88
+        width: 69.631996
+        height: 80.2816
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0135b509adea13af0800000000000000
+      internalID: -418361036620737776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhitButterfly_2
+      rect:
+        serializedVersion: 2
+        x: 3573.3503
+        y: 1672.8064
+        width: 83.558395
+        height: 58.1632
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e468475151109b060800000000000000
+      internalID: 6969603088398452302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhitButterfly_3
+      rect:
+        serializedVersion: 2
+        x: 3773.235
+        y: 1668.7103
+        width: 77.0048
+        height: 48.332798
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b471baad554a2b40800000000000000
+      internalID: 5416217770464474296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhitButterfly_5
+      rect:
+        serializedVersion: 2
+        x: 3973.1199
+        y: 1661.3375
+        width: 58.1632
+        height: 65.535995
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64d7b7d7a5f118130800000000000000
+      internalID: 3567166853366906182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YelButterfly_5
+      rect:
+        serializedVersion: 2
+        x: 2614.8862
+        y: 1489.3055
+        width: 80.2816
+        height: 41.779198
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 700952411bdcfb430800000000000000
+      internalID: 3800982770954899463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YelButterfly_6
+      rect:
+        serializedVersion: 2
+        x: 2809.0366
+        y: 1490.944
+        width: 86.016
+        height: 31.9488
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d297afe18fcc4970800000000000000
+      internalID: 8740589133797757656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YelButterfly_7
+      rect:
+        serializedVersion: 2
+        x: 3000.7295
+        y: 1472.9215
+        width: 81.92
+        height: 63.8976
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e8425229e6e94de0800000000000000
+      internalID: -1348292724443166489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YelButterfly_8
+      rect:
+        serializedVersion: 2
+        x: 3189.1455
+        y: 1489.3055
+        width: 91.7504
+        height: 36.0448
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20d37f57df83cc520800000000000000
+      internalID: 2723614535909326082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BackgroundStuffs_26
+      rect:
+        serializedVersion: 2
+        x: 3383.296
+        y: 1489.3055
+        width: 79.462395
+        height: 41.779198
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d15893ae6edd3480800000000000000
+      internalID: -8917727120351276589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhitButterfly_6
+      rect:
+        serializedVersion: 2
+        x: 3576.6272
+        y: 1490.944
+        width: 86.016
+        height: 31.9488
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 822abf139a4541ac0800000000000000
+      internalID: -3885387492849114584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhitButterfly_7
+      rect:
+        serializedVersion: 2
+        x: 3769.1392
+        y: 1472.9215
+        width: 81.92
+        height: 63.8976
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 074aa030cf2694c70800000000000000
+      internalID: 8955798168525251696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhitButterfly_8
+      rect:
+        serializedVersion: 2
+        x: 3956.7358
+        y: 1489.3055
+        width: 92.569595
+        height: 36.0448
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ba06ef35c501de00800000000000000
+      internalID: 1067640931402255031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YelButterfly_9
+      rect:
+        serializedVersion: 2
+        x: 3189.1455
+        y: 1277.1328
+        width: 90.112
+        height: 69.631996
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb31c21e8c42b0cb0800000000000000
+      internalID: -4896779724645461058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhitButterfly_9
+      rect:
+        serializedVersion: 2
+        x: 3956.7358
+        y: 1277.1328
+        width: 90.112
+        height: 69.631996
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e29e4eb0454d798e0800000000000000
+      internalID: -1686646077985068754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BottomSection
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 93.388794
+        width: 4096
+        height: 987.136
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2af371afb1b2b1e0800000000000000
+      internalID: -2183487432715666897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TreeShadow_3
+      rect:
+        serializedVersion: 2
+        x: 3389.0303
+        y: 1862.8607
+        width: 639.79517
+        height: 625.8688
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65202a6df145d1f20800000000000000
+      internalID: 3394962189828883030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TreeShadow_2
+      rect:
+        serializedVersion: 2
+        x: 3389.0303
+        y: 2637.0046
+        width: 642.2528
+        height: 625.8688
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca5dd1872ead7bf50800000000000000
+      internalID: 6897222020553889196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TreeShadow_1
+      rect:
+        serializedVersion: 2
+        x: 3389.0303
+        y: 3401.3184
+        width: 645.5296
+        height: 621.77277
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63d76a07cae4a8600800000000000000
+      internalID: 471275613544938806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      BackgroundStuffs_26: -8917727120351276589
+      BenchShadow: -7658259778974664015
+      BottomSection: -2183487432715666897
+      CloudBig: -5389290914630838298
+      CloudSmall: -2993642936079139595
+      GradientBackground: -3642036459305862908
+      GradientIntro: 8188186736342864057
+      Leaf: 3234666907076744828
+      OrangeColor: -7537086625454320379
+      School: 8035776228164042473
+      TreeShadow_1: 471275613544938806
+      TreeShadow_2: 6897222020553889196
+      TreeShadow_3: 3394962189828883030
+      WhitButterfly_1: -418361036620737776
+      WhitButterfly_2: 6969603088398452302
+      WhitButterfly_3: 5416217770464474296
+      WhitButterfly_5: 3567166853366906182
+      WhitButterfly_6: -3885387492849114584
+      WhitButterfly_7: 8955798168525251696
+      WhitButterfly_8: 1067640931402255031
+      WhitButterfly_9: -1686646077985068754
+      YelButterfly_1: -3822715106614595124
+      YelButterfly_2: 4445103687248729998
+      YelButterfly_3: -3834191621005131079
+      YelButterfly_4: 8670339520048406662
+      YelButterfly_5: 3800982770954899463
+      YelButterfly_6: 8740589133797757656
+      YelButterfly_7: -1348292724443166489
+      YelButterfly_8: 2723614535909326082
+      YelButterfly_9: -4896779724645461058
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: rvldate/common
+  assetBundleVariant: 
