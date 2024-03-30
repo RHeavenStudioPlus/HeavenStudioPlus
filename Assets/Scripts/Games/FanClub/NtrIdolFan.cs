@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering; //don't ask
 using System;
 
 using NaughtyBezierCurves;
@@ -15,8 +16,8 @@ namespace HeavenStudio.Games.Scripts_FanClub
         [Header("References")]
         [SerializeField] private GameObject motionRoot;
         [SerializeField] private GameObject headRoot;
+        [SerializeField] private SortingGroup sortingGroup;
         public Animator animator;
-        public Animator headAnimator;
         public ParticleSystem fanClapEffect;
         public GameObject shadow;
 
@@ -273,11 +274,19 @@ namespace HeavenStudio.Games.Scripts_FanClub
 
         public void MakeAngry(bool flip = false)
         {
-            headAnimator.Play("FanFaceAngry", -1, 0);
             if (flip)
             {
-                headRoot.transform.localScale = new Vector3(-1f, 1f, 1f);
+                animator.Play("Head.FanFaceAngryFlip", -1, 0);
             }
+            else
+            {
+                animator.Play("Head.FanFaceAngry", -1, 0);
+            }
+        }
+
+        public void SetRow(int row, int origin = 0)
+        {
+            sortingGroup.sortingOrder = origin + row;
         }
     }
 }

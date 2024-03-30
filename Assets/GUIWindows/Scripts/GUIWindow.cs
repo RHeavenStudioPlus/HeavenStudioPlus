@@ -21,14 +21,16 @@ namespace Rellac.Windows
         private void Update()
         {
             // limit window size
+            float finalMaxWidth = Mathf.Min(maxWidth, Screen.width);
+            float finalMaxHeight = Mathf.Min(maxHeight, Screen.height);
             RectTransform rectTransform = GetComponent<RectTransform>();
-            if (maxWidth > 0 && rectTransform.rect.width > maxWidth)
+            if (maxWidth > 0 && rectTransform.rect.width > finalMaxWidth)
             {
-                rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxWidth);
+                rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, finalMaxWidth);
             }
-            if (maxHeight > 0 && rectTransform.rect.height > maxHeight)
+            if (maxHeight > 0 && rectTransform.rect.height > finalMaxHeight)
             {
-                rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, maxHeight);
+                rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, finalMaxHeight);
             }
 
             // keep in bounds of parent
