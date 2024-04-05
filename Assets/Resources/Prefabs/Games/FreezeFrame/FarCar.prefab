@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6946551013102958060}
   - component: {fileID: 7997424004296554398}
+  - component: {fileID: 3475764313539771616}
   m_Layer: 0
   m_Name: FarCar
   m_TagString: Untagged
@@ -140,6 +141,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3475764313539771616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2075028642364583115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7603ef99b187e3943bc7442eba361a0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: 7997424004296554398}
+  _ParticleSystem: {fileID: 2474116073957625541}
+  Beat: 0
+  AnimName: 
+  Length: 0
 --- !u!1 &2367453434430737401
 GameObject:
   m_ObjectHideFlags: 0

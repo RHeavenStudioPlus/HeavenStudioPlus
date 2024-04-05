@@ -5333,6 +5333,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6084288726060573987}
   - component: {fileID: 5306769740670614925}
+  - component: {fileID: 4343164144131349474}
   m_Layer: 0
   m_Name: NearCar
   m_TagString: Untagged
@@ -5379,3 +5380,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4343164144131349474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9201264650996470607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7603ef99b187e3943bc7442eba361a0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: 5306769740670614925}
+  _ParticleSystem: {fileID: 3711623167737813775}
+  Beat: 0
+  AnimName: 
+  Length: 0
