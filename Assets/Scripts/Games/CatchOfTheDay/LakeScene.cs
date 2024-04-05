@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using HeavenStudio;
-using HeavenStudio.Games;
 using HeavenStudio.Util;
 using Jukebox;
 using UnityEngine;
@@ -11,7 +8,7 @@ using UnityEngine.Rendering;
 namespace HeavenStudio.Games.Scripts_CatchOfTheDay
 {
     public class LakeScene : MonoBehaviour
-{
+    {
         [SerializeField] public bool IsDummy = false;
 
         [SerializeField] public Animator FishAnimator;
@@ -37,6 +34,15 @@ namespace HeavenStudio.Games.Scripts_CatchOfTheDay
 
         public MultiSound _MultiSound;
 
+        private RenderTexture _RenderTexture;
+        private Texture2D _DisplayTexture;
+
+        private double? _CrossfadeStartBeat;
+        [SerializeField] GameObject Renderer;
+        private bool _FirstUpdate = false;
+
+        [SerializeField] Animator CrossfadeAnimator;
+
         void Update()
         {
             if (FishSchool.activeSelf)
@@ -45,6 +51,23 @@ namespace HeavenStudio.Games.Scripts_CatchOfTheDay
                 BigManta.transform.localPosition = new Vector3((float)Entity.beat - Conductor.instance.songPositionInBeats + 4.5f, BigManta.transform.localPosition.y, BigManta.transform.localPosition.z);
             if (SmallManta.activeSelf)
                 SmallManta.transform.localPosition = new Vector3(1.25f + ((Conductor.instance.songPositionInBeats - (float)Entity.beat) * 0.13f), SmallManta.transform.localPosition.y, SmallManta.transform.localPosition.y);
+
+            if (!IsDummy)
+                RenderScene();
+
+            if (_CrossfadeStartBeat is double startBeat)
+            {
+                float normalizedBeat = Conductor.instance.GetPositionFromBeat(startBeat, 1);
+                DisplaySprite.color = new Color(1, 1, 1, 1 - normalizedBeat);
+                float scale = 1 + (float)(normalizedBeat * 0.875);// * 2);
+                transform.localScale = new Vector3(scale, scale, 1);
+                if (normalizedBeat >= 1f) Destroy(gameObject);
+            }
+        }
+        void OnDestroy()
+        {
+            if (ReelAction != null)
+                ReelAction.Disable();
         }
 
         public int Setup(RiqEntity e, CatchOfTheDay minigame, int? lastLayout = null, int sortingIndex = 0)
@@ -64,7 +87,7 @@ namespace HeavenStudio.Games.Scripts_CatchOfTheDay
                         new BeatAction.Action(e.beat, delegate { DoPickAnim(e.beat); }),
                         new BeatAction.Action(e.beat + 1, delegate { DoPickAnim(e.beat + 1); }),
                         new BeatAction.Action(e.beat + 2 - 0.1f, delegate { DoBiteAnim(e.beat + 2 - 0.1f); }),
-                        new BeatAction.Action(e.beat + 2 + (float)e["sceneDelay"], delegate { minigame.DisposeLake(this); }),
+                        new BeatAction.Action(e.beat + 2 + (float)e["sceneDelay"], delegate { minigame.DisposeLake(this, e.beat + 2 + (float)e["sceneDelay"]); }),
                     });
                     break;
                 case "catchOfTheDay/fish2":
@@ -78,7 +101,7 @@ namespace HeavenStudio.Games.Scripts_CatchOfTheDay
                         new BeatAction.Action(e.beat + 0.5f, delegate { DoPickAnim(e.beat + 0.5f); }),
                         new BeatAction.Action(e.beat + 1, delegate { DoPickAnim(e.beat + 1); }),
                         new BeatAction.Action(e.beat + 3 - 0.1f, delegate { DoBiteAnim(e.beat + 3 - 0.1f); }),
-                        new BeatAction.Action(e.beat + 3 + (float)e["sceneDelay"], delegate { minigame.DisposeLake(this); }),
+                        new BeatAction.Action(e.beat + 3 + (float)e["sceneDelay"], delegate { minigame.DisposeLake(this, e.beat + 3 + (float)e["sceneDelay"]); }),
                     });
                     break;
                 case "catchOfTheDay/fish3":
@@ -99,7 +122,7 @@ namespace HeavenStudio.Games.Scripts_CatchOfTheDay
                         new BeatAction.Action(e.beat + 0.5f, delegate { DoPickAnim(e.beat + 0.5f); }),
                         new BeatAction.Action(e.beat + 1f, delegate { DoPickAnim(e.beat + 1f, down: true); }),
                         new BeatAction.Action(e.beat + 4.5f - 0.1f, delegate { DoBiteAnim(e.beat + 4.5f - 0.1f); }),
-                        new BeatAction.Action(e.beat +  + (float)e["sceneDelay"], delegate { minigame.DisposeLake(this); }),
+                        new BeatAction.Action(e.beat + 4.5f + (float)e["sceneDelay"], delegate { minigame.DisposeLake(this, e.beat + 4.5f + (float)e["sceneDelay"]); }),
                     });
                     BeatAction.New(this, beatActions);
                     break;
@@ -142,11 +165,9 @@ namespace HeavenStudio.Games.Scripts_CatchOfTheDay
                 SetBGColors(TopColors[layout], BottomColors[layout]);
             }
 
-            _SortingGroup.sortingOrder = sortingIndex;
-
             float xOffset = UnityEngine.Random.Range(-0.5f, 0.5f);
             float yOffset = UnityEngine.Random.Range(-0.3f, 0.3f);
-            transform.position += new Vector3(xOffset, yOffset, 0);
+            Renderer.transform.position += new Vector3(xOffset, yOffset, 0);
 
             if ((bool)e["schoolFish"])
             {
@@ -162,6 +183,10 @@ namespace HeavenStudio.Games.Scripts_CatchOfTheDay
             int bubbleCount = UnityEngine.Random.Range(0, 4);
             foreach (ParticleSystem particle in Bubbles.OrderBy(_ => UnityEngine.Random.Range(0.0f, 1.0f)).ToArray()[0..bubbleCount])
                 particle.PlayScaledAsync(0.5f);
+
+            DisplaySprite.sortingOrder = sortingIndex;
+            Renderer.transform.localPosition -= new Vector3(0, 0, sortingIndex);
+            RenderCamera.transform.localPosition -= new Vector3(0, 0, sortingIndex);
 
             return layout; // returning this so we can catalogue the most recent layout so we don't double up
         }
@@ -227,6 +252,7 @@ namespace HeavenStudio.Games.Scripts_CatchOfTheDay
                     break;
             }
             Minigame.DoJustAnim();
+            FishOut = true;
         }
         public void Miss()
         {
@@ -251,6 +277,7 @@ namespace HeavenStudio.Games.Scripts_CatchOfTheDay
             }
             Minigame.DoMissAnim();
             SoundByte.PlayOneShotGame("catchOfTheDay/nearMiss");
+            FishOut = true;
         }
         public void Through(PlayerActionEvent caller)
         {
@@ -358,11 +385,45 @@ namespace HeavenStudio.Games.Scripts_CatchOfTheDay
             }
         }
 
+        [SerializeField] Camera RenderCamera;
+        [SerializeField] SpriteRenderer DisplaySprite;
+        public void RenderScene()
+        {
+            if (!DisplaySprite.enabled)
+                return;
+
+            Rect rect = new Rect(0, 0, 1024, 1024);
+            if (_RenderTexture == null)
+            {
+                _RenderTexture = new RenderTexture(1024, 1024, 32);
+                RenderCamera.targetTexture = _RenderTexture;
+
+                _DisplayTexture = new Texture2D(1024, 1024, TextureFormat.RGBA32, false);
+                Sprite sprite = Sprite.Create(_DisplayTexture, new Rect(0, 0, 1024, 1024), new Vector2(0.5f, 0.5f));
+                DisplaySprite.sprite = sprite;
+            }
+
+            RenderCamera.Render();
+
+            RenderTexture currentRenderTexture = RenderTexture.active;
+            RenderTexture.active = _RenderTexture;
+            _DisplayTexture.ReadPixels(rect, 0, 0);
+            _DisplayTexture.Apply();
+
+            RenderTexture.active = currentRenderTexture;
+        }
+
+        public void Crossfade(double beat)
+        {
+            _CrossfadeStartBeat = beat;
+            //CrossfadeAnimator.DoScaledAnimationAsync("Crossfade", 0.5f);
+        }
+
         [SerializeField] GameObject SchoolFishPrefab;
         [ContextMenu("Spawn a bunch of fish")]
         void SpawnABunchOfFish()
         {
-            Transform container = transform.Find("FishSchool");
+            Transform container = transform.Find("Renderer/FishSchool");
 
             List<Transform> toDestroy = new();
             for (int i = 0; i < container.childCount; i++)
@@ -379,7 +440,11 @@ namespace HeavenStudio.Games.Scripts_CatchOfTheDay
                 container.eulerAngles = new Vector3(0, 0, randRot);
 
                 GameObject fish = Instantiate(SchoolFishPrefab, container);
-                fish.name = $"SchoolFish{i:D2}";
+                fish.name = $"SchoolFish{i:D3}";
+
+                fish.transform.Find("Body").GetComponent<SpriteRenderer>().sortingOrder = i * 2;
+                fish.transform.Find("Fin").GetComponent<SpriteRenderer>().sortingOrder = (i * 2) + 1;
+                fish.transform.Find("Eye").GetComponent<SpriteRenderer>().sortingOrder = (i * 2) + 1;
 
                 var yOffset = UnityEngine.Random.Range(3f, 11f);
                 fish.transform.position += new Vector3(0, yOffset, 0);

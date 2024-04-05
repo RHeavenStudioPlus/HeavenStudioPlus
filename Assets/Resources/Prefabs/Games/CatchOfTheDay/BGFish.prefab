@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -4
   m_Sprite: {fileID: -1654869705, guid: 9dc0046d9c64c0845916b64d36e2fc7e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -133,6 +133,7 @@ MonoBehaviour:
   _Animator: {fileID: 1962400969548684622}
   _Sprite: {fileID: 8334324854123224507}
   FleeAnim: 0
+  FlipSprite: 0
 --- !u!95 &1962400969548684622
 Animator:
   serializedVersion: 5
