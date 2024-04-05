@@ -374,7 +374,7 @@ namespace HeavenStudio
             
 
             public uint? chronologicalSortKey;
-            // playinful: basically i figure this should just be whatever index number the minigame is
+            // Yin: basically i figure this should just be whatever index number the minigame is
             // in its game of origin. So, basically, like, if we're talking Rhythm Heaven DS, Built to
             // Scale would be 1, then Fillbots would be 2, and so on. If it's an endless game, add 100.
             // If it's a rhythm toy, add 200. If it's a 2-Player endless game, add 300. If it's a credits

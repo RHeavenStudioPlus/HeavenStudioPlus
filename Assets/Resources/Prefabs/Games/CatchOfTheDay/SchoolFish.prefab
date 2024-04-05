@@ -178,7 +178,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6818461398746758092}
   - component: {fileID: 7532825851267565565}
-  - component: {fileID: 8842803494614929758}
   m_Layer: 0
   m_Name: SchoolFish
   m_TagString: Untagged
@@ -225,17 +224,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!210 &8842803494614929758
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6469500009000541928}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 500
 --- !u!1 &8946698474682847267
 GameObject:
   m_ObjectHideFlags: 0
