@@ -223,6 +223,16 @@ namespace HeavenStudio
                 Debug.LogWarning("Game loader NtrIdolLoader failed!");
             }
 
+            game = NtrFillbotsLoader.AddGame(eventCaller);
+            if (game != null)
+            {
+                eventCaller.minigames.Add(game.name, game);
+            }
+            else
+            {
+                Debug.LogWarning("Game loader NtrFillbotsLoader failed!");
+            }
+
             game = AgbFireworkLoader.AddGame(eventCaller);
             if (game != null)
             {

@@ -100,7 +100,7 @@ namespace HeavenStudio.Games.Loaders
             new List<string>() { "ntr", "repeat" },
             "ntrchorus", "en",
             new List<string>() { "en" },
-            chronologicalSortKey: 3
+            chronologicalSortKey: 2
             );
         }
     }
