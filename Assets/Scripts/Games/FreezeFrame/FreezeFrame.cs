@@ -34,13 +34,22 @@ namespace HeavenStudio.Games.Loaders
                 // cues
                 new GameAction("slowCar", "Slow Car")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; FreezeFrame.SlowCarCue(e.beat, e["variant"]); },
+                    function = delegate
+                    {
+                        var e = eventCaller.currentEntity;
+                        FreezeFrame.SlowCarCue(e.beat, e["variant"], e["mute"], e["clear"]);
+                    },
+                    inactiveFunction = delegate
+                    {
+                        var e = eventCaller.currentEntity;
+                        if (!(bool)e["mute"]) FreezeFrame.SlowCarSFX();
+                    },
                     defaultLength = 3f,
-                    inactiveFunction = delegate { var e = eventCaller.currentEntity; if (!(bool)e["mute"]) FreezeFrame.SlowCarSFX(); },
                     parameters = new List<Param>()
                     {
                         new Param("variant", FreezeFrame.PhotoType.Random, "Photo Variant", "Set the type of photo to use."),
                         new Param("mute", false, "Mute", "Mute the sound of the cue."),
+                        new Param("clear", false, "Clear Previous Photos", "Dispose of all the photos taken before this one."),
                         new Param("autoShowPhotos", true, "Auto Show Photos", "Automagically show the photos after they're taken.", new List<Param.CollapseParam>()
                         {
                             new Param.CollapseParam((x, _) => (bool)x, new string[] { "gradeType", "audience" })
@@ -51,13 +60,22 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("fastCar", "Fast Car")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; FreezeFrame.FastCarCue(e.beat, e["variant"]); },
+                    function = delegate
+                    {
+                        var e = eventCaller.currentEntity;
+                        FreezeFrame.FastCarCue(e.beat, e["variant"], e["mute"], e["clear"]);
+                    },
+                    inactiveFunction = delegate
+                    {
+                        var e = eventCaller.currentEntity;
+                        if (!(bool)e["mute"]) FreezeFrame.FastCarSFX();
+                    },
                     defaultLength = 3f,
-                    inactiveFunction = delegate { var e = eventCaller.currentEntity; if (!(bool)e["mute"]) FreezeFrame.FastCarSFX(); },
                     parameters = new List<Param>()
                     {
                         new Param("variant", FreezeFrame.PhotoType.Random, "Photo Variant", "Set the type of photo to use."),
                         new Param("mute", false, "Mute", "Mute the sound of the cue."),
+                        new Param("clear", false, "Clear Previous Photos", "Dispose of all the photos taken before this one."),
                         new Param("autoShowPhotos", true, "Auto Show Photos", "Automagically show the photos after they're taken.", new List<Param.CollapseParam>()
                         {
                             new Param.CollapseParam((x, _) => (bool)x, new string[] { "gradeType", "audience" })
@@ -76,15 +94,6 @@ namespace HeavenStudio.Games.Loaders
                         new Param("gradeType", FreezeFrame.GradeType.Symbols, "Rating Type", "Choose whether to use the English or Japanese variant of the grading screen."),
                         new Param("audience", true, "Crowd Cheer", "Set whether or not the audience should cheer when the photos are shown."),
                         new Param("clearCache", true, "Clear Photos", "Clears the photo cache after the photos are shown."),
-                    }
-                },
-                new GameAction("clearPhotos", "Clear Photo Cache")
-                {
-                    function = delegate { var e = eventCaller.currentEntity; FreezeFrame.ClearPhotos(); },
-                    inactiveFunction = delegate { var e = eventCaller.currentEntity; FreezeFrame.ClearPhotos(); },
-                    defaultLength = 0.5f,
-                    parameters = new List<Param>()
-                    {
                     }
                 },
                 // distractions
@@ -152,11 +161,70 @@ namespace HeavenStudio.Games.Loaders
                         new Param("followCamera", true, "Follow Camera", "Choose whether or not the overlay should follow the camera."),
                     }
                 },
-                new GameAction("moveCameraMan", "Move T.J.")
+                new GameAction("neoMoveCameraMan", "Move T.J.")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; FreezeFrame.SetMoveCameraMan(e.beat, e.length, e["startPosX"], e["startPosY"], e["endPosX"], e["endPosY"], e["ease"]); },
+                    function = delegate { var e = eventCaller.currentEntity; FreezeFrame.SetMoveCameraMan(e); },
                     defaultLength = 1f,
                     resizable = true,
+                    parameters = new List<Param>()
+                    {
+                        new Param("doMove", false, "Move", "Select this option if you want to move T.J.", new List<Param.CollapseParam>()
+                        {
+                            new Param.CollapseParam((x, _) => (bool)x, new string[] { "endMoveX", "endMoveY" } ),
+                            new Param.CollapseParam((x, e) => (bool)x && (Util.EasingFunction.Ease)e["ease"] != Util.EasingFunction.Ease.Instant, new string[] { "startMoveX", "startMoveY" }),
+                            new Param.CollapseParam((_, e) => (bool)e["doMove"] || (bool)e["doRotate"] || (bool)e["doScale"], new string[] { "ease" })
+                        }),
+                        new Param("startMoveX", new EntityTypes.Float(-20f, 20f, 0f), "Start X", "Set the X position from which to move."),
+                        new Param("startMoveY", new EntityTypes.Float(-20f, 20f, 0f), "Start Y", "Set the Y position from which to move."),
+                        new Param("endMoveX", new EntityTypes.Float(-20f, 20f, 0f), "End X", "Set the X position to which to move."),
+                        new Param("endMoveY", new EntityTypes.Float(-20f, 20f, 0f), "End Y", "Set the Y position to which to move."),
+                        new Param("doRotate", false, "Rotate", "Select this option if you want to rotate T.J.", new List<Param.CollapseParam>()
+                        {
+                            new Param.CollapseParam((x, _) => (bool)x, new string[] { "endRotDegrees" } ),
+                            new Param.CollapseParam((x, e) => (bool)x && (Util.EasingFunction.Ease)e["ease"] != Util.EasingFunction.Ease.Instant, new string[] { "startRotDegrees" }),
+                            new Param.CollapseParam((_, e) => (bool)e["doMove"] || (bool)e["doRotate"] || (bool)e["doScale"], new string[] { "ease" })
+                        }),
+                        new Param("startRotDegrees", new EntityTypes.Float(-360f, 360f, 0f), "Start Rotation", "Set the amount of degrees at which to begin rotating."),
+                        new Param("endRotDegrees", new EntityTypes.Float(-360f, 360f, 0f), "End Rotation", "Set the amount of degrees at which to finish rotating."),
+                        new Param("doScale", false, "Scale", "Select this option if you want to change T.J.'s scale.", new List<Param.CollapseParam>()
+                        {
+                            new Param.CollapseParam((x, _) => (bool)x, new string[] { "endScaleX", "endScaleY" } ),
+                            new Param.CollapseParam((x, e) => (bool)x && (Util.EasingFunction.Ease)e["ease"] != Util.EasingFunction.Ease.Instant, new string[] { "startScaleX", "startScaleY" }),
+                            new Param.CollapseParam((_, e) => (bool)e["doMove"] || (bool)e["doRotate"] || (bool)e["doScale"], new string[] { "ease" })
+                        }),
+                        new Param("startScaleX", new EntityTypes.Float(-5f, 5f, 1f), "Start Scale X", "Set the desired scale on the X axis at which to start."),
+                        new Param("startScaleY", new EntityTypes.Float(-5f, 5f, 1f), "Start Scale Y", "Set the desired scale on the Y axis at which to start."),
+                        new Param("endScaleX", new EntityTypes.Float(-5f, 5f, 1f), "End Scale X", "Set the desired scale on the X axis at which to end."),
+                        new Param("endScaleY", new EntityTypes.Float(-5f, 5f, 1f), "End Scale Y", "Set the desired scale on the Y axis at which to end."),
+                        new Param("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing for the action.", new List<Param.CollapseParam>()
+                        {
+                            new Param.CollapseParam((x, e) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant && (bool)e["doMove"], new string[] { "startMoveX", "startMoveY" }),
+                            new Param.CollapseParam((x, e) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant && (bool)e["doRotate"], new string[] { "startRotDegrees" }),
+                            new Param.CollapseParam((x, e) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant && (bool)e["doScale"], new string[] { "startScaleX", "startScaleY" }),
+                        })
+                    }
+                },
+
+                // DEPRECATED ACTIONS
+                // DEPRECATED ACTIONS
+                // DEPRECATED ACTIONS
+
+                new GameAction("clearPhotos", "Clear Photo Cache (DEPRECATED)")
+                {
+                    function = delegate { var e = eventCaller.currentEntity; FreezeFrame.ClearPhotos(); },
+                    inactiveFunction = delegate { var e = eventCaller.currentEntity; FreezeFrame.ClearPhotos(); },
+                    defaultLength = 0.5f,
+                    parameters = new List<Param>()
+                    {
+                    },
+                    hidden = true
+                },
+                new GameAction("moveCameraMan", "Move T.J. (DEPRECATED)")
+                {
+                    function = delegate { var e = eventCaller.currentEntity; FreezeFrame.SetMoveCameraMan_OLD(e.beat, e.length, e["startPosX"], e["startPosY"], e["endPosX"], e["endPosY"], e["ease"]); },
+                    defaultLength = 1f,
+                    resizable = true,
+                    hidden = true,
                     parameters = new List<Param>()
                     {
                         new Param("startPosX", new EntityTypes.Float(-5.0f, 5.0f, 0.0f), "Start X Position", "X position at which to start."),
@@ -170,11 +238,12 @@ namespace HeavenStudio.Games.Loaders
                         //new Param("flipX", false, "Flip", "Set whether or not to flip T.J. horizontally."),
                     }
                 },
-                new GameAction("rotateCameraMan", "Rotate T.J.")
+                new GameAction("rotateCameraMan", "Rotate T.J. (DEPRECATED)")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; FreezeFrame.SetRotateCameraMan(e.beat, e.length, e["startRot"], e["endRot"], e["ease"]); },
+                    function = delegate { var e = eventCaller.currentEntity; FreezeFrame.SetRotateCameraMan_OLD(e.beat, e.length, e["startRot"], e["endRot"], e["ease"]); },
                     defaultLength = 1f,
                     resizable = true,
+                    hidden = true,
                     parameters = new List<Param>()
                     {
                         new Param("startRot", new EntityTypes.Float(-360.0f, 360.0f, 0.0f), "Start Rotation", "Rotation degrees at which to start."),
@@ -185,11 +254,12 @@ namespace HeavenStudio.Games.Loaders
                         }),
                     }
                 },
-                new GameAction("scaleCameraMan", "Scale T.J.")
+                new GameAction("scaleCameraMan", "Scale T.J. (DEPRECATED)")
                 {
-                    function = delegate { var e = eventCaller.currentEntity; FreezeFrame.SetScaleCameraMan(e.beat, e.length, e["startSizeX"], e["startSizeY"], e["endSizeX"], e["endSizeY"], e["ease"]); },
+                    function = delegate { var e = eventCaller.currentEntity; FreezeFrame.SetScaleCameraMan_OLD(e.beat, e.length, e["startSizeX"], e["startSizeY"], e["endSizeX"], e["endSizeY"], e["ease"]); },
                     defaultLength = 1f,
                     resizable = true,
+                    hidden = true,
                     parameters = new List<Param>()
                     {
                         new Param("startSizeX", new EntityTypes.Float(-5.0f, 5.0f, 1.0f), "Start Scale X", "Horizontal scale at which to start."),
@@ -222,10 +292,9 @@ namespace HeavenStudio.Games
         /*
         BIG LIST OF TODOS
         - finish sounds
+        - make pitching and panning work
         - wait for upscale
         - make particles random sprites
-
-        - REAL icon
         */
 
         public static FreezeFrame Instance
@@ -296,21 +365,25 @@ namespace HeavenStudio.Games
         public Dictionary<PlayerActionEvent, PhotoArgs> EventArgs = new();
         public bool IsShowingPhotos { get; set; } = false;
 
-        public List<SpawnCarArgs> QueuedCars { get; set; } = new();
-
         public static Dictionary<RiqEntity, PersonDirection> WalkerDirections = new();
 
-        //protected static int? SuperSeed { get; set; }
-
         // UNITY BUILTIN METHODS
-        void Awake()
+        void Start()
         {
+            if (conductor != null && !conductor.isPlaying && !conductor.isPaused)
+            {
+                ClearPhotos();
+            }
             CameraManStartPos = CameraMan.transform.localPosition;
-            //if (SuperSeed is null)
-            //    SuperSeed = new System.Random().Next();
         }
         void Update()
         {
+            if (conductor != null && !conductor.isPlaying && !conductor.isPaused)
+            {
+                CameraMan.Play("Idle");
+                IsShowingPhotos = false;
+            }
+
             if (PlayerInput.GetIsAction(InputAction_BasicPress) && !IsExpectingInputNow(InputAction_BasicPress) && !IsShowingPhotos)
             {
                 CameraFlash();
@@ -390,9 +463,9 @@ namespace HeavenStudio.Games
                         Destroy(args.Walker.gameObject);
                 }
             }
-            
-            // car animations
-            if (QueuedCars.Count > 0)
+
+            // car animations (deprecated)
+            /*if (QueuedCars.Count > 0)
             {
                 var beat = conductor.songPositionInBeats;
                 if (beat >= 0)
@@ -404,7 +477,7 @@ namespace HeavenStudio.Games
                     }
                     QueuedCars.RemoveAll(e => e.Beat <= beat);
                 }
-            }
+            }*/
 
             if (!IsShowingPhotos)
                 Instance.Overlay.SetActive(ShowOverlay);
@@ -437,7 +510,6 @@ namespace HeavenStudio.Games
         public override void OnPlay(double beat)
         {
             if (PhotoList.Count > 0) PhotoList.Clear();
-            CarbageCollection();
             OnGameSwitch(beat);
         }
         public override void OnGameSwitch(double beat)
@@ -447,10 +519,11 @@ namespace HeavenStudio.Games
             Instance.StickyLayer.Sticky = OverlayFollowCamera;
 
             // calculation
+            CarbageCollection();
             CalculateAutoShowPhotos();
             CalculateCarSpawns();
             PreRandomizeWalkers();
-            
+
             // setting local variables
             RiqEntity e = GetLastEntityOfType(beat, "bop");
             if (e is not null)
@@ -504,21 +577,41 @@ namespace HeavenStudio.Games
             }
 
             // Camera Man Movement
-            e = GetLastEntityOfType(beat, "moveCameraMan");
+            foreach (RiqEntity entity in EventCaller.GetAllInGameManagerList("freezeFrame", new string[] { "neoMoveCameraMan", "moveCameraMan", "rotateCameraMan", "scaleCameraMan" }).OrderBy(en => en.beat).Where(en => en.beat <= beat))
+            {
+                switch (entity.datamodel)
+                {
+                    case "freezeFrame/moveCameraMan":
+                        SetMoveCameraMan_OLD(entity.beat, entity.length, entity["startPosX"], entity["startPosY"], entity["endPosX"], entity["endPosY"], entity["ease"]);
+                        break;
+                    case "freezeFrame/rotateCameraMan":
+                        FreezeFrame.SetRotateCameraMan_OLD(entity.beat, entity.length, entity["startRot"], entity["endRot"], entity["ease"]);
+                        break;
+                    case "freezeFrame/scaleCameraMan":
+                        SetScaleCameraMan_OLD(entity.beat, entity.length, entity["startSizeX"], entity["startSizeY"], entity["endSizeX"], entity["endSizeY"], entity["ease"]);
+                        break;
+                    case "freezeFrame/neoMoveCameraMan":
+                    default:
+                        SetMoveCameraMan(entity);
+                        break;
+                }
+            }
+            // Deprecated:
+            /*e = GetLastEntityOfType(beat, "moveCameraMan");
             if (e is not null)
             {
-                SetMoveCameraMan(e.beat, e.length, e["startPosX"], e["startPosY"], e["endPosX"], e["endPosY"], e["ease"]);
+                SetMoveCameraMan_OLD(e.beat, e.length, e["startPosX"], e["startPosY"], e["endPosX"], e["endPosY"], e["ease"]);
             }
             e = GetLastEntityOfType(beat, "rotateCameraMan");
             if (e is not null)
             {
-                SetRotateCameraMan(e.beat, e.length, e["startRot"], e["endRot"], e["ease"]);
+                SetRotateCameraMan_OLD(e.beat, e.length, e["startRot"], e["endRot"], e["ease"]);
             }
             e = GetLastEntityOfType(beat, "scaleCameraMan");
             if (e is not null)
             {
-                SetScaleCameraMan(e.beat, e.length, e["startSizeX"], e["startSizeY"], e["endSizeX"], e["endSizeY"], e["ease"]);
-            }
+                SetScaleCameraMan_OLD(e.beat, e.length, e["startSizeX"], e["startSizeY"], e["endSizeX"], e["endSizeY"], e["ease"]);
+            }*/
 
             // cues
             eList = GetCurrentlyActiveEntities(beat, new string[] { "slowCar", "fastCar" });
@@ -531,40 +624,23 @@ namespace HeavenStudio.Games
                     
                     if (entity.datamodel == "freezeFrame/slowCar")
                     {
-                        SlowCarCue(entity.beat, entity["variant"], true);
+                        SlowCarCue(entity.beat, entity["variant"], true, entity["clear"]);
                     }
                     if (entity.datamodel == "freezeFrame/fastCar")
                     {
-                        FastCarCue(entity.beat, entity["variant"], true);
+                        FastCarCue(entity.beat, entity["variant"], true, entity["clear"]);
                     }
                 }
             }
-            //if (QueuedCues.Count > 0)
-            //{
-            //    QueuedCues.RemoveAll(e => e.beat < beat - 2);
-            //    foreach (RiqEntity cue in QueuedCues)
-            //    {
-            //        if (cue.datamodel == "freezeFrame/slowCar")
-            //        {
-            //            SlowCarCue(cue.beat, cue["variant"], true);
-            //            continue;
-            //        }
-            //        if (cue.datamodel == "freezeFrame/fastCar")
-            //        {
-            //            FastCarCue(cue.beat, cue["variant"], true);
-            //        }
-            //    }
-            //}
         }
 
         // CUE FUNCTIONS
         public static void SetBopping(double beat, float length, bool bop, bool autoBop, bool blink, bool autoBlink, double currentBeat = -1)
         {
             if (Instance == null) return;
-            
+
             Instance.DoAutoBop = autoBop;
             Instance.DoAutoCrosshairBlink = autoBlink;
-            
 
             if (bop || blink)
             {
@@ -580,7 +656,7 @@ namespace HeavenStudio.Games
                 BeatAction.New(Instance, actions);
             }
         }
-        public static void SlowCarCue(double beat, int photoType, bool mute = false)
+        public static void SlowCarCue(double beat, int photoType, bool mute = false, bool clear = false)
         {
             if (!mute) SlowCarSFX();
 
@@ -588,14 +664,14 @@ namespace HeavenStudio.Games
 
             Instance.EventArgs.Add(
                 Instance.ScheduleInput(beat, 2f, InputAction_BasicPress, Instance.PhotoSuccess, Instance.PhotoMiss, Instance.PhotoEmpty),
-                new PhotoArgs(CarType.SlowCar, (PhotoType)photoType, 0f)
+                new PhotoArgs(CarType.SlowCar, (PhotoType)photoType, 0f, clear)
             );
         }
         public static void SlowCarSFX()
         {
             SoundByte.PlayOneShotGame("freezeFrame/slowCarFar", forcePlay: true);
         }
-        public static void FastCarCue(double beat, int photoType, bool mute = false)
+        public static void FastCarCue(double beat, int photoType, bool mute = false, bool clear = false)
         {
             if (!mute) FastCarSFX();
 
@@ -603,7 +679,7 @@ namespace HeavenStudio.Games
 
             Instance.EventArgs.Add(
                 Instance.ScheduleInput(beat, 2f, InputAction_BasicPress, Instance.PhotoSuccess, Instance.PhotoMiss, Instance.PhotoEmpty),
-                new PhotoArgs(CarType.FastCar, (PhotoType)photoType, 0f)
+                new PhotoArgs(CarType.FastCar, (PhotoType)photoType, 0f, clear)
             );
             SoundByte.PlayOneShotGame("freezeFrame/fastCarNear", beat + 2);
         }
@@ -718,9 +794,9 @@ namespace HeavenStudio.Games
         }
         public static void ClearPhotos()
         {
-            PhotoList.Clear();
+            PhotoList?.Clear();
         }
-        public static void SummonWalker(RiqEntity e/*double beat, double length, int walkerType, int direction, int layer = 0*/)
+        public static void SummonWalker(RiqEntity e)
         {
             if (Instance == null) return;
 
@@ -748,11 +824,6 @@ namespace HeavenStudio.Games
                     break;
             }
 
-            /*if (direction == (int)PersonDirection.Random)
-            {
-                int seed = BitConverter.ToInt32(BitConverter.GetBytes((float)beat));
-                direction = new System.Random(seed).Next(1, 3);
-            }*/
             if (direction == PersonDirection.Random)
             {
                 if (WalkerDirections.ContainsKey(e))
@@ -760,7 +831,7 @@ namespace HeavenStudio.Games
                 else
                     direction = PersonDirection.Right;
             }
-            
+
             if (direction == PersonDirection.Left)
                 Instance.Walkers.Add(new WalkerArgs(animator, beat, length, "EnterLeft"));
             else
@@ -786,17 +857,17 @@ namespace HeavenStudio.Games
             
             if (customCrowd)
             {
-                Instance.CrowdFarLeft.sprite  = Instance.CrowdSprites[crowdFarLeft];
-                Instance.CrowdLeft.sprite     = Instance.CrowdSprites[crowdLeft];
-                Instance.CrowdRight.sprite    = Instance.CrowdSprites[crowdRight];
-                Instance.CrowdFarRight.sprite = Instance.CrowdSprites[crowdFarRight];
+                Instance.CrowdFarLeft.sprite  = Instance.GetCrowdSprite(crowdFarLeft);
+                Instance.CrowdLeft.sprite     = Instance.GetCrowdSprite(crowdLeft);
+                Instance.CrowdRight.sprite    = Instance.GetCrowdSprite(crowdRight);
+                Instance.CrowdFarRight.sprite = Instance.GetCrowdSprite(crowdFarRight);
             }
             else
             {
-                Instance.CrowdFarLeft.sprite  = Instance.CrowdSprites[2];
-                Instance.CrowdLeft.sprite     = Instance.CrowdSprites[1];
-                Instance.CrowdRight.sprite    = Instance.CrowdSprites[0];
-                Instance.CrowdFarRight.sprite = Instance.CrowdSprites[2];
+                Instance.CrowdFarLeft.sprite  = Instance.GetCrowdSprite(2);
+                Instance.CrowdLeft.sprite     = Instance.GetCrowdSprite(1);
+                Instance.CrowdRight.sprite    = Instance.GetCrowdSprite(0);
+                Instance.CrowdFarRight.sprite = Instance.GetCrowdSprite(2);
             }
 
             Instance.ShowBillboard = billboard;
@@ -830,9 +901,9 @@ namespace HeavenStudio.Games
         {
             if (!lightsOn)
                 return;
-            
-            SoundByte.PlayOneShotGame("freezeFrame/beginningSignal1", forcePlay: true);
+
             MultiSound.Play(new MultiSound.Sound[] {
+                new MultiSound.Sound("freezeFrame/beginningSignal1", beat),
                 new MultiSound.Sound("freezeFrame/beginningSignal1", beat + length),
                 new MultiSound.Sound("freezeFrame/beginningSignal2", beat + (length * 2)),
             }, forcePlay: true);
@@ -843,7 +914,22 @@ namespace HeavenStudio.Games
             Instance.ShowCameraMan = showCameraMan;
             Instance.OverlayFollowCamera = followCamera;
         }
-        public static void SetMoveCameraMan(double beat, double length, float startX, float startY, float endX, float endY, int easeIndex)
+        public static void SetMoveCameraMan(RiqEntity e)
+        {
+            if ((bool)e["doMove"])
+            {
+                SetMoveCameraMan_OLD(e.beat, e.length, e["startMoveX"], e["startMoveY"], e["endMoveX"], e["endMoveY"], e["ease"]);
+            }
+            if ((bool)e["doRotate"])
+            {
+                SetRotateCameraMan_OLD(e.beat, e.length, e["startRotDegrees"], e["endRotDegrees"], e["ease"]);
+            }
+            if ((bool)e["doScale"])
+            {
+                SetScaleCameraMan_OLD(e.beat, e.length, e["startScaleX"], e["startScaleY"], e["endScaleX"], e["endScaleY"], e["ease"]);
+            }
+        }
+        public static void SetMoveCameraMan_OLD(double beat, double length, float startX, float startY, float endX, float endY, int easeIndex)
         {
             Instance.CurrentCameraManMoveArgs = new(
                 beat,
@@ -854,7 +940,7 @@ namespace HeavenStudio.Games
             );
             Instance.CameraManMoving = true;
         }
-        public static void SetRotateCameraMan(double beat, double length, float startRot, float endRot, int easeIndex)
+        public static void SetRotateCameraMan_OLD(double beat, double length, float startRot, float endRot, int easeIndex)
         {
             Instance.CurrentCameraManRotateArgs = new(
                 beat,
@@ -865,7 +951,7 @@ namespace HeavenStudio.Games
             );
             Instance.CameraManRotating = true;
         }
-        public static void SetScaleCameraMan(double beat, double length, float startX, float startY, float endX, float endY, int easeIndex)
+        public static void SetScaleCameraMan_OLD(double beat, double length, float startX, float startY, float endX, float endY, int easeIndex)
         {
             Instance.CurrentCameraManScaleArgs = new(
                 beat,
@@ -878,7 +964,30 @@ namespace HeavenStudio.Games
         }
 
         // PRE-FUNCTIONS
-        public void SpawnCar(SpawnCarArgs args)
+        public void SpawnCar(double beat, bool near, string animName, float length)
+        {
+            if (near)
+            {
+                if (NearCarPrefab == null || NearCarSpawn == null)
+                {
+                    Debug.LogError($"Failed to spawn car at beat {beat - 1}.");
+                    return;
+                }
+
+                Instantiate(NearCarPrefab, NearCarSpawn).GetComponent<Car>().Setup(beat, animName, length);;
+            }
+            else
+            {
+                if (FarCarPrefab == null || FarCarSpawn == null)
+                {
+                    Debug.LogError($"Failed to spawn car at beat {beat - 1}.");
+                    return;
+                }
+
+                Instantiate(FarCarPrefab, FarCarSpawn).GetComponent<Car>().Setup(beat, animName, length);;
+            }
+        }
+        /*public void SpawnCar(SpawnCarArgs args)
         {
             if (args.Near)
             {
@@ -914,7 +1023,7 @@ namespace HeavenStudio.Games
 
                 //BeatAction.New(Instance, new List<BeatAction.Action>() { new BeatAction.Action(args.Beat + 8, delegate { Destroy(car); }) });
             }
-        }
+        }*/
         /*public void SpawnSlowCarNear(double beat)
         {
             if (NearCarSpawn == null) return;
@@ -1030,8 +1139,9 @@ namespace HeavenStudio.Games
         }
         public void PushPhoto(PhotoArgs args)
         {
-            //while (PhotoList.Count >= MAX_PHOTOS)
-            //    PhotoList.RemoveAt(0);
+            if (args.ClearPhotos)
+                ClearPhotos();
+
             if (args.PhotoType == PhotoType.Random)
             {
                 if (UnityEngine.Random.Range(0, 8) >= 7)
@@ -1071,18 +1181,19 @@ namespace HeavenStudio.Games
             else
                 CameraMan.DoScaledAnimationAsync("Idle", 0.5f);
         }
-        /*public static void QueueCue(RiqEntity e)
+        public Sprite GetCrowdSprite(int i)
         {
-            if (e.datamodel == "freezeFrame/slowCar")
+            if (CrowdSprites.Length <= 0)
             {
-                SoundByte.PlayOneShotGame("freezeFrame/smallCarZoom1a", forcePlay: true);
+                Debug.LogError("Error from Freeze Frame: CrowdSprites was empty.");
+                return null;
             }
-            if (e.datamodel == "freezeFrame/fastCar")
+            else
             {
-                SoundByte.PlayOneShotGame("freezeFrame/fastCarZoom", forcePlay: true);
+                // just looping back thru the array jic there's an invalid index
+                return CrowdSprites[i % CrowdSprites.Length];
             }
-            QueuedCues.Add(e);
-        }*/
+        }
         public void CalculateAutoShowPhotos()
         {
             List<RiqEntity> allCars = EventCaller.GetAllInGameManagerList("freezeFrame", new string[] { "slowCar", "fastCar" });
@@ -1121,14 +1232,20 @@ namespace HeavenStudio.Games
             List<RiqEntity> fastCars = EventCaller.GetAllInGameManagerList("freezeFrame", new string[] { "fastCar" });
             foreach (RiqEntity e in fastCars)
             {
-                QueuedCars.Add(new SpawnCarArgs(e.beat - 0.5, true, false));
-                QueuedCars.Add(new SpawnCarArgs(e.beat + 2 - 0.09375, true, true));
+                BeatAction.New(this, new List<BeatAction.Action>()
+                {
+                    new BeatAction.Action(e.beat - 0.5, delegate { SpawnCar(e.beat - 0.5, false, "FastCarGo", 1); }),
+                    new BeatAction.Action(e.beat + 2 - 0.09375, delegate { SpawnCar(e.beat + 2 - 0.09375, true, "FastCarGo", 3f / 16f); }),
+                });
             }
 
             List<RiqEntity> slowCars = EventCaller.GetAllInGameManagerList("freezeFrame", new string[] { "slowCar" });
             foreach (RiqEntity e in slowCars)
             {
-                QueuedCars.Add(new SpawnCarArgs(e.beat + 2 - 0.16666666666666666666666666666667, false, true));
+                BeatAction.New(this, new List<BeatAction.Action>()
+                {
+                    new BeatAction.Action(e.beat + 2 - 0.16666666666666666666666666666667, delegate { SpawnCar(e.beat + 2 - 0.16666666666666666666666666666667, true, "SlowCarGo", 1f / 3f); })
+                });
             }
 
             List<List<double>> clusters = new();
@@ -1151,10 +1268,10 @@ namespace HeavenStudio.Games
                     double diff = midBeat - beat;
                     double modifiedBeat = midBeat + (diff / 4);
 
-                    //BeatAction.New(Instance, new List<BeatAction.Action>(){
-                    //    new BeatAction.Action(modifiedBeat - 4, delegate { SpawnSlowCarFar(modifiedBeat - 4); } )
-                    //});
-                    QueuedCars.Add(new SpawnCarArgs(modifiedBeat - 4, false, false));
+                    BeatAction.New(this, new List<BeatAction.Action>()
+                    {
+                        new BeatAction.Action(modifiedBeat - 4, delegate { SpawnCar(modifiedBeat - 4, false, "SlowCarGo", 3f); })
+                    });
                 }
             }
         }
@@ -1186,7 +1303,6 @@ namespace HeavenStudio.Games
             {
                 WalkerDirections.Remove(key);
             }
-            Debug.Log($"Walker Count: {WalkerDirections.Count}");
         }
         public void CarbageCollection()
         {
@@ -1228,19 +1344,6 @@ namespace HeavenStudio.Games
             }
             return result;
         }
-        /*protected static System.Random GetSeededRandom(float? mulch = null) // i just made this term up i have no idea if it has any basis in actual programming
-        {
-            if (SuperSeed is null)
-                SuperSeed = new System.Random().Next();
-            
-            if (mulch is not null)
-            {
-                int seed = BitConverter.ToInt32(BitConverter.GetBytes(mulch.Value));
-                return new System.Random(SuperSeed.Value * seed);
-            }
-
-            return new System.Random(SuperSeed.Value);
-        }*/
 
         // ENUMS
         public enum CarType : int
@@ -1295,12 +1398,14 @@ namespace HeavenStudio.Games
             public CarType Car;
             public PhotoType PhotoType;
             public float State;
+            public bool ClearPhotos;
 
-            public PhotoArgs(CarType car, PhotoType photoType, float state)
+            public PhotoArgs(CarType car, PhotoType photoType, float state, bool clear)
             {
                 Car = car;
                 PhotoType = photoType;
                 State = state;
+                ClearPhotos = clear;
             }
         }
         public struct WalkerArgs
@@ -1384,18 +1489,7 @@ namespace HeavenStudio.Games
                 Ease = ease;
             }
         }
-        public struct SpawnCarArgs
-        {
-            public double Beat;
-            public bool Near;
-            public bool Fast;
-
-            public SpawnCarArgs(double beat, bool fast, bool near)
-            {
-                Beat = beat;
-                Near = near;
-                Fast = fast;
-            }
-        }
     }
 }
+
+// This minigame ported by Yin. ☆
