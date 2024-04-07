@@ -25,13 +25,13 @@ namespace XPostProcessing
         [Range(0.05f, 5.0f)]
         public FloatParameter edgeWidth = new FloatParameter { value = 0.3f };
 
-        [ColorUsageAttribute(true, true, 0f, 20f, 0.125f, 3f)]
+        [ColorUsageAttribute(true, true)    /*replaced deprecated "ColorUsageAttribute(true, true, 0f, 20f, 0.125f, 3f)" - Marc*/]
         public ColorParameter edgeColor = new ColorParameter { value = new Color(0.0f, 0.0f, 0.0f, 1) };
 
         [Range(0.0f, 1.0f)]
         public FloatParameter backgroundFade = new FloatParameter { value = 1f };
 
-        [ColorUsageAttribute(true, true, 0f, 20f, 0.125f, 3f)]
+        [ColorUsageAttribute(true, true)    /*replaced deprecated "ColorUsageAttribute(true, true, 0f, 20f, 0.125f, 3f)" - Marc*/]
         public ColorParameter backgroundColor = new ColorParameter { value = new Color(1.0f, 1.0f, 1.0f, 1) };
     }
 

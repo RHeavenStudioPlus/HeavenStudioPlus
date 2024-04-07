@@ -29,7 +29,7 @@ namespace XPostProcessing
         [Range(0.0f, 1.0f)]
         public FloatParameter sizeOffset = new FloatParameter { value = 0.2f };
 
-        [ColorUsageAttribute(true, true, 0f, 20f, 0.125f, 3f)]
+        [ColorUsageAttribute(true, true)    /*replaced deprecated "ColorUsageAttribute(true, true, 0f, 20f, 0.125f, 3f)" - Marc*/]
         public ColorParameter vignetteColor = new ColorParameter { value = new Color(0.1f, 0.8f, 1.0f) };
     }
 

@@ -225,7 +225,7 @@ namespace HeavenStudio.Games
         private static int wantKamoneType = (int)KamoneResponseType.Through;
         private static bool wantKamoneAlt = false;
         private static double wantBigReady = double.MinValue;
-        private bool hasJumped = false;
+        //private bool hasJumped = false;    Unused value - Marc
         private bool noJudgement = false;
         private bool noJudgementInput = false;
 
@@ -392,7 +392,7 @@ namespace HeavenStudio.Games
             float IDOL_SHADOW_SCALE = 1.18f;
             if (conductor.unswungSongPositionInBeatsAsDouble >= idolJumpStartTime && conductor.unswungSongPositionInBeatsAsDouble < idolJumpStartTime + 1f)
             {
-                hasJumped = true;
+                //hasJumped = true;    Unused value - Marc
                 float yMul = jumpPos * 2f - 1f;
                 float yWeight = -(yMul * yMul) + 1f;
                 ArisaRootMotion.transform.localPosition = new Vector3(0, 2f * yWeight + 0.25f);

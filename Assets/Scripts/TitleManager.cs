@@ -58,7 +58,7 @@ namespace HeavenStudio
         [SerializeField] private RectTransform selectedDisplayRect;
         [SerializeField] private GameObject selectedDisplayIcon;
         [SerializeField] private GameObject[] otherHiddenOnMouse;
-        static bool firstBoot = true;
+        //static bool firstBoot = true;    Unused value - Marc
 
         private AudioSource musicSource;
 
@@ -160,7 +160,7 @@ namespace HeavenStudio
 
                             if (lastController != nextController)// && !firstBoot)
                             {
-                                firstBoot = false;
+                                //firstBoot = false;    Unused value - Marc
                                 if (nextController == null)
                                 {
                                     Debug.Log("invalid controller, using keyboard");

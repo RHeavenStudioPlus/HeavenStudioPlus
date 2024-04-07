@@ -23,7 +23,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         double lastPunchTime = double.MinValue;
         double lastComboMissTime = double.MinValue;
-        double lastUpperCutTime = double.MinValue;
+        //double lastUpperCutTime = double.MinValue;    Unused value - Marc
         public bool inCombo = false;
         public bool lockedInCombo = false;
         public bool comboWaiting = false;

@@ -18,8 +18,8 @@ namespace HeavenStudio.Editor.Track
         public Dictionary<Guid, TimelineEventObj> EntityMarkers = new();
         public ObjectPool<TimelineEventObj> Pool { get; private set; }
 
-        private int firstMarkerToCareAbout = 0;
-        private int lastMarkerToCareAbout = 0;
+        //private int firstMarkerToCareAbout = 0;    Unused value - Marc
+        //private int lastMarkerToCareAbout = 0;    Unused value - Marc
         private Timeline timeline;
 
 

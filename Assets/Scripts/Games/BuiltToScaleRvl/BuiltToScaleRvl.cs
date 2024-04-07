@@ -243,7 +243,7 @@ namespace HeavenStudio.Games
                         break;
                     default:
                         throw new System.NotImplementedException();
-                        break;
+                        //break;    Unreachable code - Marc
                 }
 
                 List<CustomBounceItem> bounceItems = CalcRodBounce(evt.beat, evt.length, evt["id"]);
@@ -391,7 +391,7 @@ namespace HeavenStudio.Games
             {
                 int earliestOutTime = (int)Math.Ceiling((firstOut.beat - beat)/length);
                 int current = currentPos, next = nextPos;
-                int outTime;
+                //int outTime;    Unused value - Marc
                 var bounceItemsArray = bounceItems.ToArray();
                 for (int time = 0; ; time++) {
                     if (current is 0 or 3 && time >= earliestOutTime) {

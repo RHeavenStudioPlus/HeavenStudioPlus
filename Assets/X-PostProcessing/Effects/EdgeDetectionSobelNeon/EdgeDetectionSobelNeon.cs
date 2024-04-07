@@ -30,7 +30,7 @@ namespace XPostProcessing
         [Range(0.2f, 2.0f)]
         public FloatParameter Brigtness = new FloatParameter { value = 1f };
 
-        [ColorUsageAttribute(true, true, 0f, 20f, 0.125f, 3f)]
+        [ColorUsageAttribute(true, true)    /*replaced deprecated "ColorUsageAttribute(true, true, 0f, 20f, 0.125f, 3f)" - Marc*/]
         public ColorParameter BackgroundColor = new ColorParameter { value = new Color(0.0f, 0.0f, 0.0f, 1.0f) };
     }
 

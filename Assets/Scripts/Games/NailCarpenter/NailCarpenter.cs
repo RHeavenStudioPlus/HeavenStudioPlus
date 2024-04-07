@@ -125,7 +125,7 @@ namespace HeavenStudio.Games
         public Transform shojiTrans;
 
         private bool missed;
-        private bool hasSlurped;
+        //private bool hasSlurped;    Unused value - Marc
 
         const int IAAltDownCat = IAMAXCAT;
         const int IASweetsCat = IAMAXCAT + 1;
@@ -223,14 +223,14 @@ namespace HeavenStudio.Games
                 ScoreMiss();
                 SoundByte.PlayOneShot("miss");
                 Carpenter.DoScaledAnimationAsync("carpenterHit", 0.25f);
-                hasSlurped = false;
+                //hasSlurped = false;    Unused value - Marc
             }
             if (PlayerInput.GetIsAction(InputAction_AltPress) && !IsExpectingInputNow(InputAction_AltPress))
             {
                 ScoreMiss();
                 SoundByte.PlayOneShot("miss");
                 Carpenter.DoScaledAnimationAsync("carpenterHit", 0.25f);
-                hasSlurped = false;
+                //hasSlurped = false;    Unused value - Marc
             }
 
             // Board scroll.

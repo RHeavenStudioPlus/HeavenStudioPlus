@@ -13,7 +13,7 @@ namespace HeavenStudio.Util
     {
         static GameObject oneShotAudioSourceObject;
         static AudioSource oneShotAudioSource;
-        static int soundIdx = 0;
+        //static int soundIdx = 0;    Unused value - Marc
 
         public static Dictionary<string, AudioClip> audioClips { get; private set; } = new Dictionary<string, AudioClip>();
 

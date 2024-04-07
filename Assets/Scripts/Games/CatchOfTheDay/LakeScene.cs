@@ -39,7 +39,7 @@ namespace HeavenStudio.Games.Scripts_CatchOfTheDay
 
         private double? _CrossfadeStartBeat;
         [SerializeField] GameObject Renderer;
-        private bool _FirstUpdate = false;
+        //private bool _FirstUpdate = false;    Unused value - Marc
 
         [SerializeField] Animator CrossfadeAnimator;
 

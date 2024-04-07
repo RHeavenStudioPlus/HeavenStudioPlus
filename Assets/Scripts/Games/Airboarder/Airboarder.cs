@@ -221,13 +221,13 @@ namespace HeavenStudio.Games
             wantsCrouch = false;
 
             double switchBeat = beat;
-            double startBeat = double.MaxValue;
+            //double startBeat = double.MaxValue;    Unused value - Marc
             double endBeat = double.MaxValue;
             
             var entities = GameManager.instance.Beatmap.Entities;
             //find when the next game switch/remix end happens
             var nextGameSwitches = EventCaller.GetAllInGameManagerList("gameManager", new string[] { "switchGame" }).FindAll(x => x.beat > beat && x.datamodel != "gameManager/switchGame/airboarder");
-            double nextGameSwitchBeat = double.MaxValue;
+            //double nextGameSwitchBeat = double.MaxValue;    Unused value - Marc
 
             //lists arch and wall events
             List<RiqEntity> blockEvents = gameManager.Beatmap.Entities.FindAll(e => e.datamodel is "airboarder/duck" or "airboarder/crouch" or "airboarder/jump" && e.beat >= beat && e.beat < endBeat);

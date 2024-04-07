@@ -111,7 +111,7 @@ namespace HeavenStudio.Games
         static List<double> queuedButton = new();
         
         bool goBeep;
-        bool stopBeep;
+        //bool stopBeep;    Unused value - Marc
         bool keepPressing;
         bool shouldmute;
         bool disableCount;
@@ -126,11 +126,11 @@ namespace HeavenStudio.Games
         [SerializeField] Animator numberAnimator;
 
         [Header("Properties")]
-        private static double startBlippingBeat = double.MaxValue;
+        //private static double startBlippingBeat = double.MaxValue;    Unused value - Marc
 
         [Header("Variables")]
         
-        int pressPlayerCount;
+        //int pressPlayerCount;    Unused value - Marc
         public static double wantButton = double.MinValue;
 
         GameEvent button = new GameEvent();
@@ -174,7 +174,7 @@ namespace HeavenStudio.Games
             {
                 queuedButton.Add(wantButton);
                 keepPressing = true;
-                pressPlayerCount = 0;
+                //pressPlayerCount = 0;    Unused value - Marc
                 wantButton = double.MinValue;
             }
 
@@ -210,7 +210,7 @@ namespace HeavenStudio.Games
 
         public void KeepTheBeep(double beat, float length, bool shouldBeep, bool autoBeep)
         {
-            stopBeep = false;
+            //stopBeep = false;    Unused value - Marc
             if (!shouldBeep) { goBeep = false; return;}
             goBeep = autoBeep;
             if (shouldBeep)
