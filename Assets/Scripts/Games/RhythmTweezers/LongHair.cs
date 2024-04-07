@@ -43,7 +43,7 @@ namespace HeavenStudio.Games.Scripts_RhythmTweezers
                 var hairDirection = new Vector3(tst.x + 0.173f, tst.y) - holder.transform.position;
                 holder.transform.rotation = Quaternion.FromToRotation(Vector3.down, hairDirection);
 
-                float normalizedBeat = Conductor.instance.GetPositionFromBeat(inputBeat, 0.5f);
+                float normalizedBeat = Conductor.instance.GetPositionFromBeat(inputBeat, 0.5f, ignoreSwing: false);
                 anim.Play("LoopPull", 0, normalizedBeat);
                 tweezers.anim.Play("Tweezers_LongPluck", 0, normalizedBeat);
                 if (!game.IsExpectingInputNow(RhythmTweezers.InputAction_Release) && PlayerInput.GetIsAction(RhythmTweezers.InputAction_Release) && normalizedBeat < 1f)
@@ -73,7 +73,7 @@ namespace HeavenStudio.Games.Scripts_RhythmTweezers
 
         public void EndEarly()
         {
-            var normalized = Conductor.instance.GetPositionFromBeat(inputBeat, 0.5f);
+            var normalized = Conductor.instance.GetPositionFromBeat(inputBeat, 0.5f, ignoreSwing: false);
             anim.Play("LoopPullReverse", 0, normalized);
             tweezers.anim.Play("Tweezers_Idle", 0, 0);
 

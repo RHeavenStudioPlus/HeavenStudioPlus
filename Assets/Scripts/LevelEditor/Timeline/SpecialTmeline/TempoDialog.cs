@@ -14,6 +14,9 @@ public class TempoDialog : Dialog
 
     [SerializeField] Button deleteButton;
     [SerializeField] TMP_InputField tempoInput;
+    [SerializeField] TMP_InputField swingInput;
+    [SerializeField] Slider swingSlider;
+    [SerializeField] Toggle swingDivisionToggle;
 
     public void SwitchTempoDialog()
     {
@@ -28,6 +31,9 @@ public class TempoDialog : Dialog
             Editor.instance.inAuthorativeMenu = true;
             ResetAllDialogs();
             dialog.SetActive(true);
+
+            swingSlider.maxValue = 0.25f;
+            swingSlider.minValue = 0;
         }
     }
 
@@ -45,6 +51,10 @@ public class TempoDialog : Dialog
         deleteButton.gameObject.SetActive(!tempoObj.first);
 
         tempoInput.text = tempoObj.chartEntity["tempo"].ToString("F");
+        swingInput.text = (tempoObj.chartEntity["swing"] * 400).ToString("F");
+        swingSlider.value = tempoObj.chartEntity["swing"];
+
+        swingDivisionToggle.isOn = tempoObj.chartEntity["swingDivision"] != 1f;
     }
 
     public void DeleteTempo()
@@ -84,6 +94,35 @@ public class TempoDialog : Dialog
         {
             tempoObj.SetTempo(tempoObj.chartEntity["tempo"] * 0.5f);
             tempoInput.text = tempoObj.chartEntity["tempo"].ToString("F");
+        }
+    }
+
+    public void SwingSliderUpdate()
+    {
+        if (tempoObj != null)
+        {
+            tempoObj.SetSwing(System.MathF.Round(swingSlider.value, 4));
+            swingInput.text = (tempoObj.chartEntity["swing"] * 400).ToString("F");
+            swingSlider.value = tempoObj.chartEntity["swing"];
+        }
+    }
+
+    public void SetSwing()
+    {
+        if (tempoObj != null)
+        {
+            float swing = float.Parse(swingInput.text);
+            tempoObj.SetSwing(swing * 0.25f / 100f);
+            swingInput.text = (tempoObj.chartEntity["swing"] * 400).ToString("F");
+            swingSlider.value = tempoObj.chartEntity["swing"];
+        }
+    }
+
+    public void SwingDivisionToggle()
+    {
+        if (tempoObj != null)
+        {
+            tempoObj.SetSwingDivision(swingDivisionToggle.isOn);
         }
     }
 }

@@ -5,7 +5,6 @@ using UnityEngine;
 
 using Jukebox;
 using HeavenStudio.Util;
-using System.Data.Common;
 
 namespace HeavenStudio
 {
@@ -20,13 +19,15 @@ namespace HeavenStudio
 
         public List<AddedPitchChange> addedPitchChanges = new List<AddedPitchChange>();
 
+        public GameManager gameManager;
+
         // Song beats per minute
         // This is determined by the song you're trying to sync up to
-        public float songBpm;
+        public float songBpm { get; private set; }
 
         // The number of seconds for each song beat
         public float secPerBeat => (float)secPerBeatAsDouble;
-        public double secPerBeatAsDouble;
+        public double secPerBeatAsDouble { get; private set; }
 
         // The number of seconds for each song beat, inversely scaled to song pitch (higer pitch = shorter time)
         public float pitchedSecPerBeat => (float)pitchedSecPerBeatAsDouble;
@@ -38,9 +39,11 @@ namespace HeavenStudio
         public double songPositionAsDouble => songPos;
 
         // Current song position, in beats
-        public double songPosBeat; // for Conductor use only
-        public float songPositionInBeats => (float)songPosBeat;
-        public double songPositionInBeatsAsDouble => songPosBeat;
+        public double songPosBeat { get; private set; }
+        public float songPositionInBeats => (float)songPositionInBeatsAsDouble;
+        public double songPositionInBeatsAsDouble { get; private set; }
+        public float unswungSongPositionInBeats => (float)songPosBeat;
+        public double unswungSongPositionInBeatsAsDouble => songPosBeat;
 
         // Current time of the song
         private double time;
@@ -79,7 +82,7 @@ namespace HeavenStudio
 
         // Metronome tick sound enabled
         public bool metronome = false;
-        Util.Sound metronomeSound;
+        Util.MultiSound metronomeSound;
         private int _metronomeTally = 0;
 
         // pitch values
@@ -93,12 +96,14 @@ namespace HeavenStudio
         private float timelineVolume = 1f;
         private float minigameVolume = 1f;
 
-        public void SetTimelinePitch(float pitch)
+        const bool doPitchResync = true;
+
+        public void SetTimelinePitch(float pitch, bool resync = false)
         {
-            if (isPaused) return;
+            if (isPaused || deferTimeKeeping) return;
             if (pitch != 0 && pitch != timelinePitch)
             {
-                Debug.Log("added pitch change " + pitch * minigamePitch + " at" + absTime);
+                // Debug.Log("added pitch change " + pitch * minigamePitch + " at " + absTime);
                 addedPitchChanges.Add(new AddedPitchChange { time = absTime, pitch = pitch * minigamePitch });
             }
 
@@ -106,15 +111,22 @@ namespace HeavenStudio
             if (musicSource != null && musicSource.clip != null)
             {
                 musicSource.pitch = SongPitch;
+                if (doPitchResync && isPlaying && resync && !deferTimeKeeping)
+                {
+                    time = MapTimeToPitchChanges(absTime + absTimeAdjust);
+                    songPos = startPos + time;
+                    songPosBeat = GetBeatFromSongPos(songPos);
+                    SeekMusicToTime(songPos, firstBeatOffset);
+                }
             }
         }
 
-        public void SetMinigamePitch(float pitch)
+        public void SetMinigamePitch(float pitch, bool resync = false)
         {
-            if (isPaused || !isPlaying) return;
+            if (isPaused || deferTimeKeeping || !isPlaying) return;
             if (pitch != 0 && pitch != minigamePitch)
             {
-                Debug.Log("added pitch change " + pitch * timelinePitch + " at" + absTime);
+                // Debug.Log("added pitch change " + pitch * timelinePitch + " at " + absTime);
                 addedPitchChanges.Add(new AddedPitchChange { time = absTime, pitch = pitch * timelinePitch });
             }
 
@@ -122,6 +134,13 @@ namespace HeavenStudio
             if (musicSource != null && musicSource.clip != null)
             {
                 musicSource.pitch = SongPitch;
+                if (doPitchResync && isPlaying && resync && !deferTimeKeeping)
+                {
+                    time = MapTimeToPitchChanges(absTime + absTimeAdjust);
+                    songPos = startPos + time;
+                    songPosBeat = GetBeatFromSongPos(songPos);
+                    SeekMusicToTime(songPos, firstBeatOffset);
+                }
             }
         }
 
@@ -141,11 +160,9 @@ namespace HeavenStudio
 
         public void SetBeat(double beat)
         {
-            var chart = GameManager.instance.Beatmap;
+            var chart = gameManager.Beatmap;
             double offset = chart.data.offset;
             startPos = GetSongPosFromBeat(beat);
-
-            double dspTime = AudioSettings.dspTime;
 
             time = startPos;
             firstBeatOffset = offset;
@@ -154,13 +171,15 @@ namespace HeavenStudio
 
             songPosBeat = GetBeatFromSongPos(time);
 
-            GameManager.instance.SetCurrentEventToClosest(beat);
+            gameManager.SetCurrentEventToClosest(beat);
         }
 
         public void PlaySetup(double beat)
         {
             deferTimeKeeping = true;
             songPosBeat = beat;
+            absTime = 0;
+            startTime = DateTime.Now;
         }
 
         public void Play(double beat)
@@ -183,7 +202,7 @@ namespace HeavenStudio
                 SetMinigameVolume(1f);
             }
 
-            RiqBeatmap chart = GameManager.instance.Beatmap;
+            RiqBeatmap chart = gameManager.Beatmap;
             double offset = chart.data.offset;
             double dspTime = AudioSettings.dspTime;
             dspStart = dspTime;
@@ -215,6 +234,7 @@ namespace HeavenStudio
             _metronomeTally = 0;
 
             startTime = DateTime.Now;
+            absTime = 0;
             absTimeAdjust = 0;
             deferTimeKeeping = musicSource.clip != null;
 
@@ -232,7 +252,8 @@ namespace HeavenStudio
             {
                 deferTimeKeeping = false;
                 // Debug.Log($"dsptime: {dsp}, deferred timekeeping for {DateTime.Now - startTime} seconds (delta dsp {dsp - dspStart})");
-                startTime += TimeSpan.FromSeconds(dsp - dspStart);
+                startTime = DateTime.Now;
+                absTime = 0;
                 absTimeAdjust = 0;
                 dspStart = dsp;
             }
@@ -243,8 +264,8 @@ namespace HeavenStudio
             if (!isPlaying) return;
             isPlaying = false;
             isPaused = true;
-            deferTimeKeeping = false;
             SetMinigamePitch(1f);
+            deferTimeKeeping = false;
 
             musicSource.Stop();
             Util.SoundByte.PauseOneShots();
@@ -265,8 +286,8 @@ namespace HeavenStudio
 
             isPlaying = false;
             isPaused = false;
-            deferTimeKeeping = false;
             SetMinigamePitch(1f);
+            deferTimeKeeping = false;
 
             musicSource.Stop();
         }
@@ -391,6 +412,7 @@ namespace HeavenStudio
 
                 songPos = startPos + time;
                 songPosBeat = GetBeatFromSongPos(songPos);
+                songPositionInBeatsAsDouble = GetSwungBeat(songPosBeat);
             }
         }
 
@@ -422,7 +444,14 @@ namespace HeavenStudio
             {
                 if (songPositionInBeatsAsDouble >= Math.Ceiling(startBeat) + _metronomeTally)
                 {
-                    if (metronome) metronomeSound = Util.SoundByte.PlayOneShot("metronome", Math.Ceiling(startBeat) + _metronomeTally);
+                    // if (metronome) metronomeSound = Util.SoundByte.PlayOneShot("metronome", Math.Ceiling(startBeat) + _metronomeTally);
+                    if (metronome)
+                    {
+                        metronomeSound = Util.MultiSound.Play(new List<Util.MultiSound.Sound> {
+                            new Util.MultiSound.Sound("metronome", Math.Ceiling(startBeat) + _metronomeTally),
+                            new Util.MultiSound.Sound("metronome", Math.Ceiling(startBeat) + _metronomeTally + 0.5, 1.5f, 0.5f)
+                        }, false, true);
+                    }
                     _metronomeTally++;
                 }
             }
@@ -430,7 +459,7 @@ namespace HeavenStudio
             {
                 if (metronomeSound != null)
                 {
-                    metronomeSound.Stop();
+                    // metronomeSound.StopAll();
                     metronomeSound = null;
                 }
             }
@@ -451,9 +480,9 @@ namespace HeavenStudio
             return result;
         }
 
-        public float GetLoopPositionFromBeat(float beatOffset, float length, bool beatClamp = true)
+        public float GetLoopPositionFromBeat(float beatOffset, float length, bool beatClamp = true, bool ignoreSwing = true)
         {
-            float beat = songPositionInBeats;
+            float beat = ignoreSwing ? unswungSongPositionInBeats : songPositionInBeats;
             if (beatClamp)
             {
                 beat = Mathf.Max(beat, 0);
@@ -461,9 +490,9 @@ namespace HeavenStudio
             return Mathf.Repeat((beat / length) + beatOffset, 1);
         }
 
-        public float GetPositionFromBeat(double startBeat, double length, bool beatClamp = true)
+        public float GetPositionFromBeat(double startBeat, double length, bool beatClamp = true, bool ignoreSwing = true)
         {
-            float beat = songPositionInBeats;
+            float beat = ignoreSwing ? unswungSongPositionInBeats : songPositionInBeats;
             if (beatClamp)
             {
                 beat = Mathf.Max(beat, 0);
@@ -474,70 +503,112 @@ namespace HeavenStudio
 
         private List<RiqEntity> GetSortedTempoChanges()
         {
-            GameManager.instance.SortEventsList();
-            return GameManager.instance.Beatmap.TempoChanges;
+            gameManager.SortEventsList();
+            return gameManager.Beatmap.TempoChanges;
         }
 
-        public float GetBpmAtBeat(double beat, out float swingRatio)
+        public float GetBpmAtBeat(double beat, out float swingRatio, out float swingDivision)
         {
             swingRatio = 0.5f;
-            var chart = GameManager.instance.Beatmap;
+            swingDivision = 1f;
+            var chart = gameManager.Beatmap;
             if (chart.TempoChanges.Count == 0)
                 return 120f;
-            float bpm = chart.TempoChanges[0]["tempo"];
-            swingRatio = chart.TempoChanges[0]["swing"] + 0.5f;
 
+            RiqEntity tempo = null;
             foreach (RiqEntity t in chart.TempoChanges)
             {
                 if (t.beat > beat)
                 {
                     break;
                 }
-                bpm = t["tempo"];
-                swingRatio = t["swing"] + 0.5f;
+                tempo = t;
             }
-
-            return bpm;
+            tempo ??= chart.TempoChanges[0];
+            swingRatio = tempo["swing"] + 0.5f;
+            swingDivision = tempo["swingDivision"] ?? 1f;
+            return tempo["tempo"];
         }
 
         public float GetBpmAtBeat(double beat)
         {
-            return GetBpmAtBeat(beat, out _);
+            return GetBpmAtBeat(beat, out _, out _);
         }
 
-        public float GetSwingRatioAtBeat(double beat)
+        public float GetSwingRatioAtBeat(double beat, out float swingDivision)
         {
             float swingRatio;
-            GetBpmAtBeat(beat, out swingRatio);
+            GetBpmAtBeat(beat, out swingRatio, out swingDivision);
             return swingRatio;
         }
 
-        public double GetSwungBeat(double beat, float ratio)
+        public double GetSwungBeat(double beat)
         {
-            return beat + GetSwingOffset(beat, ratio);
+            float ratio = GetSwingRatioAtBeat(beat, out float division);
+            int floor = (int)Math.Floor(beat / division);
+
+            return (floor * division) + GetSwingOffset(beat, ratio, division);
         }
 
-        public double GetSwingOffset(double beatFrac, float ratio)
+        public double GetSwungBeat(double beat, float ratio, float division)
         {
-            beatFrac %= 1;
-            if (beatFrac <= 0.5)
+            int floor = (int)Math.Floor(beat / division);
+            return (floor * division) + GetSwingOffset(beat, ratio, division);
+        }
+
+        public double GetSwingOffset(double beatFrac, float ratio, float division)
+        {
+            beatFrac %= division;
+            if (beatFrac <= ratio)
             {
                 return 0.5 / ratio * beatFrac;
             }
             else
             {
-                return 0.5 + (0.5 / (1f - ratio) * (beatFrac - ratio));
+                return 0.5 + 0.5 / (1 - ratio) * (beatFrac - ratio);
             }
         }
 
-        public double GetSongPosFromBeat(double beat)
+        public double GetUnSwungBeat(double beat)
         {
-            var chart = GameManager.instance.Beatmap;
+            float ratio = GetSwingRatioAtBeat(beat, out float division);
+            int floor = (int)Math.Floor(beat / division);
+
+            return (floor * division) + GetUnSwingOffset(beat, ratio, division);
+        }
+
+        public double GetUnSwungBeat(double beat, float ratio, float division)
+        {
+            int floor = (int)Math.Floor(beat / division);
+            return (floor * division) + GetUnSwingOffset(beat, ratio, division);
+        }
+
+        public double GetUnSwingOffset(double beatFrac, float ratio, float division)
+        {
+            beatFrac %= division;
+            if (beatFrac <= ratio)
+            {
+                return 2 * ratio * beatFrac;
+            }
+            else
+            {
+                return 2 * (beatFrac - 0.5f) * (1f - ratio) + ratio;
+            }
+        }
+
+        public double GetSongPosFromBeat(double beat, bool ignoreSwing = false)
+        {
+            var chart = gameManager.Beatmap;
             float bpm = 120f;
 
             double counter = 0f;
 
             double lastTempoChangeBeat = 0f;
+
+            if (!ignoreSwing)
+            {
+                beat = GetUnSwungBeat(beat);
+            }
 
             foreach (RiqEntity t in chart.TempoChanges)
             {
@@ -572,7 +643,7 @@ namespace HeavenStudio
             double counterSeconds = 0;
             float lastBpm = 120f;
 
-            foreach (RiqEntity t in GameManager.instance.Beatmap.TempoChanges)
+            foreach (RiqEntity t in gameManager.Beatmap.TempoChanges)
             {
                 double beatToNext = t.beat - lastTempoChangeBeat;
                 double secToNext = BeatsToSecs(beatToNext, lastBpm);

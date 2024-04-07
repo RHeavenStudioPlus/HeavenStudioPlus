@@ -86,11 +86,13 @@ namespace HeavenStudio
             GameObject Conductor = new GameObject();
             Conductor.name = "Conductor";
             AudioSource source = Conductor.AddComponent<AudioSource>();
-            Conductor.AddComponent<Conductor>();
-            Conductor.GetComponent<Conductor>().musicSource = source;
+            Conductor cond = Conductor.AddComponent<Conductor>();
+            cond.musicSource = source;
             source.priority = 255;
             source.outputAudioMixerGroup = Settings.GetMusicMixer();
-            // Conductor.AddComponent<AudioDspTimeKeeper>();
+            cond.gameManager = gameManager;
+
+            gameManager.conductor = cond;
 
             GlobalGameManager.GameRenderTexture = gameRenderTexture;
             GlobalGameManager.OverlayRenderTexture = overlayRenderTexture;

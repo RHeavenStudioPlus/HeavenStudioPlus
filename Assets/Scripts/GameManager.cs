@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BurstLinq;
+
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -87,6 +89,7 @@ namespace HeavenStudio
 
         public static GameManager instance { get; private set; }
         private EventCaller eventCaller;
+        public Conductor conductor;
 
         // average input accuracy (msec)
         List<int> inputOffsetSamples = new List<int>();
@@ -173,9 +176,9 @@ namespace HeavenStudio
             }
 
             SortEventsList();
-            Conductor.instance.SetBpm(Beatmap.TempoChanges[0]["tempo"]);
-            Conductor.instance.SetVolume(Beatmap.VolumeChanges[0]["volume"]);
-            Conductor.instance.firstBeatOffset = Beatmap.data.offset;
+            conductor.SetBpm(Beatmap.TempoChanges[0]["tempo"]);
+            conductor.SetVolume(Beatmap.VolumeChanges[0]["volume"]);
+            conductor.firstBeatOffset = Beatmap.data.offset;
 
             if (!preLoaded)
             {
@@ -233,14 +236,17 @@ namespace HeavenStudio
 
         public void NewRemix()
         {
-            Debug.Log("Creating new remix");
             AudioLoadDone = false;
             Beatmap = new("1", "HeavenStudio");
             Beatmap.data.properties = new(Minigames.propertiesModel);
-            Beatmap.AddNewTempoChange(0, 120f);
+
+            RiqEntity t = Beatmap.AddNewTempoChange(0, 120f);
+            t.CreateProperty("swingDivision", 1f);
+
             Beatmap.AddNewVolumeChange(0, 100f);
+
             Beatmap.data.offset = 0f;
-            Conductor.instance.musicSource.clip = null;
+            conductor.musicSource.clip = null;
             RiqFileHandler.WriteRiq(Beatmap);
             AudioLoadDone = true;
         }
@@ -263,7 +269,7 @@ namespace HeavenStudio
                 catch (System.IO.FileNotFoundException f)
                 {
                     Debug.LogWarning("chart has no music: " + f.Message);
-                    Conductor.instance.musicSource.clip = null;
+                    conductor.musicSource.clip = null;
                     AudioLoadDone = true;
                     yield break;
                 }
@@ -277,7 +283,7 @@ namespace HeavenStudio
                 }
                 yield return current;
             }
-            Conductor.instance.musicSource.clip = RiqFileHandler.StreamedAudioClip;
+            conductor.musicSource.clip = RiqFileHandler.StreamedAudioClip;
             AudioLoadDone = true;
         }
 
@@ -299,9 +305,9 @@ namespace HeavenStudio
             if (!editor)
                 StartCoroutine(LoadMusic());
             SortEventsList();
-            Conductor.instance.SetBpm(Beatmap.TempoChanges[0]["tempo"]);
-            Conductor.instance.SetVolume(Beatmap.VolumeChanges[0]["volume"]);
-            Conductor.instance.firstBeatOffset = Beatmap.data.offset;
+            conductor.SetBpm(Beatmap.TempoChanges[0]["tempo"]);
+            conductor.SetVolume(Beatmap.VolumeChanges[0]["volume"]);
+            conductor.firstBeatOffset = Beatmap.data.offset;
             if (!playMode)
             {
                 Stop(0);
@@ -444,7 +450,7 @@ namespace HeavenStudio
                         var inf = GetGameInfo(gameName);
                         if (inf != null && inf.usesAssetBundle && inf.AssetsLoaded && !inf.SequencesPreloaded)
                         {
-                            Debug.Log($"Preparing game {gameName}");
+                            // Debug.Log($"Preparing game {gameName}");
                             PreloadGameSequences(gameName);
                         }
                         eventCaller.CallPreEvent(entity);
@@ -459,32 +465,31 @@ namespace HeavenStudio
         {
             if (BeatmapEntities() < 1)
                 return;
-            if (!Conductor.instance.isPlaying)
+            if (conductor.WaitingForDsp || !conductor.isPlaying)
                 return;
-            Conductor cond = Conductor.instance;
-            double clampedBeat = Math.Max(cond.songPositionInBeatsAsDouble, 0);
+            double clampedBeat = Math.Max(conductor.songPositionInBeatsAsDouble, 0);
 
             if (currentTempoEvent < Beatmap.TempoChanges.Count && currentTempoEvent >= 0)
             {
-                if (cond.songPositionInBeatsAsDouble >= tempoBeats[currentTempoEvent])
+                if (conductor.songPositionInBeatsAsDouble >= tempoBeats[currentTempoEvent])
                 {
-                    cond.SetBpm(Beatmap.TempoChanges[currentTempoEvent]["tempo"]);
+                    conductor.SetBpm(Beatmap.TempoChanges[currentTempoEvent]["tempo"]);
                     currentTempoEvent++;
                 }
             }
 
             if (currentVolumeEvent < Beatmap.VolumeChanges.Count && currentVolumeEvent >= 0)
             {
-                if (cond.songPositionInBeatsAsDouble >= volumeBeats[currentVolumeEvent])
+                if (conductor.songPositionInBeatsAsDouble >= volumeBeats[currentVolumeEvent])
                 {
-                    cond.SetVolume(Beatmap.VolumeChanges[currentVolumeEvent]["volume"]);
+                    conductor.SetVolume(Beatmap.VolumeChanges[currentVolumeEvent]["volume"]);
                     currentVolumeEvent++;
                 }
             }
 
             if (currentSectionEvent < Beatmap.SectionMarkers.Count && currentSectionEvent >= 0)
             {
-                if (cond.songPositionInBeatsAsDouble >= sectionBeats[currentSectionEvent])
+                if (conductor.songPositionInBeatsAsDouble >= sectionBeats[currentSectionEvent])
                 {
                     RiqEntity marker = Beatmap.SectionMarkers[currentSectionEvent];
                     if (!string.IsNullOrEmpty(marker["sectionName"]))
@@ -526,7 +531,7 @@ namespace HeavenStudio
                 }
             }
 
-            if (cond.songPositionInBeatsAsDouble >= Math.Ceiling(_playStartBeat) + _pulseTally)
+            if (conductor.songPositionInBeatsAsDouble >= Math.Ceiling(_playStartBeat) + _pulseTally)
             {
                 if (minigame != null) minigame.OnBeatPulse(Math.Ceiling(_playStartBeat) + _pulseTally);
                 onBeatPulse?.Invoke(Math.Ceiling(_playStartBeat) + _pulseTally);
@@ -543,7 +548,7 @@ namespace HeavenStudio
                 List<RiqEntity> entitiesInRange = ListPool<RiqEntity>.Get();
                 List<RiqEntity> fxEntities = ListPool<RiqEntity>.Get();
                 // allows for multiple events on the same beat to be executed on the same frame, so no more 1-frame delay
-                while (currentEvent < eventBeats.Count && clampedBeat >= eventBeats[currentEvent] && Conductor.instance.isPlaying)
+                while (currentEvent < eventBeats.Count && clampedBeat >= eventBeats[currentEvent] && this.conductor.isPlaying)
                 {
                     fxEntities.Clear();
                     entitiesInRange.Clear();
@@ -599,9 +604,9 @@ namespace HeavenStudio
             }
             else
             {
-                double currectSectionStart = cond.GetSongPosFromBeat(currentSection.beat);
+                double currectSectionStart = conductor.GetSongPosFromBeat(currentSection.beat);
 
-                SectionProgress = (cond.songPosition - currectSectionStart) / (cond.GetSongPosFromBeat(nextSectionBeat) - currectSectionStart);
+                SectionProgress = (conductor.songPosition - currectSectionStart) / (conductor.GetSongPosFromBeat(nextSectionBeat) - currectSectionStart);
             }
         }
 
@@ -609,10 +614,10 @@ namespace HeavenStudio
         {
             OverlaysManager.instance.TogleOverlaysVisibility(Editor.Editor.instance == null || Editor.Editor.instance.fullscreen || ((PersistentDataManager.gameSettings.overlaysInEditor) && (!Editor.Editor.instance.fullscreen)) || HeavenStudio.Editor.GameSettings.InPreview);
 
-            if (!Conductor.instance.isPlaying)
+            if (!conductor.isPlaying)
                 return;
 
-            if (Conductor.instance.songPositionInBeatsAsDouble >= Math.Ceiling(_playStartBeat) + _latePulseTally)
+            if (conductor.songPositionInBeatsAsDouble >= Math.Ceiling(_playStartBeat) + _latePulseTally)
             {
                 if (minigame != null) minigame.OnLateBeatPulse(Math.Ceiling(_playStartBeat) + _latePulseTally);
                 onBeatPulse?.Invoke(Math.Ceiling(_playStartBeat) + _latePulseTally);
@@ -668,8 +673,7 @@ namespace HeavenStudio
 
         public void Play(double beat, float delay = 0f)
         {
-            bool paused = Conductor.instance.isPaused;
-            Debug.Log("Playing at " + beat);
+            bool paused = conductor.isPaused;
             _playStartBeat = beat;
             _pulseTally = 0;
             _latePulseTally = 0;
@@ -711,14 +715,16 @@ namespace HeavenStudio
 
         private IEnumerator PlayCo(double beat, float delay = 0f)
         {
-            bool paused = Conductor.instance.isPaused;
+            bool paused = conductor.isPaused;
 
             if (!paused)
             {
-                Conductor.instance.SetBpm(Beatmap.TempoChanges[0]["tempo"]);
-                Conductor.instance.SetVolume(Beatmap.VolumeChanges[0]["volume"]);
-                Conductor.instance.firstBeatOffset = Beatmap.data.offset;
+                conductor.SetBpm(Beatmap.TempoChanges[0]["tempo"]);
+                conductor.SetVolume(Beatmap.VolumeChanges[0]["volume"]);
+                conductor.firstBeatOffset = Beatmap.data.offset;
+                conductor.PlaySetup(beat);
                 SetCurrentEventToClosest(beat);
+                Debug.Log("Playing at " + beat);
                 KillAllSounds();
 
                 if (delay > 0)
@@ -726,7 +732,6 @@ namespace HeavenStudio
                     yield return new WaitForSeconds(delay);
                 }
 
-                Conductor.instance.PlaySetup(beat);
                 Minigame miniGame = null;
                 if (minigameObj != null && minigameObj.TryGetComponent<Minigame>(out miniGame))
                 {
@@ -765,21 +770,21 @@ namespace HeavenStudio
                 CircleCursor.LockCursor(true);
             }
             Application.backgroundLoadingPriority = ThreadPriority.Low;
-            Conductor.instance.Play(beat);
+            conductor.Play(beat);
         }
 
         public void Pause()
         {
-            Conductor.instance.Pause();
+            conductor.Pause();
             Util.SoundByte.PauseOneShots();
-            onPause?.Invoke(Conductor.instance.songPositionInBeatsAsDouble);
+            onPause?.Invoke(conductor.songPositionInBeatsAsDouble);
             canInput = false;
         }
 
         public void Stop(double beat, bool restart = false, float restartDelay = 0f)
         {
             // I feel like I should standardize the names
-            if (Conductor.instance.isPlaying)
+            if (conductor.isPlaying)
             {
                 SkillStarManager.instance.KillStar();
                 TimingAccuracyDisplay.instance.StopStarFlash();
@@ -796,8 +801,8 @@ namespace HeavenStudio
                 }
             }
 
-            Conductor.instance.Stop(beat);
-            SetCurrentEventToClosest(beat);
+            conductor.Stop(beat);
+            conductor.SetBeat(beat);
 
             KillAllSounds();
             if (restart)
@@ -816,6 +821,10 @@ namespace HeavenStudio
                 GlobalGameManager.LoadScene("Judgement", 0.35f, 0f, DestroyGame);
                 CircleCursor.LockCursor(false);
             }
+            else
+            {
+                conductor.SetBeat(beat);
+            }
             Application.backgroundLoadingPriority = ThreadPriority.Normal;
         }
 
@@ -830,6 +839,8 @@ namespace HeavenStudio
             SoundByte.PreloadAudioClipAsync("skillStar");
             SoundByte.PreloadAudioClipAsync("perfectMiss");
 
+            conductor.SetBeat(beat);
+
             WaitUntil yieldOverlays = new WaitUntil(() => OverlaysManager.OverlaysReady);
             WaitUntil yieldBeatmap = new WaitUntil(() => Beatmap != null && BeatmapEntities() > 0);
             WaitUntil yieldAudio = new WaitUntil(() => AudioLoadDone || (ChartLoadError && !GlobalGameManager.IsShowingDialog));
@@ -842,16 +853,16 @@ namespace HeavenStudio
             }
 
             // wait for overlays to be ready
-            Debug.Log("waiting for overlays");
+            // Debug.Log("waiting for overlays");
             yield return yieldOverlays;
             // wait for beatmap to be loaded
-            Debug.Log("waiting for beatmap");
+            // Debug.Log("waiting for beatmap");
             yield return yieldBeatmap;
             //wait for audio clip to be loaded
-            Debug.Log("waiting for audio");
+            // Debug.Log("waiting for audio");
             yield return yieldAudio;
             //wait for games to be loaded
-            Debug.Log("waiting for minigames");
+            // Debug.Log("waiting for minigames");
             if (yieldGame != null)
                 yield return yieldGame;
 
@@ -871,7 +882,7 @@ namespace HeavenStudio
 
         public void KillAllSounds()
         {
-            Debug.Log("Killing all sounds");
+            // Debug.Log("Killing all sounds");
             SoundObjects.Clear();
             SoundByte.KillOneShots();
         }
@@ -895,9 +906,10 @@ namespace HeavenStudio
             allGameSwitches = EventCaller.GetAllInGameManagerList("gameManager", new string[] { "switchGame" });
 
             preSequenceBeats = new List<double>();
+            string[] seekEntityDatamodel;
             foreach (RiqEntity entity in Beatmap.Entities)
             {
-                string[] seekEntityDatamodel = entity.datamodel.Split('/');
+                seekEntityDatamodel = entity.datamodel.Split('/');
                 double seekTime = eventCaller.GetGameAction(seekEntityDatamodel[0], seekEntityDatamodel[1]).preFunctionLength;
                 preSequenceBeats.Add(entity.beat - seekTime);
             }
@@ -1023,12 +1035,12 @@ namespace HeavenStudio
                 if (allEnds.Count > 0)
                     endBeat = allEnds.Select(c => c.beat).Min();
                 else
-                    endBeat = Conductor.instance.SongLengthInBeatsAsDouble();
+                    endBeat = conductor.SongLengthInBeatsAsDouble();
             }
             else
             {
                 SetGame("noGame");
-                endBeat = Conductor.instance.SongLengthInBeatsAsDouble();
+                endBeat = conductor.SongLengthInBeatsAsDouble();
             }
 
             if (Beatmap.TempoChanges.Count > 0)
@@ -1112,9 +1124,9 @@ namespace HeavenStudio
                 }
             }
 
-            while (beat + 0.25 > Math.Max(Conductor.instance.songPositionInBeatsAsDouble, 0))
+            while (beat + 0.25 > Math.Max(conductor.songPositionInBeatsAsDouble, 0))
             {
-                if (!Conductor.instance.isPlaying)
+                if (!conductor.isPlaying)
                 {
                     HeavenStudio.StaticCamera.instance.ToggleCanvasVisibility(true);
                     SetAmbientGlowToCurrentMinigameColor();
@@ -1141,7 +1153,7 @@ namespace HeavenStudio
                 this.minigame = minigame;
                 minigame.minigameName = game;
                 minigame.gameManager = this;
-                minigame.conductor = Conductor.instance;
+                minigame.conductor = conductor;
             }
             Vector3 originalScale = minigameObj.transform.localScale;
             minigameObj.transform.parent = eventCaller.GamesHolder.transform;
@@ -1165,7 +1177,7 @@ namespace HeavenStudio
             {
                 if (!(inf.AssetsLoaded || inf.AlreadyLoading))
                 {
-                    Debug.Log($"ASYNC loading assetbundles for game {game}");
+                    // Debug.Log($"ASYNC loading assetbundles for game {game}");
                     inf.LoadAssetsAsync().Forget();
                 }
                 yield return new WaitUntil(() => inf.AssetsLoaded);
@@ -1300,8 +1312,8 @@ namespace HeavenStudio
 
         private bool SongPosLessThanClipLength(float t)
         {
-            if (Conductor.instance.musicSource.clip != null)
-                return Conductor.instance.GetSongPosFromBeat(t) < Conductor.instance.musicSource.clip.length;
+            if (conductor.musicSource.clip != null)
+                return conductor.GetSongPosFromBeat(t) < conductor.musicSource.clip.length;
             else
                 return true;
         }

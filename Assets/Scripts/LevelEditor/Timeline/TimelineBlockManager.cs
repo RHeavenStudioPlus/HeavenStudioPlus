@@ -5,6 +5,7 @@ using UnityEngine.Pool;
 
 using Jukebox;
 using System.Linq;
+using BurstLinq;
 
 namespace HeavenStudio.Editor.Track
 {

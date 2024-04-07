@@ -9,6 +9,7 @@ using TMPro;
 using Jukebox;
 using Newtonsoft.Json;
 using System.Linq;
+using BurstLinq;
 
 using HeavenStudio.Util;
 
@@ -475,7 +476,7 @@ namespace HeavenStudio.Editor.Track
                 if (Conductor.instance.metronome)
                 {
                     var startBeat = Mathf.FloorToInt(Conductor.instance.songPositionInBeats - 0.5f);
-                    var nm = Conductor.instance.GetLoopPositionFromBeat(0.5f, 1f);
+                    var nm = Conductor.instance.GetLoopPositionFromBeat(0.5f, 1f, ignoreSwing: false);
                     var loop = (startBeat % 2 == 0) ? Mathf.SmoothStep(-1.1f, 1f, nm) : Mathf.SmoothStep(1f, -1f, nm);
 
                     rot = loop * 45f;
@@ -630,7 +631,7 @@ namespace HeavenStudio.Editor.Track
         {
             TimelinePlaybackBeat.text = $"Beat {string.Format("{0:0.000}", PlaybackBeat)}";
 
-            if (TimelineSongPosLine != null)
+            if (TimelineSongPosLine != null && !Conductor.instance.WaitingForDsp)
             {
                 TimelineSongPosLine.transform.localPosition = new Vector3(Conductor.instance.songPositionInBeats * PixelsPerBeat, TimelineSongPosLine.transform.localPosition.y);
             }
@@ -655,13 +656,13 @@ namespace HeavenStudio.Editor.Track
             {
                 if (!Conductor.instance.isPlaying)
                 {
-                    if (TimelineSongPosLine == null)
+                    if (Conductor.instance.isPaused)
                     {
-                        Play(false, PlaybackBeat);
+                        Play(false, Conductor.instance.songPositionInBeats);
                     }
                     else
                     {
-                        Play(false, Conductor.instance.songPositionInBeats);
+                        Play(false, PlaybackBeat);
                     }
                 }
                 else if (!Conductor.instance.isPaused)
@@ -673,15 +674,13 @@ namespace HeavenStudio.Editor.Track
 
         public void Play(bool fromStart, float time)
         {
-            // if (fromStart) Stop();
-
+            GameManager.instance.SafePlay(time, 0, false);
             if (!Conductor.instance.isPaused)
             {
                 TimelineSongPosLine = Instantiate(TimelineSongPosLineRef, TimelineSongPosLineRef.parent).GetComponent<RectTransform>();
                 TimelineSongPosLine.gameObject.SetActive(true);
+                TimelineSongPosLine.transform.localPosition = new Vector3(time * PixelsPerBeat, TimelineSongPosLine.transform.localPosition.y);
             }
-
-            GameManager.instance.SafePlay(time, 0, false);
 
             SetTimeButtonColors(false, true, true);
         }

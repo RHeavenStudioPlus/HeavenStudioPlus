@@ -292,7 +292,7 @@ namespace HeavenStudio.Games
             spawnedHairs.Add(hair);
             hair.gameObject.SetActive(true);
             hair.GetComponent<Animator>().Play("SmallAppear", 0, 1);
-            float rot = -58f + 116 * crHandlerInstance.GetIntervalProgressFromBeat(beat, 1);
+            float rot = -58f + 116 * crHandlerInstance.GetIntervalProgressFromBeat(conductor.GetUnSwungBeat(beat), 1);
             hair.transform.eulerAngles = new Vector3(0, 0, rot);
             hair.createBeat = beat;
         }
@@ -305,7 +305,7 @@ namespace HeavenStudio.Games
             spawnedLongs.Add(hair);
             hair.gameObject.SetActive(true);
             hair.GetComponent<Animator>().Play("LongAppear", 0, 1);
-            float rot = -58f + 116 * crHandlerInstance.GetIntervalProgressFromBeat(beat, 1);
+            float rot = -58f + 116 * crHandlerInstance.GetIntervalProgressFromBeat(conductor.GetUnSwungBeat(beat), 1);
             hair.transform.eulerAngles = new Vector3(0, 0, rot);
             hair.createBeat = beat;
         }
@@ -332,7 +332,7 @@ namespace HeavenStudio.Games
                 })
             });
 
-            float rot = -58f + 116 * crHandlerInstance.GetIntervalProgressFromBeat(beat, 1);
+            float rot = -58f + 116 * crHandlerInstance.GetIntervalProgressFromBeat(conductor.GetUnSwungBeat(beat), 1);
             hair.transform.eulerAngles = new Vector3(0, 0, rot);
             hair.createBeat = beat;
         }
@@ -357,7 +357,7 @@ namespace HeavenStudio.Games
                 })
             });
 
-            float rot = -58f + 116 * crHandlerInstance.GetIntervalProgressFromBeat(beat, 1);
+            float rot = -58f + 116 * crHandlerInstance.GetIntervalProgressFromBeat(conductor.GetUnSwungBeat(beat), 1);
             hair.transform.eulerAngles = new Vector3(0, 0, rot);
             hair.createBeat = beat;
         }

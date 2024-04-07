@@ -7,6 +7,7 @@ using HeavenStudio.Common;
 using HeavenStudio.InputSystem;
 using System;
 using System.Linq;
+using BurstLinq;
 using Jukebox;
 
 namespace HeavenStudio.Games

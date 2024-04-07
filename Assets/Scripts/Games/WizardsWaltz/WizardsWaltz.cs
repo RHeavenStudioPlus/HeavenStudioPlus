@@ -223,7 +223,7 @@ namespace HeavenStudio.Games
                     intervalStartBeat = beat;
                     foreach (var plant in currentPlants)
                     {
-                        var songPos = (float)(plant.createBeat - wizardBeatOffset);
+                        var songPos = (float)(conductor.GetUnSwungBeat(plant.createBeat) - wizardBeatOffset);
                         var am = (beatInterval / 2f);
                         var x = Mathf.Sin(Mathf.PI * songPos / am) * xRange;
                         var y = plantYOffset + Mathf.Cos(Mathf.PI * songPos / am) * (yRange * 1.5f);
@@ -260,7 +260,7 @@ namespace HeavenStudio.Games
             if (!spawnedInactive) SoundByte.PlayOneShotGame("wizardsWaltz/plant", beat);
             Plant plant = Instantiate(plantBase, plantHolder.transform).GetComponent<Plant>();
             currentPlants.Add(plant);
-            var songPos = (float)(beat - wizardBeatOffset);
+            var songPos = (float)(conductor.GetUnSwungBeat(beat) - wizardBeatOffset);
             var am = (beatInterval / 2f);
             var x = Mathf.Sin(Mathf.PI * songPos / am) * xRange;
             var y = plantYOffset + Mathf.Cos(Mathf.PI * songPos / am) * (yRange * 1.5f);
