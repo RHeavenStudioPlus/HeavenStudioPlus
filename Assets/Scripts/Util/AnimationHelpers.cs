@@ -34,10 +34,10 @@ namespace HeavenStudio.Util
         /// <param name="length">duration of animation (progress 1.0)</param>
         /// <param name="timeScale">multiplier for animation progress (smaller values make animation slower)</param>
         /// <param name="animLayer">animator layer to play animation on</param>
-        public static void DoScaledAnimation(this Animator anim, string animName, double startTime, double length = 1, float timeScale = 1f, int animLayer = -1, bool clamp = false)
+        public static void DoScaledAnimation(this Animator anim, string animName, double startTime, double length = 1, float timeScale = 1f, int animLayer = -1, bool clamp = false, bool ignoreSwing = true)
         {
             if (anim == null) return;
-            float pos = Conductor.instance.GetPositionFromBeat(startTime, length) * timeScale;
+            float pos = Conductor.instance.GetPositionFromBeat(startTime, length, ignoreSwing: ignoreSwing) * timeScale;
             if (clamp) pos = Mathf.Clamp01(pos);
             anim.Play(animName, animLayer, pos);
             anim.speed = 1f; //not 0 so these can still play their script events

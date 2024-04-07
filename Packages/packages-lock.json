@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.annulusgames.burst-linq": {
+      "version": "https://github.com/AnnulusGames/BurstLinq.git?path=/Assets/BurstLinq",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "fc354905c8e40b1491ea8a750ee722ee07adf484"
+    },
     "com.coffee.softmask-for-ugui": {
       "version": "https://github.com/mob-sakai/SoftMaskForUGUI.git",
       "depth": 0,
@@ -74,11 +81,23 @@
       "dependencies": {},
       "hash": "b7c279278d1a343c6957c9f15b45173d3211f01c"
     },
-    "com.unity.collab-proxy": {
-      "version": "2.0.1",
+    "com.unity.burst": {
+      "version": "1.6.6",
       "depth": 0,
       "source": "registry",
-      "dependencies": {},
+      "dependencies": {
+        "com.unity.mathematics": "1.2.1"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.collections": {
+      "version": "1.2.4",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.burst": "1.6.6",
+        "com.unity.test-framework": "1.1.31"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.ext.nunit": {
@@ -104,6 +123,13 @@
       "dependencies": {
         "com.unity.test-framework": "1.1.9"
       },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.mathematics": {
+      "version": "1.2.6",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.nuget.newtonsoft-json": {

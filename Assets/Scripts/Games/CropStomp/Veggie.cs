@@ -131,7 +131,7 @@ namespace HeavenStudio.Games.Scripts_CropStomp
                 // var key2Pos = key2.Position;
                 // key2.Position = new Vector3(key2Pos.x, veggieTrans.position.y + 2f, key2Pos.z);
 
-                pickedBeat = Conductor.instance.songPositionInBeatsAsDouble;
+                pickedBeat = Conductor.instance.unswungSongPositionInBeatsAsDouble;
 
                 SoundByte.PlayOneShot("miss");
 
@@ -222,11 +222,11 @@ namespace HeavenStudio.Games.Scripts_CropStomp
 
             veggieState = 1;
             game.ScheduleInput(targetBeat, isMole ? 0.5f : 1f, CropStomp.InputAction_FlickRelease, PickJust, PickMiss, Out);
-            targetBeat = targetBeat + (isMole ? 0.5f : 1f);
+            targetBeat = cond.GetUnSwungBeat(targetBeat + (isMole ? 0.5f : 1f));
 
-            stompedBeat = cond.songPositionInBeatsAsDouble;
+            stompedBeat = cond.unswungSongPositionInBeatsAsDouble;
 
-            landBeat = targetBeat + (float)cond.SecsToBeats(Minigame.NgLateTime() - 1, cond.GetBpmAtBeat(targetBeat));
+            landBeat = targetBeat + cond.SecsToBeats(Minigame.NgLateTime() - 1, cond.GetBpmAtBeat(targetBeat));
 
             if (autoTriggered)
             {
@@ -261,12 +261,12 @@ namespace HeavenStudio.Games.Scripts_CropStomp
                 game.bodyAnim.DoScaledAnimationAsync("Pick", 0.5f);
                 game.isFlicking = true;
             }
-            
+
             var key1 = game.pickCurve.KeyPoints[0];
             var keyPos = key1.Position;
             key1.Position = new Vector3(keyPos.x, veggieTrans.position.y, keyPos.z);
 
-            pickedBeat = Conductor.instance.songPositionInBeatsAsDouble;
+            pickedBeat = Conductor.instance.unswungSongPositionInBeatsAsDouble;
 
             if (!isMole)
             {

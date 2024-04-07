@@ -4,6 +4,7 @@ using UnityEngine;
 
 using HeavenStudio.Util;
 using System.Linq;
+using BurstLinq;
 using Jukebox;
 using Jukebox.Legacy;
 

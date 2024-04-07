@@ -16,6 +16,31 @@ MonoBehaviour:
   AutoEmitDisabledPaths: []
   DenseViewWidthThreshold: 512
   _disableAutoReloadInBackground: 0
-  ImportedScriptPaths: []
+  ImportedScriptPaths:
+  - Assets/Scripts/Games/GleeClub/GleeClub.cs
+  - Assets/Scripts/Minigames.cs
+  - Assets/Scripts/LevelEditor/Editor.cs
+  - Assets/Scripts/Games/FreezeFrame/Car.cs
+  - Assets/Scripts/Games/Fillbots/Fillbots.cs
+  - Assets/Scripts/Games/Fillbots/FullBody.cs
+  - Assets/Scripts/Games/CatchOfTheDay/CatchOfTheDay.cs
+  - Assets/Scripts/Util/ParticleSystemHelpers.cs
+  - Assets/Scripts/Games/Fillbots/NtrFillbot.cs
+  - Assets/Scripts/USG.g/LoadMinigames.Minigames.MinigameLoaderGenerator.g.cs
+  - Assets/Scripts/Games/FreezeFrame/FreezeFrame.cs
+  - Assets/Scripts/Games/CatchOfTheDay/LakeScene.cs
+  - Assets/Scripts/Conductor.cs
+  - Assets/Scripts/GameManager.cs
+  - Assets/Scripts/LevelEditor/Timeline/TimelineBlockManager.cs
+  - Assets/Scripts/TitleManager.cs
+  - Assets/Scripts/Util/MultiSound.cs
+  - Assets/Scripts/LevelEditor/Timeline/Timeline.cs
+  - Assets/Scripts/EventCaller.cs
+  - Assets/Scripts/Games/Minigame.cs
+  - Assets/Scripts/InputSystem/PlayerInput.cs
+  - Assets/Scripts/GameCamera.cs
+  - Assets/Scripts/Util/SoundByte.cs
+  - Assets/Scripts/GameInitializer.cs
+  - Assets/Scripts/AppInfo.cs
   PathsToSkipImportEvent: []
   PathsToIgnoreOverwriteSettingOnAttribute: []

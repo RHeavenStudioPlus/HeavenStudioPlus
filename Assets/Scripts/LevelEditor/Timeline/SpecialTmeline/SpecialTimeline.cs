@@ -160,6 +160,7 @@ namespace HeavenStudio.Editor.Track
                     lastTempo /= 2f;
                 }
                 RiqEntity tempoC = GameManager.instance.Beatmap.AddNewTempoChange(Timeline.instance.MousePos2BeatSnap, lastTempo);
+                tempoC.CreateProperty("swingDivision", 1f);
                 tempoTimelineObj.chartEntity = tempoC;
                 CommandManager.Instance.AddCommand(new Commands.AddMarker(tempoC, tempoC.guid, HoveringTypes.TempoChange));
             }

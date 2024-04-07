@@ -149,6 +149,7 @@ namespace HeavenStudio.Games
 
         private bool CheckEventLock()
         {
+            Conductor cond = Conductor.instance;
             foreach (PlayerActionEvent toCompare in allEvents)
             {
                 if (toCompare == this) continue;
@@ -161,9 +162,9 @@ namespace HeavenStudio.Games
                         && toCompare.InputAction.inputLockCategory[catIdx] != InputAction.inputLockCategory[catIdx]) continue;
                 }
 
-                double t1 = this.startBeat + this.timer;
-                double t2 = toCompare.startBeat + toCompare.timer;
-                double songPos = Conductor.instance.songPositionInBeatsAsDouble;
+                double t1 = cond.GetUnSwungBeat(this.startBeat + this.timer);
+                double t2 = cond.GetUnSwungBeat(toCompare.startBeat + toCompare.timer);
+                double songPos = cond.unswungSongPositionInBeatsAsDouble;
 
                 // compare distance between current time and the events
                 // events that happen at the exact same time with the exact same inputs will return true
@@ -213,7 +214,7 @@ namespace HeavenStudio.Games
         {
             var cond = Conductor.instance;
             double currTime = cond.songPositionAsDouble;
-            double targetTime = cond.GetSongPosFromBeat(startBeat + timer);
+            double targetTime = cond.GetSongPosFromBeat(cond.GetUnSwungBeat(startBeat + timer), true);
 
             // HS timing window uses 1 as the middle point instead of 0
             return 1 + (currTime - targetTime);
