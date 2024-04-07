@@ -71,8 +71,8 @@ namespace HeavenStudio.Editor
         public TMP_Text tooltipText;
 
         [Header("Properties")]
-        private bool changedMusic = false;
-        private bool loadedMusic = false;
+        //private bool changedMusic = false;    Unused value - Marc
+        //private bool loadedMusic = false;    Unused value - Marc
         private string currentRemixPath = "";
         private string remixName = "";
         public bool fullscreen;

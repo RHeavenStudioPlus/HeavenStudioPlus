@@ -70,7 +70,7 @@ namespace HeavenStudio
 
         bool AudioLoadDone;
         bool ChartLoadError;
-        bool exiting;
+        //bool exiting;    Unused value - Marc
 
         List<double> eventBeats, preSequenceBeats, tempoBeats, volumeBeats, sectionBeats;
         List<RiqEntity> allGameSwitches;
@@ -125,7 +125,7 @@ namespace HeavenStudio
         private void Awake()
         {
             instance = this;
-            exiting = false;
+            //exiting = false;    Unused value - Marc
         }
 
         public void Init(bool preLoaded = false)
@@ -811,7 +811,7 @@ namespace HeavenStudio
             }
             else if (playMode)
             {
-                exiting = true;
+                //exiting = true;    Unused value - Marc
                 judgementInfo.star = skillStarCollected;
                 judgementInfo.perfect = GoForAPerfect.instance.perfect;
                 judgementInfo.noMiss = noMiss;

@@ -28,7 +28,7 @@ namespace HeavenStudio.Games.Scripts_ForkLifter
 
         private Animator anim;
 
-        private int currentHitInList = 0;
+        //private int currentHitInList = 0;    Unused value - Marc
 
         public bool shouldBop;
         public int currentEarlyPeasOnFork;

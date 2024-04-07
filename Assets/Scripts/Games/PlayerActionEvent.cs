@@ -30,7 +30,8 @@ namespace HeavenStudio.Games
 
         public bool isEligible = true;
         public bool canHit = true; //Indicates if you can still hit the cue or not. If set to false, it'll guarantee a miss
-        public bool enabled = true; //Indicates if the PlayerActionEvent is enabled. If set to false, it'll not trigger any events and destroy itself AFTER it's not relevant anymore
+        //added the keyword "new" to the below variable since there's another inhereted variable with the same name
+        new public bool enabled = true; //Indicates if the PlayerActionEvent is enabled. If set to false, it'll not trigger any events and destroy itself AFTER it's not relevant anymore
         public bool triggersAutoplay = true;
         public string minigame;
         bool lockedByEvent = false;
