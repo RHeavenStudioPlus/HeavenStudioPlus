@@ -25,7 +25,7 @@ namespace HeavenStudio.Games.Scripts_DoubleDate
 
         void Update()
         {
-            double beat = conductor.songPositionInBeatsAsDouble;
+            double beat = conductor.unswungSongPositionInBeatsAsDouble;
             double height = 0f;
             if (pathStartBeat > double.MinValue)
             {
@@ -44,7 +44,7 @@ namespace HeavenStudio.Games.Scripts_DoubleDate
             game.ScheduleInput(beat, 1f, DoubleDate.InputAction_FlickPress, Just, Miss, Empty);
             path = game.GetPath("SoccerIn");
             UpdateLastRealPos();
-            pathStartBeat = beat - 1f;
+            pathStartBeat = Conductor.instance.GetUnSwungBeat(beat - 1f);
 
             Vector3 pos = GetPathPositionFromBeat(path, pathStartBeat, pathStartBeat);
             transform.position = pos;
@@ -65,7 +65,7 @@ namespace HeavenStudio.Games.Scripts_DoubleDate
                 }),
             });
             UpdateLastRealPos();
-            pathStartBeat = conductor.songPositionInBeatsAsDouble;
+            pathStartBeat = conductor.unswungSongPositionInBeatsAsDouble;
             if (state >= 1f || state <= -1f)
             {
                 path = game.GetPath("SoccerNg" + (state > 0 ? "Late" : "Early"));
@@ -80,7 +80,7 @@ namespace HeavenStudio.Games.Scripts_DoubleDate
         void Hit()
         {
             UpdateLastRealPos();
-            pathStartBeat = conductor.songPositionInBeatsAsDouble;
+            pathStartBeat = conductor.unswungSongPositionInBeatsAsDouble;
             path = game.GetPath("SoccerJust");
             game.Kick(true, false, true, _jump);
             SoundByte.PlayOneShotGame("doubleDate/kick");

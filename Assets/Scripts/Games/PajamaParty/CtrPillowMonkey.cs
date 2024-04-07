@@ -123,7 +123,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
 
         public void Jump(double beat, int alt = 1)
         {
-            startJumpTime = beat;
+            startJumpTime = Conductor.instance.GetUnSwungBeat(beat);
             jumpAlt = 0;
             if (alt > 1)
             {
@@ -140,7 +140,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
         public void Throw(double beat, bool highCheck)
         {
             anim.DoUnscaledAnimation("MonkeyThrow" + animSuffix);
-            startThrowTime = beat;
+            startThrowTime = Conductor.instance.GetUnSwungBeat(beat);
             Projectile.SetActive(true);
 
             if (highCheck)

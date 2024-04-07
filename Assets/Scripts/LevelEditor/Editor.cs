@@ -15,6 +15,7 @@ using HeavenStudio.StudioDance;
 using Jukebox;
 using UnityEditor;
 using System.Linq;
+using BurstLinq;
 
 namespace HeavenStudio.Editor
 {
@@ -269,6 +270,11 @@ namespace HeavenStudio.Editor
 
         public void SelectMusic()
         {
+            if (Timeline.instance != null)
+                Timeline.instance?.Stop(0);
+            else
+                GameManager.instance.Stop(0);
+
             var extensions = new[]
             {
                 new ExtensionFilter("Music Files", "mp3", "ogg", "wav", "aiff", "aif", "aifc")

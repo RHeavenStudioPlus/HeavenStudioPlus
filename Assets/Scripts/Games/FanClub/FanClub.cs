@@ -390,7 +390,7 @@ namespace HeavenStudio.Games
             //idol jumping physics
             float jumpPos = conductor.GetPositionFromBeat(idolJumpStartTime, 1f);
             float IDOL_SHADOW_SCALE = 1.18f;
-            if (conductor.songPositionInBeatsAsDouble >= idolJumpStartTime && conductor.songPositionInBeatsAsDouble < idolJumpStartTime + 1f)
+            if (conductor.unswungSongPositionInBeatsAsDouble >= idolJumpStartTime && conductor.unswungSongPositionInBeatsAsDouble < idolJumpStartTime + 1f)
             {
                 hasJumped = true;
                 float yMul = jumpPos * 2f - 1f;
@@ -580,7 +580,7 @@ namespace HeavenStudio.Games
         {
             DisableBop(beat, length);
             DisableResponse(beat, length);
-            idolJumpStartTime = beat;
+            idolJumpStartTime = conductor.GetUnSwungBeat(beat);
 
             //play anim
             BeatAction.New(instance, new List<BeatAction.Action>()

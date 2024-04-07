@@ -8,6 +8,7 @@ using HeavenStudio.Common;
 using HeavenStudio.InputSystem;
 
 using System.Linq;
+using BurstLinq;
 
 using SFB;
 using Jukebox;
