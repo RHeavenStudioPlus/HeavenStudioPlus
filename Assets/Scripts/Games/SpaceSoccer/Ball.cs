@@ -39,10 +39,11 @@ namespace HeavenStudio.Games.Scripts_SpaceSoccer
         }
         public void Init(Kicker kicker, double dispensedBeat)
         {
+            Conductor conductor = Conductor.instance;
             this.kicker = kicker;
             kicker.ball = this;
             kicker.dispenserBeat = dispensedBeat;
-            double currentBeat = Conductor.instance.songPositionInBeatsAsDouble;
+            double currentBeat = conductor.unswungSongPositionInBeatsAsDouble;
             kickPath = SpaceSoccer.instance.GetPath("Kick");
             dispensePath = SpaceSoccer.instance.GetPath("Dispense");
             highKickPath = SpaceSoccer.instance.GetPath("HighKick");
@@ -53,7 +54,7 @@ namespace HeavenStudio.Games.Scripts_SpaceSoccer
             {
                 //Debug.Log("Dispensing");
                 state = State.Dispensing;
-                startBeat = dispensedBeat;
+                startBeat = conductor.GetUnSwungBeat(dispensedBeat);
                 nextAnimBeat = startBeat + GetAnimLength(State.Dispensing);
                 kicker.kickTimes = 0;
                 return;
@@ -74,31 +75,32 @@ namespace HeavenStudio.Games.Scripts_SpaceSoccer
                     //Debug.Log("Setting state to kicked");
                     state = State.Kicked;
                     double relativeBeat = currentBeat - dispensedBeat;
-                    startBeat = dispensedBeat + (int)(relativeBeat - 0.1); //this makes the startBeat be for the kick that is currently in progress, but it won't play the kicker's animation for that kick. the -0.1 makes it so that if playback is started right when the kicker kicks, it still plays the kicker's animation.
+                    startBeat = conductor.GetUnSwungBeat(dispensedBeat) + (int)(relativeBeat - 0.1); //this makes the startBeat be for the kick that is currently in progress, but it won't play the kicker's animation for that kick. the -0.1 makes it so that if playback is started right when the kicker kicks, it still plays the kicker's animation.
                     nextAnimBeat = startBeat + GetAnimLength(State.Kicked);
                     kicker.kickTimes = (int)(relativeBeat - 0.1) - numHighKicks - 1; //every high kick has 2 kicks in the same time a regular keep-up does 3 kicks.
                     break;
                 }
                 else
                 {
-                    highKickSwing = 0.5f;
 
                     if (highKicks[i].beat + GetAnimLength(State.HighKicked) > currentBeat)
                     {
+                        highKickSwing = conductor.GetSwingRatioAtBeat(highKicks[i].beat, out _);
                         //Debug.Log("Setting state to high kick");
                         state = State.HighKicked;
                         double relativeBeat = highKicks[i].beat - dispensedBeat;
-                        startBeat = dispensedBeat + Math.Ceiling(relativeBeat); //there is a chance this makes startBeat later than the current beat, but it shouldn't matter too much. It would only happen if the user places the high kicks incorrectly.
+                        startBeat = conductor.GetUnSwungBeat(dispensedBeat) + Math.Ceiling(relativeBeat); //there is a chance this makes startBeat later than the current beat, but it shouldn't matter too much. It would only happen if the user places the high kicks incorrectly.
                         nextAnimBeat = startBeat + GetAnimLength(State.HighKicked);
                         kicker.kickTimes = (int)Math.Ceiling(relativeBeat) - numHighKicks - 1;
                         break;
                     }
                     else
                     {
+                        highKickSwing = conductor.GetSwingRatioAtBeat(highKicks[i].beat + GetAnimLength(State.HighKicked), out _);
                         //Debug.Log("Setting state to toe");
                         state = State.Toe;
                         double relativeBeat = Math.Ceiling(highKicks[i].beat - dispensedBeat) + GetAnimLength(State.HighKicked); //there is a chance this makes startBeat later than the current beat, but it shouldn't matter too much. It would only happen if the user places the high kicks incorrectly.
-                        startBeat = dispensedBeat + relativeBeat;
+                        startBeat = conductor.GetUnSwungBeat(dispensedBeat) + relativeBeat;
                         nextAnimBeat = startBeat + GetAnimLength(State.Toe);
                         kicker.kickTimes = (int)(relativeBeat - GetAnimLength(State.HighKicked)) - numHighKicks;
                         break;
@@ -110,7 +112,7 @@ namespace HeavenStudio.Games.Scripts_SpaceSoccer
                 //Debug.Log("Defaulting to kicked state");
                 state = State.Kicked;
                 double relativeBeat = currentBeat - dispensedBeat;
-                startBeat = dispensedBeat + (int)(relativeBeat - 0.1); //this makes the startBeat be for the kick that is currently in progress, but it won't play the kicker's animation for that kick. the -0.1 makes it so that if playback is started right when the kicker kicks, it still plays the kicker's animation.
+                startBeat = conductor.GetUnSwungBeat(dispensedBeat) + (int)(relativeBeat - 0.1); //this makes the startBeat be for the kick that is currently in progress, but it won't play the kicker's animation for that kick. the -0.1 makes it so that if playback is started right when the kicker kicks, it still plays the kicker's animation.
                 nextAnimBeat = startBeat + GetAnimLength(State.Kicked);
                 kicker.kickTimes = (int)(relativeBeat - 0.1) - numHighKicks - 1;
             }
@@ -178,7 +180,7 @@ namespace HeavenStudio.Games.Scripts_SpaceSoccer
 
         private void Update()
         {
-            double beat = Conductor.instance.songPositionInBeatsAsDouble;
+            double beat = Conductor.instance.unswungSongPositionInBeatsAsDouble;
             switch (state) //handle animations
             {
                 case State.None: //the only time any ball should ever have this state is if it's the unused offscreen ball (which is the only reason this state exists)
@@ -270,7 +272,7 @@ namespace HeavenStudio.Games.Scripts_SpaceSoccer
                 case State.Kicked:
                     return 1f;
                 case State.HighKicked:
-                    return 2f - highKickSwing;
+                    return 1f + highKickSwing;
                 case State.Toe:
                     return 2f - (1f - highKickSwing);
                 default:

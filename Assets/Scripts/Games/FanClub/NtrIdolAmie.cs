@@ -69,7 +69,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
                 //idol jumping physics
                 float jumpPos = cond.GetPositionFromBeat(startJumpTime, 1f);
                 float IDOL_SHADOW_SCALE = 1.18f;
-                if (cond.songPositionInBeatsAsDouble >= startJumpTime && cond.songPositionInBeatsAsDouble < startJumpTime + 1f)
+                if (cond.unswungSongPositionInBeatsAsDouble >= startJumpTime && cond.unswungSongPositionInBeatsAsDouble < startJumpTime + 1f)
                 {
                     hasJumped = true;
                     float yMul = jumpPos * 2f - 1f;
@@ -77,7 +77,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
                     rootTransform.transform.localPosition = new Vector3(startPostion + stepDistance * AnimCount, rootYPos + (2f * yWeight + 0.25f));
                     shadow.transform.localScale = new Vector3((1f-yWeight*0.8f) * IDOL_SHADOW_SCALE, (1f-yWeight*0.8f) * IDOL_SHADOW_SCALE, 1f);
 
-                    anim.DoScaledAnimation("Jump", startJumpTime, 1f);
+                    anim.DoScaledAnimation("Jump", startJumpTime, 1f, ignoreSwing: true);
                 }
                 else
                 {
@@ -160,12 +160,11 @@ namespace HeavenStudio.Games.Scripts_FanClub
         {
             if (startStepBeat != double.MaxValue) return;
             if (!gameObject.activeInHierarchy) return;
-            startJumpTime = beat;
+            startJumpTime = Conductor.instance.GetUnSwungBeat(beat);
 
             //play anim
             BeatAction.New(this, new List<BeatAction.Action>()
             {
-                // new BeatAction.Action(beat,                     delegate { anim.Play("Jump", -1, 0); }),
                 new BeatAction.Action(beat + 1f,                delegate { anim.Play("Land", -1, 0); }),
             });
         }

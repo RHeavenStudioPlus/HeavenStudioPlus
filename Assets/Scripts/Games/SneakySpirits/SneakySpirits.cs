@@ -101,7 +101,7 @@ namespace HeavenStudio.Games
             }
             if (Conductor.instance.isPlaying)
             {
-                Conductor.instance.SetMinigamePitch(1f);
+                Conductor.instance.SetMinigamePitch(1f, true);
             }
         }
 

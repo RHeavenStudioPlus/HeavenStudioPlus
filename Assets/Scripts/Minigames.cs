@@ -16,6 +16,7 @@ using SatorImaging.UnitySourceGenerator;
 using System;
 using System.IO;
 using System.Linq;
+using BurstLinq;
 using UnityEngine.Assertions.Must;
 using Newtonsoft.Json.Linq;
 
@@ -98,6 +99,7 @@ namespace HeavenStudio
         {
             {"tempo", 120f},
             {"swing", 0f},
+            {"swingDivision", 1f},
             {"timeSignature", new Vector2(4, 4)},
         };
 

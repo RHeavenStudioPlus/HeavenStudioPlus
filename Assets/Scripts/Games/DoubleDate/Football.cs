@@ -25,7 +25,7 @@ namespace HeavenStudio.Games.Scripts_DoubleDate
 
         void Update()
         {
-            double beat = conductor.songPositionInBeatsAsDouble;
+            double beat = conductor.unswungSongPositionInBeatsAsDouble;
             double height = 0f;
             if (pathStartBeat > double.MinValue)
             {
@@ -44,7 +44,7 @@ namespace HeavenStudio.Games.Scripts_DoubleDate
             game.ScheduleInput(beat, 1.5f, DoubleDate.InputAction_FlickPress, Just, Miss, Empty);
             path = game.GetPath("FootBallInNoHit");  // there's a second path for footballs that hit the weasels, use that if the weasels haven't been hit recently
             UpdateLastRealPos();
-            pathStartBeat = beat - 1f;
+            pathStartBeat = Conductor.instance.GetUnSwungBeat(beat - 1f);
 
             Vector3 pos = GetPathPositionFromBeat(path, pathStartBeat, pathStartBeat);
             transform.position = pos;
@@ -60,7 +60,7 @@ namespace HeavenStudio.Games.Scripts_DoubleDate
             if (state >= 1f || state <= -1f)
             {
                 UpdateLastRealPos();
-                pathStartBeat = conductor.songPositionInBeatsAsDouble;
+                pathStartBeat = conductor.unswungSongPositionInBeatsAsDouble;
                 path = game.GetPath("FootBallNg" + (state > 0 ? "Late" : "Early"));
                 SoundByte.PlayOneShot("miss");
                 game.Kick(false);
@@ -84,7 +84,7 @@ namespace HeavenStudio.Games.Scripts_DoubleDate
                     transform.localScale *= 0.25f;
                     path = game.GetPath("FootBallFall");
                     UpdateLastRealPos();
-                    pathStartBeat = conductor.songPositionInBeatsAsDouble + 1f;
+                    pathStartBeat = conductor.unswungSongPositionInBeatsAsDouble + 1f;
                 }),
                 new BeatAction.Action(conductor.songPositionInBeatsAsDouble + 12f, delegate
                 {
@@ -96,7 +96,7 @@ namespace HeavenStudio.Games.Scripts_DoubleDate
         void Hit()
         {
             UpdateLastRealPos();
-            pathStartBeat = conductor.songPositionInBeatsAsDouble;
+            pathStartBeat = conductor.unswungSongPositionInBeatsAsDouble;
             path = game.GetPath("FootBallJust");
             game.Kick(true, true, jump: _jump);
             SoundByte.PlayOneShotGame("doubleDate/footballKick");

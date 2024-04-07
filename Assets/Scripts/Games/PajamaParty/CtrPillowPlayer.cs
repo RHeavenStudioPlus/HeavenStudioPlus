@@ -182,7 +182,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
             {
                 throwType = false;
                 throwLength = 0.5;
-                Projectile.GetComponent<Animator>().DoScaledAnimation("ThrowOut", startThrowTime, throwLength);
+                Projectile.GetComponent<Animator>().DoScaledAnimation("ThrowOut", Conductor.instance.GetUnSwungBeat(startThrowTime), throwLength);
                 Projectile.transform.rotation = Quaternion.Euler(0, 0, 360f * UnityEngine.Random.Range(0f, 1f));
             }
             else
@@ -310,12 +310,12 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
                 if (state <= -1f || state >= 1f)
                 {
                     SoundByte.PlayOneShot("miss");
-                    PlayerJump(cond.songPositionInBeatsAsDouble, false, true);
+                    PlayerJump(cond.unswungSongPositionInBeatsAsDouble, false, true);
                 }
                 else
                 {
                     SoundByte.PlayOneShotGame("pajamaParty/jumpJust");
-                    PlayerJump(cond.songPositionInBeatsAsDouble, false, false);
+                    PlayerJump(cond.unswungSongPositionInBeatsAsDouble, false, false);
                 }
                 caller.CanHit(false);
             }
@@ -328,7 +328,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
             if (canJump)
             {
                 var cond = Conductor.instance;
-                PlayerThrough(cond.songPositionInBeatsAsDouble);
+                PlayerThrough(cond.unswungSongPositionInBeatsAsDouble);
             }
         }
         //////
@@ -359,12 +359,12 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
             {
                 SoundByte.PlayOneShot("miss");
                 throwNg = true;
-                EndCharge(cond.songPositionInBeatsAsDouble, true, throwNg);
+                EndCharge(cond.unswungSongPositionInBeatsAsDouble, true, throwNg);
             }
             else
             {
                 SoundByte.PlayOneShotGame("pajamaParty/throw5");
-                EndCharge(cond.songPositionInBeatsAsDouble, true, throwNg);
+                EndCharge(cond.unswungSongPositionInBeatsAsDouble, true, throwNg);
             }
             caller.CanHit(false);
         }
@@ -374,7 +374,7 @@ namespace HeavenStudio.Games.Scripts_PajamaParty
             if (canCharge)
             {
                 var cond = Conductor.instance;
-                PlayerThrough(cond.songPositionInBeatsAsDouble);
+                PlayerThrough(cond.unswungSongPositionInBeatsAsDouble);
             }
         }
         //

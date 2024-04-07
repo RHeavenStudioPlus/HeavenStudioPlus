@@ -116,7 +116,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
                 }
                 if (PlayerInput.GetIsAction(FanClub.InputAction_BasicPressing))
                 {
-                    if (clappingStartTime != double.MinValue && cond.songPositionInBeatsAsDouble > clappingStartTime + 2f && !stopCharge)
+                    if (clappingStartTime != double.MinValue && cond.unswungSongPositionInBeatsAsDouble > clappingStartTime + 2f && !stopCharge)
                     {
                         animator.speed = 1f;
                         animator.Play("FanClapCharge", -1, 0);
@@ -131,7 +131,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
                         nonTouchDelay = 0f;
                         stopCharge = true;
                     }
-                    if (clappingStartTime != double.MinValue && cond.songPositionInBeatsAsDouble > clappingStartTime + nonTouchDelay && stopCharge
+                    if (clappingStartTime != double.MinValue && cond.unswungSongPositionInBeatsAsDouble > clappingStartTime + nonTouchDelay && stopCharge
                         && !FanClub.instance.IsExpectingInputNow(FanClub.InputAction_FlickRelease.inputLockCategory))
                     {
                         if (FanClub.instance.JudgementPaused)
@@ -163,14 +163,14 @@ namespace HeavenStudio.Games.Scripts_FanClub
             }
             
             float jumpPos = cond.GetPositionFromBeat(jumpStartTime, 1f);
-            if (cond.songPositionInBeatsAsDouble >= jumpStartTime && cond.songPositionInBeatsAsDouble < jumpStartTime + 1f)
+            if (cond.unswungSongPositionInBeatsAsDouble >= jumpStartTime && cond.unswungSongPositionInBeatsAsDouble < jumpStartTime + 1f)
             {
                 hasJumped = true;
                 float yMul = jumpPos * 2f - 1f;
                 float yWeight = -(yMul*yMul) + 1f;
                 motionRoot.transform.localPosition = new Vector3(0, 3f * yWeight);
                 shadow.transform.localScale = new Vector3((1f-yWeight*0.8f) * 1.4f, (1f-yWeight*0.8f) * 1.4f, 1f);
-                animator.DoScaledAnimation("FanJump", jumpStartTime);
+                animator.DoScaledAnimation("FanJump", jumpStartTime, ignoreSwing: true);
             }
             else
             {
@@ -205,12 +205,12 @@ namespace HeavenStudio.Games.Scripts_FanClub
             var cond = Conductor.instance;
             hasJumped = false;
             stopBeat = true;
-            jumpStartTime = -99f;
+            jumpStartTime = double.MinValue;
             animator.speed = 1f;
             animator.Play("FanClap", -1, 0);
             SoundByte.PlayOneShotGame("fanClub/play_clap");
             SoundByte.PlayOneShotGame("fanClub/crap_impact");
-            clappingStartTime = cond.songPositionInBeatsAsDouble;
+            clappingStartTime = cond.unswungSongPositionInBeatsAsDouble;
 
             if (doCharge)
                 BeatAction.New(this, new List<BeatAction.Action>()
@@ -247,7 +247,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
             var cond = Conductor.instance;
             animator.Play("FanJump", -1, 0);
             SoundByte.PlayOneShotGame("fanClub/play_jump");
-            jumpStartTime = cond.songPositionInBeatsAsDouble;
+            jumpStartTime = cond.unswungSongPositionInBeatsAsDouble;
             clappingStartTime = double.MinValue;
             stopCharge = false;
         }
@@ -255,7 +255,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
         public bool IsJumping()
         {
             var cond = Conductor.instance;
-            return (cond.songPositionInBeatsAsDouble >= jumpStartTime && cond.songPositionInBeatsAsDouble < jumpStartTime + 1f);
+            return (cond.unswungSongPositionInBeatsAsDouble >= jumpStartTime && cond.unswungSongPositionInBeatsAsDouble < jumpStartTime + 1f);
         }
 
         public void Bop()

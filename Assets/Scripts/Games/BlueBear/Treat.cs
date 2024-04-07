@@ -41,6 +41,7 @@ namespace HeavenStudio.Games.Scripts_BlueBear
             path.positions[0].height = pathToCopy.positions[0].height;
             path.positions[1].pos = pathToCopy.positions[1].pos;
             game.ScheduleInput(startBeat, flyBeats, isCake ? BlueBear.InputAction_Left : BlueBear.InputAction_Right, Just, Out, Out);
+            startBeat = Conductor.instance.GetUnSwungBeat(startBeat);
             Update();
         }
 
@@ -52,7 +53,7 @@ namespace HeavenStudio.Games.Scripts_BlueBear
         private void Update()
         {
             var cond = Conductor.instance;
-            transform.localPosition = GetPathPositionFromBeat(path, cond.songPositionInBeatsAsDouble, startBeat);
+            transform.localPosition = GetPathPositionFromBeat(path, cond.unswungSongPositionInBeatsAsDouble, startBeat);
 
             float flyPos = cond.GetPositionFromBeat(startBeat, flyBeats);
             if (flyPos > 2f)
@@ -75,7 +76,7 @@ namespace HeavenStudio.Games.Scripts_BlueBear
                 SoundByte.PlayOneShotGame("blueBear/chompDonut");
             }
 
-            game.Bite(Conductor.instance.songPositionInBeatsAsDouble, isCake, hold);
+            game.Bite(Conductor.instance.unswungSongPositionInBeatsAsDouble, isCake, hold);
             game.EatTreat();
 
             SpawnCrumbs();
@@ -100,7 +101,7 @@ namespace HeavenStudio.Games.Scripts_BlueBear
                 path.positions[0].height = barelyHeight;
                 path.positions[0].duration = 1;
                 path.positions[1].pos = new Vector3(path.positions[0].pos.x + (isCake ? -barelyDistX : barelyDistX), path.positions[0].pos.y + barelyDistY);
-                startBeat = Conductor.instance.songPositionInBeatsAsDouble;
+                startBeat = Conductor.instance.unswungSongPositionInBeatsAsDouble;
                 Update();
                 return;
             }

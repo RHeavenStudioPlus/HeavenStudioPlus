@@ -62,6 +62,18 @@ namespace HeavenStudio.Editor.Track
                 SetX(chartEntity);
         }
 
+        public void SetSwing(float swing)
+        {
+            chartEntity["swing"] = Mathf.Clamp(swing, 0, 0.5f);
+            UpdateTempo();
+        }
+
+        public void SetSwingDivision(bool sixteenth)
+        {
+            chartEntity["swingDivision"] = sixteenth ? 0.5f : 1f;
+            UpdateTempo();
+        }
+
         public override void Init()
         {
             UpdateTempo();

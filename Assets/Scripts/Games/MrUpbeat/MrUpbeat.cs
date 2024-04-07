@@ -167,6 +167,8 @@ namespace HeavenStudio.Games
         public int stepIterate = 0;
         private static double startSteppingBeat = double.MaxValue;
         private static double startBlippingBeat = double.MaxValue;
+        private string currentMetronomeDir = "Right";
+        private static double metronomeBeat = double.MaxValue;
         private bool stopStepping;
         public bool stopBlipping;
 
@@ -240,6 +242,16 @@ namespace HeavenStudio.Games
                     man.RecursiveBlipping(startBlippingBeat);
                     startBlippingBeat = double.MaxValue;
                 }
+
+                if (songPos > metronomeBeat + 1)
+                {
+                    metronomeAnim.Play("MetronomeGo" + currentMetronomeDir, -1, 1);
+                    metronomeAnim.speed = 0;
+                }
+                else if (songPos >= metronomeBeat)
+                {
+                    metronomeAnim.DoScaledAnimation("MetronomeGo" + currentMetronomeDir, metronomeBeat, 1, ignoreSwing: false);
+                }
             }
         }
 
@@ -290,9 +302,9 @@ namespace HeavenStudio.Games
                 stopStepping = false;
                 return;
             }
-            string dir = (stepIterate % 2 == 1) ? "Right" : "Left";
-            metronomeAnim.DoScaledAnimationAsync("MetronomeGo" + dir, 0.5f);
-            SoundByte.PlayOneShotGame("mrUpbeat/metronome" + dir);
+            currentMetronomeDir = (stepIterate % 2 == 1) ? "Right" : "Left";
+            SoundByte.PlayOneShotGame($"mrUpbeat/metronome{currentMetronomeDir}");
+            metronomeBeat = beat;
             ScheduleStep(beat);
             BeatAction.New(this, new List<BeatAction.Action>() {
                 new(beat + 1, delegate { RecursiveStepping(beat + 1); })
@@ -305,11 +317,11 @@ namespace HeavenStudio.Games
             var actions = new List<BeatAction.Action>();
             for (int i = 0; i < length; i++)
             {
-                ScheduleStep(beat);
+                ScheduleStep(beat + i);
                 actions.Add(new BeatAction.Action(beat + i, delegate { 
-                    string dir = (stepIterate % 2 == 1) ? "Right" : "Left";
-                    metronomeAnim.DoScaledAnimationAsync("MetronomeGo" + dir, 0.5f);
-                    SoundByte.PlayOneShotGame("mrUpbeat/metronome" + dir);
+                    currentMetronomeDir = (stepIterate % 2 == 1) ? "Right" : "Left";
+                    SoundByte.PlayOneShotGame($"mrUpbeat/metronome{currentMetronomeDir}");
+                    metronomeBeat = beat + i;
                     stepIterate++;
                 }));
             }

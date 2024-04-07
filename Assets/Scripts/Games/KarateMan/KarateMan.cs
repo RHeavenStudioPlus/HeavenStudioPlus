@@ -7,6 +7,7 @@ using HeavenStudio.Util;
 using HeavenStudio.InputSystem;
 using Jukebox;
 using System.Linq;
+using BurstLinq;
 
 namespace HeavenStudio.Games.Loaders
 {

@@ -106,5 +106,17 @@ namespace HeavenStudio.Util
             }
             Destroy(gameObject);
         }
+
+        public void StopAll(bool destroy = false)
+        {
+            foreach (Util.Sound sound in playingSounds)
+            {
+                sound.Stop();
+            }
+            if (destroy)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 }

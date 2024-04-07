@@ -261,8 +261,7 @@ namespace HeavenStudio.Games
 
         void Update()
         {
-            var cond = Conductor.instance;
-            if (cond.isPlaying && !cond.isPaused)
+            if (conductor.isPlaying && !conductor.isPaused)
             {
                 if (queuedBalls.Count != 0)
                 {
@@ -286,7 +285,7 @@ namespace HeavenStudio.Games
             }
             else
             {
-                if ((!cond.isPaused) && queuedBalls.Count != 0)
+                if ((!conductor.isPaused) && queuedBalls.Count != 0)
                 {
                     queuedBalls.Clear();
                 }
@@ -352,7 +351,7 @@ namespace HeavenStudio.Games
             {
                 boyAnim.DoScaledAnimationAsync(_isStaring ? "IdleBop2" : "IdleBop", _animSpeed);
             }
-            if (Conductor.instance.songPositionInBeatsAsDouble > lastGirlGacha)
+            if (conductor.songPositionInBeatsAsDouble > lastGirlGacha)
                 girlAnim.DoScaledAnimationAsync("GirlBop", _animSpeed);
             weasels.Bop();
         }
@@ -365,7 +364,7 @@ namespace HeavenStudio.Games
                 if (jump)
                 {
                     weasels.Jump();
-                    lastGirlGacha = Conductor.instance.songPositionInBeatsAsDouble + 0.5f;
+                    lastGirlGacha = conductor.songPositionInBeatsAsDouble + 0.5f;
                     girlAnim.DoScaledAnimationAsync("GirlLookUp", _animSpeed);
                 }
                 else if (weaselsHappy) weasels.Happy();
@@ -373,7 +372,7 @@ namespace HeavenStudio.Games
                 {
                     BeatAction.New(instance, new List<BeatAction.Action>()
                     {
-                        new BeatAction.Action(Conductor.instance.songPositionInBeatsAsDouble + 1f, delegate
+                        new BeatAction.Action(conductor.songPositionInBeatsAsDouble + 1f, delegate
                         {
                             leaves.Play();
                             treeAnim.DoScaledAnimationAsync("TreeRustle", _animSpeed);
@@ -470,11 +469,11 @@ namespace HeavenStudio.Games
 
         public void MissKick(double beat, bool hit = false)
         {
-            lastGirlGacha = Conductor.instance.songPositionInBeatsAsDouble + 1.5f;
+            lastGirlGacha = conductor.songPositionInBeatsAsDouble + 1.5f;
             girlAnim.DoScaledAnimationAsync("GirlSad", _animSpeed);
             if (hit)
             {
-                lastHitWeasel = Conductor.instance.songPositionInBeatsAsDouble;
+                lastHitWeasel = conductor.songPositionInBeatsAsDouble;
                 BeatAction.New(this, new List<BeatAction.Action>()
                 {
                     new BeatAction.Action(beat - (0.25f/3f), delegate { weasels.Hit(beat); }),
@@ -482,7 +481,7 @@ namespace HeavenStudio.Games
             }
             else
             {
-                lastHitWeasel = Conductor.instance.songPositionInBeatsAsDouble;
+                lastHitWeasel = conductor.songPositionInBeatsAsDouble;
                 BeatAction.New(this, new List<BeatAction.Action>()
                 {
                     new BeatAction.Action(beat + 0.25, delegate { weasels.Hide(beat + 0.25f); }),

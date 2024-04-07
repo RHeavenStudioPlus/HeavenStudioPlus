@@ -68,7 +68,7 @@ namespace HeavenStudio.Games.Scripts_SeeSaw
         {
             var cond = Conductor.instance;
 
-            double currentBeat = cond.songPositionInBeatsAsDouble;
+            double currentBeat = cond.unswungSongPositionInBeatsAsDouble;
 
             if (cond.isPlaying && !cond.isPaused)
             {
@@ -298,7 +298,7 @@ namespace HeavenStudio.Games.Scripts_SeeSaw
         {
             lastState = currentState;
             currentState = state;
-            startBeat = beat;
+            startBeat = Conductor.instance.GetUnSwungBeat(beat);
             heightLastFrame = 0;
             hasChangedAnimMidAir = false;
             switch (currentState)
