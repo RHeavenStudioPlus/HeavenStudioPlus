@@ -10,30 +10,17 @@ using UnityEngine;
 
 public class NotePropertyPrefab : NumberPropertyPrefab
 {
-    public TMP_Text noteLabel;
-    
+    public TMP_Text noteLabel, flatLabel;
+
     private Sound previewAudioSource;
-    private EntityTypes.Note note;
     private int offsetFromC;
+    public EntityTypes.Note note;
 
     public override void SetProperties(string propertyName, object type, string caption)
     {
         base.SetProperties(propertyName, type, caption);
 
-        note = (EntityTypes.Note)type;
-
-        slider.minValue = note.min;
-        slider.maxValue = note.max;
-
-        slider.wholeNumbers = true;
-
-        offsetFromC = 3 - note.sampleNote;
-
-        slider.value = Convert.ToSingle(parameterManager.entity[propertyName]) - offsetFromC;
-        _defaultValue = slider.value;
-        
-        inputField.text = slider.value.ToString();
-        noteLabel.text = GetNoteText(note, (int)slider.value + offsetFromC);
+        SetNote((EntityTypes.Note)type);
 
         slider.onValueChanged.AddListener(
             _ =>
@@ -50,7 +37,7 @@ public class NotePropertyPrefab : NumberPropertyPrefab
                     this.caption.text = _captionText;
                 }
 
-                noteLabel.text = GetNoteText(note, trueSemitones);
+                UpdateNoteText(trueSemitones);
                 
                 PlayPreview(note, trueSemitones);
             }
@@ -64,9 +51,10 @@ public class NotePropertyPrefab : NumberPropertyPrefab
         inputField.onEndEdit.AddListener(
             _ =>
             {
-                int trueSemitones = (int)slider.value + offsetFromC;
-
                 slider.value = Convert.ToSingle(inputField.text);
+                
+                int trueSemitones = (int)slider.value + offsetFromC;
+                
                 parameterManager.entity[propertyName] = trueSemitones;
                 Editor.instance.editingInputField = false;
                 if (slider.value != _defaultValue)
@@ -78,11 +66,42 @@ public class NotePropertyPrefab : NumberPropertyPrefab
                     this.caption.text = _captionText;
                 }
 
-                noteLabel.text = GetNoteText(note, trueSemitones);
+                UpdateNoteText(trueSemitones);
                 
                 PlayPreview(note, trueSemitones);
             }
         );
+    }
+
+    public void SetNote(EntityTypes.Note note, bool playPreview = false)
+    {
+        this.note = note;
+
+        slider.minValue = note.min;
+        slider.maxValue = note.max;
+
+        slider.wholeNumbers = true;
+
+        offsetFromC = 0;
+        if(note.offsetToC)
+            offsetFromC = 3 - note.sampleNote;
+
+        int lastValue = (int)slider.value;
+        slider.value = Convert.ToSingle(parameterManager.entity[propertyName]) - offsetFromC;
+        _defaultValue = slider.value;
+        
+        inputField.text = slider.value.ToString();
+        UpdateNoteText((int)slider.value + offsetFromC);
+        
+        if((int)slider.value == lastValue && playPreview)
+            PlayPreview(note, (int)slider.value + offsetFromC);
+    }
+    
+    private void UpdateNoteText(int semiTones)
+    {
+        GetNoteText(note, semiTones, out var sharp, out var flat);
+        noteLabel.text = sharp;
+        flatLabel.text = flat;
     }
     
     public void OnSelectSliderHandle()
@@ -92,21 +111,24 @@ public class NotePropertyPrefab : NumberPropertyPrefab
 
     private void PlayPreview(EntityTypes.Note note, int currentSemitones)
     {
-        if (note.sampleName.Equals("") || !PersistentDataManager.gameSettings.previewNoteSounds) return;
+        if (note.sampleName == null || !PersistentDataManager.gameSettings.previewNoteSounds) return;
 
         if (previewAudioSource != null)
         {
-            previewAudioSource.Stop(true);
+            previewAudioSource.KillLoop();
             previewAudioSource = null;
         }
         
         float pitch = SoundByte.GetPitchFromSemiTones(currentSemitones, true);
+        if(pitch == 1f) pitch = 1.0001f; // man writes worst workaround ever, banned from Heaven Studio source code
         previewAudioSource = SoundByte.PlayOneShotGame(note.sampleName, pitch: pitch, volume: 0.75f, forcePlay: true, ignoreConductorPause: true);
+        previewAudioSource.KillLoop(.5f);
     }
 
     private static readonly string[] notes = { "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#" };
+    private static readonly string[] notesFlat = { "A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab" };
 
-    private static string GetNoteText(EntityTypes.Note note, int currentSemitones)
+    private static string GetNoteText(EntityTypes.Note note, int currentSemitones, out string sharp, out string flat)   
     {
         int noteIndex = (note.sampleNote + currentSemitones) % 12;
         if (noteIndex < 0)
@@ -121,7 +143,9 @@ public class NotePropertyPrefab : NumberPropertyPrefab
         {
             octave--;
         }
-
-        return notes[noteIndex] + octave;
+        
+        sharp = notes[noteIndex] + octave;
+        flat = notesFlat[noteIndex] + octave;
+        return sharp;
     }
 }

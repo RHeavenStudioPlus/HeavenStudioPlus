@@ -28,6 +28,7 @@ namespace HeavenStudio.Editor
             this.caption.text = _captionText = caption;
         }
         public virtual void SetCollapses(object type) { }
+        public virtual void PostLoadProperties(object type) { }
 
         public void UpdateCollapse(object type)
         {
