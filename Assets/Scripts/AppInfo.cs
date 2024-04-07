@@ -1,4 +1,9 @@
 using System;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
+#endif
 
 public static class AppInfo {
     public const string Version = "0.0.1018";
