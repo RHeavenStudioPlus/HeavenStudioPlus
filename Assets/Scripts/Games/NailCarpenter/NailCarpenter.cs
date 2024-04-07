@@ -214,7 +214,7 @@ namespace HeavenStudio.Games
 
         void Update()
         {
-            var currentBeat = conductor.songPositionInBeatsAsDouble;
+            double currentBeat = conductor.unswungSongPositionInBeatsAsDouble;
 
             if (!conductor.isPlaying) return;
 
@@ -234,8 +234,8 @@ namespace HeavenStudio.Games
             }
 
             // Board scroll.
-            var boardPos = boardTrans.localPosition;
-            var newBoardX = currentBeat * scrollMetresPerBeat;
+            Vector3 boardPos = boardTrans.localPosition;
+            double newBoardX = currentBeat * scrollMetresPerBeat;
             newBoardX %= boardWidth;
             boardTrans.localPosition = new Vector3((float)newBoardX, boardPos.y, boardPos.z);
 

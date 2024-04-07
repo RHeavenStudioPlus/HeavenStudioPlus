@@ -34,6 +34,7 @@ namespace HeavenStudio.Games.Scripts_NailCarpenter
 
             AwakeAnim();
             game.ScheduleUserInput(targetBeat, 0, NailCarpenter.InputAction_SweetsHit, HammmerJust, null, null);
+            targetBeat = Conductor.instance.GetUnSwungBeat(targetBeat);
             Update();
 
             if (sweetType == sweetsType.Pudding)
@@ -109,7 +110,7 @@ namespace HeavenStudio.Games.Scripts_NailCarpenter
 
             if (cond.isPlaying && !cond.isPaused)
             {
-                double beat = cond.songPositionInBeats;
+                double beat = cond.unswungSongPositionInBeatsAsDouble;
                 Vector3 pos = transform.position;
                 pos.x = targetX + (float)((beat - targetBeat) * metresPerSecond);
                 transform.position = pos;
