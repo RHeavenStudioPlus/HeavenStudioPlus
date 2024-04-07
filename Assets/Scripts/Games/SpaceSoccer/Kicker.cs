@@ -14,7 +14,7 @@ namespace HeavenStudio.Games.Scripts_SpaceSoccer
         [Header("Properties")]
         public bool canKick = true; //why was this false by default???
         public bool canHighKick;
-        private bool kickPrepare = false;
+        //private bool kickPrepare = false;    Unused value - Marc
         public bool kickLeft;
         bool kickLeftWhiff;
         public double dispenserBeat; //unused
@@ -152,7 +152,7 @@ namespace HeavenStudio.Games.Scripts_SpaceSoccer
             }
             else
             {
-                kickPrepare = true;
+                //kickPrepare = true;    Unused value - Marc
             }
         }
 
@@ -221,7 +221,7 @@ namespace HeavenStudio.Games.Scripts_SpaceSoccer
             if (!flick)
             {
                 kickTimes++;
-                kickPrepare = false;
+                //kickPrepare = false;    Unused value - Marc
             }
         }
 

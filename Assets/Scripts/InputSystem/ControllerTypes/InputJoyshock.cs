@@ -325,7 +325,7 @@ namespace HeavenStudio.InputSystem
         //gyro and accelerometer
         IMU_STATE joyImuStateCurrent, joyImuStateLast;
         //touchpad
-        TOUCH_STATE joyTouchStateCurrent, joyTouchStateLast;
+        TOUCH_STATE joyTouchStateCurrent /*, joyTouchStateLast    Unused value - Marc*/;
 
         // controller settings
         JSL_SETTINGS joySettings;
@@ -407,7 +407,7 @@ namespace HeavenStudio.InputSystem
             joyImuStateLast = new IMU_STATE();
 
             joyTouchStateCurrent = new TOUCH_STATE();
-            joyTouchStateLast = new TOUCH_STATE();
+            //joyTouchStateLast = new TOUCH_STATE();    Unused value - Marc
 
 
             joySettings = JslGetControllerInfoAndSettings(joyshockHandle);

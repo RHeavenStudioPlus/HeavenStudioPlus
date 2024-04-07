@@ -15,7 +15,7 @@ namespace HeavenStudio.Editor
 
         public int HistoryCount => historyStack.Count;
 
-        private int maxItems = 128;
+        //private int maxItems = 128;    Unused value - Marc
 
         private void Awake()
         {

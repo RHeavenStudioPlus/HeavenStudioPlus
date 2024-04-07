@@ -15,14 +15,14 @@ namespace HeavenStudio.Games.Scripts_Kitties
         public Animator fish;
         private int spawnType;
 
-        private bool hasClapped = false;
+        //private bool hasClapped = false;    Unused value - Marc
         public bool canClap = false;
 
         private bool hasSpun = false;
-        private bool checkSpin = false;
+        //private bool checkSpin = false;   Unused value - Marc
 
-        private bool hasFish = false;
-        private bool canFish = false;
+        //private bool hasFish = false;    Unused value - Marc
+        //private bool canFish = false;    Unused value - Marc
         // Start is called before the first frame update
         void Start()
         {

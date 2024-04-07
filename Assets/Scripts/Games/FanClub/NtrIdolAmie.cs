@@ -30,7 +30,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
         bool exiting = false;
         int currentAnim = 0;
         double startJumpTime = double.MinValue;
-        bool hasJumped = false;
+        //bool hasJumped = false;    Unused value - Marc
 
         const int StepCount = 8;
         const int AnimCount = StepCount * 2;
@@ -71,7 +71,7 @@ namespace HeavenStudio.Games.Scripts_FanClub
                 float IDOL_SHADOW_SCALE = 1.18f;
                 if (cond.unswungSongPositionInBeatsAsDouble >= startJumpTime && cond.unswungSongPositionInBeatsAsDouble < startJumpTime + 1f)
                 {
-                    hasJumped = true;
+                    //hasJumped = true;    Unused value - Marc
                     float yMul = jumpPos * 2f - 1f;
                     float yWeight = -(yMul*yMul) + 1f;
                     rootTransform.transform.localPosition = new Vector3(startPostion + stepDistance * AnimCount, rootYPos + (2f * yWeight + 0.25f));

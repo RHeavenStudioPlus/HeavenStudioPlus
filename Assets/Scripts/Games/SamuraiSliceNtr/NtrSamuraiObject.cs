@@ -28,8 +28,8 @@ namespace HeavenStudio.Games.Scripts_NtrSamurai
         BezierCurve3D currentCurve;
         int flyProg = 0;
         bool flying = true;
-        bool missedLaunch = false;
-        bool missedHit = false;
+        //bool missedLaunch = false;    Unused value - Marc
+        //bool missedHit = false;    Unused value - Marc
 
         PlayerActionEvent launchProg;
         PlayerActionEvent hitProg;
@@ -295,7 +295,7 @@ namespace HeavenStudio.Games.Scripts_NtrSamurai
 
         public void LaunchMiss(PlayerActionEvent caller)
         {
-            missedLaunch = true;
+            //missedLaunch = true;    Unused value - Marc
             switch (flyProg)
             {
                 case 2:
@@ -374,7 +374,7 @@ namespace HeavenStudio.Games.Scripts_NtrSamurai
                     break;
             }
             DoSplat(caller.startBeat + flyDur);
-            missedHit = true;
+            //missedHit = true;    Unused value - Marc
         }
     }
 }

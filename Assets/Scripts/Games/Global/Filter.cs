@@ -11,7 +11,7 @@ namespace HeavenStudio.Games.Global
     public class Filter : MonoBehaviour
     {
         private List<RiqEntity> allFilterEvents = new List<RiqEntity>();
-        private int lastFilterIndexesCount = 0; // Optimization
+        //private int lastFilterIndexesCount = 0; // Optimization |    Well whether it's an optimization or not it's still an unused value - Marc
 
         private List<AmplifyColorEffect> amplifies = new List<AmplifyColorEffect>(); // keeps memory of all the filters on the main camera
         private List<Texture2D> amplifyTextures = new List<Texture2D>(); // All available camera filters in texture format

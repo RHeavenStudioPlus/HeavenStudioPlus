@@ -223,7 +223,7 @@ namespace HeavenStudio.Games
         public static TheDazzles instance;
 
         [Header("Variables")]
-        bool canBop = true;
+        //bool canBop = true;
         bool doingPoses = false;
         bool shouldHold = false;
         double crouchEndBeat;
@@ -433,21 +433,21 @@ namespace HeavenStudio.Games
             {
                 new BeatAction.Action(beat, delegate
                 {
-                    npcGirls[1].canBop = false;
-                    npcGirls[4].canBop = false;
+                    //npcGirls[1].canBop = false;    Unused value - Marc
+                    //npcGirls[4].canBop = false;    Unused value - Marc
                     npcGirls[1].Prepare();
                     npcGirls[4].Prepare();
                 }),
                 new BeatAction.Action(beat + 1f * actualLength, delegate
                 {
-                    npcGirls[0].canBop = false;
-                    npcGirls[3].canBop = false;
+                    //npcGirls[0].canBop = false;    Unused value - Marc
+                    //npcGirls[3].canBop = false;    Unused value - Marc
                     npcGirls[0].Prepare();
                     npcGirls[3].Prepare();
                 }),
                 new BeatAction.Action(beat + 2f * actualLength, delegate
                 {
-                    npcGirls[2].canBop = false;
+                    //npcGirls[2].canBop = false;    Unused value - Marc
                     npcGirls[2].Prepare();
                 }),
             });
@@ -532,10 +532,10 @@ namespace HeavenStudio.Games
                 {
                     foreach (var girl in npcGirls)
                     {
-                        girl.canBop = false;
+                        //girl.canBop = false;    Unused value - Marc
                         girl.Hold();
                     }
-                    player.canBop = false;
+                    //player.canBop = false;    Unused value - Marc
                     player.Hold();
                 }),
                 new BeatAction.Action(beat, delegate
@@ -568,16 +568,16 @@ namespace HeavenStudio.Games
             {
                 foreach (var girl in npcGirls)
                 {
-                    girl.canBop = true;
+                    //girl.canBop = true;    Unused value - Marc
                 }
-                player.canBop = true;
+                //player.canBop = true;    Unused value - Marc
             }));
             BeatAction.New(instance, posesToDo);
         }
 
         void JustCrouch(PlayerActionEvent caller, float state)
         {
-            player.canBop = false;
+            //player.canBop = false;    Unused value - Marc
             if (state >= 1f || state <= -1f)
             {
                 player.Prepare();

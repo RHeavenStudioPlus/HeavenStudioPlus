@@ -301,6 +301,7 @@ namespace HeavenStudio.Games
                 0 => new string[] { "djSchool/breakCmon1", "djSchool/breakCmon2", "djSchool/ooh" },
                 1 => new string[] { "djSchool/breakCmonAlt1", "djSchool/breakCmonAlt2", "djSchool/oohAlt" },
                 2 => new string[] { "djSchool/breakCmonLoud1", "djSchool/breakCmonLoud2", "djSchool/oohLoud" },
+                _ => null,    //This switch needed a default parameter - Marc
             };
 
             if (doSound)
