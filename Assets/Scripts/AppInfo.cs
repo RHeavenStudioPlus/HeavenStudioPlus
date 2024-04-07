@@ -1,8 +1,8 @@
 using System;
 
 public static class AppInfo {
-    public const string Version = "1.0.0";
-    public static readonly DateTime Date = new DateTime(2024, 03, 30, 00, 41, 52, 793, DateTimeKind.Utc);
+    public const string Version = "1.0.9";
+    public static readonly DateTime Date = new DateTime(2024, 03, 29, 20, 52, 02, 483, DateTimeKind.Utc);
 }
 
 
@@ -10,7 +10,7 @@ public static class AppInfo {
 /// <summary>
 /// Increase Build Number Automatically
 /// </summary>
-public class BuildNumberUpdater : UnityEditor.Build.IPreprocessBuildWithReport
+public class BuildNumberUpdater : UnityEditor.Build.IPreprocessBuild
 {
     private static readonly char[] LineDelimiter = {'\n', '\r'};
 
@@ -21,7 +21,7 @@ public class BuildNumberUpdater : UnityEditor.Build.IPreprocessBuildWithReport
         get { return 1; }
     }
 
-    void UnityEditor.Build.IPreprocessBuildWithReport.OnPreprocessBuild(BuildReport _) {
+    void UnityEditor.Build.IPreprocessBuild.OnPreprocessBuild(UnityEditor.BuildTarget target, string path) {
         var scriptPath = GetScriptPath(AppInfoFileName);
         var version = IncVersion();
         var time = DateTime.UtcNow;
