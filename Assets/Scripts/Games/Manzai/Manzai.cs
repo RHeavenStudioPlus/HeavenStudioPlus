@@ -227,8 +227,8 @@ namespace HeavenStudio.Games
         bool crowdIsCheering = false;
         double crowdLastMissAnimation = double.MinValue;
 
-        bool jumpUp = false;
-        bool jumpDown = false;
+        //bool jumpUp = false;    Unused value - Marc
+        //bool jumpDown = false;    Unused value - Marc
         float jumpStart;
         float jumpApex;
         float jumpLength;

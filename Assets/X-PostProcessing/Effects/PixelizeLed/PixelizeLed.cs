@@ -27,7 +27,7 @@ namespace XPostProcessing
         [Range(0.01f, 1.0f)]
         public FloatParameter ledRadius = new FloatParameter { value = 1.0f };
 
-        [ColorUsageAttribute(true, true, 0f, 20f, 0.125f, 3f)]
+        [ColorUsageAttribute(true, true)    /*replaced deprecated "ColorUsageAttribute(true, true, 0f, 20f, 0.125f, 3f)" - Marc*/]
         public ColorParameter BackgroundColor = new ColorParameter { value = new Color(0.0f, 0.0f, 0.0f) };
 
         public BoolParameter useAutoScreenRatio = new BoolParameter { value = true };

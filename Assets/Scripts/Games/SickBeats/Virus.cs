@@ -55,6 +55,7 @@ namespace HeavenStudio.Games.Scripts_SickBeats
                     1 => SickBeats.InputAction_Up,
                     2 => SickBeats.InputAction_Left,
                     3 => SickBeats.InputAction_Down,
+                    _ => null,    //This switch needed a default parameter - Marc
                 };
             }
 

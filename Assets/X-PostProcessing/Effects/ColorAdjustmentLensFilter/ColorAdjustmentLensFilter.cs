@@ -21,7 +21,7 @@ namespace XPostProcessing
     public class ColorAdjustmentLensFilter : PostProcessEffectSettings
     {
 
-        [ColorUsageAttribute(true, true, 0f, 20f, 0.125f, 3f)]
+        [ColorUsageAttribute(true, true)    /*replaced deprecated "ColorUsageAttribute(true, true, 0f, 20f, 0.125f, 3f)" - Marc*/]
         public ColorParameter LensColor = new ColorParameter { value = new Color(1.0f, 1.0f, 0.1f, 1) };
 
         [Range(0.0f, 1.0f)]

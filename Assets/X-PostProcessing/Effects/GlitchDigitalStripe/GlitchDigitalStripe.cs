@@ -40,7 +40,7 @@ namespace XPostProcessing
 
         public BoolParameter needStripColorAdjust = new BoolParameter { value = false };
 
-        [ColorUsageAttribute(true, true, 0f, 20f, 0.125f, 3f)]
+        [ColorUsageAttribute(true, true)    /*replaced deprecated "ColorUsageAttribute(true, true, 0f, 20f, 0.125f, 3f)" - Marc*/]
         public ColorParameter StripColorAdjustColor = new ColorParameter { value = new Color(0.1f, 0.1f, 0.1f) };
 
         [Range(0, 10)]

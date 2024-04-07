@@ -16,7 +16,7 @@ namespace HeavenStudio.Games.Scripts_CatchOfTheDay
         [SerializeField] FleeAnimation FleeAnim;
         [SerializeField] bool FlipSprite;
 
-        private bool Out = false;
+        //private bool Out = false;    Unused value - Marc
 
         public void SetColor(Color color)
         {
@@ -61,7 +61,7 @@ namespace HeavenStudio.Games.Scripts_CatchOfTheDay
                     break;
             }
 
-            Out = true;
+            //Out = true;    Unused value - Marc
         }
 
         public enum FleeAnimation : int

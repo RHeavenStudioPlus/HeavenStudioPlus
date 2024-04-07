@@ -385,7 +385,7 @@ namespace HeavenStudio.Games
         Color cloudColorTo;
         Color cloudColorFrom2;
         Color cloudColorTo2;
-        bool colorsCanUpdate = false;
+        //bool colorsCanUpdate = false;    Unused value - Marc
 
         double bubbleEndCount = 0;
         double bubbleSizeChangeStart = 0;
@@ -1992,7 +1992,7 @@ namespace HeavenStudio.Games
                 }
             }
 
-            colorsCanUpdate = true;
+            //colorsCanUpdate = true;    Unused value - Marc
         }
 
         private void AllColorsUpdate(Conductor cond)

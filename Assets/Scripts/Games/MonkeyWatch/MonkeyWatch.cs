@@ -175,7 +175,7 @@ namespace HeavenStudio.Games
         [SerializeField] private float zoomInBeatLength = 2f;
         [SerializeField] private Util.EasingFunction.Ease zoomInEase;
         private float lastAngle = 0f;
-        private int cameraIndex = 0;
+        //private int cameraIndex = 0;    Unused value - Marc
         private float cameraWantAngle, cameraAngleDelay;
         private float delayRate = 0.5f, targetDelayRate;
 
@@ -193,7 +193,7 @@ namespace HeavenStudio.Games
             CameraUpdate();
         }
 
-        private double lastReportedBeat = 0;
+        //private double lastReportedBeat = 0;    Unused value - Marc
 
         private void Update()
         {

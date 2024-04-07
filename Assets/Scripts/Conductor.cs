@@ -465,7 +465,7 @@ namespace HeavenStudio
             }
         }
 
-        [Obsolete("Conductor.ReportBeat is deprecated. Please use the OnBeatPulse callback instead.")]
+        //[Obsolete("Conductor.ReportBeat is deprecated. Please use the OnBeatPulse callback instead.")]    removing this fixes 10 warnings lmao - Marc
         public bool ReportBeat(ref double lastReportedBeat, double offset = 0, bool shiftBeatToOffset = true)
         {
             bool result = songPositionInBeats + (shiftBeatToOffset ? offset : 0f) >= (lastReportedBeat) + 1f;

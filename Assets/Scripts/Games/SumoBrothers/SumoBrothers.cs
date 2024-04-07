@@ -167,7 +167,7 @@ namespace HeavenStudio.Games
 
         private bool lookingAtCamera = false;
 
-        private double lastReportedBeat = 0f;
+        //private double lastReportedBeat = 0f;    Unused value - Marc
 
         private bool cueCurrentlyActive; 
         private double cueCurrentlyActiveBeat;
