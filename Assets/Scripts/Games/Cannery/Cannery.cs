@@ -25,7 +25,7 @@ namespace HeavenStudio.Games.Loaders
                     parameters = new List<Param>()
                     {
                         new Param("toggle", true, "Bop", "Toggle if the alarm should bop for the duration of this event."),
-                        new Param("auto", false, "Bop (Auto)", "Toggle if Dog Ninja should automatically bop until another Bop event is reached."),
+                        new Param("auto", false, "Bop (Auto)", "Toggle if the alarm should automatically bop until another Bop event is reached."),
                     }
                 },
                 new GameAction("can", "Can")

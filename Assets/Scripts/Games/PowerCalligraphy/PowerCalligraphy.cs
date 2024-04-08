@@ -24,8 +24,8 @@ namespace HeavenStudio.Games.Loaders
                     resizable = true,
                     parameters = new List<Param>()
                     {
-                        new Param("bop", true, "Bop", "Toggle if the paddlers should bop for the duration of this event."),
-                        new Param("bopAuto", false, "Bop (Auto)", "Toggle if the paddlers should automatically bop until another Bop event is reached.")
+                        new Param("bop", true, "Bop", "Toggle if the hand should bop for the duration of this event."),
+                        new Param("bopAuto", false, "Bop (Auto)", "Toggle if the hand should automatically bop until another Bop event is reached.")
                     }
                 },
                 new GameAction("re", "Re (レ)")
@@ -64,7 +64,7 @@ namespace HeavenStudio.Games.Loaders
                         e["korean"] ? (int)PowerCalligraphy.CharacterType.face_kr : (int)PowerCalligraphy.CharacterType.face); },
                     parameters = new List<Param>() 
                     {
-                        new Param("korean", false, "Korean Version", "Change the character to Korean version. (つ３ニハ○○ムし)"),
+                        new Param("korean", false, "Korean Version", "Change the character to the Korean version. (つ３ニハ○○ムし)"),
                     },
                     defaultLength = 12f,
                 },

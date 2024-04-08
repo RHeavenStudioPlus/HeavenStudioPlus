@@ -36,9 +36,9 @@ namespace HeavenStudio.Games.Loaders
                     resizable = true,
                     parameters = new List<Param>()
                     {
-                        new Param("who", Manzai.WhoBops.Both, "Who Bops?", "Which bird bops"),
-                        new Param("bop", true, "Enable Bopping", "Whether to bop to the beat or not"),
-                        new Param("auto", false, "Automatic?", "Whether to bop to the beat or not automatically"),
+                        new Param("who", Manzai.WhoBops.Both, "Who Bops?", "Which bird bops."),
+                        new Param("bop", true, "Enable Bopping", "Whether to bop to the beat or not."),
+                        new Param("auto", false, "Automatic?", "Whether to bop to the beat or not automatically."),
                     }
                 },
                 new GameAction("pun", "Pun")
@@ -106,9 +106,9 @@ namespace HeavenStudio.Games.Loaders
                     resizable = true,
                     parameters = new List<Param>()
                     {
-                        new Param("goToSide", Manzai.WhichSide.Outside, "Go to Which Side?", "Which side of the stage the birds will move to?"),
+                        new Param("goToSide", Manzai.WhichSide.Outside, "Go to Which Side?", "Which side of the stage will the birds will move to?"),
                         new Param("ease", EasingFunction.Ease.EaseOutQuad, "Ease", "Which ease should the movement have?"),
-                        new Param("animation", true, "Play Animation?", "Whether the birds will use the slide animation"),
+                        new Param("animation", true, "Play Animation?", "Whether the birds will use the slide animation."),
                     },
                 },
                 new GameAction("lights", "Toggle Lights")
@@ -120,7 +120,7 @@ namespace HeavenStudio.Games.Loaders
                     defaultLength = 0.5f,
                     parameters = new List<Param>()
                     {
-                        new Param("lightsEnabled", false, "Spotlights", "Whether the spotlights will be turned on"),
+                        new Param("lightsEnabled", false, "Spotlights", "Whether the spotlights will be turned on."),
                     },
                 },
                 new GameAction("crowd", "Crowd Animations")
@@ -134,7 +134,7 @@ namespace HeavenStudio.Games.Loaders
                     parameters = new List<Param>()
                     {
                         new Param("animation", Manzai.CrowdAnimationList.Bop, "Animation", "What animation the crowd will play."),
-                        new Param("loop", new EntityTypes.Integer(1, 16, 4), "Loop Interval (x4)", "How many quarter-beats the animation will wait before looping"),
+                        new Param("loop", new EntityTypes.Integer(1, 16, 4), "Loop Interval (x4)", "How many quarter-beats the animation will wait before looping."),
                     },
                 }},
                 new List<string>() { "rvl", "normal" },

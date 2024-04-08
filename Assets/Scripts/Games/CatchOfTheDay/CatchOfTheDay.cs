@@ -33,10 +33,10 @@ namespace HeavenStudio.Games.Loaders
                         }),
                         new Param("colorTop",    new Color(0.7098039f, 0.8705882f, 0.8705882f), "Top Color",    "The color for the top part of the background."),
                         new Param("colorBottom", new Color(0.4666667f, 0.7372549f, 0.8196079f), "Bottom Color", "The color for the bottom part of the background."),
-                        new Param("sceneDelay", new EntityTypes.Float(0f, 32f, 2f), "Scene Change Delay", "Amount of beats to wait before changing to the next scene."),
+                        new Param("sceneDelay", new EntityTypes.Float(0f, 32f, 2f), "Scene Change Delay", "The number of beats to wait before changing to the next scene."),
                         new Param("fgManta", false, "Foreground Stingray", "Spawn a stingray in the foreground of the scene."),
                         new Param("bgManta", false, "Background Stingray", "Spawn a stingray in the background of the scene."),
-                        new Param("schoolFish", false, "School of Fish", "Spawn a school of fish to as a distraction.", new List<Param.CollapseParam>()
+                        new Param("schoolFish", false, "School of Fish", "Spawn a school of fish as a distraction.", new List<Param.CollapseParam>()
                         {
                             new Param.CollapseParam((x, _) => (bool)x, new string[] { "fishDensity" })
                         }),
@@ -58,10 +58,10 @@ namespace HeavenStudio.Games.Loaders
                         }),
                         new Param("colorTop",    new Color(0.7098039f, 0.8705882f, 0.8705882f), "Top Color",    "The color for the top part of the background."),
                         new Param("colorBottom", new Color(0.4666667f, 0.7372549f, 0.8196079f), "Bottom Color", "The color for the bottom part of the background."),
-                        new Param("sceneDelay", new EntityTypes.Float(0f, 32f, 2f), "Scene Change Delay", "Amount of beats to wait before changing to the next scene."),
+                        new Param("sceneDelay", new EntityTypes.Float(0f, 32f, 2f), "Scene Change Delay", "Number of beats to wait before changing to the next scene."),
                         new Param("fgManta", false, "Foreground Stingray", "Spawn a stingray in the foreground of the scene."),
                         new Param("bgManta", false, "Background Stingray", "Spawn a stingray in the background of the scene."),
-                        new Param("schoolFish", false, "School of Fish", "Spawn a school of fish to as a distraction.", new List<Param.CollapseParam>()
+                        new Param("schoolFish", false, "School of Fish", "Spawn a school of fish as a distraction.", new List<Param.CollapseParam>()
                         {
                             new Param.CollapseParam((x, _) => (bool)x, new string[] { "fishDensity" })
                         }),
@@ -84,10 +84,10 @@ namespace HeavenStudio.Games.Loaders
                         }),
                         new Param("colorTop",    new Color(0.7098039f, 0.8705882f, 0.8705882f), "Top Color",    "The color for the top part of the background."),
                         new Param("colorBottom", new Color(0.4666667f, 0.7372549f, 0.8196079f), "Bottom Color", "The color for the bottom part of the background."),
-                        new Param("sceneDelay", new EntityTypes.Float(0f, 32f, 2f), "Scene Change Delay", "Amount of beats to wait before changing to the next scene."),
+                        new Param("sceneDelay", new EntityTypes.Float(0f, 32f, 2f), "Scene Change Delay", "Number of beats to wait before changing to the next scene."),
                         new Param("fgManta", false, "Foreground Stingray", "Spawn a stingray in the foreground of the scene."),
                         new Param("bgManta", false, "Background Stingray", "Spawn a stingray in the background of the scene."),
-                        new Param("schoolFish", false, "School of Fish", "Spawn a school of fish to as a distraction.", new List<Param.CollapseParam>()
+                        new Param("schoolFish", false, "School of Fish", "Spawn a school of fish as a distraction.", new List<Param.CollapseParam>()
                         {
                             new Param.CollapseParam((x, _) => (bool)x, new string[] { "fishDensity" })
                         }),
@@ -109,16 +109,16 @@ namespace HeavenStudio.Games.Loaders
                         }),
                         new Param("startMoveX", new EntityTypes.Float(-20f, 20f, 0f), "Start X", "Set the X position from which to move."),
                         new Param("startMoveY", new EntityTypes.Float(-20f, 20f, 0f), "Start Y", "Set the Y position from which to move."),
-                        new Param("endMoveX", new EntityTypes.Float(-20f, 20f, 0f), "End X", "Set the X position to which to move."),
-                        new Param("endMoveY", new EntityTypes.Float(-20f, 20f, 0f), "End Y", "Set the Y position to which to move."),
+                        new Param("endMoveX", new EntityTypes.Float(-20f, 20f, 0f), "End X", "Set the X position to move to."),
+                        new Param("endMoveY", new EntityTypes.Float(-20f, 20f, 0f), "End Y", "Set the Y position to move to."),
                         new Param("doRotate", false, "Rotate", "Select this option if you want to rotate Ann.", new List<Param.CollapseParam>()
                         {
                             new Param.CollapseParam((x, _) => (bool)x, new string[] { "endRotDegrees" } ),
                             new Param.CollapseParam((x, e) => (bool)x && (Util.EasingFunction.Ease)e["ease"] != Util.EasingFunction.Ease.Instant, new string[] { "startRotDegrees" }),
                             new Param.CollapseParam((_, e) => (bool)e["doMove"] || (bool)e["doRotate"] || (bool)e["doScale"], new string[] { "ease" })
                         }),
-                        new Param("startRotDegrees", new EntityTypes.Float(-360f, 360f, 0f), "Start Rotation", "Set the amount of degrees at which to begin rotating."),
-                        new Param("endRotDegrees", new EntityTypes.Float(-360f, 360f, 0f), "End Rotation", "Set the amount of degrees at which to finish rotating."),
+                        new Param("startRotDegrees", new EntityTypes.Float(-360f, 360f, 0f), "Start Rotation", "Set the number of degrees at which to begin rotating."),
+                        new Param("endRotDegrees", new EntityTypes.Float(-360f, 360f, 0f), "End Rotation", "Set the number of degrees at which to finish rotating."),
                         new Param("doScale", false, "Scale", "Select this option if you want to change Ann's scale.", new List<Param.CollapseParam>()
                         {
                             new Param.CollapseParam((x, _) => (bool)x, new string[] { "endScaleX", "endScaleY" } ),

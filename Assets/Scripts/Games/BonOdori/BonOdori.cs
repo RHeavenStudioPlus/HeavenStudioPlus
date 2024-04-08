@@ -151,7 +151,7 @@ namespace HeavenStudio.Games.Loaders
                     defaultLength = 1f,
                     parameters = new List<Param>()
                     {
-                        new Param("toggle", true, "Darken Background", "Darkens the background"),
+                        new Param("toggle", true, "Darken Background", "Darkens the background."),
                     }
                 },
             },

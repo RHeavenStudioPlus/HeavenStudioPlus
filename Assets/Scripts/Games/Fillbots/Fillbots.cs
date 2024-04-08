@@ -16,7 +16,7 @@ namespace HeavenStudio.Games.Loaders
                 new Param("practice", false, "Count-In"),
                 new Param("alt", false, "Alternate OK"),
                 new Param("type", Scripts_Fillbots.EndAnim.Both, "Success Reaction", "Set the reaction of the Robot."),
-                new Param("stop", false, "Stop Conveyer", "Toggle if the conveyer should be stopped when finished."),
+                new Param("stop", false, "Stop Conveyor", "Toggle if the conveyor should be stopped when finished."),
                 new Param("color", false, "Custom Color", "Toggle if the robot color should be changed.", new List<Param.CollapseParam>()
                 {
                     new Param.CollapseParam((x, _) => (bool)x, new string[] { "colorFuel", "colorLampOff", "colorLampOn" }),
@@ -145,7 +145,7 @@ namespace HeavenStudio.Games.Loaders
                         new Param("colorLampOn", new Color(1f, 1f, 0.42f), "On Lamp Color", "Set the color of the on lamp."),
                         new Param("colorImpact", new Color(1f, 0.59f, 0.01f), "Impact Color", "Set the color of the impact."),
                         new Param("colorFiller", Color.white, "Filler Color", "Set the color of the filler."),
-                        new Param("colorConveyer", Color.white, "Conveyer Color", "Set the color of the conveyer."),
+                        new Param("colorConveyer", Color.white, "Conveyor Color", "Set the color of the conveyor."),
                     }
                 },
             },

@@ -64,7 +64,7 @@ namespace HeavenStudio.Games.Loaders
                     defaultLength = 0.5f,
                     parameters = new List<Param>()
                     {
-                        new Param("text", "Mannequin Factory", "Text", "The text to be displayed on the sign"),
+                        new Param("text", "Mannequin Factory", "Text", "The text to be displayed on the sign."),
                     }
                 },
                 new GameAction("bgColor", "Change Background Color")
@@ -79,7 +79,7 @@ namespace HeavenStudio.Games.Loaders
                     {
                         new Param("colorStart", new Color(0.97f, 0.94f, 0.51f, 1f), "Start Color", "The color to start fading from."),
                         new Param("colorEnd",   new Color(0.97f, 0.94f, 0.51f, 1f), "End Color", "The color to end the fade."),
-                        new Param("ease", Util.EasingFunction.Ease.Linear, "Ease", "The ease to use for color fade", new() {
+                        new Param("ease", Util.EasingFunction.Ease.Linear, "Ease", "The ease to use for color fade.", new() {
                             new Param.CollapseParam((x, _) => (int)x != (int)Util.EasingFunction.Ease.Instant, new[] { "colorStart" }),
                         }),
                     },
