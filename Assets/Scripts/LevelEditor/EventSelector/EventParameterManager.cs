@@ -32,6 +32,8 @@ namespace HeavenStudio.Editor
         public bool active;
 
         private int childCountAtStart;
+        
+        public Dictionary<string, EventPropertyPrefab> currentProperties = new();
 
         public bool canDisable = true;
 
@@ -47,6 +49,7 @@ namespace HeavenStudio.Editor
                     { typeof(Float), FloatP },
                     { typeof(Note), NoteP },
                     { typeof(Dropdown), DropdownP },
+                    { typeof(NoteSampleDropdown), DropdownP },
                     { typeof(Button), ButtonP },
                     { typeof(Color), ColorP },
                     { typeof(bool), BooleanP },
@@ -111,24 +114,29 @@ namespace HeavenStudio.Editor
 
                 DestroyParams();
 
-                Dictionary<string, GameObject> ePrefabs = new();
-
                 for (int i = 0; i < action.parameters.Count; i++)
                 {
                     var p = action.parameters[i];
-                    ePrefabs.Add(p.propertyName, AddParam(p.propertyName, p.parameter, p.caption, p.tooltip));
+                    currentProperties.Add(p.propertyName, AddParam(p.propertyName, p.parameter, p.caption, p.tooltip));
                 }
 
                 foreach (var p in action.parameters)
                 {
                     if (p.collapseParams == null || p.collapseParams.Count == 0) continue;
-                    EventPropertyPrefab input = ePrefabs[p.propertyName].GetComponent<EventPropertyPrefab>();
+                    EventPropertyPrefab input = currentProperties[p.propertyName];
                     foreach (var c in p.collapseParams)
                     {
-                        List<GameObject> collapseables = c.collapseables.Select(x => ePrefabs[x]).ToList();
+                        List<GameObject> collapseables = c.collapseables.Select(x => currentProperties[x].gameObject).ToList();
                         input.propertyCollapses.Add(new EventPropertyPrefab.PropertyCollapse(collapseables, c.CollapseOn, entity));
                     }
                     input.SetCollapses(p.parameter);
+                }
+                
+                foreach (var p in action.parameters)
+                {
+                    EventPropertyPrefab prop = currentProperties[p.propertyName];
+                    
+                    prop.PostLoadProperties(p.parameter);
                 }
 
                 active = true;
@@ -139,7 +147,7 @@ namespace HeavenStudio.Editor
             }
         }
 
-        private GameObject AddParam(string propertyName, object type, string caption, string tooltip = "")
+        private EventPropertyPrefab AddParam(string propertyName, object type, string caption, string tooltip = "")
         {
             Type typeType = type.GetType();
             GameObject propertyPrefab = DropdownP; // enum check is hardcoded because enums are awesome (lying)
@@ -163,7 +171,7 @@ namespace HeavenStudio.Editor
             EventPropertyPrefab property = input.GetComponent<EventPropertyPrefab>();
             property.SetProperties(propertyName, type, caption);
 
-            return input;
+            return property;
         }
 
         private void DestroyParams()
@@ -174,6 +182,8 @@ namespace HeavenStudio.Editor
             {
                 Destroy(transform.GetChild(i).gameObject);
             }
+            
+            currentProperties.Clear();
         }
     }
 }

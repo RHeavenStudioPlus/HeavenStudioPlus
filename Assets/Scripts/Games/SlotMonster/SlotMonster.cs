@@ -219,7 +219,7 @@ namespace HeavenStudio.Games
             string hitSfx = "slotMonster/stop_" + (isLast && isHit && !isMiss ? "hit" : (currentButton + 1));
             SoundByte.PlayOneShotGame(hitSfx, forcePlay: true);
             if (isLast) {
-                if (rollingSound != null) rollingSound.Stop();
+                if (rollingSound != null) rollingSound.KillLoop();
                 inputsActive = false;
                 if (isHit && !isMiss) {
                     smAnim.DoScaledAnimationAsync("Win", 0.5f);
@@ -235,7 +235,7 @@ namespace HeavenStudio.Games
 
         public void StartInterval(RiqEntity si, bool autoPass, int eyeSprite, double gameSwitchBeat)
         {
-            if (rollingSound != null) rollingSound.Stop();
+            if (rollingSound != null) rollingSound.KillLoop();
             List<RiqEntity> slotActions = gameEntities.FindAll(e => e.datamodel == "slotMonster/slot" && e.beat >= si.beat && e.beat < si.beat + si.length);
             if (slotActions.Count <= 0) return;
 
@@ -322,7 +322,7 @@ namespace HeavenStudio.Games
         private void ButtonEndMiss(PlayerActionEvent caller)
         {
             Debug.Log("miss i guess");
-            if (rollingSound != null) rollingSound.Stop();
+            if (rollingSound != null) rollingSound.KillLoop();
             inputsActive = false;
             smAnim.DoScaledAnimationAsync("Lose", 0.5f);
             foreach (var anim in eyeAnims) {

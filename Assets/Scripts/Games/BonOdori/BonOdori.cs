@@ -48,11 +48,11 @@ namespace HeavenStudio.Games.Loaders
                             new((x, _) => (int)x == 1, new string[] { "variationPa"}),
                             new((x, _) => (int)x == 2, new string[] { "variationPa_n"}),
                         }),
-                        new Param("variationPan", BonOdori.variationPan.PanC, "Pan Type", "Set the variation of the voice line."),
-                        new Param("variationPa", BonOdori.variationPa.PaG, "Pa Type", "Set the variation of the voice line."),
-                        new Param("variationPa_n", BonOdori.variationPa_n.Pa_nA , "Pa-n Type", "Set the variation of the voice line."),
+                        new Param("variationPan", new EntityTypes.NoteSampleDropdown(BonOdori.variationPan.PanC, BonOdori.GetSample, "semitone"), "Pan Type", "Set the variation of the voice line."),
+                        new Param("variationPa", new EntityTypes.NoteSampleDropdown(BonOdori.variationPa.PaG, BonOdori.GetSample, "semitone"), "Pa Type", "Set the variation of the voice line."),
+                        new Param("variationPa_n", new EntityTypes.NoteSampleDropdown(BonOdori.variationPa_n.Pa_nA, BonOdori.GetSample, "semitone") , "Pa-n Type", "Set the variation of the voice line."),
                         new Param("clapType", BonOdori.typeClap.SideClap, "Clap Type", "Set the type of clap."),
-                        new Param("semitone", new EntityTypes.Integer(-EntityTypes.Note.maxSemitones, EntityTypes.Note.maxSemitones, 0), "Semitone", "Set the number of semitones up or down this note should be pitched."),
+                        new Param("semitone", new EntityTypes.Note(offsetToC: false), "Semitone", "Set the number of semitones up or down this note should be pitched."),
                     },
                 },
 
@@ -71,10 +71,10 @@ namespace HeavenStudio.Games.Loaders
                             new((x, _) => (int)x == 1, new string[] { "variationDo"}),
                             new((x, _) => (int)x == 2, new string[] { "variationDo_n"}),
                         }),
-                        new Param("variationDon", BonOdori.variationDon.DonA, "Don Type", "Set the variation of the voice line."),
-                        new Param("variationDo", BonOdori.variationDo.DoC, "Do Type", "Set the variation of the voice line."),
-                        new Param("variationDo_n", BonOdori.variationDo_n.Do_nA, "Do-n Type", "Set the variation of the voice line."),
-                        new Param("semitone", new EntityTypes.Integer(-EntityTypes.Note.maxSemitones, EntityTypes.Note.maxSemitones, 0), "Semitone", "Set the number of semitones up or down this note should be pitched."),
+                        new Param("variationDon", new EntityTypes.NoteSampleDropdown(BonOdori.variationDon.DonA, BonOdori.GetSample, "semitone"), "Don Type", "Set the variation of the voice line."),
+                        new Param("variationDo", new EntityTypes.NoteSampleDropdown(BonOdori.variationDo.DoC, BonOdori.GetSample, "semitone"), "Do Type", "Set the variation of the voice line."),
+                        new Param("variationDo_n", new EntityTypes.NoteSampleDropdown(BonOdori.variationDo_n.Do_nA, BonOdori.GetSample, "semitone"), "Do-n Type", "Set the variation of the voice line."),
+                        new Param("semitone", new EntityTypes.Note(offsetToC: false), "Semitone", "Set the number of semitones up or down this note should be pitched."),
                     },
                 },
 
@@ -251,6 +251,29 @@ namespace HeavenStudio.Games
             DoG = 1
         }
 
+        public static readonly Dictionary<object, NoteSample> NoteSamples = new() 
+        {
+            { variationPan.PanC, new("bonOdori/pan1", 3, 4) },
+            { variationPan.PanE, new("bonOdori/pan2", 7, 4) },
+            { variationPan.PanA, new("bonOdori/pan3", 0, 4) },
+            { variationPa_n.Pa_nA, new("bonOdori/pa_n1", 0, 4) },
+            { variationPa_n.Pa_nC, new("bonOdori/pa_n2", 3, 4) },
+            { variationPa.PaG, new("bonOdori/pa1", 7, 4) },
+            { variationDon.DonA, new("bonOdori/don1", 0, 4) },
+            { variationDon.DonD, new("bonOdori/don2", 5, 4) },
+            { variationDon.DonC, new("bonOdori/don3", 3, 4) },
+            { variationDon.DonG, new("bonOdori/don4", 10, 4) },
+            { variationDo_n.Do_nA, new("bonOdori/do_n1", 0, 4) },
+            { variationDo_n.Do_nG, new("bonOdori/do_n2", 7, 4) },
+            { variationDo.DoC, new("bonOdori/do1", 3, 4) },
+            { variationDo.DoG, new("bonOdori/do2", 7, 4) }
+        };
+        
+        public static NoteSample GetSample(object sampleEnum)
+        {
+            return NoteSamples[sampleEnum];
+        }
+        
         public static BonOdori instance { get; set; }
 
         public void Awake()

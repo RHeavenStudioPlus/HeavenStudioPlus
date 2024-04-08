@@ -848,7 +848,7 @@ namespace HeavenStudio.Games
                 Conductor.instance.FadeMinigameVolume(0, 0, 1);
                 drumTempVolume = 1;
 
-                if (isWhirringPlaying) { whirring.Stop(); isWhirringPlaying = false; }
+                if (isWhirringPlaying) { whirring.KillLoop(); isWhirringPlaying = false; }
             }
 
             //make sure music volume resetting can be remembered between blastoffs

@@ -33,8 +33,21 @@ namespace HeavenStudio
             public int sampleNote;
             public int sampleOctave;
             public string sampleName;
+            public bool offsetToC;
+            
+            public Note(int val = 0, int sampleNote = 0, int sampleOctave = 4, string sampleName = null, bool offsetToC = true)
+            {
+                min = -maxSemitones;
+                max = maxSemitones;
+                
+                this.val = val;
+                this.sampleNote = sampleNote;
+                this.sampleOctave = sampleOctave;
+                this.sampleName = sampleName;
+                this.offsetToC = offsetToC;
+            }
 
-            public Note(int min, int max, int val = 0, int sampleNote = 0, int sampleOctave = 0, string sampleName = "")
+            public Note(int min, int max, int val = 0, int sampleNote = 0, int sampleOctave = 4, string sampleName = null, bool offsetToC = true)
             {
                 this.min = min;
                 this.val = val;
@@ -42,6 +55,7 @@ namespace HeavenStudio
                 this.sampleNote = sampleNote;
                 this.sampleOctave = sampleOctave;
                 this.sampleName = sampleName;
+                this.offsetToC = offsetToC;
             }
         }
         
@@ -107,7 +121,21 @@ namespace HeavenStudio
                 this.values = values.ToList();
             }
         }
-
+        
+        public struct NoteSampleDropdown
+        {
+            public object defaultValue;
+            public Func<object, NoteSample> getNoteSample;
+            public string semisProp;
+            
+            public NoteSampleDropdown(object defaultValue, Func<object, NoteSample> getNoteSample, string semisProp)
+            {
+                this.defaultValue = defaultValue;
+                this.getNoteSample = getNoteSample;
+                this.semisProp = semisProp;
+            }
+        }
+        
         public class DropdownObj
         {
             public void SetValues(List<string> values)
