@@ -31,7 +31,7 @@ namespace HeavenStudio.Games.Loaders
                         new("b", false, "Weasels Jump", "Toggle if the weasels should jump upon successfully hitting the cue.")
                     }
                 },
-                new GameAction("basket", "Basket Ball")
+                new GameAction("basket", "Basketball")
                 {
                     preFunction = delegate { var e = eventCaller.currentEntity; DoubleDate.QueueBasketBall(e.beat, e["b"]); },
                     preFunctionLength = 1f,

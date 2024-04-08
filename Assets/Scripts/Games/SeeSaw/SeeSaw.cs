@@ -109,7 +109,7 @@ namespace HeavenStudio.Games.Loaders
                         new Param("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.")
                     }
                 },
-                new GameAction("recolor", "Color Pallete")
+                new GameAction("recolor", "Color Palette")
                 {
                     function = delegate { var e = eventCaller.currentEntity; SeeSaw.ChangeMappingColor(e["fill"], e["outline"]); },
                     defaultLength = 0.5f,

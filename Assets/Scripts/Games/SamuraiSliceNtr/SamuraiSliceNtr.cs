@@ -37,7 +37,7 @@ namespace HeavenStudio.Games.Loaders
                     parameters = new List<Param>()
                     {
                         new Param("2b2t", false, "Voxel Melon", "Toggle if the melon should be reskinned as a melon from a certain game."),
-                        new Param("valA", new EntityTypes.Integer(0, 30, 1), "Money", "Set the amount of coins the melon spills out when sliced."),
+                        new Param("valA", new EntityTypes.Integer(0, 30, 1), "Money", "Set the number of coins the melon spills out when sliced."),
                     }
                 },
                 new GameAction("fish", "Fish")
@@ -49,7 +49,7 @@ namespace HeavenStudio.Games.Loaders
                     defaultLength = 7,
                     parameters = new List<Param>()
                     {
-                        new Param("valA", new EntityTypes.Integer(0, 30, 1), "Money", "Set the amount of coins the fish spills out when sliced."),
+                        new Param("valA", new EntityTypes.Integer(0, 30, 1), "Money", "Set the number of coins the fish spills out when sliced."),
                     }
                 },
                 new GameAction("demon", "Demon")
@@ -61,7 +61,7 @@ namespace HeavenStudio.Games.Loaders
                     defaultLength = 7,
                     parameters = new List<Param>()
                     {
-                        new Param("valA", new EntityTypes.Integer(0, 30, 1), "Money", "Set the amount of coins the demon spills out when sliced."),
+                        new Param("valA", new EntityTypes.Integer(0, 30, 1), "Money", "Set the number of coins the demon spills out when sliced."),
                     }
                 },
                 new GameAction("particle effects", "Particle Effects")
@@ -90,7 +90,7 @@ namespace HeavenStudio.Games.Loaders
                     parameters = new List<Param>()
                     {
                         new Param("type", SamuraiSliceNtr.ObjectType.Melon, "Object", "The object to spawn"),
-                        new Param("valA", new EntityTypes.Integer(0, 30, 1), "Money", "The amount of coins the melon spills out when sliced"),
+                        new Param("valA", new EntityTypes.Integer(0, 30, 1), "Money", "The number of coins the melon spills out when sliced"),
                     },
                     hidden = true
                 },

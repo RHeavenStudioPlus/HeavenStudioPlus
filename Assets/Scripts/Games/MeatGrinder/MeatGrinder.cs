@@ -13,14 +13,14 @@ namespace HeavenStudio.Games.Loaders
         public static Minigame AddGame(EventCaller eventCaller)
         {
             List<Param> reactionParams = new() {
-                new Param("tackReaction", MeatGrinder.TackExpressions.None, "Tack Reaction", "If this is hit, what expression should tack do?", new List<Param.CollapseParam>() {
+                new Param("tackReaction", MeatGrinder.TackExpressions.None, "Tack Reaction", "If this is hit, what expression should Tack do?", new List<Param.CollapseParam>() {
                     new((x, y) => (int)x != (int)MeatGrinder.TackExpressions.None, new string[] { "tackReactionBeats" }),
                 }),
-                new Param("tackReactionBeats", new EntityTypes.Float(0.5f, 10, 1), "Tack React After", "The amount of beats to wait until tack reacts"),
-                new Param("bossReaction", MeatGrinder.BossExpressions.None, "Boss Reaction", "If this is hit, what expression should boss do?", new List<Param.CollapseParam>() {
+                new Param("tackReactionBeats", new EntityTypes.Float(0.5f, 10, 1), "Tack React After", "The number of beats to wait until Tack reacts"),
+                new Param("bossReaction", MeatGrinder.BossExpressions.None, "Boss Reaction", "If this is hit, what expression should Boss do?", new List<Param.CollapseParam>() {
                     new((x, y) => (int)x != (int)MeatGrinder.BossExpressions.None, new string[] { "bossReactionBeats" }),
                 }),
-                new Param("bossReactionBeats", new EntityTypes.Float(0, 10, 0), "Boss React After", "The amount of beats to wait until boss reacts"),
+                new Param("bossReactionBeats", new EntityTypes.Float(0, 10, 0), "Boss React After", "The number of beats to wait until Boss reacts"),
             };
 
             return new Minigame("meatGrinder", "Meat Grinder", "501d18", false, false, new List<GameAction>()

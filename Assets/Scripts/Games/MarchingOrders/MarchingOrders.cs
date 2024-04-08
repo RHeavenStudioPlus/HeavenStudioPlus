@@ -146,7 +146,7 @@ namespace HeavenStudio.Games.Loaders
                             new Param("colorPipes1", new Color(0.41f, 0.54f, 0.34f), "Pipe Outline Color", "Set the color of the pipes' outline."),
                             new Param("colorPipes2", new Color(0.43f, 0.8f, 0.45f), "Pipe Shading Color", "Set the color of the pipes' shading."),
                             new Param("colorPipes3", new Color(0.48f, 0.89f, 0.54f), "Pipe Fill Color", "Set the color of the pipes."),
-                            new Param("colorConveyor1", new Color(0.157f, 0.25f, 0.3f), "Conveyor Fill Color", "Set the color of the conveyer belt."),
+                            new Param("colorConveyor1", new Color(0.157f, 0.25f, 0.3f), "Conveyor Fill Color", "Set the color of the conveyor belt."),
                             new Param("colorConveyor2", new Color(0.55f, 0.57f, 0.04f), "Conveyor Trim Color", "Set the conveyor's trim color."),
                         }
                     },

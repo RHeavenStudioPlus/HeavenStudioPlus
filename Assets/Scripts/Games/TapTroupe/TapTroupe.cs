@@ -64,7 +64,7 @@ namespace HeavenStudio.Games.Loaders
                         new Param("toggle", true, "Darkness", "Toggle if the scene should be dark and the spotlights should appear."),
                         new Param("leftMost", false, "Leftmost Spotlight", "Toggle if the leftmost spotlight should be turned on or off."),
                         new Param("middleLeft", false, "Middle-Left Spotlight", "Toggle if the middle-left spotlight should be turned on or off."),
-                        new Param("middleRight", false, "Middle-Light Spotlight", "Toggle if the middle-right spotlight should be turned on or off."),
+                        new Param("middleRight", false, "Middle-Right Spotlight", "Toggle if the middle-right spotlight should be turned on or off."),
                         new Param("player", true, "Player Spotlight", "Toggle if the player's spotlight should be turned on or off."),
                     }
                 },
