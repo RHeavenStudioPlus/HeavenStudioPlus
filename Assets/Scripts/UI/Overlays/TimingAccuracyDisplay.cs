@@ -165,6 +165,13 @@ namespace HeavenStudio.Common
                 }
             }
 
+            // makes the explosion smaller with less accurate inputs
+            if (it == OK)
+            {
+                float okScalar = 1 - (frac / 2);
+                it.transform.localScale = new Vector3(okScalar, okScalar, it.transform.localScale.z);
+            }
+
             it.transform.position = barTransform.position + new Vector3(0, barTransform.localScale.y * y, 0);
             it.GetComponent<ParticleSystem>().Play();
         }
