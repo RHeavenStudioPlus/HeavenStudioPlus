@@ -96,7 +96,7 @@ namespace HeavenStudio
         private float timelineVolume = 1f;
         private float minigameVolume = 1f;
 
-        const bool doPitchResync = true;
+        const bool doPitchResync = false;
 
         public void SetTimelinePitch(float pitch, bool resync = false)
         {
@@ -234,7 +234,6 @@ namespace HeavenStudio
             _metronomeTally = 0;
 
             startTime = DateTime.Now;
-            absTime = 0;
             absTimeAdjust = 0;
             deferTimeKeeping = musicSource.clip != null;
 
@@ -253,7 +252,6 @@ namespace HeavenStudio
                 deferTimeKeeping = false;
                 // Debug.Log($"dsptime: {dsp}, deferred timekeeping for {DateTime.Now - startTime} seconds (delta dsp {dsp - dspStart})");
                 startTime = DateTime.Now;
-                absTime = 0;
                 absTimeAdjust = 0;
                 dspStart = dsp;
             }
