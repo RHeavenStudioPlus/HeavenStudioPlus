@@ -111,7 +111,7 @@ namespace HeavenStudio.Util
         {
             foreach (Util.Sound sound in playingSounds)
             {
-                sound.Stop();
+                sound.KillLoop();
             }
             if (destroy)
             {

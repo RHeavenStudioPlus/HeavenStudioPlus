@@ -40,6 +40,8 @@ namespace HeavenStudio.Util
 
         const double PREBAKE_TIME = 0.25;
 
+        private Coroutine fadeRoutine;
+
         private void Start()
         {
         }
@@ -68,6 +70,8 @@ namespace HeavenStudio.Util
                 GameManager.instance.SoundObjects.Release(this);
                 return;
             }
+            
+            CancelFadeRoutine();
 
             audioSource = GetComponent<AudioSource>();
             cond = Conductor.instance;
@@ -234,12 +238,15 @@ namespace HeavenStudio.Util
                 audioSource.UnPause();
         }
 
-        public void Stop(bool releaseToPool = false)
+        /// <summary>
+        ///    Used internally to stop and reset the sound once it has been released back into the pool.
+        /// </summary>
+        /// <remarks>
+        ///    WARNING! You should use <see cref="KillLoop">KillLoop()</see> to stop sounds early, not this!
+        /// </remarks>
+        public void Stop()
         {
-            if(releaseToPool && audioSource.isPlaying)
-            {
-                GameManager.instance.SoundObjects.Release(this);
-            }
+            CancelFadeRoutine();
 
             available = true;
             played = false;
@@ -318,21 +325,30 @@ namespace HeavenStudio.Util
 
         #endregion
 
-        public void KillLoop(double fadeTime)
+        /// <summary>
+        ///    Fades the sound out over fadeTime, then releases it back into the pool which stops it.
+        ///    Leave fadeTime at 0 to stop the sound instantly.
+        ///    You should use this for stopping sounds early, not <see cref="Stop"/>.
+        /// </summary>
+        public void KillLoop(double fadeTime = 0)
         {
             if (!gameObject.activeSelf) return;
+
+            CancelFadeRoutine();
+                
             if (fadeTime == 0)
             {
                 GameManager.instance.SoundObjects.Release(this);
                 return;
             }
-            StartCoroutine(FadeLoop(fadeTime));
+            
+            fadeRoutine = StartCoroutine(FadeLoop(fadeTime));
         }
 
-        double loopFadeTimer = 0f;
         IEnumerator FadeLoop(double fadeTime)
         {
             float startingVol = audioSource.volume;
+            float loopFadeTimer = 0f;
 
             while (loopFadeTimer < fadeTime)
             {
@@ -341,7 +357,13 @@ namespace HeavenStudio.Util
                 yield return null;
             }
             yield return null;
+
             GameManager.instance.SoundObjects.Release(this);
+        }
+
+        private void CancelFadeRoutine()
+        {
+            if(fadeRoutine != null) StopCoroutine(fadeRoutine);
         }
     }
 }

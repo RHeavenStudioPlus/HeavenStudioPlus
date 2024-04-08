@@ -46,13 +46,17 @@ namespace HeavenStudio.Games.Scripts_Rockers
             {
                 if (sound != null)
                 {
-                    sound.KillLoop(0);
+                    sound.KillLoop();
                 }
             }
+            
             if (chordSound != null)
             {
-                chordSound.KillLoop(0);
+                chordSound.KillLoop();
+                chordSound = null;
             }
+                
+            stringSounds = new Sound[6];
         }
 
         public void PrepareTogether(bool forceMute = false)
@@ -100,7 +104,7 @@ namespace HeavenStudio.Games.Scripts_Rockers
         }
 
         private bool lastGleeClub = false;
-        private Rockers.PremadeSamples lastSample;
+        private NoteSample lastSample;
         private int lastSampleTones;
 
         public void StrumStringsLast(bool disableStrumEffect = false, bool jump = false, bool barely = false)
@@ -108,7 +112,7 @@ namespace HeavenStudio.Games.Scripts_Rockers
             StrumStrings(lastGleeClub, lastPitches, lastSample, lastSampleTones, disableStrumEffect, jump, barely);
         }
 
-        public void StrumStrings(bool gleeClub, int[] pitches, Rockers.PremadeSamples sample, int sampleTones, bool disableStrumEffect = false, bool jump = false, bool barely = false)
+        public void StrumStrings(bool gleeClub, int[] pitches, NoteSample sample, int sampleTones, bool disableStrumEffect = false, bool jump = false, bool barely = false)
         {
             if (strumming) return;
             lastGleeClub = gleeClub;
@@ -117,7 +121,7 @@ namespace HeavenStudio.Games.Scripts_Rockers
             muted = false;
             strumming = true;
             StopSounds();
-            if (sample == Rockers.PremadeSamples.None)
+            if (sample.sample == null)
             {
                 lastPitches = pitches;
                 for (int i = 0; i < pitches.Length; i++)
@@ -133,48 +137,7 @@ namespace HeavenStudio.Games.Scripts_Rockers
             else
             {
                 float pitch = SoundByte.GetPitchFromSemiTones(sampleTones, true);
-                string soundName = sample switch
-                {
-                    Rockers.PremadeSamples.None => "",
-                    Rockers.PremadeSamples.BendG5 => "rockers/BendG5",
-                    Rockers.PremadeSamples.BendC6 => "rockers/BendC6",
-                    Rockers.PremadeSamples.ChordA => "rockers/rocker/rockerChordA",
-                    Rockers.PremadeSamples.ChordAsus4 => "rockers/rocker/rockerChordAsus4",
-                    Rockers.PremadeSamples.ChordBm => "rockers/rocker/rockerChordBm",
-                    Rockers.PremadeSamples.ChordCSharpm7 => "rockers/rocker/rockerChordC#m7",
-                    Rockers.PremadeSamples.ChordDmaj7 => "rockers/rocker/rockerChordDmaj7",
-                    Rockers.PremadeSamples.ChordDmaj9 => "rockers/rocker/rockerChordDmaj9",
-                    Rockers.PremadeSamples.ChordFSharp5 => "rockers/rocker/rockerChordF#5",
-                    Rockers.PremadeSamples.ChordG => "rockers/rocker/rockerChordG",
-                    Rockers.PremadeSamples.ChordG5 => "rockers/rocker/rockerChordG5",
-                    Rockers.PremadeSamples.ChordGdim7 => "rockers/rocker/rockerChordGdim7",
-                    Rockers.PremadeSamples.ChordGm => "rockers/rocker/rockerChordGm",
-                    Rockers.PremadeSamples.NoteASharp4 => "rockers/rocker/rockerNoteA#4",
-                    Rockers.PremadeSamples.NoteA5 => "rockers/rocker/rockerNoteA5",
-                    Rockers.PremadeSamples.PracticeChordD => "rockers/rocker/rockerPracticeChordD",
-                    Rockers.PremadeSamples.Remix6ChordA => "rockers/rocker/rockerRemix6ChordA",
-                    Rockers.PremadeSamples.Remix10ChordD => "rockers/rocker/rockerRemix10ChordD",
-                    Rockers.PremadeSamples.Remix10ChordFSharpm => "rockers/rocker/rockerRemix10ChordF#m",
-                    Rockers.PremadeSamples.DoremiChordA7 => "rockers/doremi/doremiChordA7",
-                    Rockers.PremadeSamples.DoremiChordAm7 => "rockers/doremi/doremiChordAm7",
-                    Rockers.PremadeSamples.DoremiChordC => "rockers/doremi/doremiChordC",
-                    Rockers.PremadeSamples.DoremiChordC7 => "rockers/doremi/doremiChordC7",
-                    Rockers.PremadeSamples.DoremiChordCadd9 => "rockers/doremi/doremiChordCadd9",
-                    Rockers.PremadeSamples.DoremiChordDm => "rockers/doremi/doremiChordDm",
-                    Rockers.PremadeSamples.DoremiChordDm7 => "rockers/doremi/doremiChordDm7",
-                    Rockers.PremadeSamples.DoremiChordEm => "rockers/doremi/doremiChordEm",
-                    Rockers.PremadeSamples.DoremiChordF => "rockers/doremi/doremiChordF",
-                    Rockers.PremadeSamples.DoremiChordFadd9 => "rockers/doremi/doremiChordFadd9",
-                    Rockers.PremadeSamples.DoremiChordFm => "rockers/doremi/doremiChordFm",
-                    Rockers.PremadeSamples.DoremiChordG => "rockers/doremi/doremiChordG",
-                    Rockers.PremadeSamples.DoremiChordG7 => "rockers/doremi/doremiChordG7",
-                    Rockers.PremadeSamples.DoremiChordGm => "rockers/doremi/doremiChordGm",
-                    Rockers.PremadeSamples.DoremiChordGsus4 => "rockers/doremi/doremiChordGsus4",
-                    Rockers.PremadeSamples.DoremiNoteA2 => "rockers/doremi/doremiNoteA2",
-                    Rockers.PremadeSamples.DoremiNoteE2 => "rockers/doremi/doremiNoteE2",
-                    _ => throw new System.NotImplementedException(),
-                };
-                chordSound = SoundByte.PlayOneShotGame(soundName, -1, pitch, 1, true);
+                chordSound = SoundByte.PlayOneShotGame(sample.sample, -1, pitch, 1, true);
             }
 
             if (together)
@@ -301,7 +264,7 @@ namespace HeavenStudio.Games.Scripts_Rockers
         
         private float GetBentPitch(float pitch, int bend)
         {
-            float unscaledPitch = chordSound.pitch / Conductor.instance.musicSource.pitch;
+            float unscaledPitch = pitch / Conductor.instance.musicSource.pitch;
             float bendPitch = SoundByte.GetPitchFromSemiTones(bend, false);
             
             return (unscaledPitch * bendPitch) * Conductor.instance.musicSource.pitch;

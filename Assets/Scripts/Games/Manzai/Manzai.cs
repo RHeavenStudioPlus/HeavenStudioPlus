@@ -572,7 +572,7 @@ namespace HeavenStudio.Games
 
             if (crowdSound != null)
             {
-                crowdSound.Stop();
+                crowdSound.KillLoop();
             }
         }
 
@@ -588,7 +588,7 @@ namespace HeavenStudio.Games
         {
             if (crowdSound != null)
             {
-                crowdSound.Stop();
+                crowdSound.KillLoop();
             }
             crowdSound = SoundByte.PlayOneShotGame("manzai/disappointed");
             
@@ -774,7 +774,7 @@ namespace HeavenStudio.Games
 
             if (crowdSound != null)
             {
-                crowdSound.Stop();
+                crowdSound.KillLoop();
             }
         }
 
@@ -782,7 +782,7 @@ namespace HeavenStudio.Games
         {
             if (crowdSound != null)
             {
-                crowdSound.Stop();
+                crowdSound.KillLoop();
             }
 
             if (!missedWithWrongButton)
