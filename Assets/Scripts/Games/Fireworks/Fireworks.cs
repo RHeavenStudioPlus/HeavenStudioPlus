@@ -32,7 +32,7 @@ namespace HeavenStudio.Games.Loaders
                     defaultLength = 2f,
                     parameters = new List<Param>()
                     {
-                        new Param("whereToSpawn", Fireworks.WhereToSpawn.Middle, "Side", "Choose the side this firework should spawn on."),
+                        new Param("whereToSpawn", Fireworks.WhereToSpawn.Middle, "Side", "Choose the side this sparkler should spawn on."),
                         new Param("explosionType", Fireworks.ExplosionType.MixedCircular, "Pattern", "Choose the pattern that this sparkler should explode into."),
                         new Param("applause", false, "Applause", "Toggle if applause should play if you successfully hit this cue."),
                         new Param("offSet", new EntityTypes.Float(0, 4, 0), "Vertical Offset", "Choose the vertical offset for this sparkler."),
