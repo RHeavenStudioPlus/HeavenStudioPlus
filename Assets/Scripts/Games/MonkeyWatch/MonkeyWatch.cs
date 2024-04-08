@@ -37,7 +37,7 @@ namespace HeavenStudio.Games.Loaders
                     defaultLength = 2f,
                     parameters = new List<Param>()
                     {
-                        new Param("min", new EntityTypes.Integer(0, 59, 0), "Set Starting Second", "A second is equivalent to one monkey.")
+                        new Param("min", new EntityTypes.Integer(0, 59, 0), "Starting Second", "A second is equivalent to one monkey.")
                     }
                 },
                 new GameAction("off", "Pink Monkeys")
@@ -99,7 +99,7 @@ namespace HeavenStudio.Games.Loaders
                     parameters = new List<Param>()
                     {
                         new Param("instant", false, "Instant"),
-                        new Param("timeMode", MonkeyWatch.TimeMode.RealTime, "Time Mode", "Set the clock to system time or a certain time"),
+                        new Param("timeMode", MonkeyWatch.TimeMode.RealTime, "Time Mode", "Set the clock to system time or a specific time."),
                         new Param("hour", new EntityTypes.Integer(0, 12, 3), "Hour"),
                         new Param("minute", new EntityTypes.Integer(0, 59, 0), "Minute")
                     }
@@ -115,7 +115,7 @@ namespace HeavenStudio.Games.Loaders
                     parameters = new List<Param>()
                     {
                         new Param("instant", false, "Instant"),
-                        new Param("timeMode", MonkeyWatch.TimeMode.RealTime, "Time Mode", "Set the clock to system time or a certain time"),
+                        new Param("timeMode", MonkeyWatch.TimeMode.RealTime, "Time Mode", "Set the clock to system time or a specific time."),
                         new Param("hour", new EntityTypes.Integer(0, 12, 3), "Hour"),
                         new Param("minute", new EntityTypes.Integer(0, 59, 0), "Minute")
                     }

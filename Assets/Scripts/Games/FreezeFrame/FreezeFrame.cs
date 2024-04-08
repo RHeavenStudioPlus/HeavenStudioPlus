@@ -134,7 +134,7 @@ namespace HeavenStudio.Games.Loaders
                     resizable = true,
                     parameters = new List<Param>()
                     {
-                        new Param("enter", true, "Enter", "Choose the sign should enter or exit."),
+                        new Param("enter", true, "Enter", "Choose whether the sign should enter or exit."),
                         new Param("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action."),
                     }
                 },
@@ -176,16 +176,16 @@ namespace HeavenStudio.Games.Loaders
                         }),
                         new Param("startMoveX", new EntityTypes.Float(-20f, 20f, 0f), "Start X", "Set the X position from which to move."),
                         new Param("startMoveY", new EntityTypes.Float(-20f, 20f, 0f), "Start Y", "Set the Y position from which to move."),
-                        new Param("endMoveX", new EntityTypes.Float(-20f, 20f, 0f), "End X", "Set the X position to which to move."),
-                        new Param("endMoveY", new EntityTypes.Float(-20f, 20f, 0f), "End Y", "Set the Y position to which to move."),
+                        new Param("endMoveX", new EntityTypes.Float(-20f, 20f, 0f), "End X", "Set the X position to move to."),
+                        new Param("endMoveY", new EntityTypes.Float(-20f, 20f, 0f), "End Y", "Set the Y position to move to."),
                         new Param("doRotate", false, "Rotate", "Select this option if you want to rotate T.J.", new List<Param.CollapseParam>()
                         {
                             new Param.CollapseParam((x, _) => (bool)x, new string[] { "endRotDegrees" } ),
                             new Param.CollapseParam((x, e) => (bool)x && (Util.EasingFunction.Ease)e["ease"] != Util.EasingFunction.Ease.Instant, new string[] { "startRotDegrees" }),
                             new Param.CollapseParam((_, e) => (bool)e["doMove"] || (bool)e["doRotate"] || (bool)e["doScale"], new string[] { "ease" })
                         }),
-                        new Param("startRotDegrees", new EntityTypes.Float(-360f, 360f, 0f), "Start Rotation", "Set the amount of degrees at which to begin rotating."),
-                        new Param("endRotDegrees", new EntityTypes.Float(-360f, 360f, 0f), "End Rotation", "Set the amount of degrees at which to finish rotating."),
+                        new Param("startRotDegrees", new EntityTypes.Float(-360f, 360f, 0f), "Start Rotation", "Set the number of degrees at which to begin rotating."),
+                        new Param("endRotDegrees", new EntityTypes.Float(-360f, 360f, 0f), "End Rotation", "Set the number of degrees at which to finish rotating."),
                         new Param("doScale", false, "Scale", "Select this option if you want to change T.J.'s scale.", new List<Param.CollapseParam>()
                         {
                             new Param.CollapseParam((x, _) => (bool)x, new string[] { "endScaleX", "endScaleY" } ),
