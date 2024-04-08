@@ -35,7 +35,7 @@ namespace HeavenStudio.Games.Loaders
                     defaultLength = 0.5f,
                     parameters = new List<Param>()
                     {
-                        new Param("spaceNum", new EntityTypes.Integer(0, 12, 0), "Amount Of Spaces", "Choose the amount of spaces to add before the icon."),
+                        new Param("spaceNum", new EntityTypes.Integer(0, 12, 0), "Number Of Spaces", "Choose the number of spaces to add before the icon."),
                         new Param("dotdotdot", false, "Ellipses", "Toggle if the symbol should have \"...\" before it."),
                         new Param("newline", false, "New line", "Toggle if this text starts a new line."),
                         new Param("dialogue", "", "Translation", "Set the text that this syllable will translate to. Spaces will not be automatically added.")

@@ -61,7 +61,7 @@ namespace HeavenStudio.Games.Loaders
                         inactiveFunction = delegate { var e = eventCaller.currentEntity; FanClub.WarnBigReady(e.beat, e["toggle"]); },
                         preFunction = delegate { var e = eventCaller.currentEntity; FanClub.BigReadySound(e.beat, e["toggle"]); }
                     },
-                    new GameAction("play idol animation", "Idol Coreography")
+                    new GameAction("play idol animation", "Idol Choreography")
                     {
                         function = delegate { var e = eventCaller.currentEntity; FanClub.instance.PlayAnim(e.beat, e.length, e["type"], e["who"]); },
                         resizable = true,

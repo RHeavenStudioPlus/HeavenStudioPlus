@@ -84,7 +84,7 @@ namespace HeavenStudio.Games.Loaders
                     {
                         new Param("right", new EntityTypes.Integer(0, 500, 15), "Right Crumb", "Set how many treats Beary needs to eat for the right crumb to appear."),
                         new Param("left", new EntityTypes.Integer(0, 500, 30), "Left Crumb", "Set how many treats Beary needs to eat for the left crumb to appear."),
-                        new Param("reset", false, "Reset Treats Eaten", "Toggle if the current amount of treats eaten (and crumbs) should be reset.")
+                        new Param("reset", false, "Reset Treats Eaten", "Toggle if the current number of treats eaten (and crumbs) should be reset.")
                     }
                 }
             },
