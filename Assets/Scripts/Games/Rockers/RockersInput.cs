@@ -11,14 +11,14 @@ namespace HeavenStudio.Games.Scripts_Rockers
 
         private bool gleeClub;
 
-        private Rockers.PremadeSamples sample;
+        private NoteSample sample;
         private int sampleTones;
 
         private bool jump;
 
         private Rockers game;
 
-        public void Init(bool gleeClub, int[] pitches, double beat, double length, Rockers.PremadeSamples sample, int sampleTones, bool jump = false)
+        public void Init(bool gleeClub, int[] pitches, double beat, double length, NoteSample sample, int sampleTones, bool jump = false)
         {
             game = Rockers.instance;
             this.gleeClub = gleeClub;

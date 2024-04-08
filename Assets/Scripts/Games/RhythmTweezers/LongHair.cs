@@ -66,7 +66,7 @@ namespace HeavenStudio.Games.Scripts_RhythmTweezers
             tweezers.hitOnFrame++;
 
             if (pullSound != null)
-                pullSound.Stop();
+                pullSound.KillLoop();
 
             pluckState = -1;
         }
@@ -78,7 +78,7 @@ namespace HeavenStudio.Games.Scripts_RhythmTweezers
             tweezers.anim.Play("Tweezers_Idle", 0, 0);
 
             if (pullSound != null)
-                pullSound.Stop();
+                pullSound.KillLoop();
 
             pluckState = -1;
             game.ScoreMiss();

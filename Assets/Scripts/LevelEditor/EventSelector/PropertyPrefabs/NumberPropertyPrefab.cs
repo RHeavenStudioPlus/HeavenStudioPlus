@@ -158,28 +158,6 @@ namespace HeavenStudio.Editor
                     );
             }
         }
-        
-        private static readonly string[] notes = {
-            "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"
-        };
-        
-        private static string GetNoteText(EntityTypes.Note note, int newSemitones)
-        {
-            int noteIndex = (note.sampleNote + newSemitones) % 12;
-            if (noteIndex < 0) {
-                noteIndex += 12;
-            }
-            
-            int octaveOffset = (note.sampleNote + newSemitones) / 12;
-            int octave = note.sampleOctave + octaveOffset;
-
-            if ((note.sampleNote + newSemitones) % 12 < 0)
-            {
-                octave--;
-            }
-            
-            return notes[noteIndex] + octave;
-        }
 
         private void Update()
         {

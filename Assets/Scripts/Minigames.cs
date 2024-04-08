@@ -278,6 +278,10 @@ namespace HeavenStudio
                                         JArray values = e[param.propertyName]["Values"];
                                         e.dynamicData[param.propertyName] = new EntityTypes.DropdownObj((int)value, values.Select(x => (string)x).ToList());
                                     }
+                                    else if (type == typeof(EntityTypes.NoteSampleDropdown))
+                                    {
+                                        e.dynamicData[param.propertyName] = (int)e[param.propertyName];
+                                    }
                                     else if (type == typeof(EntityTypes.Resource))
                                         e.dynamicData[param.propertyName] = (EntityTypes.Resource)e[param.propertyName];
                                     else if (type.IsEnum)

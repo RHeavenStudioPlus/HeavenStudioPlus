@@ -26,7 +26,7 @@ namespace HeavenStudio.Games.Scripts_BoardMeeting
         {
             if (rollLoop != null)
             {
-                rollLoop.Stop();
+                rollLoop.KillLoop();
             }
         }
 

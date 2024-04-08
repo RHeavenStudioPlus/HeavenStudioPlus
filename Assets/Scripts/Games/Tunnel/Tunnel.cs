@@ -138,9 +138,9 @@ namespace HeavenStudio.Games
                 tunnelLightMaterial.SetColor("_Color", Color.white);
                 tunnelLightMaterial.SetColor("_AddColor", Color.black);
 
-                tunnelSoundRight?.Stop();
-                tunnelSoundMiddle?.Stop();
-                tunnelSoundLeft?.Stop();
+                tunnelSoundRight?.KillLoop();
+                tunnelSoundMiddle?.KillLoop();
+                tunnelSoundLeft?.KillLoop();
             }
         }
 
@@ -290,9 +290,9 @@ namespace HeavenStudio.Games
             this.fadeDuration = fadeDuration;
             conductor.FadeMinigameVolume(beat, fadeDuration, volume);
 
-            tunnelSoundRight?.Stop();
-            tunnelSoundMiddle?.Stop();
-            tunnelSoundLeft?.Stop();
+            tunnelSoundRight?.KillLoop();
+            tunnelSoundMiddle?.KillLoop();
+            tunnelSoundLeft?.KillLoop();
 
             tunnelSoundRight = SoundByte.PlayOneShotGame("tunnel/tunnelRight", beat, looping: true);
             tunnelSoundMiddle = SoundByte.PlayOneShotGame("tunnel/tunnelMiddle", beat + (6 / 48f), looping: true);

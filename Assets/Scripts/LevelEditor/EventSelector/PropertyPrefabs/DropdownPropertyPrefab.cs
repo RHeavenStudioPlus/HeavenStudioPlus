@@ -20,13 +20,19 @@ namespace HeavenStudio.Editor
         public Scrollbar scrollbar;
 
         public int[] values;
-        private int _defaultValue;
-
+        private int defaultValue;
+        private int lastValue = -1;
+        private Array enumValues;
+        private object type;
+        
         private bool openedDropdown = false;
-
+        private bool setup = false;
+        
         public override void SetProperties(string propertyName, object type, string caption)
         {
             base.SetProperties(propertyName, type, caption);
+            
+            this.type = type;
 
             int selected = 0;
 
@@ -34,13 +40,14 @@ namespace HeavenStudio.Editor
             {
                 case EntityTypes.Dropdown dropdownEntity:
                     // entity[propertyName].ChangeValues(dropdownEntity.Values);
-                    _defaultValue = dropdownEntity.defaultValue;
+                    defaultValue = dropdownEntity.defaultValue;
                     EntityTypes.DropdownObj dropdownObj = entity[propertyName];
 
                     int size = dropdownObj.Values.Count;
                     values = new int[size];
 
-                    for (int i = 0; i < size; i++) {
+                    for (int i = 0; i < size; i++)
+                    {
                         values[i] = i;
                     }
 
@@ -53,32 +60,51 @@ namespace HeavenStudio.Editor
                         dropdown.ClearOptions();
                         dropdown.AddOptions(newValues);
                         dropdown.enabled = newValues.Count > 0;
-                        dropdownObj.value = _defaultValue;
+                        dropdownObj.value = defaultValue;
                     });
                     break;
                 case Enum enumEntity:
                     Type enumType = enumEntity.GetType();
-                    _defaultValue = (int)type;
-                    values = Enum.GetValues(enumType).Cast<int>().ToArray();
+                    defaultValue = (int)type;
+                    enumValues = Enum.GetValues(enumType);
+                    values = enumValues.Cast<int>().ToArray();
                     selected = Array.FindIndex(values, val => val == (int)entity[propertyName]);
 
                     dropdown.AddOptions(Enum.GetNames(enumType).ToList());
                     dropdown.onValueChanged.AddListener(val => entity[propertyName] = values[val]);
                     break;
-                default:
-                break;
+                case EntityTypes.NoteSampleDropdown noteDropdown:
+                    Type noteEnumType = noteDropdown.defaultValue.GetType();
+                    enumValues = Enum.GetValues(noteEnumType);
+                    values = enumValues.Cast<int>().ToArray();
+                    selected = Array.FindIndex(values, val => val == (int)entity[propertyName]);
+                    defaultValue = selected;
+                    lastValue = selected;
+
+                    dropdown.AddOptions(Enum.GetNames(noteEnumType).ToList());
+                    dropdown.onValueChanged.AddListener(val =>
+                    {
+                        entity[propertyName] = values[val];
+                        UpdateNoteProperty(noteDropdown, enumValues.GetValue(values[val]));
+                        
+                        lastValue = values[val];
+                    });
+                    break;
+                default: break;
             }
+
             dropdown.value = selected;
             dropdown.enabled = dropdown.options.Count > 0;
 
-            dropdown.onValueChanged.AddListener(newValue => {
-                this.caption.text = (newValue != _defaultValue) ? (_captionText + "*") : _captionText;
+            dropdown.onValueChanged.AddListener(newValue =>
+            {
+                this.caption.text = (newValue != defaultValue) ? (_captionText + "*") : _captionText;
             });
         }
 
         public void ResetValue()
         {
-            dropdown.value = _defaultValue;
+            dropdown.value = defaultValue;
         }
 
         public override void SetCollapses(object type)
@@ -105,5 +131,44 @@ namespace HeavenStudio.Editor
                 openedDropdown = false;
             }
         }
+
+        #region Note Sample Dropdown
+        private void OnEnable() { // Used for when the dropdown is uncollapsed
+            if (setup && type is EntityTypes.NoteSampleDropdown sampleDropdown)
+            {
+                UpdateNoteProperty(sampleDropdown, enumValues.GetValue(values[entity[propertyName]]), true);
+            }
+        }
+
+        public override void PostLoadProperties(object type)
+        {
+            base.PostLoadProperties(type);
+
+            setup = true;
+
+            if (type is EntityTypes.NoteSampleDropdown sampleDropdown && gameObject.activeSelf)
+            {
+                UpdateNoteProperty(sampleDropdown, enumValues.GetValue(values[entity[propertyName]]));
+            }
+        }
+        
+        private void UpdateNoteProperty(EntityTypes.NoteSampleDropdown noteDropdown, object newSampleEnum, bool forceSwitchCheck = false)
+        {
+            EventParameterManager.instance.currentProperties.TryGetValue(noteDropdown.semisProp, out var property);
+
+            if (!property) return;
+
+            NotePropertyPrefab noteProperty = (NotePropertyPrefab)property;
+            NoteSample sample = noteDropdown.getNoteSample(newSampleEnum);
+            
+            bool switched = false;
+            if ((int)newSampleEnum != lastValue || forceSwitchCheck) {
+                // Keep the semitones value if the note is the same, otherwise reset it
+                if(sample.note != noteProperty.note.sampleNote) parameterManager.entity[noteDropdown.semisProp] = 0;
+                switched = true;
+            }
+            noteProperty.SetNote(new EntityTypes.Note(0, sample.note, sample.octave, sample.sample, offsetToC: false), switched);
+        }
+        #endregion
     }
 }

@@ -238,7 +238,7 @@ namespace HeavenStudio.Games
             {
                 evt.Disable();
             }
-            if (_landSoundEnd != null) _landSoundEnd.Stop();
+            if (_landSoundEnd != null) _landSoundEnd.KillLoop();
         }
 
         private void PersistColors(double beat)
