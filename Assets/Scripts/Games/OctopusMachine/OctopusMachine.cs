@@ -20,8 +20,8 @@ namespace HeavenStudio.Games.Loaders
                         OctopusMachine.instance.Bop(e.length, e["whichBop"], e["singleBop"], e["keepBop"]);
                     },
                     parameters = new List<Param>() {
-                        new Param("singleBop", true, "Bop", "Toggle if the octopodes should bop for the duration of this event. Since this event is not stretchable, they will only bop once."),
-                        new Param("keepBop", false, "Bop (Auto)", "Toggle if the octopodes should automatically bop until another Bop event is reached."),
+                        new Param("singleBop", true, "Bop", "Toggle if the Octo-Pops should bop for the duration of this event. Since this event is not stretchable, they will only bop once."),
+                        new Param("keepBop", false, "Bop (Auto)", "Toggle if the Octo-Pops should automatically bop until another Bop event is reached."),
                         new Param("whichBop", OctopusMachine.Bops.Bop, "Which Bop", "Set the type of bop."),
                     },
                 },
@@ -42,11 +42,11 @@ namespace HeavenStudio.Games.Loaders
                     },
                     resizable = true,
                     parameters = new List<Param>() {
-                        new Param("shouldPrep", true, "Prepare", "Toggle if the octopodes should automatically prepare for this cue.", new List<Param.CollapseParam>()
+                        new Param("shouldPrep", true, "Prepare", "Toggle if the Octo-Pops should automatically prepare for this cue.", new List<Param.CollapseParam>()
                         {
                             new Param.CollapseParam((x, _) => (bool)x, new string[] { "prepBeats" })
                         }),
-                        new Param("prepBeats", new EntityTypes.Float(0, 4, 1), "Prepare Beats", "Set how many beats before the cue the octopodes should prepare."),
+                        new Param("prepBeats", new EntityTypes.Float(0, 4, 1), "Prepare Beats", "Set how many beats before the cue the Octo-Pops should prepare."),
                     },
                     preFunctionLength = 4f,
                     preFunction = delegate {
@@ -81,7 +81,7 @@ namespace HeavenStudio.Games.Loaders
                     },
                     parameters = new List<Param>() {
                         new Param("forceBop", true, "Force Bop", "Toggle if a bop should be forced to play, even if an animation is already playing."),
-                        new Param("autoBop", true, "Hit/Miss Bop", "Toggle if the octopodes should bop depending on if you hit or missed the cues."),
+                        new Param("autoBop", true, "Hit/Miss Bop", "Toggle if the Octo-Pops should bop depending on if you hit or missed the cues."),
                         new Param("autoText", true, "Display Text", "Toggle if text should display depending on if you hit or missed the cues.", new List<Param.CollapseParam>()
                         {
                             new Param.CollapseParam((x, _) => (bool)x, new string[] { "hitText", "missText" })
@@ -135,8 +135,8 @@ namespace HeavenStudio.Games.Loaders
                     parameters = new List<Param>() {
                         new Param("color1", new Color(1f, 0.87f, 0.24f), "Start BG Color", "Set the color at the start of the event."),
                         new Param("color2", new Color(1f, 0.87f, 0.24f), "End BG Color", "Set the color at the end of the event."),
-                        new Param("octoColor", new Color(0.97f, 0.235f, 0.54f), "Octopodes' Color", "Set the octopodes' colors."),
-                        new Param("squeezedColor", new Color(1f, 0f, 0f), "Squeezed Color", "Set the octopodes' colors when they're squeezed."),
+                        new Param("octoColor", new Color(0.97f, 0.235f, 0.54f), "Octo-Pops' Color", "Set the Octo-Pops' colors."),
+                        new Param("squeezedColor", new Color(1f, 0f, 0f), "Squeezed Color", "Set the Octo-Pops' colors when they're squeezed."),
                         new Param("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action."),
                     },
                     resizable = true,

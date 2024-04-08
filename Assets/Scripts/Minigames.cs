@@ -739,7 +739,7 @@ namespace HeavenStudio
                         function: delegate { var e = eventCaller.currentEntity; GameManager.instance.SwitchGame(eventCaller.currentSwitchGame, eventCaller.currentEntity.beat, e["toggle"]); },
                         parameters: new List<Param>()
                             {
-                                new Param("toggle", true, "Black Flash", "Toggle if there should be a blck flash before the game is switched. You should only disable this if you know what you're doing.")
+                                new Param("toggle", true, "Black Flash", "Toggle if there should be a black flash before the game is switched. You should only disable this if you know what you're doing.")
                             },
                         inactiveFunction: delegate { var e = eventCaller.currentEntity; GameManager.instance.SwitchGame(eventCaller.currentSwitchGame, eventCaller.currentEntity.beat, e["toggle"]); }
                     ),
@@ -1029,7 +1029,7 @@ namespace HeavenStudio
                             }),
                         }
                     },
-                    new GameAction("cabb", "Chromatic Abberation")
+                    new GameAction("cabb", "Chromatic Aberration")
                     {
                         resizable = true,
                         parameters = new()
@@ -1143,10 +1143,10 @@ namespace HeavenStudio
                         resizable = true,
                         parameters = new()
                         {
-                            new("xStart", new EntityTypes.Float(1, 100, 1), "Start Horizontal Tiles", "Set the amount of horizontal tiles at the start of the event."),
-                            new("xEnd", new EntityTypes.Float(1, 100, 1), "End Horizontal Tiles", "Set the amount of horizontal tiles at the end of the event."),
-                            new("yStart", new EntityTypes.Float(1, 100, 1), "Start Vertical Tiles", "Set the amount of vertical tiles at the start of the event."),
-                            new("yEnd", new EntityTypes.Float(1, 100, 1), "End Vertical Tiles", "Set the amount of vertical tiles at the end of the event."),
+                            new("xStart", new EntityTypes.Float(1, 100, 1), "Start Horizontal Tiles", "Set the number of horizontal tiles at the start of the event."),
+                            new("xEnd", new EntityTypes.Float(1, 100, 1), "End Horizontal Tiles", "Set the number of horizontal tiles at the end of the event."),
+                            new("yStart", new EntityTypes.Float(1, 100, 1), "Start Vertical Tiles", "Set the number of vertical tiles at the start of the event."),
+                            new("yEnd", new EntityTypes.Float(1, 100, 1), "End Vertical Tiles", "Set the number of vertical tiles at the end of the event."),
                             new("axis", StaticCamera.ViewAxis.All, "Axis", "Set if only a specific axis should be modified."),
                             new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.", new()
                             {

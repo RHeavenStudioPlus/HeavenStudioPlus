@@ -46,7 +46,7 @@ namespace HeavenStudio.Games.Loaders
                         }),
                         
                         
-                        new Param("amount", new EntityTypes.Integer(2, 30, 5), "Amount", "Set the amount of space kickers."),
+                        new Param("amount", new EntityTypes.Integer(2, 30, 5), "Number", "Set the number of space kickers."),
                         new Param("x", new EntityTypes.Float(-30, 30, 2f), "X Distance", "Set how much distance there should be between the space kickers on the x axis."),
                         new Param("y", new EntityTypes.Float(-30, 30, -0.5f), "Y Distance", "Set how much distance there should be between the space kickers on the x axis."),
                         new Param("z", new EntityTypes.Float(-30, 30, 1.25f), "Z Distance", "Set how much distance there should be between the space kickers on the x axis."),

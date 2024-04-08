@@ -173,7 +173,7 @@ namespace HeavenStudio.Games.Loaders
                     resizable = true,
                     parameters = new List<Param>()
                     {
-                        new Param("cps", new EntityTypes.Integer(0, 200, 0), "Snowflakes Amount", "Set how many snowflakes should be spawned per second."),
+                        new Param("cps", new EntityTypes.Integer(0, 200, 0), "Snowflakes Count", "Set how many snowflakes should be spawned per second."),
                         new Param("speed", new EntityTypes.Float(-10, 10, 1), "Start Speed", "Change fow fast the snowflakes are moving at the start of the event."),
                         new Param("endSpeed", new EntityTypes.Float(-10, 10, 1), "End Speed", "Change how fast the snowflakes are moving at the end of the event."),
                         new Param("ease", EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.")

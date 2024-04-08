@@ -96,7 +96,7 @@ namespace HeavenStudio.Games.Loaders
                     parameters = new List<Param>()
                     {
                         new Param("letter", "", "Letter To Appear", "Set the letter to appear on the blip."),
-                        new Param("shouldGrow", true, "Grow Antenna", "Toggle if Mr. Upbeat's antennashould grow on every blip"),
+                        new Param("shouldGrow", true, "Grow Antenna", "Toggle if Mr. Upbeat's antenna should grow on every blip"),
                         new Param("resetBlip", false, "Reset Antenna", "Toggle if Mr. Upbeat's antenna should reset"),
                         new Param("shouldBlip", true, "Should Blip", "Toggle if Mr. Upbeat's antenna should blip every offbeat."),
                         new Param("blipLength", new EntityTypes.Integer(0, 4, 4), "Text Blip Requirement", "Set how many blips it will take for the text to appear on Mr. Upbeat’s antenna."),

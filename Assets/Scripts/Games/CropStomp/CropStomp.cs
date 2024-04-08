@@ -43,7 +43,7 @@ namespace HeavenStudio.Games.Loaders
                 {
                     parameters = new List<Param>()
                     {
-                        new Param("mute", true, "Toggle if Stomp Farmer should stopp humming.")
+                        new Param("mute", true, "Toggle if Stomp Farmer should stop humming.")
                     }
                 },
                 new GameAction("plantCollect", "Set Veggie Collection Thresholds")
@@ -55,12 +55,12 @@ namespace HeavenStudio.Games.Loaders
                     parameters = new List<Param>()
                     {
                         new Param("threshold", new EntityTypes.Integer(1, 80, 8), "Threshold", "Set how many veggies it takes for a new plant to appear in the collection bag."),
-                        new Param("limit", new EntityTypes.Integer(1, 1000, 80), "Limit", "Set the limit for the amount of plants to be collected and count towards the threshold."),
-                        new Param("force", false, "Set Amount Of Collected Plants", "Toggle if this event should automatically set the collected plants to a certain number.", new List<Param.CollapseParam>()
+                        new Param("limit", new EntityTypes.Integer(1, 1000, 80), "Limit", "Set the limit for the number of plants to be collected and count towards the threshold."),
+                        new Param("force", false, "Set Number Of Collected Plants", "Toggle if this event should automatically set the collected plants to a certain number.", new List<Param.CollapseParam>()
                         {
                             new Param.CollapseParam((x, _) => (bool)x, new string[] { "forceAmount" })
                         }),
-                        new Param("forceAmount", new EntityTypes.Integer(0, 1000, 0), "Set Amount", "Set the amount of plants to be collected automatically.")
+                        new Param("forceAmount", new EntityTypes.Integer(0, 1000, 0), "Set Number", "Set the number of plants to be collected automatically.")
                     }
                 }
             },
