@@ -395,7 +395,7 @@ namespace HeavenStudio
 
             public bool usesAssetBundle => wantAssetBundle is not null or "";
             public bool hasLocales => supportedLocales.Count > 0;
-            public bool AssetsLoaded => ((hasLocales && localeLoaded && currentLoadedLocale == defaultLocale) || (!hasLocales)) && commonLoaded && (!loadingPrefab) && loadComplete;
+            public bool AssetsLoaded => ((hasLocales && localeLoaded && currentLoadedLocale == defaultLocale) || (!hasLocales)) && commonLoaded && loadComplete;
             public bool AlreadyLoading => alreadyLoading;
             public bool LoadingPrefab => loadingPrefab;
             
