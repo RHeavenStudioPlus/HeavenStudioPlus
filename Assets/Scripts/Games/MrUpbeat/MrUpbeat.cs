@@ -254,14 +254,18 @@ namespace HeavenStudio.Games
                     man.RecursiveBlipping(startBlippingBeat);
                     startBlippingBeat = double.MaxValue;
                 }
+            }
+        }
 
-                if (metronomeBeat != double.MaxValue)
-                {
-                    currentMetronomeDir = songPos >= metronomeBeat && songPos <= metronomeBeat + 1
-                        ? (stepIterate % 2 == 0) ? "Right" : "Left"
-                        : (stepIterate % 2 == 1) ? "Right" : "Left";
-                    metronomeAnim.DoScaledAnimation("MetronomeGo" + currentMetronomeDir, metronomeBeat, 1, clamp: true, ignoreSwing: false);
-                }
+        void LateUpdate()
+        {
+            if (conductor.isPlaying && !conductor.isPaused && metronomeBeat != double.MaxValue)
+            {
+                double songPos = conductor.songPositionInBeatsAsDouble;
+                currentMetronomeDir = songPos >= metronomeBeat && songPos <= metronomeBeat + 1
+                    ? (stepIterate % 2 == 0) ? "Right" : "Left"
+                    : (stepIterate % 2 == 1) ? "Right" : "Left";
+                metronomeAnim.DoScaledAnimation("MetronomeGo" + currentMetronomeDir, metronomeBeat, 1, clamp: true, ignoreSwing: false);
             }
         }
 
