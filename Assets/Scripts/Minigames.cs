@@ -395,8 +395,10 @@ namespace HeavenStudio
 
             public bool usesAssetBundle => wantAssetBundle is not null or "";
             public bool hasLocales => supportedLocales.Count > 0;
-            public bool AssetsLoaded => ((hasLocales && localeLoaded && currentLoadedLocale == defaultLocale) || (!hasLocales)) && commonLoaded && loadComplete;
+            public bool AssetsLoaded => ((hasLocales && localeLoaded && currentLoadedLocale == defaultLocale) || (!hasLocales)) && commonLoaded && (!loadingPrefab) && loadComplete;
             public bool AlreadyLoading => alreadyLoading;
+            public bool LoadingPrefab => loadingPrefab;
+            
             public bool SequencesPreloaded => soundSequences != null;
             public string LoadableName => inferred ? "noGame" : name;
             public GameObject LoadedPrefab => loadedPrefab;
@@ -410,6 +412,7 @@ namespace HeavenStudio
             private bool localePreloaded = false;
             private GameObject loadedPrefab = null;
 
+            bool loadingPrefab = false;
             bool loadComplete = false;
 
             private SoundSequence.SequenceKeyValue[] soundSequences = null;
@@ -510,6 +513,7 @@ namespace HeavenStudio
                 if (alreadyLoading || AssetsLoaded || !usesAssetBundle) return;
                 loadComplete = false;
                 alreadyLoading = true;
+                loadingPrefab = true;
                 await UniTask.WhenAll(LoadCommonAssetBundleAsync(), LoadLocalizedAssetBundleAsync());
                 await UniTask.WhenAll(LoadGamePrefabAsync(), LoadCommonAudioClips(), LoadLocalizedAudioClips());
                 SoundByte.PreloadGameAudioClips(this);
@@ -585,6 +589,7 @@ namespace HeavenStudio
                     soundSequences = minigame.SoundSequences;
                 }
                 loadedPrefab = prefab;
+                loadingPrefab = false;
             }
 
             public GameObject LoadGamePrefab()
@@ -636,6 +641,7 @@ namespace HeavenStudio
                 }
                 SoundByte.UnloadAudioClips(name);
                 loadComplete = false;
+                loadingPrefab = false;
             }
         }
 
