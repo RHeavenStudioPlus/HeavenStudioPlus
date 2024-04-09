@@ -637,11 +637,53 @@ MonoBehaviour:
   puddingPattern:
   - beat: 0
     type: 2
+  - beat: 1
+    type: 0
+  - beat: 2
+    type: 8
+  cherryPattern:
+  - beat: 0
+    type: 2
+  - beat: 1
+    type: 0
+  - beat: 2
+    type: 0
+  - beat: 3
+    type: 0
+  - beat: 4
+    type: 8
+  cakePattern:
+  - beat: 0
+    type: 2
+  - beat: 1
+    type: 0
+  - beat: 2
+    type: 3
+  - beat: 2.5
+    type: 0
+  - beat: 3.5
+    type: 0
+  - beat: 4
+    type: 8
+  cakeLongPattern:
+  - beat: 0
+    type: 2
+  - beat: 1
+    type: 0
+  - beat: 2
+    type: 9
+  - beat: 3
+    type: 1
+  - beat: 4
+    type: 8
+  puddingPatternOld:
+  - beat: 0
+    type: 2
   - beat: 0.5
     type: 0
   - beat: 1
     type: 8
-  cherryPattern:
+  cherryPatternOld:
   - beat: 0
     type: 2
   - beat: 0.5
@@ -652,7 +694,7 @@ MonoBehaviour:
     type: 0
   - beat: 2
     type: 8
-  cakePattern:
+  cakePatternOld:
   - beat: 0
     type: 2
   - beat: 0.5
@@ -665,7 +707,7 @@ MonoBehaviour:
     type: 0
   - beat: 2
     type: 8
-  cakeLongPattern:
+  cakeLongPatternOld:
   - beat: 0
     type: 2
   - beat: 0.5
@@ -676,7 +718,7 @@ MonoBehaviour:
     type: 1
   - beat: 2
     type: 8
-  scrollMetresPerBeat: -4.5
+  scrollMetresPerBeat: -2.25
   boardWidth: 19.2
   baseNail: {fileID: 7504610799131467556}
   baseLongNail: {fileID: 4122843866948130824}

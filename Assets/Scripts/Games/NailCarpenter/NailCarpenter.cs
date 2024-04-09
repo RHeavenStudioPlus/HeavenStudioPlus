@@ -14,26 +14,31 @@ namespace HeavenStudio.Games.Loaders
         {
             return new Minigame("nailCarpenter", "Nail Carpenter", "fab96e", false, false, new List<GameAction>()
             {
-                new GameAction("puddingNail", "Pudding Nail")
+
+                new GameAction("puddingNailNew", "Pudding Nail")
                 {
                     defaultLength = 8f,
                     resizable = true
                 },
-                new GameAction("cherryNail", "Cherry Nail")
+
+                 new GameAction("cherryNailNew", "Cherry Nail")
                 {
                     defaultLength = 4f,
                     resizable = true
                 },
-                new GameAction("cakeNail", "Cake Nail")
+
+                new GameAction("cakeNailNew", "Cake Nail")
                 {
                     defaultLength = 4f,
                     resizable = true
                 },
-                new GameAction("cakeLongNail", "Cake Long Nail")
+                new GameAction("cakeLongNailNew", "Cake Long Nail")
                 {
                     defaultLength = 4f,
                     resizable = true
                 },
+
+                
                 new GameAction("slideFusuma", "Slide Shoji")
                 {
                     function = delegate {
@@ -48,6 +53,29 @@ namespace HeavenStudio.Games.Loaders
                         new Param("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action."),
                         new Param("mute", false, "Mute", "Toggle if the cue should be muted.")
                     }
+                },
+                new GameAction("puddingNail", "Pudding Nail (Legacy)")
+                {
+                    defaultLength = 8f,
+                    resizable = true,
+                    hidden = true,
+                },
+
+                new GameAction("cherryNail", "Cherry Nail (Legacy)")
+                {
+                    defaultLength = 4f,
+                    resizable = true,
+                                        hidden = true,
+                },
+                new GameAction("cakeNail", "Cake Nail (Legacy)")
+                {
+                    defaultLength = 4f,
+                    resizable = true,                    hidden = true,
+                },
+                new GameAction("cakeLongNail", "Cake Long Nail (Legacy)")
+                {
+                    defaultLength = 4f,
+                    resizable = true,                    hidden = true,
                 },
 
             },
@@ -102,6 +130,10 @@ namespace HeavenStudio.Games
             Cherry,
             Cake,
             CakeLong,
+            PuddingOld,
+            CherryOld,
+            CakeOld,
+            CakeLongOld,
             None
         }
 
@@ -109,7 +141,12 @@ namespace HeavenStudio.Games
         [SerializeField] ObjectPatternItem[] cherryPattern;
         [SerializeField] ObjectPatternItem[] cakePattern;
         [SerializeField] ObjectPatternItem[] cakeLongPattern;
+        [SerializeField] ObjectPatternItem[] puddingPatternOld;
+        [SerializeField] ObjectPatternItem[] cherryPatternOld;
+        [SerializeField] ObjectPatternItem[] cakePatternOld;
+        [SerializeField] ObjectPatternItem[] cakeLongPatternOld;
         [SerializeField] float scrollMetresPerBeat = 4f;
+        [SerializeField] float legacyScrollMultiplier = 2;
         [SerializeField] float boardWidth = 19.2f;
 
         public GameObject baseNail;
@@ -195,6 +232,7 @@ namespace HeavenStudio.Games
         double slideBeat = double.MaxValue;
         double slideLength;
         double cachedPatternLengthPudding, cachedPatternLengthCherry, cachedPatternLengthCake, cachedPatternLengthCakeLong;
+        double cachedPatternLengthPuddingOld, cachedPatternLengthCherryOld, cachedPatternLengthCakeOld, cachedPatternLengthCakeLongOld;
         Util.EasingFunction.Ease slideEase;
         float slideRatioLast = 0, slideRatioNext = 0;
 
@@ -249,6 +287,11 @@ namespace HeavenStudio.Games
             cachedPatternLengthCherry = cherryPattern[^1].beat;
             cachedPatternLengthCake = cakePattern[^1].beat;
             cachedPatternLengthCakeLong = cakeLongPattern[^1].beat;
+            cachedPatternLengthPuddingOld = puddingPatternOld[^1].beat;
+            cachedPatternLengthCherryOld = cherryPatternOld[^1].beat;
+            cachedPatternLengthCakeOld = cakePatternOld[^1].beat;
+            cachedPatternLengthCakeLongOld = cakeLongPatternOld[^1].beat;
+            float legacyScrollSpeed = (scrollMetresPerBeat*legacyScrollMultiplier);  
 
             double endBeat = double.MaxValue;
             var entities = gameManager.Beatmap.Entities;
@@ -259,19 +302,27 @@ namespace HeavenStudio.Games
             RiqEntity firstEnd = entities.Find(c => (c.datamodel.StartsWith("gameManager/switchGame") || c.datamodel.Equals("gameManager/end")) && c.beat > gameStartBeat);
             endBeat = firstEnd?.beat ?? endBeat;
 
-            List<RiqEntity> events = entities.FindAll(v => (v.datamodel is "nailCarpenter/puddingNail" or "nailCarpenter/cherryNail" or "nailCarpenter/cakeNail" or "nailCarpenter/cakeLongNail") && v.beat >= gameStartBeat && v.beat < endBeat);
+            List<RiqEntity> events = entities.FindAll(v => (v.datamodel is "nailCarpenter/puddingNail" or "nailCarpenter/cherryNail" or "nailCarpenter/cakeNail" or "nailCarpenter/cakeLongNail" or "nailCarpenter/puddingNailNew" or "nailCarpenter/cherryNailNew" or "nailCarpenter/cakeNailNew" or "nailCarpenter/cakeLongNailNew") && v.beat >= gameStartBeat && v.beat < endBeat);
+       
             scheduledPatterns.Clear();
             patternIndex = 0;
+            bool hasChecked = false;
+
+
             foreach (var evt in events)
             {
                 if (evt.length == 0) continue;
                 int patternDivisions = (int)Math.Ceiling(evt.length / PATTERN_SEEK_TIME);
                 PatternType patternType = evt.datamodel switch
                 {
-                    "nailCarpenter/puddingNail" => PatternType.Pudding,
-                    "nailCarpenter/cherryNail" => PatternType.Cherry,
-                    "nailCarpenter/cakeNail" => PatternType.Cake,
-                    "nailCarpenter/cakeLongNail" => PatternType.CakeLong,
+                    "nailCarpenter/puddingNail" => PatternType.PuddingOld,
+                    "nailCarpenter/cherryNail" => PatternType.CherryOld,
+                    "nailCarpenter/cakeNail" => PatternType.CakeOld,
+                    "nailCarpenter/cakeLongNail" => PatternType.CakeLongOld,
+                    "nailCarpenter/puddingNailNew" => PatternType.Pudding,
+                    "nailCarpenter/cherryNailNew" => PatternType.Cherry,
+                    "nailCarpenter/cakeNailNew" => PatternType.Cake,
+                    "nailCarpenter/cakeLongNailNew" => PatternType.CakeLong,
                     _ => throw new NotImplementedException()
                 };
                 for (int i = 0; i < patternDivisions; i++)
@@ -284,7 +335,19 @@ namespace HeavenStudio.Games
                     };
                     scheduledPatterns.Add(pattern);
                 }
+                if (evt.datamodel is "nailCarpenter/puddingNail" or "nailCarpenter/cherryNail" or "nailCarpenter/cakeNail" or "nailCarpenter/cakeLongNail")
+                {
+                    if (hasChecked == false)
+                    {
+                    scrollMetresPerBeat = legacyScrollSpeed;
+                    hasChecked = true;
+                    }
+                }
+
             }
+
+
+            
         }
 
         public override void OnPlay(double beat)
@@ -355,6 +418,10 @@ namespace HeavenStudio.Games
                 PatternType.Cherry => cachedPatternLengthCherry,
                 PatternType.Cake => cachedPatternLengthCake,
                 PatternType.CakeLong => cachedPatternLengthCakeLong,
+                PatternType.PuddingOld => cachedPatternLengthPuddingOld,
+                PatternType.CherryOld => cachedPatternLengthCherryOld,
+                PatternType.CakeOld => cachedPatternLengthCakeOld,
+                PatternType.CakeLongOld => cachedPatternLengthCakeLongOld,
                 _ => throw new NotImplementedException()
             };
             patternType = pattern;
@@ -367,6 +434,11 @@ namespace HeavenStudio.Games
                     PatternType.Cherry => cherryPattern,
                     PatternType.Cake => cakePattern,
                     PatternType.CakeLong => cakeLongPattern,
+                    PatternType.PuddingOld => puddingPatternOld,
+                    PatternType.CherryOld => cherryPatternOld,
+                   PatternType.CakeOld => cakePatternOld,
+                   PatternType.CakeLongOld => cakeLongPatternOld,
+
                     _ => throw new NotImplementedException()
                 });
                 lastPatternType = patternType;
@@ -405,11 +477,30 @@ namespace HeavenStudio.Games
                                 SoundByte.PlayOneShotGame("nailCarpenter/one", itemBeat, forcePlay: true);
                                 sweetType = Sweet.sweetsType.Pudding;
                                 break;
+                            case PatternType.PuddingOld:
+                                SoundByte.PlayOneShotGame("nailCarpenter/one", itemBeat, forcePlay: true);
+                                sweetType = Sweet.sweetsType.Pudding;
+                                break;
                             case PatternType.Cherry:
                                 SoundByte.PlayOneShotGame("nailCarpenter/three", itemBeat, forcePlay: true);
                                 sweetType = Sweet.sweetsType.CherryPudding;
                                 break;
+                            case PatternType.CherryOld:
+                                SoundByte.PlayOneShotGame("nailCarpenter/three", itemBeat, forcePlay: true);
+                                sweetType = Sweet.sweetsType.CherryPudding;
+                                break;
                             case PatternType.Cake:
+                                SoundByte.PlayOneShotGame("nailCarpenter/alarm", itemBeat, forcePlay: true);
+                                sweetType = Sweet.sweetsType.ShortCake;
+                                BeatAction.New(instance, new List<BeatAction.Action>()
+                                {
+                                    new BeatAction.Action(itemBeat, delegate
+                                    {
+                                        EffectExclamRed.DoScaledAnimationAsync("exclamAppear", 0.25f);
+                                    })
+                                });
+                                break;
+                            case PatternType.CakeOld:
                                 SoundByte.PlayOneShotGame("nailCarpenter/alarm", itemBeat, forcePlay: true);
                                 sweetType = Sweet.sweetsType.ShortCake;
                                 BeatAction.New(instance, new List<BeatAction.Action>()
@@ -431,10 +522,25 @@ namespace HeavenStudio.Games
                                     }),
                                 });
                                 break;
+                            case PatternType.CakeLongOld:
+                                SoundByte.PlayOneShotGame("nailCarpenter/signal1", itemBeat, forcePlay: true);
+                                sweetType = Sweet.sweetsType.LayerCake;
+                                BeatAction.New(instance, new List<BeatAction.Action>()
+                                {
+                                    new BeatAction.Action(itemBeat, delegate
+                                    {
+                                        EffectExclamBlue.DoScaledAnimationAsync("exclamAppear", 0.25f);
+                                    }),
+                                });
+                                break;
                             default:
                                 break;
                         }
                         if (lastPatternType == PatternType.Cake)
+                        {
+                            SpawnSweet(itemBeat, startbeat, Sweet.sweetsType.Cherry);
+                        }
+                        else if (lastPatternType == PatternType.CakeOld)
                         {
                             SpawnSweet(itemBeat, startbeat, Sweet.sweetsType.Cherry);
                         }
