@@ -1169,7 +1169,7 @@ namespace HeavenStudio
 
                             new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.", new()
                             {
-                                new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Linear, new string[] { "intenStart" })
+                                new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "intenStart" })
                             }),
                         }
                     },
