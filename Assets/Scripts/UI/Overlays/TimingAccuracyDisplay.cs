@@ -155,6 +155,8 @@ namespace HeavenStudio.Common
                 {
                     case Rating.OK:
                         it = OK;
+                        // makes the explosion smaller with less accurate inputs
+                        it.transform.localScale = Vector3.one * (1f - (frac / 2f));
                         break;
                     case Rating.Just:
                         it = Just;
@@ -163,13 +165,6 @@ namespace HeavenStudio.Common
                         it = NG;
                         break;
                 }
-            }
-
-            // makes the explosion smaller with less accurate inputs
-            if (it == OK)
-            {
-                float okScalar = 1 - (frac / 2);
-                it.transform.localScale = new Vector3(okScalar, okScalar, it.transform.localScale.z);
             }
 
             it.transform.position = barTransform.position + new Vector3(0, barTransform.localScale.y * y, 0);
