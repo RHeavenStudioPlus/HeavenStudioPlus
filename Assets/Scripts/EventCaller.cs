@@ -113,24 +113,22 @@ namespace HeavenStudio
 
         public static List<RiqEntity> GetAllInGameManagerList(string gameName, string[] include)
         {
-            List<RiqEntity> temp1 = instance.gameManager.Beatmap.Entities.FindAll(c => c.datamodel.Split('/')[0] == gameName);
-            List<RiqEntity> temp2 = new List<RiqEntity>();
-            foreach (string s in include)
+            Predicate<RiqEntity> match = c =>
             {
-                temp2.AddRange(temp1.FindAll(c => c.datamodel.Split('/')[1].Equals(s)));
-            }
-            return temp2;
+                string[] details = c.datamodel.Split('/');
+                return details[0] == gameName && include.Contains(details[1]);
+            };
+            return instance.gameManager.Beatmap.Entities.FindAll(match);
         }
 
         public static List<RiqEntity> GetAllInGameManagerListExclude(string gameName, string[] exclude)
         {
-            List<RiqEntity> temp1 = instance.gameManager.Beatmap.Entities.FindAll(c => c.datamodel.Split('/')[0] == gameName);
-            List<RiqEntity> temp2 = new List<RiqEntity>();
-            foreach (string s in exclude)
+            Predicate<RiqEntity> match = c =>
             {
-                temp2.AddRange(temp1.FindAll(c => !c.datamodel.Split('/')[1].Equals(s)));
-            }
-            return temp2;
+                string[] details = c.datamodel.Split('/');
+                return details[0] == gameName && !exclude.Contains(details[1]);
+            };
+            return instance.gameManager.Beatmap.Entities.FindAll(match);
         }
 
         public static List<Minigames.Minigame> FXOnlyGames()
