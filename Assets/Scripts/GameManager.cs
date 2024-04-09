@@ -1020,7 +1020,7 @@ namespace HeavenStudio
                     if (canPreload)
                     {
                         Minigames.Minigame inf = GetGameInfo(newGame);
-                        if (inf != null)
+                        if (inf != null && inf.usesAssetBundle && !inf.AssetsLoaded)
                         {
                             preload.Add(inf);
                         }
