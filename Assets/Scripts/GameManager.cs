@@ -22,7 +22,6 @@ namespace HeavenStudio
 
         [Header("Lists")]
         [NonSerialized] public RiqBeatmap Beatmap = new();
-        private Dictionary<string, GameObject> cachedGamePrefabs = new();
         [NonSerialized] public ObjectPool<Sound> SoundObjects;
 
         [Header("Components")]
@@ -372,7 +371,7 @@ namespace HeavenStudio
             List<RiqEntity> entitiesAtSameBeat = ListPool<RiqEntity>.Get();
             Minigames.Minigame inf;
 
-            //seek ahead to preload games that have assetbundles
+            // seek ahead to preload games that have assetbundles
             if (currentPreSwitch < allGameSwitches.Count && currentPreSwitch >= 0)
             {
                 if (start + seekTime >= allGameSwitches[currentPreSwitch].beat)
@@ -723,7 +722,7 @@ namespace HeavenStudio
                 conductor.SetVolume(Beatmap.VolumeChanges[0]["volume"]);
                 conductor.firstBeatOffset = Beatmap.data.offset;
                 conductor.PlaySetup(beat);
-                SetCurrentEventToClosest(beat);
+                SetCurrentEventToClosest(beat, true);
                 Debug.Log("Playing at " + beat);
                 KillAllSounds();
 
@@ -845,7 +844,7 @@ namespace HeavenStudio
             WaitUntil yieldBeatmap = new WaitUntil(() => Beatmap != null && BeatmapEntities() > 0);
             WaitUntil yieldAudio = new WaitUntil(() => AudioLoadDone || (ChartLoadError && !GlobalGameManager.IsShowingDialog));
             WaitUntil yieldGame = null;
-            List<Minigames.Minigame> gamesToPreload = SeekAheadAndPreload(beat, 4f);
+            List<Minigames.Minigame> gamesToPreload = SetCurrentEventToClosest(beat, true);
             Debug.Log($"Preloading {gamesToPreload.Count} games");
             if (gamesToPreload.Count > 0)
             {
@@ -974,9 +973,10 @@ namespace HeavenStudio
             return 0;
         }
 
-        public void SetCurrentEventToClosest(double beat, bool canPreload = false)
+        public List<Minigames.Minigame> SetCurrentEventToClosest(double beat, bool canPreload = false)
         {
             SortEventsList();
+            List<Minigames.Minigame> preload = new();
             onBeatChanged?.Invoke(beat);
             if (Beatmap.Entities.Count > 0)
             {
@@ -984,15 +984,13 @@ namespace HeavenStudio
                 currentPreEvent = GetIndexAfter(eventBeats, beat);
                 currentPreSequence = GetIndexAfter(eventBeats, beat);
 
-                var gameSwitchs = Beatmap.Entities.FindAll(c => c.datamodel.Split("/")[1] == "switchGame");
-
                 string newGame = Beatmap.Entities[Math.Min(currentEvent, eventBeats.Count - 1)].datamodel.Split(0);
 
-                if (gameSwitchs.Count > 0)
+                if (allGameSwitches.Count > 0)
                 {
-                    int index = GetIndexBefore(gameSwitchs.Select(c => c.beat).ToList(), beat);
+                    int index = GetIndexBefore(allGameSwitches.Select(c => c.beat).ToList(), beat);
                     currentPreSwitch = index;
-                    var closestGameSwitch = gameSwitchs[index];
+                    var closestGameSwitch = allGameSwitches[index];
                     if (closestGameSwitch.beat <= beat)
                     {
                         newGame = closestGameSwitch.datamodel.Split(2);
@@ -1007,7 +1005,7 @@ namespace HeavenStudio
                         {
                             if (index - 1 >= 0)
                             {
-                                newGame = gameSwitchs[index - 1].datamodel.Split(2);
+                                newGame = allGameSwitches[index - 1].datamodel.Split(2);
                             }
                             else
                             {
@@ -1015,13 +1013,17 @@ namespace HeavenStudio
                             }
                         }
                     }
-                    // newGame = gameSwitchs[gameSwitchs.IndexOf(gameSwitchs.Find(c => c.beat == MathUtils.GetClosestInList(gameSwitchs.Select(c => c.beat).ToList(), beat)))].datamodel.Split(2);
                 }
 
                 if (!GetGameInfo(newGame).fxOnly)
                 {
                     if (canPreload)
                     {
+                        Minigames.Minigame inf = GetGameInfo(newGame);
+                        if (inf != null)
+                        {
+                            preload.Add(inf);
+                        }
                         StartCoroutine(WaitAndSetGame(newGame));
                     }
                     else
@@ -1091,7 +1093,8 @@ namespace HeavenStudio
             }
             onSectionChange?.Invoke(currentSection, lastSection);
 
-            SeekAheadAndPreload(beat);
+            preload.AddRange(SeekAheadAndPreload(beat));
+            return preload;
         }
 
         #endregion
@@ -1124,7 +1127,7 @@ namespace HeavenStudio
                 }
             }
 
-            while (beat + 0.25 > Math.Max(conductor.songPositionInBeatsAsDouble, 0))
+            while (conductor.GetUnSwungBeat(beat + 0.25) > Math.Max(conductor.unswungSongPositionInBeatsAsDouble, 0))
             {
                 if (!conductor.isPlaying)
                 {
@@ -1165,13 +1168,18 @@ namespace HeavenStudio
 
         public void DestroyGame()
         {
-            cachedGamePrefabs.Clear();
             SoundByte.UnloadAudioClips();
             SetGame("noGame");
         }
 
+        string currentGameRequest = null;
         private IEnumerator WaitAndSetGame(string game, bool useMinigameColor = true)
         {
+            if (game == currentGameRequest)
+            {
+                yield break;
+            }
+            currentGameRequest = game;
             var inf = GetGameInfo(game);
             if (inf != null && inf.usesAssetBundle)
             {
@@ -1179,13 +1187,15 @@ namespace HeavenStudio
                 {
                     // Debug.Log($"ASYNC loading assetbundles for game {game}");
                     inf.LoadAssetsAsync().Forget();
+                    yield return new WaitUntil(() => inf.AssetsLoaded);
                 }
-                yield return new WaitUntil(() => inf.AssetsLoaded);
                 SetGame(game, useMinigameColor);
+                currentGameRequest = null;
             }
             else
             {
                 SetGame(game, useMinigameColor);
+                currentGameRequest = null;
             }
         }
 
@@ -1200,10 +1210,14 @@ namespace HeavenStudio
 
         public GameObject GetGame(string name)
         {
-            var gameInfo = GetGameInfo(name);
+            if (name is null or "" or "noGame")
+            {
+                return Resources.Load<GameObject>($"Games/noGame");
+            }
+
+            Minigames.Minigame gameInfo = GetGameInfo(name);
             if (gameInfo != null)
             {
-                GameObject prefab;
                 if (gameInfo.inferred)
                 {
                     return Resources.Load<GameObject>($"Games/noGame");
@@ -1226,6 +1240,8 @@ namespace HeavenStudio
                         return Resources.Load<GameObject>($"Games/noGame");
                     }
                 }
+
+                GameObject prefab;
                 if (gameInfo.usesAssetBundle)
                 {
                     //game is packed in an assetbundle, load from that instead
@@ -1251,6 +1267,7 @@ namespace HeavenStudio
                         }
                     }
                 }
+                // games with no assetbundle (usually indev games)
                 prefab = Resources.Load<GameObject>($"Games/{name}");
                 if (prefab != null)
                 {

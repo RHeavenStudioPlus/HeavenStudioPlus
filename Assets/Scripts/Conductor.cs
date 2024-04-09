@@ -96,9 +96,7 @@ namespace HeavenStudio
         private float timelineVolume = 1f;
         private float minigameVolume = 1f;
 
-        const bool doPitchResync = false;
-
-        public void SetTimelinePitch(float pitch, bool resync = false)
+        public void SetTimelinePitch(float pitch)
         {
             if (isPaused || deferTimeKeeping) return;
             if (pitch != 0 && pitch != timelinePitch)
@@ -111,17 +109,17 @@ namespace HeavenStudio
             if (musicSource != null && musicSource.clip != null)
             {
                 musicSource.pitch = SongPitch;
-                if (doPitchResync && isPlaying && resync && !deferTimeKeeping)
+                if (isPlaying && !(isPaused || deferTimeKeeping))
                 {
                     time = MapTimeToPitchChanges(absTime + absTimeAdjust);
                     songPos = startPos + time;
                     songPosBeat = GetBeatFromSongPos(songPos);
-                    SeekMusicToTime(songPos, firstBeatOffset);
+                    songPositionInBeatsAsDouble = GetSwungBeat(songPosBeat);
                 }
             }
         }
 
-        public void SetMinigamePitch(float pitch, bool resync = false)
+        public void SetMinigamePitch(float pitch)
         {
             if (isPaused || deferTimeKeeping || !isPlaying) return;
             if (pitch != 0 && pitch != minigamePitch)
@@ -134,12 +132,12 @@ namespace HeavenStudio
             if (musicSource != null && musicSource.clip != null)
             {
                 musicSource.pitch = SongPitch;
-                if (doPitchResync && isPlaying && resync && !deferTimeKeeping)
+                if (isPlaying && !(isPaused || deferTimeKeeping))
                 {
                     time = MapTimeToPitchChanges(absTime + absTimeAdjust);
                     songPos = startPos + time;
                     songPosBeat = GetBeatFromSongPos(songPos);
-                    SeekMusicToTime(songPos, firstBeatOffset);
+                    songPositionInBeatsAsDouble = GetSwungBeat(songPosBeat);
                 }
             }
         }
@@ -171,7 +169,7 @@ namespace HeavenStudio
 
             songPosBeat = GetBeatFromSongPos(time);
 
-            gameManager.SetCurrentEventToClosest(beat);
+            gameManager.SetCurrentEventToClosest(beat, true);
         }
 
         public void PlaySetup(double beat)
