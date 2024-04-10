@@ -136,8 +136,7 @@ namespace HeavenStudio.Games.Loaders
             },
             new List<string>() { "agb", "keep" },
             "agboffbeat", "en",
-            new List<string>() { },
-            chronologicalSortKey: 101
+            new List<string>() { }
             );
         }
     }
