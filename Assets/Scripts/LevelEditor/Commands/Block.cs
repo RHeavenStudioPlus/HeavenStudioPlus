@@ -220,7 +220,7 @@ namespace HeavenStudio.Editor.Commands
             for (var i = 0; i < original.Count; i++)
             {
                 var entity = original[i].DeepCopy();
-                entity.beat = Conductor.instance.songPositionInBeatsAsDouble + (entity.beat - firstEntityBeat);
+                entity.beat = Timeline.instance.PlaybackBeat + (entity.beat - firstEntityBeat);
                 entityIds.Add(Guid.NewGuid());
 
                 pasteEntityData.Add(entity);
