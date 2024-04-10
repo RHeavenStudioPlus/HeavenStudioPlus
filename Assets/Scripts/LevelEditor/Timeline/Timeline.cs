@@ -48,7 +48,7 @@ namespace HeavenStudio.Editor.Track
 
         private Vector2 relativeMousePos;
         public Vector2 RelativeMousePos => relativeMousePos;
-        public float PlaybackBeat = 0.0f;
+        public double PlaybackBeat = 0d;
 
         public static float SnapInterval() { return instance.snapInterval; }
 
@@ -392,9 +392,9 @@ namespace HeavenStudio.Editor.Track
             if (MouseInTimeline)
                 MouseInTimeline = RectTransformUtility.RectangleContainsScreenPoint(TimelineScroll.viewport,
                     Input.mousePosition, Editor.instance.EditorCamera);
-            
+
             PlaybackSpeed.interactable = !Conductor.instance.isPaused;
-            
+
             foreach (var rect in GameObject.FindGameObjectsWithTag("BlocksEditor"))
             {
                 if (!rect.activeInHierarchy) continue;
@@ -420,19 +420,19 @@ namespace HeavenStudio.Editor.Track
             }
             else
             {
-                SongBeat.text = $"Beat {string.Format("{0:0.000}", cond.songPositionInBeats)}";
+                SongBeat.text = $"Beat {string.Format("{0:0.000}", cond.songPositionInBeatsAsDouble)}";
                 SongPos.text = FormatTime(cond.songPositionAsDouble);
             }
 
             // Metronome animation
             {
-                var rectTransform = MetronomeBTN.transform.GetChild(1).GetComponent<RectTransform>();
-                var rot = 0.0f;
-                if (Conductor.instance.metronome)
+                RectTransform rectTransform = MetronomeBTN.transform.GetChild(1).GetComponent<RectTransform>();
+                float rot = 0f;
+                if (cond.metronome)
                 {
-                    var startBeat = Mathf.FloorToInt(Conductor.instance.songPositionInBeats - 0.5f);
-                    var nm = Conductor.instance.GetLoopPositionFromBeat(0.5f, 1f, ignoreSwing: false);
-                    var loop = (startBeat % 2 == 0) ? Mathf.SmoothStep(-1.1f, 1f, nm) : Mathf.SmoothStep(1f, -1f, nm);
+                    int startBeat = (int)Math.Floor(cond.songPositionInBeats - 0.5);
+                    float nm = cond.GetLoopPositionFromBeat(0.5f, 1f, ignoreSwing: false);
+                    float loop = (startBeat % 2 == 0) ? Mathf.SmoothStep(-1.1f, 1f, nm) : Mathf.SmoothStep(1f, -1f, nm);
 
                     rot = loop * 45f;
                 }
@@ -631,12 +631,12 @@ namespace HeavenStudio.Editor.Track
             }
         }
 
-        public void Play(bool fromStart, float time)
+        public void Play(bool fromStart, double time)
         {
             GameManager.instance.SafePlay(time, 0, false);
             if (!Conductor.instance.isPaused)
             {
-                TimelineSongPosLineRef.transform.localPosition = new Vector3(time * PixelsPerBeat, TimelineSongPosLineRef.transform.localPosition.y);
+                TimelineSongPosLineRef.transform.localPosition = new Vector3((float)time * PixelsPerBeat, TimelineSongPosLineRef.transform.localPosition.y);
             }
 
             SetTimeButtonColors(false, true, true);
@@ -649,7 +649,7 @@ namespace HeavenStudio.Editor.Track
             SetTimeButtonColors(true, false, true);
         }
 
-        public void Stop(float time)
+        public void Stop(double time)
         {
             if (TimelineSongPosLineRef != null)
                 TimelineSongPosLineRef.gameObject.SetActive(false);
@@ -840,7 +840,8 @@ namespace HeavenStudio.Editor.Track
                     {
                         for (int i = 0; i < ep.Count; i++)
                         {
-                            object returnVal = ep[i].parameter switch {
+                            object returnVal = ep[i].parameter switch
+                            {
                                 EntityTypes.Integer intVal => intVal.val,
                                 EntityTypes.Note noteVal => noteVal.val,
                                 EntityTypes.Float floatVal => floatVal.val,
@@ -850,7 +851,8 @@ namespace HeavenStudio.Editor.Track
                                 _ => ep[i].parameter,
                             };
 
-                            if (returnVal.GetType().IsEnum) {
+                            if (returnVal.GetType().IsEnum)
+                            {
                                 returnVal = (int)ep[i].parameter;
                             }
 
@@ -907,8 +909,10 @@ namespace HeavenStudio.Editor.Track
             {
                 var newEntity = entity.DeepCopy();
                 // there's gotta be a better way to do this. i just don't know how... -AJ
-                foreach ((var key, var value) in new Dictionary<string, dynamic>(newEntity.dynamicData)) {
-                    if (value is EntityTypes.DropdownObj dd) {
+                foreach ((var key, var value) in new Dictionary<string, dynamic>(newEntity.dynamicData))
+                {
+                    if (value is EntityTypes.DropdownObj dd)
+                    {
                         newEntity[key] = new EntityTypes.DropdownObj(dd.value, dd.Values);
                     }
                 }
