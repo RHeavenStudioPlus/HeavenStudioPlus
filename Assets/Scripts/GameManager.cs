@@ -181,15 +181,13 @@ namespace HeavenStudio
 
             if (!preLoaded)
             {
-                if (Beatmap.Entities.Count >= 1)
+                if (Beatmap.Entities.Count == 0)
                 {
-                    string game = Beatmap.Entities[0].datamodel.Split(0);
-                    SetCurrentGame(game);
-                    StartCoroutine(WaitAndSetGame(game));
+                    SetGame("noGame");
                 }
                 else
                 {
-                    SetGame("noGame");
+                    SetCurrentEventToClosest(0, true);
                 }
             }
 
@@ -380,7 +378,7 @@ namespace HeavenStudio
                     inf = GetGameInfo(gameName);
                     if (inf != null && !(inf.inferred || inf.fxOnly))
                     {
-                        if (inf.usesAssetBundle && !(inf.AssetsLoaded || inf.AlreadyLoading))
+                        if (inf.UsesAssetBundle && !(inf.AssetsLoaded || inf.AlreadyLoading))
                         {
                             gamesToPreload.Add(inf);
                             Debug.Log($"ASYNC loading assetbundles for game {gameName}");
@@ -409,7 +407,7 @@ namespace HeavenStudio
                         inf = GetGameInfo(gameName);
                         if (inf != null && !(inf.inferred || inf.fxOnly))
                         {
-                            if (inf.usesAssetBundle && !inf.AssetsLoaded)
+                            if (inf.UsesAssetBundle && !inf.AssetsLoaded)
                             {
                                 gamesToPreload.Add(inf);
                                 Debug.Log($"ASYNC loading assetbundles for game {gameName}");
@@ -445,13 +443,6 @@ namespace HeavenStudio
 
                     foreach (RiqEntity entity in entitiesInRange)
                     {
-                        string gameName = entity.datamodel.Split('/')[0];
-                        var inf = GetGameInfo(gameName);
-                        if (inf != null && inf.usesAssetBundle && inf.AssetsLoaded && !inf.SequencesPreloaded)
-                        {
-                            // Debug.Log($"Preparing game {gameName}");
-                            PreloadGameSequences(gameName);
-                        }
                         eventCaller.CallPreEvent(entity);
                         currentPreSequence++;
                     }
@@ -579,7 +570,7 @@ namespace HeavenStudio
 
                     foreach (RiqEntity entity in entitiesInRange)
                     {
-                        // if game isn't loaded, preload game so whatever event that would be called will still run outside if needed
+                        // if game isn't loaded, run inactive event
                         if (entity.datamodel.Split('/')[0] != currentGame)
                         {
                             eventCaller.CallEvent(entity, false);
@@ -628,13 +619,17 @@ namespace HeavenStudio
         {
             if (string.IsNullOrEmpty(name)) return;
             Sound sound;
-            if (game == "common") {
+            if (game == "common")
+            {
                 sound = SoundByte.PlayOneShot(name, beat, pitch, volume, looping, null, (offset / 1000f));
-            } else {
+            }
+            else
+            {
                 SoundByte.PreloadGameAudioClips(game);
                 sound = SoundByte.PlayOneShotGame(game + "/" + name, beat, pitch, volume, looping, true, (offset / 1000f));
             }
-            if (looping) {
+            if (looping)
+            {
                 BeatAction.New(null, new() {
                     new(beat + length, () => sound.KillLoop(0)),
                 });
@@ -644,7 +639,8 @@ namespace HeavenStudio
         public void PlayAnimationArbitrary(string animator, string animation, float scale)
         {
             Transform animTrans = minigameObj.transform.Find(animator);
-            if (animTrans != null && animTrans.TryGetComponent(out Animator anim)) {
+            if (animTrans != null && animTrans.TryGetComponent(out Animator anim))
+            {
                 anim.DoScaledAnimationAsync(animation, scale);
             }
         }
@@ -1020,17 +1016,12 @@ namespace HeavenStudio
                     if (canPreload)
                     {
                         Minigames.Minigame inf = GetGameInfo(newGame);
-                        if (inf != null && inf.usesAssetBundle && !inf.AssetsLoaded)
+                        if (inf != null && inf.UsesAssetBundle && !inf.AssetsLoaded)
                         {
                             preload.Add(inf);
                         }
-                        StartCoroutine(WaitAndSetGame(newGame));
                     }
-                    else
-                    {
-                        SetGame(newGame);
-                    }
-                    SetCurrentGame(newGame);
+                    StartCoroutine(WaitAndSetGame(newGame));
                 }
 
                 List<RiqEntity> allEnds = EventCaller.GetAllInGameManagerList("gameManager", new string[] { "end" });
@@ -1099,6 +1090,13 @@ namespace HeavenStudio
 
         #endregion
 
+        /// <summary>
+        /// While playing a chart, switches the currently active game
+        /// Should only be called by chart entities
+        /// </summary>
+        /// <param name="game">name of the game to switch to</param>
+        /// <param name="beat">beat of the chart entity calling the switch</param>
+        /// <param name="flash">hide the screen during the switch</param>
         public void SwitchGame(string game, double beat, bool flash)
         {
             if (game != currentGame)
@@ -1142,11 +1140,16 @@ namespace HeavenStudio
             SetAmbientGlowToCurrentMinigameColor();
         }
 
+        /// <summary>
+        /// Immediately sets the current minigame to the specified game
+        /// </summary>
+        /// <param name="game"></param>
+        /// <param name="useMinigameColor"></param>
         private void SetGame(string game, bool useMinigameColor = true)
         {
             ResetCamera(); // resetting camera before setting new minigame so minigames can set camera values in their awake call - Rasmus
 
-            GameObject prefab = GetGame(game);
+            GameObject prefab = GetGamePrefab(game);
             if (prefab == null) return;
 
             Destroy(minigameObj);
@@ -1166,13 +1169,13 @@ namespace HeavenStudio
             SetCurrentGame(game, useMinigameColor);
         }
 
-        public void DestroyGame()
-        {
-            SoundByte.UnloadAudioClips();
-            SetGame("noGame");
-        }
-
         string currentGameRequest = null;
+        /// <summary>
+        /// Waits for a given game to preload, then sets it as the current game
+        /// </summary>
+        /// <param name="game"></param>
+        /// <param name="useMinigameColor"></param>
+        /// <returns></returns>
         private IEnumerator WaitAndSetGame(string game, bool useMinigameColor = true)
         {
             if (game == currentGameRequest)
@@ -1181,7 +1184,7 @@ namespace HeavenStudio
             }
             currentGameRequest = game;
             var inf = GetGameInfo(game);
-            if (inf != null && inf.usesAssetBundle)
+            if (inf != null && inf.UsesAssetBundle)
             {
                 if (!(inf.AssetsLoaded || inf.AlreadyLoading))
                 {
@@ -1199,16 +1202,18 @@ namespace HeavenStudio
             }
         }
 
-        public void PreloadGameSequences(string game)
+        public void DestroyGame()
         {
-            var gameInfo = GetGameInfo(game);
-            //load the games' sound sequences
-            // TODO: sound sequences sould be stored in a ScriptableObject
-            if (gameInfo != null && gameInfo.LoadedSoundSequences == null)
-                gameInfo.LoadedSoundSequences = GetGame(game).GetComponent<Minigame>().SoundSequences;
+            SoundByte.UnloadAudioClips();
+            SetGame("noGame");
         }
 
-        public GameObject GetGame(string name)
+        /// <summary>
+        /// Get the game prefab for a given game name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public GameObject GetGamePrefab(string name)
         {
             if (name is null or "" or "noGame")
             {
@@ -1242,29 +1247,21 @@ namespace HeavenStudio
                 }
 
                 GameObject prefab;
-                if (gameInfo.usesAssetBundle)
+                if (gameInfo.UsesAssetBundle)
                 {
                     //game is packed in an assetbundle, load from that instead
                     if (gameInfo.AssetsLoaded && gameInfo.LoadedPrefab != null) return gameInfo.LoadedPrefab;
-                    // couldn't load cached prefab, try loading from assetbundle
-                    try
+                    // couldn't load cached prefab, try loading from resources (usually indev games with mispacked assetbundles)
+                    Debug.LogWarning($"Failed to load prefab for game {name} from assetbundle, trying Resources...");
+                    prefab = Resources.Load<GameObject>($"Games/{name}");
+                    if (prefab != null)
                     {
-                        Debug.LogWarning($"Game prefab wasn't cached, loading from assetbundle for game {name}");
-                        return gameInfo.LoadGamePrefab();
+                        return prefab;
                     }
-                    catch (Exception e)
+                    else
                     {
-                        Debug.LogWarning($"Failed to load assetbundle for game {name}, using sync loading: {e.Message}");
-                        prefab = Resources.Load<GameObject>($"Games/{name}");
-                        if (prefab != null)
-                        {
-                            return prefab;
-                        }
-                        else
-                        {
-                            Debug.LogWarning($"Game {name} not found, using noGame");
-                            return Resources.Load<GameObject>($"Games/noGame");
-                        }
+                        Debug.LogWarning($"Game {name} not found, using noGame");
+                        return Resources.Load<GameObject>($"Games/noGame");
                     }
                 }
                 // games with no assetbundle (usually indev games)
@@ -1293,10 +1290,13 @@ namespace HeavenStudio
 
         public bool TryGetMinigame<T>(out T mg) where T : Minigame
         {
-            if (minigame is T tempMinigame) {
+            if (minigame is T tempMinigame)
+            {
                 mg = tempMinigame;
                 return true;
-            } else {
+            }
+            else
+            {
                 mg = null;
                 return false;
             }

@@ -20,7 +20,7 @@ namespace HeavenStudio.Common
         [SerializeField] private Animator starAnim;
         [SerializeField] private ParticleSystem starParticle;
 
-        public double StarTargetTime { get { return starStart + starLength; } }
+        public double StarTargetTime { get { return cond.GetUnSwungBeat(starStart + starLength); } }
         public bool IsEligible { get; private set; }
         public bool IsCollected { get { return state == StarState.Collected; } }
 
@@ -41,14 +41,14 @@ namespace HeavenStudio.Common
         {
             if (cond.songPositionInBeatsAsDouble > starStart && state == StarState.In)
             {
-                double offset = cond.SecsToBeats(Minigame.AceEarlyTime()-1, cond.GetBpmAtBeat(StarTargetTime));
-                if (cond.songPositionInBeatsAsDouble <= starStart + starLength + offset)
+                double offset = cond.SecsToBeats(Minigame.AceEarlyTime() - 1, cond.GetBpmAtBeat(StarTargetTime));
+                if (cond.unswungSongPositionInBeatsAsDouble <= StarTargetTime + offset)
                     starAnim.DoScaledAnimation("StarIn", starStart, starLength + (float)offset);
                 else
                     starAnim.Play("StarIn", -1, 1f);
-                
-                offset = cond.SecsToBeats(Minigame.AceLateTime()-1, cond.GetBpmAtBeat(StarTargetTime));
-                if (cond.songPositionInBeatsAsDouble > starStart + starLength + offset)
+
+                offset = cond.SecsToBeats(Minigame.AceLateTime() - 1, cond.GetBpmAtBeat(StarTargetTime));
+                if (cond.unswungSongPositionInBeatsAsDouble > StarTargetTime + offset)
                     KillStar();
             }
         }
@@ -87,15 +87,15 @@ namespace HeavenStudio.Common
             starLength = length;
 
             TimingAccuracyDisplay.instance.StartStarFlash();
-            
+
             starAnim.DoScaledAnimation("StarIn", beat, length);
         }
 
         public bool DoStarJust()
         {
-            if (state == StarState.In && 
-                cond.songPositionInBeatsAsDouble >= StarTargetTime + cond.SecsToBeats(Minigame.AceEarlyTime()-1, cond.GetBpmAtBeat(StarTargetTime)) &&
-                cond.songPositionInBeatsAsDouble <= StarTargetTime + cond.SecsToBeats(Minigame.AceLateTime()-1, cond.GetBpmAtBeat(StarTargetTime))
+            if (state == StarState.In &&
+                cond.unswungSongPositionInBeatsAsDouble >= StarTargetTime + cond.SecsToBeats(Minigame.AceEarlyTime() - 1, cond.GetBpmAtBeat(StarTargetTime)) &&
+                cond.unswungSongPositionInBeatsAsDouble <= StarTargetTime + cond.SecsToBeats(Minigame.AceLateTime() - 1, cond.GetBpmAtBeat(StarTargetTime))
             )
             {
                 state = StarState.Collected;
@@ -111,7 +111,7 @@ namespace HeavenStudio.Common
 
         public void KillStar()
         {
-            if (state == StarState.In && cond.songPositionInBeatsAsDouble >= starStart + starLength*0.5f || !cond.isPlaying)
+            if (state == StarState.In && cond.songPositionInBeatsAsDouble >= starStart + (starLength * 0.5f) || !cond.isPlaying)
             {
                 IsEligible = false;
                 state = StarState.Out;

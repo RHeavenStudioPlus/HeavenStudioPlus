@@ -51,7 +51,7 @@ namespace HeavenStudio.Common
             _renderer.material.mainTextureOffset = new Vector2(NormalizedX, -NormalizedY) * Tile;
 
             if (AutoScroll) {
-                float songPos = Conductor.instance.songPositionInBeats/100;
+                float songPos = Conductor.instance.unswungSongPositionInBeats/100;
                 NormalizedX = songPos*AutoScrollX;
                 NormalizedY = songPos*AutoScrollY;
             }
