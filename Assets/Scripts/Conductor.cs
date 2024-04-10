@@ -167,7 +167,9 @@ namespace HeavenStudio
 
             SeekMusicToTime(startPos, offset);
 
+            songPos = startPos;
             songPosBeat = GetBeatFromSongPos(time);
+            songPositionInBeatsAsDouble = GetSwungBeat(songPosBeat);
 
             gameManager.SetCurrentEventToClosest(beat, true);
         }
