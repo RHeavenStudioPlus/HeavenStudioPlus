@@ -83,8 +83,11 @@ public class NotePropertyPrefab : NumberPropertyPrefab
         slider.wholeNumbers = true;
 
         offsetFromC = 0;
-        if(note.offsetToC)
-            offsetFromC = 3 - note.sampleNote;
+        if (note.offsetToC) {
+            int sameC = 3 - note.sampleNote;
+            int upperC = 15 - note.sampleNote;
+            offsetFromC = Mathf.Abs(sameC) < Mathf.Abs(upperC) ? sameC : upperC;
+        }
 
         int lastValue = (int)slider.value;
         slider.value = Convert.ToSingle(parameterManager.entity[propertyName]) - offsetFromC;
