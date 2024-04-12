@@ -111,6 +111,7 @@ namespace HeavenStudio.Games
         void JustHold(PlayerActionEvent caller, float state)
         {
             var currentBeat = caller.timer + caller.startBeat; 
+            isJust = false;
             ScheduleInput(currentBeat, 1, InputAction_FlickRelease, JustJump, MissJump, Empty, CanJump);
 
             if (state >= 1f || state <= -1f)
@@ -132,6 +133,7 @@ namespace HeavenStudio.Games
         void JustJump(PlayerActionEvent caller, float state)
         {
             var currentBeat = caller.timer + caller.startBeat; 
+            isJust = true;
 
             if (state >= 1f || state <= -1f)
             {
@@ -147,7 +149,8 @@ namespace HeavenStudio.Games
             JumpMissAnim(caller.timer + caller.startBeat);
         }
 
-        bool CanJump() { return isHold && !isGone;}
+        bool isJust = false;    // not fundamental solution
+        bool CanJump() { return isHold && !isGone || isJust;}
 
         void Empty(PlayerActionEvent caller) { }
 
