@@ -47,9 +47,9 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 140
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -67,7 +67,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -108,18 +108,18 @@ TextureImporter:
       name: D-Pad Thing
       rect:
         serializedVersion: 2
-        x: 32
-        y: 320
-        width: 284
-        height: 918
+        x: 30
+        y: 384
+        width: 398
+        height: 1285
       alignment: 9
       pivot: {x: 0.5633803, y: 0.9553377}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 23185f5de080d604d9c3843755ee9177
+      spriteID: 0cf61586000000000800000000000000
       internalID: 1750167488
       vertices: []
       indices: 
@@ -129,18 +129,18 @@ TextureImporter:
       name: A Button Thing
       rect:
         serializedVersion: 2
-        x: 356
-        y: 320
-        width: 284
-        height: 918
+        x: 462
+        y: 388
+        width: 398
+        height: 1285
       alignment: 9
       pivot: {x: 0.43661973, y: 0.9553377}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 3ac6e9cf4d7cc0640b8fed09f025d270
+      spriteID: 49eecb8bffffffff0800000000000000
       internalID: -1195577708
       vertices: []
       indices: 
@@ -150,18 +150,18 @@ TextureImporter:
       name: Thing
       rect:
         serializedVersion: 2
-        x: 740
-        y: 1156
-        width: 152
-        height: 82
+        x: 977
+        y: 1537
+        width: 213
+        height: 115
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 002df5133cf6bb64da2f0f9773956862
+      spriteID: 57b20825000000000800000000000000
       internalID: 1384131445
       vertices: []
       indices: 
@@ -171,18 +171,18 @@ TextureImporter:
       name: Ball
       rect:
         serializedVersion: 2
-        x: 1018
-        y: 1354
-        width: 124
-        height: 124
+        x: 1350
+        y: 1799
+        width: 174
+        height: 174
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 73f7708f4de89554c9ba0da588fd01e3
+      spriteID: bc5a49afffffffff0800000000000000
       internalID: -90921525
       vertices: []
       indices: 
@@ -192,18 +192,18 @@ TextureImporter:
       name: Gradient (Prolly will be replaced)
       rect:
         serializedVersion: 2
-        x: 1392
+        x: 1846
         y: 0
-        width: 144
-        height: 1536
+        width: 202
+        height: 2048
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 341ac13d49b12d748b38e3ab4b9965d2
+      spriteID: 719ef288ffffffff0800000000000000
       internalID: -2010126057
       vertices: []
       indices: 
@@ -213,18 +213,18 @@ TextureImporter:
       name: D-Pad Thing Top
       rect:
         serializedVersion: 2
-        x: 116
-        y: 1350
-        width: 152
-        height: 127
+        x: 149
+        y: 1794
+        width: 213
+        height: 178
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 89013bd8fb34461448d835ec1c42c98f
+      spriteID: 29258628ffffffff0800000000000000
       internalID: -2107092334
       vertices: []
       indices: 
@@ -234,18 +234,18 @@ TextureImporter:
       name: A Button Thing Top
       rect:
         serializedVersion: 2
-        x: 404
-        y: 1350
-        width: 152
-        height: 127
+        x: 530
+        y: 1799
+        width: 213
+        height: 178
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: fd6cb9f52d676984ab4c30a8981f5623
+      spriteID: 2c6d286dffffffff0800000000000000
       internalID: -696068414
       vertices: []
       indices: 
@@ -255,18 +255,18 @@ TextureImporter:
       name: Thing Top
       rect:
         serializedVersion: 2
-        x: 740
-        y: 1350
-        width: 152
-        height: 127
+        x: 978
+        y: 1798
+        width: 213
+        height: 178
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 868c1983d168dbe4e8d096193ed4e2a0
+      spriteID: 0bfe7c75000000000800000000000000
       internalID: 1472720816
       vertices: []
       indices: 
