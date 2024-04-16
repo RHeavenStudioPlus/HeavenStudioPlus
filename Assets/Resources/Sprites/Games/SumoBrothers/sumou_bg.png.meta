@@ -213,9 +213,9 @@ TextureImporter:
       name: ground
       rect:
         serializedVersion: 2
-        x: 770
+        x: 764
         y: 81
-        width: 1187
+        width: 1192
         height: 539
       alignment: 5
       pivot: {x: 1, y: 0.5}
@@ -440,6 +440,90 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: mask1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1452
+        width: 1110
+        height: 140
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d86523184e31d3841b85a16cf3ab0940
+      internalID: -445509945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bgOtaniOniji
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 1871
+        width: 1982
+        height: 1054
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9dd8bd38c94039047b062758f4625730
+      internalID: -1998133883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bgGreatWave
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 3003
+        width: 1982
+        height: 1054
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8eb84c849ce30774fa094c6e306318df
+      internalID: 1525428153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mask2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1676
+        width: 2048
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 144c1e91834ff0744a8852d7b23fdb9e
+      internalID: 1491224058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -453,6 +537,8 @@ TextureImporter:
     nameFileIdTable:
       background: -8551528264012278953
       backgroundGlow: -2768974374605152282
+      bgGreatWave: 1525428153
+      bgOtaniOniji: -1998133883
       ground: 4054221790298107953
       inuBounce: 1277806008517062153
       inuCollar: -634844184711935702
@@ -465,9 +551,11 @@ TextureImporter:
       inuSenseiPlatform: 423810776407373802
       inuShadow: 7251623275569825146
       inuStinkEye: 249072357185814813
+      mask1: -445509945
+      mask2: 1491224058
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: 
+  assetBundleName: ctrsumou/common
   assetBundleVariant: 
