@@ -26,6 +26,37 @@ namespace HeavenStudio.Games.Loaders
                         new Param("color", Color.white, "Color", "Choose the color of the ball."),
                     }
                 },
+                new GameAction("background appearance", "Background Appearance")
+                {
+                    function = delegate {
+                        var e = eventCaller.currentEntity;
+                        BouncyRoad.instance.BackgroundColorSet(e.beat, e.length, e["colorBG1Start"], e["colorBG1End"], e["colorBG2Start"], e["colorBG2End"], e["ease"]);
+                    },
+                    defaultLength = 0.5f,
+                    resizable = true,
+                    parameters = new List<Param>()
+                    {
+                        new Param("colorBG1Start", new Color(0.004f, 0.596f, 0.996f), "Start BG Color", "Set top-most color of the background gradient at the start of the event."),
+                        new Param("colorBG1End", new Color(0.004f, 0.596f, 0.996f), "End BG Color", "Set top-most color of the background gradient at the end of the event."),
+                        new Param("colorBG2Start", Color.black, "Start BG Color", "Set bottom-most color of the background gradient at the start of the event."),
+                        new Param("colorBG2End",Color.black, "End BG Color", "Set bottom-most color of the background gradient at the end of the event."),
+                        new Param("ease", Util.EasingFunction.Ease.Instant, "Ease", "Set the easing of the action."),
+                    }
+                },
+                // new GameAction("object appearance", "Object Appearance")
+                // {
+                //     function = delegate {
+                //         var e = eventCaller.currentEntity;
+                //         BouncyRoad.instance.ObjectColorSet(e["color1"], e["color2"], e["color3"]);
+                //     },
+                //     defaultLength = 0.5f,
+                //     parameters = new List<Param>()
+                //     {
+                //         new Param("color1", new Color(1, 1, 1), "Color 1"),
+                //         new Param("color2", new Color(1, 1, 1), "Color 2"),
+                //         new Param("color3", new Color(1, 1, 1), "Color 3"),
+                //     }
+                // },
             },
             new List<string>() { "agb", "normal" },
             "agbbouncy", "en",
@@ -51,6 +82,9 @@ namespace HeavenStudio.Games
         [SerializeField] BezierCurve3D PosCurve;
 
         [SerializeField] float fallY;
+
+        [SerializeField] private SpriteRenderer BGGradient, BGHigh, BGLow;
+        private ColorEase[] colorEases = new ColorEase[2];
 
         const double BALL_SEEK_TIME = 1.0;
         private struct ScheduledBall
@@ -100,6 +134,11 @@ namespace HeavenStudio.Games
         void Awake()
         {
             instance = this;
+            
+            colorEases = new ColorEase[] {
+                new(new Color(0.004f, 0.596f, 0.996f)),
+                new(Color.black),
+            };
 
             ThingsAnim = new Animator[ThingsTrans.childCount];
             int childIndex = 0;
@@ -193,6 +232,7 @@ namespace HeavenStudio.Games
             }
 
             UpdateBalls();
+            UpdateBackgroundColor();
         }
 
         void UpdateBalls()
@@ -309,6 +349,27 @@ namespace HeavenStudio.Games
             }
 
             return newCurves;
+        }
+
+        public void BackgroundColorSet(double beat, float length, Color BG1Start, Color BG1End, Color BG2Start, Color BG2End, int colorEaseSet)
+        {
+            colorEases = new ColorEase[] {
+                new(beat, length, BG1Start, BG1End, colorEaseSet),
+                new(beat, length, BG2Start, BG2End, colorEaseSet),
+            };
+
+            UpdateBackgroundColor();
+        }
+        public void ObjectColorSet(Color Color1, Color Color2, Color Color3)
+        {
+            
+        }
+        private void UpdateBackgroundColor()
+        {
+            BGGradient.material.SetColor("_ColorAlpha", colorEases[0].GetColor());
+            BGGradient.material.SetColor("_ColorDelta", colorEases[1].GetColor());
+            BGHigh.color = colorEases[0].GetColor();
+            BGLow.color = colorEases[1].GetColor();
         }
     }
 }
