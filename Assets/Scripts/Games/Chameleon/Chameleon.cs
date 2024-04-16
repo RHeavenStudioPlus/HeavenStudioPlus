@@ -118,14 +118,7 @@ namespace HeavenStudio.Games
         public static Chameleon instance;
 
         const int IAAltDownCat = IAMAXCAT;
-
-        protected static bool IA_TouchLeft(out double dt)
-        {
-            bool want = PlayerInput.GetTouchDown(InputController.ActionsTouch.Left, out dt);
-            bool simul = false;
-            return want || simul;
-        }
-
+        
         protected static bool IA_PadAltPress(out double dt)
         {
             return PlayerInput.GetPadDown(InputController.ActionsPad.South, out dt);
@@ -134,21 +127,15 @@ namespace HeavenStudio.Games
         {
             return PlayerInput.GetSqueezeDown(out dt);
         }
-        protected static bool IA_TouchRight(out double dt)
-        {
-            bool want = PlayerInput.GetTouchDown(InputController.ActionsTouch.Right, out dt);
-            bool simul = false;
-            return want || simul;
-        }
-
+        
         public static PlayerInput.InputAction InputAction_Close =
             new("RvlChameleonClose", new int[] { IAPressCat, IAPressCat, IAPressCat },
-            IA_PadBasicPress, IA_TouchLeft, IA_BatonBasicPress);
+            IA_PadBasicPress, IA_TouchFlick, IA_BatonBasicPress);
 
         public static PlayerInput.InputAction InputAction_Far =
             new("RvlChameleonFar", new int[] { IAAltDownCat, IAAltDownCat, IAAltDownCat },
-            IA_PadAltPress, IA_TouchRight, IA_BatonAltPress);
-
+            IA_PadAltPress, IA_TouchFlick, IA_BatonAltPress);
+            
 
         private void Awake()
         {
@@ -197,7 +184,7 @@ namespace HeavenStudio.Games
                     chameleonAnim.DoScaledAnimationAsync("tongueClose", 0.5f);
                     SoundByte.PlayOneShotGame("chameleon/blankClose");
                 }
-                if (PlayerInput.GetIsAction(InputAction_Far) && !IsExpectingInputNow(InputAction_Far))
+                else if (PlayerInput.GetIsAction(InputAction_Far) && !IsExpectingInputNow(InputAction_Far))
                 {
                     chameleonAnim.DoScaledAnimationAsync("tongueFar", 0.5f);
                     SoundByte.PlayOneShotGame("chameleon/blankFar");
@@ -260,7 +247,7 @@ namespace HeavenStudio.Games
 
         public void SpawnFly(double beat, double length, int type)
         {
-            if (length <= 0) length = 4;
+            if (length < 0) length = 4;
             var newFly = Instantiate(baseFly, transform).GetComponent<Fly>();
             newFly.startBeat = beat;
             newFly.lengthBeat = length;
