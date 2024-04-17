@@ -199,6 +199,18 @@ namespace HeavenStudio.Editor
                     {
                         Timeline.instance.Paste();
                     }
+
+                    if (Input.GetKey(KeyCode.LeftShift))
+                    {
+                        if (Input.GetKeyDown(KeyCode.I))
+                        {
+                            Timeline.instance.InsertSpace();
+                        }
+                        else if (Input.GetKeyDown(KeyCode.U))
+                        {
+                            Timeline.instance.DeleteSpace();
+                        }
+                    }
                 }
 
                 if (Input.GetKey(KeyCode.LeftControl))
