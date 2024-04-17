@@ -935,6 +935,68 @@ namespace HeavenStudio.Editor.Track
             return dup;
         }
 
+        public void InsertSpace()
+        {
+            List<RiqEntity> originalEntities = new();
+            List<double> newBeats = new();
+
+            var beatmap = GameManager.instance.Beatmap;
+            var specialEntities = new[] { beatmap.TempoChanges, beatmap.VolumeChanges, beatmap.SectionMarkers }
+                                        .SelectMany(list => list);
+
+            foreach (var entity in beatmap.Entities)
+            {
+                var entityBeat = entity.beat;
+                if (entityBeat >= PlaybackBeat)
+                {
+                    originalEntities.Add(entity);
+                    newBeats.Add(entityBeat + snapInterval);
+                }
+            }
+            foreach (var entity in specialEntities)
+            {
+                var entityBeat = entity.beat;
+                if (entityBeat >= PlaybackBeat && entityBeat > 0)
+                {
+                    originalEntities.Add(entity);
+                    newBeats.Add(entityBeat + snapInterval);
+                }
+            }
+
+            if (originalEntities.Count > 0) CommandManager.Instance.AddCommand(new Commands.MoveEntity(originalEntities, newBeats));
+        }
+
+        public void DeleteSpace()
+        {
+            List<RiqEntity> originalEntities = new();
+            List<double> newBeats = new();
+
+            var beatmap = GameManager.instance.Beatmap;
+            var specialEntities = new[] { beatmap.TempoChanges, beatmap.VolumeChanges, beatmap.SectionMarkers }
+                                        .SelectMany(list => list);
+
+            foreach (var entity in beatmap.Entities)
+            {
+                var entityBeat = entity.beat;
+                if (entityBeat - snapInterval >= PlaybackBeat)
+                {
+                    originalEntities.Add(entity);
+                    newBeats.Add(entityBeat - snapInterval);
+                }
+            }
+            foreach (var entity in specialEntities)
+            {
+                var entityBeat = entity.beat;
+                if (entityBeat - snapInterval >= PlaybackBeat && entityBeat > 0)
+                {
+                    originalEntities.Add(entity);
+                    newBeats.Add(entityBeat - snapInterval);
+                }
+            }
+
+            if (originalEntities.Count > 0) CommandManager.Instance.AddCommand(new Commands.MoveEntity(originalEntities, newBeats));
+        }
+
         public float SnapToLayer(float y)
         {
             float size = LayerHeight();

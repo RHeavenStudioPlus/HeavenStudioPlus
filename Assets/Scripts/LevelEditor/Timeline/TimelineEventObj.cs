@@ -62,6 +62,8 @@ namespace HeavenStudio.Editor.Track
 
         private double initMoveX = 0;
         private float initMoveY = 0;
+        private double selectedMinInitMoveX, selectedMaxInitMoveX;
+        private float selectedMinInitMoveY, selectedMaxInitMoveY;
 
         private bool movedEntity = false;
         private double lastBeat = 0;
@@ -238,8 +240,10 @@ namespace HeavenStudio.Editor.Track
                 {
                     foreach (var marker in Selections.instance.eventsSelected)
                     {
-                        marker.entity.beat = System.Math.Max(Timeline.instance.MousePos2BeatSnap - marker.initMoveX, 0);
-                        marker.entity["track"] = Mathf.Clamp(Timeline.instance.MousePos2Layer - marker.initMoveY, 0, Timeline.instance.LayerCount - 1);
+                        var nextBeat = System.Math.Max(Timeline.instance.MousePos2BeatSnap, selectedMaxInitMoveX) - marker.initMoveX;
+                        var nextTrack = Mathf.Clamp(Timeline.instance.MousePos2Layer, selectedMaxInitMoveY, Timeline.instance.LayerCount - 1 + selectedMinInitMoveY) - marker.initMoveY;
+                        marker.entity.beat = System.Math.Max(nextBeat, 0);
+                        marker.entity["track"] = Mathf.Clamp(nextTrack, 0, Timeline.instance.LayerCount - 1);
                         marker.SetColor((int)entity["track"]);
                         marker.SetWidthHeight();
                     }
@@ -293,6 +297,10 @@ namespace HeavenStudio.Editor.Track
                 marker.initMoveX = Timeline.instance.MousePos2BeatSnap - marker.entity.beat;
                 marker.initMoveY = Timeline.instance.MousePos2Layer - (int)marker.entity["track"];
             }
+            selectedMinInitMoveX = Selections.instance.eventsSelected.Min(marker => marker.initMoveX);
+            selectedMaxInitMoveX = Selections.instance.eventsSelected.Max(marker => marker.initMoveX);
+            selectedMinInitMoveY = Selections.instance.eventsSelected.Min(marker => marker.initMoveY);
+            selectedMaxInitMoveY = Selections.instance.eventsSelected.Max(marker => marker.initMoveY);
         }
 
         #region ClickEvents
