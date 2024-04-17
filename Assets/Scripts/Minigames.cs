@@ -1037,11 +1037,17 @@ namespace HeavenStudio
                         resizable = true,
                         parameters = new()
                         {
-                            new("intenStart", new EntityTypes.Float(0f, 1f), "Start Intensity", "Set the intensity at the start of the event."),
-                            new("intenEnd", new EntityTypes.Float(0f, 1f, 1f), "End Intensity", "Set the intensity at the end of the event."),
+                            new("intenStart", new EntityTypes.Float(0f, 20f), "Start Intensity", "Set the intensity at the start of the event."),
+                            new("intenEnd", new EntityTypes.Float(0f, 20f, 1f), "End Intensity", "Set the intensity at the end of the event."),
 
                             new("colorStart", Color.black, "Start Color", "Set the color at the start of the event."),
                             new("colorEnd", Color.black, "End Color", "Set the color at the end of the event."),
+
+                            new("xLocStart", new EntityTypes.Float(0.0f, 1f, 0.5f), "Start X Location", "Set the X location at the start of the event."),
+                            new("xLocEnd", new EntityTypes.Float(0.0f, 1f, 0.5f), "End X Location", "Set the X location at the end of the event."),
+
+                             new("yLocStart", new EntityTypes.Float(0.0f, 1f, 0.5f), "Start Y Location", "Set the Y location at the start of the event."),
+                            new("yLocEnd", new EntityTypes.Float(0.0f, 1f, 0.5f), "End Y Location", "Set the Y location at the end of the event."),
 
                             new("smoothStart", new EntityTypes.Float(0.01f, 1f, 0.2f), "Start Smoothness", "Set the smoothness at the start of the event."),
                             new("smoothEnd", new EntityTypes.Float(0.01f, 1f, 0.2f), "End Smoothness", "Set the smoothness at the end of the event."),
@@ -1052,7 +1058,7 @@ namespace HeavenStudio
 
                             new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.", new()
                             {
-                                new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "intenStart", "colorStart", "smoothStart", "roundStart" })
+                                new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "intenStart", "colorStart", "smoothStart", "roundStart", "xLocStart", "yLocStart" })
                             }),
                         }
                     },
@@ -1193,10 +1199,10 @@ namespace HeavenStudio
                             new("rgbStart", new EntityTypes.Float(0f, 1f, 1f), "Start RGB Blend", "Set the RGB blend at the start of the event."),
                             new("rgbEnd", new EntityTypes.Float(0f, 1f, 1f), "End RGB Blend", "Set the RGB blend at the end of the event."),
 
-                            new("bottomStart", new EntityTypes.Float(0f, 1f, 0f), "Start Bottom Collapse", "Set the bottom collapse at the start of the event."),
+                            new("bottomStart", new EntityTypes.Float(0f, 1f, 0.02f), "Start Bottom Collapse", "Set the bottom collapse at the start of the event."),
                             new("bottomEnd", new EntityTypes.Float(0f, 1f, 0.02f), "End Bottom Collapse", "Set the bottom collapse at the end of the event."),
 
-                            new("noiseStart", new EntityTypes.Float(0f, 1f, 0f), "Start Noise", "Set the noise at the start of the event."),
+                            new("noiseStart", new EntityTypes.Float(0f, 1f, 0.3f), "Start Noise", "Set the noise at the start of the event."),
                             new("noiseEnd", new EntityTypes.Float(0f, 1f, 0.3f), "End Noise", "Set the noise knee at the end of the event."),
 
                             new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.", new()
@@ -1262,18 +1268,19 @@ namespace HeavenStudio
                         resizable = true,
                         parameters = new()
                         {
-                            new("intenStart", new EntityTypes.Float(0.1f, 1f, 0.1f), "Start Intensity", "Set the edge fade at the start of the event."),
-                            new("intenEnd", new EntityTypes.Float(0.1f, 1f, 1f), "End Intensity", "Set the edge fade at the end of the event."),
+                            new("intenStart", new EntityTypes.Float(0.0f, 1f, 0.0f), "Start Intensity", "Set the edge fade at the start of the event."),
+                            new("intenEnd", new EntityTypes.Float(0.0f, 1f, 1f), "End Intensity", "Set the edge fade at the end of the event."),
 
-                            new("edgeWidthStart", new EntityTypes.Float(0.05f, 5f, 0.05f), "Start Edge Width", "Set the edge width at the start of the event."),
-                            new("edgeWidthEnd", new EntityTypes.Float(0.05f, 5f, 2f), "End Edge Width", "Set the edge width at the end of the event."),
+                            new("edgeWidthStart", new EntityTypes.Float(0.00f, 5f, 0.0f), "Start Edge Width", "Set the edge width at the start of the event."),
+                            new("edgeWidthEnd", new EntityTypes.Float(0.00f, 5f, 2f), "End Edge Width", "Set the edge width at the end of the event."),
 
-                            new("bgFadeStart", new EntityTypes.Float(0f, 1f, 0f), "Start Background Presence", "Set the background presence at the start of the event."),
+                            new("bgFadeStart", new EntityTypes.Float(0f, 1f, 1f), "Start Background Presence", "Set the background presence at the start of the event."),
                             new("bgFadeEnd", new EntityTypes.Float(0f, 1f, 0f), "End Background Presence", "Set the background presence at the end of the event."),
 
 
-                            new("brightnessStart", new EntityTypes.Float(0f, 2f, 0f), "Start Brightness", "Set the brightness at the start of the event."),
+                            new("brightnessStart", new EntityTypes.Float(0f, 2f, 1f), "Start Brightness", "Set the brightness at the start of the event."),
                             new("brightnessEnd", new EntityTypes.Float(0f, 2f, 1f), "End Brightness", "Set the brightness at the end of the event."),
+
 
 
                             new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.", new()

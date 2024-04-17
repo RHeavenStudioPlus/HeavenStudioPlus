@@ -21,10 +21,10 @@ namespace XPostProcessing
     [PostProcess(typeof(EdgeDetectionSobelNeonV2Renderer), PostProcessEvent.AfterStack, "X-PostProcessing/EdgeDetection/EdgeDetectionSobelNeonV2")]
     public class EdgeDetectionSobelNeonV2 : PostProcessEffectSettings
     {
-        [Range(0.05f, 5.0f)]
+        [Range(0.0f, 5.0f)]
         public FloatParameter EdgeWidth = new FloatParameter { value = 1f };
 
-        [Range(0.1f, 1.0f)]
+        [Range(0.0f, 1.0f)]
         public FloatParameter EdgeNeonFade = new FloatParameter { value = 1f };
 
         [Range(0.0f, 1.0f)]

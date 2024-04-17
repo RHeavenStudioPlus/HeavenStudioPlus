@@ -115,6 +115,10 @@ namespace HeavenStudio
 
                 float newRoundness = func(e["roundStart"], e["roundEnd"], clampNormal);
                 v.roundness.Override(newRoundness);
+
+                float newXPos = func(e["xLocStart"], e["xLocEnd"], clampNormal);
+                float newYPos = func(e["yLocStart"], e["yLocEnd"], clampNormal);
+                v.center.Override( new Vector2Parameter { value = new Vector2(newXPos, newYPos) });
             }
         }
 
@@ -388,6 +392,9 @@ namespace HeavenStudio
                 
                 float newBrightness = func(e["brightnessStart"], e["brightnessEnd"], clampNormal);
                 sn.Brigtness.Override(newBrightness);
+
+
+
             }
 
         }
