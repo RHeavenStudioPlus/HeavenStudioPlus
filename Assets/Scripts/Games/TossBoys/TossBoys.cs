@@ -497,7 +497,6 @@ namespace HeavenStudio.Games
                 else if (passBallDict[beat + length].datamodel == "tossBoys/pop")
                 {
                     currentBall.willBePopped = true;
-                    if (PlayerInput.CurrentControlStyle != InputController.ControlStyles.Touch)
                         BeatAction.New(instance, new List<BeatAction.Action>()
                         {
                             new BeatAction.Action(beat + length - 1, delegate { GetCurrentReceiver().PopBallPrepare(); })
@@ -517,7 +516,6 @@ namespace HeavenStudio.Games
                 else if (eventDatamodel == "tossBoys/pop")
                 {
                     currentBall.willBePopped = true;
-                    if (PlayerInput.CurrentControlStyle != InputController.ControlStyles.Touch)
                         BeatAction.New(instance, new List<BeatAction.Action>()
                         {
                             new BeatAction.Action(beat + length - 1, delegate { GetCurrentReceiver().PopBallPrepare(); })
@@ -584,7 +582,6 @@ namespace HeavenStudio.Games
             if (passBallDict.ContainsKey(beat + currentEventLength) && passBallDict[beat + currentEventLength].datamodel == "tossBoys/pop")
             {
                 currentBall.willBePopped = true;
-                if (PlayerInput.CurrentControlStyle != InputController.ControlStyles.Touch)
                     BeatAction.New(instance, new List<BeatAction.Action>()
                     {
                         new BeatAction.Action(beat + currentEventLength - 1, delegate { GetCurrentReceiver().PopBallPrepare(); })
