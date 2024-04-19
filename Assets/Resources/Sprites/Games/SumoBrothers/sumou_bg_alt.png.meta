@@ -146,6 +146,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: background
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 80
+        width: 128
+        height: 1060
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5db9ab8958cda124b81170cef5b71a7d
+      internalID: 1292925404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -157,6 +178,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      background: 1292925404
       bgGreatWaveAlt: -777139864
       bgOtaniOnijiAlt: 1714080886
   spritePackingTag: 
