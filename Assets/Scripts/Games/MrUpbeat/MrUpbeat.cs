@@ -194,8 +194,15 @@ namespace HeavenStudio.Games
             }
         }
 
+        public override void OnPlay(double beat)
+        {
+            PersistColor(beat);
+        }
+
+
         public override void OnGameSwitch(double beat)
         {
+            PersistColor(beat);
             List<RiqEntity> prevEntities = GameManager.instance.Beatmap.Entities.FindAll(c => c.beat <= beat && c.datamodel.Split(0) == "mrUpbeat");
 
             if (beat >= startBlippingBeat)
@@ -410,5 +417,25 @@ namespace HeavenStudio.Games
         }
 
         public void Nothing(PlayerActionEvent caller) { }
+
+        private void PersistColor(double beat)
+        {
+            var allEventsBeforeBeat = EventCaller.GetAllInGameManagerList("mrUpbeat", new string[] { "changeBG" }).FindAll(x => x.beat < beat);
+            if (allEventsBeforeBeat.Count > 0)
+            {
+                allEventsBeforeBeat.Sort((x, y) => x.beat.CompareTo(y.beat)); //just in case
+                var lastEvent = allEventsBeforeBeat[^1];
+                BackgroundColor(lastEvent.beat, lastEvent.length, lastEvent["start"], lastEvent["end"], lastEvent["ease"]);
+            }
+
+            var allEventsBeforeBeatObj = EventCaller.GetAllInGameManagerList("mrUpbeat", new string[] { "upbeatColors" }).FindAll(x => x.beat < beat);
+            if (allEventsBeforeBeatObj.Count > 0)
+            {
+                allEventsBeforeBeatObj.Sort((x, y) => x.beat.CompareTo(y.beat)); //just in case
+                var lastEventObj = allEventsBeforeBeatObj[^1];
+                UpbeatColors(lastEventObj["blipColor"], lastEventObj["setShadow"], lastEventObj["shadowColor"]);
+            }
+        }
+
     }
 }

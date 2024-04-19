@@ -291,7 +291,7 @@ namespace HeavenStudio.Games
 
         private void PersistColors(double beat)
         {
-            var allEventsBeforeBeat = EventCaller.GetAllInGameManagerList("lockstep", new string[] { "" }).FindAll(x => x.beat < beat);
+            var allEventsBeforeBeat = EventCaller.GetAllInGameManagerList("lockstep", new string[] { "set colours" }).FindAll(x => x.beat < beat);
             if (allEventsBeforeBeat.Count > 0)
             {
                 allEventsBeforeBeat.Sort((x, y) => x.beat.CompareTo(y.beat));
@@ -307,14 +307,15 @@ namespace HeavenStudio.Games
         public override void OnGameSwitch(double beat)
         {
             QueueSwitchBGs(beat);
-            PersistColors(beat);
+            
         }
 
         public override void OnPlay(double beat)
         {
+
             queuedInputs.Clear();
             QueueSwitchBGs(beat);
-            PersistColors(beat);
+            
         }
 
         private void QueueSwitchBGs(double beat)
@@ -346,6 +347,9 @@ namespace HeavenStudio.Games
             stepperMaterial.SetColor("_ColorBravo", stepperDark);
             stepperMaterial.SetColor("_ColorDelta", stepperLight);
 
+            EntityPreCheck(Conductor.instance.songPositionInBeatsAsDouble);
+
+
             masterSprite = masterStepperSprite.sprite;
             stepswitcherLeft.gameObject.SetActive(lessSteppers);
             stepswitcherRight.gameObject.SetActive(lessSteppers);
@@ -356,6 +360,11 @@ namespace HeavenStudio.Games
             cameraNear1.Render();
             cameraNear2.Render();
             cameraDV.Render();
+        }
+
+        void EntityPreCheck(double beat)
+        {
+            PersistColors(beat);
         }
 
         void UpdateAndRenderSlaves()
