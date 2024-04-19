@@ -380,5 +380,35 @@ namespace HeavenStudio.Games
             spotlightMaterial.SetColor("_ColorDelta", bottomSpot);
         }
 
+        private void PersistColor(double beat)
+        {
+            var allEventsBeforeBeat = EventCaller.GetAllInGameManagerList("clapTrap", new string[] { "background color" }).FindAll(x => x.beat < beat);
+            if (allEventsBeforeBeat.Count > 0)
+            {
+                allEventsBeforeBeat.Sort((x, y) => x.beat.CompareTo(y.beat)); //just in case
+                var lastEvent = allEventsBeforeBeat[^1];
+                BackgroundColor(lastEvent["bgColor"], lastEvent["bgColorEnd"], lastEvent["ease"], lastEvent.length, lastEvent.beat);
+            }
+
+            var allEventsBeforeBeatHand = EventCaller.GetAllInGameManagerList("clapTrap", new string[] { "hand color" }).FindAll(x => x.beat < beat);
+            if (allEventsBeforeBeatHand.Count > 0)
+            {
+                allEventsBeforeBeatHand.Sort((x, y) => x.beat.CompareTo(y.beat)); //just in case
+                var lastEventHand = allEventsBeforeBeatHand[^1];
+                ChangeHandColor(lastEventHand["left"], lastEventHand["right"], lastEventHand["spotlightBottom"], lastEventHand["spotlightTop"], lastEventHand["spotlightGlow"]);
+            }
+        }
+
+        public override void OnGameSwitch(double beat)
+        {
+            PersistColor(beat);
+        }
+
+        public override void OnPlay(double beat)
+        {
+            PersistColor(beat);
+        }
+
+
     }
 }

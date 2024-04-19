@@ -190,6 +190,9 @@ namespace HeavenStudio.Games
 
         public override void OnGameSwitch(double beat)
         {
+
+            PersistColor(beat);
+
             double gameStartBeat = beat, gameEndBeat = double.MaxValue;
             var firstEnd = EventCaller.GetAllInGameManagerList("gameManager", new string[] { "switchGame", "end" }).Find(x => x.beat > gameStartBeat);
             gameEndBeat = firstEnd?.beat ?? gameEndBeat;
@@ -370,6 +373,17 @@ namespace HeavenStudio.Games
             BGGradient.material.SetColor("_ColorDelta", colorEases[1].GetColor());
             BGHigh.color = colorEases[0].GetColor();
             BGLow.color = colorEases[1].GetColor();
+        }
+
+        private void PersistColor(double beat)
+        {
+            var allEventsBeforeBeat = EventCaller.GetAllInGameManagerList("bouncyRoad", new string[] { "background appearance" }).FindAll(x => x.beat < beat);
+            if (allEventsBeforeBeat.Count > 0)
+            {
+                allEventsBeforeBeat.Sort((x, y) => x.beat.CompareTo(y.beat)); //just in case
+                var lastEvent = allEventsBeforeBeat[^1];
+                BackgroundColorSet(lastEvent.beat, lastEvent.length, lastEvent["colorBG1Start"], lastEvent["colorBG1End"], lastEvent["colorBG2Start"], lastEvent["colorBG2End"], lastEvent["ease"]);
+            }
         }
     }
 }

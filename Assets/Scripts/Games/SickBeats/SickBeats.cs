@@ -237,6 +237,7 @@ namespace HeavenStudio.Games
         [NonSerialized] public double gameEndBeat = double.MaxValue;
         public override void OnGameSwitch(double beat)
         {
+            PersistColor(beat);
             var entities = GameManager.instance.Beatmap.Entities;
             // find out when the next game switch (or remix end) happens
             RiqEntity firstEnd = entities.Find(c => (c.datamodel.StartsWith("gameManager/switchGame") || c.datamodel.Equals("gameManager/end")) && c.beat > beat);
@@ -464,6 +465,17 @@ namespace HeavenStudio.Games
             }
 
             return UnityEngine.Random.Range(0, 4);
+        }
+
+        private void PersistColor(double beat)
+        {
+            var allEventsBeforeBeat = EventCaller.GetAllInGameManagerList("sickBeats", new string[] { "virusColor" }).FindAll(x => x.beat < beat);
+            if (allEventsBeforeBeat.Count > 0)
+            {
+                allEventsBeforeBeat.Sort((x, y) => x.beat.CompareTo(y.beat)); //just in case
+                var lastEvent = allEventsBeforeBeat[^1];
+                UpdateMaterialColor(lastEvent["colorVirus1"], lastEvent["colorVirus2"], lastEvent["colorVirus3"], lastEvent["colorVirus4"]);
+            }
         }
     }
 }
