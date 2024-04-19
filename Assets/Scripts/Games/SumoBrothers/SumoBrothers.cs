@@ -30,6 +30,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using DG.Tweening;
 
 namespace HeavenStudio.Games.Loaders
 {
@@ -77,7 +78,7 @@ namespace HeavenStudio.Games.Loaders
                         new Param("direction", SumoBrothers.StompDirection.Automatic, "Stomp Direction", "Which direction the Sumo Brothers will begin stomping in."),
                     },
                     inactiveFunction = delegate { var e = eventCaller.currentEntity; if (!e["mute"]) { SumoBrothers.StompSignalSound(e.beat);} },
-                    defaultLength = 4f,
+                    defaultLength = 4f, 
                     priority = 4
                 },
 
@@ -106,7 +107,7 @@ namespace HeavenStudio.Games.Loaders
                             new Param.CollapseParam((x, _) => (int)x == (int)SumoBrothers.PoseType.Finale, new string[] { "throw" })
                         }),
                         new Param("throw", true, "Throw Glasses", "If the Blue Sumo Brother will throw his glasses on a successful input."),
-                        new Param("alternate", true, "Alternate Background", "Alternates between which of the backgrounds appear on a successful input.", new List<Param.CollapseParam>()
+                        new Param("alternate", true, "Alternate Background", "Alternates between which of the backgrounds appear on a successful input. Persists between game switches.", new List<Param.CollapseParam>()
                         {
                             new Param.CollapseParam((x, _) => !(bool)x, new string[] { "bg" })
                         }),
@@ -115,6 +116,22 @@ namespace HeavenStudio.Games.Loaders
                     },
                     defaultLength = 5f,
                     priority = 2
+                },
+
+                new GameAction("background color", "Background Appearance")
+                {
+                    function = delegate { var e = eventCaller.currentEntity; SumoBrothers.instance.BackgroundColor(e.beat, e.length, e["colorFrom"], e["colorTo"], e["colorFrom2"], e["colorTo2"], e["ease"]); },
+                    defaultLength = 0.5f,
+                    resizable = true, 
+                    parameters = new List<Param>()
+                    {
+                        new Param("colorFrom", SumoBrothers.defaultBgTopColor, "Color A Start", "Set the top-most color of the background gradient at the start of the event."),
+                        new Param("colorTo", SumoBrothers.defaultBgTopColor, "Color A End", "Set the top-most color of the background gradient at the end of the event."),
+                        new Param("colorFrom2", SumoBrothers.defaultBgBtmColor, "Color B Start", "Set the bottom-most color of the background gradient at the start of the event."),
+                        new Param("colorTo2", SumoBrothers.defaultBgBtmColor, "Color B End", "Set the bottom-most color of the background gradient at the end of the event."),
+                        new Param("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.")
+
+                    }, 
                 },
 
                 new GameAction("look", "Look at Camera")
@@ -128,10 +145,42 @@ namespace HeavenStudio.Games.Loaders
                     resizable = true
                 },
 
+                new GameAction("forceinput", "Force Slapping / Stomping")
+                {
+                    preFunction = delegate { var e = eventCaller.currentEntity; SumoBrothers.instance.ForceInputs(e.beat, e.length, e["type"], e["direction"], e["center"], e["switch"], e["prepare"]); },
+                    parameters = new List<Param>()
+                    {
+                        new Param("type", SumoBrothers.ForceInputType.Slap, "Input Type", "Will the Sumo Brothers Slap or Stomp?", new List<Param.CollapseParam>()
+                        {
+                            new Param.CollapseParam((x, _) => (int)x == (int)SumoBrothers.ForceInputType.Slap, new string[] { "switch" }),
+                            new Param.CollapseParam((x, _) => (int)x == (int)SumoBrothers.ForceInputType.Stomp, new string[] { "direction", "center" })
+                        }),
+                        new Param("direction", SumoBrothers.StompDirection.Automatic, "Stomp Direction", "Which direction the Sumo Brothers will begin stomping in."),
+                        new Param("center", false, "Center Stomp", "The Sumo Brothers' first stomp will be toward the middle before resuming the direction selected above. Has no ready animation."),
+                        new Param("switch", false, "Transition to Stomp", "The Sumo Brothers will play an alternate slap animation to signify transitioning into a stomp for the last slap."),
+                        new Param("prepare", true, "Prepare Animation", "If the Sumo Brothers shall play the starting prepare animation."),
+                    },
+                    defaultLength = 1f,
+                    resizable = true,
+                    preFunctionLength = 1,
+                    
+                },
+
+                /*new GameAction("inusoundslol", "Inu Sounds (Only here because I can't build the damn asset bundles without everything breaking)")
+                {
+                    function = delegate { var e = eventCaller.currentEntity; SumoBrothers.instance.InuSoundsLol(e.beat, e["type"]); },
+                    parameters = new List<Param>()
+                    {
+                        new Param("type", new EntityTypes.Integer(0, 1, 0), "sound", "i am so desperate to get my showcase thingy out lol."),
+                    },
+                    defaultLength = 1.69f,
+                },*/
+
             },
-            new List<string>() { "ctr", "keep" },
+            // Sumo asset bundles are really bugged for some reason, having almost all the head animations break
+            //new List<string>() { "ctr", "keep" },
             //"ctrsumou", "en",
-            //new List<string>() { },
+            new List<string>() { },
             chronologicalSortKey: 31
             );
         }
@@ -143,6 +192,26 @@ namespace HeavenStudio.Games
     //    using Scripts_SumoBrothers;
     public class SumoBrothers : Minigame
     {
+        private static Color _defaultBgTopColor;
+        public static Color defaultBgTopColor
+        {
+            get
+            {
+                ColorUtility.TryParseHtmlString("#FFFF02", out _defaultBgTopColor);
+                return _defaultBgTopColor;
+            }
+        }
+
+        private static Color _defaultBgBtmColor;
+        public static Color defaultBgBtmColor
+        {
+            get
+            {
+                ColorUtility.TryParseHtmlString("#FFFF73", out _defaultBgBtmColor);
+                return _defaultBgBtmColor;
+            }
+        }
+
         [Header("Animators")]
         [SerializeField] Animator inuSensei;
         [SerializeField] Animator sumoBrotherP;
@@ -154,6 +223,26 @@ namespace HeavenStudio.Games
         [SerializeField] Animator dust;
         [SerializeField] Animator bgMove;
         [SerializeField] Animator bgStatic;
+
+        [Header("Background Colors")]
+        public Material backgroundMaterial;
+        public SpriteRenderer bgTop;
+        public SpriteRenderer bgBtm;
+
+        // copypasted my stolen code from clap trap lmao
+
+        // i stole these from rhythm tweezers lol
+        private double colorStartBeat = -1;
+        private float colorLength = 0f;
+        private Color colorTopStart; //obviously put to the default color of the game
+        private Color colorBtmStart;
+        private Color colorTopEnd;
+        private Color colorBtmEnd;
+        private Util.EasingFunction.Ease colorEase; //putting Util in case this game is using jukebox
+        Tween bgColorTween;
+
+        private SpriteRenderer backgroundTopColor;
+        private SpriteRenderer backgroundBtmColor;
 
         [Header("Properties")]
         /*static List<queuedSumoInputs> queuedInputs = new List<queuedSumoInputs>();
@@ -222,7 +311,7 @@ namespace HeavenStudio.Games
         }
 
         private BGType bgType = BGType.None;
-        private BGType bgTypeNext = BGType.None;
+        static public BGType bgTypeNext = BGType.None;
 
         public enum StompDirection
         {
@@ -230,6 +319,14 @@ namespace HeavenStudio.Games
             Left = 1,
             Right = 2,
         }
+
+        public enum ForceInputType
+        {
+            Stomp = 0,
+            Slap = 1,
+            //Pose? lolololololol
+        }
+
 
         private enum SumoState
         {
@@ -278,7 +375,17 @@ namespace HeavenStudio.Games
 
             var beat = Conductor.instance.songPositionInBeatsAsDouble;
 
-            
+            backgroundMaterial.SetColor("_ColorAlpha", defaultBgTopColor);
+            backgroundMaterial.SetColor("_ColorDelta", defaultBgBtmColor);
+
+            bgTop.color = defaultBgTopColor;
+            bgBtm.color = defaultBgBtmColor;
+
+            colorTopStart = defaultBgTopColor;
+            colorTopEnd = defaultBgTopColor;
+
+            colorBtmStart = defaultBgBtmColor;
+            colorBtmEnd = defaultBgBtmColor;
         }
 
         void OnDestroy()
@@ -330,10 +437,13 @@ namespace HeavenStudio.Games
             }
 
             StompShake();
+            BackgroundColorUpdate();
         }
 
         public override void OnGameSwitch(double beat) // stole code from manzai
             {
+                FindNextGameswitchBeat(beat);
+
             foreach(var entity in GameManager.instance.Beatmap.Entities)
                 {
                 if(entity.beat > beat) //the list is sorted based on the beat of the entity, so this should work fine.
@@ -345,15 +455,14 @@ namespace HeavenStudio.Games
                     continue;
                 }
                 bool isOnGameSwitchBeat = entity.beat == beat;
-                if(entity.datamodel == "sumoBrothers/stompSignal")   {StompSignal(entity.beat, true, true, entity["look"], entity["StompDirection"]);}
+                if(entity.datamodel == "sumoBrothers/stompSignal")   {StompSignal(entity.beat, true, true, entity["look"], entity["direction"]);}
                 if(entity.datamodel == "sumoBrothers/slapSignal")   {SlapSignal(entity.beat, true, true);}
                 }
-
-                FindNextGameswitchBeat(beat);
             }
 
             public override void OnPlay(double beat)
         {
+            bgTypeNext = BGType.None;
             FindNextGameswitchBeat(beat);
         }
 
@@ -485,6 +594,7 @@ namespace HeavenStudio.Games
 
             int stompType = 1;
             bool startingLeftAfterTransition = false;
+            bool prepareAnimation = true;
 
             if (startingDirection == 1)
             {
@@ -498,11 +608,14 @@ namespace HeavenStudio.Games
 
             if (sumoStatePrevious == SumoState.Slap) {
                 stompType = 3;
+                prepareAnimation = false;
+
             } else if (sumoStatePrevious == SumoState.Pose) {
                 stompType = 4;
+                prepareAnimation = false;
             }
 
-            StompRecursive(beat + 3, 1, stompType, startingLeftAfterTransition);
+            StompRecursive(beat + 3, 1, stompType, startingLeftAfterTransition, false, prepareAnimation);
             
         }
 
@@ -515,15 +628,25 @@ namespace HeavenStudio.Games
                 }, forcePlay: true);
         }
 
-        private void StompRecursive(double beat, double remaining, int type, bool startingLeftAfterTransition)
+        private void StompRecursive(double beat, double remaining, int type, bool startingLeftAfterTransition, bool autoDecreaseRemaining, bool prepareAnimation)
         {
 
-            if (sumoState != SumoState.Stomp) { remaining -= 1; }
+            if (sumoState != SumoState.Stomp || autoDecreaseRemaining) { remaining -= 1; }
             if (beat >= nextGameswitchBeat - 1) { remaining = 0; }
 
             if (remaining <= 0) { return; }
 
             if (type == 3) { // Stomp Animation - Transition from Slapping to Stomping
+                if (prepareAnimation)
+                {
+                    BeatAction.New(instance, new List<BeatAction.Action>()
+                    {
+                        new BeatAction.Action(beat, delegate { sumoBrotherP.DoScaledAnimationAsync("SumoStompPrepareL", 0.5f); }),
+                        new BeatAction.Action(beat, delegate { sumoBrotherG.DoScaledAnimationAsync("SumoStompPrepareL", 0.5f); }),
+                        new BeatAction.Action(beat, delegate { sumoBrotherPHead.DoScaledAnimationAsync("SumoPStomp", 0.5f); }),
+                        new BeatAction.Action(beat, delegate { sumoBrotherGHead.DoScaledAnimationAsync("SumoGStomp", 0.5f); }),
+                    });
+                }
                 BeatAction.New(instance, new List<BeatAction.Action>()
                 {
                     new BeatAction.Action(beat, delegate { sumoStompDir = true; }),
@@ -550,38 +673,53 @@ namespace HeavenStudio.Games
                     new BeatAction.Action(beat + 1, delegate { if (sumoState == SumoState.Stomp && !inuSensei.IsPlayingAnimationNames("InuFloatMiss")) {inuSensei.DoScaledAnimationAsync("InuFloat", 0.5f);} })                 
                 });
             } else if (type == 1) { // Stomp Animation - Left Stomp
+                if (prepareAnimation)
+                {
+                    BeatAction.New(instance, new List<BeatAction.Action>()
+                    {
+                        new BeatAction.Action(beat, delegate { sumoBrotherP.DoScaledAnimationAsync("SumoStompPrepareL", 0.5f); }),
+                        new BeatAction.Action(beat, delegate { sumoBrotherG.DoScaledAnimationAsync("SumoStompPrepareR", 0.5f); }),
+                        new BeatAction.Action(beat, delegate { sumoBrotherPHead.DoScaledAnimationAsync("SumoPStomp", 0.5f); }),
+                        new BeatAction.Action(beat, delegate { sumoBrotherGHead.DoScaledAnimationAsync("SumoGStomp", 0.5f); }),
+                    });
+                }
                 BeatAction.New(instance, new List<BeatAction.Action>()
                 {
                     new BeatAction.Action(beat, delegate { sumoStatePrevious = SumoState.Stomp; }),
                     new BeatAction.Action(beat, delegate { sumoStompDir = true; }),
-                    new BeatAction.Action(beat, delegate { sumoBrotherP.DoScaledAnimationAsync("SumoStompPrepareL", 0.5f); }),
-                    new BeatAction.Action(beat, delegate { sumoBrotherG.DoScaledAnimationAsync("SumoStompPrepareR", 0.5f); }),
-                    new BeatAction.Action(beat, delegate { sumoBrotherPHead.DoScaledAnimationAsync("SumoPStomp", 0.5f); }),
-                    new BeatAction.Action(beat, delegate { sumoBrotherGHead.DoScaledAnimationAsync("SumoGStomp", 0.5f); }),
+                    new BeatAction.Action(beat + 1, delegate { sumoBrotherGHead.DoScaledAnimationAsync("SumoGStomp", 0.5f); }),
                     new BeatAction.Action(beat + 1, delegate { sumoBrotherG.DoScaledAnimationAsync("SumoStompR", 0.5f); }),   
                     new BeatAction.Action(beat + 1, delegate { if (sumoState == SumoState.Stomp && !inuSensei.IsPlayingAnimationNames("InuFloatMiss")) {inuSensei.DoScaledAnimationAsync("InuFloat", 0.5f);} })             
                 });
             } else if (type == 2) { // Stomp Animation - Right Stomp
+                if (prepareAnimation)
+                {
+                    BeatAction.New(instance, new List<BeatAction.Action>()
+                    {
+                        new BeatAction.Action(beat, delegate { sumoBrotherP.DoScaledAnimationAsync("SumoStompPrepareR", 0.5f); }),
+                        new BeatAction.Action(beat, delegate { sumoBrotherG.DoScaledAnimationAsync("SumoStompPrepareL", 0.5f); }),
+                        new BeatAction.Action(beat, delegate { sumoBrotherPHead.DoScaledAnimationAsync("SumoPStomp", 0.5f); }),
+                        new BeatAction.Action(beat, delegate { sumoBrotherGHead.DoScaledAnimationAsync("SumoGStomp", 0.5f); }),
+                    });
+                }
                 BeatAction.New(instance, new List<BeatAction.Action>()
                 {
                     new BeatAction.Action(beat, delegate { sumoStatePrevious = SumoState.Stomp; }),
                     new BeatAction.Action(beat, delegate { sumoStompDir = false; }),
-                    new BeatAction.Action(beat, delegate { sumoBrotherP.DoScaledAnimationAsync("SumoStompPrepareR", 0.5f); }),
-                    new BeatAction.Action(beat, delegate { sumoBrotherG.DoScaledAnimationAsync("SumoStompPrepareL", 0.5f); }),
-                    new BeatAction.Action(beat, delegate { sumoBrotherPHead.DoScaledAnimationAsync("SumoPStomp", 0.5f); }),
-                    new BeatAction.Action(beat, delegate { sumoBrotherGHead.DoScaledAnimationAsync("SumoGStomp", 0.5f); }),
+                    new BeatAction.Action(beat + 1, delegate { sumoBrotherGHead.DoScaledAnimationAsync("SumoGStomp", 0.5f); }),
                     new BeatAction.Action(beat + 1, delegate { sumoBrotherG.DoScaledAnimationAsync("SumoStompL", 0.5f); }),
                     new BeatAction.Action(beat + 1, delegate { if (sumoState == SumoState.Stomp && !inuSensei.IsPlayingAnimationNames("InuFloatMiss")) {inuSensei.DoScaledAnimationAsync("InuFloat", 0.5f);} })                       
                 });
             }
 
-            if (type == 2 || startingLeftAfterTransition == true) {type = 1;} else { type = 2; }
+            if (type == 2) {type = 1;} else { type = 2; }
+            if (startingLeftAfterTransition && type == 3) {type = 1;}
         
 
         var stompInput = ScheduleInput(beat , 1, InputAction_BasicPress, StompHit, StompMiss, Nothing);
             BeatAction.New(instance, new List<BeatAction.Action>()
                 {
-                new BeatAction.Action(beat, delegate { StompRecursive(beat + 2, remaining, type, false); })
+                new BeatAction.Action(beat, delegate { StompRecursive(beat + 2, remaining, type, false, autoDecreaseRemaining, true); })
                 });
 
             stompInput.IsHittable = () => {
@@ -638,7 +776,7 @@ namespace HeavenStudio.Games
 
             sumoStatePrevious = sumoState;
             sumoState = SumoState.Slap;
-            SlapRecursive(beat + 4, 4);
+            SlapRecursive(beat + 4, 4, false, false);
 
             BeatAction.New(instance, new List<BeatAction.Action>()
                 {
@@ -658,25 +796,28 @@ namespace HeavenStudio.Games
                 }, forcePlay: true);
         }
 
-        private void SlapRecursive(double beat, double remaining)
+        private void SlapRecursive(double beat, double remaining, bool autoDecreaseRemaining, bool slapSwitch)
         {
 
-            if (sumoState != SumoState.Slap) {remaining -= 1; }
+            if (sumoState != SumoState.Slap || autoDecreaseRemaining) {remaining -= 1; }
 
             if (remaining <= 0) { return; }
 
-            if (remaining == 1 && sumoState == SumoState.Stomp) {
-                BeatAction.New(instance, new List<BeatAction.Action>()
+            if (remaining <= 1) {
+                if (sumoState == SumoState.Stomp || slapSwitch)
                 {
-                new BeatAction.Action(beat - 0.5, delegate { sumoSlapDir = 2; })
-                });
+                    BeatAction.New(instance, new List<BeatAction.Action>()
+                    {
+                    new BeatAction.Action(beat - 0.5, delegate { sumoSlapDir = 2; })
+                    });
                 }
+            }
 
             ScheduleInput(beat - 1, 1, InputAction_BasicPress, SlapHit, SlapMiss, Nothing);
             if (beat >= nextGameswitchBeat - 1) { remaining = 0; }
             BeatAction.New(instance, new List<BeatAction.Action>()
                 {
-                new BeatAction.Action(beat, delegate { SlapRecursive(beat + 1, remaining); })
+                new BeatAction.Action(beat, delegate { SlapRecursive(beat + 1, remaining, autoDecreaseRemaining, slapSwitch); })
                 });
             
             
@@ -1067,6 +1208,101 @@ namespace HeavenStudio.Games
                 camera.position = new Vector3(newPosX, 0, 0);
                 //print("cX: " + cameraX + "  cXN: " + cameraXNew + "nPX: " + newPosX + "sSL: " + stompShakeLength);
                 //print("cX: " + cameraX + "  cXN: " + cameraXNew + "  jSB: " + justStompBeat + "  sST: " + stompShakeTimings + "  sSV: " + stompShakeValues);
+            } else {
+                camera.position = new Vector3(0, 0, 0);
+            }
+        }
+
+        public void BackgroundColor(double beat, float length, Color startTop, Color endTop, Color startBtm, Color endBtm, int ease)
+        {
+            colorStartBeat = beat;
+            colorLength = length;
+            colorTopStart = startTop;
+            colorTopEnd = endTop;
+            colorBtmStart = startBtm;
+            colorBtmEnd = endBtm;
+            colorEase = (Util.EasingFunction.Ease)ease;
+        }
+
+        // more stolen code that i took from clap trap lmao
+
+        private void BackgroundColorUpdate() // stolen from tweezers too lol
+        {
+            float normalizedBeat = Mathf.Clamp01(Conductor.instance.GetPositionFromBeat(colorStartBeat, colorLength));
+
+            var func = Util.EasingFunction.GetEasingFunction(colorEase);
+
+            float newRT = func(colorTopStart.r, colorTopEnd.r, normalizedBeat);
+            float newGT = func(colorTopStart.g, colorTopEnd.g, normalizedBeat);
+            float newBT = func(colorTopStart.b, colorTopEnd.b, normalizedBeat);
+
+            float newRB = func(colorBtmStart.r, colorBtmEnd.r, normalizedBeat);
+            float newGB = func(colorBtmStart.g, colorBtmEnd.g, normalizedBeat);
+            float newBB = func(colorBtmStart.b, colorBtmEnd.b, normalizedBeat);
+
+            bgTop.color = new Color(newRT, newGT, newBT);
+            bgBtm.color = new Color(newRB, newGB, newBB);
+            backgroundMaterial.SetColor("_ColorAlpha", new Color(newRT, newGT, newBT));
+            backgroundMaterial.SetColor("_ColorDelta", new Color(newRB, newGB, newBB));
+        }
+
+        public void ForceInputs(double beat, float length, int forceInputType, int startingDirection, bool startCenter, bool slapSwitch, bool prepareAnimation)
+        {
+            if (forceInputType == 0)
+            {
+                int stompType = 1;
+                bool startingLeftAfterTransition = false;
+
+                if (startingDirection == 1)
+                {
+                    startingLeftAfterTransition = true;
+                }
+
+                if (startingDirection == 2)
+                {
+                    stompType = 2;
+                }
+
+                if (startCenter)
+                {
+                    stompType = 3;
+                }
+
+                var stompAmount = (length + 1) / 2;
+                StompRecursive(beat - 1, stompAmount + 1, stompType, startingLeftAfterTransition, true, prepareAnimation);
+            } else if (forceInputType == 1) {
+
+                var slapAmount = length + 1;
+                sumoSlapDir = 0;
+                SlapRecursive(beat, slapAmount, true, slapSwitch);
+
+                if (prepareAnimation)
+                {
+                    BeatAction.New(instance, new List<BeatAction.Action>()
+                    {
+                    new BeatAction.Action(beat - 1, delegate { sumoBrotherP.DoScaledAnimationAsync("SumoSlapPrepare",0.5f); }),
+                    new BeatAction.Action(beat - 1, delegate { sumoBrotherG.DoScaledAnimationAsync("SumoSlapPrepare",0.5f); }),
+                    new BeatAction.Action(beat - 1, delegate { sumoBrotherPHead.DoScaledAnimationAsync("SumoPSlap", 0.5f); }),
+                    new BeatAction.Action(beat - 1, delegate { sumoBrotherGHead.DoScaledAnimationAsync("SumoGSlap", 0.5f); })
+                    });
+                }
+
+                BeatAction.New(instance, new List<BeatAction.Action>()
+                    {
+                    new BeatAction.Action(beat, delegate { sumoStatePrevious = SumoState.Slap; })
+                    });
+            }
+
+        }
+
+        public void InuSoundsLol(double beat, int sound)
+        {
+            if (sound == 0)
+            {
+                SoundByte.PlayOneShotGame("sumoBrothers/stompSignal");
+            } else if (sound == 1)
+            {
+                SoundByte.PlayOneShotGame("sumoBrothers/slapSignal");
             }
         }
 

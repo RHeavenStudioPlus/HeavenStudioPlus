@@ -2085,7 +2085,7 @@ Animator:
   m_GameObject: {fileID: 1666934271208509736}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 26474835033c1a249b43ae85decf69ee, type: 2}
+  m_Controller: {fileID: 9100000, guid: d416ee03178524347bbb32e8c927dcae, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2483,6 +2483,9 @@ MonoBehaviour:
   dust: {fileID: 0}
   bgMove: {fileID: 907213061987012567}
   bgStatic: {fileID: 8786252013339787948}
+  backgroundMaterial: {fileID: 2100000, guid: bfba1d80bcdd5cb4895bdfd74075769a, type: 2}
+  bgTop: {fileID: 953444361880115960}
+  bgBtm: {fileID: 7755206070316719315}
   camera: {fileID: 7621216590368296269}
   cameraX: 0
   cameraXNew: 0
@@ -3692,7 +3695,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: bfba1d80bcdd5cb4895bdfd74075769a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3713,7 +3716,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1000
-  m_Sprite: {fileID: -8551528264012278953, guid: 3eeab378f5f7af04e9c1a69ca8659fd0, type: 3}
+  m_Sprite: {fileID: 1292925404, guid: 86723ca01743bb142b521de7fb5727ba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9709,7 +9712,7 @@ SpriteRenderer:
   m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &4837859304220241771
@@ -11262,7 +11265,7 @@ SpriteRenderer:
   m_Size: {x: 8.53, y: 4.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &6081795588540371572
@@ -11347,7 +11350,7 @@ SpriteRenderer:
   m_Size: {x: 8.53, y: 4.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &6181681341935747238
@@ -12813,7 +12816,7 @@ SpriteRenderer:
   m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &8505794553771142455
@@ -13283,7 +13286,7 @@ Animator:
   m_GameObject: {fileID: 8922138106869263797}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 26474835033c1a249b43ae85decf69ee, type: 2}
+  m_Controller: {fileID: 9100000, guid: d416ee03178524347bbb32e8c927dcae, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -13609,7 +13612,7 @@ SpriteRenderer:
   m_Size: {x: 4, y: 4.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &9081158673666972172

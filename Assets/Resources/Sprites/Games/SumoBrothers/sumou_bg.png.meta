@@ -147,7 +147,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: background
+      name: backgroundold
       rect:
         serializedVersion: 2
         x: 88
@@ -512,7 +512,7 @@ TextureImporter:
         width: 2048
         height: 140
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -535,8 +535,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      background: -8551528264012278953
       backgroundGlow: -2768974374605152282
+      backgroundold: -8551528264012278953
       bgGreatWave: 1525428153
       bgOtaniOniji: -1998133883
       ground: 4054221790298107953
