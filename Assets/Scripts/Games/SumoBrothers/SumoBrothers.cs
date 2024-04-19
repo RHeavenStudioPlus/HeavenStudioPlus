@@ -443,6 +443,8 @@ namespace HeavenStudio.Games
         public override void OnGameSwitch(double beat) // stole code from manzai
             {
                 FindNextGameswitchBeat(beat);
+                PersistColor(beat);
+
 
             foreach(var entity in GameManager.instance.Beatmap.Entities)
                 {
@@ -464,6 +466,8 @@ namespace HeavenStudio.Games
         {
             bgTypeNext = BGType.None;
             FindNextGameswitchBeat(beat);
+            PersistColor(beat);
+
         }
 
             private void FindNextGameswitchBeat(double beat)
@@ -1303,6 +1307,17 @@ namespace HeavenStudio.Games
             } else if (sound == 1)
             {
                 SoundByte.PlayOneShotGame("sumoBrothers/slapSignal");
+            }
+        }
+
+        private void PersistColor(double beat)
+        {
+            var allEventsBeforeBeat = EventCaller.GetAllInGameManagerList("sumoBrothers", new string[] { "background color" }).FindAll(x => x.beat < beat);
+            if (allEventsBeforeBeat.Count > 0)
+            {
+                allEventsBeforeBeat.Sort((x, y) => x.beat.CompareTo(y.beat)); //just in case
+                var lastEvent = allEventsBeforeBeat[^1];
+                BackgroundColor(lastEvent.beat, lastEvent.length, lastEvent["colorFrom"], lastEvent["colorTo"], lastEvent["colorFrom2"], lastEvent["colorTo2"], lastEvent["ease"]);
             }
         }
 

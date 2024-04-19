@@ -238,6 +238,7 @@ namespace HeavenStudio.Games
 
         public override void OnPlay(double beat)
         {
+            PersistColor(beat);
             if (queuedBots.Count > 0) queuedBots.Clear();
             foreach (var evt in scheduledInputs)
             {
@@ -547,6 +548,37 @@ namespace HeavenStudio.Games
             {
                 metersFuel[i].color = colorEases[i+1].GetColor();
             }
+        }
+
+        private void PersistColor(double beat)
+        {
+            var allEventsBeforeBeat = EventCaller.GetAllInGameManagerList("fillbots", new string[] { "background appearance" }).FindAll(x => x.beat < beat);
+            if (allEventsBeforeBeat.Count > 0)
+            {
+                allEventsBeforeBeat.Sort((x, y) => x.beat.CompareTo(y.beat)); //just in case
+                var lastEvent = allEventsBeforeBeat[^1];
+                BackgroundColorSet(lastEvent.beat, lastEvent.length, lastEvent["colorBGStart"], lastEvent["colorBGEnd"], lastEvent["colorMetersStart"], 
+                lastEvent["colorMeter1Start"], lastEvent["colorMeter2Start"], 
+                lastEvent["colorMeter3Start"], lastEvent["colorMeter4Start"], 
+                lastEvent["colorMeter5Start"], lastEvent["colorMeter6Start"],
+                lastEvent["colorMetersEnd"], lastEvent["colorMeter1End"], 
+                lastEvent["colorMeter2End"], lastEvent["colorMeter3End"], 
+                lastEvent["colorMeter4End"], lastEvent["colorMeter5End"], lastEvent["colorMeter6End"], 
+                lastEvent["separate"], lastEvent["ease"]);
+            }
+
+            var allEventsBeforeBeatObj = EventCaller.GetAllInGameManagerList("fillbots", new string[] { "object appearance" }).FindAll(x => x.beat < beat);
+            if (allEventsBeforeBeatObj.Count > 0)
+            {
+                allEventsBeforeBeatObj.Sort((x, y) => x.beat.CompareTo(y.beat)); //just in case
+                var lastEventObj = allEventsBeforeBeatObj[^1];
+                ObjectColorSet(lastEventObj["colorFuel"], lastEventObj["colorLampOff"], lastEventObj["colorLampOn"], lastEventObj["colorImpact"], lastEventObj["colorFiller"], lastEventObj["colorConveyor"]);
+            }
+        }
+
+        public override void OnGameSwitch(double beat)
+        {
+            PersistColor(beat);
         }
     }
 }

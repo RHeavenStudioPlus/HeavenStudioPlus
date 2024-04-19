@@ -379,5 +379,26 @@ namespace HeavenStudio.Games
         {
             BGPlane.color = bgColorEase.GetColor();
         }
+
+        private void PersistColor(double beat)
+        {
+            var allEventsBeforeBeat = EventCaller.GetAllInGameManagerList("frogPrincess", new string[] { "background appearance" }).FindAll(x => x.beat < beat);
+            if (allEventsBeforeBeat.Count > 0)
+            {
+                allEventsBeforeBeat.Sort((x, y) => x.beat.CompareTo(y.beat)); //just in case
+                var lastEvent = allEventsBeforeBeat[^1];
+                BackgroundColorSet(lastEvent.beat, lastEvent.length, lastEvent["colorBGStart"], lastEvent["colorBGEnd"], lastEvent["ease"]);
+            }
+        }
+
+        public override void OnPlay(double beat)
+        {
+            PersistColor(beat);
+        }
+
+        public override void OnGameSwitch(double beat)
+        {
+            PersistColor(beat);
+        }
     }
 }

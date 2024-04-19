@@ -150,6 +150,8 @@ namespace HeavenStudio.Games
 
         public override void OnPlay(double beat)
         {
+            PersistColor(beat);
+
             if (queuedFlys.Count > 0) queuedFlys.Clear();
             foreach (var evt in scheduledInputs)
             {
@@ -296,5 +298,23 @@ namespace HeavenStudio.Games
             if (GameManager.instance.currentGame == "chameleon") 
                 Chameleon.instance.Crown.SetActive(enableCrown);
         }
+
+        private void PersistColor(double beat)
+        {
+            var allEventsBeforeBeat = EventCaller.GetAllInGameManagerList("chameleon", new string[] { "background appearance" }).FindAll(x => x.beat < beat);
+            if (allEventsBeforeBeat.Count > 0)
+            {
+                allEventsBeforeBeat.Sort((x, y) => x.beat.CompareTo(y.beat)); //just in case
+                var lastEvent = allEventsBeforeBeat[^1];
+                BackgroundColorSet(lastEvent.beat, lastEvent.length, lastEvent["colorBG1Start"], lastEvent["colorBG1End"], lastEvent["colorBG2Start"], lastEvent["colorBG2End"], lastEvent["ease"]);
+            }
+        }
+
+        public override void OnGameSwitch(double beat)
+        {
+            PersistColor(beat);
+        }
+
+
     }
 }
