@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 
 using HeavenStudio.Common;
+using System.Runtime.InteropServices;
 
 namespace HeavenStudio.Editor 
 {
@@ -12,7 +13,7 @@ namespace HeavenStudio.Editor
         [SerializeField] Toggle discordRPCCheckbox;
         [SerializeField] Button editorScaleDecre, editorScaleIncre;
         [SerializeField] Toggle scaleWSS;
-        [SerializeField] Toggle paramTooltipsToggle;
+        [SerializeField] TMP_Dropdown paramTooltipsDropdown;
         [SerializeField] Toggle previewNoteSoundsToggle;
         // [SerializeField] Toggle cornerTooltipsToggle;
 
@@ -21,7 +22,7 @@ namespace HeavenStudio.Editor
             cursorCheckbox.isOn = PersistentDataManager.gameSettings.editorCursorEnable;
             discordRPCCheckbox.isOn = PersistentDataManager.gameSettings.discordRPCEnable;
             scaleWSS.isOn = PersistentDataManager.gameSettings.scaleWScreenSize;
-            paramTooltipsToggle.isOn = PersistentDataManager.gameSettings.showParamTooltips;
+            paramTooltipsDropdown.value = PersistentDataManager.gameSettings.showParamTooltips;
             previewNoteSoundsToggle.isOn = PersistentDataManager.gameSettings.previewNoteSounds;
 
             SetDecreIncreInteractable();
@@ -60,7 +61,8 @@ namespace HeavenStudio.Editor
 
         public void OnParamTooltipsChanged()
         {
-            PersistentDataManager.gameSettings.showParamTooltips = paramTooltipsToggle.isOn;
+            // tooltip types: 0 = only corner, 1 = delayed on mouse, 2 = instant on mouse
+            PersistentDataManager.gameSettings.showParamTooltips = paramTooltipsDropdown.value;
         }
 
         public void OnPreviewNoteSoundsChanged()

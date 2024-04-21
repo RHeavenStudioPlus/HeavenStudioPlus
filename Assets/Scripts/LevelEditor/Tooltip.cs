@@ -15,6 +15,8 @@ namespace HeavenStudio.Editor
         [SerializeField] private RectTransform background;
         [SerializeField] private TMP_Text text;
         [SerializeField] private CanvasGroup group;
+        [SerializeField] private float timer = 0f;
+        [SerializeField] private bool timerActive = false;
 
         public static Tooltip instance { get; private set; }
 
@@ -27,6 +29,14 @@ namespace HeavenStudio.Editor
 
         private void Update()
         {
+            if (timerActive)
+            {
+                timer += Time.deltaTime;
+                if (timer >= 1.5f)
+                {
+                    group.alpha = 1;
+                }
+            }
             Vector3 anchoredPosition = Input.mousePosition;
             Camera camera = Editor.instance.EditorCamera;
             Vector3 canvasScale = Editor.instance.MainCanvas.transform.localScale;
@@ -56,9 +66,9 @@ namespace HeavenStudio.Editor
             rectTransform.anchoredPosition = anchoredPosition / scale;
         }
 
-        public static void OnEnter(string tooltipText, string altTooltipText)
+        public static void OnEnter(string tooltipText, string altTooltipText, int type)
         {
-            instance.OnEnterPrivate(tooltipText, altTooltipText);
+            instance.OnEnterPrivate(tooltipText, altTooltipText, type);
         }
 
         public static void OnExit()
@@ -68,24 +78,64 @@ namespace HeavenStudio.Editor
             Editor.instance.tooltipText.ForceMeshUpdate();
         }
 
-        private void OnEnterPrivate(string tooltipText, string altTooltipText)
+        private void OnEnterPrivate(string tooltipText, string altTooltipText, int type)
         {
-            group.alpha = 1;
+            Vector2 textSize;
+            Vector2 paddingSize;
 
-            text.text = tooltipText;
-            text.ForceMeshUpdate();
+            // tooltip types: 0 = only corner, 1 = delayed on mouse, 2 = instant on mouse
+            // idk the best place to put this comment so i'm putting it everywhere lmao
+            switch (type)
+            {
+                case 0:
+                    group.alpha = 0;
 
-            Vector2 textSize = text.GetRenderedValues(false);
-            Vector2 paddingSize = new Vector2(8, 8);
+                    text.text = tooltipText;
+                    text.ForceMeshUpdate();
 
-            background.sizeDelta = textSize + paddingSize;
-            Editor.instance.tooltipText.text = altTooltipText.Replace("\n", "");
-            Editor.instance.tooltipText.ForceMeshUpdate();
+                    textSize = text.GetRenderedValues(false);
+                    paddingSize = new Vector2(8, 8);
+
+                    background.sizeDelta = textSize + paddingSize;
+                    Editor.instance.tooltipText.text = altTooltipText.Replace("\n", "");
+                    Editor.instance.tooltipText.ForceMeshUpdate();
+                    break;
+                case 1:
+                    group.alpha = 0;
+
+                    text.text = tooltipText;
+                    text.ForceMeshUpdate();
+
+                    textSize = text.GetRenderedValues(false);
+                    paddingSize = new Vector2(8, 8);
+
+                    background.sizeDelta = textSize + paddingSize;
+                    Editor.instance.tooltipText.text = altTooltipText.Replace("\n", "");
+                    Editor.instance.tooltipText.ForceMeshUpdate();
+
+                    timerActive = true;
+                    break;
+                case 2:
+                    group.alpha = 1;
+
+                    text.text = tooltipText;
+                    text.ForceMeshUpdate();
+
+                    textSize = text.GetRenderedValues(false);
+                    paddingSize = new Vector2(8, 8);
+
+                    background.sizeDelta = textSize + paddingSize;
+                    Editor.instance.tooltipText.text = altTooltipText.Replace("\n", "");
+                    Editor.instance.tooltipText.ForceMeshUpdate();
+                    break;
+            }
         }
 
         private void OnExitPrivate()
         {
             group.alpha = 0;
+            timerActive = false;
+            timer = 0;
         }
 
         private void SetText(string tooltipText)
@@ -99,15 +149,16 @@ namespace HeavenStudio.Editor
             background.sizeDelta = textSize + paddingSize;
         }
 
-        public static void AddTooltip(GameObject g, string tooltipText, string altTooltipText = null)
+        public static void AddTooltip(GameObject g, string tooltipText, string altTooltipText = null, int type = 2)
         {
+            // tooltip types: 0 = only corner, 1 = delayed on mouse, 2 = instant on mouse
             altTooltipText ??= tooltipText;
 
             EventTrigger et = g.AddComponent<EventTrigger>();
 
             EventTrigger.Entry pointerEnter = new EventTrigger.Entry();
             pointerEnter.eventID = EventTriggerType.PointerEnter;
-            pointerEnter.callback.AddListener((data) => { OnEnter(tooltipText, altTooltipText); });
+            pointerEnter.callback.AddListener((data) => { OnEnter(tooltipText, altTooltipText, type); });
 
             EventTrigger.Entry pointerExit = new EventTrigger.Entry();
             pointerExit.eventID = EventTriggerType.PointerExit;
