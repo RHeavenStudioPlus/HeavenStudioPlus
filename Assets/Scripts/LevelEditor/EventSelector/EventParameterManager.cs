@@ -32,7 +32,7 @@ namespace HeavenStudio.Editor
         public bool active;
 
         private int childCountAtStart;
-        
+
         public Dictionary<string, EventPropertyPrefab> currentProperties = new();
 
         public bool canDisable = true;
@@ -43,7 +43,8 @@ namespace HeavenStudio.Editor
         {
             instance = this;
 
-            if (PropertyPrefabs == null) {
+            if (PropertyPrefabs == null)
+            {
                 PropertyPrefabs = new() {
                     { typeof(Integer), IntegerP },
                     { typeof(Float), FloatP },
@@ -131,11 +132,11 @@ namespace HeavenStudio.Editor
                     }
                     input.SetCollapses(p.parameter);
                 }
-                
+
                 foreach (var p in action.parameters)
                 {
                     EventPropertyPrefab prop = currentProperties[p.propertyName];
-                    
+
                     prop.PostLoadProperties(p.parameter);
                 }
 
@@ -151,7 +152,8 @@ namespace HeavenStudio.Editor
         {
             Type typeType = type.GetType();
             GameObject propertyPrefab = DropdownP; // enum check is hardcoded because enums are awesome (lying)
-            if (!typeType.IsEnum && !PropertyPrefabs.TryGetValue(typeType, out propertyPrefab)) {
+            if (!typeType.IsEnum && !PropertyPrefabs.TryGetValue(typeType, out propertyPrefab))
+            {
                 Debug.LogError("Can't make property interface of type: " + typeType);
                 return null;
             }
@@ -160,14 +162,12 @@ namespace HeavenStudio.Editor
             input.SetActive(true);
             input.transform.localScale = Vector3.one;
 
-            if (tooltip != string.Empty) {
-                if (PersistentDataManager.gameSettings.showParamTooltips) {
-                    Tooltip.AddTooltip(input, tooltip);
-                } else {
-                    Tooltip.AddTooltip(input, "", tooltip);
-                }
+            if (tooltip != string.Empty)
+            {
+                Tooltip.AddTooltip(input, tooltip, null, PersistentDataManager.gameSettings.showParamTooltips);
+
             }
-            
+
             EventPropertyPrefab property = input.GetComponent<EventPropertyPrefab>();
             property.SetProperties(propertyName, type, caption);
 
@@ -182,7 +182,7 @@ namespace HeavenStudio.Editor
             {
                 Destroy(transform.GetChild(i).gameObject);
             }
-            
+
             currentProperties.Clear();
         }
     }
