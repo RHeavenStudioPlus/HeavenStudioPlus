@@ -132,7 +132,7 @@ namespace HeavenStudio.Common
                 bool letterboxFxEnable = true,
                 int editorScale = 0,
                 bool scaleWScreenSize = false,
-                bool showParamTooltips = true,
+                int showParamTooltips = 1,
                 bool previewNoteSounds = true
                 )
             {
@@ -195,7 +195,7 @@ namespace HeavenStudio.Common
             public bool discordRPCEnable;
             public int editorScale;
             public bool scaleWScreenSize;
-            public bool showParamTooltips;
+            public int showParamTooltips;
             public bool previewNoteSounds;
             // public bool showCornerTooltips;
 
