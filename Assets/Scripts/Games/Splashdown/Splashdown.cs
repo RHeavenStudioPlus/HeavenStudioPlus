@@ -63,6 +63,14 @@ namespace HeavenStudio.Games.Loaders
                     resizable = true,
                     defaultLength = 8
                 },
+
+                new GameAction("forceDive", "Force Dive")
+                {
+                    function = delegate {var e = eventCaller.currentEntity; Splashdown.instance.ForceDive(); },
+                    defaultLength = 0.5f,
+                    resizable = false,
+                },
+
                 new GameAction("amount", "Change Synchrette Number")
                 {
                     function = delegate { Splashdown.instance.SpawnSynchrettes(eventCaller.currentEntity["amount"], eventCaller.currentEntity.beat); },
@@ -206,6 +214,16 @@ namespace HeavenStudio.Games
             }));
             SoundByte.PlayOneShotGame("splashdown/start", beat + length - 0.25);
             BeatAction.New(instance, actions);
+        }
+
+        public void ForceDive()
+        {
+            if (IsIntroing()) return;
+            foreach (var synchrette in currentSynchrettes)
+                {
+                    synchrette.GoDown(false);
+                    player.GoDown(false);
+                }
         }
 
         public void GoDown(double beat, float length)
