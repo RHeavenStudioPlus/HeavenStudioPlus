@@ -103,13 +103,30 @@ namespace HeavenStudio.Games.Loaders
 
                 new GameAction("fade background", "Background Color")
                 {
-                    function = delegate {Airboarder.instance.BackgroundColor(eventCaller.currentEntity.beat, eventCaller.currentEntity.length, eventCaller.currentEntity["colorStart"], eventCaller.currentEntity["colorEnd"], eventCaller.currentEntity["ease"]); },
+                    function = delegate {Airboarder.instance.BackgroundColor(eventCaller.currentEntity.beat, eventCaller.currentEntity.length, eventCaller.currentEntity["colorStart"], eventCaller.currentEntity["colorEnd"], eventCaller.currentEntity["cloudStart"], eventCaller.currentEntity["cloudEnd"], eventCaller.currentEntity["ease"]); },
                     defaultLength = 4f,
                     resizable = true,
                     parameters = new List<Param>()
                     {
-                        new Param("colorStart", Color.white, "Start Color", "Set the color at the start of the event."),
-                        new Param("colorEnd", Airboarder.defaultBGColor, "End Color", "Set the color at the end of the event."),
+                        new Param("colorStart", Airboarder.defaultBGColor, "Sky Start Color", "Set the sky color at the start of the event."),
+                        new Param("colorEnd", Airboarder.defaultBGColor, "Sky End Color", "Set the sky color at the end of the event."),
+                        new Param("cloudStart", Color.white, "Cloud Start Color", "Set the cloud color at the start of the event."),
+                        new Param("cloudEnd", Color.white, "Cloud End Color", "Set the cloud color at the end of the event."),
+                        new Param("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.")
+                    }
+                },
+
+                new GameAction("fade floor", "Floor Color")
+                {
+                    function = delegate {Airboarder.instance.FloorColor(eventCaller.currentEntity.beat, eventCaller.currentEntity.length, eventCaller.currentEntity["colorStart"], eventCaller.currentEntity["colorEnd"], eventCaller.currentEntity["stripeStart"], eventCaller.currentEntity["stripeEnd"], eventCaller.currentEntity["ease"]);},
+                    defaultLength = 4f,
+                    resizable = true,
+                    parameters = new List<Param>()
+                    {
+                        new Param("colorStart", Color.white, "Wide Stripe Start Color", "Set the color of the wide stripes at the start of the event."),
+                        new Param("colorEnd", Color.white, "Wide Stripe End Color", "Set the color of the wide stripes at the end of the event."),
+                        new Param("stripeStart", Airboarder.defaultStripeColor, "Thin Stripe Start Color", "Set the color of the thin stripes at the start of the event."),
+                        new Param("stripeEnd", Airboarder.defaultStripeColor, "Thin Stripe End Color", "Set the color of the thin stripes at the end of the event."),
                         new Param("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.")
                     }
                 },
@@ -159,12 +176,20 @@ namespace HeavenStudio.Games
         public static Airboarder instance;
 
         public static Color defaultBGColor = new Color(0.9921569f, 0.7686275f, 0.9921569f);
+        public static Color defaultFloorColor = Color.white;
+        public static Color defaultStripeColor = new Color(0.8274511f, 0.1254902f, 0.8078432f);
+        public static Color defaultCloudColor = Color.white;
+
+        private ColorEase bgColorEase = new(defaultBGColor);
+        private ColorEase cloudColorEase = new(defaultCloudColor);
+        private ColorEase[] colorEases = new ColorEase[2];
 
         public bool wantsCrouch;
         [Header("Materials")]
         [SerializeField] private Material bgMaterial;
         [SerializeField] private Material fadeMaterial;
-        [SerializeField] private Material[] floorMaterial;
+        [SerializeField] private Material floorMaterial;
+        [SerializeField] private Material cloudMaterial;
         
         [Header("Camera")]
         [SerializeField] Transform cameraPivot;
@@ -204,6 +229,10 @@ namespace HeavenStudio.Games
 
         private void Awake()
         {
+            colorEases = new ColorEase[] {
+            new(Color.white),
+            new(new Color (0.8274511F, 0.1254902F, 0.8078432F)),
+            };
             instance = this;
             SetupBopRegion("airboarder", "bop", "auto");   
             wantsCrouch = false;
@@ -254,6 +283,8 @@ namespace HeavenStudio.Games
             EntityPreCheck(Conductor.instance.songPositionInBeatsAsDouble);
             bgMaterial.color = defaultBGColor;
             fadeMaterial.color = defaultBGColor;
+            cloudMaterial.color = defaultCloudColor;
+
         }
 
         void EntityPreCheck(double beat)
@@ -305,7 +336,8 @@ namespace HeavenStudio.Games
         {
             var cond = Conductor.instance;
             var currentBeat = cond.songPositionInBeatsAsDouble;
-            BackgroundColorUpdate();
+
+            ColorUpdate();
             
             float normalizedBeat = Conductor.instance.GetPositionFromBeat(startBeat, 5f);
 
@@ -313,9 +345,6 @@ namespace HeavenStudio.Games
             Floor.speed = 0;
             Dog.Play("run", 0, normalizedBeat*7.5f);
             Dog.Play("wag",1,normalizedBeat*2.5f);
-            CPU1.Play("hover",0,normalizedBeat);
-            CPU2.Play("hover",0,normalizedBeat);
-            Player.Play("hover",0,normalizedBeat);
 
           
             if (cond.isPlaying && !cond.isPaused){
@@ -356,20 +385,32 @@ namespace HeavenStudio.Games
 
         }
 
-        private ColorEase bgColorEase = new(defaultBGColor);
+
 
         //call this in update
-        private void BackgroundColorUpdate()
+        private void ColorUpdate()
         {
             bgMaterial.color = bgColorEase.GetColor();
             fadeMaterial.color = bgColorEase.GetColor();
-        
+            cloudMaterial.color = cloudColorEase.GetColor();
+            floorMaterial.SetColor("_BlueColor", colorEases[0].GetColor());
+            floorMaterial.SetColor("_RedColor", colorEases[1].GetColor());
+
         }
-        public void BackgroundColor(double beat, float length, Color startColor, Color endColor, int ease)
+
+        public void BackgroundColor(double beat, float length, Color startColor, Color endColor, Color startCloud, Color endCloud, int ease)
         {
             bgColorEase = new(beat, length, startColor, endColor, ease);
+            cloudColorEase = new(beat, length, startCloud, endCloud, ease);
         }
         
+        public void FloorColor(double beat, float length, Color startColor, Color endColor, Color startStripe, Color endStripe, int ease)
+        {
+            colorEases = new ColorEase[] {
+                new(beat, length, startColor, endColor, ease),
+                new(beat, length, startStripe, endStripe, ease),
+            };
+        }
 
         private void PersistColor(double beat)
         {
@@ -378,7 +419,15 @@ namespace HeavenStudio.Games
             {
                 allEventsBeforeBeat.Sort((x, y) => x.beat.CompareTo(y.beat)); //just in case
                 var lastEvent = allEventsBeforeBeat[^1];
-                BackgroundColor(lastEvent.beat, lastEvent.length, lastEvent["colorStart"], lastEvent["colorEnd"], lastEvent["ease"]);
+                BackgroundColor(lastEvent.beat, lastEvent.length, lastEvent["colorStart"], lastEvent["colorEnd"], lastEvent["cloudStart"], lastEvent["cloudEnd"], lastEvent["ease"]);
+            }
+
+            var allEventsBeforeBeatF = EventCaller.GetAllInGameManagerList("airboarder", new string[] { "fade floor" }).FindAll(x => x.beat < beat);
+            if (allEventsBeforeBeatF.Count > 0)
+            {
+                allEventsBeforeBeatF.Sort((x, y) => x.beat.CompareTo(y.beat)); //just in case
+                var lastEventF = allEventsBeforeBeatF[^1];
+                FloorColor(lastEventF.beat, lastEventF.length, lastEventF["colorStart"], lastEventF["colorEnd"], lastEventF["stripeStart"], lastEventF["stripeEnd"], lastEventF["ease"]);
             }
         }
 
