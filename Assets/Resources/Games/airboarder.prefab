@@ -319,10 +319,8 @@ MonoBehaviour:
   wantsCrouch: 0
   bgMaterial: {fileID: 2100000, guid: d308d6053cbc091489ae82391d36d476, type: 2}
   fadeMaterial: {fileID: 2100000, guid: 5ad5f9e65ea02ac4c95e42c36fc8d39e, type: 2}
-  floorMaterial:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  floorMaterial: {fileID: 2100000, guid: 5c5aa636b730eba44b9a80ea76a7bc4e, type: 2}
+  cloudMaterial: {fileID: 2100000, guid: 04362130d29b5134fa53ff055e11734e, type: 2}
   cameraPivot: {fileID: 2677427256397037315}
   cameraPos: {fileID: 2677427256397037315}
   cameraFOV: 25
@@ -1012,7 +1010,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 333100bf553a5924d870acafacb4f53a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.55
+      value: -0.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 333100bf553a5924d870acafacb4f53a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2441,8 +2439,32 @@ PrefabInstance:
       value: floor_model
       objectReference: {fileID: 0}
     - target: {fileID: 5521721997653780584, guid: ddff1c9d4886fd746bbd2b69bf51f546, type: 3}
+      propertyPath: m_CastShadows
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5521721997653780584, guid: ddff1c9d4886fd746bbd2b69bf51f546, type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5521721997653780584, guid: ddff1c9d4886fd746bbd2b69bf51f546, type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5521721997653780584, guid: ddff1c9d4886fd746bbd2b69bf51f546, type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5521721997653780584, guid: ddff1c9d4886fd746bbd2b69bf51f546, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5521721997653780584, guid: ddff1c9d4886fd746bbd2b69bf51f546, type: 3}
+      propertyPath: m_ReflectionProbeUsage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5521721997653780584, guid: ddff1c9d4886fd746bbd2b69bf51f546, type: 3}
+      propertyPath: m_SkinnedMotionVectors
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5521721997653780584, guid: ddff1c9d4886fd746bbd2b69bf51f546, type: 3}
       propertyPath: m_Materials.Array.data[0]
