@@ -23,7 +23,7 @@ namespace HeavenStudio.Games.Loaders
                     preFunction = delegate {
                         var e = eventCaller.currentEntity;
                         Chameleon.PreSpawnFly(e.beat, e.length - 4, (int)Scripts_Chameleon.FlyType.Far);
-                        if (e["countIn"]) Chameleon.CountIn(e.beat);
+                        if (e["countIn"]) Chameleon.CountIn(e.beat, e.length - 4);
                     },
                     defaultLength = 8f,
                     resizable = true,
@@ -37,7 +37,7 @@ namespace HeavenStudio.Games.Loaders
                     preFunction = delegate {
                         var e = eventCaller.currentEntity;
                         Chameleon.PreSpawnFly(e.beat, e.length - 4, (int)Scripts_Chameleon.FlyType.Close);
-                        if (e["countIn"]) Chameleon.CountIn(e.beat);
+                        if (e["countIn"]) Chameleon.CountIn(e.beat, e.length - 4);
                     },
                     defaultLength = 8f,
                     resizable = true,
@@ -265,12 +265,13 @@ namespace HeavenStudio.Games
             });
         }
 
-        public static void CountIn(double beat)
+        public static void CountIn(double beat, double length)
         {
+            if (length < 0) length = 4;
             MultiSound.Play(new MultiSound.Sound[]{
-                new MultiSound.Sound("count-ins/three2", beat + 4),
-                new MultiSound.Sound("count-ins/two2", beat + 5),
-                new MultiSound.Sound("count-ins/one2", beat + 6),
+                new MultiSound.Sound("count-ins/three2", beat + length),
+                new MultiSound.Sound("count-ins/two2", beat + length + 1),
+                new MultiSound.Sound("count-ins/one2", beat + length + 2),
             }, forcePlay: true, game: false);
         }
 
