@@ -263,6 +263,7 @@ namespace HeavenStudio.Games
         
             foreach (var e in blockEvents)
             {
+                double unswungBeat = Conductor.instance.GetUnSwungBeat(e.beat);
                 switch (e.datamodel) {
                     case "airboarder/duck":
                     RequestArch(e.beat - 25, false);
@@ -335,7 +336,7 @@ namespace HeavenStudio.Games
         public void Update()
         {
             var cond = Conductor.instance;
-            var currentBeat = cond.songPositionInBeatsAsDouble;
+            var currentBeat = cond.unswungSongPositionInBeatsAsDouble;
 
             ColorUpdate();
             
@@ -377,7 +378,10 @@ namespace HeavenStudio.Games
                     {
                         Player.DoScaledAnimationAsync("jump",1f, 0, 1);
                         SoundByte.PlayOneShotGame("airboarder/jump");
-                        playerCantBop = false;}
+                        BeatAction.New(this, new() {
+                            new(currentBeat, ()=>playerCantBop = true),
+                            new(currentBeat+1.5f, ()=>playerCantBop = false)});
+                    }
                 }
             }
 
@@ -510,15 +514,28 @@ namespace HeavenStudio.Games
             if(voiceOn)
             {
                 BeatAction.New(instance, new List<BeatAction.Action>(){
+                    
                     new BeatAction.Action(beat, delegate {SoundByte.PlayOneShotGame("airboarder/start1");}),
                     new BeatAction.Action(beat + 6.5, delegate {SoundByte.PlayOneShotGame("airboarder/start2");}),
                     new BeatAction.Action(beat + 7, delegate {SoundByte.PlayOneShotGame("airboarder/start3");}),
                 });
             }
             BeatAction.New(instance, new List<BeatAction.Action>(){
-                new BeatAction.Action(beat, delegate {CPU1.DoScaledAnimationAsync("letsgo", 1f, 0, 1);}),
-                new BeatAction.Action(beat, delegate {CPU2.DoScaledAnimationAsync("letsgo", 1f, 0, 1);}),
-                new BeatAction.Action(beat, delegate {Player.DoScaledAnimationAsync("letsgo", 1f, 0, 1);})
+                
+                new BeatAction.Action(beat, delegate {
+                    cpu1CantBop = true;
+                    cpu2CantBop = true;
+                    playerCantBop = true;
+                    CPU1.DoScaledAnimationAsync("letsgo", 1f, 0, 1);
+                    CPU2.DoScaledAnimationAsync("letsgo", 1f, 0, 1);
+                    Player.DoScaledAnimationAsync("letsgo", 1f, 0, 1);
+                    }),
+
+                new BeatAction.Action(beat+7, delegate {
+                    cpu1CantBop = false;
+                    cpu2CantBop = false;
+                    playerCantBop = false;
+                    })
             }
 
             );
