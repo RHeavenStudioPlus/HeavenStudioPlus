@@ -114,6 +114,8 @@ namespace HeavenStudio.Games.Loaders
                 },
             },
             new List<string>() {"agb", "keep"},
+            "agbnightwalk", "en",
+            new List<string>() {},
             chronologicalSortKey: 20);
         }
     }
