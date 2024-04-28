@@ -1188,6 +1188,26 @@ namespace HeavenStudio
                         }
                     },
 
+                    new GameAction("pixelQuad", "Pixelize")
+                    {
+                        resizable = true,
+                        parameters = new()
+                        {
+                            new("pixelSizeStart", new EntityTypes.Float(0.00f, 1f, 0.00f), "Start Pixel Size", "Set the pixel size at the start of the event."),
+                            new("pixelSizeEnd", new EntityTypes.Float(0.00f, 1f, 0.5f), "End Pixel Size", "Set the pixel size at the end of the event."),
+                            new("ratioStart", new EntityTypes.Float(0.2f, 5f, 1f), "Start Pixel Ratio", "Set the pixel ratio at the start of the event."),
+                            new("ratioEnd", new EntityTypes.Float(0.2f, 5f, 1f), "End Pixel Ratio", "Set the pixel ratio at the end of the event."),
+                            new("xScaleStart", new EntityTypes.Float(0.2f, 5f, 1f), "Start X Scale", "Set the X scale of the pixels at the start of the event."),
+                            new("xScaleEnd", new EntityTypes.Float(0.2f, 5f, 1f), "End X Scale", "Set the X scale of the pixels at the end of the event."),
+                            new("yScaleStart", new EntityTypes.Float(0.2f, 5f, 1f), "Start Y Scale", "Set the Y scale of the pixels at the start of the event."),
+                            new("yScaleEnd", new EntityTypes.Float(0.2f, 5f, 1f), "End Y Scale", "Set the Y scale of the pixels at the end of the event."),
+                            new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.", new()
+                            {
+                                new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "pixelSizeStart", "ratioStart", "xScaleStart", "yScaleStart" })
+                            }),
+                        }
+                    },
+
                     new GameAction("retroTv", "Retro TV")
                     {
                         resizable = true,

@@ -21,7 +21,7 @@ namespace XPostProcessing
     public class PixelizeQuad : PostProcessEffectSettings
     {
 
-        [Range(0.01f, 1.0f)]
+        [Range(0.00f, 1.0f)]
         public FloatParameter pixelSize = new FloatParameter { value = 0.5f };
 
         public BoolParameter useAutoScreenRatio = new BoolParameter { value = true };

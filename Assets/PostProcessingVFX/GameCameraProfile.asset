@@ -1412,7 +1412,7 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   intervalType:
-    overrideState: 0
+    overrideState: 1
     value: 0
   frequency:
     overrideState: 0
@@ -1446,6 +1446,37 @@ MonoBehaviour:
   fastMode:
     overrideState: 0
     value: 0
+--- !u!114 &-2221949593409771698
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcc23458a58ff384c82bd27e09aa0cc6, type: 3}
+  m_Name: PixelizeQuad
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  pixelSize:
+    overrideState: 1
+    value: 0.184
+  useAutoScreenRatio:
+    overrideState: 1
+    value: 0
+  pixelRatio:
+    overrideState: 1
+    value: 1
+  pixelScaleX:
+    overrideState: 1
+    value: 1
+  pixelScaleY:
+    overrideState: 1
+    value: 1
 --- !u!114 &-1752554079016775041
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1469,7 +1500,7 @@ MonoBehaviour:
     overrideState: 1
     value: {r: 0, g: 0, b: 0, a: 1}
   center:
-    overrideState: 0
+    overrideState: 1
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
@@ -1540,6 +1571,7 @@ MonoBehaviour:
   - {fileID: -44530092333175149}
   - {fileID: -6672723021951195849}
   - {fileID: 6617679330616591269}
+  - {fileID: -2221949593409771698}
 --- !u!114 &190338221448500764
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1589,7 +1621,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 0
+    value: 0.5
   size:
     overrideState: 1
     value: 1
