@@ -24,12 +24,15 @@ namespace HeavenStudio
         private List<RiqEntity> _analogNoises = new();
         private List<RiqEntity> _screenJumps = new();
         private List<RiqEntity> _sobelNeons = new();
+        private List<RiqEntity> _pixelizeQuads = new();
+
         private void Awake()
         {
             _volume = GetComponent<PostProcessVolume>();
             UpdateRetroTV();
             UpdateAnalogNoise();
             UpdateSobelNeons();
+            UpdatePixelizes();
             
         }
 
@@ -52,6 +55,7 @@ namespace HeavenStudio
             _analogNoises = EventCaller.GetAllInGameManagerList("vfx", new string[] {"analogNoise"});
             _screenJumps = EventCaller.GetAllInGameManagerList("vfx", new string[] {"screenJump"});
             _sobelNeons = EventCaller.GetAllInGameManagerList("vfx", new string[] {"sobelNeon"});
+            _pixelizeQuads = EventCaller.GetAllInGameManagerList("vfx", new string [] {"pixelQuad"});
 
             UpdateVignette();
             UpdateChromaticAbberations();
@@ -65,6 +69,7 @@ namespace HeavenStudio
             UpdateAnalogNoise();
             UpdateScreenJumps();
             UpdateSobelNeons();
+            UpdatePixelizes();
 
         }
 
@@ -82,6 +87,7 @@ namespace HeavenStudio
             UpdateAnalogNoise();
             UpdateScreenJumps();
             UpdateSobelNeons();
+            UpdatePixelizes();
             
         }
 
@@ -397,6 +403,38 @@ namespace HeavenStudio
 
             }
 
+        }
+
+        private void UpdatePixelizes()
+        {
+            if (!_volume.profile.TryGetSettings<PixelizeQuad>(out var pq)) return;
+            pq.enabled.Override(false);
+            foreach (var e in _pixelizeQuads)
+            {
+                float normalized = Conductor.instance.GetPositionFromBeat(e.beat, e.length);
+                if (normalized < 0) break;
+
+                float clampNormal = Mathf.Clamp01(normalized);
+                var func = Util.EasingFunction.GetEasingFunction((Util.EasingFunction.Ease)e["ease"]);
+
+                float newPixelSize = func(e["pixelSizeStart"], e["pixelSizeEnd"], clampNormal);
+                pq.enabled.Override(newPixelSize != 0);
+                if (!pq.enabled) continue;
+                pq.pixelSize.Override(newPixelSize);
+
+                float newPixelRatio = func(e["ratioStart"], e["ratioEnd"], clampNormal);
+                if (!pq.enabled) continue;
+                pq.pixelRatio.Override(newPixelRatio);
+
+                float newPixelXScale = func(e["xScaleStart"], e["xScaleEnd"], clampNormal);
+                if (!pq.enabled) continue;
+                pq.pixelScaleX.Override(newPixelXScale);
+
+                float newPixelYScale = func(e["yScaleStart"], e["yScaleEnd"], clampNormal);
+                if (!pq.enabled) continue;
+                pq.pixelScaleY.Override(newPixelYScale);
+   
+            }
         }
 
         private Color ColorEase(Color start, Color end, float time, Util.EasingFunction.Function func)
