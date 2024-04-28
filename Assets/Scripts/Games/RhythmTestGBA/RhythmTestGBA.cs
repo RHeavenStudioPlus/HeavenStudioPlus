@@ -244,7 +244,7 @@ namespace HeavenStudio.Games
         {
             SoundByte.PlayOneShotGame("rhythmTestGBA/press");
 
-            buttonAnimator.Play("Press", 0, 0);
+            buttonAnimator.DoScaledAnimationAsync("Press", 0.5f);
 
         }
 
@@ -498,8 +498,8 @@ namespace HeavenStudio.Games
         {
             if (disableCount != true)
             {
-                numberBGAnimator.Play("FlashBG", -1, 0);
-                numberAnimator.Play("Nine");
+                numberBGAnimator.DoScaledAnimationAsync("FlashBG", 0.5f);
+                numberAnimator.DoScaledAnimationAsync("Nine", 0.5f);
                 SoundByte.PlayOneShotGame("rhythmTestGBA/blip2");
             }
             else
@@ -513,8 +513,8 @@ namespace HeavenStudio.Games
         {
             if (!disableCount)
             {
-                numberBGAnimator.Play("FlashBG", -1, 0);
-                numberAnimator.Play("Eight");
+                numberBGAnimator.DoScaledAnimationAsync("FlashBG", 0.5f);
+                numberAnimator.DoScaledAnimationAsync("Eight", 0.5f);
                 SoundByte.PlayOneShotGame("rhythmTestGBA/blip2");
             }
             else
@@ -528,8 +528,8 @@ namespace HeavenStudio.Games
         {
             if (!disableCount)
             {
-                numberBGAnimator.Play("FlashBG", -1, 0);
-                numberAnimator.Play("Seven");
+                numberBGAnimator.DoScaledAnimationAsync("FlashBG", 0.5f);
+                numberAnimator.DoScaledAnimationAsync("Seven", 0.5f);
                 SoundByte.PlayOneShotGame("rhythmTestGBA/blip2");
             }
             else
@@ -543,8 +543,8 @@ namespace HeavenStudio.Games
         {
             if (!disableCount)
             {
-                numberBGAnimator.Play("FlashBG", -1, 0);
-                numberAnimator.Play("Six");
+                numberBGAnimator.DoScaledAnimationAsync("FlashBG", 0.5f);
+                numberAnimator.DoScaledAnimationAsync("Six", 0.5f);
                 SoundByte.PlayOneShotGame("rhythmTestGBA/blip2");
             }
             else
@@ -558,8 +558,8 @@ namespace HeavenStudio.Games
         {
             if (!disableCount)
             {
-                numberBGAnimator.Play("FlashBG", -1, 0);
-                numberAnimator.Play("Five");
+                numberBGAnimator.DoScaledAnimationAsync("FlashBG", 0.5f);
+                numberAnimator.DoScaledAnimationAsync("Five", 0.5f);
                 SoundByte.PlayOneShotGame("rhythmTestGBA/blip2");
             }
             else
@@ -573,8 +573,8 @@ namespace HeavenStudio.Games
         {
             if (!disableCount)
             {
-                numberBGAnimator.Play("FlashBG", -1, 0);
-                numberAnimator.Play("Four");
+                numberBGAnimator.DoScaledAnimationAsync("FlashBG", 0.5f);
+                numberAnimator.DoScaledAnimationAsync("Four", 0.5f);
                 SoundByte.PlayOneShotGame("rhythmTestGBA/blip2");
             }
             else
@@ -588,8 +588,8 @@ namespace HeavenStudio.Games
         {
             if (!disableCount)
             {
-                numberBGAnimator.Play("FlashBG", -1, 0);
-                numberAnimator.Play("Three");
+                numberBGAnimator.DoScaledAnimationAsync("FlashBG", 0.5f);
+                numberAnimator.DoScaledAnimationAsync("Three", 0.5f);
                 SoundByte.PlayOneShotGame("rhythmTestGBA/blip2");
             }
             else
@@ -603,8 +603,8 @@ namespace HeavenStudio.Games
         {
             if (!disableCount)
             {
-                numberBGAnimator.Play("FlashBG", -1, 0);
-                numberAnimator.Play("Two");
+                numberBGAnimator.DoScaledAnimationAsync("FlashBG", 0.5f);
+                numberAnimator.DoScaledAnimationAsync("Two", 0.5f);
                 SoundByte.PlayOneShotGame("rhythmTestGBA/blip2");
             }
             else
@@ -618,8 +618,8 @@ namespace HeavenStudio.Games
         {
             if (!disableCount)
             {
-                numberBGAnimator.Play("FlashBG", -1, 0);
-                numberAnimator.Play("One");
+                numberBGAnimator.DoScaledAnimationAsync("FlashBG", 0.5f);
+                numberAnimator.DoScaledAnimationAsync("One", 0.5f);
                 SoundByte.PlayOneShotGame("rhythmTestGBA/blip2");
             }
             else
@@ -632,8 +632,8 @@ namespace HeavenStudio.Games
         public void FlashZero(double beat)
         {
 
-            numberBGAnimator.Play("FlashHit");
-            numberAnimator.Play("Zero");
+            numberBGAnimator.DoScaledAnimationAsync("FlashHit", 0.5f);
+            numberAnimator.DoScaledAnimationAsync("Zero", 0.5f);
             SoundByte.PlayOneShotGame("rhythmTestGBA/blip3");
 
         }
