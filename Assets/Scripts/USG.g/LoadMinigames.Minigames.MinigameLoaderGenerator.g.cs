@@ -313,6 +313,16 @@ namespace HeavenStudio
                 Debug.LogWarning("Game loader NtrFreezeFrameLoader failed!");
             }
 
+            game = NtrFrogHopLoader.AddGame(eventCaller);
+            if (game != null)
+            {
+                eventCaller.minigames.Add(game.name, game);
+            }
+            else
+            {
+                Debug.LogWarning("Game loader NtrFrogHopLoader failed!");
+            }
+
             game = RvlFrogPrincessLoader.AddGame(eventCaller);
             if (game != null)
             {

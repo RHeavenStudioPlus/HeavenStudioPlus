@@ -1,0 +1,1883 @@
+fileFormatVersion: 2
+guid: 3c49c0fa809689d448ee90b3c1143d9f
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 50
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: froghopupscale4096_0
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 3127
+        width: 215
+        height: 332
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f4b553f469b32a45a9ac94feee48a36
+      internalID: 33192014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_1
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 3128
+        width: 218
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbe18abdfc8b665478618e3bd5839b0e
+      internalID: 841303570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_2
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 3128
+        width: 222
+        height: 333
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b60287095e384b9499640ed3daf75345
+      internalID: 1367816050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_3
+      rect:
+        serializedVersion: 2
+        x: 950
+        y: 3128
+        width: 223
+        height: 332
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06576208f2238d84c870eb853b387a59
+      internalID: -1159467152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_4
+      rect:
+        serializedVersion: 2
+        x: 1273
+        y: 3128
+        width: 220
+        height: 332
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82e6d9fdc0d101744b7a5974fb3e1a94
+      internalID: 929747263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_5
+      rect:
+        serializedVersion: 2
+        x: 1598
+        y: 3127
+        width: 205
+        height: 339
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3d86989fbd619e4ea98956f316227b4
+      internalID: -332328059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_6
+      rect:
+        serializedVersion: 2
+        x: 1874
+        y: 3127
+        width: 211
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f561a73b30aff2046baa654d151c7569
+      internalID: -563105985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_7
+      rect:
+        serializedVersion: 2
+        x: 2679
+        y: 3128
+        width: 206
+        height: 331
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: febf5781bcb56554e979882bcef74637
+      internalID: -468438990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_8
+      rect:
+        serializedVersion: 2
+        x: 2927
+        y: 3128
+        width: 218
+        height: 322
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86e52d700b615834fbfdc2372c7b7a50
+      internalID: -2066054727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_9
+      rect:
+        serializedVersion: 2
+        x: 3191
+        y: 3127
+        width: 202
+        height: 308
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17b5580ed85f64748b46da41d78c9eb1
+      internalID: -316139819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_10
+      rect:
+        serializedVersion: 2
+        x: 3425
+        y: 3128
+        width: 207
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d01c4fcb3f4fc6f47adcf500b4447a7a
+      internalID: -564548870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_11
+      rect:
+        serializedVersion: 2
+        x: 3655
+        y: 3128
+        width: 203
+        height: 329
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d77ed42c3b4c8943ac811ea3820f052
+      internalID: 624937397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_12
+      rect:
+        serializedVersion: 2
+        x: 3873
+        y: 3128
+        width: 202
+        height: 326
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff80de38d72902643b0ca998586bdb78
+      internalID: 1205983044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_13
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 2872
+        width: 147
+        height: 151
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43681d1edb27a8141aa1601b1d4e1e75
+      internalID: -556787771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_14
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 2871
+        width: 144
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71c34a02399ccd443908583768eaf80e
+      internalID: -1867282743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_15
+      rect:
+        serializedVersion: 2
+        x: 362
+        y: 2871
+        width: 145
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4091241fbec29554aad5d36d43fbbec8
+      internalID: -692138095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_16
+      rect:
+        serializedVersion: 2
+        x: 526
+        y: 2869
+        width: 146
+        height: 151
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c45c38f9b6e2823438435ad5a544a500
+      internalID: -1907904782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_17
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 2869
+        width: 147
+        height: 151
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b842362692e3dce4d8d9d676c0e4f375
+      internalID: -728929013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_18
+      rect:
+        serializedVersion: 2
+        x: 892
+        y: 2864
+        width: 147
+        height: 159
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ab45d7ef7264d143a6e222de80696d6
+      internalID: 1854899237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_19
+      rect:
+        serializedVersion: 2
+        x: 1082
+        y: 2856
+        width: 147
+        height: 178
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f775067aeb9fff4aa51bfb978a3ef79
+      internalID: 1723473767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_20
+      rect:
+        serializedVersion: 2
+        x: 1268
+        y: 2876
+        width: 160
+        height: 139
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e9a5b0bc011caf42bd7927621148cb5
+      internalID: 1159608493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_21
+      rect:
+        serializedVersion: 2
+        x: 1461
+        y: 2873
+        width: 151
+        height: 143
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 243d717545004e6478e48532dfe60964
+      internalID: 2010080512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_22
+      rect:
+        serializedVersion: 2
+        x: 1657
+        y: 2869
+        width: 147
+        height: 151
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0e64392c63dc6247ab4c7abd78b1776
+      internalID: 1268735488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_23
+      rect:
+        serializedVersion: 2
+        x: 1848
+        y: 2870
+        width: 147
+        height: 151
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce050dbf944118c45a2bc5f2905bd4f5
+      internalID: 534234893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_24
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 2666
+        width: 147
+        height: 151
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44655462c8aefd848b41647a4783fb22
+      internalID: 1923961556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_25
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 2667
+        width: 144
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff8439a0366aadf42be8a9e998b73f05
+      internalID: -1593710221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_26
+      rect:
+        serializedVersion: 2
+        x: 365
+        y: 2666
+        width: 145
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85c3e74f921148a48aeb2fb5cee538b6
+      internalID: 240913629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_27
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 2666
+        width: 146
+        height: 151
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4c205137445e2f45abe08828ce1e080
+      internalID: 1386908976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_28
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 2666
+        width: 147
+        height: 151
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f645694b725083449863bad56bb59b3e
+      internalID: -1747113553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_29
+      rect:
+        serializedVersion: 2
+        x: 889
+        y: 2659
+        width: 150
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f46cb1c042fc25643b180fe0318d9267
+      internalID: -1939045445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_30
+      rect:
+        serializedVersion: 2
+        x: 1082
+        y: 2647
+        width: 147
+        height: 190
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fc8f87c93fd518409235784f3b8ec58
+      internalID: 1954706541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_31
+      rect:
+        serializedVersion: 2
+        x: 1264
+        y: 2675
+        width: 166
+        height: 135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a558aea9ad53a04195423300f4ee54c
+      internalID: -293152469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_32
+      rect:
+        serializedVersion: 2
+        x: 1465
+        y: 2672
+        width: 146
+        height: 144
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd816dc44ead7b841adede90f246ad76
+      internalID: -1074070579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_33
+      rect:
+        serializedVersion: 2
+        x: 2123
+        y: 2773
+        width: 72
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 270bba6d9706b5f4396222dec4da219a
+      internalID: -1170902920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_34
+      rect:
+        serializedVersion: 2
+        x: 2414
+        y: 2772
+        width: 69
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a791730138f519b4ca36a0a636f71f7a
+      internalID: 1538831230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_35
+      rect:
+        serializedVersion: 2
+        x: 2701
+        y: 2772
+        width: 68
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e24bffdfb9d502b4f8eecd01d71432d5
+      internalID: 2002808403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_36
+      rect:
+        serializedVersion: 2
+        x: 3069
+        y: 2774
+        width: 58
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7820ba0a7360c8f419c07d5d48e7a778
+      internalID: -707721971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_37
+      rect:
+        serializedVersion: 2
+        x: 3393
+        y: 2773
+        width: 66
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bdc2a2b67a87bd43a24977d35539ebc
+      internalID: 66144860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_38
+      rect:
+        serializedVersion: 2
+        x: 3693
+        y: 2776
+        width: 72
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4b9042c6693d054db9c239f1a96e3fc
+      internalID: -870813783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_39
+      rect:
+        serializedVersion: 2
+        x: 3958
+        y: 2787
+        width: 89
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 627be09bde45a36499100bef3f502cf4
+      internalID: 539723221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_40
+      rect:
+        serializedVersion: 2
+        x: 3431
+        y: 2632
+        width: 114
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d44a950ffec893e4399892fcc1583c27
+      internalID: 1460441637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_41
+      rect:
+        serializedVersion: 2
+        x: 3686
+        y: 2624
+        width: 112
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1df5ef51c6d10fa429ebce97fc5bb2d5
+      internalID: -1885870164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_42
+      rect:
+        serializedVersion: 2
+        x: 3941
+        y: 2612
+        width: 112
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7579ec3bd048604d973281b670d3a56
+      internalID: 430252738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_43
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 2456
+        width: 147
+        height: 151
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f81470ebb83f90e409f01de1e356216b
+      internalID: -347639578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_44
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 2459
+        width: 144
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79cb01e309b164c479290a746d345edf
+      internalID: -1580942690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_45
+      rect:
+        serializedVersion: 2
+        x: 365
+        y: 2457
+        width: 145
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96b3b95e8e1cfff42883ae9e687efad3
+      internalID: -2103504807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_46
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 2456
+        width: 146
+        height: 151
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44ec400ef0ec87c4189648ed88d457fd
+      internalID: 1274177454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_47
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 2460
+        width: 145
+        height: 148
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83a1d283ea21fc645b3f2ff6a8838930
+      internalID: -1096995899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_48
+      rect:
+        serializedVersion: 2
+        x: 890
+        y: 2452
+        width: 145
+        height: 159
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bf274f158353a048be397b5196b95ba
+      internalID: 1078685693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_49
+      rect:
+        serializedVersion: 2
+        x: 1083
+        y: 2446
+        width: 146
+        height: 173
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8efb1dcbd32a7148a1676f4d11a648a
+      internalID: -2030534956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_50
+      rect:
+        serializedVersion: 2
+        x: 1267
+        y: 2464
+        width: 160
+        height: 137
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f9bd57b98dd28c42acaacdefe78be39
+      internalID: 1486328989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_51
+      rect:
+        serializedVersion: 2
+        x: 2312
+        y: 2487
+        width: 85
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bf1c48b9cc5ad246a73df210b2483a1
+      internalID: 1740560889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_52
+      rect:
+        serializedVersion: 2
+        x: 2565
+        y: 2481
+        width: 86
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7dcf28e56dd5e6b4db77deb53c5d022a
+      internalID: -478035561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_53
+      rect:
+        serializedVersion: 2
+        x: 2805
+        y: 2488
+        width: 83
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d286956d4f017547b3687cc440f22e2
+      internalID: -1764988201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_54
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 2494
+        width: 86
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a495676ac65e36c4abfb7bd1ca2bf19a
+      internalID: 508067280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_55
+      rect:
+        serializedVersion: 2
+        x: 3374
+        y: 2488
+        width: 115
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2590d4bdfc4cf84b8595925af4ef698
+      internalID: -2143145897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_56
+      rect:
+        serializedVersion: 2
+        x: 3650
+        y: 2474
+        width: 108
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70e566d1df46d2d4aa81019d1eed6285
+      internalID: 1164913045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_57
+      rect:
+        serializedVersion: 2
+        x: 3951
+        y: 2467
+        width: 114
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ece633ba23ba6aa44bf519d05bd62efe
+      internalID: 411833461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_58
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 1888
+        width: 292
+        height: 326
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29dd17ecb5cd4b14b9e4faa75f6fbd5b
+      internalID: -1859104549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_59
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 1887
+        width: 152
+        height: 334
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dcf86c99e09016543a21be237a3c2515
+      internalID: 996205343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_60
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 1886
+        width: 289
+        height: 345
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24863c75a40653344b3837a9d3e2076b
+      internalID: 1496574505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_61
+      rect:
+        serializedVersion: 2
+        x: 882
+        y: 1885
+        width: 179
+        height: 350
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab62ad45675b86a4c9ca323889af3cfa
+      internalID: 282977040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_62
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 1885
+        width: 229
+        height: 344
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3696c8110d099e4bac0b1d7ab43850b
+      internalID: -1730911958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_63
+      rect:
+        serializedVersion: 2
+        x: 1382
+        y: 1887
+        width: 273
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 037fb75df55ac1a4593b058d204249c5
+      internalID: 825598460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_64
+      rect:
+        serializedVersion: 2
+        x: 1681
+        y: 1882
+        width: 281
+        height: 337
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a277f72d285f9e4aaa5c48ae53411c1
+      internalID: 1917159354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_65
+      rect:
+        serializedVersion: 2
+        x: 2215
+        y: 1624
+        width: 1028
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b71c1388e1731e49a7151e91ced4bb6
+      internalID: -1741336105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_66
+      rect:
+        serializedVersion: 2
+        x: 3284
+        y: 893
+        width: 90
+        height: 1350
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05394b4df6ba8314c846a8f9ebbe855b
+      internalID: -942123187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_67
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 1355
+        width: 309
+        height: 454
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36adab9a5541cb74f81c398e332884da
+      internalID: -1149133742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_68
+      rect:
+        serializedVersion: 2
+        x: 365
+        y: 1353
+        width: 277
+        height: 444
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbeb7aadd9a7e0343aee4461ea67df69
+      internalID: -1932001569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_69
+      rect:
+        serializedVersion: 2
+        x: 793
+        y: 1743
+        width: 104
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a08178f953b8f340a88988c2c658c77
+      internalID: 1845367735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_70
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 686
+        width: 31
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32c4e3d500765fc419205aafb8c87442
+      internalID: 612172681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_71
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 639
+        width: 133
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d5f9145e6f1a8241af5067dbb7b0858
+      internalID: -1471235131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_72
+      rect:
+        serializedVersion: 2
+        x: 554
+        y: 575
+        width: 130
+        height: 143
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b9e93615037e5447bce694b69680b0e
+      internalID: 1800585205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_73
+      rect:
+        serializedVersion: 2
+        x: 869
+        y: 572
+        width: 904
+        height: 473
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 072306d1836b12c4491e5f81be33450d
+      internalID: -1139616345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_74
+      rect:
+        serializedVersion: 2
+        x: 2320
+        y: 540
+        width: 845
+        height: 1002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b4f14ede8f906641b0530ee5ff2e704
+      internalID: -659603451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_75
+      rect:
+        serializedVersion: 2
+        x: 3411
+        y: 508
+        width: 594
+        height: 841
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fde56490f8179c84e808f3778f5be12b
+      internalID: 2110012738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_76
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 654
+        width: 39
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 343f327bd15e0034abee4632b4902dd9
+      internalID: -760520413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_77
+      rect:
+        serializedVersion: 2
+        x: 439
+        y: 641
+        width: 95
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c202f667e02fea4ebd1b1dc04090c1c
+      internalID: 1295092027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_78
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 570
+        width: 222
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94b68ace1869b4e40a981619a201dbba
+      internalID: 405743774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: froghopupscale4096_79
+      rect:
+        serializedVersion: 2
+        x: 459
+        y: 573
+        width: 82
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c7efef9837d6c147ae5df5421e39bbf
+      internalID: -509077333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      froghopupscale4096_0: 33192014
+      froghopupscale4096_1: 841303570
+      froghopupscale4096_10: -564548870
+      froghopupscale4096_11: 624937397
+      froghopupscale4096_12: 1205983044
+      froghopupscale4096_13: -556787771
+      froghopupscale4096_14: -1867282743
+      froghopupscale4096_15: -692138095
+      froghopupscale4096_16: -1907904782
+      froghopupscale4096_17: -728929013
+      froghopupscale4096_18: 1854899237
+      froghopupscale4096_19: 1723473767
+      froghopupscale4096_2: 1367816050
+      froghopupscale4096_20: 1159608493
+      froghopupscale4096_21: 2010080512
+      froghopupscale4096_22: 1268735488
+      froghopupscale4096_23: 534234893
+      froghopupscale4096_24: 1923961556
+      froghopupscale4096_25: -1593710221
+      froghopupscale4096_26: 240913629
+      froghopupscale4096_27: 1386908976
+      froghopupscale4096_28: -1747113553
+      froghopupscale4096_29: -1939045445
+      froghopupscale4096_3: -1159467152
+      froghopupscale4096_30: 1954706541
+      froghopupscale4096_31: -293152469
+      froghopupscale4096_32: -1074070579
+      froghopupscale4096_33: -1170902920
+      froghopupscale4096_34: 1538831230
+      froghopupscale4096_35: 2002808403
+      froghopupscale4096_36: -707721971
+      froghopupscale4096_37: 66144860
+      froghopupscale4096_38: -870813783
+      froghopupscale4096_39: 539723221
+      froghopupscale4096_4: 929747263
+      froghopupscale4096_40: 1460441637
+      froghopupscale4096_41: -1885870164
+      froghopupscale4096_42: 430252738
+      froghopupscale4096_43: -347639578
+      froghopupscale4096_44: -1580942690
+      froghopupscale4096_45: -2103504807
+      froghopupscale4096_46: 1274177454
+      froghopupscale4096_47: -1096995899
+      froghopupscale4096_48: 1078685693
+      froghopupscale4096_49: -2030534956
+      froghopupscale4096_5: -332328059
+      froghopupscale4096_50: 1486328989
+      froghopupscale4096_51: 1740560889
+      froghopupscale4096_52: -478035561
+      froghopupscale4096_53: -1764988201
+      froghopupscale4096_54: 508067280
+      froghopupscale4096_55: -2143145897
+      froghopupscale4096_56: 1164913045
+      froghopupscale4096_57: 411833461
+      froghopupscale4096_58: -1859104549
+      froghopupscale4096_59: 996205343
+      froghopupscale4096_6: -563105985
+      froghopupscale4096_60: 1496574505
+      froghopupscale4096_61: 282977040
+      froghopupscale4096_62: -1730911958
+      froghopupscale4096_63: 825598460
+      froghopupscale4096_64: 1917159354
+      froghopupscale4096_65: -1741336105
+      froghopupscale4096_66: -942123187
+      froghopupscale4096_67: -1149133742
+      froghopupscale4096_68: -1932001569
+      froghopupscale4096_69: 1845367735
+      froghopupscale4096_7: -468438990
+      froghopupscale4096_70: 612172681
+      froghopupscale4096_71: -1471235131
+      froghopupscale4096_72: 1800585205
+      froghopupscale4096_73: -1139616345
+      froghopupscale4096_74: -659603451
+      froghopupscale4096_75: 2110012738
+      froghopupscale4096_76: -760520413
+      froghopupscale4096_77: 1295092027
+      froghopupscale4096_78: 405743774
+      froghopupscale4096_79: -509077333
+      froghopupscale4096_8: -2066054727
+      froghopupscale4096_9: -316139819
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: ntrfroghop/common
+  assetBundleVariant: 
