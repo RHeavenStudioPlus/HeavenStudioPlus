@@ -9,6 +9,7 @@ using HeavenStudio.Util;
 using TMPro;
 using Jukebox;
 using Jukebox.Legacy;
+using HeavenStudio.InputSystem;
 
 namespace HeavenStudio.Editor.Track
 {
@@ -155,7 +156,7 @@ namespace HeavenStudio.Editor.Track
                 {
                     lastTempo *= 2f;
                 }
-                else if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+                else if (Input.GetKey(InputKeyboard.MODIFIER) || Input.GetKey(KeyCode.RightCommand))
                 {
                     lastTempo /= 2f;
                 }

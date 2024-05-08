@@ -51,6 +51,8 @@ SpriteAtlas:
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 49e59e302f4a24a4da56bd63185fcb01, type: 3}
+  - {fileID: 21300000, guid: 93df82601dc3b8a4caf887fc1999707d, type: 3}
+  - {fileID: 21300000, guid: ca006d807d515ab4e8af218e7474f442, type: 3}
   - {fileID: 21300000, guid: 6f76ee0157ff5854295d8d0b12b5f165, type: 3}
   - {fileID: 21300000, guid: 9ae7ecf2cc001d14595ec03e1d4d86a6, type: 3}
   - {fileID: 21300000, guid: 6dd981c3e3319f243b56549e3f26fb72, type: 3}
@@ -83,6 +85,8 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b29210cf5b7b8234984ec842a3110005, type: 3}
   m_PackedSpriteNamesToIndex:
   - cog
+  - zoom-menu
+  - usage
   - zoom-out
   - save
   - add-music

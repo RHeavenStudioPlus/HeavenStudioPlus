@@ -11,10 +11,14 @@ using DG.Tweening;
 using HeavenStudio.Util;
 using HeavenStudio.Editor.Track;
 using System.Text;
+using System.Configuration;
+using System;
+using HeavenStudio.InputSystem;
+using UnityEngine.U2D;
 
 namespace HeavenStudio.Editor
 {
-    // I hate the antichrist.
+    // I LOVE the antichrist!
     public class GridGameSelector : MonoBehaviour
     {
         public Minigames.Minigame SelectedMinigame;
@@ -33,8 +37,10 @@ namespace HeavenStudio.Editor
 
         [Header("Properties")]
         [SerializeField] private int currentEventIndex;
-        public List<RectTransform> mgsActive = new List<RectTransform>();
-        public List<RectTransform> fxActive = new List<RectTransform>();
+        public Texture Square;
+        public Texture Circle;
+        public List<RectTransform> mgsActive = new();
+        public List<RectTransform> fxActive = new();
         public float posDif;
         public int ignoreSelectCount;
         private int dragTimes;
@@ -45,9 +51,13 @@ namespace HeavenStudio.Editor
 
         public static GridGameSelector instance;
 
-        private void Start()
+        private void Awake()
         {
             instance = this;
+        }
+
+        private void Start()
+        {
             GameEventSelectorRect = GameEventSelector.GetComponent<RectTransform>();
             selectorHeight = GameEventSelectorRect.rect.height;
             eventSize = EventRef.GetComponent<RectTransform>().rect.height;
@@ -159,7 +169,8 @@ namespace HeavenStudio.Editor
             currentEventIndex = index;
             UpdateIndex(index, false);
 
-            Editor.instance?.SetGameEventTitle($"Select game event for {SelectedMinigame.displayName.Replace("\n", "")}");
+            // Editor.instance?.SetGameEventTitle($"Select game event for {SelectedMinigame.displayName.Replace("\n", "")}");
+            if (Editor.instance != null) Editor.instance.SetGameEventTitle(SelectedMinigame.displayName.Replace("\n", ""));
         }
 
         private void AddEvents(int index = 0)
@@ -169,7 +180,9 @@ namespace HeavenStudio.Editor
                 GameObject sg = Instantiate(EventRef, eventsParent);
                 sg.GetComponentInChildren<TMP_Text>().text = "Switch Game";
                 sg.SetActive(true);
-                if (index == 0) sg.GetComponentInChildren<TMP_Text>().color = EditorTheme.theme.properties.EventSelectedCol.Hex2RGB();
+                if (index == 0) {
+                    sg.GetComponentInChildren<TMP_Text>().color = EditorTheme.theme.properties.EventSelectedCol.Hex2RGB();
+                }
             } else {
                 index++;
                 if (SelectedMinigame.name == "gameManager") index++;
@@ -185,13 +198,12 @@ namespace HeavenStudio.Editor
 
                 label.text = action.displayName;
                 if (action.parameters != null && action.parameters.Count > 0)
-                    g.transform.GetChild(1).gameObject.SetActive(true);
+                    g.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
 
                 if (index - 1 == i)
                     label.color = EditorTheme.theme.properties.EventSelectedCol.Hex2RGB();
 
                 g.SetActive(true);
-
             }
         }
 
@@ -232,61 +244,65 @@ namespace HeavenStudio.Editor
             }
         }
 
-        // TODO: find the equation to get the sizes automatically, nobody's been able to figure one out yet (might have to be manual?)
         public void Zoom()
         {
-            if (!Input.GetKey(KeyCode.LeftControl)) return;
+            if (!Input.GetKey(InputKeyboard.MODIFIER)) return;
             var glg = GetComponent<GridLayoutGroup>();
-            var sizes = new List<float>() {
-                209.5f,
-                102.3f,
-                66.6f,
-                48.6f,
-                37.9f,
-                30.8f,
-                25.7f,
-                //21.9f,
-            };
+            int max = 20; // arbitrary
 
-            if (glg.constraintCount + 1 > sizes.Count && Input.GetAxisRaw("Mouse ScrollWheel") < 0) return;
+            if (glg.constraintCount + 1 > max && Input.mouseScrollDelta.y < 0) return;
 
-            glg.constraintCount += (Input.GetAxisRaw("Mouse ScrollWheel") > 0) ? -1 : 1;
-            glg.cellSize = Vector2.one * sizes[glg.constraintCount - 1];
+            glg.constraintCount += (Input.mouseScrollDelta.y > 0) ? -1 : 1;
+
+            // thanks to blank3times (tri) for helping me with this
+            var size = (1 / (0.00317 * glg.constraintCount)) - 4.75248;
+
+            // this, however, doesn't work
+            // var totalWidth = Editor.instance.GridGameSelectorRect.rect.width;
+            // var size = (totalWidth - glg.padding.right) * (glg.constraintCount + 1) / glg.constraintCount;
+
+            glg.cellSize = Vector2.one * (float)size;
         }
 
         // method called when clicking the sort button in the editor, skips sorting fx only "games"
         // sorts depending on which sorting button you click
         public void Sort(string type)
         {
-            var mgsSort = mgsActive;
+            List<RectTransform> mgsSort = mgsActive;
             mgsSort.Sort((x, y) => string.Compare(x.name, y.name));
 
-            switch (type)
-            {
-                case "favorites":
-                SortFavorites(mgsSort);
-                break;
-                case "chronologic":
-                SortChronologic(mgsSort);
-                break;
-                default: // "alphabet"
-                SortAlphabet(mgsSort);
-                break;
-            }
+            Action<List<RectTransform>> action = type switch {
+                "favorites" => SortFavorites,
+                "chronologic" => SortChronologic,
+                "usage" => SortUsage,
+                _ => SortAlphabet
+            };
+            
+            action.Invoke(mgsSort);
         }
 
         void SortAlphabet(List<RectTransform> mgs)
         {
-            for (int i = 0; i < mgsActive.Count; i++) {
-                mgs[i].SetSiblingIndex(i + fxActive.Count + 1);
+            List<RectTransform> alph = mgs.OrderBy(AlphabetSortKey).ToList();
+            
+            for (int i = 0; i < alph.Count; i++) {
+                alph[i].SetSiblingIndex(i + fxActive.Count + 1);
             }
+        }
+        string AlphabetSortKey(RectTransform minigame)
+        {
+            Minigames.Minigame mg = EventCaller.instance.GetMinigame(minigame.name);
+            if (mg.displayName.StartsWith("the ", StringComparison.InvariantCultureIgnoreCase))
+                return mg.displayName[4..];
+            else
+                return mg.displayName;
         }
 
         // if there are no favorites, the games will sort alphabetically
         void SortFavorites(List<RectTransform> allMgs)
         {
-            var favs = allMgs.FindAll(mg => mg.GetComponent<GridGameSelectorGame>().StarActive);
-            var mgs  = allMgs.FindAll(mg => !mg.GetComponent<GridGameSelectorGame>().StarActive);
+            List<RectTransform> favs = allMgs.FindAll(mg => mg.GetComponent<GridGameSelectorGame>().StarActive).OrderBy(AlphabetSortKey).ToList();
+            List<RectTransform> mgs  = allMgs.FindAll(mg => !mg.GetComponent<GridGameSelectorGame>().StarActive).OrderBy(AlphabetSortKey).ToList();
 
             if (Input.GetKey(KeyCode.LeftShift)) {
                 foreach (var fav in favs)
@@ -304,43 +320,49 @@ namespace HeavenStudio.Editor
 
         void SortChronologic(List<RectTransform> mgs)
         {
-            var systems = new List<RectTransform>[] {
-                new List<RectTransform>(),
-                new List<RectTransform>(),
-                new List<RectTransform>(),
-                new List<RectTransform>(),
-                new List<RectTransform>(),
-                new List<RectTransform>(),
-            };
-            for (int i = 0; i < mgs.Count; i++)
-            {
-                var mg = EventCaller.instance.GetMinigame(mgs[i].name);
-                var tags = mg.tags;
-                if (tags.Count != 0) {
-                    systems[tags[0] switch {
-                        "agb" => 0,
-                        "ntr" => 1,
-                        "rvl" => 2,
-                        "ctr" => 3,
-                        "mob" => 4,
-                        _     => 5,
-                    }].Add(mgs[i]);
-                } else if (mg.inferred) {
-                    systems[^1].Add(mgs[i]);
-                } else {
-                    Debug.LogWarning($"Chronological sorting has failed, does \"{mg.displayName}\" ({mg.name}) have an asset bundle assigned to it?");
-                }
+            List<RectTransform> chrono = mgs.OrderBy(GameOriginSortKey).ThenBy(ChronologicSortKey).ThenBy(AlphabetSortKey).ToList();
+            
+            for (int i = 0; i < chrono.Count; i++) {
+                chrono[i].SetSiblingIndex(i + fxActive.Count + 1);
             }
-            int j = fxActive.Count + 1;
-            foreach (var system in systems)
+        }
+        int GameOriginSortKey(RectTransform minigame)
+        {
+            Minigames.Minigame mg = EventCaller.instance.GetMinigame(minigame.name);
+            if (mg.tags.Count > 0)
             {
-                system.OrderBy(mg => mg.name);
-                for (int i = 0; i < system.Count; i++)
+                return mg.tags[0] switch
                 {
-                    system[i].SetSiblingIndex(j);
-                    j++;
-                }
+                    "agb" => 0,
+                    "ntr" => 1,
+                    "rvl" => 2,
+                    "ctr" => 3,
+                    _ => 10,
+                };
             }
+
+            return 10;
+        }
+        uint ChronologicSortKey(RectTransform minigame)
+        {
+            Minigames.Minigame mg = EventCaller.instance.GetMinigame(minigame.name);
+            if (mg.chronologicalSortKey is uint i)
+                return i;
+
+            return uint.MaxValue;
+        }
+
+        void SortUsage(List<RectTransform> mgs)
+        {
+            List<RectTransform> usage = mgs.OrderByDescending(UsageSortKey).ThenBy(AlphabetSortKey).ToList();
+
+            for (int i = 0; i < usage.Count; i++) {
+                usage[i].SetSiblingIndex(i + fxActive.Count + 1);
+            }
+        }
+        int UsageSortKey(RectTransform minigame)
+        {
+            return EventCaller.GetAllInGameManagerList(minigame.name).Count;
         }
 
         public void Search()
@@ -388,7 +410,12 @@ namespace HeavenStudio.Editor
 
         public void Drag()
         {
-            if (Conductor.instance.NotStopped() || Editor.instance.inAuthorativeMenu) return;
+            if (Conductor.instance.NotStopped() || Editor.instance.inAuthorativeMenu) {
+                if (Conductor.instance.isPaused) {
+                    Debug.Log("it's fuckin paused dude");
+                }
+                return;
+            }
             
             if (Timeline.instance.MouseInTimeline && dragTimes < 1)
             {

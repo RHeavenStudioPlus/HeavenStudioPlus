@@ -394,7 +394,7 @@ namespace HeavenStudio.Games
                 new MultiSound.Sound("tambourine/player/turnPass/note1", beat),
                 new MultiSound.Sound("tambourine/player/turnPass/note2", beat + 0.1f),
                 new MultiSound.Sound("tambourine/player/turnPass/note3", beat + 0.2f),
-                new MultiSound.Sound("tambourine/player/turnPass/note3", beat + 0.3f),
+                new MultiSound.Sound("tambourine/player/turnPass/note4", beat + 0.3f),
             }, forcePlay: true);
             happyFace.SetActive(true);
             BeatAction.New(instance, new List<BeatAction.Action>()

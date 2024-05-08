@@ -197,9 +197,9 @@ namespace HeavenStudio
         public static RiqBeatmapData? PreProcessBeatmap(string version, RiqBeatmapData data)
         {
             Debug.Log("Preprocessing beatmap...");
-            Minigames.Minigame game;
-            Minigames.GameAction action;
-            System.Type type, pType;
+            Minigame game;
+            GameAction action;
+            Type type, pType;
             if (EventCaller.instance != null)
             {
                 string[] split;
@@ -212,7 +212,7 @@ namespace HeavenStudio
                     if (game == null)
                     {
                         Debug.LogWarning($"Unknown game {gameName} found in remix.json! Adding game...");
-                        game = new Minigames.Minigame(gameName, gameName.DisplayName() + " \n<color=#eb5454>[inferred from remix.json]</color>", "", false, false, new List<Minigames.GameAction>(), inferred: true);
+                        game = new Minigame(gameName, gameName.DisplayName() + " \n<color=#eb5454>[inferred from remix.json]</color>", "", false, false, new List<GameAction>(), inferred: true);
                         EventCaller.instance.minigames.Add(gameName, game);
                         if (Editor.Editor.instance != null)
                             Editor.Editor.instance.AddIcon(game);
@@ -221,7 +221,7 @@ namespace HeavenStudio
                     if (action == null)
                     {
                         Debug.LogWarning($"Unknown action {gameName}/{actionName} found in remix.json! Adding action...");
-                        var parameters = new List<Minigames.Param>();
+                        var parameters = new List<Param>();
                         foreach (var item in e.dynamicData)
                         {
                             Debug.Log($"k: {item.Key}, v: {item.Value}");
@@ -234,9 +234,9 @@ namespace HeavenStudio
                                 value = new EntityTypes.Integer(int.MinValue, int.MaxValue, (int)value);
                             else if (value.GetType() == typeof(double))
                                 value = new EntityTypes.Float(float.NegativeInfinity, float.PositiveInfinity, (float)value);
-                            parameters.Add(new Minigames.Param(item.Key, value, item.Key.DisplayName(), "[inferred from remix.json]"));
+                            parameters.Add(new Param(item.Key, value, item.Key.DisplayName(), "[inferred from remix.json]"));
                         }
-                        action = new Minigames.GameAction(actionName, actionName.DisplayName(), e.length, true, parameters);
+                        action = new GameAction(actionName, actionName.DisplayName(), "Events", e.length, true, parameters);
                         game.actions.Add(action);
                     }
 
@@ -250,12 +250,14 @@ namespace HeavenStudio
                             if (!e.dynamicData.ContainsKey(param.propertyName))
                             {
                                 Debug.LogWarning($"Property {param.propertyName} does not exist in the entity's dynamic data! Adding...");
-                                if (type == typeof(EntityTypes.Integer))
-                                    e.dynamicData.Add(param.propertyName, ((EntityTypes.Integer)param.parameter).val);
-                                else if (type == typeof(EntityTypes.Float))
-                                    e.dynamicData.Add(param.propertyName, ((EntityTypes.Float)param.parameter).val);
-                                else if (type == typeof(EntityTypes.Note))
-                                    e.dynamicData.Add(param.propertyName, ((EntityTypes.Note)param.parameter).val);
+                                if (param.parameter is EntityTypes.Integer intParam)
+                                    e.dynamicData.Add(param.propertyName, intParam.val);
+                                if (param.parameter is EntityTypes.Float floatParam)
+                                    e.dynamicData.Add(param.propertyName, floatParam.val);
+                                if (param.parameter is EntityTypes.Dropdown ddParam)
+                                    e.dynamicData.Add(param.propertyName, new EntityTypes.DropdownObj(ddParam));
+                                if (param.parameter is EntityTypes.Note noteParam)
+                                    e.dynamicData.Add(param.propertyName, noteParam.val);
                                 else if (type.IsEnum)
                                     e.dynamicData.Add(param.propertyName, (int)param.parameter);
                                 else
@@ -377,6 +379,15 @@ namespace HeavenStudio
             public bool hidden;
             public bool fxOnly;
             public List<GameAction> actions = new List<GameAction>();
+            
+
+            public uint? chronologicalSortKey;
+            // Yin: basically i figure this should just be whatever index number the minigame is
+            // in its game of origin. So, basically, like, if we're talking Rhythm Heaven DS, Built to
+            // Scale would be 1, then Fillbots would be 2, and so on. If it's an endless game, add 100.
+            // If it's a rhythm toy, add 200. If it's a 2-Player endless game, add 300. If it's a credits
+            // game... IDK, I guess just set it to 99. It works. If the game isn't a RH original then just
+            // put the date in YYYYMMDD format. Oh, and if it's a practice game set it to 0.
 
             public List<string> tags;
             public string defaultLocale = "en";
@@ -414,7 +425,7 @@ namespace HeavenStudio
                 set => soundSequences = value;
             }
 
-            public Minigame(string name, string displayName, string color, bool hidden, bool fxOnly, List<GameAction> actions, List<string> tags = null, string wantAssetBundle = null, string defaultLocale = "en", List<string> supportedLocales = null, bool inferred = false)
+            public Minigame(string name, string displayName, string color, bool hidden, bool fxOnly, List<GameAction> actions, List<string> tags = null, string wantAssetBundle = null, string defaultLocale = "en", List<string> supportedLocales = null, bool inferred = false, uint? chronologicalSortKey = null)
             {
                 this.name = name;
                 this.displayName = displayName;
@@ -431,9 +442,11 @@ namespace HeavenStudio
 
                 this.splitColorL = null;
                 this.splitColorR = null;
+
+                this.chronologicalSortKey = chronologicalSortKey;
             }
 
-            public Minigame(string name, string displayName, string color, string splitColorL, string splitColorR, bool hidden, bool fxOnly, List<GameAction> actions, List<string> tags = null, string wantAssetBundle = null, string defaultLocale = "en", List<string> supportedLocales = null, bool inferred = false)
+            public Minigame(string name, string displayName, string color, string splitColorL, string splitColorR, bool hidden, bool fxOnly, List<GameAction> actions, List<string> tags = null, string wantAssetBundle = null, string defaultLocale = "en", List<string> supportedLocales = null, bool inferred = false, uint? chronologicalSortKey = null)
             {
                 this.name = name;
                 this.displayName = displayName;
@@ -450,6 +463,8 @@ namespace HeavenStudio
 
                 this.splitColorL = splitColorL;
                 this.splitColorR = splitColorR;
+
+                this.chronologicalSortKey = chronologicalSortKey;
             }
 
             bool alreadyLoading = false;
@@ -644,6 +659,7 @@ namespace HeavenStudio
         {
             public string actionName;
             public string displayName;
+            public string tabName;
             public EventCallback function = delegate { };
             public float defaultLength = 1;
             public bool resizable = false;
@@ -669,11 +685,12 @@ namespace HeavenStudio
             /// <param name="preFunction">What the block does when the GameManager seeks to this cue for pre-scheduling.</param>
             /// <param name="hidden">Prevents the block from being shown in the game list. Block will still function normally if it is in the timeline.</param>
             /// <param name="priority">Priority of this event. Higher priority events will be run first.</param>
-            public GameAction(string actionName, string displayName, float defaultLength = 1, bool resizable = false, List<Param> parameters = null, EventCallback function = null, EventCallback inactiveFunction = null, EventCallback preFunction = null, bool hidden = false, int priority = 0, float preFunctionLength = 2.0f)
+            public GameAction(string actionName, string displayName, string tabName, float defaultLength = 1, bool resizable = false, List<Param> parameters = null, EventCallback function = null, EventCallback inactiveFunction = null, EventCallback preFunction = null, bool hidden = false, int priority = 0, float preFunctionLength = 2.0f)
             {
                 this.actionName = actionName;
-                if (displayName == String.Empty) this.displayName = actionName;
-                else this.displayName = displayName;
+                this.displayName = string.IsNullOrEmpty(displayName) ? actionName : displayName;
+                this.tabName = string.IsNullOrEmpty(tabName) ? "Events" : tabName;
+
                 this.defaultLength = defaultLength;
                 this.resizable = resizable;
                 this.parameters = parameters;
@@ -691,11 +708,12 @@ namespace HeavenStudio
             /// </summary>
             /// <param name="actionName">Entity model name</param>
             /// <param name="displayName">Name of the block used in the UI</param>
-            public GameAction(string actionName, string displayName)
+            /// <param name="tabName">Name of the tab to be under when spawning events</param>
+            public GameAction(string actionName, string displayName, string tabName = "")
             {
                 this.actionName = actionName;
-                if (displayName == String.Empty) this.displayName = actionName;
-                else this.displayName = displayName;
+                this.displayName = string.IsNullOrEmpty(displayName) ? actionName : displayName;
+                this.tabName = tabName == string.Empty ? "Events" : tabName; // keep it null if it's null
             }
         }
 
@@ -749,7 +767,7 @@ namespace HeavenStudio
             {
                 new Minigame("gameManager", "Game Manager", "", false, true, new List<GameAction>()
                 {
-                    new GameAction("switchGame", "Switch Game", 0.5f, false,
+                    new GameAction("switchGame", "Switch Game", null, 0.5f, false,
                         function: delegate { var e = eventCaller.currentEntity; GameManager.instance.SwitchGame(eventCaller.currentSwitchGame, eventCaller.currentEntity.beat, e["toggle"]); },
                         parameters: new List<Param>()
                             {
@@ -757,7 +775,7 @@ namespace HeavenStudio
                             },
                         inactiveFunction: delegate { var e = eventCaller.currentEntity; GameManager.instance.SwitchGame(eventCaller.currentSwitchGame, eventCaller.currentEntity.beat, e["toggle"]); }
                     ),
-                    new GameAction("end", "End Remix",
+                    new GameAction("end", "End Remix", "",
                         function: delegate {
                             Debug.Log("end");
                             if (Timeline.instance != null)
@@ -766,7 +784,7 @@ namespace HeavenStudio
                                 GameManager.instance.Stop(eventCaller.currentEntity.beat);
                         }
                     ),
-                    new GameAction("skill star", "Skill Star", 1f, true)
+                    new GameAction("skill star", "Skill Star", "", 1f, true)
                     {
                         //temp for testing
                         function = delegate {
@@ -774,7 +792,7 @@ namespace HeavenStudio
                             Common.SkillStarManager.instance.DoStarIn(e.beat, e.length);
                         }
                     },
-                    new GameAction("toggle inputs", "Toggle Inputs", 0.5f, true,
+                    new GameAction("toggle inputs", "Toggle Inputs", "", 0.5f, true,
                         new List<Param>()
                         {
                             new Param("toggle", true, "Allow Inputs", "Toggle if the player is able to input. Any missed cues while this is disabled will not be counted as a miss and will not break a perfect.")
@@ -788,7 +806,7 @@ namespace HeavenStudio
 
                 new Minigame("countIn", "Count-Ins", "", false, true, new List<GameAction>()
                 {
-                    new GameAction("count-in", "Count-In", 4f, true,
+                    new GameAction("count-in", "Count-In", "Built", 4f, true,
                         new List<Param>()
                         {
                             new Param("alt", false, "Alt", "Set the type of sounds to use for the count-in."),
@@ -799,7 +817,7 @@ namespace HeavenStudio
                             SoundEffects.CountIn(e.beat, e.length, e["alt"], e["go"]);
                         }
                     ),
-                    new GameAction("4 beat count-in", "4 Beat Count-In", 4f, true,
+                    new GameAction("4 beat count-in", "4 Beat Count-In", "Built", 4f, true,
                         new List<Param>()
                         {
                             new Param("type", SoundEffects.CountInType.Normal, "Type", "Set the type of sounds to use for the count-in.")
@@ -809,7 +827,7 @@ namespace HeavenStudio
                             SoundEffects.FourBeatCountIn(e.beat, e.length / 4f, e["type"]);
                         }
                     ),
-                    new GameAction("8 beat count-in", "8 Beat Count-In", 8f, true,
+                    new GameAction("8 beat count-in", "8 Beat Count-In", "Built", 8f, true,
                         new List<Param>()
                         {
                             new Param("type", SoundEffects.CountInType.Normal, "Type", "Set the type of sounds to use for the count-in.")
@@ -819,7 +837,7 @@ namespace HeavenStudio
                             SoundEffects.EightBeatCountIn(e.beat, e.length / 8f, e["type"]);
                         }
                     ),
-                    new GameAction("count", "Count", 1f, false,
+                    new GameAction("count", "Count", "Single", 1f, false,
                         new List<Param>()
                         {
                             new Param("type", SoundEffects.CountNumbers.One, "Type", "Set the number to say."),
@@ -830,16 +848,16 @@ namespace HeavenStudio
                             SoundEffects.Count(e["type"], e["toggle"]);
                         }
                     ),
-                    new GameAction("cowbell", "Cowbell",
+                    new GameAction("cowbell", "Cowbell", "Single",
                         function: delegate { SoundEffects.Cowbell(); }
                     ),
-                    new GameAction("ready!", "Ready!", 2f, true,
+                    new GameAction("ready!", "Ready!", "Single", 2f, true,
                         function: delegate { var e = eventCaller.currentEntity; SoundEffects.Ready(e.beat, (e.length / 2f)); }
                     ),
-                    new GameAction("and", "And", 0.5f,
+                    new GameAction("and", "And", "Single", 0.5f,
                         function: delegate { SoundEffects.And(); }
                     ),
-                    new GameAction("go!", "Go!", 1f, false,
+                    new GameAction("go!", "Go!", "Single", 1f, false,
                         new List<Param>()
                         {
                             new Param("toggle", false, "Alt", "Toggle if the alternate version of this voice line should be used.")
@@ -847,26 +865,26 @@ namespace HeavenStudio
                         function: delegate { SoundEffects.Go(eventCaller.currentEntity["toggle"]); }
                     ),
 
-                    // These are still here for backwards-compatibility but are hidden in the editor
-                    new GameAction("4 beat count-in (alt)", "", 4f, function: delegate { var e = eventCaller.currentEntity; SoundEffects.FourBeatCountIn(e.beat, e.length, 1); }, hidden: true),
-                    new GameAction("4 beat count-in (cowbell)", "", 4f, function: delegate { var e = eventCaller.currentEntity; SoundEffects.FourBeatCountIn(e.beat, e.length, 2); }, hidden: true),
-                    new GameAction("8 beat count-in (alt)", "", 8f, function: delegate { var e = eventCaller.currentEntity; SoundEffects.EightBeatCountIn(e.beat, e.length, 1); }, hidden: true),
-                    new GameAction("8 beat count-in (cowbell)", "", 8f, function: delegate { var e = eventCaller.currentEntity; SoundEffects.EightBeatCountIn(e.beat, e.length, 2); }, hidden: true),
+                    // // These are still here for backwards-compatibility but are hidden in the editor
+                    // new GameAction("4 beat count-in (alt)", "", 4f, function: delegate { var e = eventCaller.currentEntity; SoundEffects.FourBeatCountIn(e.beat, e.length, 1); }, hidden: true),
+                    // new GameAction("4 beat count-in (cowbell)", "", 4f, function: delegate { var e = eventCaller.currentEntity; SoundEffects.FourBeatCountIn(e.beat, e.length, 2); }, hidden: true),
+                    // new GameAction("8 beat count-in (alt)", "", 8f, function: delegate { var e = eventCaller.currentEntity; SoundEffects.EightBeatCountIn(e.beat, e.length, 1); }, hidden: true),
+                    // new GameAction("8 beat count-in (cowbell)", "", 8f, function: delegate { var e = eventCaller.currentEntity; SoundEffects.EightBeatCountIn(e.beat, e.length, 2); }, hidden: true),
 
-                    new GameAction("one", "", function: delegate { SoundEffects.Count(0, false); }, hidden: true),
-                    new GameAction("two", "", function: delegate { SoundEffects.Count(1, false); }, hidden: true),
-                    new GameAction("three", "", function: delegate { SoundEffects.Count(2, false); }, hidden: true),
-                    new GameAction("four", "", function: delegate { SoundEffects.Count(3, false); }, hidden: true),
-                    new GameAction("one (alt)", "", function: delegate { SoundEffects.Count(0, true); }, hidden: true),
-                    new GameAction("two (alt)", "", function: delegate { SoundEffects.Count(1, true); }, hidden: true),
-                    new GameAction("three (alt)", "", function: delegate { SoundEffects.Count(2, true); }, hidden: true),
-                    new GameAction("four (alt)", "", function: delegate { SoundEffects.Count(3, true); }, hidden: true),
-                    new GameAction("go! (alt)", "", function: delegate { SoundEffects.Go(true); }, hidden: true),
+                    // new GameAction("one", "", function: delegate { SoundEffects.Count(0, false); }, hidden: true),
+                    // new GameAction("two", "", function: delegate { SoundEffects.Count(1, false); }, hidden: true),
+                    // new GameAction("three", "", function: delegate { SoundEffects.Count(2, false); }, hidden: true),
+                    // new GameAction("four", "", function: delegate { SoundEffects.Count(3, false); }, hidden: true),
+                    // new GameAction("one (alt)", "", function: delegate { SoundEffects.Count(0, true); }, hidden: true),
+                    // new GameAction("two (alt)", "", function: delegate { SoundEffects.Count(1, true); }, hidden: true),
+                    // new GameAction("three (alt)", "", function: delegate { SoundEffects.Count(2, true); }, hidden: true),
+                    // new GameAction("four (alt)", "", function: delegate { SoundEffects.Count(3, true); }, hidden: true),
+                    // new GameAction("go! (alt)", "", function: delegate { SoundEffects.Go(true); }, hidden: true),
                 }),
 
                 new Minigame("vfx", "Visual Effects", "", false, true, new List<GameAction>()
                 {
-                    new GameAction("flash", "Flash/Fade", 1f, true,
+                    new GameAction("flash", "Flash/Fade", "VFX", 1f, true,
                         new List<Param>()
                         {
                             new Param("colorA", Color.white, "Start Color", "Set the color at the start of the event."),
@@ -879,7 +897,7 @@ namespace HeavenStudio
                             })
                         }
                     ),
-                    new GameAction("filter", "Filter", 1f, true,
+                    new GameAction("filter", "Filter", "VFX", 1f, true,
                         new List<Param>()
                         {
                             new Param("filter", Games.Global.Filter.FilterType.grayscale, "Type", "Set the type of filter to use."),
@@ -899,7 +917,7 @@ namespace HeavenStudio
                             }),
                         }
                     ),
-                    new GameAction("move camera", "Move Camera", 1f, true, new List<Param>()
+                    new GameAction("move camera", "Move Camera", "Camera", 1f, true, new List<Param>()
                         {
                             new Param("valA", new EntityTypes.Float(-50, 50, 0), "Right / Left", "Set the position on the X axis."),
                             new Param("valB", new EntityTypes.Float(-50, 50, 0), "Up / Down", "Set the position on the Y axis."),
@@ -908,16 +926,16 @@ namespace HeavenStudio
                             new Param("axis", GameCamera.CameraAxis.All, "Axis", "Set if only a specific axis should be modified." )
                         }
                     ),
-                    new GameAction("rotate camera", "Rotate Camera", 1f, true, new List<Param>()
+                    new GameAction("rotate camera", "Rotate Camera", "Camera", 1f, true, new List<Param>()
                         {
-                            new Param("valA", new EntityTypes.Integer(-360, 360, 0), "Pitch", "Set the up/down rotation."),
-                            new Param("valB", new EntityTypes.Integer(-360, 360, 0), "Yaw", "Set the left/right rotation."),
-                            new Param("valC", new EntityTypes.Integer(-360, 360, 0), "Roll", "Set the clockwise/counterclockwise rotation."),
+                            new Param("valA", new EntityTypes.Float(-360, 360, 0), "Pitch", "Set the up/down rotation."),
+                            new Param("valB", new EntityTypes.Float(-360, 360, 0), "Yaw", "Set the left/right rotation."),
+                            new Param("valC", new EntityTypes.Float(-360, 360, 0), "Roll", "Set the clockwise/counterclockwise rotation."),
                             new Param("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action."),
                             new Param("axis", GameCamera.CameraAxis.All, "Axis", "Set if only a specific axis should be modified." )
                         }
                     ),
-                     new GameAction("pan view", "Pan Viewport", 1f, true, new List<Param>()
+                     new GameAction("pan view", "Pan Viewport", "Camera", 1f, true, new List<Param>()
                         {
                             new Param("valA", new EntityTypes.Float(-50, 50, 0), "Right / Left", "Set the position on the X axis."),
                             new Param("valB", new EntityTypes.Float(-50, 50, 0), "Up / Down", "Set the position on the Y axis."),
@@ -925,13 +943,13 @@ namespace HeavenStudio
                             new Param("axis", StaticCamera.ViewAxis.All, "Axis", "Set if only a specific axis should be modified." )
                         }
                     ),
-                    new GameAction("rotate view", "Rotate Viewport", 1f, true, new List<Param>()
+                    new GameAction("rotate view", "Rotate Viewport", "Camera", 1f, true, new List<Param>()
                         {
                             new Param("valA", new EntityTypes.Float(-360, 360, 0), "Rotation", "Set the clockwise/counterclockwise rotation."),
                             new Param("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action."),
                         }
                     ),
-                    new GameAction("scale view", "Scale Viewport", 1f, true, new List<Param>()
+                    new GameAction("scale view", "Scale Viewport", "Camera", 1f, true, new List<Param>()
                         {
                             new Param("valA", new EntityTypes.Float(-50f, 50, 1), "Width", "Set the width of the viewport."),
                             new Param("valB", new EntityTypes.Float(-50f, 50, 1), "Height", "Set the height of the viewport."),
@@ -939,7 +957,7 @@ namespace HeavenStudio
                             new Param("axis", StaticCamera.ViewAxis.All, "Axis", "Set if only a specific axis should be modified." )
                         }
                     ),
-                    new("stretch camera", "Stretch Camera")
+                    new("stretch camera", "Stretch Camera", "Camera")
                     {
                         resizable = true,
                         parameters = new()
@@ -955,7 +973,7 @@ namespace HeavenStudio
                             new Param("axis", GameCamera.CameraAxis.All, "Axis", "Set if only a specific axis should be modified.")
                         }
                     },
-                    new GameAction("fitScreen", "Force Game Stretching To Window")
+                    new GameAction("fitScreen", "Force Game Stretching To Window", "Camera")
                     {
                         defaultLength = 0.5f,
                         parameters = new()
@@ -963,7 +981,7 @@ namespace HeavenStudio
                             new("enable", true, "Enabled", "Toggle if the game should be forced to stretch to the window size, removing the letterbox.")
                         }
                     },
-                    new GameAction("screen shake", "Screen Shake", 1f, true,
+                    new GameAction("screen shake", "Screen Shake", "Camera", 1f, true,
                         new List<Param>()
                         {
                             new Param("easedA", new EntityTypes.Float(0, 10, 0), "Start Horizontal Intensity", "Set the horizontal intensity of the screen shake at the start of the event."),
@@ -976,7 +994,7 @@ namespace HeavenStudio
                             }),
                         }
                     ),
-                    new GameAction("display textbox", "Display Textbox", 1f, true, new List<Param>()
+                    new GameAction("display textbox", "Display Textbox", "Text", 1f, true, new List<Param>()
                         {
                             new Param("text1", "", "Text", "Set the text to display in the textbox. Rich text is supported."),
                             new Param("type", Games.Global.Textbox.TextboxAnchor.TopMiddle, "Anchor", "Set where to anchor the textbox."),
@@ -984,7 +1002,7 @@ namespace HeavenStudio
                             new Param("valB", new EntityTypes.Float(0.5f, 8, 1), "Height", "Set the height of the textbox.")
                         }
                     ),
-                    new GameAction("display open captions", "Display Open Captions", 1f, true,
+                    new GameAction("display open captions", "Display Open Captions", "Text", 1f, true,
                         new List<Param>()
                         {
                             new Param("text1", "", "Text", "Set the text to display in the captions. Rich text is supported."),
@@ -993,7 +1011,7 @@ namespace HeavenStudio
                             new Param("valB", new EntityTypes.Float(0.5f, 8, 1), "Height", "Set the height of the captions.")
                         }
                     ),
-                    new GameAction("display closed captions", "Display Closed Captions", 1f, true,
+                    new GameAction("display closed captions", "Display Closed Captions", "Text", 1f, true,
                         new List<Param>()
                         {
                             new Param("text1", "", "Text", "Set the text to display in the captions. Rich text is supported."),
@@ -1001,7 +1019,7 @@ namespace HeavenStudio
                             new Param("valA", new EntityTypes.Float(0.5f, 4, 1), "Height", "Set the height of the captions.")
                         }
                     ),
-                    new GameAction("display song artist", "Display Song Info", 1f, true,
+                    new GameAction("display song artist", "Display Song Info", "Text", 1f, true,
                         new List<Param>()
                         {
                             new Param("text1", "", "Title", "Set the text to display in the upper label. Rich text is supported."),
@@ -1010,7 +1028,7 @@ namespace HeavenStudio
                             new Param("instantOff", false, "Instant Hide", "Toggle if the slide-out animation should be skipped."),
                         }
                     ),
-                    new GameAction("camera background color", "Camera Background Color", 1, true, new List<Param>()
+                    new GameAction("camera background color", "Camera Background Color", "Camera", 1, true, new List<Param>()
                         {
                             new Param("color", Color.black, "Start Color", "Set the color at the start of the event."),
                             new Param("color2", Color.black, "End Color", "Set the color at the end of the event."),
@@ -1019,16 +1037,22 @@ namespace HeavenStudio
                     ),
 
                     // Post Processing VFX
-                    new GameAction("vignette", "Vignette")
+                    new GameAction("vignette", "Vignette", "VFX")
                     {
                         resizable = true,
                         parameters = new()
                         {
-                            new("intenStart", new EntityTypes.Float(0f, 1f), "Start Intensity", "Set the intensity at the start of the event."),
-                            new("intenEnd", new EntityTypes.Float(0f, 1f, 1f), "End Intensity", "Set the intensity at the end of the event."),
+                            new("intenStart", new EntityTypes.Float(0f, 20f), "Start Intensity", "Set the intensity at the start of the event."),
+                            new("intenEnd", new EntityTypes.Float(0f, 20f, 1f), "End Intensity", "Set the intensity at the end of the event."),
 
                             new("colorStart", Color.black, "Start Color", "Set the color at the start of the event."),
                             new("colorEnd", Color.black, "End Color", "Set the color at the end of the event."),
+
+                            new("xLocStart", new EntityTypes.Float(0.0f, 1f, 0.5f), "Start X Location", "Set the X location at the start of the event."),
+                            new("xLocEnd", new EntityTypes.Float(0.0f, 1f, 0.5f), "End X Location", "Set the X location at the end of the event."),
+
+                             new("yLocStart", new EntityTypes.Float(0.0f, 1f, 0.5f), "Start Y Location", "Set the Y location at the start of the event."),
+                            new("yLocEnd", new EntityTypes.Float(0.0f, 1f, 0.5f), "End Y Location", "Set the Y location at the end of the event."),
 
                             new("smoothStart", new EntityTypes.Float(0.01f, 1f, 0.2f), "Start Smoothness", "Set the smoothness at the start of the event."),
                             new("smoothEnd", new EntityTypes.Float(0.01f, 1f, 0.2f), "End Smoothness", "Set the smoothness at the end of the event."),
@@ -1039,11 +1063,11 @@ namespace HeavenStudio
 
                             new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.", new()
                             {
-                                new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "intenStart", "colorStart", "smoothStart", "roundStart" })
+                                new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "intenStart", "colorStart", "smoothStart", "roundStart", "xLocStart", "yLocStart" })
                             }),
                         }
                     },
-                    new GameAction("cabb", "Chromatic Aberration")
+                    new GameAction("cabb", "Chromatic Aberration", "VFX")
                     {
                         resizable = true,
                         parameters = new()
@@ -1056,7 +1080,7 @@ namespace HeavenStudio
                             }),
                         }
                     },
-                    new GameAction("bloom", "Bloom")
+                    new GameAction("bloom", "Bloom", "VFX")
                     {
                         resizable = true,
                         parameters = new()
@@ -1082,7 +1106,7 @@ namespace HeavenStudio
                             }),
                         }
                     },
-                    new GameAction("lensD", "Lens Distortion")
+                    new GameAction("lensD", "Lens Distortion", "VFX")
                     {
                         resizable = true,
                         parameters = new()
@@ -1101,7 +1125,7 @@ namespace HeavenStudio
                             }),
                         }
                     },
-                    new GameAction("grain", "Grain")
+                    new GameAction("grain", "Grain", "VFX")
                     {
                         resizable = true,
                         parameters = new()
@@ -1120,7 +1144,8 @@ namespace HeavenStudio
                             }),
                         }
                     },
-                    new GameAction("colorGrading", "Color Grading")
+
+                    new GameAction("colorGrading", "Color Grading", "VFX")
                     {
                         resizable = true,
                         parameters = new()
@@ -1152,7 +1177,166 @@ namespace HeavenStudio
                             }),
                         }
                     },
-                    new GameAction("screenTiling", "Tile Screen")
+
+                    new GameAction("gaussBlur", "Gaussian Blur", "VFX")
+                    {
+                        resizable = true,
+                        parameters = new()
+                        {
+                            new("intenStart", new EntityTypes.Float(0f, 5f, 0f), "Start Intensity", "Set the intensity at the start of the event."),
+                            new("intenEnd", new EntityTypes.Float(0f, 5f, 1f), "End Intensity", "Set the intensity at the end of the event."),
+
+                            new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.", new()
+                            {
+                                new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "intenStart" })
+                            }),
+                        }
+                    },
+
+                    new GameAction("pixelQuad", "Pixelize", "VFX")
+                    {
+                        resizable = true,
+                        parameters = new()
+                        {
+                            new("pixelSizeStart", new EntityTypes.Float(0.00f, 1f, 0.00f), "Start Pixel Size", "Set the pixel size at the start of the event."),
+                            new("pixelSizeEnd", new EntityTypes.Float(0.00f, 1f, 0.5f), "End Pixel Size", "Set the pixel size at the end of the event."),
+                            new("ratioStart", new EntityTypes.Float(0.2f, 5f, 1f), "Start Pixel Ratio", "Set the pixel ratio at the start of the event."),
+                            new("ratioEnd", new EntityTypes.Float(0.2f, 5f, 1f), "End Pixel Ratio", "Set the pixel ratio at the end of the event."),
+                            new("xScaleStart", new EntityTypes.Float(0.2f, 5f, 1f), "Start X Scale", "Set the X scale of the pixels at the start of the event."),
+                            new("xScaleEnd", new EntityTypes.Float(0.2f, 5f, 1f), "End X Scale", "Set the X scale of the pixels at the end of the event."),
+                            new("yScaleStart", new EntityTypes.Float(0.2f, 5f, 1f), "Start Y Scale", "Set the Y scale of the pixels at the start of the event."),
+                            new("yScaleEnd", new EntityTypes.Float(0.2f, 5f, 1f), "End Y Scale", "Set the Y scale of the pixels at the end of the event."),
+                            new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.", new()
+                            {
+                                new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "pixelSizeStart", "ratioStart", "xScaleStart", "yScaleStart" })
+                            }),
+                        }
+                    },
+
+                    new GameAction("pixelQuad", "Pixelize", "VFX")
+                    {
+                        resizable = true,
+                        parameters = new()
+                        {
+                            new("pixelSizeStart", new EntityTypes.Float(0.00f, 1f, 0.00f), "Start Pixel Size", "Set the pixel size at the start of the event."),
+                            new("pixelSizeEnd", new EntityTypes.Float(0.00f, 1f, 0.5f), "End Pixel Size", "Set the pixel size at the end of the event."),
+                            new("ratioStart", new EntityTypes.Float(0.2f, 5f, 1f), "Start Pixel Ratio", "Set the pixel ratio at the start of the event."),
+                            new("ratioEnd", new EntityTypes.Float(0.2f, 5f, 1f), "End Pixel Ratio", "Set the pixel ratio at the end of the event."),
+                            new("xScaleStart", new EntityTypes.Float(0.2f, 5f, 1f), "Start X Scale", "Set the X scale of the pixels at the start of the event."),
+                            new("xScaleEnd", new EntityTypes.Float(0.2f, 5f, 1f), "End X Scale", "Set the X scale of the pixels at the end of the event."),
+                            new("yScaleStart", new EntityTypes.Float(0.2f, 5f, 1f), "Start Y Scale", "Set the Y scale of the pixels at the start of the event."),
+                            new("yScaleEnd", new EntityTypes.Float(0.2f, 5f, 1f), "End Y Scale", "Set the Y scale of the pixels at the end of the event."),
+                            new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.", new()
+                            {
+                                new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "pixelSizeStart", "ratioStart", "xScaleStart", "yScaleStart" })
+                            }),
+                        }
+                    },
+
+                    new GameAction("retroTv", "Retro TV", "VFX")
+                    {
+                        resizable = true,
+                        parameters = new()
+                        {
+                            new("intenStart", new EntityTypes.Float(0f, 1f, 0f), "Start Distortion", "Set the distortion at the start of the event."),
+                            new("intenEnd", new EntityTypes.Float(0f, 1f, 0.2f), "End Distortion", "Set the distortion at the end of the event."),
+
+                            new("rgbStart", new EntityTypes.Float(0f, 1f, 1f), "Start RGB Blend", "Set the RGB blend at the start of the event."),
+                            new("rgbEnd", new EntityTypes.Float(0f, 1f, 1f), "End RGB Blend", "Set the RGB blend at the end of the event."),
+
+                            new("bottomStart", new EntityTypes.Float(0f, 1f, 0.02f), "Start Bottom Collapse", "Set the bottom collapse at the start of the event."),
+                            new("bottomEnd", new EntityTypes.Float(0f, 1f, 0.02f), "End Bottom Collapse", "Set the bottom collapse at the end of the event."),
+
+                            new("noiseStart", new EntityTypes.Float(0f, 1f, 0.3f), "Start Noise", "Set the noise at the start of the event."),
+                            new("noiseEnd", new EntityTypes.Float(0f, 1f, 0.3f), "End Noise", "Set the noise knee at the end of the event."),
+
+                            new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.", new()
+                            {
+                                new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "intenStart", "rgbStart", "bottomStart", "noiseStart"})
+                            }),
+                        }
+                    },
+
+                    new GameAction("scanJitter", "Scan Line Jitter", "VFX")
+                    {
+                        resizable = true,
+                        parameters = new()
+                        {
+                            new("intenStart", new EntityTypes.Float(0f, 1f, 0f), "Start Intensity", "Set the intensity at the start of the event."),
+                            new("intenEnd", new EntityTypes.Float(0f, 1f, 0.1f), "End Intensity", "Set the intensity at the end of the event."),
+
+                            new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.", new()
+                            {
+                                new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "intenStart" })
+                            }),
+                        }
+                    },
+
+                    new GameAction("analogNoise", "Analog Noise", "VFX")
+                    {
+                        resizable = true,
+                        parameters = new()
+                        {
+                            new("intenStart", new EntityTypes.Float(0f, 1f, 0f), "Start Speed", "Set the speed at the start of the event."),
+                            new("intenEnd", new EntityTypes.Float(0f, 1f, 0.5f), "End Speed", "Set the speed at the end of the event."),
+
+                            new("fadingStart", new EntityTypes.Float(0f, 1f, 0f), "Start Fading", "Set the fading at the start of the event."),
+                            new("fadingEnd", new EntityTypes.Float(0f, 1f, 0.1f), "End Fading", "Set the fading at the end of the event."),
+
+                            new("thresholdStart", new EntityTypes.Float(0f, 1f, 0f), "Start Threshold", "Set the threshold at the start of the event."),
+                            new("thresholdEnd", new EntityTypes.Float(0f, 1f, 0.8f), "End Threshold", "Set the threshold at the end of the event."),
+
+                            new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.", new()
+                            {
+                                new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "intenStart", "fadingStart", "thresholdStart"})
+                            }),
+                        }
+                    },
+
+                    new GameAction("screenJump", "Screen Jump", "VFX")
+                    {
+                        resizable = true,
+                        parameters = new()
+                        {
+                            new("intenStart", new EntityTypes.Float(0f, 1f, 0f), "Start Intensity", "Set the intensity at the start of the event."),
+                            new("intenEnd", new EntityTypes.Float(0f, 1f, 0.01f), "End Intensity", "Set the intensity at the end of the event."),
+
+                            new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.", new()
+                            {
+                                new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "intenStart" })
+                            }),
+                        }
+                    },
+
+                    new GameAction("sobelNeon", "Neon", "VFX")
+                    {
+                        resizable = true,
+                        parameters = new()
+                        {
+                            new("intenStart", new EntityTypes.Float(0.0f, 1f, 0.0f), "Start Intensity", "Set the edge fade at the start of the event."),
+                            new("intenEnd", new EntityTypes.Float(0.0f, 1f, 1f), "End Intensity", "Set the edge fade at the end of the event."),
+
+                            new("edgeWidthStart", new EntityTypes.Float(0.00f, 5f, 0.0f), "Start Edge Width", "Set the edge width at the start of the event."),
+                            new("edgeWidthEnd", new EntityTypes.Float(0.00f, 5f, 2f), "End Edge Width", "Set the edge width at the end of the event."),
+
+                            new("bgFadeStart", new EntityTypes.Float(0f, 1f, 1f), "Start Background Presence", "Set the background presence at the start of the event."),
+                            new("bgFadeEnd", new EntityTypes.Float(0f, 1f, 0f), "End Background Presence", "Set the background presence at the end of the event."),
+
+
+                            new("brightnessStart", new EntityTypes.Float(0f, 2f, 1f), "Start Brightness", "Set the brightness at the start of the event."),
+                            new("brightnessEnd", new EntityTypes.Float(0f, 2f, 1f), "End Brightness", "Set the brightness at the end of the event."),
+
+
+
+                            new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.", new()
+                            {
+                                new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "intenStart", "edgeWidthStart", "bgFadeStart", "brightnessStart" })
+                            }),
+                        }
+                    },
+
+                    
+                    new GameAction("screenTiling", "Tile Screen", "VFX")
                     {
                         resizable = true,
                         parameters = new()
@@ -1168,7 +1352,7 @@ namespace HeavenStudio
                             }),
                         }
                     },
-                    new GameAction("scrollTiles", "Scroll Tiles")
+                    new GameAction("scrollTiles", "Scroll Tiles", "VFX")
                     {
                         resizable = true,
                         parameters = new()
@@ -1183,12 +1367,14 @@ namespace HeavenStudio
                                 new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "xScrollStart", "yScrollStart" })
                             }),
                         }
-                    }
+                    },
+
+
                 }),
 
                 new Minigame("advanced", "Advanced", "", false, true, new List<GameAction>()
                 {
-                    new GameAction("play animation", "Play Animation", 0.5f, false,
+                    new GameAction("play animation", "Play Animation", "Play", 0.5f, false,
                         new List<Param>()
                         {
                             new Param("getAnimators", new EntityTypes.Button("No Game", e => {
@@ -1243,7 +1429,7 @@ namespace HeavenStudio
                             GameManager.instance.PlayAnimationArbitrary(e["animator"].CurrentValue, e["animation"].CurrentValue, e["scale"]);
                         }
                     ),
-                    new GameAction("play sfx", "Play SFX", 0.5f, true,
+                    new GameAction("play sfx", "Play SFX", "Play", 0.5f, true,
                         new List<Param>()
                         {
                             new Param("game", new EntityTypes.Dropdown(), "Which Game", "Specify the game's sfx to play. An empty input will play global sfx."),
@@ -1274,7 +1460,7 @@ namespace HeavenStudio
                             new Param("semitones", new EntityTypes.Integer(-EntityTypes.Note.maxSemitones, EntityTypes.Note.maxSemitones, 0), "Semitones", "The semitones of the sfx."),
                             new Param("cents", new EntityTypes.Integer(-100, 100, 0), "Cents", "The cents of the sfx."),
                             new Param("pitch", new EntityTypes.Float(0, 5, 1), "Pitch", "The pitch of the sfx."),
-                            new Param("volume", new EntityTypes.Float(0, 2, 1), "Volume", "The volume of the sfx."),
+                            new Param("volume", new EntityTypes.Float(0, 5, 1), "Volume", "The volume of the sfx."),
                             new Param("offset", new EntityTypes.Integer(-500, 500), "Offset (ms)", "The offset of the sfx in milliseconds."),
                             new Param("loop", false, "Loop", "Loop the sfx for the length of the block."),
                         },
