@@ -18,8 +18,10 @@ using System.Linq;
 using BurstLinq;
 using HeavenStudio.InputSystem;
 using UnityEngine.U2D;
+#if UNITY_EDITOR
 using UnityEditor.U2D;
 using UnityEditor.Sprites;
+#endif
 
 namespace HeavenStudio.Editor
 {
