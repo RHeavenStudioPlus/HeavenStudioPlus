@@ -243,7 +243,7 @@ namespace HeavenStudio.Editor.Track
 
             if (create)
             {
-                RiqEntity sectionC = GameManager.instance.Beatmap.AddNewSectionMarker(Timeline.instance.MousePos2BeatSnap, "New Section");
+                RiqEntity sectionC = GameManager.instance.Beatmap.AddNewSectionMarker(Timeline.instance.MousePos2BeatSnap, "");
 
                 sectionC.CreateProperty("startPerfect", false);
                 sectionC.CreateProperty("weight", 1f);
