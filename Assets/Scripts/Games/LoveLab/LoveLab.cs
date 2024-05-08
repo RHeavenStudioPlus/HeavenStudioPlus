@@ -65,6 +65,7 @@ namespace HeavenStudio.Games.Loaders
                 {
                     function = delegate { LoveLab.instance.mainBoxGuy(e.currentEntity.beat, e.currentEntity["type"]); },
                     defaultLength = 2f,
+                    resizable = false,
                     parameters = new List<Param>()
                     {
                         new Param("type", LoveLab.boxGuyAction.takeAway, "Action", "Box Guy's Actions")
@@ -122,9 +123,10 @@ namespace HeavenStudio.Games.Loaders
                     priority = 1
                 }
             }
-        //new List<string>() { "ntr", "normal" },
+        //new List<string>() { "ntr", "repeat" },
         //"ntrlab", "en",
         //new List<string>() { "en" }
+        //chronologicalSortKey: 19
         );
     }
 }
@@ -206,6 +208,8 @@ namespace HeavenStudio.Games
         bool isLong = false;
         int isLongCount = 0;
         bool canCloudsMove = true;
+        bool hasShakenUp = false;
+        public double startBeat;
 
         [Header("Clouds")]
         [SerializeField] GameObject clouds;
@@ -238,6 +242,7 @@ namespace HeavenStudio.Games
         List<PlayerActionEvent> currentEvents;
         [SerializeField] List<int> currentHearts;
         [SerializeField] Transform endPoint;
+        [SerializeField] Vector3 spawnPoint;
         #endregion
 
 
@@ -389,10 +394,17 @@ namespace HeavenStudio.Games
                     Destroy(flaskObj);
                     weirdInstantiatedFlask.RemoveAt(0);
 
-                    labAssistantArm.DoScaledAnimationAsync("MittenGrab", 1f);
+                    labAssistantArm.DoScaledAnimationAsync("MittenGrabStart", 1f);
                 }),
 
-                new BeatAction.Action(beat + (addBeat + .5f), delegate
+                new BeatAction.Action(beat + (addBeat+1f), delegate
+                {
+
+                    labAssistantArm.DoScaledAnimationAsync("MittenGrab", 1f);
+                }),
+                
+
+                new BeatAction.Action(beat + (addBeat + 1.5f), delegate
                 {
                     labAssistantArm.DoScaledAnimationAsync("MittenLetGo", .5f);
                 }),
@@ -707,7 +719,7 @@ namespace HeavenStudio.Games
                 }
                 else
                 {
-                    ScheduleInput(beat, (length + addForEndBeat) + addDelay, InputAction_DPad, onUp, onMiss, onEmpty);
+                    ScheduleInput(beat, (length + addForEndBeat) + addDelay, IA_DPadPressing, onUp, onMiss, onEmpty);
                 }
 
             }
@@ -832,6 +844,7 @@ namespace HeavenStudio.Games
 
         public static void onUp(PlayerActionEvent caller, float beat)
         {
+            instance.hasShakenUp = true;
             SoundByte.PlayOneShotGame("loveLab/shakeUp");
             instance.labGirlArm.DoScaledAnimationAsync("ShakeFlaskUp");
             LoveLabHearts gh = Instantiate(instance.girlHeartObj, instance.heartHolder).GetComponent<LoveLabHearts>();
@@ -845,12 +858,14 @@ namespace HeavenStudio.Games
 
         public static void onDownAuto(PlayerActionEvent caller, float beat)
         {
+            instance.hasShakenUp = false;
             SoundByte.PlayOneShotGame("loveLab/shakeDown");
             instance.labGirlArm.DoScaledAnimationAsync("ShakeFlaskDown");
         }
 
         public static void onRelease(PlayerActionEvent caller, float beat)
         {
+            instance.hasShakenUp = false;
             instance.labGirlHead.DoScaledAnimationAsync("GirlIdleFace");
             SoundByte.PlayOneShotGame("loveLab/rightThrowNoShake");
             instance.labGirlArm.DoScaledAnimationAsync("ThrowFlask");
@@ -876,10 +891,12 @@ namespace HeavenStudio.Games
 
                     SoundByte.PlayOneShotGame("loveLab/heartsCombine");
 
-                    foreach(LoveLabHearts h in instance.girlHearts)
+                     foreach(LoveLabHearts h in instance.girlHearts)
                     {
                         h.stop = true;
                     }
+
+                    var additionalHearts = 0.063f;
 
                     for(int x = 0; x < instance.currentHearts[0]; x++)
                     {
@@ -888,25 +905,35 @@ namespace HeavenStudio.Games
 
                         LoveLabHearts a = Instantiate(instance.completeHeartObj, instance.heartHolder).GetComponent<LoveLabHearts>();
                         a.transform.position = new Vector2(a.transform.position.x, instance.girlHearts[0].transform.position.y);
+                        var additionalHeartLength = (0.063f * instance.girlHearts.Count);
                         a.heartBeat = caller.startBeat + caller.timer + 1f;
-                        a.end = instance.endPoint;
+                        a.dropStart = a.transform.position;
+                        a.end = instance.endPoint.position;
                         instance.completeHearts.Add(a);
-
+                        a.timer = (2.25f + additionalHeartLength);
+                        a.isWaiting = false;
                         //a.goDown();
 
                         instance.guyHearts.RemoveAt(0);
                         instance.girlHearts.RemoveAt(0);
                     }
 
-                    var additionalHearts = 0.063f;
-
-                    for(int x = 0; x < lastCounter; x++)
-                    {
-                        //Debug.LogWarning(2.25f + (additionalHearts * x));
-                        instance.completeHearts[x].timer = (2.25f + (additionalHearts * x));
-                    }
-
                     instance.currentHearts.RemoveAt(0);
+
+
+
+                    //for(int x = 0; x < lastCounter, x++)
+                    //{
+                        //Debug.LogWarning(2.25f + (additionalHearts * x));
+                        //instance.completeHearts[x].dropStart = instance.completeHearts[x].transform.position;
+                        
+                        //instance.completeHearts[x].timer = (2.25f + (additionalHearts * x));
+                        //instance.completeHearts[x].isWaiting = false;
+                    //}
+                    
+
+                    
+                    //instance.currentHearts.Clear();
                 }),
             });
 
@@ -946,6 +973,7 @@ namespace HeavenStudio.Games
             //SoundByte.PlayOneShot("miss");
             if (instance.hasMissed) return;
 
+            instance.hasShakenUp = false;
             instance.isHolding = false;
             instance.hasMissed = true;
             instance.labGuyHead.DoScaledAnimationAsync("GuyIdleFace");
@@ -1205,22 +1233,35 @@ namespace HeavenStudio.Games
             catch { }
         }
 
+        protected static bool IA_TouchDpadPress(out double dt)
+        {
+            
+            return PlayerInput.GetSlide(out dt) &&  !instance.hasShakenUp;
+        }
+        protected static bool IA_TouchDpadRelease(out double dt)
+        {
+            
+            return PlayerInput.GetSlide(out dt) &&  instance.hasShakenUp;
+        }
+
+
+
 
         #region IA
         const int IA_AltPress = IAMAXCAT;
 
         public static PlayerInput.InputAction IA_FlickPress =
             new("NtrLabFlickPress", new int[] { IAPressCat, IAFlickCat, IAPressCat },
-            IA_PadBasicPress, IA_TouchFlick, IA_BatonBasicPress);
+            IA_PadBasicPress, IA_TouchBasicPressing, IA_BatonBasicPress);
         public static PlayerInput.InputAction IA_FlickRelease =
             new("NtrLabFlickRelease", new int[] { IAReleaseCat, IAFlickCat, IAReleaseCat },
             IA_PadBasicRelease, IA_TouchFlick, IA_BatonBasicRelease);
         public static PlayerInput.InputAction IA_DPadRelease =
             new("NtrLabDPadRelease", new int[] { IAReleaseCat, IAFlickCat, IAReleaseCat },
-                IA_PadAnyUp, IA_TouchFlick, IA_BatonBasicRelease);
+                IA_PadAnyUp, IA_TouchDpadRelease, IA_BatonBasicRelease);
         public static PlayerInput.InputAction IA_DPadPressing =
-            new("NtrLabDPadRelease", new int[] { IAReleaseCat, IAFlickCat, IAReleaseCat },
-                IA_PadAnyPressingDown, IA_TouchBasicPressing, IA_BatonBasicPressing);
+            new("NtrLabDPadPress", new int[] { IAReleaseCat, IAFlickCat, IAReleaseCat },
+                IA_PadAnyPressingDown, IA_TouchDpadPress, IA_BatonBasicPressing);
 
         protected static bool IA_TouchNrmPress(out double dt)
         {
@@ -1408,6 +1449,8 @@ namespace HeavenStudio.Games
             var cond = Conductor.instance;
             var songPos = cond.songPositionInBeatsAsDouble;
 
+            float normalizedBeat = Conductor.instance.GetPositionFromBeat(startBeat, 5f);
+
             if (!cond.isPlaying)
             {
                 preChecks(songPos);
@@ -1419,10 +1462,10 @@ namespace HeavenStudio.Games
                 {
                     foreach (QueuedFlask flask in queuedFlask)
                     {
-                        switch (flask.type)
-                        {
-                        
-                        }
+                        //switch (flask.type)
+                        //{
+                        //
+                        //}
                     }
                     queuedFlask.Clear();
                 }
@@ -1440,24 +1483,44 @@ namespace HeavenStudio.Games
             {
                 Debug.LogWarning("whiff");
                 labGirlArm.DoScaledAnimationAsync("WhiffGrab");
+                
                 isHolding = true;
+
+                
             }
             else if (PlayerInput.GetIsAction(InputAction_BasicRelease) && !IsExpectingInputNow(InputAction_BasicRelease))
             {
                 labGirlArm.DoScaledAnimationAsync("ArmIdle");
+                instance.hasShakenUp = false;
                 isHolding = false;
             }
 
             #endregion
 
+                
+
             #region whiff up and down
             if (PlayerInput.GetIsAction(IA_DPadPressing) && PlayerInput.GetIsAction(InputAction_BasicPressing) && (!IsExpectingInputNow(IA_DPadPressing) && !IsExpectingInputNow(IA_DPadRelease)))
             {
-                onWhiffUp();
+                
+                    onWhiffUp();
+
+                    if (PlayerInput.CurrentControlStyle == InputController.ControlStyles.Touch)
+                {
+                    instance.hasShakenUp = true;
+                }
+            
             }
             else if (PlayerInput.GetIsAction(IA_DPadRelease) && PlayerInput.GetIsAction(InputAction_BasicPressing) && (!IsExpectingInputNow(IA_DPadRelease) && !IsExpectingInputNow(IA_DPadPressing)))
             {
-                onWhiffDown();
+
+                    onWhiffDown();
+
+                    if (PlayerInput.CurrentControlStyle == InputController.ControlStyles.Touch)
+                {
+                    instance.hasShakenUp = false;
+                }
+
             }
             #endregion
 
@@ -1577,11 +1640,13 @@ namespace HeavenStudio.Games
         #region Lab Girl Actions
         public void onWhiffUp()
         {
+            if (hasShakenUp && PlayerInput.CurrentControlStyle == InputController.ControlStyles.Touch) return;
             labGirlArm.DoScaledAnimationAsync("WhiffUp", 0.75f);
         }
 
         public void onWhiffDown()
         {
+            if (!hasShakenUp && PlayerInput.CurrentControlStyle == InputController.ControlStyles.Touch) return;
             labGirlArm.DoScaledAnimationAsync("WhiffDown", 0.75f);
         }
 

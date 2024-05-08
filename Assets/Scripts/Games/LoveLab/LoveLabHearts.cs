@@ -38,14 +38,18 @@ namespace HeavenStudio.Games.Scripts_LoveLab
         double endTime;
         public int heartCount;
         public bool hasChecked;
-        float playBackSpeed;
+        public float playBackSpeed;
         public double intervalSpeed;
         public float _step;
         public bool tweenComplete;
         Tween movePos;
         public bool onlyOne = true;
-        public Transform end;
+        public Vector3 end;
         public double timer;
+        public bool isWaiting = true;
+        SpriteRenderer heartRenderer;
+        public Vector3 dropStart;
+        public double currentBeat;
 
         //y = 0 (endpoint)
 
@@ -62,7 +66,8 @@ namespace HeavenStudio.Games.Scripts_LoveLab
         }
 
         private void Awake()
-        {
+        {if (whatHeartType != heartType.completeHeart)
+            {
             if(heartCount == 0)
             {
                 transform.position = new Vector2(transform.position.x, transform.position.y + 2f);
@@ -71,20 +76,32 @@ namespace HeavenStudio.Games.Scripts_LoveLab
             {
                 transform.position = new Vector2(transform.position.x, transform.position.y + 4f);
             }
+            }
             
             playBackSpeed = Timeline.instance.PlaybackSpeed.value;
             addPos = 2.5f; //3f
+            heartRenderer = this.GetComponent<SpriteRenderer>();
+            //dropStart = new Vector3 (transform.position.x, origPos.y+(addPos), transform.position.z);
+            
         }
 
         void Start()
         {
+            DOTween.SetTweensCapacity(2000, 100);
             game = LoveLab.instance;
             cond = Conductor.instance;
             timeLine = Timeline.instance;
             origPos = transform.position;
             //Debug.LogWarning(testContainer);
             speedMultiplier = game.speedForHeartsMultiplier;
+            //end.position = new Vector2(-2.7f, -3f);
             //test = (((float)intervalSpeed / cond.GetBpmAtBeat(heartBeat)) * playBackSpeed);
+
+            //var currentBeat = cond.songPositionInBeatsAsDouble;
+            //if (whatHeartType == heartType.completeHeart)
+            //{
+            //    tempDestroy(currentBeat+1.25f); //temporary until I can get the drop to work -- Wook
+            //}
 
             if(heartCount == 0)
             {
@@ -101,21 +118,27 @@ namespace HeavenStudio.Games.Scripts_LoveLab
             //{
             //    addPos = 1.5f;
             //}
-            DOTween.timeScale = playBackSpeed;
+            //DOTween.timeScale = playBackSpeed;
             var a = (float)(length * cond.secPerBeat) / playBackSpeed;
-            Debug.LogWarning("Length: " + length);
-            Debug.LogWarning("Sec per beat: " + cond.secPerBeat);
-            Debug.LogWarning("Playback: " + playBackSpeed);
-            debugSmth<float>(ref a);
+            //Debug.LogWarning("Length: " + length);
+            //Debug.LogWarning("Sec per beat: " + cond.secPerBeat);
+            //Debug.LogWarning("Playback: " + playBackSpeed);
+            //debugSmth<float>(ref a);
             endValue = transform.position.y + addPos;
-            upTween = transform.DOMoveY(endValue, (float)((length * cond.secPerBeat) / playBackSpeed)).SetEase(Ease.OutBack).OnComplete(restartTween);
+            upTween = transform.DOMoveY(endValue, (float)((length * cond.secPerBeat) / playBackSpeed)).SetEase(Ease.OutBack);
+            //.OnComplete(restartTween);
 
             //s
         }
 
         public void debugSmth<T>(ref T idk)
         {
-            Debug.LogWarning(idk);
+            //Debug.LogWarning(idk);
+        }
+
+        public void startDrop()
+        {
+            
         }
 
         public void updateBeat()
@@ -128,17 +151,15 @@ namespace HeavenStudio.Games.Scripts_LoveLab
             transform.position = new Vector3(transform.position.x, transform.position.y + .1f * playBackSpeed);
         }
 
-        public void restartTween()
-        {
-            upTween.ChangeEndValue(endValue);
-            upTween.Restart();
-        }
+        
 
         public Tweener upTween;
         public float endValue;
 
         void FixedUpdate()
         {
+            currentBeat = cond.songPositionInBeatsAsDouble;
+
             if(!stop && whatHeartType != heartType.completeHeart)
             {
                 //DOTween.timeScale = .7f * playBackSpeed;
@@ -150,37 +171,107 @@ namespace HeavenStudio.Games.Scripts_LoveLab
                 //transform.DOMoveY(origPos.y + (addPos), (float)((intervalSpeed / cond.GetBpmAtBeat(heartBeat)) * 60)).SetEase(Ease.OutBack);
                 //transform.DOMoveY(origPos.y + (addPos), (float)((intervalSpeed * cond.secPerBeat / cond.GetBpmAtBeat(heartBeat)) * 60) * playBackSpeed).SetEase(Ease.OutBack);
                 //transform.DOMoveY(origPos.y + (addPos), (float)((intervalSpeed * cond.secPerBeat / cond.GetBpmAtBeat(heartBeat)) * 60) * playBackSpeed).SetEase(Ease.OutBack);
-                // goUp((float)((intervalSpeed * cond.secPerBeat / cond.GetBpmAtBeat(heartBeat)) * 60) * playBackSpeed);
-                //goUp((float)((length * cond.secPerBeat)) / playBackSpeed);    
-                upTween.ChangeEndValue(endValue);
-                var t = ((float)cond.secPerBeat * length) * (transform.position.y - origPos.y) / ((origPos.y + addPos) - origPos.y);
-                upTween.Goto((float)t, true);
+                goUp((float)((intervalSpeed * cond.secPerBeat / cond.GetBpmAtBeat(heartBeat)) * 60) * playBackSpeed);
+                //goUp((float)((length*cond.secPerBeat))/playBackSpeed);
+                //DOTween.timeScale = playBackSpeed;
+                //DOTween.timeScale = cond.pitchedSecPerBeat;
+                //float normalizedBeat = Conductor.instance.GetPositionFromBeat(heartBeat, length);
+                //if (normalizedBeat <= 1) goUp((float)(((length * cond.secPerBeat)) / playBackSpeed));    
+                //upTween.ChangeEndValue(new Vector3(transform.position.x, endValue, transform.position.z));
+                //var t = ((float)cond.secPerBeat * length) * (transform.position.y - origPos.y) / addPos;
+                //upTween.Goto((float)t, true);
             }
-            else if(whatHeartType == heartType.completeHeart)
+            else if (!isWaiting)
             {
-                transform.DOMoveY(-1f, (float)(cond.secPerBeat / intervalSpeed) * playBackSpeed).SetEase(Ease.InBack);
+
+                float normalizedBeat = Conductor.instance.GetPositionFromBeat(heartBeat, ((timer/2)*playBackSpeed));
+                
+                float newPosY = EasingFunction.EaseInQuad(dropStart.y, end.y, normalizedBeat);
+
+                if (normalizedBeat<=1) transform.position = new Vector2(dropStart.x, newPosY);
+                else Destroy(this.gameObject);
+                //else destroyWhenDone();
+
+                //if (normalizedBeat >= 1) {destroyWhenDone();}
+                //transform.position = Vector2.Lerp(dropStart, end.position, newPosY);
+                //transform.position = new Vector2(transform.position.x, newPosY);
+
+                //if (isWaiting)
+                //{
+                    
+                    //transform.DOMoveY(transform.position.y, (float)(cond.secPerBeat / intervalSpeed) * playBackSpeed).SetEase(Ease.InBack);
+                //}
+                //else if (!isWaiting)
+                //{
+                    //DOTween.timeScale = cond.songPositionInBeats;
+                    
+                    //HandleHeartDrop( (float)timer);
+                //}
+                //transform.DOMoveY(transform.position.y, (float)(cond.secPerBeat / intervalSpeed) * playBackSpeed).SetEase(Ease.InBack);
+                //goDown();
+                
             }
+            //else {transform.position = new Vector2(dropStart.x, dropStart.y);}
 
             //transform.position = Vector3.Lerp(origPos, new Vector3(origPos.x, origPos.y + addPos), Mathf.SmoothStep(0, 1, testContainer));
         }
 
         public void goUp(float timer)
         {
+            
             transform.DOMoveY(origPos.y + (addPos), timer).SetEase(Ease.OutBack);
+            //float newPosY = EasingFunction.EaseInQuad(origPos.y, (origPos.y+(addPos)), timer);
+            //transform.position = new Vector2(transform.position.x, newPosY);
         }
 
         public void goDown()
         {
-            Debug.LogWarning("go down");
+            //DOTween.timeScale = cond.pitchedSecPerBeat;
+            //transform.DOLocalMoveY(end.position.y, (float)timer).From(true).SetEase(Ease.InBack);
+            //Debug.LogWarning("go down");
+            
+            //DOTween.timeScale = playBackSpeed;
             //DOTween.timeScale = cond.secPerBeat * playBackSpeed;
-            transform.DOMoveY(end.position.y, 2.25f).SetEase(Ease.OutBack);
-            // sorting layer = 1020
+            //double fallingTimeScale = cond.secPerBeat * playBackSpeed;
+            
+            //transform.DOMoveY(end.position.y, 2.25f).SetEase(Ease.InBack);
+             //sorting layer = 1020
+        }
+
+        public void HandleHeartDrop(float fallDuration, double currentBeat)
+        {
+
+           
+
+
+            //float dropTimeScale = length * cond.pitchedSecPerBeat;
+            //float newYValue = Mathf.Lerp(dropStart.y, end.position.y, dropTimeScale);
+            //transform.position = new Vector3 (transform.position.x, newYValue, transform.position.z);
+            //heartRenderer.sortingOrder = 1020;
+            //float dropTimeScale = (length/cond.secPerBeat)/playBackSpeed;
+            //transform.DOMove (new Vector2 (transform.position.x, end.position.y), ((length*cond.pitchedSecPerBeat)), false).SetEase(Ease.InQuad);
+            //if (transform.position.y == end.position.y) destroyWhenDone();
+
+            //var currentBeat = cond.songPositionInBeatsAsDouble;
+            //float currentBeatPosition = ((float)currentBeat*fallDuration);
+            ////float newPosY = EasingFunction.EaseInSine(dropStart.y, end.position.y, currentBeatPosition);
+            //transform.position = new Vector2(transform.position.x, newPosY);
+            
         }
         
 
         public void destroyWhenDone()
         {
             Destroy(this.gameObject);
+        }
+
+        public void tempDestroy(double startBeat)
+        {
+            BeatAction.New(game, new List<BeatAction.Action>()
+            {
+            new BeatAction.Action(startBeat + 1f, delegate
+                {Destroy(this.gameObject);}),});
+
         }
 
         public async void deadHeart()
