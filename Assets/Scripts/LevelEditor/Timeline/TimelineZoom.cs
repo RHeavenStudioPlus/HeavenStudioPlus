@@ -1,3 +1,4 @@
+using HeavenStudio.InputSystem;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -15,6 +16,7 @@ namespace HeavenStudio.Editor.Track
         private Vector2 relMousePos;
 
         private RectTransform rectTransform;
+        private RectTransform timelineContentRectTrans;
 
         private void Awake()
         {
@@ -28,10 +30,9 @@ namespace HeavenStudio.Editor.Track
         private void Update()
         {
             var scrollDeltaY = Input.mouseScrollDelta.y;
-            if (scrollDeltaY != 0)
+            if (scrollDeltaY != 0 && Timeline.instance.MouseInTimeline)
             {
-                if (Timeline.instance.MouseInTimeline)
-                    OnScroll(scrollDeltaY);
+                OnScroll(scrollDeltaY);
             }
         }
 
@@ -41,41 +42,51 @@ namespace HeavenStudio.Editor.Track
 
             relMousePos = rectTransform.anchoredPosition;
 
-            Vector2 relativeMousePosition;
-
             var cam = Editor.instance.EditorCamera;
             if (cam == null)
             {
                 Debug.LogError("Camera not set!");
                 return;
             }
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, cam, out relativeMousePosition);
 
-            if (scrollDeltaY > 0)
-            {
-                if (Input.GetKey(KeyCode.LeftControl))
-                {
-                    Zoom(0.25f * _scale.y, relativeMousePosition, false);
+            if (scrollDeltaY > 0) {
+                if (Input.GetKey(InputKeyboard.MODIFIER)) {
+                    ZoomInVertical();
+                } else {
+                    ZoomInHorizontal();
                 }
-                else
-                {
-                    Zoom(0.25f * _scale.x, relativeMousePosition, true);
+            } else if (scrollDeltaY < 0) {
+                if (Input.GetKey(InputKeyboard.MODIFIER)) {
+                    ZoomOutVertical();
+                } else {
+                    ZoomOutHorizontal();
                 }
             }
-            else if (scrollDeltaY < 0)
-            {
-                if (Input.GetKey(KeyCode.LeftControl))
-                {
-                    var incre = -0.2f * _scale.y;
-                    if (_scale.y + incre > minScale - 0.1f)
-                        Zoom(-0.2f * _scale.y, relativeMousePosition, false);
-                }
-                else
-                {
-                    var incre = -0.2f * _scale.x;
-                    if (_scale.x + incre > minScale - 0.1f)
-                        Zoom(-0.2f * _scale.x, relativeMousePosition, true);
-                }
+        }
+
+        public void ZoomInVertical()
+        {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, Editor.instance.EditorCamera, out Vector2 mousePos);
+            Zoom(0.25f * _scale.y, mousePos, false);
+        }
+        public void ZoomInHorizontal()
+        {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, Editor.instance.EditorCamera, out Vector2 mousePos);
+            Zoom(0.25f * _scale.x, mousePos, true);
+        }
+        public void ZoomOutVertical()
+        {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, Editor.instance.EditorCamera, out Vector2 mousePos);
+            var incre = -0.2f * _scale.y;
+            if (_scale.y + incre > minScale - 0.1f)
+                Zoom(-0.2f * _scale.y, mousePos, false);
+        }
+        public void ZoomOutHorizontal()
+        {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, Editor.instance.EditorCamera, out Vector2 mousePos);
+            var incre = -0.2f * _scale.x;
+            if (_scale.x + incre > minScale - 0.1f) {
+                Zoom(-0.2f * _scale.x, mousePos, true);
             }
         }
 
@@ -85,10 +96,10 @@ namespace HeavenStudio.Editor.Track
 
             if (horiz)
             {
-                var newScale = Mathf.Clamp(_scale.x + incre, minScale, maxScale);
+                float newScale = Mathf.Clamp(_scale.x + incre, minScale, maxScale);
                 _scale.Set(newScale, _scale.y, 1);
                 relativeMousePosition = new Vector2(relativeMousePosition.x, 0);
-                relMousePos -= (relativeMousePosition * incre);
+                relMousePos -= relativeMousePosition * incre;
 
                 rectTransform.localScale = _scale;
                 rectTransform.anchoredPosition = relMousePos;
@@ -101,10 +112,10 @@ namespace HeavenStudio.Editor.Track
             }
             else
             {
-                var newScale = Mathf.Clamp(_scale.y + incre, 1.0f, maxScale);
+                float newScale = Mathf.Clamp(_scale.y + incre, 1.0f, maxScale);
                 _scale.Set(_scale.x, newScale, 1);
                 relativeMousePosition = new Vector2(0, relativeMousePosition.y);
-                relMousePos -= (relativeMousePosition * incre);
+                relMousePos -= relativeMousePosition * incre;
 
                 rectTransform.localScale = _scale;
                 rectTransform.anchoredPosition = relMousePos;
@@ -126,7 +137,9 @@ namespace HeavenStudio.Editor.Track
         {
             _scale.Set(1, 1, 1);
             rectTransform.localScale = _scale;
+            rectTransform.localPosition = new Vector2(rectTransform.localPosition.x, 0);
             Timeline.instance.OnZoom(_scale.x);
+            Timeline.instance.OnZoomVertical(_scale.y);
         }
     }
 }

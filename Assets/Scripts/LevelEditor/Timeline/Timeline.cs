@@ -12,6 +12,7 @@ using System.Linq;
 using BurstLinq;
 
 using HeavenStudio.Util;
+using HeavenStudio.InputSystem;
 
 namespace HeavenStudio.Editor.Track
 {
@@ -44,6 +45,7 @@ namespace HeavenStudio.Editor.Track
         public float MousePos2Beat { get; private set; }
         public float MousePos2Layer { get; private set; }
         public float MousePos2BeatSnap => HeavenStudio.Util.MathUtils.Round2Nearest(MousePos2Beat + (SnapInterval() * 0.5f), SnapInterval());
+        // public float MousePos2BeatSnap => HeavenStudio.Util.MathUtils.Round2Nearest(MousePos2Beat, SnapInterval());
         public bool MouseInTimeline { get; private set; }
 
         private Vector2 relativeMousePos;
@@ -110,28 +112,28 @@ namespace HeavenStudio.Editor.Track
                 if (selected)
                 {
                     instance.SelectionsBTN.transform.GetChild(0).GetComponent<Image>().color = Color.white;
-                    instance.SelectionsBTN.GetComponent<TabButton>().Invoke("OnClick", 0);
+                    // instance.SelectionsBTN.GetComponent<TabButton>().Invoke("OnClick", 0);
                 }
                 else
                     instance.SelectionsBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
                 if (tempoChange)
                 {
                     instance.TempoChangeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.white;
-                    instance.TempoChangeBTN.GetComponent<TabButton>().Invoke("OnClick", 0);
+                    // instance.TempoChangeBTN.GetComponent<TabButton>().Invoke("OnClick", 0);
                 }
                 else
                     instance.TempoChangeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
                 if (musicVolume)
                 {
                     instance.MusicVolumeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.white;
-                    instance.MusicVolumeBTN.GetComponent<TabButton>().Invoke("OnClick", 0);
+                    // instance.MusicVolumeBTN.GetComponent<TabButton>().Invoke("OnClick", 0);
                 }
                 else
                     instance.MusicVolumeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
                 if (chartSection)
                 {
                     instance.ChartSectionBTN.transform.GetChild(0).GetComponent<Image>().color = Color.white;
-                    instance.ChartSectionBTN.GetComponent<TabButton>().Invoke("OnClick", 0);
+                    // instance.ChartSectionBTN.GetComponent<TabButton>().Invoke("OnClick", 0);
                 }
                 else
                     instance.ChartSectionBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
@@ -179,7 +181,6 @@ namespace HeavenStudio.Editor.Track
         public Button ZoomInBTN;
         public Button ZoomOutBTN;
         public Button ZoomResetBTN;
-        public Button WaveformBTN;
         public Slider PlaybackSpeed;
 
         public Vector3[] LayerCorners = new Vector3[4];
@@ -244,39 +245,12 @@ namespace HeavenStudio.Editor.Track
 
             LoadRemix();
 
-            TimelineSlider.GetChild(0).GetComponent<Image>().color = EditorTheme.theme.properties.BeatMarkerCol.Hex2RGB();
-            TimelineSlider.GetChild(1).GetComponent<Image>().color = EditorTheme.theme.properties.BeatMarkerCol.Hex2RGB();
-            TimelineSlider.GetChild(2).GetComponent<TMP_Text>().color = EditorTheme.theme.properties.BeatMarkerCol.Hex2RGB();
-            TimelineSlider.GetChild(3).GetComponent<TMP_Text>().color = EditorTheme.theme.properties.BeatMarkerCol.Hex2RGB();
-            TimelineSongPosLineRef.GetComponent<Image>().color = EditorTheme.theme.properties.CurrentTimeMarkerCol.Hex2RGB();
+            // TimelineSlider.GetChild(0).GetComponent<Image>().color = EditorTheme.theme.properties.BeatMarkerCol.Hex2RGB();
+            // TimelineSlider.GetChild(1).GetComponent<Image>().color = EditorTheme.theme.properties.BeatMarkerCol.Hex2RGB();
+            // TimelineSlider.GetChild(2).GetComponent<TMP_Text>().color = EditorTheme.theme.properties.BeatMarkerCol.Hex2RGB();
+            // TimelineSlider.GetChild(3).GetComponent<TMP_Text>().color = EditorTheme.theme.properties.BeatMarkerCol.Hex2RGB();
+            // TimelineSongPosLineRef.GetComponent<Image>().color = EditorTheme.theme.properties.CurrentTimeMarkerCol.Hex2RGB();
             TimelineSongPosLineRef.gameObject.SetActive(false);
-
-            PlayBTN.onClick.AddListener(delegate
-            {
-                if (Conductor.instance.isPaused)
-                    PlayCheck(false);
-                else
-                    PlayCheck(true);
-            });
-            PauseBTN.onClick.AddListener(delegate
-            {
-                if (Conductor.instance.isPlaying && !Conductor.instance.isPaused)
-                    PlayCheck(false);
-            });
-            StopBTN.onClick.AddListener(delegate
-            {
-                if (Conductor.instance.isPlaying || Conductor.instance.isPaused)
-                    PlayCheck(true);
-            });
-
-            MetronomeBTN.onClick.AddListener(delegate
-            {
-                MetronomeToggle();
-            });
-            AutoplayBTN.onClick.AddListener(delegate
-            {
-                AutoPlayToggle();
-            });
 
             SelectionsBTN.onClick.AddListener(delegate
             {
@@ -295,25 +269,6 @@ namespace HeavenStudio.Editor.Track
                 timelineState.SetState(CurrentTimelineState.State.ChartSection);
             });
 
-            ZoomInBTN.onClick.AddListener(delegate
-            {
-                zoomComponent.Zoom(0.25f * zoomComponent.Scale.x, Vector2.zero, true);
-            });
-            ZoomOutBTN.onClick.AddListener(delegate
-            {
-                zoomComponent.Zoom(-0.2f * zoomComponent.Scale.x, Vector2.zero, true);
-            });
-            ZoomResetBTN.onClick.AddListener(delegate
-            {
-                zoomComponent.ResetZoom();
-            });
-            WaveformBTN.onClick.AddListener(delegate
-            {
-                WaveformToggle();
-            });
-
-            Tooltip.AddTooltip(WaveformBTN.gameObject, "Waveform Toggle");
-
             SetTimeButtonColors(true, false, false);
             MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
             MetronomeBTN.transform.GetChild(1).GetComponent<Image>().color = Color.gray;
@@ -326,6 +281,33 @@ namespace HeavenStudio.Editor.Track
             resizeCursor = Resources.Load<Texture2D>("Cursors/horizontal_resize");
         }
 
+        public void PressPlay()
+        {
+            PlayCheck(!Conductor.instance.isPaused);
+        }
+        public void PressPause()
+        {
+            if (Conductor.instance.isPlaying && !Conductor.instance.isPaused) {
+                PlayCheck(false);
+            }
+        }
+        public void PressStop()
+        {
+            if (Conductor.instance.isPlaying || Conductor.instance.isPaused) {
+                PlayCheck(true);
+            }
+        }
+
+        // public void SetState(CurrentTimelineState.State state)
+        // {
+        //     timelineState.SetState(state);
+        // }
+
+        public void SetState(string state)
+        {
+            timelineState.SetState(Enum.Parse<CurrentTimelineState.State>(state));
+        }
+
         public void FitToSong()
         {
             var currentSizeDelta = RealTimelineContent.sizeDelta;
@@ -336,12 +318,6 @@ namespace HeavenStudio.Editor.Track
             TimelineContent.sizeDelta = new Vector2(songBeats * PixelsPerBeat, currentSizeDelta.y * RealTimelineContent.localScale.y);
             // TimelineEventGrid.sizeDelta = new Vector2(songBeats * PixelsPerBeat, currentSizeDelta.y);
             RealTimelineContent.sizeDelta = new Vector2(TimelineContent.sizeDelta.x / Zoom, RealTimelineContent.sizeDelta.y);
-        }
-
-        public void CreateWaveform()
-        {
-            // DrawWaveform();
-            // StartCoroutine(DrawWaveformRealtime());
         }
 
         public void AutoBtnUpdate()
@@ -500,11 +476,11 @@ namespace HeavenStudio.Editor.Track
                 float moveSpeed = 750;
                 if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) moveSpeed *= 6;
 
-                if (Input.GetKey(KeyCode.LeftArrow) || (!Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.A)))
+                if (Input.GetKey(KeyCode.LeftArrow) || (!Input.GetKey(InputKeyboard.MODIFIER) && Input.GetKey(KeyCode.A)))
                 {
                     RealTimelineContent.transform.localPosition += new Vector3(moveSpeed * Time.deltaTime, 0);
                 }
-                else if (Input.GetKey(KeyCode.RightArrow) || (!Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.D)))
+                else if (Input.GetKey(KeyCode.RightArrow) || (!Input.GetKey(InputKeyboard.MODIFIER) && Input.GetKey(KeyCode.D)))
                 {
                     RealTimelineContent.transform.localPosition += new Vector3(-moveSpeed * Time.deltaTime, 0);
                 }
@@ -584,7 +560,7 @@ namespace HeavenStudio.Editor.Track
 
         private void SliderControl()
         {
-            TimelinePlaybackBeat.text = $"Beat {string.Format("{0:0.000}", PlaybackBeat)}";
+            TimelinePlaybackBeat.text = $"♪ {string.Format("{0:0.000}", PlaybackBeat)}";
 
             if (TimelineSongPosLineRef != null && !Conductor.instance.WaitingForDsp)
             {
@@ -1076,7 +1052,7 @@ namespace HeavenStudio.Editor.Track
         public void UpdateOffsetFromText()
         {
             // Failsafe against empty string.
-            if (String.IsNullOrEmpty(FirstBeatOffset.text))
+            if (string.IsNullOrEmpty(FirstBeatOffset.text))
                 FirstBeatOffset.text = "0";
 
             // Convert ms to s.

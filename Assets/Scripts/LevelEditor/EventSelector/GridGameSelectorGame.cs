@@ -18,10 +18,12 @@ namespace HeavenStudio.Editor
         public Texture MaskTex;
         public Texture BgTex;
         private Material m_Material;
+        private Image image;
 
         private void Start()
         {
-            Tooltip.AddTooltip(this.gameObject, EventCaller.instance.GetMinigame(this.gameObject.name).displayName);
+            // image = GetComponent<Image>();
+            Tooltip.AddTooltip(gameObject, EventCaller.instance.GetMinigame(gameObject.name).displayName);
         }
 
         private void OnEnable()
@@ -33,8 +35,10 @@ namespace HeavenStudio.Editor
         {
             if (m_Material == null)
             {
-                m_Material = Instantiate(GetComponent<Image>().material);
-                GetComponent<Image>().material = m_Material;
+                if (image == null) image = GetComponent<Image>();
+
+                m_Material = Instantiate(image.material);
+                image.material = m_Material;
             }
             m_Material.SetTexture("_MaskTex", MaskTex);
             m_Material.SetTexture("_BgTex", BgTex);
@@ -53,10 +57,8 @@ namespace HeavenStudio.Editor
             if (Input.GetMouseButtonDown(1)) 
             {
                 // while holding shift and the game icon clicked has a star, it will disable all stars.
-                if (Input.GetKey(KeyCode.LeftShift)) {
-                    if (!StarActive) return;
-                    for (int i = 0; i < transform.parent.childCount; i++)
-                    {
+                if (Input.GetKey(KeyCode.LeftShift) && StarActive) {
+                    for (int i = 0; i < transform.parent.childCount; i++) {
                         var ggsg = transform.parent.GetChild(i).GetComponent<GridGameSelectorGame>();
                         if (ggsg.StarActive) ggsg.Star();
                     }
@@ -76,14 +78,14 @@ namespace HeavenStudio.Editor
         public void ClickIcon()
         {
             transform.DOScale(new Vector3(1.15f, 1.15f, 1f), 0.1f);
-            BgTex = Resources.Load<Texture>($"Sprites/GeneralPurpose/Circle");
+            BgTex = GridGameSelector.Circle;
             SetupTextures();
         }
 
         public void UnClickIcon()
         {
             transform.DOScale(new Vector3(1f, 1f, 1f), 0.1f);
-            BgTex = Resources.Load<Texture>($"Sprites/GeneralPurpose/Square");
+            BgTex = GridGameSelector.Square;
             SetupTextures();
         }
     }

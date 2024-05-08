@@ -82,7 +82,8 @@ namespace HeavenStudio.Editor
             eventSelector.SetActive(true);
 
             DestroyParams();
-            Editor.instance.SetGameEventTitle($"Select game event for {gridGameSelector.SelectedMinigame.displayName.Replace("\n", "")}");
+            // Editor.instance.SetGameEventTitle($"Select game event for {gridGameSelector.SelectedMinigame.displayName.Replace("\n", "")}");
+            Editor.instance?.SetGameEventTitle(gridGameSelector.SelectedMinigame.displayName.Replace("\n", ""));
         }
 
         public void StartParams(RiqEntity entity)
@@ -95,8 +96,7 @@ namespace HeavenStudio.Editor
         {
             string[] split = entity.datamodel.Split('/');
             var minigame = EventCaller.instance.GetMinigame(split[0]);
-            int actionIndex = minigame.actions.IndexOf(minigame.actions.Find(c => c.actionName == split[1]));
-            Minigames.GameAction action = minigame.actions[actionIndex];
+            Minigames.GameAction action = minigame.actions.Find(c => c.actionName == split[1]);
 
             if (action.parameters != null)
             {
@@ -111,7 +111,13 @@ namespace HeavenStudio.Editor
                     4 => EditorTheme.theme.properties.Layer5Col,
                     _ => EditorTheme.theme.properties.Layer1Col
                 };
-                Editor.instance.SetGameEventTitle($"Properties for <color=#{col}>{action.displayName}</color> on Beat {entity.beat.ToString("F2")} on <color=#{col}>Track {(int)entity["track"] + 1}</color>");
+                string gameName = action.displayName;
+                const int cutOff = 20;
+                if (gameName.Length > (cutOff + 3)) {
+                    gameName = gameName[..cutOff] + "...";
+                }
+                
+                Editor.instance.SetGameEventTitle($"<color=#{col}>{gameName}</color> at ♪ {entity.beat:F2} on <color=#{col}>Track {(int)entity["track"] + 1}</color>");
 
                 DestroyParams();
 

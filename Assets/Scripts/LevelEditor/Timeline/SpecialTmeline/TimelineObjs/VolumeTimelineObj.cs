@@ -7,6 +7,7 @@ using TMPro;
 using DG.Tweening;
 using Jukebox;
 using Jukebox.Legacy;
+using HeavenStudio.InputSystem;
 
 namespace HeavenStudio.Editor.Track
 {
@@ -30,9 +31,9 @@ namespace HeavenStudio.Editor.Track
 
                     if (Input.GetKey(KeyCode.LeftShift))
                         newVolume *= 5f;
-                    if (Input.GetKey(KeyCode.LeftControl))
+                    if (Input.GetKey(InputKeyboard.MODIFIER)) {
                         newVolume *= 0.01f;
-
+                    }
                     if (newVolume != 0)
                     {
                         SetVolume(chartEntity["volume"] + newVolume);
