@@ -51,7 +51,7 @@ public class TempoDialog : Dialog
         deleteButton.gameObject.SetActive(!tempoObj.first);
 
         tempoInput.text = tempoObj.chartEntity["tempo"].ToString("F");
-        swingInput.text = (tempoObj.chartEntity["swing"] * 100 + 50).ToString("F");
+        swingInput.text = (tempoObj.chartEntity["swing"] * 400).ToString("F");
         swingSlider.value = tempoObj.chartEntity["swing"];
 
         swingDivisionToggle.isOn = tempoObj.chartEntity["swingDivision"] != 1f;
@@ -97,81 +97,24 @@ public class TempoDialog : Dialog
         }
     }
 
-    public void RefreshSwingUI()
-    {
-        swingInput.text = (tempoObj.chartEntity["swing"] * 100 + 50).ToString("F");
-        swingSlider.value = tempoObj.chartEntity["swing"];
-    }
-
     public void SwingSliderUpdate()
     {
         if (tempoObj != null)
         {
             tempoObj.SetSwing(System.MathF.Round(swingSlider.value, 4));
-            RefreshSwingUI();
+            swingInput.text = (tempoObj.chartEntity["swing"] * 400).ToString("F");
+            swingSlider.value = tempoObj.chartEntity["swing"];
         }
     }
 
-    public void SwingManualUpdate()
+    public void SetSwing()
     {
         if (tempoObj != null)
         {
             float swing = float.Parse(swingInput.text);
-            tempoObj.SetSwing(swing / 100f - 0.5f);
-            RefreshSwingUI();
-        }
-    }
-
-    /*
-    a note for future reference:
-
-    all stored swing values (like ones in remix.json) are the SWING RATIO - 0.5
-    for example, a swing ratio of 50% would be 0.5 - 0.5 = 0
-    and a ratio of 66.67% would be 0.6667 - 0.5 = 0.1667
-
-    you put that final value into tempoObj.SetSwing() to set it,
-    hence why the above functions use that weird formula and the below functions set it directly
-
-    in addition, you can get the swing ratio (as a percentage) from this value by
-    multiplying the value by 100, then adding 50
-
-    this is really stupid lol
-    minenice why didnt you write any of this down lmao - zeo
-    */
-
-    public void SetStraightSwing()
-    {
-        if (tempoObj != null)
-        {
-            tempoObj.SetSwing(0f);
-            RefreshSwingUI();
-        }
-    }
-
-    public void SetLightSwing()
-    {
-        if (tempoObj != null)
-        {
-            tempoObj.SetSwing(0.1f);
-            RefreshSwingUI();
-        }
-    }
-
-    public void SetNormalSwing()
-    {
-        if (tempoObj != null)
-        {
-            tempoObj.SetSwing(0.1667f);
-            RefreshSwingUI();
-        }
-    }
-
-    public void SetHeavySwing()
-    {
-        if (tempoObj != null)
-        {
-            tempoObj.SetSwing(0.25f);
-            RefreshSwingUI();
+            tempoObj.SetSwing(swing * 0.25f / 100f);
+            swingInput.text = (tempoObj.chartEntity["swing"] * 400).ToString("F");
+            swingSlider.value = tempoObj.chartEntity["swing"];
         }
     }
 
