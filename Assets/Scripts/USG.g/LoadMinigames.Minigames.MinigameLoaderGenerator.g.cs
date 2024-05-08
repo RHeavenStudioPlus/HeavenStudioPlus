@@ -383,6 +383,16 @@ namespace HeavenStudio
                 Debug.LogWarning("Game loader NtrBackbeatLoader failed!");
             }
 
+            game = NtrLabLoader.AddGame(eventCaller);
+            if (game != null)
+            {
+                eventCaller.minigames.Add(game.name, game);
+            }
+            else
+            {
+                Debug.LogWarning("Game loader NtrLabLoader failed!");
+            }
+
             game = CtrLumBEARjackLoader.AddGame(eventCaller);
             if (game != null)
             {

@@ -596,6 +596,7 @@ Transform:
   - {fileID: 4352296737110256235}
   - {fileID: 7647075704793663215}
   - {fileID: 8099365789100165778}
+  - {fileID: 7620821406320402323}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -661,6 +662,7 @@ MonoBehaviour:
   canCallForFlask: 1
   isHolding: 0
   counter: 0
+  startBeat: 0
   clouds: {fileID: 1922318453852840058}
   cloudSpeed: 0.06
   cloudDistance: 30
@@ -683,7 +685,8 @@ MonoBehaviour:
   girlHearts: []
   completeHearts: []
   currentHearts: 
-  endPoint: {fileID: 1217812902585448614}
+  endPoint: {fileID: 7492619980896112047}
+  spawnPoint: {x: 2.7, y: 0}
   shaderColorsDebug:
   - _ColorAlpha
   - _ColorBravo
@@ -12179,6 +12182,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3181055819505295525}
+  - component: {fileID: 5727956151531486914}
   m_Layer: 0
   m_Name: Heart (1)
   m_TagString: Untagged
@@ -12202,6 +12206,43 @@ Transform:
   m_Father: {fileID: 3429383938462062733}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5727956151531486914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482603683011656876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac4985fbd444824ba80ae18fc8d0fc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whatHeartType: 2
+  prevHeartBeat: 0
+  heartBeat: 0
+  nextHeartBeat: 0
+  heartAnim: {fileID: 2267575062970559703}
+  death: {fileID: 3634140067569462563}
+  outline: {fileID: 1482603683011656876}
+  fill: {fileID: 1482603683011656876}
+  stop: 0
+  addPos: 0
+  startPos: 0
+  length: 0
+  heartCount: 0
+  hasChecked: 0
+  playBackSpeed: 0
+  intervalSpeed: 0
+  _step: 0
+  tweenComplete: 0
+  onlyOne: 1
+  end: {x: 0, y: 0, z: 0}
+  timer: 0
+  isWaiting: 1
+  dropStart: {x: 0, y: 0, z: 0}
+  currentBeat: 0
+  endValue: 0
 --- !u!1 &1508548489959844048
 GameObject:
   m_ObjectHideFlags: 0
@@ -13860,6 +13901,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8457364593320657144}
+  - component: {fileID: 4013968317955737354}
   m_Layer: 0
   m_Name: Heart (2)
   m_TagString: Untagged
@@ -13883,6 +13925,43 @@ Transform:
   m_Father: {fileID: 3429383938462062733}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4013968317955737354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2467223038916596584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac4985fbd444824ba80ae18fc8d0fc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whatHeartType: 0
+  prevHeartBeat: 0
+  heartBeat: 0
+  nextHeartBeat: 0
+  heartAnim: {fileID: 3007423772511442550}
+  death: {fileID: 3625583753263701273}
+  outline: {fileID: 2467223038916596584}
+  fill: {fileID: 2467223038916596584}
+  stop: 0
+  addPos: 0
+  startPos: 0
+  length: 0
+  heartCount: 0
+  hasChecked: 0
+  playBackSpeed: 0
+  intervalSpeed: 0
+  _step: 0
+  tweenComplete: 0
+  onlyOne: 1
+  end: {x: 0, y: 0, z: 0}
+  timer: 0
+  isWaiting: 1
+  dropStart: {x: 0, y: 0, z: 0}
+  currentBeat: 0
+  endValue: 0
 --- !u!1 &2545510530621710180
 GameObject:
   m_ObjectHideFlags: 0
@@ -19409,7 +19488,7 @@ Transform:
   m_Children:
   - {fileID: 3368113456851434604}
   - {fileID: 7766427145776930279}
-  - {fileID: 1217812902585448614}
+  - {fileID: 7492619980896112047}
   m_Father: {fileID: 878409105178889012}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -31375,6 +31454,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1987359879521276587}
+  - component: {fileID: 3803804922883146632}
   m_Layer: 0
   m_Name: Heart
   m_TagString: Untagged
@@ -31398,6 +31478,43 @@ Transform:
   m_Father: {fileID: 3429383938462062733}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3803804922883146632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4559355415321406050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac4985fbd444824ba80ae18fc8d0fc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whatHeartType: 1
+  prevHeartBeat: 0
+  heartBeat: 0
+  nextHeartBeat: 0
+  heartAnim: {fileID: 4861883477444535933}
+  death: {fileID: 4409609671814389056}
+  outline: {fileID: 4559355415321406050}
+  fill: {fileID: 4559355415321406050}
+  stop: 0
+  addPos: 0
+  startPos: 0
+  length: 0
+  heartCount: 0
+  hasChecked: 0
+  playBackSpeed: 0
+  intervalSpeed: 0
+  _step: 0
+  tweenComplete: 0
+  onlyOne: 1
+  end: {x: 0, y: 0, z: 0}
+  timer: 0
+  isWaiting: 1
+  dropStart: {x: 0, y: 0, z: 0}
+  currentBeat: 0
+  endValue: 0
 --- !u!1 &4711397537335041467
 GameObject:
   m_ObjectHideFlags: 0
@@ -31940,37 +32057,6 @@ Transform:
   - {fileID: 5515419705679507212}
   m_Father: {fileID: 4352296737110256235}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5142976589145930095
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1217812902585448614}
-  m_Layer: 0
-  m_Name: EndPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1217812902585448614
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5142976589145930095}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4674094147555684652}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5307057251015753346
 GameObject:
@@ -32542,6 +32628,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 605755663413265918}
+  - component: {fileID: 3930674089318777729}
   m_Layer: 0
   m_Name: Heart (3)
   m_TagString: Untagged
@@ -32565,6 +32652,43 @@ Transform:
   m_Father: {fileID: 3429383938462062733}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3930674089318777729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5720462754445386488}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac4985fbd444824ba80ae18fc8d0fc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whatHeartType: 2
+  prevHeartBeat: 0
+  heartBeat: 0
+  nextHeartBeat: 0
+  heartAnim: {fileID: 6103692014218111335}
+  death: {fileID: 3014678009227994866}
+  outline: {fileID: 5720462754445386488}
+  fill: {fileID: 5720462754445386488}
+  stop: 0
+  addPos: 0
+  startPos: 0
+  length: 0
+  heartCount: 0
+  hasChecked: 0
+  playBackSpeed: 0
+  intervalSpeed: 0
+  _step: 0
+  tweenComplete: 0
+  onlyOne: 1
+  end: {x: 0, y: 0, z: 0}
+  timer: 0
+  isWaiting: 1
+  dropStart: {x: 0, y: 0, z: 0}
+  currentBeat: 0
+  endValue: 0
 --- !u!1 &5748955415339632706
 GameObject:
   m_ObjectHideFlags: 0
@@ -40081,6 +40205,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &7784569542689620913
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7492619980896112047}
+  m_Layer: 0
+  m_Name: EndPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7492619980896112047
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7784569542689620913}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.013117568, y: 1.63773, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4674094147555684652}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7802884331815006546
 GameObject:
   m_ObjectHideFlags: 0
@@ -45804,6 +45959,37 @@ Transform:
   - {fileID: 5550910392610177918}
   m_Father: {fileID: 7132799052978497352}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8709141480864242041
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7620821406320402323}
+  m_Layer: 0
+  m_Name: spawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7620821406320402323
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8709141480864242041}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.7, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 878409105178889012}
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8858862843781676607
 GameObject:
