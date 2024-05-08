@@ -4,6 +4,7 @@ using BurstLinq;
 using System.Collections.Generic;
 using UnityEngine;
 using Jukebox;
+using HeavenStudio.Games;
 
 namespace HeavenStudio
 {
@@ -23,11 +24,8 @@ namespace HeavenStudio
 
         public Minigames.Minigame GetMinigame(string gameName)
         {
-            if (!minigames.ContainsKey(gameName))
-            {
-                return null;
-            }
-            return minigames[gameName];
+            minigames.TryGetValue(gameName, out var minigame);
+            return minigame;
         }
 
         public Minigames.GameAction GetGameAction(Minigames.Minigame game, string action)
@@ -37,9 +35,9 @@ namespace HeavenStudio
 
         public Minigames.GameAction GetGameAction(string gameName, string action)
         {
-            if (minigames.ContainsKey(gameName))
+            if (minigames.TryGetValue(gameName, out var minigame))
             {
-                return minigames[gameName].actions.Find(c => c.actionName == action);
+                return minigame.actions.Find(c => c.actionName == action);
             }
             else
             {

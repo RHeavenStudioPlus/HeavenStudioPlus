@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 using HeavenStudio.Editor.Track;
+using HeavenStudio.InputSystem;
 
 namespace HeavenStudio.Editor
 {
@@ -31,7 +32,7 @@ namespace HeavenStudio.Editor
             */
             if (Editor.instance.isShortcutsEnabled)
             {
-                if (Input.GetKey(KeyCode.LeftControl))
+                if (Input.GetKey(InputKeyboard.MODIFIER))
                     if (Input.GetKeyDown(KeyCode.A))
                         SelectAll();
             }

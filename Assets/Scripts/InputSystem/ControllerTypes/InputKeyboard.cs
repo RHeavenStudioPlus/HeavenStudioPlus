@@ -33,6 +33,11 @@ namespace HeavenStudio.InputSystem
 {
     public class InputKeyboard : InputController
     {
+#if UNITY_STANDALONE_OSX
+        public const KeyCode MODIFIER = KeyCode.LeftCommand;
+#else
+        public const KeyCode MODIFIER = KeyCode.LeftControl;
+#endif
         private static readonly KeyCode[] keyCodes = Enum.GetValues(typeof(KeyCode))
         .Cast<KeyCode>()
         .Where(k => ((int)k < (int)KeyCode.Mouse0))

@@ -7,6 +7,7 @@ using TMPro;
 using DG.Tweening;
 using Jukebox;
 using Jukebox.Legacy;
+using HeavenStudio.InputSystem;
 
 namespace HeavenStudio.Editor.Track
 {
@@ -30,8 +31,9 @@ namespace HeavenStudio.Editor.Track
 
                     if (Input.GetKey(KeyCode.LeftShift))
                         newTempo *= 5f;
-                    if (Input.GetKey(KeyCode.LeftControl))
+                    if (Input.GetKey(InputKeyboard.MODIFIER)) {
                         newTempo *= 0.01f;
+                    }
 
                     if (newTempo != 0)
                     {

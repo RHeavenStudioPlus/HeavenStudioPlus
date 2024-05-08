@@ -16,6 +16,10 @@ using Jukebox;
 using UnityEditor;
 using System.Linq;
 using BurstLinq;
+using HeavenStudio.InputSystem;
+using UnityEngine.U2D;
+using UnityEditor.U2D;
+using UnityEditor.Sprites;
 
 namespace HeavenStudio.Editor
 {
@@ -89,9 +93,13 @@ namespace HeavenStudio.Editor
 
         public static Editor instance { get; private set; }
 
-        private void Start()
+        private void Awake()
         {
             instance = this;
+        }
+
+        private void Start()
+        {
             Initializer = GetComponent<GameInitializer>();
             canSelect = true;
         }
@@ -127,7 +135,7 @@ namespace HeavenStudio.Editor
             GameIcon_.GetComponent<Image>().sprite = GameIcon(minigame.name);
             GameIcon_.GetComponent<GridGameSelectorGame>().MaskTex = GameIconMask(minigame.name);
             GameIcon_.GetComponent<GridGameSelectorGame>().UnClickIcon();
-            GameIcon_.gameObject.SetActive(true);
+            GameIcon_.SetActive(true);
             GameIcon_.name = minigame.name;
 
             var ggs = GridGameSelectorRect.GetComponent<GridGameSelector>();
@@ -178,7 +186,7 @@ namespace HeavenStudio.Editor
                     CommandManager.Instance.AddCommand(new Commands.Delete(Selections.instance.eventsSelected.Select(c => c.entity.guid).ToList()));
                 }
 
-                if (Input.GetKey(KeyCode.LeftControl) && !fullscreen)
+                if (Input.GetKey(InputKeyboard.MODIFIER) && !fullscreen)
                 {
                     if (Input.GetKeyDown(KeyCode.Z))
                     {
@@ -213,7 +221,7 @@ namespace HeavenStudio.Editor
                     }
                 }
 
-                if (Input.GetKey(KeyCode.LeftControl))
+                if (Input.GetKey(InputKeyboard.MODIFIER))
                 {
                     if (Input.GetKeyDown(KeyCode.N))
                     {
@@ -248,24 +256,12 @@ namespace HeavenStudio.Editor
             #endregion
 
             // Undo+Redo
-            if (CommandManager.Instance.CanUndo())
-                UndoBTN.transform.GetChild(0).GetComponent<Image>().color = Color.white;
-            else
-                UndoBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
-            if (CommandManager.Instance.CanRedo())
-                RedoBTN.transform.GetChild(0).GetComponent<Image>().color = Color.white;
-            else
-                RedoBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+            UndoBTN.transform.GetChild(0).GetComponent<Image>().color = CommandManager.Instance.CanUndo() ? Color.white : Color.gray;
+            RedoBTN.transform.GetChild(0).GetComponent<Image>().color = CommandManager.Instance.CanRedo() ? Color.white : Color.gray;
 
             // Copy+Paste
-            if (Selections.instance.eventsSelected.Count > 0)
-                CopyBTN.transform.GetChild(0).GetComponent<Image>().color = Color.white;
-            else
-                CopyBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
-            if (Timeline.instance.CopiedEntities.Count > 0)
-                PasteBTN.transform.GetChild(0).GetComponent<Image>().color = Color.white;
-            else
-                PasteBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+            CopyBTN.transform.GetChild(0).GetComponent<Image>().color = Selections.instance.eventsSelected.Count > 0 ? Color.white : Color.gray;
+            PasteBTN.transform.GetChild(0).GetComponent<Image>().color =  Timeline.instance.CopiedEntities.Count > 0 ? Color.white : Color.gray;
         }
 
         public static Sprite GameIcon(string name)
@@ -350,37 +346,29 @@ namespace HeavenStudio.Editor
 
         public void SaveRemix(bool saveAs = true)
         {
-            Debug.Log(GameManager.instance.Beatmap["propertiesmodified"]);
             if (!(bool)GameManager.instance.Beatmap["propertiesmodified"])
             {
                 foreach (var dialog in Dialogs)
                 {
-                    if (dialog.GetType() == typeof(RemixPropertiesDialog))
+                    if (dialog is not null and RemixPropertiesDialog propDialog)
                     {
                         if (fullscreen) Fullscreen();
                         GlobalGameManager.ShowErrorMessage("Set Remix Properties", "Set remix properties before saving.");
-                        (dialog as RemixPropertiesDialog).SwitchPropertiesDialog();
-                        (dialog as RemixPropertiesDialog).SetSaveOnClose(true, saveAs);
+                        propDialog.SwitchPropertiesDialog();
+                        propDialog.SetSaveOnClose(true, saveAs);
                         return;
                     }
                 }
             }
             else
             {
-                if (saveAs)
+                if (saveAs || string.IsNullOrEmpty(currentRemixPath))
                 {
                     SaveRemixFilePanel();
                 }
                 else
                 {
-                    if (currentRemixPath is "" or null)
-                    {
-                        SaveRemixFilePanel();
-                    }
-                    else
-                    {
-                        SaveRemixFile(currentRemixPath);
-                    }
+                    SaveRemixFile(currentRemixPath);
                 }
             }
         }
@@ -421,7 +409,7 @@ namespace HeavenStudio.Editor
         public void NewRemix()
         {
             if (Timeline.instance != null)
-                Timeline.instance?.Stop(0);
+                Timeline.instance.Stop(0);
             else
                 GameManager.instance.Stop(0);
             LoadRemix(true);
