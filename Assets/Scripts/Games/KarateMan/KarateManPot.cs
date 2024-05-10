@@ -809,7 +809,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
         public void ItemWrongAction(PlayerActionEvent caller, float state)
         {
             if (GameManager.instance.currentGame != "karateman") return;
-            if (!KarateMan.IsComboEnable) return;
+            if (KarateMan.IsComboEnable == KarateMan.ComboMode.Disabled) return;
             //hitting a normal object with the alt input
             //WHEN SCORING THIS IS A MISS
             var joe = KarateMan.instance.Joe;
