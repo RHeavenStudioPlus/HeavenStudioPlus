@@ -65,6 +65,18 @@ namespace HeavenStudio.Games.Loaders
                 {
                     function = delegate { Spaceball.instance.PrepareDispenser(); }, 
                 },
+                new GameAction("fade background", "Background Color")
+                {
+                    function = delegate {var e = eventCaller.currentEntity; Spaceball.instance.BackgroundColor(e.beat, e.length, e["colorStart"], e["colorEnd"], e["ease"]); },
+                    defaultLength = 4f,
+                    resizable = true,
+                    parameters = new List<Param>()
+                    {
+                        new Param("colorStart", Spaceball.defaultBGColor, "Start Color", "Set the color at the start of the event."),
+                        new Param("colorEnd", Spaceball.defaultBGColor, "End Color", "Set the color at the end of the event."),
+                        new Param("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.")
+                    }
+                },
             },
             new List<string>() {"agb", "normal"},
             "agbbatter", "en",
@@ -94,6 +106,9 @@ namespace HeavenStudio.Games
             SphereHead
         }
 
+        [SerializeField] SpriteRenderer bg;
+        [SerializeField] SpriteRenderer square;
+
         [SerializeField] GameObject Ball;
         [SerializeField] GameObject BallsHolder;
 
@@ -106,6 +121,8 @@ namespace HeavenStudio.Games
         private float currentZoomCamDistance;
 
         private int currentZoomIndex;
+
+        public static Color defaultBGColor = new Color(0, 0f, 0.4509804f);
 
         [SerializeField] Sprite[] BallSprites;
         [SerializeField] Material[] CostumeColors;
@@ -122,6 +139,12 @@ namespace HeavenStudio.Games
         {
             for (int i = 1; i < BallsHolder.transform.childCount; i++)
                 Destroy(BallsHolder.transform.GetChild(i).gameObject);
+            PersistColor(beat);
+        }
+
+        public override void OnPlay(double beat)
+        {
+            PersistColor(beat);
         }
 
         public override void OnTimeChange()
@@ -149,6 +172,7 @@ namespace HeavenStudio.Games
 
         private void Update()
         {
+            BackgroundColorUpdate();
             if (_allCameraEvents.Count > 0)
             {
                 if (currentZoomIndex < _allCameraEvents.Count && currentZoomIndex >= 0)
@@ -266,6 +290,32 @@ namespace HeavenStudio.Games
         public void Costume(int type)
         {
             SpaceballPlayer.instance.SetCostume(CostumeColors[type], type);
+        }
+
+        //color stuff
+
+        private ColorEase bgColorEase = new(defaultBGColor);
+
+        public void BackgroundColor(double beat, float length, Color startColor, Color endColor, int ease)
+        {
+            bgColorEase = new(beat, length, startColor, endColor, ease);
+        }
+
+                private void BackgroundColorUpdate()
+        {
+            bg.color = bgColorEase.GetColor();
+            square.color = bgColorEase.GetColor();
+        }
+
+        private void PersistColor(double beat)
+        {
+            var allEventsBeforeBeat = EventCaller.GetAllInGameManagerList("spaceball", new string[] { "fade background" }).FindAll(x => x.beat < beat);
+            if (allEventsBeforeBeat.Count > 0)
+            {
+                allEventsBeforeBeat.Sort((x, y) => x.beat.CompareTo(y.beat)); //just in case
+                var lastEvent = allEventsBeforeBeat[^1];
+                BackgroundColor(lastEvent.beat, lastEvent.length, lastEvent["colorStart"], lastEvent["colorEnd"], lastEvent["ease"]);
+            }
         }
     }
 }
