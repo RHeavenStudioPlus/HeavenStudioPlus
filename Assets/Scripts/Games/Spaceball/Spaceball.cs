@@ -96,6 +96,8 @@ namespace HeavenStudio.Games
             Baseball = 0,
             Onigiri = 1,
             Alien = 2,
+            Apple = 4,
+            Star = 5,
             Tacobell = 3,
         }
 		
@@ -275,6 +277,12 @@ namespace HeavenStudio.Games
                 case (int)BallType.Tacobell:
                     ball.transform.localScale = new Vector3(2f, 2f, 1);
                     ball.GetComponent<SpaceballBall>().isTacobell = true;
+                    break;
+                case (int)BallType.Apple:
+                    ball.transform.localScale = new Vector3(5f, 5f, 1);
+                    break;
+                case (int)BallType.Star:
+                    ball.transform.localScale = new Vector3(6f, 6f, 1);
                     break;
             }
 
