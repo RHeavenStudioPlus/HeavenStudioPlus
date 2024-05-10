@@ -806,6 +806,7 @@ namespace HeavenStudio.Editor.Track
                 if (entity == null)
                 {
                     RiqEntity en = GameManager.instance.Beatmap.AddNewEntity(eventName, 0, action.defaultLength);
+                    en.version = action.defaultVersion;
 
                     tempEntity = en;
 

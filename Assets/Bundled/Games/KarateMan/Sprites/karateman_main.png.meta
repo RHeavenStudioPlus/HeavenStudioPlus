@@ -2090,6 +2090,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: karateman_main_0
+      rect:
+        serializedVersion: 2
+        x: 3416
+        y: 2950
+        width: 300
+        height: 614
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 723ab42b9319dc4419f455de6fc8d422
+      internalID: -517717703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: karateman_main_1
+      rect:
+        serializedVersion: 2
+        x: 2955
+        y: 2982
+        width: 387
+        height: 532
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97f1148cf90ce2b448dd00e8c9546e5e
+      internalID: 290006370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -2168,6 +2210,8 @@ TextureImporter:
       karateman_leftleg_crouch: 4620539621551708755
       karateman_legleft: 2707178694875014872
       karateman_legright: -873041338737308662
+      karateman_main_0: -517717703
+      karateman_main_1: 290006370
       karateman_object_shadow: -270761472599659251
       karateman_pot: 8050164209934277894
       karateman_rainy_0: -1722264585180191320
