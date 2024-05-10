@@ -102,7 +102,8 @@ namespace HeavenStudio.Games
             GuestF,
             Matt,
             Tsunku,
-            Marshal
+            Marshal,
+            Error
         }
 
         [Header("References")]
@@ -240,7 +241,7 @@ namespace HeavenStudio.Games
             {
                 do
                 {
-                    player.mii = UnityEngine.Random.Range(0, player.miiFaces.Count);
+                    player.mii = UnityEngine.Random.Range(0, player.miiFaces.Count-1);
                 }
                 while (player.mii == leftFace || player.mii == rightFace);
             }
@@ -258,7 +259,7 @@ namespace HeavenStudio.Games
                 {
                     do
                     {
-                        leftDrummer.mii = UnityEngine.Random.Range(0, player.miiFaces.Count);
+                        leftDrummer.mii = UnityEngine.Random.Range(0, player.miiFaces.Count-1);
                     }
                     while (leftDrummer.mii == player.mii);
                 }
@@ -269,7 +270,7 @@ namespace HeavenStudio.Games
                 {
                     do
                     {
-                        rightDrummer.mii = UnityEngine.Random.Range(0, player.miiFaces.Count);
+                        rightDrummer.mii = UnityEngine.Random.Range(0, player.miiFaces.Count-1);
                     }
                     while (rightDrummer.mii == leftDrummer.mii || rightDrummer.mii == player.mii);
                 }

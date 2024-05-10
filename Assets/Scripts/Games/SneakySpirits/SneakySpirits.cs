@@ -29,7 +29,7 @@ namespace HeavenStudio.Games.Loaders
                     },
                     parameters = new List<Param>()
                     {
-                        new Param("slowDown", true, "Slowdown Effect", "Toggle if there should be a slowdown effect when the ghost is hit."),
+                        new Param("slowDown", false, "Slowdown Effect", "Toggle if there should be a slowdown effect when the ghost is hit."),
                         new Param("volume1", new EntityTypes.Integer(0, 100, 100), "Move Volume 1", "Set the height and volume the ghost should have at this position."),
                         new Param("volume2", new EntityTypes.Integer(0, 100, 100), "Move Volume 2", "Set the height and volume the ghost should have at this position."),
                         new Param("volume3", new EntityTypes.Integer(0, 100, 100), "Move Volume 3", "Set the height and volume the ghost should have at this position."),
