@@ -219,7 +219,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         private bool _lastPunchedHeavy = false;
 
-        public bool Punch(int forceHand = 0, bool touchCharge = false, bool punchedHeavy = false)
+        public bool Punch(int forceHand = 0, bool touchCharge = false, bool punchedHeavy = false, double wantBeat = double.MaxValue)
         {
             if (GameManager.instance.currentGame != "karateman") return false;
             var cond = Conductor.instance;
@@ -246,7 +246,8 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     noNuriJabTime = cond.songPositionInBeatsAsDouble;
                     break;
                 default:
-                    if (cond.songPositionInBeatsAsDouble <= cond.GetBeatFromSongPos(lastPunchTime + Minigame.NgLateTime() - 1) + 0.25)
+                    Debug.Log($"Punching with beat {wantBeat} and lastPunchTime {lastPunchTime}");
+                    if (wantBeat <= cond.GetBeatFromSongPos(lastPunchTime + Minigame.NgLateTime() - 1) + 0.25)
                     {
                         lastPunchTime = double.MinValue;
                         anim.DoScaledAnimationAsync("Straight", 0.5f);
@@ -254,7 +255,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     }
                     else
                     {
-                        lastPunchTime = cond.songPositionAsDouble;
+                        lastPunchTime = cond.GetSongPosFromBeat(wantBeat, true);
                         anim.DoScaledAnimationAsync("Jab", 0.5f);
                     }
                     break;

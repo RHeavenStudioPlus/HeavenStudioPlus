@@ -765,7 +765,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
             var joe = KarateMan.instance.Joe;
             if (state <= -1f || state >= 1f)
             {
-                bool straight = joe.Punch(ItemPunchHand(), false, ItemPunchHand() == 2);
+                bool straight = joe.Punch(ItemPunchHand(), false, ItemPunchHand() == 2, caller.startBeat + caller.timer);
                 startBeat = Conductor.instance.unswungSongPositionInBeatsAsDouble;
                 CurrentCurve = ItemCurves[6];
                 curveTargetBeat = 1f;
@@ -798,7 +798,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                         return;
                     }
                 }
-                bool straight = joe.Punch(ItemPunchHand(), false, ItemPunchHand() == 2);
+                bool straight = joe.Punch(ItemPunchHand(), false, ItemPunchHand() == 2, caller.startBeat + caller.timer);
                 DoHitExpression(startBeat + 1f);
                 ItemHitEffect(straight);
                 status = FlyStatus.Hit;
