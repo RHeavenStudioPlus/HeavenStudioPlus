@@ -662,6 +662,7 @@ namespace HeavenStudio
             public string tabName;
             public EventCallback function = delegate { };
             public float defaultLength = 1;
+            public int defaultVersion = 0;
             public bool resizable = false;
             public List<Param> parameters = null;
             public bool hidden = false;
@@ -685,7 +686,7 @@ namespace HeavenStudio
             /// <param name="preFunction">What the block does when the GameManager seeks to this cue for pre-scheduling.</param>
             /// <param name="hidden">Prevents the block from being shown in the game list. Block will still function normally if it is in the timeline.</param>
             /// <param name="priority">Priority of this event. Higher priority events will be run first.</param>
-            public GameAction(string actionName, string displayName, string tabName, float defaultLength = 1, bool resizable = false, List<Param> parameters = null, EventCallback function = null, EventCallback inactiveFunction = null, EventCallback preFunction = null, bool hidden = false, int priority = 0, float preFunctionLength = 2.0f)
+            public GameAction(string actionName, string displayName, string tabName, float defaultLength = 1, bool resizable = false, List<Param> parameters = null, EventCallback function = null, EventCallback inactiveFunction = null, EventCallback preFunction = null, bool hidden = false, int priority = 0, float preFunctionLength = 2.0f, int defaultVersion = 0)
             {
                 this.actionName = actionName;
                 this.displayName = string.IsNullOrEmpty(displayName) ? actionName : displayName;
@@ -701,6 +702,7 @@ namespace HeavenStudio
                 this.preFunction = preFunction ?? delegate { };
                 this.priority = priority;
                 this.preFunctionLength = preFunctionLength;
+                this.defaultVersion = defaultVersion;
             }
 
             /// <summary>

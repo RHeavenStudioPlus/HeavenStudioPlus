@@ -11,7 +11,6 @@ namespace HeavenStudio.Games.Scripts_KarateMan
     public class KarateManJoe : MonoBehaviour
     {
         public Animator anim;
-        public Animator FaceAnim;
         public GameEvent bop = new GameEvent();
         public SpriteRenderer[] Shadows;
 
@@ -158,7 +157,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                 }
             }
 
-            if (PlayerInput.GetIsAction(KarateMan.InputAction_AltDown) && KarateMan.IsComboEnable && !inSpecial)
+            if (PlayerInput.GetIsAction(KarateMan.InputAction_AltDown) && (KarateMan.IsComboEnable != KarateMan.ComboMode.Disabled) && !inSpecial)
             {
                 if (!KarateMan.instance.IsExpectingInputNow(KarateMan.InputAction_AltDown))
                 {
@@ -292,7 +291,7 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     comboWaiting = true;
                     break;
                 case 3:
-                    anim.DoScaledAnimationAsync("UpperCut", 0.5f);
+                    anim.DoScaledAnimationAsync(KarateMan.IsComboEnable == KarateMan.ComboMode.Jump ? "UpperCutJump" : "UpperCut", 0.5f);
                     lockedInCombo = false;
                     comboWaiting = false;
                     break;
@@ -412,14 +411,14 @@ namespace HeavenStudio.Games.Scripts_KarateMan
 
         public void SetFaceExpressionForced(int face)
         {
-            FaceAnim.DoScaledAnimationAsync("Face" + face.ToString("D2"));
+            anim.DoScaledAnimationAsync("Head.Face" + face.ToString("D2"));
         }
 
         public void SetFaceExpression(int face, bool ignoreCheck = false)
         {
             wantFace = face;
             if (canEmote || ignoreCheck)
-                FaceAnim.DoScaledAnimationAsync("Face" + face.ToString("D2"));
+                anim.DoScaledAnimationAsync("Head.Face" + face.ToString("D2"));
         }
 
         public void ApplyBombGlow()
