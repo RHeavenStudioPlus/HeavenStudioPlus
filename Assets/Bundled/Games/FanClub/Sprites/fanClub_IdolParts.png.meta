@@ -432,27 +432,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idol_Hed_startOpen
-      rect:
-        serializedVersion: 2
-        x: 2235
-        y: 5526
-        width: 579
-        height: 579
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 67630fb26b6273d90800000000000000
-      internalID: -7118178122172713354
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: idol_Hed_fullOpen
       rect:
         serializedVersion: 2
@@ -516,27 +495,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idol_Hed_frown
-      rect:
-        serializedVersion: 2
-        x: 5106
-        y: 5526
-        width: 576
-        height: 585
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b84bd247771553140800000000000000
-      internalID: 4698751359723091083
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: idol_Clt_body
       rect:
         serializedVersion: 2
@@ -595,48 +553,6 @@ TextureImporter:
       bones: []
       spriteID: ce6e4f0591c05cda0800000000000000
       internalID: -5925316431864076564
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: idol_Hed_hair01
-      rect:
-        serializedVersion: 2
-        x: 57
-        y: 4494
-        width: 507
-        height: 369
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d1debea81f3d002e0800000000000000
-      internalID: -2161494786766541539
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: idol_mike01
-      rect:
-        serializedVersion: 2
-        x: 459
-        y: 3030
-        width: 225
-        height: 273
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: aa1b406439ca60c30800000000000000
-      internalID: 4325334240670822826
       vertices: []
       indices: 
       edges: []
@@ -1692,48 +1608,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fan_Hand06
-      rect:
-        serializedVersion: 2
-        x: 5133
-        y: 3396
-        width: 345
-        height: 327
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 10ef2aa445a27c250800000000000000
-      internalID: 5964782772993326593
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fan_Hand03
-      rect:
-        serializedVersion: 2
-        x: 5127
-        y: 2994
-        width: 375
-        height: 267
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 23e8ad39b561c13f0800000000000000
-      internalID: -928842840566755790
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: idol_Clt_body_up
       rect:
         serializedVersion: 2
@@ -2153,6 +2027,489 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: fanClub_IdolParts_1
+      rect:
+        serializedVersion: 2
+        x: 1668
+        y: 4510
+        width: 244
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90351054247adea418a09dcc33c9d156
+      internalID: -2041157903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanClub_IdolParts_2
+      rect:
+        serializedVersion: 2
+        x: 4704
+        y: 2604
+        width: 216
+        height: 264
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 824f9a7c8f5f14b4a92c0a21020b0183
+      internalID: 1487548546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanClub_IdolParts_5
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 468
+        width: 85
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c73004b7642b1847a709f58a1b64b33
+      internalID: 322261811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanClub_IdolParts_6
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 475
+        width: 76
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: caeacddf6541ef244929e5e868adfd41
+      internalID: -464275336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanClub_IdolParts_7
+      rect:
+        serializedVersion: 2
+        x: 632
+        y: 480
+        width: 76
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e5ad9f345a28e046a588a92406bf13b
+      internalID: -623031719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanClub_IdolParts_8
+      rect:
+        serializedVersion: 2
+        x: 841
+        y: 476
+        width: 72
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b5311e4e4c84924cb5b5bb89b4e43fb
+      internalID: 1490780561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanClub_IdolParts_9
+      rect:
+        serializedVersion: 2
+        x: 1020
+        y: 444
+        width: 91
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd894fc602135c146b8ef21ef5c54a05
+      internalID: 520897566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanClub_IdolParts_10
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 455
+        width: 94
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3ff6e20fca131f40b9a1200133896d9
+      internalID: 1606175015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanClub_IdolParts_11
+      rect:
+        serializedVersion: 2
+        x: 1402
+        y: 464
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3aecfe468aed5c4fb0e93b0a64fcae9
+      internalID: -822976298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanClub_IdolParts_12
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 456
+        width: 72
+        height: 68
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbf2478fc5fd1c64d9f37c79ed069ce0
+      internalID: 1585194546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanClub_IdolParts_15
+      rect:
+        serializedVersion: 2
+        x: 1680
+        y: 468
+        width: 199
+        height: 55
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc35fc2ccd6c3f84d8ef360f452ddfd3
+      internalID: -2000089128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: facePoser_base
+      rect:
+        serializedVersion: 2
+        x: 2027
+        y: 188
+        width: 488
+        height: 528
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5a1513dc5c890f45982e1f859891665
+      internalID: -1988333708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fanClub_IdolParts_19
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 372
+        width: 72
+        height: 69
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 620aa0c40594527468d2e3b490517f6f
+      internalID: 107164841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: facePoser_mouth_normal
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 256
+        width: 77
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d3034c9442936748bbd812a8a8a2160
+      internalID: -120211188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: facePoser_mouth_frown
+      rect:
+        serializedVersion: 2
+        x: 401
+        y: 260
+        width: 80
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05089b5f58e3dc74c9bea300ee89df00
+      internalID: -1739365305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: facePoser_mouth_a
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 240
+        width: 50
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71ae54d1dd89c05489d33ffd4b256b93
+      internalID: 656530074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: facePoser_mouth_e
+      rect:
+        serializedVersion: 2
+        x: 845
+        y: 259
+        width: 84
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10d8ea2d766f8084ab118b601321d2cf
+      internalID: 926314825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: facePoser_mouth_o
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 250
+        width: 43
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ab6ce75c6b54534a8bd15d558a2de2a
+      internalID: 1138567343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: facePoser_mouth_u
+      rect:
+        serializedVersion: 2
+        x: 1190
+        y: 265
+        width: 24
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4c1edf2d8bf38540b41665aa97fc348
+      internalID: -1063161895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: facePoser_mouth_i
+      rect:
+        serializedVersion: 2
+        x: 1318
+        y: 252
+        width: 77
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0298e4dcc912c7144a69f8d5545cefcd
+      internalID: -1523146803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: facePoser_cheek_covered
+      rect:
+        serializedVersion: 2
+        x: 1678
+        y: 264
+        width: 66
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbd2260bb6bc4ee4b90b5e7c993d44ee
+      internalID: -1429376610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: facePoser_nose
+      rect:
+        serializedVersion: 2
+        x: 1836
+        y: 277
+        width: 28
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce065e307de2b224ba6a7a3e13ecf760
+      internalID: -602282235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: facePoser_cheek
+      rect:
+        serializedVersion: 2
+        x: 1680
+        y: 468
+        width: 52
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c0bd2e9f04411940b96e6858db5e849
+      internalID: -669874154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -2164,9 +2521,35 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      facePoser_base: -1988333708
+      facePoser_cheek: 1988851716
+      facePoser_cheek_covered: -1429376610
+      facePoser_mouth_a: 656530074
+      facePoser_mouth_e: 926314825
+      facePoser_mouth_frown: -1739365305
+      facePoser_mouth_i: -1523146803
+      facePoser_mouth_normal: -120211188
+      facePoser_mouth_o: 1138567343
+      facePoser_mouth_u: -1063161895
+      facePoser_nose: -602282235
       fanClub_IdolParts_0: -310380506
+      fanClub_IdolParts_1: -2041157903
+      fanClub_IdolParts_10: 1606175015
+      fanClub_IdolParts_11: -822976298
+      fanClub_IdolParts_12: 1585194546
       fanClub_IdolParts_13: 7817682494542373926
       fanClub_IdolParts_14: 8406083837722042950
+      fanClub_IdolParts_15: -2000089128
+      fanClub_IdolParts_16: -664887186
+      fanClub_IdolParts_17: 1800308464
+      fanClub_IdolParts_19: 107164841
+      fanClub_IdolParts_2: 1487548546
+      fanClub_IdolParts_4: 831377491
+      fanClub_IdolParts_5: 322261811
+      fanClub_IdolParts_6: -464275336
+      fanClub_IdolParts_7: -623031719
+      fanClub_IdolParts_8: 1490780561
+      fanClub_IdolParts_9: 520897566
       fan_Arm00: -2989691326247451308
       fan_Arm01: 3790893458473894746
       fan_Arm02: 7295770420721055256
