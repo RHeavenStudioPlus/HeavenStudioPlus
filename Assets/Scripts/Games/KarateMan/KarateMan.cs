@@ -145,6 +145,7 @@ namespace HeavenStudio.Games.Loaders
                         new Param("throwSfx", "lightbulbOut", "Throw SFX", "Choose the type of SFX to use for throwing the bulb."),
                         new Param("hitSfx", "lightbulbHit", "Hit SFX", "Choose the type of SFX to use for hitting the bulb."),
                     },
+                    defaultVersion = 1,
                 },
                 new GameAction("combo", "Combo")
                 {
