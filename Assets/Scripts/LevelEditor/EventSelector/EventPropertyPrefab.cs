@@ -32,25 +32,65 @@ namespace HeavenStudio.Editor
 
         public void UpdateCollapse(object type)
         {
+            List<EventPropertyPrefab> recursedCollapse = new() { this };
             foreach (var p in propertyCollapses)
             {
-                if (p.collapseables.Count > 0) { // there could be a better way to do it, but for now this works
-                    foreach (var c in p.collapseables) {
-                        if (c != null) c.SetActive(p.collapseOn(type, p.entity) && gameObject.activeSelf);
+                if (p.collapseables.Count > 0)
+                {
+                    foreach (var c in p.collapseables)
+                    {
+                        if (c != null)
+                        {
+                            c.gameObject.SetActive(p.collapseOn(type, p.entity) && gameObject.activeSelf);
+                            c.RecursiveUpdateCollapse(recursedCollapse);
+                        }
                     }
-                } else {
+                }
+                else
+                {
                     _ = p.collapseOn(type, p.entity);
+                }
+            }
+        }
+
+        public void RecursiveUpdateCollapse(List<EventPropertyPrefab> updated)
+        {
+            if (updated == null)
+            {
+                updated = new();
+            }
+            if (updated.Contains(this))
+            {
+                return;
+            }
+            updated.Add(this);
+            foreach (var p in propertyCollapses)
+            {
+                if (p.collapseables.Count > 0)
+                {
+                    foreach (var c in p.collapseables)
+                    {
+                        if (c != null)
+                        {
+                            c.gameObject.SetActive(p.collapseOn(entity[propertyName], p.entity) && gameObject.activeSelf);
+                            c.RecursiveUpdateCollapse(updated);
+                        }
+                    }
+                }
+                else
+                {
+                    _ = p.collapseOn(entity[propertyName], p.entity);
                 }
             }
         }
 
         public class PropertyCollapse
         {
-            public List<GameObject> collapseables;
+            public List<EventPropertyPrefab> collapseables;
             public Func<object, RiqEntity, bool> collapseOn;
             public RiqEntity entity;
 
-            public PropertyCollapse(List<GameObject> collapseables, Func<object, RiqEntity, bool> collapseOn, RiqEntity entity)
+            public PropertyCollapse(List<EventPropertyPrefab> collapseables, Func<object, RiqEntity, bool> collapseOn, RiqEntity entity)
             {
                 this.collapseables = collapseables;
                 this.collapseOn = collapseOn;

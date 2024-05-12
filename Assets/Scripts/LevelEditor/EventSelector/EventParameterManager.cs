@@ -133,7 +133,7 @@ namespace HeavenStudio.Editor
                     EventPropertyPrefab input = currentProperties[p.propertyName];
                     foreach (var c in p.collapseParams)
                     {
-                        List<GameObject> collapseables = c.collapseables.Select(x => currentProperties[x].gameObject).ToList();
+                        List<EventPropertyPrefab> collapseables = c.collapseables.Select(x => currentProperties[x]).ToList();
                         input.propertyCollapses.Add(new EventPropertyPrefab.PropertyCollapse(collapseables, c.CollapseOn, entity));
                     }
                     input.SetCollapses(p.parameter);
