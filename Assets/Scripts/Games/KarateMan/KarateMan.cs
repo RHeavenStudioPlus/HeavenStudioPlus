@@ -16,23 +16,6 @@ namespace HeavenStudio.Games.Loaders
     {
         public static Minigame AddGame(EventCaller eventCaller)
         {
-            RiqEntity GameModsUpdater(string datamodel, RiqEntity e)
-            {
-                if (datamodel == "karateman/set gameplay modifiers" && e.version < 1)
-                {
-                    if (e["toggle"] == null) return null;
-
-                    bool comboEnable = (bool)e["toggle"];
-                    e.CreateProperty("combo", (int)(comboEnable ? KarateMan.ComboMode.Normal : KarateMan.ComboMode.Disabled));
-                    e.dynamicData.Remove("toggle");
-                    e.version = 1;
-
-                    return e;
-                }
-                return null;
-            }
-            RiqBeatmap.OnUpdateEntity += GameModsUpdater;
-
             RiqEntity WarningUpdater(string datamodel, RiqEntity e)
             {
                 if (datamodel == "karateman/hitX")
@@ -90,6 +73,20 @@ namespace HeavenStudio.Games.Loaders
             }
             RiqBeatmap.OnUpdateEntity += BackgroundUpdater;
 
+            RiqEntity BulbUpdater(string datamodel, RiqEntity e)
+            {
+                if (e.datamodel == "karateman/bulb" && e.version == 0)
+                {
+                    e.version = 1;
+
+                    e["type"]++;
+
+                    return e;
+                }
+                return null;
+            }
+            RiqBeatmap.OnUpdateEntity += BulbUpdater;
+
             return new Minigame("karateman", "Karate Man", "fbca3e", false, false, new List<GameAction>()
             {
                 new GameAction("bop", "Bop")
@@ -134,7 +131,7 @@ namespace HeavenStudio.Games.Loaders
                     defaultLength = 2,
                     parameters = new List<Param>()
                     {
-                        new Param("type", KarateMan.LightBulbType.Normal, "Type", "Choose the bulb type. Yellow is used for kicks, while Blue is used for combos", new List<Param.CollapseParam>()
+                        new Param("type", KarateMan.LightBulbType.Automatic, "Type", "Choose the bulb type. Yellow is used for kicks, while Blue is used for combos", new List<Param.CollapseParam>()
                         {
                             new Param.CollapseParam((x, _) => (int)x == (int)KarateMan.LightBulbType.Custom, new string[] { "colorA" })
                         }),
@@ -148,6 +145,30 @@ namespace HeavenStudio.Games.Loaders
                         new Param("throwSfx", "lightbulbOut", "Throw SFX", "Choose the type of SFX to use for throwing the bulb."),
                         new Param("hitSfx", "lightbulbHit", "Hit SFX", "Choose the type of SFX to use for hitting the bulb."),
                     },
+                },
+                new GameAction("combo", "Combo")
+                {
+                    function = delegate {
+                        var e = eventCaller.currentEntity;
+                        KarateMan.instance.Combo(e.beat, e["type"], e["pitchVoice"], e["forcePitch"], e["cutOut"], e["disableVoice"]);
+                        KarateMan.ComboSFX();
+                    },
+                    inactiveFunction = delegate {
+                        var e = eventCaller.currentEntity;
+                        KarateMan.ComboSFX();
+                    },
+                    defaultLength = 4,
+                    parameters = new List<Param>()
+                    {
+                        new Param("type", KarateMan.KarateManFaces.Happy, "Success Expression", "Set the facial expression for Karate Joe to show if he hits the object."),
+                        new Param("pitchVoice", false, "Pitch Voice", "Toggle if the voice should be pitched.", new List<Param.CollapseParam>()
+                        {
+                            new Param.CollapseParam((x, _) => (bool)x, new string[] { "forcePitch" }),
+                        }),
+                        new Param("forcePitch", new EntityTypes.Float(0.5f, 2f, 1f), "Force Pitch", "Set the pitching of the voice, or keep it at 1 for automatic pitching."),
+                        new Param("cutOut", true, "Cut Out Voice", "Toggle if this cue will be cut out if another voiced cue plays."),
+                        new Param("disableVoice", false, "Mute Voice", "Toggle if the voice should be muted."),
+                    }
                 },
                 new GameAction("kick", "Kick")
                 {
@@ -175,30 +196,6 @@ namespace HeavenStudio.Games.Loaders
                         new Param("disableVoice", false, "Mute Voice", "Toggle if the voice should be muted."),
                         new Param("woodColor", new Color(0.451f, 0.302f, 0.271f), "Barrel Wood Color", "Choose the color of the barrel's wood."),
                         new Param("hoopColor", new Color(0.714f, 0.309f, 0.424f), "Barrel Hoop Color", "Choose the color of the barrel's hoops."),
-                    }
-                },
-                new GameAction("combo", "Combo")
-                {
-                    function = delegate {
-                        var e = eventCaller.currentEntity;
-                        KarateMan.instance.Combo(e.beat, e["type"], e["pitchVoice"], e["forcePitch"], e["cutOut"], e["disableVoice"]);
-                        KarateMan.ComboSFX();
-                    },
-                    inactiveFunction = delegate {
-                        var e = eventCaller.currentEntity;
-                        KarateMan.ComboSFX();
-                    },
-                    defaultLength = 4,
-                    parameters = new List<Param>()
-                    {
-                        new Param("type", KarateMan.KarateManFaces.Happy, "Success Expression", "Set the facial expression for Karate Joe to show if he hits the object."),
-                        new Param("pitchVoice", false, "Pitch Voice", "Toggle if the voice should be pitched.", new List<Param.CollapseParam>()
-                        {
-                            new Param.CollapseParam((x, _) => (bool)x, new string[] { "forcePitch" }),
-                        }),
-                        new Param("forcePitch", new EntityTypes.Float(0.5f, 2f, 1f), "Force Pitch", "Set the pitching of the voice, or keep it at 1 for automatic pitching."),
-                        new Param("cutOut", true, "Cut Out Voice", "Toggle if this cue will be cut out if another voiced cue plays."),
-                        new Param("disableVoice", false, "Mute Voice", "Toggle if the voice should be muted."),
                     }
                 },
                 new GameAction("warnings", "Text Warnings")
@@ -245,17 +242,17 @@ namespace HeavenStudio.Games.Loaders
                 {
                     function = delegate {
                         var e = eventCaller.currentEntity;
-                        KarateMan.instance.SetGameplayMods(e.beat, e["fxType"], e["type"], e["combo"]);
+                        KarateMan.instance.SetGameplayMods(e.beat, e["fxType"], e["type"], e["toggle"]);
                     },
                     defaultLength = 0.5f,
                     parameters = new List<Param>()
                     {
                         new Param("fxType", KarateMan.BackgroundFXType.None, "FX Type", "Set the background effect to be displayed."),
                         new Param("type", KarateMan.NoriMode.None, "Flow Bar", "Set the type of Flow bar to use."),
-                        new Param("combo", KarateMan.ComboMode.Normal, "Enable Combos", "Toggle if Karate Joe will be able to perform combos, and the type of combo used."),
+                        // new Param("hitsPerHeart", new EntityTypes.Float(0f, 20f, 0f), "Hits Per Heart", "How many hits it will take for each heart to light up (0 will do it automatically.)"),
+                        new Param("toggle", true, "Enable Combos", "Toggle if Karate Joe will be able to perform combos. This will not affect Touch Style controls."),
                         // new Param("toggle2", true, "Enable Kicks", "Allow the player to kick? (Contextual kicks will still be allowed even when off)"),
                     },
-                    defaultVersion = 1,
                 },
                 new GameAction("background appearance", "Background Appearance")
                 {
@@ -300,6 +297,28 @@ namespace HeavenStudio.Games.Loaders
                         new Param("endTexture", new Color(), "End Texture Color", "Set the color at the end of the event."),
                     },
                 },
+                // new GameAction("set background effects", "Background Appearance (OLD)")
+                // {
+                //     function = delegate {
+                //         var e = eventCaller.currentEntity;
+                //         KarateMan.instance.SetBgAndShadowCol(e.beat, e.length, e["type"], e["type2"], e["colorA"], e["colorB"], e["type3"]);
+                //         KarateMan.instance.SetBgFx(e["type4"], e["type5"], e["colorC"], e["colorD"]);
+                //     }, 
+                //     defaultLength = 0.5f, 
+                //     resizable = true, 
+                //     parameters = new List<Param>()
+                //     {
+                //         new Param("type", KarateMan.BackgroundType.Yellow, "Background Type", "The preset background type"),
+                //         new Param("type2", KarateMan.ShadowType.Tinted, "Shadow Type", "The shadow type. If Tinted doesn't work with your background color try Custom"),
+                //         new Param("colorA", new Color(), "Custom Background Color", "The background color to use when background type is set to Custom"),
+                //         new Param("colorB", new Color(), "Custom Shadow Color", "The shadow color to use when shadow type is set to Custom. When fading the background colour shadows fade to this color"),
+                //         new Param("type3", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed. Fade uses the entity length to determine colour fading speed"),
+                //         new Param("type4", KarateMan.BackgroundTextureType.Plain, "Texture", "The type of background texture to use"),
+                //         new Param("type5", KarateMan.ShadowType.Tinted, "Color Filter Type", "The method used to apply colour to the texture"),
+                //         new Param("colorC", new Color(), "Custom Filter Color", "The filter color to use when color filter type is set to Custom"),
+                //         new Param("colorD", new Color(), "Fading Filter Color", "When using the Fade background effect, make filter colour fade to this colour"),
+                //     },
+                // },
                 new GameAction("set object colors", "Object Appearance")
                 {
                     function = delegate {
@@ -411,9 +430,10 @@ namespace HeavenStudio.Games
 
         public enum LightBulbType
         {
+            Automatic,
             Normal,
-            Blue,
-            Yellow,
+            Combo,
+            Kick,
             Custom
         }
 
@@ -491,16 +511,11 @@ namespace HeavenStudio.Games
             Mania,
             ManiaHorizontal,
         }
-
-        public enum ComboMode
-        {
-            Disabled,
-            Normal,
-            Jump,
-        }
         #endregion
 
-        public static ComboMode IsComboEnable = ComboMode.Normal; //only stops Out combo inputs, this basically makes combo contextual
+        // static List<RiqEntity> queuedCues = new();
+        public static bool IsComboEnable = true; //only stops Out combo inputs, this basically makes combo contextual
+        // public static bool IsKickEnable = true; //same as above, except with kick inputs
         public bool IsNoriActive { get { return Nori.MaxNori > 0; } }
         public float NoriPerformance { get { if (IsNoriActive) return Nori.Nori / Nori.MaxNori; else return 1f; } }
 
@@ -556,13 +571,7 @@ namespace HeavenStudio.Games
         public WindZone Wind;
         public ParticleSystem[] Effects;
 
-        [Header("Unloaded Game Calls")]
-        //public static Queue<Beatmap.Entity> ItemQueue = new Queue<Beatmap.Entity>();
-        public static bool WantBop = true;
-        public static bool WantNori = true;
-        public static int WantNoriType = (int)NoriMode.None;
-        public static double WantBgChangeStart = double.MinValue;
-        public static float WantBgChangeLength = 0f;
+        private const float PITCH_MOD = 125;
 
         const int IAAltDownCat = IAMAXCAT;
         const int IAAltUpCat = IAMAXCAT + 1;
@@ -654,7 +663,7 @@ namespace HeavenStudio.Games
         public static PlayerInput.InputAction InputAction_TouchUp =
             new("KarateAltUp", new int[] { IAEmptyCat, IAReleaseCat, IAEmptyCat },
             IA_PadAltUp, IA_EmptyTouchUp, IA_BatonAltUp);
-        public List<RiqEntity> voiceEntities, hitVoiceEntities = new();
+        public List<RiqEntity> specialEntities, hitVoiceEntities = new();
 
         public static KarateMan instance;
 
@@ -748,7 +757,7 @@ namespace HeavenStudio.Games
             }
 
             // get all entities to later check against eachother to cut out voices
-            voiceEntities = prevEntities.FindAll(c => c.beat > beat && (c.datamodel is "karateman/kick" or "karateman/combo"));
+            specialEntities = prevEntities.FindAll(c => c.beat >= beat && (c.datamodel is "karateman/kick" or "karateman/combo"));
             hitVoiceEntities = prevEntities.FindAll(c => c.beat > beat && (c.datamodel is "karateman/warnings" && c["whichWarning"] <= (int)HitThree.HitFour));
         }
 
@@ -835,6 +844,20 @@ namespace HeavenStudio.Games
 
         private Color TintColor(Color color) => Color.LerpUnclamped(color, new Color(195 / 255f, 48 / 255f, 2 / 255f), 0.45f);
 
+        private static LightBulbType GetNextSpecial(double beat)
+        {
+            var entities = instance != null ? instance.specialEntities : null;
+            RiqEntity nextSpecial = entities != null ?
+                (entities.Count > 0 ? entities.Find(e => e.beat >= beat) : null) :
+                GameManager.instance.Beatmap.Entities.Find(c => c.beat >= beat && (c.datamodel is "karateman/combo" or "karateman/kick"));
+
+            return nextSpecial?.datamodel switch {
+                "karateman/combo" => LightBulbType.Combo,
+                "karateman/kick"  => LightBulbType.Kick,
+                null or _         => LightBulbType.Normal,
+            };
+        }
+
         public static void DoSpecialCamera(double beat, float length, bool returns)
         {
             if (cameraAngle == CameraAngle.Normal)
@@ -868,7 +891,7 @@ namespace HeavenStudio.Games
                     new MultiSound.Sound($"karateman/{(type == (int)HitThree.HitThreeAlt ? "hitAlt" : "hit")}", beat + 0.5f, offset: 0.042f),
                     new MultiSound.Sound($"karateman/{number}", beat + 1f),
                 };
-                Array.ForEach(sounds, x => x.pitch = bpmPitch ? Conductor.instance.GetBpmAtBeat(x.beat) / 125 : forcePitch);
+                Array.ForEach(sounds, x => x.pitch = bpmPitch ? Conductor.instance.GetBpmAtBeat(x.beat) / PITCH_MOD : forcePitch);
                 MultiSound.Play(sounds, forcePlay: true);
             }
 
@@ -881,27 +904,6 @@ namespace HeavenStudio.Games
             return $"Word0{(type < (int)HitThree.HitThreeAlt ? type : type - 1)}";
         }
 
-        public static void CreateItemSFX(double beat, int type, bool muteSound = false)
-        {
-            if (!muteSound) SoundByte.PlayOneShotGame($"karateman/{(beat % 1.0 == 0.5 ? $"offbeatObject" : "object")}Out", forcePlay: true);
-        }
-
-        public static void CreateBulbSFX(double beat, int type, int sfx, string throwSfx)
-        {
-            string obj = sfx switch
-            {
-                (int)LightBulbSfx.Automatic => type == (int)LightBulbType.Yellow ? "LightbulbNtr" : "Lightbulb",
-                (int)LightBulbSfx.DS => "LightbulbNtr",
-                (int)LightBulbSfx.Custom => throwSfx,
-                _ => "Lightbulb",
-            };
-            if (sfx != (int)LightBulbSfx.Custom)
-            {
-                obj = (beat % 1.0 == 0.5) ? $"offbeat{obj}Out" : obj.ToLower() + "Out";
-            }
-            SoundByte.PlayOneShotGame($"karateman/{obj}", forcePlay: true);
-        }
-
         public void CreateItem(double beat, int type, int expression)
         {
             switch (type)
@@ -911,7 +913,7 @@ namespace HeavenStudio.Games
                     break;
                 case (int)HitType.Lightbulb:
                     var mobj = CreateItemInstance(beat, "Item01", expression, KarateManPot.ItemType.Bulb);
-                    mobj.SetBulbColor(LightBulbColors[0]);
+                    mobj.SetBulbColor(new Color(0, 0, 0, 0));
                     break;
                 case (int)HitType.Rock:
                     CreateItemInstance(beat, "Item02", expression, KarateManPot.ItemType.Rock);
@@ -937,11 +939,38 @@ namespace HeavenStudio.Games
             }
         }
 
-        public void CreateBulbSpecial(double beat, int type, Color color, int expression, int sfx, string hitSfx = "")
+        public static void CreateItemSFX(double beat, int type, bool muteSound = false)
         {
+            if (!muteSound) SoundByte.PlayOneShotGame($"karateman/{(beat % 1.0 == 0.5 ? "offbeatObject" : "object")}Out", forcePlay: true);
+        }
+
+        public static void CreateBulbSFX(double beat, int type, int sfx, string throwSfx)
+        {
+            if (type == (int)LightBulbType.Automatic) {
+                type = (int)GetNextSpecial(beat);
+            }
             string obj = sfx switch
             {
-                (int)LightBulbSfx.Automatic => type == (int)LightBulbType.Yellow ? "LightbulbNtr" : "Lightbulb",
+                (int)LightBulbSfx.Automatic => type == (int)LightBulbType.Kick ? "LightbulbNtr" : "Lightbulb",
+                (int)LightBulbSfx.DS => "LightbulbNtr",
+                (int)LightBulbSfx.Custom => throwSfx,
+                _ => "Lightbulb",
+            };
+            if (sfx != (int)LightBulbSfx.Custom)
+            {
+                obj = (beat % 1.0 == 0.5) ? $"offbeat{obj}Out" : obj.ToLower() + "Out";
+            }
+            SoundByte.PlayOneShotGame($"karateman/{obj}", forcePlay: true);
+        }
+
+        public void CreateBulbSpecial(double beat, int type, Color color, int expression, int sfx, string hitSfx = "")
+        {
+            if (type == (int)LightBulbType.Automatic) {
+                type = (int)GetNextSpecial(beat);
+            }
+            string obj = sfx switch
+            {
+                (int)LightBulbSfx.Automatic => type == (int)LightBulbType.Kick ? "LightbulbNtr" : "Lightbulb",
                 (int)LightBulbSfx.DS => "LightbulbNtr",
                 (int)LightBulbSfx.Custom => hitSfx,
                 _ => "Lightbulb",
@@ -949,7 +978,8 @@ namespace HeavenStudio.Games
             if (sfx != (int)LightBulbSfx.Custom) obj += "Hit";
             var mobj = CreateItemInstance(beat, "Item01", expression, KarateManPot.ItemType.Bulb, hitSfxOverride: $"karateman/{obj}");
 
-            mobj.SetBulbColor((type == (int)LightBulbType.Custom) ? color : LightBulbColors[type]);
+            // use the type to index, starting at 0 (i.e the normal lightbulb color, which is transparent)
+            mobj.SetBulbColor((type == (int)LightBulbType.Custom) ? color : LightBulbColors[type - (int)LightBulbType.Normal]);
         }
 
         public static void ComboSFX()
@@ -982,15 +1012,15 @@ namespace HeavenStudio.Games
                 new MultiSound.Sound("karateman/pow", beat + 2.5f)
             };
 
-            if (voiceEntities.Count > 0 && cutOut)
+            if (specialEntities.Count > 0 && cutOut)
             {
-                RiqEntity firstVoice = voiceEntities.Find(x => x.beat >= beat + 1);
+                RiqEntity firstVoice = specialEntities.Find(x => x.beat >= beat + 1);
                 RiqEntity firstHitVoice = hitVoiceEntities.Find(x => x.beat >= beat + 1);
                 if (firstVoice != null) sounds.RemoveAll(x => x.beat > firstVoice.beat);
                 if (firstHitVoice != null) sounds.RemoveAll(x => x.beat > firstHitVoice.beat - 0.5);
             }
 
-            sounds.ForEach(x => x.pitch = bpmPitch ? Conductor.instance.GetBpmAtBeat(x.beat) / 125 : forcePitch);
+            sounds.ForEach(x => x.pitch = bpmPitch ? Conductor.instance.GetBpmAtBeat(x.beat) / PITCH_MOD : forcePitch);
 
             MultiSound.Play(sounds.ToArray(), forcePlay: true);
         }
@@ -1018,15 +1048,15 @@ namespace HeavenStudio.Games
                 new MultiSound.Sound("karateman/punchKick4", beat + 2.5f),
             };
 
-            if (voiceEntities.Count > 0 && cutOut)
+            if (specialEntities.Count > 0 && cutOut)
             {
-                RiqEntity firstVoice = voiceEntities.Find(x => x.beat >= beat + 1);
+                RiqEntity firstVoice = specialEntities.Find(x => x.beat >= beat + 1);
                 RiqEntity firstHitVoice = hitVoiceEntities.Find(x => x.beat >= beat + 1);
                 if (firstVoice != null) sounds.RemoveAll(x => x.beat > firstVoice.beat);
                 if (firstHitVoice != null) sounds.RemoveAll(x => x.beat > firstHitVoice.beat);
             }
 
-            sounds.ForEach(x => x.pitch = bpmPitch ? Conductor.instance.GetBpmAtBeat(x.beat) / 125 : forcePitch);
+            sounds.ForEach(x => x.pitch = bpmPitch ? Conductor.instance.GetBpmAtBeat(x.beat) / PITCH_MOD  : forcePitch);
 
             MultiSound.Play(sounds.ToArray(), forcePlay: true);
         }
@@ -1088,12 +1118,12 @@ namespace HeavenStudio.Games
             }
         }
 
-        public void SetGameplayMods(double beat, int fxType, int mode, int combo)
+        public void SetGameplayMods(double beat, int fxType, int mode, bool combo)
         {
             NoriGO.SetActive(true);
             Nori.SetNoriMode(beat, mode);
             currentBgEffect = fxType;
-            IsComboEnable = (ComboMode)combo;
+            IsComboEnable = combo;
             // IsKickEnable = kick;
         }
 

@@ -276,8 +276,8 @@ namespace HeavenStudio
                                     else if (type == typeof(EntityTypes.Button))
                                         e.dynamicData[param.propertyName] = (string)e[param.propertyName];
                                     else if (type == typeof(EntityTypes.Dropdown)) {
-                                        JValue value = e[param.propertyName]["value"];
-                                        JArray values = e[param.propertyName]["Values"];
+                                        JValue value = e[param.propertyName].value;
+                                        JArray values = e[param.propertyName].Values;
                                         e.dynamicData[param.propertyName] = new EntityTypes.DropdownObj((int)value, values.Select(x => (string)x).ToList());
                                     }
                                     else if (type == typeof(EntityTypes.NoteSampleDropdown))
@@ -305,10 +305,12 @@ namespace HeavenStudio
                                     // use default value
                                     if (type == typeof(EntityTypes.Integer))
                                         e.dynamicData[param.propertyName] = ((EntityTypes.Integer)param.parameter).val;
-                                    else if (type == typeof(EntityTypes.Note))
-                                        e.dynamicData[param.propertyName] = ((EntityTypes.Note)param.parameter).val;
                                     else if (type == typeof(EntityTypes.Float))
                                         e.dynamicData[param.propertyName] = ((EntityTypes.Float)param.parameter).val;
+                                    // else if (type == typeof(EntityTypes.Dropdown))
+                                    //     e.dynamicData[param.propertyName] = new EntityTypes.DropdownObj();
+                                    else if (type == typeof(EntityTypes.Note))
+                                        e.dynamicData[param.propertyName] = ((EntityTypes.Note)param.parameter).val;
                                     else if (type.IsEnum && param.propertyName != "ease")
                                         e.dynamicData[param.propertyName] = (int)param.parameter;
                                     else
@@ -1191,26 +1193,6 @@ namespace HeavenStudio
                             new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.", new()
                             {
                                 new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "intenStart" })
-                            }),
-                        }
-                    },
-
-                    new GameAction("pixelQuad", "Pixelize", "VFX")
-                    {
-                        resizable = true,
-                        parameters = new()
-                        {
-                            new("pixelSizeStart", new EntityTypes.Float(0.00f, 1f, 0.00f), "Start Pixel Size", "Set the pixel size at the start of the event."),
-                            new("pixelSizeEnd", new EntityTypes.Float(0.00f, 1f, 0.5f), "End Pixel Size", "Set the pixel size at the end of the event."),
-                            new("ratioStart", new EntityTypes.Float(0.2f, 5f, 1f), "Start Pixel Ratio", "Set the pixel ratio at the start of the event."),
-                            new("ratioEnd", new EntityTypes.Float(0.2f, 5f, 1f), "End Pixel Ratio", "Set the pixel ratio at the end of the event."),
-                            new("xScaleStart", new EntityTypes.Float(0.2f, 5f, 1f), "Start X Scale", "Set the X scale of the pixels at the start of the event."),
-                            new("xScaleEnd", new EntityTypes.Float(0.2f, 5f, 1f), "End X Scale", "Set the X scale of the pixels at the end of the event."),
-                            new("yScaleStart", new EntityTypes.Float(0.2f, 5f, 1f), "Start Y Scale", "Set the Y scale of the pixels at the start of the event."),
-                            new("yScaleEnd", new EntityTypes.Float(0.2f, 5f, 1f), "End Y Scale", "Set the Y scale of the pixels at the end of the event."),
-                            new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.", new()
-                            {
-                                new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "pixelSizeStart", "ratioStart", "xScaleStart", "yScaleStart" })
                             }),
                         }
                     },
