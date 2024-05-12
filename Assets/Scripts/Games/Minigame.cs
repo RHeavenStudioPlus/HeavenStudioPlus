@@ -14,7 +14,10 @@ namespace HeavenStudio.Games
 {
     public class Minigame : MonoBehaviour
     {
+        // root timing window values
         public static double ngEarlyTimeBase = 0.1, justEarlyTimeBase = 0.05, aceEarlyTimeBase = 0.01, aceLateTimeBase = 0.01, justLateTimeBase = 0.05, ngLateTimeBase = 0.1;
+        // recommended added margin for release inputs
+        public static double releaseMargin = 0.01;
         public static double rankHiThreshold = 0.8, rankOkThreshold = 0.6;
 
         public static double ngEarlyTime => ngEarlyTimeBase * Conductor.instance?.SongPitch ?? 1;
@@ -110,7 +113,7 @@ namespace HeavenStudio.Games
             IA_PadBasicRelease, IA_TouchFlick, IA_BatonBasicRelease);
         #endregion
 
-        public List<PlayerActionEvent> scheduledInputs = new List<PlayerActionEvent>();
+        [NonSerialized] public List<PlayerActionEvent> scheduledInputs = new List<PlayerActionEvent>();
 
         /// <summary>
         /// Schedule an Input for a later time in the minigame. Executes the methods put in parameters
@@ -163,6 +166,22 @@ namespace HeavenStudio.Games
 
             scheduledInputs.Add(evt);
 
+            return evt;
+        }
+
+        public PlayerActionEvent ScheduleInput(
+            double startBeat,
+            double timer,
+            double margin,
+            PlayerInput.InputAction inputAction,
+            PlayerActionEvent.ActionEventCallbackState OnHit,
+            PlayerActionEvent.ActionEventCallback OnMiss,
+            PlayerActionEvent.ActionEventCallback OnBlank,
+            PlayerActionEvent.ActionEventHittableQuery HittableQuery = null
+            )
+        {
+            PlayerActionEvent evt = ScheduleInput(startBeat, timer, inputAction, OnHit, OnMiss, OnBlank, HittableQuery);
+            evt.margin = margin;
             return evt;
         }
 
@@ -236,7 +255,7 @@ namespace HeavenStudio.Games
         {
             PlayerActionEvent input = GetClosestScheduledInput(wantActionCategory);
             if (input == null) return false;
-            return input.IsExpectingInputNow();
+            return input.IsExpectingInputNow(conductor);
         }
 
         public bool IsExpectingInputNow(PlayerInput.InputAction wantAction)
@@ -245,46 +264,46 @@ namespace HeavenStudio.Games
         }
 
         // now should fix the fast bpm problem
-        public static double NgEarlyTime(float pitch = -1)
+        public static double NgEarlyTime(float pitch = -1, double margin = 0)
         {
             if (pitch < 0)
-                return 1 - ngEarlyTime;
-            return 1 - (ngEarlyTimeBase * pitch);
+                return 1 - (ngEarlyTime + margin);
+            return 1 - ((ngEarlyTime + margin) * pitch);
         }
 
-        public static double JustEarlyTime(float pitch = -1)
+        public static double NgLateTime(float pitch = -1, double margin = 0)
         {
             if (pitch < 0)
-                return 1 - justEarlyTime;
-            return 1 - (justEarlyTimeBase * pitch);
+                return 1 + (ngLateTime + margin);
+            return 1 + ((ngLateTime + margin) * pitch);
         }
 
-        public static double JustLateTime(float pitch = -1)
+        public static double JustEarlyTime(float pitch = -1, double margin = 0)
         {
             if (pitch < 0)
-                return 1 + justLateTime;
-            return 1 + (justLateTimeBase * pitch);
+                return 1 - (justEarlyTime + margin);
+            return 1 - ((justEarlyTime + margin) * pitch);
         }
 
-        public static double NgLateTime(float pitch = -1)
+        public static double JustLateTime(float pitch = -1, double margin = 0)
         {
             if (pitch < 0)
-                return 1 + ngLateTime;
-            return 1 + (ngLateTimeBase * pitch);
+                return 1 + (justLateTime + margin);
+            return 1 + ((justLateTime + margin) * pitch);
         }
 
-        public static double AceEarlyTime(float pitch = -1)
+        public static double AceEarlyTime(float pitch = -1, double margin = 0)
         {
             if (pitch < 0)
-                return 1 - aceEarlyTime;
-            return 1 - (aceEarlyTimeBase * pitch);
+                return 1 - (aceEarlyTime + margin);
+            return 1 - ((aceEarlyTime + margin) * pitch);
         }
 
-        public static double AceLateTime(float pitch = -1)
+        public static double AceLateTime(float pitch = -1, double margin = 0)
         {
             if (pitch < 0)
-                return 1 + aceLateTime;
-            return 1 + (aceLateTimeBase * pitch);
+                return 1 + (aceLateTime + margin);
+            return 1 + ((aceLateTime + margin) * pitch);
         }
 
         public virtual void OnGameSwitch(double beat)
@@ -340,7 +359,7 @@ namespace HeavenStudio.Games
         public void ScoreMiss(float weight = 1f)
         {
             double beat = Conductor.instance?.songPositionInBeatsAsDouble ?? -1;
-            GameManager.instance.ScoreInputAccuracy(beat, 0, true, NgLateTime(), weight, false);
+            GameManager.instance.ScoreInputAccuracy(beat, 0, true, NgLateTime(), weight: weight, doDisplay: false);
         }
 
         public void ToggleSplitColoursDisplay(bool on)
@@ -442,14 +461,17 @@ namespace HeavenStudio.Games
             public Color GetColor() => MakeNewColor(startBeat, length, startColor, endColor, easeFunc);
             public static Color MakeNewColor(double beat, float length, Color start, Color end, Util.EasingFunction.Function func)
             {
-                if (length != 0) {
+                if (length != 0)
+                {
                     float normalizedBeat = length == 0 ? 1 : Mathf.Clamp01(Conductor.instance.GetPositionFromBeat(beat, length));
 
                     float newR = func(start.r, end.r, normalizedBeat);
                     float newG = func(start.g, end.g, normalizedBeat);
                     float newB = func(start.b, end.b, normalizedBeat);
                     return new Color(newR, newG, newB);
-                } else {
+                }
+                else
+                {
                     return end;
                 }
             }
@@ -471,19 +493,21 @@ namespace HeavenStudio.Games
             /// The ease to use to transition between <paramref name="startColor"/> and <paramref name="endColor"/>.<br/>
             /// Should be derived from <c>Util.EasingFunction.Ease</c>,
             /// </param>
-            public ColorEase(double startBeat, float length, Color startColor, Color endColor, int ease) {
+            public ColorEase(double startBeat, float length, Color startColor, Color endColor, int ease)
+            {
                 this.startBeat = startBeat;
                 this.length = length;
                 (this.startColor, this.endColor) = (startColor, endColor);
                 this.ease = (Util.EasingFunction.Ease)ease;
                 this.easeFunc = Util.EasingFunction.GetEasingFunction(this.ease);
             }
-            
+
             /// <summary>
             /// The constructor to use when initializing the ColorEase variable.
             /// </summary>
             /// <param name="defaultColor">The default color to initialize with.</param>
-            public ColorEase(Color? defaultColor = null) {
+            public ColorEase(Color? defaultColor = null)
+            {
                 startColor = endColor = defaultColor ?? Color.white;
                 easeFunc = Util.EasingFunction.Instant;
             }
