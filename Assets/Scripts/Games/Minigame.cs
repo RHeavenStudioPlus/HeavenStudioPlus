@@ -124,6 +124,7 @@ namespace HeavenStudio.Games
         /// <param name="OnHit">Method to run if the Input has been Hit</param>
         /// <param name="OnMiss">Method to run if the Input has been Missed</param>
         /// <param name="OnBlank">Method to run whenever there's an Input while this is Scheduled (Shouldn't be used too much)</param>
+        /// <param name="ignoreSwing">Pretty much what it says on the tin, ignores swing when active. This'll probably end up being used for a whole one game lmao</param> 
         /// <returns></returns>
         public PlayerActionEvent ScheduleInput(
             double startBeat,
@@ -132,7 +133,8 @@ namespace HeavenStudio.Games
             PlayerActionEvent.ActionEventCallbackState OnHit,
             PlayerActionEvent.ActionEventCallback OnMiss,
             PlayerActionEvent.ActionEventCallback OnBlank,
-            PlayerActionEvent.ActionEventHittableQuery HittableQuery = null
+            PlayerActionEvent.ActionEventHittableQuery HittableQuery = null,
+            bool ignoreSwing = false
             )
         {
             // List<RiqEntity> gameSwitches = GameManager.instance.Beatmap.Entities.FindAll(c => c.beat <= startBeat + timer && c.datamodel.Split("/")[0] == "switchGame");
@@ -145,7 +147,8 @@ namespace HeavenStudio.Games
 
             PlayerActionEvent evt = evtObj.AddComponent<PlayerActionEvent>();
 
-            evt.startBeat = startBeat;
+            if (ignoreSwing) evt.startBeat = Conductor.instance.GetSwungBeat(startBeat);
+            else evt.startBeat = startBeat;
             evt.timer = timer;
             evt.InputAction = inputAction;
             evt.OnHit = OnHit;

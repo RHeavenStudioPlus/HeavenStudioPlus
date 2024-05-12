@@ -23,24 +23,27 @@ namespace HeavenStudio.Util
             public float volume { get; set; }
             public bool looping { get; set; }
             public double offset { get; set; }
+            public bool ignoreSwing {get; set; }
 
-            public Sound(string name, double beat, float pitch = 1f, float volume = 1f, bool looping = false, double offset = 0f)
+            public Sound(string name, double beat, float pitch = 1f, float volume = 1f, bool looping = false, double offset = 0f, bool ignoreSwing = false)
             {
                 this.name = name;
-                this.beat = beat;
+                
                 this.pitch = pitch;
                 this.volume = volume;
                 this.looping = looping;
                 this.offset = offset;
+                if (ignoreSwing) this.beat = Conductor.instance.GetSwungBeat(beat);
+                else this.beat = beat;
             }
         }
 
-        public static MultiSound Play(Sound[] sounds, bool game = true, bool forcePlay = false)
+        public static MultiSound Play(Sound[] sounds, bool game = true, bool forcePlay = false, bool ignoreSwing = false)
         {
-            return Play(sounds.ToList(), game, forcePlay);
+            return Play(sounds.ToList(), game, forcePlay, ignoreSwing);
         }
 
-        public static MultiSound Play(List<Sound> sounds, bool game = true, bool forcePlay = false)
+        public static MultiSound Play(List<Sound> sounds, bool game = true, bool forcePlay = false, bool ignoreSwing = false)
         {
             if (Conductor.instance == null || sounds.Count < 1) return null;
 
@@ -48,10 +51,12 @@ namespace HeavenStudio.Util
             MultiSound ms = go.AddComponent<MultiSound>();
 
             ms.sounds = sounds;
-            ms.startBeat = sounds[0].beat;
+            
             ms.game = game;
             ms.forcePlay = forcePlay;
             ms.commited = false;
+            if (ignoreSwing) ms.startBeat = Conductor.instance.GetSwungBeat(sounds[0].beat);
+            else ms.startBeat = sounds[0].beat;
 
             if (Conductor.instance.WaitingForDsp)
             {

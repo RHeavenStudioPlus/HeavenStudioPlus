@@ -73,10 +73,10 @@ namespace HeavenStudio.Games.Scripts_LaunchParty
             {
                 new MultiSound.Sound("launchParty/rocket_prepare", beat),
                 new MultiSound.Sound("launchParty/popper_note", beat, pitches[0]),
-                new MultiSound.Sound("launchParty/popper_note", beat + 0.66f, pitches[1]),
-                new MultiSound.Sound("launchParty/popper_note", beat + 1, pitches[2]),
-                new MultiSound.Sound("launchParty/popper_note", beat + 1.33f, pitches[3]),
-                new MultiSound.Sound("launchParty/popper_note", beat + 1.66f, pitches[4]),
+                new MultiSound.Sound("launchParty/popper_note", beat + 0.66f, pitches[1], ignoreSwing: true),
+                new MultiSound.Sound("launchParty/popper_note", beat + 1, pitches[2], ignoreSwing: true),
+                new MultiSound.Sound("launchParty/popper_note", beat + 1.33f, pitches[3], ignoreSwing: true),
+                new MultiSound.Sound("launchParty/popper_note", beat + 1.66f, pitches[4], ignoreSwing: true),
             }, forcePlay: true);
 
             BeatAction.New(this, new List<BeatAction.Action>()
@@ -86,10 +86,10 @@ namespace HeavenStudio.Games.Scripts_LaunchParty
                     number.SetActive(true);
                     numberAnim.Play("CountFive", 0, 0);
                 }),
-                new BeatAction.Action(beat + 0.66f, delegate { numberAnim.Play("CountFour", 0, 0); }),
-                new BeatAction.Action(beat + 1, delegate { numberAnim.Play("CountThree", 0, 0); }),
-                new BeatAction.Action(beat + 1.33f, delegate { numberAnim.Play("CountTwo", 0, 0); }),
-                new BeatAction.Action(beat + 1.66f, delegate { numberAnim.Play("CountOne", 0, 0); }),
+                new BeatAction.Action(beat + 0.66f, delegate { numberAnim.Play("CountFour", 0, 0); }, ignoreSwing: true),
+                new BeatAction.Action(beat + 1, delegate { numberAnim.Play("CountThree", 0, 0); }, ignoreSwing: true),
+                new BeatAction.Action(beat + 1.33f, delegate { numberAnim.Play("CountTwo", 0, 0); }, ignoreSwing: true),
+                new BeatAction.Action(beat + 1.66f, delegate { numberAnim.Play("CountOne", 0, 0); }, ignoreSwing: true),
             });
         }
 
@@ -101,12 +101,12 @@ namespace HeavenStudio.Games.Scripts_LaunchParty
             {
                 new MultiSound.Sound("launchParty/rocket_prepare", beat),
                 new MultiSound.Sound("launchParty/bell_note", beat, pitches[0]),
-                new MultiSound.Sound("launchParty/bell_short", beat + 1f, pitches[1]),
-                new MultiSound.Sound("launchParty/bell_short", beat + 1.16f, pitches[2]),
-                new MultiSound.Sound("launchParty/bell_short", beat + 1.33f, pitches[3]),
-                new MultiSound.Sound("launchParty/bell_short", beat + 1.5f, pitches[4]),
-                new MultiSound.Sound("launchParty/bell_short", beat + 1.66f, pitches[5]),
-                new MultiSound.Sound("launchParty/bell_short", beat + 1.83f, pitches[6]),
+                new MultiSound.Sound("launchParty/bell_short", beat + 1f, pitches[1], ignoreSwing: true),
+                new MultiSound.Sound("launchParty/bell_short", beat + 1.16f, pitches[2], ignoreSwing: true),
+                new MultiSound.Sound("launchParty/bell_short", beat + 1.33f, pitches[3], ignoreSwing: true),
+                new MultiSound.Sound("launchParty/bell_short", beat + 1.5f, pitches[4], ignoreSwing: true),
+                new MultiSound.Sound("launchParty/bell_short", beat + 1.66f, pitches[5], ignoreSwing: true),
+                new MultiSound.Sound("launchParty/bell_short", beat + 1.83f, pitches[6], ignoreSwing: true),
             }, forcePlay: true);
 
             BeatAction.New(this, new List<BeatAction.Action>()
@@ -117,11 +117,11 @@ namespace HeavenStudio.Games.Scripts_LaunchParty
                     numberAnim.Play("CountSeven", 0, 0);
                 }),
                 new BeatAction.Action(beat + 1f, delegate { numberAnim.Play("CountSix", 0, 0); }),
-                new BeatAction.Action(beat + 1.16f, delegate { numberAnim.Play("CountFive", 0, 0); }),
-                new BeatAction.Action(beat + 1.33f, delegate { numberAnim.Play("CountFour", 0, 0); }),
-                new BeatAction.Action(beat + 1.5f, delegate { numberAnim.Play("CountThree", 0, 0); }),
-                new BeatAction.Action(beat + 1.66f, delegate { numberAnim.Play("CountTwo", 0, 0); }),
-                new BeatAction.Action(beat + 1.83f, delegate { numberAnim.Play("CountOne", 0, 0); }),
+                new BeatAction.Action(beat + 1.16f, delegate { numberAnim.Play("CountFive", 0, 0); }, ignoreSwing: true),
+                new BeatAction.Action(beat + 1.33f, delegate { numberAnim.Play("CountFour", 0, 0); }, ignoreSwing: true),
+                new BeatAction.Action(beat + 1.5f, delegate { numberAnim.Play("CountThree", 0, 0); }, ignoreSwing: true),
+                new BeatAction.Action(beat + 1.66f, delegate { numberAnim.Play("CountTwo", 0, 0); }, ignoreSwing: true),
+                new BeatAction.Action(beat + 1.83f, delegate { numberAnim.Play("CountOne", 0, 0); }, ignoreSwing: true),
             });
         }
 
@@ -133,18 +133,18 @@ namespace HeavenStudio.Games.Scripts_LaunchParty
             {
                 new MultiSound.Sound("launchParty/rocket_pin_prepare", beat),
                 new MultiSound.Sound("launchParty/pin", beat, pitches[0]),
-                new MultiSound.Sound("launchParty/flute", beat, pitches[1], 0.02f),
-                new MultiSound.Sound("launchParty/flute", beat + 0.16f, pitches[2], 0.02f),
-                new MultiSound.Sound("launchParty/flute", beat + 0.33f, pitches[3], 0.06f),
-                new MultiSound.Sound("launchParty/flute", beat + 0.5f, pitches[4], 0.1f),
-                new MultiSound.Sound("launchParty/flute", beat + 0.66f, pitches[5], 0.16f),
-                new MultiSound.Sound("launchParty/flute", beat + 0.83f, pitches[6], 0.22f),
-                new MultiSound.Sound("launchParty/flute", beat + 1f, pitches[7], 0.3f),
-                new MultiSound.Sound("launchParty/flute", beat + 1.16f, pitches[8], 0.4f),
-                new MultiSound.Sound("launchParty/flute", beat + 1.33f, pitches[9], 0.6f),
-                new MultiSound.Sound("launchParty/flute", beat + 1.5f, pitches[10], 0.75f),
-                new MultiSound.Sound("launchParty/flute", beat + 1.66f, pitches[11], 0.89f),
-                new MultiSound.Sound("launchParty/flute", beat + 1.83f, pitches[12]),
+                new MultiSound.Sound("launchParty/flute", beat, pitches[1], 0.02f, ignoreSwing: true),
+                new MultiSound.Sound("launchParty/flute", beat + 0.16f, pitches[2], 0.02f, ignoreSwing: true),
+                new MultiSound.Sound("launchParty/flute", beat + 0.33f, pitches[3], 0.06f, ignoreSwing: true),
+                new MultiSound.Sound("launchParty/flute", beat + 0.5f, pitches[4], 0.1f, ignoreSwing: true),
+                new MultiSound.Sound("launchParty/flute", beat + 0.66f, pitches[5], 0.16f, ignoreSwing: true),
+                new MultiSound.Sound("launchParty/flute", beat + 0.83f, pitches[6], 0.22f, ignoreSwing: true),
+                new MultiSound.Sound("launchParty/flute", beat + 1f, pitches[7], 0.3f, ignoreSwing: true),
+                new MultiSound.Sound("launchParty/flute", beat + 1.16f, pitches[8], 0.4f, ignoreSwing: true),
+                new MultiSound.Sound("launchParty/flute", beat + 1.33f, pitches[9], 0.6f, ignoreSwing: true),
+                new MultiSound.Sound("launchParty/flute", beat + 1.5f, pitches[10], 0.75f, ignoreSwing: true),
+                new MultiSound.Sound("launchParty/flute", beat + 1.66f, pitches[11], 0.89f, ignoreSwing: true),
+                new MultiSound.Sound("launchParty/flute", beat + 1.83f, pitches[12], ignoreSwing: true),
             }, forcePlay: true);
 
             BeatAction.New(this, new List<BeatAction.Action>()
