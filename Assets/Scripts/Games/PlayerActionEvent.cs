@@ -27,6 +27,7 @@ namespace HeavenStudio.Games
         public double startBeat;
         public double timer;
         public float weight = 1f;
+        public double margin = 0;
 
         public bool isEligible = true;
         public bool canHit = true; //Indicates if you can still hit the cue or not. If set to false, it'll guarantee a miss
@@ -108,7 +109,7 @@ namespace HeavenStudio.Games
             }
 
             //BUGFIX: ActionEvents destroyed too early
-            if (normalizedTime > Minigame.NgLateTime(cond.SongPitch)) Miss();
+            if (normalizedTime > Minigame.NgLateTime(cond.SongPitch, margin)) Miss();
 
             if (lockedByEvent)
             {
@@ -122,10 +123,10 @@ namespace HeavenStudio.Games
             if (!autoplayOnly && (IsHittable == null || IsHittable != null && IsHittable()) && IsCorrectInput(out double dt))
             {
                 normalizedTime -= dt;
-                if (IsExpectingInputNow())
+                if (IsExpectingInputNow(cond))
                 {
-                    double stateProg = ((normalizedTime - Minigame.JustEarlyTime()) / (Minigame.JustLateTime() - Minigame.JustEarlyTime()) - 0.5f) * 2;
-                    Hit(stateProg, normalizedTime);
+                    double stateProg = ((normalizedTime - Minigame.JustEarlyTime(cond.SongPitch, margin)) / (Minigame.JustLateTime(cond.SongPitch, margin) - Minigame.JustEarlyTime(cond.SongPitch, margin)) - 0.5f) * 2;
+                    Hit(stateProg, normalizedTime, cond.SongPitch);
                 }
                 else
                 {
@@ -198,7 +199,7 @@ namespace HeavenStudio.Games
             }
         }
 
-        public bool IsExpectingInputNow()
+        public bool IsExpectingInputNow(Conductor cond)
         {
             if (IsHittable != null)
             {
@@ -208,7 +209,7 @@ namespace HeavenStudio.Games
             if (!isEligible) return false;
 
             double normalizedBeat = GetNormalizedTime();
-            return normalizedBeat > Minigame.NgEarlyTime() && normalizedBeat < Minigame.NgLateTime();
+            return normalizedBeat > Minigame.NgEarlyTime(cond.SongPitch, margin) && normalizedBeat < Minigame.NgLateTime(cond.SongPitch, margin);
         }
 
         double GetNormalizedTime()
@@ -242,7 +243,7 @@ namespace HeavenStudio.Games
         }
 
         //The state parameter is either -1 -> Early, 0 -> Perfect, 1 -> Late
-        public void Hit(double state, double time)
+        public void Hit(double state, double time, float pitch = 1)
         {
             GameManager gm = GameManager.instance;
             if (OnHit != null && enabled)
@@ -261,7 +262,7 @@ namespace HeavenStudio.Games
 
                     if (countsForAccuracy && gm.canInput && !(noAutoplay || autoplayOnly) && isEligible)
                     {
-                        gm.ScoreInputAccuracy(startBeat + timer, TimeToAccuracy(time, pitchWhenHit), time > 1.0, time, weight, true);
+                        gm.ScoreInputAccuracy(startBeat + timer, TimeToAccuracy(time, pitchWhenHit), time > 1.0, time, pitch, margin, weight, true);
                         if (state >= 1f || state <= -1f)
                         {
                             GoForAPerfect.instance.Miss();
@@ -284,27 +285,27 @@ namespace HeavenStudio.Games
         double TimeToAccuracy(double time, float pitch = -1)
         {
             if (pitch < 0) pitch = pitchWhenHit;
-            if (time >= Minigame.AceEarlyTime(pitch) && time <= Minigame.AceLateTime(pitch))
+            if (time >= Minigame.AceEarlyTime(pitch, margin) && time <= Minigame.AceLateTime(pitch, margin))
             {
                 // Ace
                 return 1.0;
             }
 
             double state = 0;
-            if (time >= Minigame.JustEarlyTime(pitch) && time <= Minigame.JustLateTime(pitch))
+            if (time >= Minigame.JustEarlyTime(pitch, margin) && time <= Minigame.JustLateTime(pitch, margin))
             {
                 // Good Hit
                 if (time > 1.0)
                 {
                     // late half of timing window
-                    state = 1.0 - ((time - Minigame.AceLateTime(pitch)) / (Minigame.JustLateTime(pitch) - Minigame.AceLateTime(pitch)));
+                    state = 1.0 - ((time - Minigame.AceLateTime(pitch, margin)) / (Minigame.JustLateTime(pitch, margin) - Minigame.AceLateTime(pitch, margin)));
                     state *= 1.0 - Minigame.rankHiThreshold;
                     state += Minigame.rankHiThreshold;
                 }
                 else
                 {
                     //early half of timing window
-                    state = ((time - Minigame.JustEarlyTime(pitch)) / (Minigame.AceEarlyTime(pitch) - Minigame.JustEarlyTime(pitch)));
+                    state = (time - Minigame.JustEarlyTime(pitch, margin)) / (Minigame.AceEarlyTime(pitch, margin) - Minigame.JustEarlyTime(pitch, margin));
                     state *= 1.0 - Minigame.rankHiThreshold;
                     state += Minigame.rankHiThreshold;
                 }
@@ -314,13 +315,13 @@ namespace HeavenStudio.Games
                 if (time > 1.0)
                 {
                     // late half of timing window
-                    state = 1.0 - ((time - Minigame.JustLateTime(pitch)) / (Minigame.NgLateTime(pitch) - Minigame.JustLateTime(pitch)));
+                    state = 1.0 - ((time - Minigame.JustLateTime(pitch, margin)) / (Minigame.NgLateTime(pitch, margin) - Minigame.JustLateTime(pitch, margin)));
                     state *= Minigame.rankOkThreshold;
                 }
                 else
                 {
                     //early half of timing window
-                    state = ((time - Minigame.JustEarlyTime(pitch)) / (Minigame.AceEarlyTime(pitch) - Minigame.JustEarlyTime(pitch)));
+                    state = (time - Minigame.JustEarlyTime(pitch, margin)) / (Minigame.AceEarlyTime(pitch, margin) - Minigame.JustEarlyTime(pitch, margin));
                     state *= Minigame.rankOkThreshold;
                 }
             }
@@ -338,7 +339,7 @@ namespace HeavenStudio.Games
 
             if (countsForAccuracy && !missable && gm.canInput && !(noAutoplay || autoplayOnly))
             {
-                gm.ScoreInputAccuracy(startBeat + timer, 0, true, 2.0, weight, false);
+                gm.ScoreInputAccuracy(startBeat + timer, 0, true, 2.0, weight: weight, doDisplay: false);
                 GoForAPerfect.instance.Miss();
                 SectionMedalsManager.instance.MakeIneligible();
             }
