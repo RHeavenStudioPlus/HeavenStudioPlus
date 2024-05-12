@@ -252,11 +252,11 @@ namespace HeavenStudio
                                 Debug.LogWarning($"Property {param.propertyName} does not exist in the entity's dynamic data! Adding...");
                                 if (param.parameter is EntityTypes.Integer intParam)
                                     e.dynamicData.Add(param.propertyName, intParam.val);
-                                if (param.parameter is EntityTypes.Float floatParam)
+                                else if (param.parameter is EntityTypes.Float floatParam)
                                     e.dynamicData.Add(param.propertyName, floatParam.val);
-                                if (param.parameter is EntityTypes.Dropdown ddParam)
+                                else if (param.parameter is EntityTypes.Dropdown ddParam)
                                     e.dynamicData.Add(param.propertyName, new EntityTypes.DropdownObj(ddParam));
-                                if (param.parameter is EntityTypes.Note noteParam)
+                                else if (param.parameter is EntityTypes.Note noteParam)
                                     e.dynamicData.Add(param.propertyName, noteParam.val);
                                 else if (type.IsEnum)
                                     e.dynamicData.Add(param.propertyName, (int)param.parameter);
