@@ -70,7 +70,7 @@ namespace HeavenStudio.Common
             MetreAnim.Play("NoPose", -1, 0f);
         }
 
-        public void MakeAccuracyVfx(double time, bool late = false)
+        public void MakeAccuracyVfx(double time, float pitch, double margin, bool late = false)
         {
             if (!OverlaysManager.OverlaysEnabled) return;
             GameObject it;
@@ -87,12 +87,12 @@ namespace HeavenStudio.Common
             // SetArrowPos(time);
 
             // no Clamp() because double
-            time = System.Math.Max(Minigame.NgEarlyTime(), System.Math.Min(Minigame.NgLateTime(), time));
+            time = System.Math.Max(Minigame.NgEarlyTime(pitch, margin), System.Math.Min(Minigame.NgLateTime(pitch, margin), time));
 
-            if (time >= Minigame.AceEarlyTime() && time <= Minigame.AceLateTime())
+            if (time >= Minigame.AceEarlyTime(pitch, margin) && time <= Minigame.AceLateTime(pitch, margin))
             {
                 type = Rating.Just;
-                frac = (float)((time - Minigame.AceEarlyTime()) / (Minigame.AceLateTime() - Minigame.AceEarlyTime()));
+                frac = (float)((time - Minigame.AceEarlyTime(pitch, margin)) / (Minigame.AceLateTime(pitch, margin) - Minigame.AceEarlyTime(pitch, margin)));
                 y = barJustTransform.localScale.y * frac - (barJustTransform.localScale.y * 0.5f);
             }
             else
@@ -100,32 +100,32 @@ namespace HeavenStudio.Common
                 if (time > 1.0)
                 {
                     // goes "down"
-                    if (time <= Minigame.JustLateTime())
+                    if (time <= Minigame.JustLateTime(pitch, margin))
                     {
                         type = Rating.OK;
-                        frac = (float)((time - Minigame.AceLateTime()) / (Minigame.JustLateTime() - Minigame.AceLateTime()));
+                        frac = (float)((time - Minigame.AceLateTime(pitch, margin)) / (Minigame.JustLateTime(pitch, margin) - Minigame.AceLateTime(pitch, margin)));
                         y = ((barOKTransform.localScale.y - barJustTransform.localScale.y) * frac) + barJustTransform.localScale.y;
                     }
                     else
                     {
                         type = Rating.NG;
-                        frac = (float)((time - Minigame.JustLateTime()) / (Minigame.NgLateTime() - Minigame.JustLateTime()));
+                        frac = (float)((time - Minigame.JustLateTime(pitch, margin)) / (Minigame.NgLateTime(pitch, margin) - Minigame.JustLateTime(pitch, margin)));
                         y = ((barNGTransform.localScale.y - barOKTransform.localScale.y) * frac) + barOKTransform.localScale.y;
                     }
                 }
                 else
                 {
                     // goes "up"
-                    if (time >= Minigame.JustEarlyTime())
+                    if (time >= Minigame.JustEarlyTime(pitch, margin))
                     {
                         type = Rating.OK;
-                        frac = (float)((time - Minigame.JustEarlyTime()) / (Minigame.AceEarlyTime() - Minigame.JustEarlyTime()));
+                        frac = (float)((time - Minigame.JustEarlyTime(pitch, margin)) / (Minigame.AceEarlyTime(pitch, margin) - Minigame.JustEarlyTime(pitch, margin)));
                         y = ((barOKTransform.localScale.y - barJustTransform.localScale.y) * -frac) - barJustTransform.localScale.y;
                     }
                     else
                     {
                         type = Rating.NG;
-                        frac = (float)((time - Minigame.NgEarlyTime()) / (Minigame.JustEarlyTime() - Minigame.NgEarlyTime()));
+                        frac = (float)((time - Minigame.NgEarlyTime(pitch, margin)) / (Minigame.JustEarlyTime(pitch, margin) - Minigame.NgEarlyTime(pitch, margin)));
                         y = ((barNGTransform.localScale.y - barOKTransform.localScale.y) * -frac) - barOKTransform.localScale.y;
                     }
                 }

@@ -322,11 +322,11 @@ namespace HeavenStudio
             }
         }
 
-        public void ScoreInputAccuracy(double beat, double accuracy, bool late, double time, float weight = 1, bool doDisplay = true)
+        public void ScoreInputAccuracy(double beat, double accuracy, bool late, double time, float pitch = 1, double margin = 0, float weight = 1, bool doDisplay = true)
         {
             // push the hit event to the timing display
             if (doDisplay)
-                TimingAccuracyDisplay.instance.MakeAccuracyVfx(time, late);
+                TimingAccuracyDisplay.instance.MakeAccuracyVfx(time, pitch, margin, late);
 
             if (weight > 0 && MarkerWeight > 0)
             {
