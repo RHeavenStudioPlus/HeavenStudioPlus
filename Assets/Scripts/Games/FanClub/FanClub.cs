@@ -63,24 +63,32 @@ namespace HeavenStudio.Games.Loaders
                     },
                     new GameAction("arisa faceposer", "Idol Face Poser")
                     {
-                        function = delegate { var e = eventCaller.currentEntity; FanClub.instance.SetArisaFacePoser(e["poserOn"], e["mouth"], e["mouthEnd"], e["eyeL"], e["eyeR"], e["eyex"], e["eyey"], e["eyeEaseEnable"], e.beat, e.length, e["eyeEase"]); },
+                        function = delegate { var e = eventCaller.currentEntity; FanClub.instance.SetArisaFacePoser(e["poserOn"], e["mouthOn"], e["eyeOn"], e["mouth"], e["mouthEnd"], e["eyeL"], e["eyeR"], e["eyex"], e["eyey"], e["eyeEaseEnable"], e.beat, e.length, e["eyeEase"]); },
                         resizable = true,
                         defaultLength = 1,
                         parameters = new List<Param>()
                         {
                             new Param("poserOn", true, "Enable Face Poser", "Enables Face Poser on Arisa.", new List<Param.CollapseParam>()
                             {
-                                new Param.CollapseParam((x, _) => (bool)x, new string[] { "mouth", "eyeL", "eyeR", "eyex", "eyey" }),
+                                new Param.CollapseParam((x, _) => (bool)x, new string[] { "mouthOn", "eyeOn" }),
+                            }),
+                            new Param("mouthOn", true, "Enable Lip Sync Controls", "Enables Lip Sync controls.", new List<Param.CollapseParam>()
+                            {
+                                new Param.CollapseParam((x, e) => (bool)x && (bool)e["poserOn"], new string[] { "mouth", "mouthEnd" }),
                             }),
                             new Param("mouth", FanClub.MouthShape.Normal, "Mouth Shape", "Sets mouth shape."),
                             new Param("mouthEnd", FanClub.MouthShape.Normal, "Last Mouth Shape", "Sets mouth shape at the end of the event."),
+                            new Param("eyeOn", true, "Enable Eye Shaping", "Enables Eye Shaping controls.", new List<Param.CollapseParam>()
+                            {
+                                new Param.CollapseParam((x, e) => (bool)x && (bool)e["poserOn"], new string[] { "eyeL", "eyeR", "eyex", "eyey", "eyeEaseEnable"}),
+                            }),
                             new Param("eyeL", FanClub.EyeShape.Normal, "Left Eye Shape", "Sets left eye shape."),
                             new Param("eyeR", FanClub.EyeShape.Normal, "Right Eye Shape", "Sets right eye shape."),
                             new Param("eyex", new EntityTypes.Float(-1f, 1f, 0f), "Horizontal Eye Movement", "Sets horizontal eye movement."),
                             new Param("eyey", new EntityTypes.Float(-1f, 1f, 0f), "Vertical Eye Movement", "Sets vertical eye movement."),
                             new Param("eyeEaseEnable", true, "Ease Eye Movement", "Enable easing for eye movement.", new List<Param.CollapseParam>()
                             {
-                                new Param.CollapseParam((x, _) => (bool)x, new string[] { "eyeEase" }),
+                                new Param.CollapseParam((x, e) => (bool)x && (bool)e["poserOn"] && (bool)e["eyeOn"], new string[] { "eyeEase" }),
                             }),
                             new Param("eyeEase", Util.EasingFunction.Ease.Instant, "Easing Type", "Set the type of easing for eye movement."),
                         }
@@ -686,28 +694,37 @@ namespace HeavenStudio.Games
         }
 
         System.Threading.CancellationTokenSource mouthCancel = null;
-        public void SetArisaFacePoser(bool enable, int mouth, int mouthEnd, int eyeL, int eyeR, float eyeX, float eyeY, bool ease, double beat, float length, int easeType)
+        public void SetArisaFacePoser(bool enable, bool enableMouth, bool enableEye, int mouth, int mouthEnd, int eyeL, int eyeR, float eyeX, float eyeY, bool ease, double beat, float length, int easeType)
         {
-            if (mouthCancel != null)
-            {
-                mouthCancel.Cancel();
-                mouthCancel = null;
-            }
             arisaController.ToggleFacePoser(enable);
-            arisaController.SetMouthShape(mouth);
-            arisaController.SetEyeShape(eyeL, eyeR);
-            if (ease)
+            // eye control
+            if (enableEye)
             {
-                arisaController.SetEyeTargetEase(beat, length, eyeX, eyeY, (Util.EasingFunction.Ease)easeType);
+                arisaController.SetEyeShape(eyeL, eyeR);
+                if (ease)
+                {
+                    arisaController.SetEyeTargetEase(beat, length, eyeX, eyeY, (Util.EasingFunction.Ease)easeType);
+                }
+                else
+                {
+                    arisaController.SetEyeTarget(eyeX, eyeY);
+                }
             }
-            else
+
+            // mouth control
+            if (enableMouth)
             {
-                arisaController.SetEyeTarget(eyeX, eyeY);
+                if (mouthCancel != null)
+                {
+                    mouthCancel.Cancel();
+                    mouthCancel = null;
+                }
+                arisaController.SetMouthShape(mouth);
+                mouthCancel = BeatAction.New(instance, new List<BeatAction.Action>()
+                {
+                    new BeatAction.Action(beat + length, delegate { arisaController.SetMouthShape(mouthEnd);}),
+                });
             }
-            mouthCancel = BeatAction.New(instance, new List<BeatAction.Action>()
-            {
-                new BeatAction.Action(beat + length, delegate { arisaController.SetMouthShape(mouthEnd);}),
-            });
         }
 
         const float HAIS_LENGTH = 4.5f;
