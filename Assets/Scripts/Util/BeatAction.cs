@@ -15,9 +15,10 @@ namespace HeavenStudio.Util
             public double beat { get; set; }
             public EventCallback function { get; set; }
 
-            public Action(double beat, EventCallback function)
+            public Action(double beat, EventCallback function, bool ignoreSwing = false)
             {
-                this.beat = beat;
+                if (ignoreSwing) this.beat = Conductor.instance.GetSwungBeat(beat);
+                else this.beat = beat;
                 this.function = function;
             }
         }
