@@ -246,7 +246,6 @@ namespace HeavenStudio.Games.Scripts_KarateMan
                     noNuriJabTime = cond.songPositionInBeatsAsDouble;
                     break;
                 default:
-                    Debug.Log($"Punching with beat {wantBeat} and lastPunchTime {lastPunchTime}");
                     if (wantBeat <= cond.GetBeatFromSongPos(lastPunchTime + Minigame.NgLateTime() - 1) + 0.25)
                     {
                         lastPunchTime = double.MinValue;
