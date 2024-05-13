@@ -399,7 +399,7 @@ namespace HeavenStudio
 
             public bool UsesAssetBundle => (wantAssetBundle is not null or "") && (!badBundle);
             public bool HasLocales => supportedLocales.Count > 0;
-            public bool AssetsLoaded => (!badBundle) && ((HasLocales && audioLoaded && currentLoadedLocale == defaultLocale) || (!HasLocales)) && resourcesLoaded && loadComplete;
+            public bool AssetsLoaded => (!badBundle) && ((HasLocales && audioLoaded && currentLoadedLocale == defaultLocale) || (!HasLocales)) && (LoadedPrefab != null) && resourcesLoaded && loadComplete;
             public bool AlreadyLoading => alreadyLoading;
 
             public bool SequencesPreloaded => soundSequences != null;
