@@ -201,10 +201,10 @@ namespace HeavenStudio.Games
         // rendertextures update when the slave steppers change sprites
         [SerializeField] Vector2 rtSize;
         [SerializeField] Camera cameraNear1, cameraNear2, cameraDV;
-        [SerializeField] RawImage topT, topN, bottomL, bottomC, bottomR, bottomN;
 
         [SerializeField] SpriteRenderer background;
-        [SerializeField] Material stepperMaterial;
+        [SerializeField] Material playerMaterial, stepperMaterial;
+        [SerializeField] Material topNear, bottomNear, distantView;
 
         [Header("Properties")]
         static List<QueuedMarch> queuedInputs = new();
@@ -267,12 +267,16 @@ namespace HeavenStudio.Games
             cameraNear2.targetTexture = renderTextures[1];
             cameraDV.targetTexture = renderTextures[2];
 
-            topT.texture = renderTextures[2];
-            topN.texture = renderTextures[0];
-            bottomL.texture = renderTextures[2];
-            bottomC.texture = renderTextures[2];
-            bottomR.texture = renderTextures[2];
-            bottomN.texture = renderTextures[1];
+            // topT.texture = renderTextures[2];
+            // topN.texture = renderTextures[0];
+            // bottomL.texture = renderTextures[2];
+            // bottomC.texture = renderTextures[2];
+            // bottomR.texture = renderTextures[2];
+            // bottomN.texture = renderTextures[1];
+
+            topNear.SetTexture("_MainTex", renderTextures[0]);
+            bottomNear.SetTexture("_MainTex", renderTextures[1]);
+            distantView.SetTexture("_MainTex", renderTextures[2]);
         }
 
         void OnDestroy()
@@ -346,6 +350,10 @@ namespace HeavenStudio.Games
             stepperMaterial.SetColor("_ColorAlpha", stepperOut);
             stepperMaterial.SetColor("_ColorBravo", stepperDark);
             stepperMaterial.SetColor("_ColorDelta", stepperLight);
+
+            playerMaterial.SetColor("_ColorAlpha", stepperOut);
+            playerMaterial.SetColor("_ColorBravo", stepperDark);
+            playerMaterial.SetColor("_ColorDelta", stepperLight);
 
             EntityPreCheck(Conductor.instance.songPositionInBeatsAsDouble);
 
@@ -772,7 +780,10 @@ namespace HeavenStudio.Games
         private void MissOn(PlayerActionEvent caller)
         {
             if (currentMissStage == HowMissed.MissedOn) return;
-            stepswitcherPlayer?.Play("OnbeatMiss", 0, 0);
+            if (stepswitcherPlayer is not null)
+            {
+                stepswitcherPlayer?.Play("OnbeatMiss", 0, 0);
+            }
             SoundByte.PlayOneShotGame("lockstep/wayOff");
             currentMissStage = HowMissed.MissedOn;
         }
@@ -780,7 +791,10 @@ namespace HeavenStudio.Games
         private void MissOff(PlayerActionEvent caller)
         {
             if (currentMissStage == HowMissed.MissedOff) return;
-            stepswitcherPlayer?.Play("OffbeatMiss", 0, 0);
+            if (stepswitcherPlayer is not null)
+            {
+                stepswitcherPlayer?.Play("OffbeatMiss", 0, 0);
+            }
             SoundByte.PlayOneShotGame("lockstep/wayOff");
             currentMissStage = HowMissed.MissedOff;
         }
@@ -816,6 +830,10 @@ namespace HeavenStudio.Games
             stepperMaterial.SetColor("_ColorAlpha", outlineColor);
             stepperMaterial.SetColor("_ColorBravo", darkColor);
             stepperMaterial.SetColor("_ColorDelta", lightColor);
+
+            playerMaterial.SetColor("_ColorAlpha", outlineColor);
+            playerMaterial.SetColor("_ColorBravo", darkColor);
+            playerMaterial.SetColor("_ColorDelta", lightColor);
         }
 
         public void Nothing(PlayerActionEvent caller) {}
