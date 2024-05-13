@@ -117,9 +117,9 @@ namespace HeavenStudio.Games.Loaders
                     defaultLength = 4
                 }
             },
-            new List<string>() {"ntr", "keep"},
+            new List<string>() { "ntr", "keep" },
             "ntrbackbeat", "en",
-            new List<string>() {},
+            new List<string>() { },
             chronologicalSortKey: 27
             );
 
@@ -129,7 +129,7 @@ namespace HeavenStudio.Games.Loaders
 
 namespace HeavenStudio.Games
 {
-   // using Scripts_Lockstep;
+    // using Scripts_Lockstep;
     public class Lockstep : Minigame
     {
         private static Color _defaultBGColorOn;
@@ -190,7 +190,7 @@ namespace HeavenStudio.Games
         [SerializeField] Animator stepswitcherLeft;
         [SerializeField] Animator stepswitcherRight;
         [SerializeField] Animator bach;
-        
+
         // master stepper dictates what sprite the slave steppers use
         [SerializeField] Animator masterStepperAnim;
         [SerializeField] SpriteRenderer masterStepperSprite;
@@ -311,7 +311,7 @@ namespace HeavenStudio.Games
         public override void OnGameSwitch(double beat)
         {
             QueueSwitchBGs(beat);
-            
+
         }
 
         public override void OnPlay(double beat)
@@ -319,7 +319,7 @@ namespace HeavenStudio.Games
 
             queuedInputs.Clear();
             QueueSwitchBGs(beat);
-            
+
         }
 
         private void QueueSwitchBGs(double beat)
@@ -346,7 +346,8 @@ namespace HeavenStudio.Games
             }
         }
 
-        void Start() {
+        void Start()
+        {
             stepperMaterial.SetColor("_ColorAlpha", stepperOut);
             stepperMaterial.SetColor("_ColorBravo", stepperDark);
             stepperMaterial.SetColor("_ColorDelta", stepperLight);
@@ -407,8 +408,7 @@ namespace HeavenStudio.Games
 
         private void Update()
         {
-            var cond = Conductor.instance;
-            if (cond.isPlaying && !cond.isPaused)
+            if (conductor.isPlaying && !conductor.isPaused)
             {
                 if (queuedInputs.Count > 0)
                 {
@@ -428,7 +428,7 @@ namespace HeavenStudio.Games
                 if (PlayerInput.GetIsAction(InputAction_BasicPress) && !IsExpectingInputNow(InputAction_BasicPress))
                 {
                     currentMissStage = HowMissed.NotMissed;
-                    double beatAnimCheck = cond.songPositionInBeatsAsDouble - 0.25;
+                    double beatAnimCheck = conductor.songPositionInBeatsAsDouble - 0.25;
                     if (beatAnimCheck % 1.0 >= 0.5)
                     {
                         stepswitcherPlayer.DoScaledAnimationAsync("OnbeatMarch", 0.5f);
@@ -487,7 +487,7 @@ namespace HeavenStudio.Games
         {
             SoundByte.PlayOneShot("games/lockstep/hai", beat, 1, 1, false, null, 0.018);
         }
-        
+
         public static void HoSound(double beat)
         {
             SoundByte.PlayOneShot("games/lockstep/ho", beat, 1, 1, false, null, 0.015);
@@ -543,7 +543,7 @@ namespace HeavenStudio.Games
                 {
                     if(visual) ChangeBeatBackGroundColour(false);
                 }),
-                new BeatAction.Action(beat + 1.5f, delegate 
+                new BeatAction.Action(beat + 1.5f, delegate
                 {
                     if (visual) ChangeBeatBackGroundColour(true);
                 }),
@@ -722,12 +722,13 @@ namespace HeavenStudio.Games
             if (NextStepIsSwitch(beat)) beat -= 0.5;
             bool offBeat = beat % 1 != 0;
             bool bachOnBeat = BachOnBeat(beat);
-            ScheduleInput(beat - 1, 1, InputAction_BasicPress, offBeat ? JustOff : JustOn, offBeat ? MissOff : MissOn, Nothing);
             BeatAction.New(instance, new List<BeatAction.Action>()
             {
-                new BeatAction.Action(beat, delegate 
-                { 
-                    EvaluateMarch(offBeat); 
+                new BeatAction.Action(beat, delegate
+                {
+                    if (gameManager.currentGame != "lockstep") return;
+                    ScheduleInput(beat - 1, 1, InputAction_BasicPress, offBeat ? JustOff : JustOn, offBeat ? MissOff : MissOn, Nothing);
+                    EvaluateMarch(offBeat);
                     MarchRecursive(beat + 1);
                     if (bachOnBeat) bach.DoScaledAnimationAsync(offBeat ? "BachOff" : "BachOn", 0.5f);
                 }),
@@ -779,8 +780,9 @@ namespace HeavenStudio.Games
 
         private void MissOn(PlayerActionEvent caller)
         {
+            if (gameManager.currentGame != "lockstep") return;
             if (currentMissStage == HowMissed.MissedOn) return;
-            if (stepswitcherPlayer is not null)
+            if (stepswitcherPlayer is not null && stepswitcherPlayer.isActiveAndEnabled)
             {
                 stepswitcherPlayer?.Play("OnbeatMiss", 0, 0);
             }
@@ -790,8 +792,9 @@ namespace HeavenStudio.Games
 
         private void MissOff(PlayerActionEvent caller)
         {
+            if (gameManager.currentGame != "lockstep") return;
             if (currentMissStage == HowMissed.MissedOff) return;
-            if (stepswitcherPlayer is not null)
+            if (stepswitcherPlayer is not null && stepswitcherPlayer.isActiveAndEnabled)
             {
                 stepswitcherPlayer?.Play("OffbeatMiss", 0, 0);
             }
@@ -836,6 +839,6 @@ namespace HeavenStudio.Games
             playerMaterial.SetColor("_ColorDelta", lightColor);
         }
 
-        public void Nothing(PlayerActionEvent caller) {}
+        public void Nothing(PlayerActionEvent caller) { }
     }
 }
