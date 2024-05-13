@@ -274,7 +274,7 @@ namespace HeavenStudio.Games
 
         private void OnDestroy()
         {
-            if (!Conductor.instance.isPlaying)
+            if (!conductor.isPlaying)
             {
                 crHandlerInstance = null;
             }
@@ -282,6 +282,8 @@ namespace HeavenStudio.Games
             {
                 evt.Disable();
             }
+            // note: this doesn't properly clear queued intervals if we don't switch to the game before stopping playback
+            queuedIntervals.Clear();
         }
 
         private void SpawnHairInactive(double beat)

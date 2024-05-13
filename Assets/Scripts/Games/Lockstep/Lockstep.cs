@@ -42,7 +42,7 @@ namespace HeavenStudio.Games.Loaders
                         new Param("amount", new EntityTypes.Integer(1, 50, 1), "Amount", "Set how many sounds will play."),
                         new Param("visual", true, "Background Visual", "Toggle if the background will automatically flip depending on if it's on or off beat.")
                     },
-                    preFunctionLength = 1
+                    preFunctionLength = 2
                 },
                 new GameAction("offbeatSwitch", "Switch to Offbeat")
                 {
@@ -267,13 +267,6 @@ namespace HeavenStudio.Games
             cameraNear2.targetTexture = renderTextures[1];
             cameraDV.targetTexture = renderTextures[2];
 
-            // topT.texture = renderTextures[2];
-            // topN.texture = renderTextures[0];
-            // bottomL.texture = renderTextures[2];
-            // bottomC.texture = renderTextures[2];
-            // bottomR.texture = renderTextures[2];
-            // bottomN.texture = renderTextures[1];
-
             topNear.SetTexture("_MainTex", renderTextures[0]);
             bottomNear.SetTexture("_MainTex", renderTextures[1]);
             distantView.SetTexture("_MainTex", renderTextures[2]);
@@ -286,6 +279,10 @@ namespace HeavenStudio.Games
                 rt.Release();
             }
             queuedInputs.Clear();
+            foreach (var evt in scheduledInputs)
+            {
+                evt.Disable();
+            }
         }
 
         private static bool ForceStepOnBeat(double beat)
@@ -308,18 +305,20 @@ namespace HeavenStudio.Games
         {
             return bachEvents.Find(x => beat >= x.beat && beat < x.beat + x.length) != null;
         }
+
         public override void OnGameSwitch(double beat)
         {
             QueueSwitchBGs(beat);
-
+            foreach (var evt in scheduledInputs)
+            {
+                evt.Disable();
+            }
         }
 
         public override void OnPlay(double beat)
         {
-
             queuedInputs.Clear();
             QueueSwitchBGs(beat);
-
         }
 
         private void QueueSwitchBGs(double beat)
@@ -547,7 +546,7 @@ namespace HeavenStudio.Games
                 {
                     if (visual) ChangeBeatBackGroundColour(true);
                 }),
-                new BeatAction.Action(beat + 1.75f, delegate { if (!marchRecursing && !ForceStepOnBeat(beat + 2f)) MarchRecursive(beat + 2f); }),
+                new BeatAction.Action(beat + 1.5f, delegate { if (!marchRecursing && !ForceStepOnBeat(beat + 2f)) MarchRecursive(beat + 2f); }),
                 new BeatAction.Action(beat + 2f, delegate { if (visual) ChangeBeatBackGroundColour(false); }),
             };
             List<BeatAction.Action> actions = new();
@@ -610,7 +609,7 @@ namespace HeavenStudio.Games
                 {
                     if (visual) ChangeBeatBackGroundColour(false);
                 }),
-                new BeatAction.Action(beat + 3.25f, delegate { if (!marchRecursing && !ForceStepOnBeat(beat + 3.5)) MarchRecursive(beat + 3.5f); }),
+                new BeatAction.Action(beat + 3f, delegate { if (!marchRecursing && !ForceStepOnBeat(beat + 3.5)) MarchRecursive(beat + 3.5f); }),
                 new BeatAction.Action(beat + 3.5f, delegate { if (visual) ChangeBeatBackGroundColour(true); }),
             };
             List<BeatAction.Action> actions = new();
@@ -692,6 +691,7 @@ namespace HeavenStudio.Games
             BeatAction.New(this, steps);
         }
 
+        private bool marchRecursing;
         private void StartMarching(double beat, bool sound, int amount, bool visual)
         {
             if (marchRecursing) return;
@@ -715,19 +715,18 @@ namespace HeavenStudio.Games
             MarchRecursive(beat);
         }
 
-        private bool marchRecursing;
         private void MarchRecursive(double beat)
         {
             marchRecursing = true;
             if (NextStepIsSwitch(beat)) beat -= 0.5;
             bool offBeat = beat % 1 != 0;
             bool bachOnBeat = BachOnBeat(beat);
+            ScheduleInput(beat - 0.5, 0.5, InputAction_BasicPress, offBeat ? JustOff : JustOn, offBeat ? MissOff : MissOn, Nothing);
             BeatAction.New(instance, new List<BeatAction.Action>()
             {
                 new BeatAction.Action(beat, delegate
                 {
                     if (gameManager.currentGame != "lockstep") return;
-                    ScheduleInput(beat - 1, 1, InputAction_BasicPress, offBeat ? JustOff : JustOn, offBeat ? MissOff : MissOn, Nothing);
                     EvaluateMarch(offBeat);
                     MarchRecursive(beat + 1);
                     if (bachOnBeat) bach.DoScaledAnimationAsync(offBeat ? "BachOff" : "BachOn", 0.5f);
