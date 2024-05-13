@@ -135,6 +135,8 @@ namespace HeavenStudio
 #else
             buildTime = Application.buildGUID.Substring(0, 8) + " " + AppInfo.Date.ToString("dd/MM/yyyy hh:mm:ss");
 #endif
+            Debug.Log($"Started Heaven Studio {buildTime} on {Application.platform}");
+            Debug.Log($"We hope you enjoy as much as we did making it!");
         }
 
         public void Awake()
