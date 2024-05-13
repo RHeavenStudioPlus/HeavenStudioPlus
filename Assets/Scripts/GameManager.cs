@@ -370,11 +370,13 @@ namespace HeavenStudio
             Minigames.Minigame inf;
 
             // seek ahead to preload games that have assetbundles
+            string[] split;
             if (currentPreSwitch < allGameSwitches.Count && currentPreSwitch >= 0)
             {
-                if (start + seekTime >= allGameSwitches[currentPreSwitch].beat)
+                while (currentPreSwitch < allGameSwitches.Count && allGameSwitches[currentPreSwitch].beat <= start + seekTime)
                 {
-                    string gameName = allGameSwitches[currentPreSwitch].datamodel.Split('/')[2];
+                    split = allGameSwitches[currentPreSwitch].datamodel.Split('/');
+                    string gameName = split[2];
                     inf = GetGameInfo(gameName);
                     if (inf != null && !(inf.inferred || inf.fxOnly))
                     {
