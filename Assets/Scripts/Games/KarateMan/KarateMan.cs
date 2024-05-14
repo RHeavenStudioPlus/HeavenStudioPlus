@@ -1125,7 +1125,7 @@ namespace HeavenStudio.Games
             NoriGO.SetActive(true);
             Nori.SetNoriMode(beat, mode);
             currentBgEffect = fxType;
-            IsComboEnable = (ComboMode)comb;
+            IsComboEnable = (ComboMode)combo;
             // IsKickEnable = kick;
         }
 
