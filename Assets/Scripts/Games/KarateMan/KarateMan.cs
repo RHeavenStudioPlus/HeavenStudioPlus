@@ -755,7 +755,7 @@ namespace HeavenStudio.Games
             if (flow != null)
             {
                 int fxType = bg == null || flow.beat > bg.beat ? flow["fxType"] : bg["fxType"];
-                SetGameplayMods(beat, fxType, flow["type"], flow["toggle"]);
+                SetGameplayMods(beat, fxType, flow["type"], flow["combo"]);
             }
 
             // get all entities to later check against eachother to cut out voices
