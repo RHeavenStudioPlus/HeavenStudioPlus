@@ -16,6 +16,23 @@ namespace HeavenStudio.Games.Loaders
     {
         public static Minigame AddGame(EventCaller eventCaller)
         {
+            RiqEntity GameModsUpdater(string datamodel, RiqEntity e)
+            {
+                if (datamodel == "karateman/set gameplay modifiers" && e.version < 1)
+                {
+                    if (e["toggle"] == null) return null;
+
+                    bool comboEnable = (bool)e["toggle"];
+                    e.CreateProperty("combo", (int)(comboEnable ? KarateMan.ComboMode.Normal : KarateMan.ComboMode.Disabled));
+                    e.dynamicData.Remove("toggle");
+                    e.version = 1;
+
+                    return e;
+                }
+                return null;
+            }
+            RiqBeatmap.OnUpdateEntity += GameModsUpdater;
+
             RiqEntity WarningUpdater(string datamodel, RiqEntity e)
             {
                 if (datamodel == "karateman/hitX")
@@ -243,17 +260,17 @@ namespace HeavenStudio.Games.Loaders
                 {
                     function = delegate {
                         var e = eventCaller.currentEntity;
-                        KarateMan.instance.SetGameplayMods(e.beat, e["fxType"], e["type"], e["toggle"]);
+                        KarateMan.instance.SetGameplayMods(e.beat, e["fxType"], e["type"], e["combo"]);
                     },
                     defaultLength = 0.5f,
                     parameters = new List<Param>()
                     {
                         new Param("fxType", KarateMan.BackgroundFXType.None, "FX Type", "Set the background effect to be displayed."),
                         new Param("type", KarateMan.NoriMode.None, "Flow Bar", "Set the type of Flow bar to use."),
-                        // new Param("hitsPerHeart", new EntityTypes.Float(0f, 20f, 0f), "Hits Per Heart", "How many hits it will take for each heart to light up (0 will do it automatically.)"),
-                        new Param("toggle", true, "Enable Combos", "Toggle if Karate Joe will be able to perform combos. This will not affect Touch Style controls."),
+                        new Param("combo", KarateMan.ComboMode.Normal, "Enable Combos", "Toggle if Karate Joe will be able to perform combos, and the type of combo used."),
                         // new Param("toggle2", true, "Enable Kicks", "Allow the player to kick? (Contextual kicks will still be allowed even when off)"),
                     },
+                    defaultVersion = 1,
                 },
                 new GameAction("background appearance", "Background Appearance")
                 {
@@ -298,28 +315,6 @@ namespace HeavenStudio.Games.Loaders
                         new Param("endTexture", new Color(), "End Texture Color", "Set the color at the end of the event."),
                     },
                 },
-                // new GameAction("set background effects", "Background Appearance (OLD)")
-                // {
-                //     function = delegate {
-                //         var e = eventCaller.currentEntity;
-                //         KarateMan.instance.SetBgAndShadowCol(e.beat, e.length, e["type"], e["type2"], e["colorA"], e["colorB"], e["type3"]);
-                //         KarateMan.instance.SetBgFx(e["type4"], e["type5"], e["colorC"], e["colorD"]);
-                //     }, 
-                //     defaultLength = 0.5f, 
-                //     resizable = true, 
-                //     parameters = new List<Param>()
-                //     {
-                //         new Param("type", KarateMan.BackgroundType.Yellow, "Background Type", "The preset background type"),
-                //         new Param("type2", KarateMan.ShadowType.Tinted, "Shadow Type", "The shadow type. If Tinted doesn't work with your background color try Custom"),
-                //         new Param("colorA", new Color(), "Custom Background Color", "The background color to use when background type is set to Custom"),
-                //         new Param("colorB", new Color(), "Custom Shadow Color", "The shadow color to use when shadow type is set to Custom. When fading the background colour shadows fade to this color"),
-                //         new Param("type3", KarateMan.BackgroundFXType.None, "FX Type", "The background effect to be displayed. Fade uses the entity length to determine colour fading speed"),
-                //         new Param("type4", KarateMan.BackgroundTextureType.Plain, "Texture", "The type of background texture to use"),
-                //         new Param("type5", KarateMan.ShadowType.Tinted, "Color Filter Type", "The method used to apply colour to the texture"),
-                //         new Param("colorC", new Color(), "Custom Filter Color", "The filter color to use when color filter type is set to Custom"),
-                //         new Param("colorD", new Color(), "Fading Filter Color", "When using the Fade background effect, make filter colour fade to this colour"),
-                //     },
-                // },
                 new GameAction("set object colors", "Object Appearance")
                 {
                     function = delegate {
@@ -512,10 +507,16 @@ namespace HeavenStudio.Games
             Mania,
             ManiaHorizontal,
         }
+
+        public enum ComboMode
+        {
+            Disabled,
+            Normal,
+            Jump,
+        }
         #endregion
 
-        // static List<RiqEntity> queuedCues = new();
-        public static bool IsComboEnable = true; //only stops Out combo inputs, this basically makes combo contextual
+        public static ComboMode IsComboEnable = ComboMode.Normal; //only stops Out combo inputs, this basically makes combo contextual
         // public static bool IsKickEnable = true; //same as above, except with kick inputs
         public bool IsNoriActive { get { return Nori.MaxNori > 0; } }
         public float NoriPerformance { get { if (IsNoriActive) return Nori.Nori / Nori.MaxNori; else return 1f; } }
@@ -1119,12 +1120,12 @@ namespace HeavenStudio.Games
             }
         }
 
-        public void SetGameplayMods(double beat, int fxType, int mode, bool combo)
+        public void SetGameplayMods(double beat, int fxType, int mode, int combo)
         {
             NoriGO.SetActive(true);
             Nori.SetNoriMode(beat, mode);
             currentBgEffect = fxType;
-            IsComboEnable = combo;
+            IsComboEnable = (ComboMode)comb;
             // IsKickEnable = kick;
         }
 
