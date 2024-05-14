@@ -556,7 +556,8 @@ namespace HeavenStudio.Games
 
         public static void TreatSound(double beat, bool isCake)
         {
-            SoundByte.PlayOneShot(isCake ? "games/blueBear/cake" : "games/blueBear/donut", beat);
+            // Debug.Log("Playing Treat Sound on beat " + beat);
+            SoundByte.PlayOneShotGame(isCake ? "blueBear/cake" : "blueBear/donut", beat, forcePlay: true);
         }
 
         public void SquashBag(bool isCake)

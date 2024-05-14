@@ -351,6 +351,7 @@ namespace HeavenStudio.Util
                 }
 
                 oneShotAudioSource.PlayOneShot(clip, volume);
+                // Debug.Log("Played Sound");
                 return null;
             }
         }
