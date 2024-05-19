@@ -116,6 +116,25 @@ namespace HeavenStudio.Games.Loaders
                     function = delegate { TheDazzles.instance.ForceHold(); },
                     defaultLength = 0.5f
                 },
+				
+				new GameAction("boxColor", "Background Colors")
+                {
+                    function = delegate { var e = eventCaller.currentEntity; TheDazzles.instance.ChangeBoxColor(e.beat, e.length, e["extStart"], e["extEnd"], e["intStart"], e["intEnd"], e["wallStart"], e["wallEnd"], e["roofStart"], e["roofEnd"], e["ease"]); },
+                    defaultLength = 1f,
+					resizable = true,
+                    parameters = new List<Param>()
+                    {
+                        new Param("extStart", TheDazzles.defaultExteriorColor, "Exterior Start", "Set the color of the boxes' exterior at the start of the event."),
+						new Param("extEnd", TheDazzles.defaultExteriorColor, "Exterior End", "Set the color of the boxes' exterior at the end of the event."),
+                        new Param("intStart", TheDazzles.defaultInteriorColor, "Interior Start", "Set the color of the boxes' interiors at the start of the event."),
+						new Param("intEnd", TheDazzles.defaultInteriorColor, "Interior End", "Set the color of the boxes' interiors at the end of the event."),
+                        new Param("wallStart", TheDazzles.defaultWallColor, "Walls Start", "Set the color of the boxes' walls at the start of the event."),
+						new Param("wallEnd", TheDazzles.defaultWallColor, "Walls End", "Set the color of the boxes' walls at the end of the event."),
+                        new Param("roofStart", TheDazzles.defaultRoofColor, "Roof Start", "Set the color of the boxes' roofs at the start of the event."),
+						new Param("roofEnd", TheDazzles.defaultRoofColor, "Roof End", "Set the color of the boxes' roofs at the end of the event."),
+						new Param("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.")
+                    }, 
+                },
             },
             new List<string>() {"ntr", "normal"},
             "ntrboxshow", "en",
@@ -130,6 +149,7 @@ namespace HeavenStudio.Games
     using Scripts_TheDazzles;
     public class TheDazzles : Minigame
     {
+		
         public struct PosesToPerform : IComparable<PosesToPerform>
         {
             // override object.Equals
@@ -221,6 +241,17 @@ namespace HeavenStudio.Games
             Megamix = 1,
             Random = 2,
         }
+		
+		public static Color defaultExteriorColor = new(156/255f, 254/255f, 246/255f);
+		public static Color defaultInteriorColor = new(66/255f, 255/255f, 239/255f);
+        public static Color defaultWallColor = new(0f, 222/255f, 197/255f);
+        public static Color defaultRoofColor = new(0f, 189/255f, 172/255f);
+		
+		private ColorEase extColorEase = new(defaultExteriorColor);
+        private ColorEase intColorEase = new(defaultInteriorColor);
+		private ColorEase wallColorEase = new(defaultWallColor);
+        private ColorEase roofColorEase = new(defaultRoofColor);
+		
         public static TheDazzles instance;
 
         [Header("Variables")]
@@ -235,6 +266,9 @@ namespace HeavenStudio.Games
         [SerializeField] TheDazzlesGirl player;
         [SerializeField] ParticleSystem poseEffect;
         [SerializeField] ParticleSystem starsEffect;
+		[Header("RecolorMaterials")]
+		public Material interiorMat;
+		public Material exteriorMat;
 
         public static PlayerInput.InputAction InputAction_TouchRelease =
             new("NtrBoxshowTouchRelease", new int[] { IAEmptyCat, IAReleaseCat, IAEmptyCat },
@@ -254,6 +288,10 @@ namespace HeavenStudio.Games
         {
             instance = this;
             SetupBopRegion("theDazzles", "bop", "toggle");
+			interiorMat.SetColor("_ColorAlpha", defaultRoofColor);
+			interiorMat.SetColor("_ColorBravo", defaultInteriorColor);
+			interiorMat.SetColor("_ColorDelta", defaultWallColor);
+			exteriorMat.SetColor("_AddColor", defaultExteriorColor);
         }
 
         public override void OnBeatPulse(double beat)
@@ -272,10 +310,13 @@ namespace HeavenStudio.Games
         {
             if (queuedPoses.Count > 0) queuedPoses.Clear();
             if (queuedCrouches.Count > 0) queuedCrouches.Clear();
+			PersistColor(beat);
         }
 
         void Update()
         {
+			BoxColorUpdate();
+			
             if (conductor.isPlaying && !conductor.isPaused)
             {
                 if (queuedPoses.Count > 0)
@@ -671,6 +712,37 @@ namespace HeavenStudio.Games
         }
 
         void Nothing(PlayerActionEvent caller) { }
+		
+		private void BoxColorUpdate()
+        {
+			interiorMat.SetColor("_ColorAlpha", roofColorEase.GetColor());
+			interiorMat.SetColor("_ColorBravo", intColorEase.GetColor());
+			interiorMat.SetColor("_ColorDelta", wallColorEase.GetColor());
+			exteriorMat.SetColor("_AddColor", extColorEase.GetColor());
+        }
+		
+		public void ChangeBoxColor(double beat, float length, Color exteriorStart, Color exteriorEnd, Color interiorStart, Color interiorEnd, Color wallsStart, Color wallsEnd, Color roofStart, Color roofEnd, int ease)
+        {
+			extColorEase = new ColorEase(beat, length, exteriorStart, exteriorEnd, ease);
+			intColorEase = new ColorEase(beat, length, interiorStart, interiorEnd, ease);
+			wallColorEase = new ColorEase(beat, length, wallsStart, wallsEnd, ease);
+			roofColorEase = new ColorEase(beat, length, roofStart, roofEnd, ease);
+        }
+		
+		private void PersistColor(double beat)
+        {
+            var allEventsBeforeBeat = EventCaller.GetAllInGameManagerList("theDazzles", new string[] { "boxColor" }).FindAll(x => x.beat < beat);
+            if (allEventsBeforeBeat.Count > 0)
+            {
+                allEventsBeforeBeat.Sort((x, y) => x.beat.CompareTo(y.beat)); //just in case
+                var lastEvent = allEventsBeforeBeat[^1];
+                ChangeBoxColor(lastEvent.beat, lastEvent.length, lastEvent["extStart"], lastEvent["extEnd"], lastEvent["intStart"], lastEvent["intEnd"], lastEvent["wallStart"], lastEvent["wallEnd"], lastEvent["roofStart"], lastEvent["roofEnd"], lastEvent["ease"]);
+            }
+        }
+		
+		public override void OnGameSwitch(double beat)
+        {
+            PersistColor(beat);
+        }
     }
 }
-
