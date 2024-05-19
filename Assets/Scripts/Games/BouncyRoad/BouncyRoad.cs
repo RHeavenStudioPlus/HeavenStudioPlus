@@ -24,6 +24,29 @@ namespace HeavenStudio.Games.Loaders
                     {
                         new Param("goal", true, "Play Goal Sound"),
                         new Param("color", Color.white, "Color", "Choose the color of the ball."),
+                        new Param("useCustomNotes", false, "Custom Notes", "Toggle if the ball should use custom notes.", new List<Param.CollapseParam>()
+                        {
+                            new Param.CollapseParam((x, _) => (bool)x, new string[] { "bounceNote", "rightNote", "leftNote", "goalNote", "separateBounceNotes"})
+                        }),
+                        new Param("separateBounceNotes", false, "Separate Bounce Notes", "Toggle if the ball should use separate notes for the each of the first 12 poles.", new List<Param.CollapseParam>()
+                        {
+                            new Param.CollapseParam((x, _) => (bool)x, new string[] { "bounceNote2", "bounceNote3", "bounceNote4", "bounceNote5", "bounceNote6", "bounceNote7", "bounceNote8", "bounceNote9", "bounceNote10", "bounceNote11", "bounceNote12" })
+                        }),
+                        new Param("bounceNote", new EntityTypes.Note(0, 7, 4, "bouncyRoad/ballBounce"), "Bounce Note", "Choose the note the ball plays when bouncing on the first 12 poles or the first pole if using custom notes."),
+                        new Param("bounceNote2", new EntityTypes.Note(0, 7, 4, "bouncyRoad/ballBounce"), "Bounce Note 2", "Choose the note the ball plays when bouncing on the second pole."),
+                        new Param("bounceNote3", new EntityTypes.Note(0, 7, 4, "bouncyRoad/ballBounce"), "Bounce Note 3", "Choose the note the ball plays when bouncing on the third pole."),
+                        new Param("bounceNote4", new EntityTypes.Note(0, 7, 4, "bouncyRoad/ballBounce"), "Bounce Note 4", "Choose the note the ball plays when bouncing on the fourth pole."),
+                        new Param("bounceNote5", new EntityTypes.Note(0, 7, 4, "bouncyRoad/ballBounce"), "Bounce Note 5", "Choose the note the ball plays when bouncing on the fifth pole."),
+                        new Param("bounceNote6", new EntityTypes.Note(0, 7, 4, "bouncyRoad/ballBounce"), "Bounce Note 6", "Choose the note the ball plays when bouncing on the sixth pole."),
+                        new Param("bounceNote7", new EntityTypes.Note(0, 7, 4, "bouncyRoad/ballBounce"), "Bounce Note 7", "Choose the note the ball plays when bouncing on the seventh pole."),
+                        new Param("bounceNote8", new EntityTypes.Note(0, 7, 4, "bouncyRoad/ballBounce"), "Bounce Note 8", "Choose the note the ball plays when bouncing on the eighth pole."),
+                        new Param("bounceNote9", new EntityTypes.Note(0, 7, 4, "bouncyRoad/ballBounce"), "Bounce Note 9", "Choose the note the ball plays when bouncing on the ninth pole."),
+                        new Param("bounceNote10", new EntityTypes.Note(0, 7, 4, "bouncyRoad/ballBounce"), "Bounce Note 10", "Choose the note the ball plays when bouncing on the tenth pole."),
+                        new Param("bounceNote11", new EntityTypes.Note(0, 7, 4, "bouncyRoad/ballBounce"), "Bounce Note 11", "Choose the note the ball plays when bouncing on the eleventh pole."),
+                        new Param("bounceNote12", new EntityTypes.Note(0, 7, 4, "bouncyRoad/ballBounce"), "Bounce Note 12", "Choose the note the ball plays when bouncing on the twelfth pole."),
+                        new Param("rightNote", new EntityTypes.Note(0, 3, 4, "bouncyRoad/ballRight"), "A Note", "Choose the note the ball plays when it bounces on the A pole."),
+                        new Param("leftNote", new EntityTypes.Note(0, 10, 4, "bouncyRoad/ballLeft"), "+ Note", "Choose the note the ball plays when it bounces on the + pole."),
+                        new Param("goalNote", new EntityTypes.Note(0, 3, 5, "bouncyRoad/goal"), "Goal Note", "Choose the note the ball plays when it bounces on the last pole."),
                     }
                 },
                 new GameAction("background appearance", "Background Appearance")
@@ -87,12 +110,20 @@ namespace HeavenStudio.Games
         private ColorEase[] colorEases = new ColorEase[2];
 
         const double BALL_SEEK_TIME = 1.0;
-        private struct ScheduledBall
+
+        public struct ScheduledBall
         {
             public double beat;
             public double length;
             public bool goal;
             public Color color;
+            public bool useCustomNotes;
+            public bool seperateBounceNotes;
+            public int[] bounceNotes;
+            public int bounceNote;
+            public int rightNote;
+            public int leftNote;
+            public int goalNote;
         }
         List<ScheduledBall> scheduledBalls = new();
         int ballIndex;
@@ -111,16 +142,18 @@ namespace HeavenStudio.Games
         }
         protected static bool IA_TouchLeft(out double dt)
         {
-            return PlayerInput.GetTouchDown(InputController.ActionsTouch.Left, out dt);
+            return PlayerInput.GetTouchDown(InputController.ActionsTouch.Tap, out dt) && instance.IsExpectingInputNow(InputAction_Left);
         }
 
         protected static bool IA_PadRight(out double dt)
         {
             return PlayerInput.GetPadDown(InputController.ActionsPad.East, out dt);
         }
-        protected static bool IA_TouchRight(out double dt)
-        {
-            return PlayerInput.GetTouchDown(InputController.ActionsTouch.Right, out dt);
+        protected static bool IA_TouchRight(out double dt) {
+            return PlayerInput.GetTouchDown(InputController.ActionsTouch.Tap, out dt) 
+                   && (instance.IsExpectingInputNow(InputAction_Right) 
+                       || (!instance.IsExpectingInputNow(InputAction_Left) && !instance.IsExpectingInputNow(InputAction_Right)));
+                
         }
 
         public static PlayerInput.InputAction InputAction_Left =
@@ -204,12 +237,30 @@ namespace HeavenStudio.Games
             foreach (var e in events)
             {
                 if (e.length == 0) continue;
+
+                int[] bounceNotes = null;
+                if (e["separateBounceNotes"]) {
+                    bounceNotes = new int[12];
+                    bounceNotes[0] = e["bounceNote"];
+                    for (int i = 1; i < 12; i++)
+                    {
+                        bounceNotes[i] = e[$"bounceNote{i+1}"];
+                    }
+                }
+                
                 var ball = new ScheduledBall
                 {
                     beat = e.beat,
                     length = e.length,
                     goal = e["goal"],
                     color = e["color"],
+                    useCustomNotes = e["useCustomNotes"],
+                    seperateBounceNotes = e["separateBounceNotes"],
+                    bounceNotes = bounceNotes,
+                    bounceNote = e["bounceNote"],
+                    rightNote = e["rightNote"],
+                    leftNote = e["leftNote"],
+                    goalNote = e["goalNote"],
                 };
                 scheduledBalls.Add(ball);
             }
@@ -228,10 +279,12 @@ namespace HeavenStudio.Games
             if (PlayerInput.GetIsAction(InputAction_Right) && !IsExpectingInputNow(InputAction_Right))
             {
                 ThingsAnim[12].Play("podium", 0, 0);
+                SoundByte.PlayOneShotGame("bouncyRoad/rightBlank", volume: .5f);
             }
             if (PlayerInput.GetIsAction(InputAction_Left) && !IsExpectingInputNow(InputAction_Left))
             {
                 ThingsAnim[13].Play("podium", 0, 0);
+                SoundByte.PlayOneShotGame("bouncyRoad/leftBlank", volume: .5f);
             }
 
             UpdateBalls();
@@ -246,7 +299,7 @@ namespace HeavenStudio.Games
                 var ball = scheduledBalls[ballIndex];
                 if (ball.beat - ball.length < beat + BALL_SEEK_TIME)
                 {
-                    SpawnBall(ball.beat, ball.length, ball.goal, ball.color);
+                    SpawnBall(ball);
                     ballIndex++;
                 }
                 else
@@ -256,20 +309,26 @@ namespace HeavenStudio.Games
             }
         }
 
-        public void SpawnBall(double beat, double length, bool goal, Color color)
+        public void SpawnBall(ScheduledBall scheduledBall)
         {
             var newBall = Instantiate(baseBall, transform).GetComponent<Ball>();
 
-            newBall.startBeat = beat;
-            newBall.lengthBeat = length;
-            newBall.goal = goal;
-            newBall.color = color;
+            newBall.startBeat = scheduledBall.beat;
+            newBall.lengthBeat = scheduledBall.length;
+            newBall.goal = scheduledBall.goal;
+            newBall.color = scheduledBall.color;
+            newBall.useCustomNotes = scheduledBall.useCustomNotes;
+            newBall.bounceNotes = scheduledBall.bounceNotes;
+            newBall.bounceNote = scheduledBall.bounceNote;
+            newBall.rightNote = scheduledBall.rightNote;
+            newBall.leftNote = scheduledBall.leftNote;
+            newBall.goalNote = scheduledBall.goalNote;
 
-            newBall.curve = GetHeightCurve((float)length);
+            newBall.curve = GetHeightCurve((float)scheduledBall.length);
             
             BeatAction.New(instance, new List<BeatAction.Action>()
             {
-                new BeatAction.Action(beat - length, delegate
+                new BeatAction.Action(scheduledBall.beat - scheduledBall.length, delegate
                 {
                     newBall.Init();
                     newBall.gameObject.SetActive(true);
@@ -278,13 +337,18 @@ namespace HeavenStudio.Games
         }
 
         List<double> bounceBeats = new();
-        public void PlayBounceSound(double beat, double length)
+        public void PlayBounceSound(double beat, double length, float[] pitches, float singlePitch)
         {
             var sounds = new List<MultiSound.Sound>();
-            for (int i = 0; i < 12 ; i++)
-            {
+            float volume = .65f;
+            for (int i = 0; i < 12 ; i++) {
+                if (i >= 6) volume += .059f;
+                
                 var bounceBeat = beat + i * length;
-                if (!bounceBeats.Contains(bounceBeat)) sounds.Add(new MultiSound.Sound("bouncyRoad/ballBounce", bounceBeat));
+                if (!bounceBeats.Contains(bounceBeat)) {
+                    float pitch = pitches == null ? singlePitch : pitches[i];
+                    sounds.Add(new MultiSound.Sound("bouncyRoad/ballBounce", bounceBeat, pitch, volume));
+                }
                 bounceBeats.Add(bounceBeat);
             }
             MultiSound.Play(sounds.ToArray());
