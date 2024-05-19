@@ -8,14 +8,14 @@ jobs:
     cherry_no_future_to_current:
       runs-on: ubuntu-latest
       name: Cherry pick into current release
-      if: ${{ !contains(github.event.pull_request.labels.*.name, 'release-2') }}
+      if: ${{ !contains(github.event.pull_request.labels.*.name, 'release-2') && github.event.pull_request.merged == true }}
       steps:
         - name: Checkout
           uses: actions/checkout@v4
           with:
             fetch-depth: 0
         - name: Cherry pick into current release
-          uses: xealth/cherry-pick-action@v1.0.0
+          uses: carloscastrojumo/github-cherry-pick-action@v1.0.10
           with:
             branch: release_1_patches
             labels: |
