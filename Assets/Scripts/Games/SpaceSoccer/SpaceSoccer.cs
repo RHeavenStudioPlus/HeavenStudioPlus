@@ -96,11 +96,37 @@ namespace HeavenStudio.Games.Loaders
                     {
                         new Param("start", SpaceSoccer.defaultBGColor, "Start Color", "Set the color at the start of the event."),
                         new Param("end", SpaceSoccer.defaultBGColor, "End Color", "Set the color at the end of the event."),
-                        new Param("startDots", Color.white, "Start Color (Dots)", "Set the color at the start of the event."),
-                        new Param("endDots", Color.white, "End Color (Dots)", "Set the color at the end of the event."),
+                        new Param("startDots", SpaceSoccer.defaultStarColor, "Start Color (Dots)", "Set the color at the start of the event."),
+                        new Param("endDots", SpaceSoccer.defaultStarColor, "End Color (Dots)", "Set the color at the end of the event."),
                         new Param("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.")
                     }
                 },
+				new GameAction("changeKick", "Kicker Appearance")
+                {
+                    function = delegate {var e = eventCaller.currentEntity; SpaceSoccer.instance.KickerColor(e.beat, e["outfit"], e["boots"], e["skin"]); },
+                    defaultLength = 0.5f,
+                    parameters = new List<Param>()
+                    {
+                        new Param("outfit", SpaceSoccer.kickerLavender, "Outfit Color", "Set the color of the kicker's outfit."),
+						new Param("boots", SpaceSoccer.kickerPurple, "Boots Color", "Set the color of the kicker's boots. This color is also used for the kicker's joints and eyebrows."),
+						new Param("skin", Color.white, "Skin Color", "Set the color of the kicker's skin."),
+                    }
+                },
+				new GameAction("changePlat", "Platform Appearance")
+                {
+                    function = delegate {var e = eventCaller.currentEntity; SpaceSoccer.instance.PlatformColor(e.beat, e["top"], e["side"], e["outline"], e["flame"], e["mid"]); },
+                    defaultLength = 0.5f,
+                    parameters = new List<Param>()
+                    {
+                        new Param("top", SpaceSoccer.platTop, "Top Color", "Set the color of the platform's top."),
+						new Param("side", SpaceSoccer.platSide, "Side Color", "Set the color of the platform's side."),
+						new Param("outline", SpaceSoccer.platOutline, "Outline Color", "Set the color of the platform's outline."),
+						new Param("flame", SpaceSoccer.kickerLavender, "Flame Color", "Set the color of the flame."),
+						new Param("mid", SpaceSoccer.fireYellow, "Flame Middle Color", "Set the color of the middle of the flame."),
+                    }
+                },
+				
+				
                 new GameAction("scroll", "Scrolling Background")
                 {
                     function = delegate { var e = eventCaller.currentEntity; SpaceSoccer.instance.UpdateScrollSpeed(e["x"], e["y"]); },
@@ -167,7 +193,7 @@ namespace HeavenStudio.Games
     using System;
 
     public class SpaceSoccer : Minigame
-    {
+    {	
         public enum EnterExitPresets
         {
             FiveKickers,
@@ -192,6 +218,13 @@ namespace HeavenStudio.Games
             Exit = 1
         }
         public static Color defaultBGColor = new(1f, 0.49f, 0.153f);
+		public static Color defaultStarColor = new(248/255f, 248/255f, 248/255f);
+        public static Color kickerLavender = new(184/255f, 136/255f, 248/255f);
+        public static Color kickerPurple = new(136/255f, 64/255f, 248/255f);
+        public static Color platTop = new(112/255f, 248/255f, 144/255f);
+        public static Color platSide = new(88/255f, 168/255f, 128/255f);
+        public static Color platOutline = new(24/255f, 56/255f, 40/255f);
+        public static Color fireYellow = new(248/255f, 248/255f, 88/255f);
 
         [Header("Components")]
         [SerializeField] private GameObject kickerPrefab;
@@ -209,6 +242,12 @@ namespace HeavenStudio.Games
         float yScrollMultiplier = 0.3f;
         [SerializeField] private float xBaseSpeed = 1;
         [SerializeField] private float yBaseSpeed = 1;
+		
+		[Header("Materials")]
+		public Material kickerMat;
+		public Material mouthMat;
+		public Material platMat;
+		public Material fireMat;
 
         private List<double> _highKickToeBeats = new();
         private List<double> _stopBeats = new();
@@ -238,6 +277,16 @@ namespace HeavenStudio.Games
             {
                 _highKickToeBeats.Add(e.beat);
             }
+			
+			kickerMat.SetColor("_ColorAlpha", kickerLavender);
+			kickerMat.SetColor("_ColorBravo", Color.white);
+			mouthMat.SetColor("_ColorBravo", Color.white);
+			kickerMat.SetColor("_ColorDelta", kickerPurple);
+			platMat.SetColor("_ColorAlpha", platOutline);
+			platMat.SetColor("_ColorBravo", platTop);
+			platMat.SetColor("_ColorDelta", platSide);
+			fireMat.SetColor("_ColorAlpha", kickerLavender);
+			fireMat.SetColor("_ColorDelta", fireYellow);
         }
 
         new void OnDrawGizmos()
@@ -560,7 +609,7 @@ namespace HeavenStudio.Games
         }
 
         private ColorEase bgColorEase = new(defaultBGColor);
-        private ColorEase dotColorEase = new(Color.white);
+        private ColorEase dotColorEase = new(defaultStarColor);
 
         //call this in update
         private void BackgroundColorUpdate()
@@ -572,6 +621,23 @@ namespace HeavenStudio.Games
             bgColorEase  = new(beat, length, startColorBG, endColorBG, ease);
             dotColorEase = new(beat, length, startColorDot, endColorDot, ease);
         }
+		
+		public void KickerColor(double beat, Color main, Color alt, Color skin)
+        {
+			kickerMat.SetColor("_ColorAlpha", main);
+			kickerMat.SetColor("_ColorBravo", skin);
+			mouthMat.SetColor("_ColorBravo", skin);
+			kickerMat.SetColor("_ColorDelta", alt);
+        }
+		
+		public void PlatformColor(double beat, Color top, Color side, Color outline, Color fire, Color mid)
+        {
+			platMat.SetColor("_ColorAlpha", outline);
+			platMat.SetColor("_ColorBravo", top);
+			platMat.SetColor("_ColorDelta", side);
+			fireMat.SetColor("_ColorAlpha", fire);
+			fireMat.SetColor("_ColorDelta", mid);
+        }
 
         //call this in OnPlay(double beat) and OnGameSwitch(double beat)
         private void PersistColor(double beat)
@@ -582,6 +648,22 @@ namespace HeavenStudio.Games
                 allEventsBeforeBeat.Sort((x, y) => x.beat.CompareTo(y.beat)); //just in case
                 var lastEvent = allEventsBeforeBeat[^1];
                 BackgroundColor(lastEvent.beat, lastEvent.length, lastEvent["start"], lastEvent["end"], lastEvent["startDots"], lastEvent["endDots"], lastEvent["ease"]);
+            }
+			
+			var allEventsBeforeBeatKick = EventCaller.GetAllInGameManagerList("spaceSoccer", new string[] { "changeKick" }).FindAll(x => x.beat < beat);
+            if (allEventsBeforeBeatKick.Count > 0)
+            {
+                allEventsBeforeBeatKick.Sort((x, y) => x.beat.CompareTo(y.beat)); //just in case
+                var lastEvent = allEventsBeforeBeatKick[^1];
+                KickerColor(lastEvent.beat, lastEvent["outfit"], lastEvent["boots"], lastEvent["skin"]);
+            }
+			
+			var allEventsBeforeBeatPlat = EventCaller.GetAllInGameManagerList("spaceSoccer", new string[] { "changePlat" }).FindAll(x => x.beat < beat);
+            if (allEventsBeforeBeatPlat.Count > 0)
+            {
+                allEventsBeforeBeatPlat.Sort((x, y) => x.beat.CompareTo(y.beat)); //just in case
+                var lastEvent = allEventsBeforeBeatPlat[^1];
+                PlatformColor(lastEvent.beat, lastEvent["top"], lastEvent["side"], lastEvent["outline"], lastEvent["flame"], lastEvent["mid"]);
             }
         }
 

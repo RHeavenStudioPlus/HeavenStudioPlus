@@ -360,10 +360,10 @@ TextureImporter:
       name: bg
       rect:
         serializedVersion: 2
-        x: 4976.5967
-        y: 50.7816
-        width: 152.3448
-        height: 1066.4136
+        x: 4983
+        y: 51
+        width: 142
+        height: 1066
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -953,7 +953,7 @@ TextureImporter:
         width: 990.2412
         height: 431.64362
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -961,6 +961,111 @@ TextureImporter:
       bones: []
       spriteID: b0cc3863f5b669fc0800000000000000
       internalID: -3488482804671198197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gamegradient
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 1060
+        width: 128
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3a425c27e3c10642b6367c9ca02eb74
+      internalID: 1074703595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: remixgradient
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 27
+        width: 128
+        height: 1532
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15a192101a788b046a32390667a7d1af
+      internalID: -1788309548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: viewcirclebg
+      rect:
+        serializedVersion: 2
+        x: 2471
+        y: 1830
+        width: 1046
+        height: 1105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23216d8b8d38fae4b8c418c129acfe97
+      internalID: 2024232511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: remixgradient_white
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 0
+        width: 284
+        height: 3132
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa81068caa3154243858f87971fa0317
+      internalID: 832280233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gamegradient_white
+      rect:
+        serializedVersion: 2
+        x: 730
+        y: 1962
+        width: 284
+        height: 1170
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eeaff545ba46c1d4abef4d4cab6ffd67
+      internalID: 724391037
       vertices: []
       indices: 
       edges: []
@@ -999,18 +1104,23 @@ TextureImporter:
       fork_swipe_1: -7294697356220309840
       fork_swipe_2: 7602230395459695148
       forkstab_effect: -2535895568687023267
+      gamegradient: 1074703595
+      gamegradient_white: 724391037
       hand_shadow1: 7562980635367501552
       hand_shadow2: -1164378328580708214
       hitfx_1: 8176908352783466543
       hitfx_2: -2809503619127399702
       pea_1: 5792877419163235472
       pea_2: 5655859219183449053
+      remixgradient: -1788309548
+      remixgradient_white: 832280233
       shadow: -4362852279230612367
       thumb_1: 8729287508403444602
       thumb_2: -4214774725070190255
       thumb_3: -1669373453243010765
       topbun: 6815597139681551923
       topbun_hit: -6775943870119716595
+      viewcirclebg: 2024232511
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

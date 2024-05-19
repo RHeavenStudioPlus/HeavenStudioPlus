@@ -59,7 +59,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -132,27 +132,6 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: city_0
-      rect:
-        serializedVersion: 2
-        x: 3181
-        y: 1964
-        width: 179
-        height: 2004
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 480fe1d878d1409e0800000000000000
-      internalID: -1656166294940094332
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: city_1
       rect:
         serializedVersion: 2
@@ -169,27 +148,6 @@ TextureImporter:
       bones: []
       spriteID: babeb272b24380ad0800000000000000
       internalID: -2735879413682148437
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: city_2
-      rect:
-        serializedVersion: 2
-        x: 77
-        y: 1908
-        width: 3069
-        height: 276
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2fda41bfc93429470800000000000000
-      internalID: 8399850596505791986
       vertices: []
       indices: 
       edges: []
@@ -224,7 +182,7 @@ TextureImporter:
         width: 1907
         height: 1856
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -232,6 +190,48 @@ TextureImporter:
       bones: []
       spriteID: 1b2f320ddf488e6c0800000000000000
       internalID: -4113892033949338959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: city_5
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 1924
+        width: 3069
+        height: 260
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 250}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 765a75cb1a0a62e4d8638a3ba46b422a
+      internalID: -1414428263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: city_2
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 1924
+        width: 2834
+        height: 260
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 250}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92dcadc3ac15e0145b83ec46a4deb5c7
+      internalID: 8399850596505791986
       vertices: []
       indices: 
       edges: []
@@ -252,6 +252,7 @@ TextureImporter:
       city_2: 8399850596505791986
       city_3: -3980211991217024205
       city_4: -4113892033949338959
+      city_5: -1414428263
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
