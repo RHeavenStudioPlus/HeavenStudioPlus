@@ -220,7 +220,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 2d1ef6bdcdf84a0408be0fcb86d09d14, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -304,7 +304,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 35e154ebdda9d8e4db8ade46b61f9d40, type: 2}
+  - {fileID: 2100000, guid: 306bf76bed65f914cb6d63e3c485d358, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -326,7 +326,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 20
   m_Sprite: {fileID: 1460441637, guid: 3c49c0fa809689d448ee90b3c1143d9f, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -411,11 +411,17 @@ MonoBehaviour:
   SpriteParts:
   - {fileID: 4338800780392838371}
   - {fileID: 406877900976759553}
-  - {fileID: 4128693103407085196}
   - {fileID: 5161764168841387940}
   - {fileID: 1060326674701855250}
   MissFace: {fileID: 0}
   Head: {fileID: 406877900976759553}
+  Belt: {fileID: 4128693103407085196}
+  BodyMat:
+  - {fileID: 4338800780392838371}
+  - {fileID: 1060326674701855250}
+  HeadMat:
+  - {fileID: 406877900976759553}
+  - {fileID: 5161764168841387940}
 --- !u!1 &8765760830273088637
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,7 +474,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 2d1ef6bdcdf84a0408be0fcb86d09d14, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
