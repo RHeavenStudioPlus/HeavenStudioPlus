@@ -1,7 +1,7 @@
 # Heaven Studio+
 
-(WIP) A tool to create playable Rhythm Heaven custom remixes, with many customization options.
-This is a fork of Heaven Studio, made to incorporate a wider range of fangames.
+(WIP) A tool to create playable Rhythm Heaven custom remixes, with many customization options.<br>
+This is an **UNOFFICIAL** fork of Heaven Studio, made to incorporate a wider range of fangames.
 
 <p>
   <a href="https://discord.gg/2kdZ8kFyEN">
