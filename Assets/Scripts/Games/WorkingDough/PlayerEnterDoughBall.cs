@@ -47,7 +47,7 @@ namespace HeavenStudio.Games.Scripts_WorkingDough
 
         public void Init(double beat, bool isBig, bool hasGandw)
         {
-            startBeat = beat;
+            startBeat = Conductor.instance.GetUnSwungBeat(beat);
             big = isBig;
             canJust = true;
             canWrong = true;
@@ -75,7 +75,7 @@ namespace HeavenStudio.Games.Scripts_WorkingDough
                 if (startBeat > double.MinValue)
                 {
                     Vector3 pos = new Vector3();
-                    double beat = cond.songPositionInBeats;
+                    double beat = cond.unswungSongPositionInBeats;
                     switch (currentState)
                     {
                         case State.None:
@@ -137,7 +137,7 @@ namespace HeavenStudio.Games.Scripts_WorkingDough
                 wrongInput.CleanUp();
             }
             if (currentState is State.Hit or State.Barely or State.Weak) return;
-            double beat = Conductor.instance.songPositionInBeatsAsDouble;
+            double beat = Conductor.instance.unswungSongPositionInBeatsAsDouble;
             startBeat = beat;
             game.playerImpact.SetActive(true);
             BeatAction.New(game, new List<BeatAction.Action>()
@@ -195,7 +195,7 @@ namespace HeavenStudio.Games.Scripts_WorkingDough
                 rightInput.CleanUp();
             }
             if (currentState is State.Hit or State.Barely or State.Weak) return;
-            double beat = Conductor.instance.songPositionInBeats;
+            double beat = Conductor.instance.unswungSongPositionInBeats;
             game.playerImpact.SetActive(true);
             BeatAction.New(game, new List<BeatAction.Action>()
             {
