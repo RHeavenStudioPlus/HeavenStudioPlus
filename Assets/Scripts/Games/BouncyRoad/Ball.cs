@@ -15,6 +15,12 @@ namespace HeavenStudio.Games.Scripts_BouncyRoad
 
         public Color color;
         [System.NonSerialized] public bool goal;
+        [System.NonSerialized] public bool useCustomNotes;
+        [System.NonSerialized] public int[] bounceNotes;
+        [System.NonSerialized] public int bounceNote;
+        [System.NonSerialized] public int rightNote;
+        [System.NonSerialized] public int leftNote;
+        [System.NonSerialized] public int goalNote;
 
         private bool isMiss;
 
@@ -33,9 +39,9 @@ namespace HeavenStudio.Games.Scripts_BouncyRoad
             
             if (currentCurve is not null)
             {
-                float curveProg = cond.GetPositionFromBeat(currentBeat, lengthBeat);
+                float curveProg = cond.GetPositionFromBeat(currentBeat, lengthBeat, ignoreSwing: false);
                 if (isMiss) {
-                    curveProg = cond.GetPositionFromBeat(currentBeat, lengthBeat/2);
+                    curveProg = cond.GetPositionFromBeat(currentBeat, lengthBeat/2, ignoreSwing: false);
                 } else {
                     // curveProg /= (float)(1 + BouncyRoad.ngLateTime);
                     if (curveProg >= 1) curveProg = 1;
@@ -44,9 +50,19 @@ namespace HeavenStudio.Games.Scripts_BouncyRoad
             }
         }
 
-        private void Bounce()
-        {
-            game.PlayBounceSound(startBeat, lengthBeat);
+        private void Bounce() {
+            float[] pitches = null;
+            if (bounceNotes != null) 
+            {
+                pitches = new float[12];
+                for (int i = 0; i < 12; i++) 
+                {
+
+                    pitches[i] = GetPitch(bounceNotes[i]);
+                }
+            }
+
+            game.PlayBounceSound(startBeat, lengthBeat, pitches, GetPitch(bounceNote));
 
             var actions = new List<BeatAction.Action>();
 
@@ -70,7 +86,7 @@ namespace HeavenStudio.Games.Scripts_BouncyRoad
 
         public void RightSuccess(PlayerActionEvent caller, float state)
         {
-            SoundByte.PlayOneShotGame("bouncyRoad/ballRight");
+            SoundByte.PlayOneShotGame("bouncyRoad/ballRight", pitch: GetPitch(rightNote));
             game.ThingsAnim[12].Play("podium", 0, 0);
             currentCurve = curve[1+12];
             currentBeat = startBeat + 12 * lengthBeat;
@@ -80,7 +96,7 @@ namespace HeavenStudio.Games.Scripts_BouncyRoad
 
         public void RightMiss(PlayerActionEvent caller)
         {
-            SoundByte.PlayOneShotGame("bouncyRoad/ballBounce");
+            SoundByte.PlayOneShotGame("bouncyRoad/ballBounce", pitch: GetPitch(bounceNote));
             currentCurve = curve[^2];
             currentBeat = Conductor.instance.songPositionInBeats;
             isMiss = true;
@@ -95,12 +111,12 @@ namespace HeavenStudio.Games.Scripts_BouncyRoad
 
         public void LeftSuccess(PlayerActionEvent caller, float state)
         {
-            SoundByte.PlayOneShotGame("bouncyRoad/ballLeft");
+            SoundByte.PlayOneShotGame("bouncyRoad/ballLeft", pitch: GetPitch(leftNote));
             game.ThingsAnim[13].Play("podium", 0, 0);
             currentCurve = curve[1+13];
             currentBeat = startBeat + 13 * lengthBeat;
             
-            if (goal) SoundByte.PlayOneShotGame("bouncyRoad/goal", startBeat + 14 * lengthBeat);
+            if (goal) SoundByte.PlayOneShotGame("bouncyRoad/goal", startBeat + 14 * lengthBeat, pitch: GetPitch(goalNote));
             BeatAction.New(game, new List<BeatAction.Action>()
             {
                 new BeatAction.Action(startBeat + 14 * lengthBeat, delegate
@@ -118,7 +134,7 @@ namespace HeavenStudio.Games.Scripts_BouncyRoad
 
         public void LeftMiss(PlayerActionEvent caller)
         {
-            SoundByte.PlayOneShotGame("bouncyRoad/ballBounce");
+            SoundByte.PlayOneShotGame("bouncyRoad/ballBounce", pitch: GetPitch(bounceNote));
             currentCurve = curve[^1];
             currentBeat = Conductor.instance.songPositionInBeats;
             isMiss = true;
@@ -132,5 +148,10 @@ namespace HeavenStudio.Games.Scripts_BouncyRoad
         }
 
         public void Empty(PlayerActionEvent caller) { }
+
+        private float GetPitch(int semitones) 
+        {
+            return useCustomNotes ? SoundByte.GetPitchFromSemiTones(semitones, true) : 1;
+        }
     }
 }
