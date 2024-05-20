@@ -92,7 +92,26 @@ namespace HeavenStudio.Games.Loaders
                             new Param.CollapseParam((x, _) => (bool)x, new string[] { "fishDensity" })
                         }),
                         new Param("fishDensity", new EntityTypes.Float(0f, 1f, 1f), "Fish Density", "Set the density for the fish in the school."),
+                        new Param("crossfade", true, "Crossfade", "Set whether or not this scene will fade smoothly into the next one."),
                     },
+                },
+                new GameAction("color", "Default Color Override")
+                {
+                    function = delegate { var e = eventCaller.currentEntity; CatchOfTheDay.Instance.DefaultColorOverride(e["override"], e["topColorA"], e["bottomColorA"], e["topColorB"], e["bottomColorB"], e["topColorC"], e["bottomColorC"]); },
+                    defaultLength = 0.5f,
+                    parameters = new List<Param>()
+                    {
+                        new Param("override", true, "Override", "Set whether or not to use a set of overridden colors.", new List<Param.CollapseParam>()
+                        {
+                            new Param.CollapseParam((x, _) => (bool)x, new string[] { "topColorA", "bottomColorA", "topColorB", "bottomColorB", "topColorC", "bottomColorC" })
+                        }),
+                        new Param("topColorA", new Color(0.7098039f, 0.8705882f, 0.8705882f), "Top Color A", "Set the top color for Layout A."),
+                        new Param("bottomColorA", new Color(0.4666667f, 0.7372549f, 0.8196079f), "Bottom Color A", "Set the bottom color for Layout A."),
+                        new Param("topColorB", new Color(0.7098039f, 0.8745099f, 0.6784314f), "Top Color B", "Set the top color for Layout B."),
+                        new Param("bottomColorB", new Color(0.3529412f, 0.7137255f, 0.482353f), "Bottom Color B", "Set the bottom color for Layout B."),
+                        new Param("topColorC", new Color(0.8705883f, 0.8705883f, 0.6784314f), "Top Color C", "Set the top color for Layout C."),
+                        new Param("bottomColorC", new Color(0.7098039f, 0.627451f, 0.4196079f), "Bottom Color C", "Set the bottom color for Layout C."),
+                    }
                 },
                 new GameAction("moveAngler", "Move Angler")
                 {
@@ -171,6 +190,13 @@ namespace HeavenStudio.Games
         [SerializeField] GameObject LakeScenePrefab;
         [SerializeField] Transform LakeSceneHolder;
 
+        [SerializeField] Color[] _TopColors;
+        [SerializeField] Color[] _BottomColors;
+        private Color[] TopColorOverrides = null;
+        private Color[] BottomColorOverrides = null;
+        public Color[] TopColors => TopColorOverrides ?? _TopColors;
+        public Color[] BottomColors => BottomColorOverrides ?? _BottomColors;
+
         public int? LastLayout;
         public Dictionary<RiqEntity, LakeScene> ActiveLakes = new();
 
@@ -217,7 +243,7 @@ namespace HeavenStudio.Games
                 float newPos = func(0f, 1f, normalizedBeat);
                 Vector3 diff = _CurrentAnglerMoveArgs.EndPosition - _CurrentAnglerMoveArgs.StartPosition;
                 AnglerTransform.localPosition = _AnglerBasePosition + _CurrentAnglerMoveArgs.StartPosition + (diff * newPos);
-                
+
                 if (normalizedBeat >= 1f)
                 {
                     AnglerTransform.localPosition = _AnglerBasePosition + _CurrentAnglerMoveArgs.EndPosition;
@@ -269,13 +295,24 @@ namespace HeavenStudio.Games
         }
         public override void OnGameSwitch(double beat)
         {
+            _AllFishes = null;
+            ActiveLakes = new Dictionary<RiqEntity, LakeScene>();
             DestroyOrphanedLakes();
             CleanupFishSounds();
+            FishSounds = new Dictionary<RiqEntity, MultiSound>();
+            TopColorOverrides = null;
+            BottomColorOverrides = null;
+            _AnglerIsMoving = _AnglerIsRotating = _AnglerIsScaling = false;
 
             // set ann movement
             foreach (RiqEntity e in EventCaller.GetAllInGameManagerList("catchOfTheDay", new string[] { "moveAngler" }).Where(e => e.beat <= beat).OrderBy(e => e.beat))
             {
                 SetAnglerMovement(e);
+            }
+
+            if (EventCaller.GetAllInGameManagerList("catchOfTheDay", new string[] { "color" }).LastOrDefault(e => e.beat <= beat) is RiqEntity colorEntity)
+            {
+                DefaultColorOverride(colorEntity["override"], colorEntity["topColorA"], colorEntity["bottomColorA"], colorEntity["topColorB"], colorEntity["bottomColorB"], colorEntity["topColorC"], colorEntity["bottomColorC"]);
             }
 
             // get active fishes
@@ -388,6 +425,19 @@ namespace HeavenStudio.Games
             }
             _StickyCanvas.Sticky = (bool)e["sticky"];
         }
+        public void DefaultColorOverride(bool doOverride, Color topColorA, Color bottomColorA, Color topColorB, Color bottomColorB, Color topColorC, Color bottomColorC)
+        {
+            if (doOverride)
+            {
+                TopColorOverrides = new Color[] { topColorA, topColorB, topColorC };
+                BottomColorOverrides = new Color[] { bottomColorA, bottomColorB, bottomColorC };
+            }
+            else
+            {
+                TopColorOverrides = null;
+                BottomColorOverrides = null;
+            }
+        }
 
         public void DoPickAnim()
         {
@@ -453,14 +503,14 @@ namespace HeavenStudio.Games
         {
             if (ActiveLakes.ContainsKey(e))
                 return null;
-            
+
             if (ActiveLakes.Count >= MAX_LAKES)
                 return null;
-            
+
             int sort = CacheFishes().FindIndex(x => e == x);
             if (sort < 0)
                 return null;
-            
+
             CleanupFishSounds();
 
             Debug.Log($"Spawning Lake {sort}");
@@ -477,6 +527,8 @@ namespace HeavenStudio.Games
             RiqEntity nextFish = GetNextFish(beat);
             if (nextFish is not null)
             {
+                if (EventCaller.GetAllInGameManagerList("catchOfTheDay", new string[] { "color" }).LastOrDefault(e => e.beat >= beat && e.beat <= nextFish.beat) is RiqEntity e)
+                    DefaultColorOverride(e["override"], e["topColorA"], e["bottomColorA"], e["topColorB"], e["bottomColorB"], e["topColorC"], e["bottomColorC"]);
                 NewLake(nextFish);
                 return true;
             }
