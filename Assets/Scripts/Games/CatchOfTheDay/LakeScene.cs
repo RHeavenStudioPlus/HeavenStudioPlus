@@ -24,9 +24,6 @@ namespace HeavenStudio.Games.Scripts_CatchOfTheDay
         [SerializeField] public GameObject[] SchoolFishes;
         [SerializeField] public ParticleSystem[] Bubbles;
 
-        [SerializeField] Color[] TopColors;
-        [SerializeField] Color[] BottomColors;
-
         public RiqEntity Entity;
         public PlayerActionEvent ReelAction;
         public CatchOfTheDay Minigame;
@@ -162,7 +159,7 @@ namespace HeavenStudio.Games.Scripts_CatchOfTheDay
             }
             else
             {
-                SetBGColors(TopColors[layout], BottomColors[layout]);
+                SetBGColors(minigame.TopColors[layout], minigame.BottomColors[layout]);
             }
 
             float xOffset = UnityEngine.Random.Range(-0.5f, 0.5f);
