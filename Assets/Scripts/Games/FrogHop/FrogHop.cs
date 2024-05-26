@@ -100,7 +100,7 @@ namespace HeavenStudio.Games.Loaders
                     function = delegate {
                         var e = eventCaller.currentEntity;
                         if (eventCaller.gameManager.minigameObj.TryGetComponent(out FrogHop instance)) {
-                            instance.TwoHop(e.beat, e["spotlights"], e["jazz"]);
+                            instance.TwoHop(e.beat, e["spotlights"], e["jazz"], 0, e["enabled"]);
                         }
                     },
                     preFunction = delegate {
@@ -121,7 +121,7 @@ namespace HeavenStudio.Games.Loaders
                     function = delegate {
                         var e = eventCaller.currentEntity;
                         if (eventCaller.gameManager.minigameObj.TryGetComponent(out FrogHop instance)) {
-                            instance.ThreeHop(e.beat, e["spotlights"], e["jazz"]);
+                            instance.ThreeHop(e.beat, e["spotlights"], e["jazz"], 0, e["enabled"]);
                         }
                     },
                     preFunction = delegate {
@@ -142,7 +142,7 @@ namespace HeavenStudio.Games.Loaders
                     function = delegate {
                         var e = eventCaller.currentEntity;
                         if (eventCaller.gameManager.minigameObj.TryGetComponent(out FrogHop instance)) {
-                            instance.SpinItBoys(e.beat, e["spotlights"], e["jazz"]);
+                            instance.SpinItBoys(e.beat, e["spotlights"], e["jazz"], 0, e["enabled"], e["hs"]);
                         }
                     },
                     preFunction = delegate {
@@ -155,6 +155,7 @@ namespace HeavenStudio.Games.Loaders
                         new Param("enabled", true, "Cue Sound", "Choose whether to play the cue sound for this event."),
                         new Param("spotlights", true, "Automatic Spotlights", "Handles spotlight switching automatically."),
                         new Param("jazz", false, "Jumpin' Jazz", "Mouth animations will be based on Frog Hop 2."),
+                        new Param("hs", false, "Blue Frog Can Talk While Posing", "This option is to preserve accuracy, as it is not possible to do this in DS/Megamix."),
                     },
                     defaultLength = 4.0f,
                 },
@@ -380,7 +381,7 @@ namespace HeavenStudio.Games.Loaders
                     },
                     defaultLength = 0.5f,
                 },
-                new GameAction("force", "Force Hop")
+                new GameAction("force", "Force Shake")
                 {
                     preFunction = delegate {
                         var e = eventCaller.currentEntity;
@@ -393,6 +394,7 @@ namespace HeavenStudio.Games.Loaders
                         new Param("front", true, "Front Frogs", "Make the frogs in the front sing during this event."),
                         new Param("back", true, "Back Frogs", "Make the frogs in the back sing during this event."),
                     },
+                    preFunctionLength = 1,
                     resizable = true,
                     defaultLength = 4.0f,
                 },
@@ -678,8 +680,10 @@ namespace HeavenStudio.Games
             {
                 if (entity.beat >= beat && entity.beat <= beat + 1)
                 {
-                    if (entity.datamodel == "frogHop/hop")
-                    Hop(entity.beat);
+                    if (entity.datamodel == "frogHop/hop") Hop(entity.beat);
+
+                    if (entity.datamodel == "frogHop/force") ForceHop(entity.beat, entity.length, entity["front"], entity["back"]);
+                    
                     continue;
                 }
 
@@ -699,19 +703,19 @@ namespace HeavenStudio.Games
                     case "frogHop/twoshake":
                     {
                         var e = entity;
-                        TwoHop(e.beat, e["spotlights"], e["jazz"], beat - e.beat);
+                        TwoHop(e.beat, e["spotlights"], e["jazz"], beat - e.beat, e["enabled"]);
                         continue;
                     }
                     case "frogHop/threeshake":
                     {
                         var e = entity;
-                        ThreeHop(e.beat, e["spotlights"], e["jazz"], beat - e.beat);
+                        ThreeHop(e.beat, e["spotlights"], e["jazz"], beat - e.beat, e["enabled"]);
                         continue;
                     }
-                    case "frogHop/spinitboys":
+                    case "frogHop/spin":
                     {
                         var e = entity;
-                        SpinItBoys(e.beat, e["spotlights"], e["jazz"], beat - e.beat);
+                        SpinItBoys(e.beat, e["spotlights"], e["jazz"], beat - e.beat, e["enabled"], e["hs"]);
                         continue;
                     }
                 }
@@ -942,7 +946,7 @@ namespace HeavenStudio.Games
             BeatAction.New(this, actions);
         }
 
-        public void TwoHop (double beat, bool spotlights, bool jumpinJazz, double start = 0)
+        public void TwoHop (double beat, bool spotlights, bool jumpinJazz, double start = 0, bool cue = true)
         {
             CueCommon(beat, spotlights);
 
@@ -950,12 +954,12 @@ namespace HeavenStudio.Games
             var sounds = new List<MultiSound.Sound>();
 
             //call
-            if (start <= 0.0) actions.Add(new(beat + 0.0, delegate { NPCHop(FrontFrogs); Talk(new List<ntrFrog>() { LeaderFrog }, "Wide", beat); }));
-            if (start <= 0.5) actions.Add(new(beat + 0.5, delegate { NPCHop(FrontFrogs, true); Talk(new List<ntrFrog>() { LeaderFrog }, "Narrow", jumpinJazz ? beat + 2.5 : beat + 1.5); }));
+            if (start <= 0.0) actions.Add(new(beat + 0.0, delegate { NPCHop(FrontFrogs); if (cue) { Talk(new List<ntrFrog>() { LeaderFrog }, "Wide", beat); } }));
+            if (start <= 0.5) actions.Add(new(beat + 0.5, delegate { NPCHop(FrontFrogs, true); if (cue) { Talk(new List<ntrFrog>() { LeaderFrog }, "Narrow", jumpinJazz ? beat + 2.25 : beat + 1.5); } }));
 
             //response
             actions.Add(new(beat + 2.0, delegate { NPCHop(BackFrogs); Talk(BackFrogs, "Wide", beat); }));
-            actions.Add(new(beat + 2.5, delegate { NPCHop(BackFrogs, true); Talk(BackFrogs, "Narrow", jumpinJazz ? beat + 4.5 : beat + 3.5); }));
+            actions.Add(new(beat + 2.5, delegate { NPCHop(BackFrogs, true); Talk(BackFrogs, "Narrow", jumpinJazz ? beat + 4.25 : beat + 3.5); }));
             sounds.Add(new MultiSound.Sound("frogHop/SE_NTR_FROG_EN_E_HA", beat + 2.0, usesGlobalePitch ? globalPitch : 1));
             sounds.Add(new MultiSound.Sound("frogHop/SE_NTR_FROG_EN_E_HAAI", beat + 2.5, usesGlobalePitch ? globalPitch : 1));
 
@@ -982,7 +986,7 @@ namespace HeavenStudio.Games
             MultiSound.Play(sounds, forcePlay: true);
         }
 
-        public void ThreeHop (double beat, bool spotlights, bool jumpinJazz, double start = 0)
+        public void ThreeHop (double beat, bool spotlights, bool jumpinJazz, double start = 0, bool cue = true)
         {
             CueCommon(beat, spotlights);
 
@@ -990,12 +994,12 @@ namespace HeavenStudio.Games
             var sounds = new List<MultiSound.Sound>();
 
             //call
-            if (start <= 0.0) actions.Add(new(beat + 0.0, delegate { NPCHop(FrontFrogs); Talk(new List<ntrFrog>() { LeaderFrog }, "Narrow", jumpinJazz ? beat + 2.5 : beat); }));
-            if (start <= 0.5) actions.Add(new(beat + 0.5, delegate { NPCHop(FrontFrogs); if (!jumpinJazz) Talk(new List<ntrFrog>() { LeaderFrog }, "Narrow", beat); }));
-            if (start <= 1.0) actions.Add(new(beat + 1.0, delegate { NPCHop(FrontFrogs, true); if (!jumpinJazz) Talk(new List<ntrFrog>() { LeaderFrog }, "Narrow", beat); }));
+            if (start <= 0.0) actions.Add(new(beat + 0.0, delegate { NPCHop(FrontFrogs); if (cue) { Talk(new List<ntrFrog>() { LeaderFrog }, "Narrow", jumpinJazz ? beat + 1.75 : beat); } }));
+            if (start <= 0.5) actions.Add(new(beat + 0.5, delegate { NPCHop(FrontFrogs); if (!jumpinJazz) if (cue) { Talk(new List<ntrFrog>() { LeaderFrog }, "Narrow", beat); } }));
+            if (start <= 1.0) actions.Add(new(beat + 1.0, delegate { NPCHop(FrontFrogs, true); if (!jumpinJazz) if (cue) { Talk(new List<ntrFrog>() { LeaderFrog }, "Narrow", beat); } }));
 
             //response
-            actions.Add(new(beat + 2.0, delegate { NPCHop(BackFrogs); Talk(BackFrogs, "Narrow", jumpinJazz ? beat + 4.5 : beat); }));
+            actions.Add(new(beat + 2.0, delegate { NPCHop(BackFrogs); Talk(BackFrogs, "Narrow", jumpinJazz ? beat + 3.75 : beat); }));
             actions.Add(new(beat + 2.5, delegate { NPCHop(BackFrogs); if (!jumpinJazz) Talk(BackFrogs, "Narrow", beat); }));
             actions.Add(new(beat + 3.0, delegate { NPCHop(BackFrogs, true); if (!jumpinJazz) Talk(BackFrogs, "Narrow", beat); }));
             sounds.Add(new MultiSound.Sound("frogHop/SE_NTR_FROG_EN_E_HAI", beat + 2.0, usesGlobalePitch ? globalPitch : 1));
@@ -1028,19 +1032,19 @@ namespace HeavenStudio.Games
             MultiSound.Play(sounds, forcePlay: true);
         }
 
-        public void SpinItBoys (double beat, bool spotlights, bool jumpinJazz, double start = 0)
+        public void SpinItBoys (double beat, bool spotlights, bool jumpinJazz, double start = 0, bool cue = true, bool HS = false)
         {
-            CueCommon(beat, spotlights);
+            CueCommon(beat, spotlights, 1);
 
             var actions = new List<BeatAction.Action>();
             var sounds = new List<MultiSound.Sound>();
 
             //call
-            if (start <= 0.0) actions.Add(new(beat + 0.0, delegate { NPCCharge(FrontFrogs); Talk(new List<ntrFrog>() { LeaderFrog }, "Narrow", beat); }));
-            if (start <= 1.0) actions.Add(new(beat + 1.0, delegate { NPCSpin(FrontFrogs); Talk(new List<ntrFrog>() { LeaderFrog }, "Wide", beat); }));
+            if (start <= 0.0) actions.Add(new(beat + 0.0, delegate { NPCCharge(FrontFrogs); if (cue) { Talk(new List<ntrFrog>() { LeaderFrog }, "Narrow", jumpinJazz ? beat + 0.75 : beat); } }));
+            if (start <= 1.0) actions.Add(new(beat + 1.0, delegate { NPCSpin(FrontFrogs, HS); if (cue) { Talk(new List<ntrFrog>() { LeaderFrog }, "Wide", beat); } }));
 
             //response
-            actions.Add(new(beat + 2.0, delegate { NPCCharge(BackFrogs); Talk(BackFrogs, "Narrow", jumpinJazz ? beat + 3.0 : beat); }));
+            actions.Add(new(beat + 2.0, delegate { NPCCharge(BackFrogs); Talk(BackFrogs, "Narrow", jumpinJazz ? beat + 2.75 : beat); }));
             actions.Add(new(beat + 3.0, delegate { NPCSpin(BackFrogs); Talk(BackFrogs, "Wide", beat); }));
             sounds.Add(new MultiSound.Sound("frogHop/SE_NTR_FROG_EN_E_KURU_1", beat + 2.0, usesGlobalePitch ? globalPitch : 1));
             sounds.Add(new MultiSound.Sound("frogHop/SE_NTR_FROG_EN_E_KURU_2", beat + 2.5, usesGlobalePitch ? globalPitch : 1));
@@ -1070,7 +1074,7 @@ namespace HeavenStudio.Games
             MultiSound.Play(sounds, forcePlay: true);
         }
 
-        public void CueCommon(double beat, bool spotlights = true)
+        public void CueCommon(double beat, bool spotlights = true, double spin = 0)
         {
             startBackHop = beat;
             startNoHop = beat + 2;
@@ -1080,8 +1084,8 @@ namespace HeavenStudio.Games
 
             var actions = new List<BeatAction.Action>();
 
-            actions.Add(new(beat + 1.5, delegate { Spotlights(false, true); }));
-            actions.Add(new(beat + 3.5, delegate { Spotlights(true, false); }));
+            actions.Add(new(beat + 1.5 + spin, delegate { Spotlights(false, true); }));
+            actions.Add(new(beat + 3.5 + spin, delegate { Spotlights(true, false); }));
 
             BeatAction.New(this, actions);
         }
@@ -1175,9 +1179,10 @@ namespace HeavenStudio.Games
             foreach (var a in FrogsToHop) { if (a != PlayerFrog) a.Charge(); }
         }
 
-        public void NPCSpin(List<ntrFrog> FrogsToHop)
+        public void NPCSpin(List<ntrFrog> FrogsToHop, bool HS = false)
         {
-            foreach (var a in FrogsToHop) { if (a != PlayerFrog) a.Spin(); }
+            if (HS) { LeaderFrog.Spin(); SingerFrog.Spin(true); }
+            else { foreach (var a in FrogsToHop) { if (a != PlayerFrog) a.Spin(); } }
         }
 
         public void PlayerHopNormal(PlayerActionEvent caller, float state)
@@ -1189,7 +1194,8 @@ namespace HeavenStudio.Games
 
         public void PlayerHopYa(PlayerActionEvent caller, float state)
         {
-            SoundByte.PlayOneShotGame("frogHop/SE_NTR_FROG_EN_P_HA", pitch: usesGlobalePitch ? globalPitch : 1);
+            float pitch = GetPitch(Conductor.instance.songPositionInBeatsAsDouble);
+            SoundByte.PlayOneShotGame("frogHop/SE_NTR_FROG_EN_P_HA", pitch: pitch);
             if (state >= 1f || state <= -1f) { SoundByte.PlayOneShotGame("frogHop/miss2", volume: 1.5f); LightMiss(sweat: true); }
             else SoundByte.PlayOneShotGame("frogHop/SE_NTR_FROG_EN_POP_DEFAULT");
             PlayerHop();
@@ -1197,7 +1203,8 @@ namespace HeavenStudio.Games
 
         public void PlayerHopHoo(PlayerActionEvent caller, float state)
         {
-            SoundByte.PlayOneShotGame("frogHop/SE_NTR_FROG_EN_P_HAAI", pitch: usesGlobalePitch ? globalPitch : 1);
+            float pitch = GetPitch(Conductor.instance.songPositionInBeatsAsDouble);
+            SoundByte.PlayOneShotGame("frogHop/SE_NTR_FROG_EN_P_HAAI", pitch: pitch);
             if (state >= 1f || state <= -1f) { SoundByte.PlayOneShotGame("frogHop/miss2", volume: 1.5f); LightMiss(sweat: true); }
             else SoundByte.PlayOneShotGame("frogHop/SE_NTR_FROG_EN_POP_HAAI");
             PlayerHop(true);
@@ -1205,7 +1212,8 @@ namespace HeavenStudio.Games
 
         public void PlayerHopYeah(PlayerActionEvent caller, float state)
         {
-            SoundByte.PlayOneShotGame("frogHop/SE_NTR_FROG_EN_P_HAI", pitch: usesGlobalePitch ? globalPitch : 1);
+            float pitch = GetPitch(Conductor.instance.songPositionInBeatsAsDouble);
+            SoundByte.PlayOneShotGame("frogHop/SE_NTR_FROG_EN_P_HAI", pitch: pitch);
             if (state >= 1f || state <= -1f) { SoundByte.PlayOneShotGame("frogHop/miss2", volume: 1.5f); LightMiss(sweat: true); }
             else SoundByte.PlayOneShotGame("frogHop/SE_NTR_FROG_EN_POP_DEFAULT");
             PlayerHop();
@@ -1213,7 +1221,8 @@ namespace HeavenStudio.Games
 
         public void PlayerHopYeahAccent(PlayerActionEvent caller, float state)
         {
-            SoundByte.PlayOneShotGame("frogHop/SE_NTR_FROG_EN_P_HAI", pitch: usesGlobalePitch ? globalPitch : 1);
+            float pitch = GetPitch(Conductor.instance.songPositionInBeatsAsDouble);
+            SoundByte.PlayOneShotGame("frogHop/SE_NTR_FROG_EN_P_HAI", pitch: pitch);
             if (state >= 1f || state <= -1f) { SoundByte.PlayOneShotGame("frogHop/miss2", volume: 1.5f); LightMiss(sweat: true); }
             else SoundByte.PlayOneShotGame("frogHop/SE_NTR_FROG_EN_POP_DEFAULT");
             PlayerHop(true);
@@ -1228,11 +1237,12 @@ namespace HeavenStudio.Games
         public void PlayerHopCharge(PlayerActionEvent caller, float state)
         {
             double beat = caller.startBeat + caller.timer;
+            float pitch = GetPitch(Conductor.instance.songPositionInBeatsAsDouble);
 
             MultiSound.Play(new MultiSound.Sound[]
             {
-                new MultiSound.Sound("frogHop/SE_NTR_FROG_EN_P_KURU_1", beat, usesGlobalePitch ? globalPitch : 1),
-                new MultiSound.Sound("frogHop/SE_NTR_FROG_EN_P_KURU_2", beat + 0.5, usesGlobalePitch ? globalPitch : 1)
+                new MultiSound.Sound("frogHop/SE_NTR_FROG_EN_P_KURU_1", beat, pitch: pitch),
+                new MultiSound.Sound("frogHop/SE_NTR_FROG_EN_P_KURU_2", beat + 0.5, pitch: pitch)
             });
 
             if (state >= 1f || state <= -1f) { SoundByte.PlayOneShotGame("frogHop/miss2", volume: 1.5f); LightMiss(sweat: true); }
@@ -1242,7 +1252,8 @@ namespace HeavenStudio.Games
 
         public void PlayerSpin(PlayerActionEvent caller, float state)
         {
-            SoundByte.PlayOneShotGame("frogHop/SE_NTR_FROG_EN_P_LIN", pitch: usesGlobalePitch ? globalPitch : 1);
+            float pitch = GetPitch(Conductor.instance.songPositionInBeatsAsDouble);
+            SoundByte.PlayOneShotGame("frogHop/SE_NTR_FROG_EN_P_LIN", pitch: pitch);
             if (state >= 1f || state <= -1f) { SoundByte.PlayOneShotGame("frogHop/miss2", volume: 1.5f); LightMiss(); }
             PlayerFrog.Spin();
         }
