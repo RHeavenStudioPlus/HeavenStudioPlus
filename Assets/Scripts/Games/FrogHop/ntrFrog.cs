@@ -102,9 +102,9 @@ namespace HeavenStudio.Games.Scripts_FrogHop
             isBumped = false;
         }
 
-        public void Spin()
+        public void Spin(bool HS = false)
         {
-            FrogAnim.DoScaledAnimationAsync("Spin", 0.5f, animLayer: 0);
+            FrogAnim.DoScaledAnimationAsync(HS ? "SpinHS" : "Spin", 0.5f, animLayer: 0);
 
             isBumped = false;
         }
