@@ -14,7 +14,7 @@ namespace HeavenStudio.Editor
 
         private Timeline timeline;
 
-        private static float[] CommonDenominators = { 1, 2, 3, 4, 6, 8, 12, 16 };
+        private static float[] CommonDenominators = { 1, 2, 3, 4, 5, 6, 8, 10, 12, 16, -1 };
         private int currentCommon = 3;
         private void Start()
         {
@@ -45,12 +45,26 @@ namespace HeavenStudio.Editor
                 currentCommon = CommonDenominators.Length - 1;
             }
 
-            timeline.SetSnap(1f / CommonDenominators[currentCommon]);
+            if (CommonDenominators[currentCommon] < 0)
+            {
+                timeline.SetSnap(1f / 65536f);
+            }
+            else
+            {
+                timeline.SetSnap(1f / CommonDenominators[currentCommon]);
+            }
         }
 
         private void Update()
         {
-            snapText.text = $"1/{CommonDenominators[currentCommon]}";
+            if (CommonDenominators[currentCommon] < 0)
+            {
+                snapText.text = "Free";
+            }
+            else
+            {
+                snapText.text = $"1/{CommonDenominators[currentCommon]}";
+            }
         }
     }
 }

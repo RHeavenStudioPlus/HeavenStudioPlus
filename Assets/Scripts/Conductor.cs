@@ -81,7 +81,8 @@ namespace HeavenStudio
         public bool isPaused;
 
         // Metronome tick sound enabled
-        public bool metronome = false;
+        public int metronome = 0;
+        public bool metronomeActive = false;
         Util.MultiSound metronomeSound;
         private int _metronomeTally = 0;
 
@@ -442,13 +443,30 @@ namespace HeavenStudio
             {
                 if (songPositionInBeatsAsDouble >= Math.Ceiling(startBeat) + _metronomeTally)
                 {
-                    // if (metronome) metronomeSound = Util.SoundByte.PlayOneShot("metronome", Math.Ceiling(startBeat) + _metronomeTally);
-                    if (metronome)
+                    if (metronomeActive)
                     {
-                        metronomeSound = Util.MultiSound.Play(new List<Util.MultiSound.Sound> {
-                            new Util.MultiSound.Sound("metronome", Math.Ceiling(startBeat) + _metronomeTally),
-                            new Util.MultiSound.Sound("metronome", Math.Ceiling(startBeat) + _metronomeTally + 0.5, 1.5f, 0.5f)
-                        }, false, true);
+                        switch (metronome)
+                        {
+                        case 0:
+                            metronomeSound = Util.MultiSound.Play(new List<Util.MultiSound.Sound> {
+                                new Util.MultiSound.Sound("metronome", Math.Ceiling(startBeat) + _metronomeTally),
+                            }, false, true);
+                        break;
+                        case 1:
+                            metronomeSound = Util.MultiSound.Play(new List<Util.MultiSound.Sound> {
+                                new Util.MultiSound.Sound("metronome", Math.Ceiling(startBeat) + _metronomeTally),
+                                new Util.MultiSound.Sound("metronome", Math.Ceiling(startBeat) + _metronomeTally + 0.5, 1.5f, 0.5f)
+                            }, false, true);
+                        break;
+                        case 2:
+                            metronomeSound = Util.MultiSound.Play(new List<Util.MultiSound.Sound> {
+                                new Util.MultiSound.Sound("metronome", Math.Ceiling(startBeat) + _metronomeTally),
+                                new Util.MultiSound.Sound("metronome", Math.Ceiling(startBeat) + _metronomeTally + 0.25, 2f, 0.3f),
+                                new Util.MultiSound.Sound("metronome", Math.Ceiling(startBeat) + _metronomeTally + 0.5, 1.5f, 0.5f),
+                                new Util.MultiSound.Sound("metronome", Math.Ceiling(startBeat) + _metronomeTally + 0.75, 2f, 0.3f)
+                            }, false, true);
+                        break;
+                        }
                     }
                     _metronomeTally++;
                 }
