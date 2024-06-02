@@ -308,7 +308,7 @@ namespace HeavenStudio.Games
 
         public override void OnGameSwitch(double beat)
         {
-            QueueSwitchBGs(beat);
+            QueueSwitches(beat);
             foreach (var evt in scheduledInputs)
             {
                 evt.Disable();
@@ -318,30 +318,28 @@ namespace HeavenStudio.Games
         public override void OnPlay(double beat)
         {
             queuedInputs.Clear();
-            QueueSwitchBGs(beat);
+            QueueSwitches(beat);
         }
 
-        private void QueueSwitchBGs(double beat)
+        private void QueueSwitches(double beat)
         {
-            double nextGameSwitchBeat = double.MaxValue;
-            List<RiqEntity> allEnds = EventCaller.GetAllInGameManagerList("gameManager", new string[] { "switchGame", "end" }).FindAll(x => x.beat > beat);
-            if (allEnds.Count > 0)
-            {
-                nextGameSwitchBeat = allEnds[0].beat;
-            }
+            double nextGameSwitchBeat = EventCaller.GetAllInGameManagerList("gameManager", new string[] { "switchGame", "end" }).Find(x => x.beat > beat)?.beat ?? double.MaxValue;
 
-            var switchEventsOn = EventCaller.GetAllInGameManagerList("lockstep", new string[] { "onbeatSwitch" });
-            foreach (var on in switchEventsOn)
+            foreach (var entity in gameManager.Beatmap.Entities)
             {
-                if (on.beat >= nextGameSwitchBeat) continue;
-                OnbeatSwitch(on.beat, beat, on["visual"]);
-            }
-
-            var switchEventsOff = EventCaller.GetAllInGameManagerList("lockstep", new string[] { "offbeatSwitch" });
-            foreach (var off in switchEventsOff)
-            {
-                if (off.beat >= nextGameSwitchBeat) continue;
-                OffbeatSwitch(off.beat, beat, off["visual"]);
+                switch (entity.datamodel)
+                {
+                    case "lockstep/onbeatSwitch": {
+                        if (entity.beat >= nextGameSwitchBeat) continue;
+                        OnbeatSwitch(entity.beat, beat, entity["visual"]);
+                    } break;
+                    case "lockstep/offbeatSwitch": {
+                        if (entity.beat >= nextGameSwitchBeat) continue;
+                        OffbeatSwitch(entity.beat, beat, entity["visual"]);
+                    } break;
+                    
+                    default: continue;
+                }
             }
         }
 
@@ -356,7 +354,6 @@ namespace HeavenStudio.Games
             playerMaterial.SetColor("_ColorDelta", stepperLight);
 
             EntityPreCheck(Conductor.instance.songPositionInBeatsAsDouble);
-
 
             masterSprite = masterStepperSprite.sprite;
             stepswitcherLeft.gameObject.SetActive(lessSteppers);
@@ -496,12 +493,11 @@ namespace HeavenStudio.Games
         {
             if (sound)
             {
-                MultiSound.Play(new MultiSound.Sound[]
-                {
-                new MultiSound.Sound("lockstep/nha1", beat, 1, 1, false, 0),
-                new MultiSound.Sound("lockstep/nha2", beat + 0.5f, 1, 1, false, 0.01),
-                new MultiSound.Sound("lockstep/nha1", beat + 1f, 1, 1, false, 0),
-                new MultiSound.Sound("lockstep/nha2", beat + 1.5f, 1, 1, false, 0.01)
+                MultiSound.Play(new List<MultiSound.Sound> {
+                    new MultiSound.Sound("lockstep/nha1", beat, 1, 1, false, 0),
+                    new MultiSound.Sound("lockstep/nha2", beat + 0.5f, 1, 1, false, 0.01),
+                    new MultiSound.Sound("lockstep/nha1", beat + 1f, 1, 1, false, 0),
+                    new MultiSound.Sound("lockstep/nha2", beat + 1.5f, 1, 1, false, 0.01)
                 }, forcePlay: true);
             }
 
@@ -528,7 +524,7 @@ namespace HeavenStudio.Games
 
                 var haisActual = haisList.FindAll(x => x.beat < nextOffBeat);
 
-                MultiSound.Play(haisActual.ToArray(), true, true);
+                MultiSound.Play(haisActual, true, true);
             }
         }
 
@@ -545,14 +541,14 @@ namespace HeavenStudio.Games
                 new BeatAction.Action(beat + 1.5f, delegate
                 {
                     if (visual) ChangeBeatBackGroundColour(true);
+                    if (!marchRecursing && !ForceStepOnBeat(beat + 2f)) MarchRecursive(beat + 2f);
                 }),
-                new BeatAction.Action(beat + 1.5f, delegate { if (!marchRecursing && !ForceStepOnBeat(beat + 2f)) MarchRecursive(beat + 2f); }),
                 new BeatAction.Action(beat + 2f, delegate { if (visual) ChangeBeatBackGroundColour(false); }),
             };
             List<BeatAction.Action> actions = new();
             foreach (var action in allActions)
             {
-                if (action.beat >= gameswitchBeat) actions.Add(action);
+                if (action.beat + 0.5 >= gameswitchBeat) actions.Add(action);
             }
             if (actions.Count > 0) BeatAction.New(instance, actions);
         }
@@ -561,8 +557,7 @@ namespace HeavenStudio.Games
         {
             if (sound)
             {
-                MultiSound.Play(new MultiSound.Sound[]
-                {
+                MultiSound.Play(new List<MultiSound.Sound> {
                     new MultiSound.Sound("lockstep/hai", beat, 1, 1, false, 0.018),
                     new MultiSound.Sound("lockstep/hai", beat + 1f, 1, 1, false, 0.018),
                     new MultiSound.Sound("lockstep/hai", beat + 2f, 1, 1, false, 0.018),
@@ -594,7 +589,7 @@ namespace HeavenStudio.Games
 
                 var hosActual = hos.FindAll(x => x.beat < nextOnBeat);
 
-                MultiSound.Play(hosActual.ToArray(), true, true);
+                MultiSound.Play(hosActual, true, true);
             }
         }
 
@@ -603,19 +598,19 @@ namespace HeavenStudio.Games
             List<BeatAction.Action> allActions = new List<BeatAction.Action>()
             {
                 new BeatAction.Action(beat, delegate { if (visual) ChangeBeatBackGroundColour(true); }),
-                new BeatAction.Action(beat + 1f, delegate { if (visual) ChangeBeatBackGroundColour(false); }),
-                new BeatAction.Action(beat + 2f, delegate { if (visual) ChangeBeatBackGroundColour(true); }),
-                new BeatAction.Action(beat + 3f, delegate
+                new BeatAction.Action(beat + 1, delegate { if (visual) ChangeBeatBackGroundColour(false); }),
+                new BeatAction.Action(beat + 2, delegate { if (visual) ChangeBeatBackGroundColour(true); }),
+                new BeatAction.Action(beat + 3, delegate
                 {
                     if (visual) ChangeBeatBackGroundColour(false);
+                    if (!marchRecursing && !ForceStepOnBeat(beat + 3.5)) MarchRecursive(beat + 3.5);
                 }),
-                new BeatAction.Action(beat + 3f, delegate { if (!marchRecursing && !ForceStepOnBeat(beat + 3.5)) MarchRecursive(beat + 3.5f); }),
-                new BeatAction.Action(beat + 3.5f, delegate { if (visual) ChangeBeatBackGroundColour(true); }),
+                new BeatAction.Action(beat + 3.5, delegate { if (visual) ChangeBeatBackGroundColour(true); }),
             };
             List<BeatAction.Action> actions = new();
             foreach (var action in allActions)
             {
-                if (action.beat >= gameswitchBeat) actions.Add(action);
+                if (action.beat + 0.5 >= gameswitchBeat) actions.Add(action);
             }
             if (actions.Count > 0) BeatAction.New(instance, actions);
         }
@@ -661,10 +656,10 @@ namespace HeavenStudio.Games
             bool offBeat = beat % 1 != 0;
             if (sound)
             {
-                MultiSound.Sound[] sounds = new MultiSound.Sound[amount];
+                List<MultiSound.Sound> sounds = new(amount);
                 for (int i = 0; i < amount; i++)
                 {
-                    sounds[i] = new MultiSound.Sound($"lockstep/" + (offBeat ? "ho" : "hai"), beat + i, 1, 1, false, offBeat ? 0.015 : 0.018);
+                    sounds.Add(new MultiSound.Sound($"lockstep/" + (offBeat ? "ho" : "hai"), beat + i, 1, 1, false, offBeat ? 0.015 : 0.018));
                 }
                 MultiSound.Play(sounds, true, true);
             }
@@ -705,10 +700,10 @@ namespace HeavenStudio.Games
             }
             if (sound)
             {
-                MultiSound.Sound[] sounds = new MultiSound.Sound[amount];
+                List<MultiSound.Sound> sounds = new(amount);
                 for (int i = 0; i < amount; i++)
                 {
-                    sounds[i] = new MultiSound.Sound($"lockstep/" + (offBeat ? "ho" : "hai"), beat + i, 1, 1, false, offBeat ? 0.015 : 0.018);
+                    sounds.Add(new MultiSound.Sound($"lockstep/" + (offBeat ? "ho" : "hai"), beat + i, 1, 1, false, offBeat ? 0.015 : 0.018));
                 }
                 MultiSound.Play(sounds, true, true);
             }

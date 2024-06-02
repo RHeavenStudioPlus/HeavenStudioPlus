@@ -25,7 +25,7 @@ namespace HeavenStudio.Games.Scripts_AirRally
         [NonSerialized] public float flyPos;
         [NonSerialized] public bool isReturning;
         [NonSerialized] public bool isTossed = false;
-        [NonSerialized] public AirRally.DistanceSound currentDist = AirRally.DistanceSound.close;
+        [NonSerialized] public AirRally.DistanceSound currentDist = AirRally.DistanceSound.Close;
         AirRally game;
 
         private void Awake()
@@ -58,7 +58,7 @@ namespace HeavenStudio.Games.Scripts_AirRally
         {
             var cond = Conductor.instance;
 
-            bool isFartherOrMore = currentDist != AirRally.DistanceSound.close && currentDist != AirRally.DistanceSound.far;
+            bool isFartherOrMore = currentDist != AirRally.DistanceSound.Close && currentDist != AirRally.DistanceSound.Far;
 
             Vector3 lastPos = transform.position;
             if (!rb.simulated)
@@ -122,16 +122,16 @@ namespace HeavenStudio.Games.Scripts_AirRally
             ParticleSystem.MainModule main = hitEffect.main;
             switch (distance)
             {
-                case AirRally.DistanceSound.close:
+                case AirRally.DistanceSound.Close:
                     main.startSize = 2f;
                     break;
-                case AirRally.DistanceSound.far:
+                case AirRally.DistanceSound.Far:
                     main.startSize = 3f;
                     break;
-                case AirRally.DistanceSound.farther:
+                case AirRally.DistanceSound.Farther:
                     main.startSize = 4f;
                     break;
-                case AirRally.DistanceSound.farthest:
+                case AirRally.DistanceSound.Farthest:
                     main.startSize = 6f;
                     break;
             }
