@@ -35,6 +35,7 @@ namespace HeavenStudio.Games.Scripts_AgbNightWalk
 
         public void SpawnPlatforms(double beat)
         {
+            Debug.Log("game.countInBeat : " + game.countInBeat);
             if (game.countInBeat != double.MinValue)
             {
                 for (int i = 0; i < platformCount; i++)
