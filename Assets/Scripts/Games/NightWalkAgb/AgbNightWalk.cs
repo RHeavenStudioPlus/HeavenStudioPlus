@@ -559,7 +559,6 @@ namespace HeavenStudio.Games
                 }
                 else
                 {
-                    allEnds.Sort((x, y) => x.beat.CompareTo(y.beat));
                     double nextSwitchBeat = double.MaxValue;
                     foreach (var end in allEnds)
                     {
@@ -570,19 +569,11 @@ namespace HeavenStudio.Games
                             break;
                         }
                     }
-                    List<RiqEntity> tempEvents = new();
-                    foreach (var countIn in countInEvents)
+                    var lastCountIn = countInEvents.FindLast(e => e.beat < nextSwitchBeat && e.beat + e.length >= beat);
+                    if (lastCountIn != null)
                     {
-                        if (countIn.beat < nextSwitchBeat)
-                        {
-                            tempEvents.Add(countIn);
-                        }
-                    }
-                    if (tempEvents.Count > 0)
-                    {
-                        tempEvents.Sort((x, y) => x.beat.CompareTo(y.beat));
-                        countInBeat = tempEvents[tempEvents.Count - 1].beat;
-                        countInLength = tempEvents[tempEvents.Count - 1].length;
+                        countInBeat = lastCountIn.beat;
+                        countInLength = lastCountIn.length;
                     }
                 }
             }
