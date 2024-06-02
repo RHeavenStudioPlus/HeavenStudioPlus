@@ -215,7 +215,7 @@ namespace HeavenStudio.Games
                     { SetFace(idx, 4); Lion[idx].GetComponent<Animator>().Play("Clap", 0, 0); }));
                 }
             }
-            if (sounds.Count > 0) clapSounds = MultiSound.Play(sounds.ToArray());
+            if (sounds.Count > 0) clapSounds = MultiSound.Play(sounds);
             if (actions.Count > 0) clapAction = BeatAction.New(this, actions);
 
             // prepare player input

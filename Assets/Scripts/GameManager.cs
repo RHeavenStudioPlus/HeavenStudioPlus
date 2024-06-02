@@ -445,7 +445,8 @@ namespace HeavenStudio
 
                     foreach (RiqEntity entity in entitiesInRange)
                     {
-                        eventCaller.CallPreEvent(entity);
+                        // no, the second parameter doesn't matter here. i don't know a good way to make it work better, tho
+                        eventCaller.CallEvent(entity, true, true);
                         currentPreSequence++;
                     }
                 }

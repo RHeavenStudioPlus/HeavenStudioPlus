@@ -47,27 +47,30 @@ namespace HeavenStudio.Games.Scripts_AirRally
             }
         }
 
-        Cloud GetAvailableCloud()
-        {
-            foreach (Cloud cloud in pool)
-            {
-                if (!cloud.isWorking)
-                {
-                    return cloud;
-                }
-            }
-            return null;
-        }
-
-        // Update is called once per frame
         void Update()
         {
+            if (pool == null) return;
             time += Time.deltaTime;
             if (time - lastTime > cloudRepeatRate)
             {
                 lastTime = time;
-                GetAvailableCloud()?.StartCloud(cloudRoot.position, false);
+                var cloud = GetAvailableCloud();
+                if (cloud != null) cloud.StartCloud(cloudRoot.position, false);
             }
+        }
+
+        Cloud GetAvailableCloud()
+        {
+            if (pool != null) {
+                foreach (Cloud cloud in pool)
+                {
+                    if (!cloud.isWorking)
+                    {
+                        return cloud;
+                    }
+                }
+            }
+            return null;
         }
 
         public void SetCloudsPerSecond(int cloudsPerSec)
