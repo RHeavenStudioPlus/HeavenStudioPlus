@@ -42,14 +42,15 @@ namespace HeavenStudio.Games.Loaders
                     preFunction = delegate {
                         var e = eventCaller.currentEntity;
                         if (eventCaller.gameManager.TryGetMinigame(out DressYourBest instance)) {
-                            instance.QueueStartInterval(e.beat, e.length, e["auto"]);
+                            instance.QueueStartInterval(e.beat, e.length, e["autoPass"], e["autoReact"]);
                         }
                     },
                     defaultLength = 3f,
                     resizable = true,
                     parameters = new List<Param>()
                     {
-                        new("auto", true, "Auto Pass Turn", "Toggle if the turn should be passed automatically at the end of the start interval.")
+                        new("autoPass", true, "Auto Pass Turn", "Toggle if the turn should be passed automatically at the end of the start interval."),
+                        new("autoReact", true, "Auto React", "Toggle if the reaction should be on by default."),
                     }
                 },
                 new GameAction("monkey call", "Monkey Call")
@@ -69,14 +70,14 @@ namespace HeavenStudio.Games.Loaders
                     preFunction = delegate {
                         var e = eventCaller.currentEntity;
                         if (eventCaller.gameManager.TryGetMinigame(out DressYourBest instance)) {
-                            instance.PassTurn(e.beat);
+                            instance.PassTurn(e.beat, e["auto"]);
                         }
                     },
                     defaultLength = 1f,
-                    // parameters = new List<Param>()
-                    // {
-                    //     new("auto", true, "Auto Pass Turn", "Toggle if the turn should be passed automatically at the end of the start interval.")
-                    // }
+                    parameters = new List<Param>()
+                    {
+                        new("auto", true, "Auto React", "Toggle if the reaction should be on by default.")
+                    }
                 },
                 new GameAction("background appearance", "Background Appearance")
                 {
@@ -152,7 +153,6 @@ namespace HeavenStudio.Games
 
         // i set variables to null when they are not initialized by default 👍
         private ColorEase bgColorEase = new(DefaultBGColor);
-        private Material lightMaterialCurrent;
         private Sound whirringSfx = null;
         private List<RiqEntity> callEntities;
 
@@ -253,7 +253,7 @@ namespace HeavenStudio.Games
         }
 
         // startBeat exists so actions that happened when inactive aren't done again. that would suck
-        public void QueueStartInterval(double beat, float length, bool auto, double startBeat = double.MinValue)
+        public void QueueStartInterval(double beat, float length, bool autoPass, bool autoReact, double startBeat = double.MinValue)
         {
             List<RiqEntity> neededCalls = GetNeededCalls(beat, length);
             if (neededCalls.Count <= 0) return;
@@ -274,9 +274,9 @@ namespace HeavenStudio.Games
                     actions.Add(new(call.beat, () => monkeyAnim.DoScaledAnimationAsync("Call", 0.5f)));
                 }
                 // have to add this after all the other actions as actions are done in order of beat
-                if (auto) {
+                if (autoPass) {
                     actions.Add(new(beat + length, delegate {
-                        PassTurn(beat + length, beat, length, neededCalls);
+                        PassTurn(beat + length, autoReact, beat, length, neededCalls);
                     }));
                 }
                 _ = MultiSound.Play(sounds);
@@ -284,7 +284,7 @@ namespace HeavenStudio.Games
             }
         }
 
-        public void PassTurn(double beat, double startIntervalBeat = double.NaN, float startIntervalLength = float.NaN, List<RiqEntity> neededCalls = null)
+        public void PassTurn(double beat, bool autoReact, double startIntervalBeat = double.NaN, float startIntervalLength = float.NaN, List<RiqEntity> neededCalls = null)
         {
             if (double.IsNaN(startIntervalBeat) || double.IsNaN(startIntervalLength)) {
                 RiqEntity startInterval = gameManager.Beatmap.Entities.FindLast(e => e.beat + e.length < beat);
@@ -308,15 +308,25 @@ namespace HeavenStudio.Games
                 double relativeBeat = call.beat - startIntervalBeat;
                 _ = ScheduleInput(beat, relativeBeat + 1, InputAction_BasicPress, OnHit, OnMiss, null);
             }
-        }
+            if (autoReact) {
+                BeatAction.New(this, new() { new(beat - startIntervalBeat + beat, delegate {
 
+                })});
+            }
+        }
 
         private List<RiqEntity> GetNeededCalls(double beat, float length)
         {
             return callEntities.FindAll(e => e.beat >= beat && e.beat <= beat + length);
         }
 
+        public void IntervalReact()
+        {
+
+        }
+
         private int hitCount = 0; // resets every pass turn
+        private bool hasMissed = true;
         private void OnHit(PlayerActionEvent caller, float state)
         {
             SoundByte.PlayOneShotGame("dressYourBest/hit_1");
