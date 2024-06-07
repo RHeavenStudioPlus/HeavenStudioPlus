@@ -24,8 +24,8 @@ namespace HeavenStudio.Games.Loaders
                         var e = eventCaller.currentEntity;
                         if (eventCaller.gameManager.TryGetMinigame(out DressYourBest instance)) {
                             DressYourBest.Characters characters = (DressYourBest.Characters)e["characters"];
-                            instance.ToggleBopping(characters, e["bop"]);
-                            if (e["auto"]) instance.DoBopping(e.beat, e.length, characters);
+                            instance.ToggleBopping(characters, e["auto"]);
+                            if (e["bop"]) instance.DoBopping(e.beat, e.length, characters);
                         }
                     },
                     defaultLength = 1f,
@@ -33,8 +33,8 @@ namespace HeavenStudio.Games.Loaders
                     parameters = new List<Param>()
                     {
                         new("characters", DressYourBest.Characters.Both, "Characters", "Choose the characters to toggle bopping."),
-                        new("bop", true, "Bop", "Toggle if the selected characters should bop for the duration of this event."),
                         new("auto", true, "Bop (Auto)", "Toggle if the selected characters should automatically bop until another Bop event is reached."),
+                        new("bop", true, "Bop", "Toggle if the selected characters should bop for the duration of this event."),
                     }
                 },
                 new GameAction("start interval", "Start Interval", "Cues")
@@ -176,6 +176,7 @@ namespace HeavenStudio.Games
         [SerializeField] private Animator girlAnim;
         [SerializeField] private Animator monkeyAnim;
         [SerializeField] private Animator sewingAnim;
+        [SerializeField] private Animator reactionAnim;
 
         [Header("Renderers")]
         [SerializeField] private SpriteRenderer bgSpriteRenderer;
@@ -201,9 +202,15 @@ namespace HeavenStudio.Games
         private Sound whirringSfx = null;
         private List<RiqEntity> callEntities;
 
+        private double startIntervalEndBeat;
+
         // if characters should bop automatically
         private bool girlBop = true;
         private bool monkeyBop = true;
+
+        private Faces girlFaceCurrent;
+        private Faces monkeyFaceCurrent;
+
 
         private void Awake()
         {
@@ -215,15 +222,24 @@ namespace HeavenStudio.Games
         private void Update()
         {
             bgSpriteRenderer.color = bgColorEase.GetColor();
+
+            if (PlayerInput.GetIsAction(InputAction_BasicPress) && !IsExpectingInputNow(InputAction_BasicPress)) {
+                ChangeEmotion(Characters.Girl, Faces.Sad);
+                sewingAnim.DoScaledAnimationAsync("Miss", 0.5f);
+                SoundByte.PlayOneShotGame("dressYourBest/hit_1", volume: 2);
+                SoundByte.PlayOneShot("miss");
+            }
         }
 
         public override void OnLateBeatPulse(double beat)
         {
-            if (girlBop && !girlAnim.IsPlayingAnimationNames()) {
+            // if (girlBop && !girlAnim.IsPlayingAnimationNames()) {
+            if (girlBop) {
                 girlAnim.DoScaledAnimationAsync("Bop", 0.5f, animLayer: 0);
             }
-            if (monkeyBop && !monkeyAnim.IsPlayingAnimationNames("Call")) {
-                monkeyAnim.DoScaledAnimationAsync("Bop", 0.5f);
+            // if (monkeyBop && beat >= startIntervalEndBeat && !monkeyAnim.IsPlayingAnimationNames("Call")) {
+            if (monkeyBop && beat >= startIntervalEndBeat) {
+                monkeyAnim.DoScaledAnimationAsync("Bop", 0.5f, animLayer: 0);
             }
         }
 
@@ -231,13 +247,13 @@ namespace HeavenStudio.Games
         public override void OnGameSwitch(double beat)
         {
             StoreAllCallEntities();
-            PersistBackgroundAppearance(beat);
+            PersistPreviousEntities(beat);
         }
 
         public override void OnPlay(double beat)
         {
             StoreAllCallEntities();
-            PersistBackgroundAppearance(beat);
+            PersistPreviousEntities(beat);
         }
 
         private void StoreAllCallEntities()
@@ -246,7 +262,7 @@ namespace HeavenStudio.Games
             callEntities = gameManager.Beatmap.Entities.FindAll(e => e.datamodel == "dressYourBest/monkey call");
         }
 
-        private void PersistBackgroundAppearance(double beat)
+        private void PersistPreviousEntities(double beat)
         {
             // find the last background appearance from the current beat
             // this uses only beat, not length. earlier events will be completely ignored
@@ -255,13 +271,25 @@ namespace HeavenStudio.Games
                 RiqEntity e = bgEntity;
                 ChangeBackgroundAppearance(e.beat, e.length, e["startColor"], e["endColor"], e["ease"]);
             }
+
+            RiqEntity bopEntity = gameManager.Beatmap.Entities.FindLast(e => e.beat <= beat && e.datamodel == "dressYourBest/bop");
+            if (bopEntity != null) {
+                RiqEntity e = bopEntity;
+                Characters characters = (Characters)e["characters"];
+                ToggleBopping(characters, e["auto"]);
+                if (e["bop"] && beat > e.beat && beat < e.beat + e.length) { // if it is switched to or played in the middle of a bop event
+                    DoBopping(e.beat, e.length, characters);
+                }
+            }
         }
 
         private void SetLightFromState(LightState state)
         {
             ColorPair colorPair = lightStates[(int)state];
-            lightRenderer.material.SetColor("_ColorAlpha", colorPair.outside);
-            lightRenderer.material.SetColor("_ColorBravo", colorPair.inside);
+            // lightRenderer.material.SetColor("_ColorAlpha", colorPair.outside);
+            // lightRenderer.material.SetColor("_ColorBravo", colorPair.inside);
+            lightRenderer.material.SetColor("_ColorAlpha", colorPair.inside);
+            lightRenderer.material.SetColor("_ColorBravo", colorPair.outside);
         }
 
         public void ChangeBackgroundAppearance(double beat, float length, Color startColor, Color endColor, int ease)
@@ -287,7 +315,7 @@ namespace HeavenStudio.Games
                 bopAction += () => girlAnim.DoScaledAnimationAsync("Bop", 0.5f, animLayer: 0);
             }
             if (characters is Characters.Monkey or Characters.Both) {
-                bopAction += () => monkeyAnim.DoScaledAnimationAsync("Bop", 0.5f);
+                bopAction += () => monkeyAnim.DoScaledAnimationAsync("Bop", 0.5f, animLayer: 0);
             }
 
             List<BeatAction.Action> actions = new();
@@ -299,18 +327,17 @@ namespace HeavenStudio.Games
 
         public void ChangeEmotion(Characters character, Faces emotion)
         {
+            string emotionStr = emotion.ToString();
+
             if (character is Characters.Girl or Characters.Both) {
-                ChangeEmotion(girlAnim, emotion);
+                girlFaceCurrent = emotion;
+                girlAnim.DoScaledAnimationAsync(emotionStr, 0.5f, animLayer: 1);
             }
             if (character is Characters.Monkey or Characters.Both) {
-                ChangeEmotion(monkeyAnim, emotion);
+                Debug.Log("monkey emotionStr : " + emotionStr);
+                monkeyFaceCurrent = emotion;
+                monkeyAnim.DoScaledAnimationAsync(emotionStr, 0.5f, animLayer: 1);
             }
-        }
-
-        private void ChangeEmotion(Animator anim, Faces emotion)
-        {
-            Debug.Log("emotion : " + emotion);
-            anim.DoScaledAnimationAsync(emotion.ToString(), 0.5f, animLayer: 1);
         }
 
         // startBeat exists so actions that happened when inactive aren't done again. that would suck
@@ -322,14 +349,25 @@ namespace HeavenStudio.Games
             if (startBeat < beat + length) {
                 List<MultiSound.Sound> sounds = new();
                 List<BeatAction.Action> actions = new() {
-                    new(beat, () => ChangeEmotion(girlAnim, Faces.Looking))
+                    new(beat, delegate {
+                        startIntervalEndBeat = beat + length;
+                        if (neededCalls[^1].beat == beat + length) { // if there's a block at the end, extend the bop one beat
+                            startIntervalEndBeat++;
+                        }
+                        ChangeEmotion(Characters.Girl, Faces.Looking);
+                    })
                 };
                 foreach (RiqEntity call in neededCalls)
                 {
                     // Debug.Log("call.beat : " + call.beat);
                     if (call.beat < startBeat) continue;
                     sounds.Add(new("dressYourBest/monkey_call_" + (call["callSfx"] + 1), call.beat));
-                    actions.Add(new(call.beat, () => monkeyAnim.DoScaledAnimationAsync("Call", 0.5f)));
+                    actions.Add(new(call.beat, () => {
+                        monkeyAnim.DoScaledAnimationAsync("Call", 0.5f, animLayer: 0);
+                        // this is janky but unity animation Sucks Balls so it's really the best way to do it
+                        monkeyFaceCurrent = Faces.Idle;
+                        monkeyAnim.DoScaledAnimationAsync("CallFace", 0.5f, animLayer: 1);
+                    }));
                 }
                 if (autoPass) {
                     // have to add this after all the other actions as actions are done in order of beat
@@ -355,12 +393,13 @@ namespace HeavenStudio.Games
             neededCalls ??= GetNeededCalls(startIntervalBeat, startIntervalLength);
             if (neededCalls.Count <= 0) return; // do the actual stuff under here
 
-            ChangeEmotion(girlAnim, Faces.Idle);
+            ChangeEmotion(Characters.Girl, Faces.Idle);
             SetLightFromState(LightState.Repeating);
             // "Any" check instead of just checking the last one?
-            if (neededCalls[^1].beat != beat) {
-                monkeyAnim.DoScaledAnimationAsync("Idle", 0.5f);
-            }
+            // if (neededCalls[^1].beat != beat) {
+            //     monkeyAnim.DoScaledAnimationAsync("Idle", 0.5f, animLayer: 0);
+            //     // ChangeEmotion(Characters.Monkey, Faces.Idle);
+            // }
             hitCount = 0;
             foreach (RiqEntity call in neededCalls)
             {
@@ -382,21 +421,29 @@ namespace HeavenStudio.Games
 
         public void IntervalReact(double beat, float length)
         {
+            hasMissed = false;
+
             Faces reaction = HasMissed ? Faces.Sad : Faces.Happy;
-            ChangeEmotion(monkeyAnim, reaction);
-            ChangeEmotion(girlAnim, reaction);
+            ChangeEmotion(Characters.Monkey, reaction);
+            ChangeEmotion(Characters.Girl, reaction);
             LightState lightState = (LightState)reaction;
             SetLightFromState(lightState);
+            string lightStateStr = lightState.ToString();
+            reactionAnim.DoScaledAnimationAsync(lightStateStr, 0.5f);
+
             // there's not a good way to schedule this afaik.
             // there might be some way to like, schedule the sound then change the sound source when missed? that could work maybe
-            SoundByte.PlayOneShotGame("dressYourBest/" + lightState.ToString().ToLower());
+            SoundByte.PlayOneShotGame("dressYourBest/" + lightStateStr.ToLower());
 
             // maybe wanna use a beat value that's checked in the update loop
-            // that would let people specify 
+            // made this comment before adding this "current face" check
             _ = BeatAction.New(this, new() {
                 new(beat + length, delegate {
-                    ChangeEmotion(monkeyAnim, Faces.Idle);
-                    ChangeEmotion(girlAnim, Faces.Idle);
+                    reactionAnim.DoScaledAnimationAsync("Idle", 0.5f);
+                    // makes sure it's not overriding new faces (really just the looking face.)
+                    if (girlFaceCurrent == reaction) ChangeEmotion(Characters.Girl, Faces.Idle);
+                    if (monkeyFaceCurrent == reaction) ChangeEmotion(Characters.Monkey, Faces.Idle);
+                    // ChangeEmotion(Characters.Monkey, Faces.Idle);
                     SetLightFromState(LightState.IdleOrListening);
                 })
             });
@@ -408,14 +455,14 @@ namespace HeavenStudio.Games
         private void OnHit(PlayerActionEvent caller, float state)
         {
             hitCount++;
-            SoundByte.PlayOneShotGame("dressYourBest/hit_1");
+            SoundByte.PlayOneShotGame("dressYourBest/hit_1", volume: 2);
             SoundByte.PlayOneShotGame("dressYourBest/hit_2", pitch: SoundByte.GetPitchFromSemiTones(hitCount, false));
             if (state is >= 1f or <= (-1f)) // barely
             {
                 sewingAnim.DoScaledAnimationAsync("Miss", 0.5f);
                 hasMissed = true;
             }
-            else                             // just
+            else // just
             {
                 sewingAnim.DoScaledAnimationAsync("Hit", 0.5f);
             }
