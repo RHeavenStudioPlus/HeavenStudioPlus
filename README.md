@@ -4,8 +4,8 @@
 This is an **UNOFFICIAL** fork of Heaven Studio, made to incorporate a wider range of fangames.
 
 <p>
-  <a href="https://discord.gg/2kdZ8kFyEN">
-    <img src="https://img.shields.io/discord/945450048832040980?color=5865F2&label=Heaven%20Studio&logo=discord&logoColor=white" alt="Discord">
+  <a href="https://discord.gg/RRhYfsP2Bw">
+    <img src="https://img.shields.io/discord/1242180709800607865?color=5865F2&label=Heaven%20Studio%20Plus&logo=discord&logoColor=white" alt="Discord">
   </a>
 </p>
 
