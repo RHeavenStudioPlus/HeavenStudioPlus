@@ -1,8 +1,8 @@
-name: Build Heaven Studio
+name: Build Heaven Studio Plus
 
 on:
   push:
-    branches: [ "master", "release_1_patches" ]
+    branches: [ "main" ]
   workflow_dispatch: {}  
 
 jobs:
@@ -63,7 +63,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           unityVersion: auto
-          buildName: Heaven Studio
+          buildName: Heaven Studio Plus
           buildsPath: build
           buildMethod: UnityBuilderAction.BuildScript.Build
           targetPlatform: ${{ matrix.targetPlatform }}
