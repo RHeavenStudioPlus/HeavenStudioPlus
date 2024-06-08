@@ -16,7 +16,7 @@ namespace HeavenStudio.Games.Loaders
     {
         public static Minigame AddGame(EventCaller eventCaller)
         {
-            return new Minigame("dressYourBest", "Dress Your Best!", "d593dd", false, false, new List<GameAction>()
+            return new Minigame("dressYourBest", "Dress Your Best", "d593dd", false, false, new List<GameAction>()
             {
                 new GameAction("bop", "Bop")
                 {
@@ -49,9 +49,7 @@ namespace HeavenStudio.Games.Loaders
                     resizable = true,
                     parameters = new List<Param>()
                     {
-                        new("autoPass", true, "Auto Pass Turn", "Toggle if the turn should be passed automatically at the end of the start interval.", new() {
-                            new((x, _) => (bool)x, "autoReact"),
-                        }),
+                        new("autoPass", true, "Auto Pass Turn", "Toggle if the turn should be passed automatically at the end of the start interval."),
                         new("autoReact", true, "Auto React", "Toggle if the reaction should be on by default."),
                     }
                 },
@@ -69,8 +67,7 @@ namespace HeavenStudio.Games.Loaders
                 },
                 new GameAction("pass turn", "Pass Turn")
                 {
-                    // preFunction = delegate {
-                    function = delegate {
+                    preFunction = delegate {
                         var e = eventCaller.currentEntity;
                         if (eventCaller.gameManager.TryGetMinigame(out DressYourBest instance)) {
                             instance.PassTurn(e.beat, e["auto"]);
@@ -81,21 +78,6 @@ namespace HeavenStudio.Games.Loaders
                     {
                         new("auto", true, "Auto React", "Toggle if the reaction should be on by default.")
                     }
-                },
-                new GameAction("interval react", "Interval React")
-                {
-                    // preFunction = delegate {
-                    function = delegate {
-                        var e = eventCaller.currentEntity;
-                        if (eventCaller.gameManager.TryGetMinigame(out DressYourBest instance)) {
-                            instance.IntervalReact();
-                        }
-                    },
-                    defaultLength = 1f,
-                    // parameters = new List<Param>()
-                    // {
-                    //     new("auto", true, "Auto React", "Toggle if the reaction should be on by default.")
-                    // }
                 },
                 new GameAction("background appearance", "Background Appearance")
                 {
@@ -130,14 +112,6 @@ namespace HeavenStudio.Games
             Both,
         }
 
-        public enum Faces
-        {
-            Default,
-            Looking,
-            Happy,
-            Sad,
-        }
-
         public enum CallSFX
         {
             Long,
@@ -150,7 +124,7 @@ namespace HeavenStudio.Games
             IdleOrListening,
             Repeating,
             Correct,
-            Incorrect,
+            Wrong,
         }
 
         [Header("Animators")]
@@ -201,7 +175,7 @@ namespace HeavenStudio.Games
         public override void OnLateBeatPulse(double beat)
         {
             if (girlBop && !girlAnim.IsPlayingAnimationNames()) {
-                girlAnim.DoScaledAnimationAsync("Bop", 0.5f, animLayer: 0);
+                girlAnim.DoScaledAnimationAsync("Bop", 0.5f);
             }
             if (monkeyBop && !monkeyAnim.IsPlayingAnimationNames("Call")) {
                 monkeyAnim.DoScaledAnimationAsync("Bop", 0.5f);
@@ -265,7 +239,7 @@ namespace HeavenStudio.Games
             // not super necessary, but just creating one callback that gets added to, then assigned to a beataction is just simpler
             BeatAction.EventCallback bopAction = delegate { };
             if (characters is Characters.Girl or Characters.Both) {
-                bopAction += () => girlAnim.DoScaledAnimationAsync("Bop", 0.5f, animLayer: 0);
+                bopAction += () => girlAnim.DoScaledAnimationAsync("Bop", 0.5f);
             }
             if (characters is Characters.Monkey or Characters.Both) {
                 bopAction += () => monkeyAnim.DoScaledAnimationAsync("Bop", 0.5f);
@@ -278,12 +252,6 @@ namespace HeavenStudio.Games
             _ = BeatAction.New(this, actions);
         }
 
-        private void ChangeEmotion(Animator anim, Faces emotion)
-        {
-            Debug.Log(emotion.ToString());
-            anim.DoScaledAnimationAsync(emotion.ToString(), 0.5f, animLayer: 1);
-        }
-
         // startBeat exists so actions that happened when inactive aren't done again. that would suck
         public void QueueStartInterval(double beat, float length, bool autoPass, bool autoReact, double startBeat = double.MinValue)
         {
@@ -292,8 +260,11 @@ namespace HeavenStudio.Games
 
             if (startBeat < beat + length) {
                 List<MultiSound.Sound> sounds = new();
-                List<BeatAction.Action> actions = new() {
-                    new(beat, () => ChangeEmotion(girlAnim, Faces.Looking))
+                List<BeatAction.Action> actions = new() { // first beat of start interval stuff
+                    // might not be necessary?
+                    // new(beat, delegate {
+                    //     monkeyAnimator.DoScaledAnimationAsync("StartCalling", 0.5f, animLayer: 1);
+                    // })
                 };
                 foreach (RiqEntity call in neededCalls)
                 {
@@ -316,7 +287,7 @@ namespace HeavenStudio.Games
         public void PassTurn(double beat, bool autoReact, double startIntervalBeat = double.NaN, float startIntervalLength = float.NaN, List<RiqEntity> neededCalls = null)
         {
             if (double.IsNaN(startIntervalBeat) || double.IsNaN(startIntervalLength)) {
-                RiqEntity startInterval = gameManager.Beatmap.Entities.FindLast(e => e.datamodel == "dressYourBest/start interval" && e.beat + e.length < beat);
+                RiqEntity startInterval = gameManager.Beatmap.Entities.FindLast(e => e.beat + e.length < beat);
                 if (startInterval == null) return;
                 startIntervalBeat = startInterval.beat;
                 startIntervalLength = startInterval.length;
@@ -324,10 +295,11 @@ namespace HeavenStudio.Games
             neededCalls ??= GetNeededCalls(startIntervalBeat, startIntervalLength);
             if (neededCalls.Count <= 0) return; // do the actual stuff under here
 
-            SetLightFromState(LightState.Repeating);
             SoundByte.PlayOneShotGame("dressYourBest/pass_turn");
             // "Any" check instead of just checking the last one?
             if (neededCalls[^1].beat != beat) {
+                // might wanna check if if a bop is already playing, too?
+                // down to visual preference.
                 monkeyAnim.DoScaledAnimationAsync("Idle", 0.5f);
             }
             hitCount = 0;
@@ -337,9 +309,8 @@ namespace HeavenStudio.Games
                 _ = ScheduleInput(beat, relativeBeat + 1, InputAction_BasicPress, OnHit, OnMiss, null);
             }
             if (autoReact) {
-                // BeatAction.New(this, new() { new(beat - startIntervalBeat + beat + 1, delegate {
-                BeatAction.New(this, new() { new(beat + beat - startIntervalBeat + 1, delegate {
-                    IntervalReact();
+                BeatAction.New(this, new() { new(beat - startIntervalBeat + beat, delegate {
+
                 })});
             }
         }
@@ -351,16 +322,11 @@ namespace HeavenStudio.Games
 
         public void IntervalReact()
         {
-            Faces reaction = (hasMissed || hitCount <= 0) ? Faces.Sad : Faces.Happy;
-            ChangeEmotion(monkeyAnim, reaction);
-            ChangeEmotion(girlAnim, reaction);
-            LightState lightState = (LightState)reaction;
-            SetLightFromState(lightState);
-            SoundByte.PlayOneShotGame("dressYourBest/" + lightState.ToString().ToLower());
+
         }
 
         private int hitCount = 0; // resets every pass turn
-        private bool hasMissed = false;
+        private bool hasMissed = true;
         private void OnHit(PlayerActionEvent caller, float state)
         {
             SoundByte.PlayOneShotGame("dressYourBest/hit_1");
@@ -370,8 +336,7 @@ namespace HeavenStudio.Games
         }
         private void OnMiss(PlayerActionEvent caller)
         {
-            hitCount = 0;
-            hasMissed = true;
+            
         }
     }
 }
