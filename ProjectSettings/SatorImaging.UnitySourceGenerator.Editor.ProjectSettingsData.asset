@@ -17,8 +17,25 @@ MonoBehaviour:
   DenseViewWidthThreshold: 512
   _disableAutoReloadInBackground: 0
   ImportedScriptPaths:
-  - Assets/Scripts/LevelEditor/Timeline/Timeline.cs
-  - Assets/Scripts/AppInfo.cs
+  - Assets/Scripts/Games/ForkLifter/ForkLifter.cs
+  - Assets/Scripts/Games/NightWalkAgb/AgbNightWalk.cs
+  - Assets/Scripts/Games/FrogHop/ntrFrog.cs
+  - Assets/Scripts/Games/TheDazzles/TheDazzles.cs
   - Assets/Scripts/USG.g/LoadMinigames.Minigames.MinigameLoaderGenerator.g.cs
+  - Assets/Scripts/Games/BouncyRoad/Ball.cs
+  - Assets/Scripts/Games/CatchOfTheDay/CatchOfTheDay.cs
+  - Assets/Scripts/Games/WorkingDough/NPCDoughBall.cs
+  - Assets/Scripts/Games/DressYourBest/DressYourBest.cs
+  - Assets/Scripts/LevelEditor/SnapDialog/SnapDialog.cs
+  - Assets/Scripts/Games/Fireworks/Fireworks.cs
+  - Assets/Scripts/Games/NightWalkAgb/AgbPlatformHandler.cs
+  - Assets/Scripts/Games/BouncyRoad/BouncyRoad.cs
+  - Assets/Scripts/Conductor.cs
+  - Assets/Scripts/Games/WorkingDough/BGBall.cs
+  - Assets/Scripts/Games/SpaceSoccer/SpaceSoccer.cs
+  - Assets/Scripts/LevelEditor/Timeline/Timeline.cs
+  - Assets/Scripts/Games/CatchOfTheDay/LakeScene.cs
+  - Assets/Scripts/Games/WorkingDough/PlayerEnterDoughBall.cs
+  - Assets/Scripts/Games/FrogHop/FrogHop.cs
   PathsToSkipImportEvent: []
   PathsToIgnoreOverwriteSettingOnAttribute: []
