@@ -226,8 +226,12 @@ namespace HeavenStudio.Games
             if (PlayerInput.GetIsAction(InputAction_BasicPress) && !IsExpectingInputNow(InputAction_BasicPress)) {
                 ChangeEmotion(Characters.Girl, Faces.Sad);
                 sewingAnim.DoScaledAnimationAsync("Miss", 0.5f);
-                SoundByte.PlayOneShotGame("dressYourBest/hit_1", volume: 2);
-                SoundByte.PlayOneShot("miss");
+                SoundByte.PlayOneShotGame("dressYourBest/whiff_hit");
+                // SoundByte.PlayOneShotGame("dressYourBest/hit_1", volume: 2);
+                // SoundByte.PlayOneShot("miss");
+                if (conductor.songPositionInBeatsAsDouble >= startIntervalEndBeat) {
+                    hasMissed = true;
+                }
             }
         }
 
@@ -286,8 +290,6 @@ namespace HeavenStudio.Games
         private void SetLightFromState(LightState state)
         {
             ColorPair colorPair = lightStates[(int)state];
-            // lightRenderer.material.SetColor("_ColorAlpha", colorPair.outside);
-            // lightRenderer.material.SetColor("_ColorBravo", colorPair.inside);
             lightRenderer.material.SetColor("_ColorAlpha", colorPair.inside);
             lightRenderer.material.SetColor("_ColorBravo", colorPair.outside);
         }
@@ -421,8 +423,6 @@ namespace HeavenStudio.Games
 
         public void IntervalReact(double beat, float length)
         {
-            hasMissed = false;
-
             Faces reaction = HasMissed ? Faces.Sad : Faces.Happy;
             ChangeEmotion(Characters.Monkey, reaction);
             ChangeEmotion(Characters.Girl, reaction);
@@ -447,6 +447,7 @@ namespace HeavenStudio.Games
                     SetLightFromState(LightState.IdleOrListening);
                 })
             });
+            hasMissed = false;
         }
 
         private int hitCount = 0; // resets every pass turn
@@ -455,10 +456,11 @@ namespace HeavenStudio.Games
         private void OnHit(PlayerActionEvent caller, float state)
         {
             hitCount++;
-            SoundByte.PlayOneShotGame("dressYourBest/hit_1", volume: 2);
+            SoundByte.PlayOneShotGame("dressYourBest/hit_1");
             SoundByte.PlayOneShotGame("dressYourBest/hit_2", pitch: SoundByte.GetPitchFromSemiTones(hitCount, false));
             if (state is >= 1f or <= (-1f)) // barely
             {
+                SoundByte.PlayOneShot("nearMiss", volume: 2);
                 sewingAnim.DoScaledAnimationAsync("Miss", 0.5f);
                 hasMissed = true;
             }
