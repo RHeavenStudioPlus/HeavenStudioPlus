@@ -233,16 +233,6 @@ namespace HeavenStudio
                 Debug.LogWarning("Game loader RvlDoubleDateLoader failed!");
             }
 
-            game = PcoDressYourBestLoader.AddGame(eventCaller);
-            if (game != null)
-            {
-                eventCaller.minigames.Add(game.name, game);
-            }
-            else
-            {
-                Debug.LogWarning("Game loader PcoDressYourBestLoader failed!");
-            }
-
             game = CtrDrummingLoader.AddGame(eventCaller);
             if (game != null)
             {
