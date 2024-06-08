@@ -18,9 +18,9 @@ There are currently no plans for stable or alpha releases.
 
 ### Nightly builds
 These builds include experimental new features that target future major releases.
-- [Windows](https://nightly.link/RHeavenStudioPlus/HeavenStudioPlus/workflows/build/master/StandaloneWindows64-build.zip)
-- [Linux](https://nightly.link/RHeavenStudioPlus/HeavenStudioPlus/workflows/build/master/StandaloneLinux64-build.zip)
-- [MacOS](https://nightly.link/RHeavenStudioPlus/HeavenStudioPlus/workflows/build/master/StandaloneOSX-build.zip)
+- [Windows](https://nightly.link/RHeavenStudioPlus/HeavenStudioPlus/workflows/build/main/StandaloneWindows64-build.zip)
+- [Linux](https://nightly.link/RHeavenStudioPlus/HeavenStudioPlus/workflows/build/main/StandaloneLinux64-build.zip)
+- [MacOS](https://nightly.link/RHeavenStudioPlus/HeavenStudioPlus/workflows/build/main/StandaloneOSX-build.zip)
 
 
 #### Important Notes:
