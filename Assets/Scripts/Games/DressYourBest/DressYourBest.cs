@@ -211,18 +211,6 @@ namespace HeavenStudio.Games
         private Faces girlFaceCurrent;
         private Faces monkeyFaceCurrent;
 
-        public static PlayerInput.InputAction InputAction_Press =
-            new("PcoDressPress", new int[] { IAPressCat, IAFlickCat, IAPressCat },
-            IA_PadAny, IA_TouchBasicPress, IA_BatonBasicPress);
-
-        protected static bool IA_PadAny(out double dt)
-        {
-            return PlayerInput.GetPadDown(InputController.ActionsPad.East, out dt)
-                    || PlayerInput.GetPadDown(InputController.ActionsPad.Up, out dt)
-                    || PlayerInput.GetPadDown(InputController.ActionsPad.Down, out dt)
-                    || PlayerInput.GetPadDown(InputController.ActionsPad.Left, out dt)
-                    || PlayerInput.GetPadDown(InputController.ActionsPad.Right, out dt);
-        }
 
         private void Awake()
         {
@@ -235,7 +223,7 @@ namespace HeavenStudio.Games
         {
             bgSpriteRenderer.color = bgColorEase.GetColor();
 
-            if (PlayerInput.GetIsAction(InputAction_Press) && !IsExpectingInputNow(InputAction_Press)) {
+            if (PlayerInput.GetIsAction(InputAction_BasicPress) && !IsExpectingInputNow(InputAction_BasicPress)) {
                 ChangeEmotion(Characters.Girl, Faces.Sad);
                 sewingAnim.DoScaledAnimationAsync("Miss", 0.5f);
                 SoundByte.PlayOneShotGame("dressYourBest/whiff_hit");
@@ -244,8 +232,6 @@ namespace HeavenStudio.Games
                 if (conductor.songPositionInBeatsAsDouble >= startIntervalEndBeat) {
                     hasMissed = true;
                 }
-
-                ScoreMiss();
             }
         }
 
@@ -266,14 +252,12 @@ namespace HeavenStudio.Games
         {
             StoreAllCallEntities();
             PersistPreviousEntities(beat);
-            DoInactiveStartInterval(beat, false);
         }
 
         public override void OnPlay(double beat)
         {
             StoreAllCallEntities();
             PersistPreviousEntities(beat);
-            DoInactiveStartInterval(beat, true);
         }
 
         private void StoreAllCallEntities()
@@ -300,16 +284,6 @@ namespace HeavenStudio.Games
                 if (e["bop"] && beat > e.beat && beat < e.beat + e.length) { // if it is switched to or played in the middle of a bop event
                     DoBopping(e.beat, e.length, characters);
                 }
-            }
-        }
-
-        private void DoInactiveStartInterval(double beat, bool fromPlay)
-        {
-            RiqEntity startIntervalEntity = gameManager.Beatmap.Entities.FindLast(e => (fromPlay ? e.beat : e.beat - 2) < beat && e.beat + e.length >= beat && e.datamodel == "dressYourBest/start interval");
-            Debug.Log("startIntervalEntity.beat : " + (startIntervalEntity?.beat ?? -1));
-            if (startIntervalEntity != null) {
-                RiqEntity e = startIntervalEntity;
-                QueueStartInterval(e.beat, e.length, e["autoPass"], e["autoReact"]);
             }
         }
 
@@ -432,7 +406,7 @@ namespace HeavenStudio.Games
             foreach (RiqEntity call in neededCalls)
             {
                 double relativeBeat = call.beat - startIntervalBeat;
-                _ = ScheduleInput(beat, relativeBeat + 1, InputAction_Press, OnHit, OnMiss, null);
+                _ = ScheduleInput(beat, relativeBeat + 1, InputAction_BasicPress, OnHit, OnMiss, null);
             }
             if (autoReact) {
                 double reactBeat = (beat * 2) - startIntervalBeat + 1;
