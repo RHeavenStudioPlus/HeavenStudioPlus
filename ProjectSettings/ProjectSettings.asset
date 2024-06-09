@@ -12,8 +12,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: RHeavenStudio
-  productName: Heaven Studio
+  companyName: RHeavenStudioPlus
+  productName: Heaven Studio Plus
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
@@ -156,7 +156,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Standalone: com.RHeavenStudio.Heaven-Studio
+    Standalone: com.RHeavenStudioPlus.Heaven-Studio-Plus
   buildNumber:
     Standalone: 100010
     iPhone: 0
@@ -274,7 +274,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 372677ea5b3aa8849bf89e96d654d1c5, type: 3}
+      m_Icon: {fileID: 2800000, guid: 882d99da10bfbe944aad7629ed96f4a1, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
