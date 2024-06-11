@@ -12,30 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c40623a0469766b4095282517245602d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoEmitOnScriptUpdate: 1
+  AutoEmitOnScriptUpdate: 0
   AutoEmitDisabledPaths: []
   DenseViewWidthThreshold: 512
   _disableAutoReloadInBackground: 0
   ImportedScriptPaths:
-  - Assets/Scripts/Games/ForkLifter/ForkLifter.cs
-  - Assets/Scripts/Games/NightWalkAgb/AgbNightWalk.cs
-  - Assets/Scripts/Games/FrogHop/ntrFrog.cs
-  - Assets/Scripts/Games/TheDazzles/TheDazzles.cs
+  - Assets/Scripts/Games/NipInTheBud/NipInTheBud.cs
+  PathsToSkipImportEvent:
   - Assets/Scripts/USG.g/LoadMinigames.Minigames.MinigameLoaderGenerator.g.cs
-  - Assets/Scripts/Games/BouncyRoad/Ball.cs
-  - Assets/Scripts/Games/CatchOfTheDay/CatchOfTheDay.cs
-  - Assets/Scripts/Games/WorkingDough/NPCDoughBall.cs
-  - Assets/Scripts/Games/DressYourBest/DressYourBest.cs
-  - Assets/Scripts/LevelEditor/SnapDialog/SnapDialog.cs
-  - Assets/Scripts/Games/Fireworks/Fireworks.cs
-  - Assets/Scripts/Games/NightWalkAgb/AgbPlatformHandler.cs
-  - Assets/Scripts/Games/BouncyRoad/BouncyRoad.cs
-  - Assets/Scripts/Conductor.cs
-  - Assets/Scripts/Games/WorkingDough/BGBall.cs
-  - Assets/Scripts/Games/SpaceSoccer/SpaceSoccer.cs
-  - Assets/Scripts/LevelEditor/Timeline/Timeline.cs
-  - Assets/Scripts/Games/CatchOfTheDay/LakeScene.cs
-  - Assets/Scripts/Games/WorkingDough/PlayerEnterDoughBall.cs
-  - Assets/Scripts/Games/FrogHop/FrogHop.cs
-  PathsToSkipImportEvent: []
   PathsToIgnoreOverwriteSettingOnAttribute: []
