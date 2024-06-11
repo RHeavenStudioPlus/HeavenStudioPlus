@@ -15,7 +15,7 @@ namespace HeavenStudio.Games.Scripts_WorkingDough
 
         public void Init(double beat, bool hasGandw)
         {
-            startBeat = beat;
+            startBeat = Conductor.instance.GetUnSwungBeat(beat);
             path = WorkingDough.instance.GetPath("BGBall");
             if (gandw != null) gandw.SetActive(hasGandw);
             Update();
@@ -27,7 +27,7 @@ namespace HeavenStudio.Games.Scripts_WorkingDough
 
             if (cond.isPlaying && !cond.isPaused)
             {
-                double beat = cond.songPositionInBeats;
+                double beat = cond.unswungSongPositionInBeats;
                 if (startBeat !=  double.MinValue)
                 {
                     Vector3 pos = GetPathPositionFromBeat(path, Math.Max(startBeat, beat), startBeat);

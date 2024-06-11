@@ -1625,7 +1625,7 @@ TextureImporter:
         width: 225
         height: 118
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1633,6 +1633,48 @@ TextureImporter:
       bones: []
       spriteID: b2b92a69417e35c4982992c3005f6ab1
       internalID: -763839746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fish02_hook01m
+      rect:
+        serializedVersion: 2
+        x: 473
+        y: 1
+        width: 166
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e06a04d8fd4d014c81722ae14d8428f
+      internalID: 1854878303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fish01_hook01m
+      rect:
+        serializedVersion: 2
+        x: 641
+        y: 1
+        width: 126
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 302cf4eef490eff4d86fbe62ce86077b
+      internalID: -850896915
       vertices: []
       indices: 
       edges: []
@@ -1678,6 +1720,7 @@ TextureImporter:
       fin03_07: 369149539
       fin03_08: 1770331907
       fish01_hook01: -1937665821
+      fish01_hook01m: -850896915
       fish01_hook02: -650927591
       fish01_out01: -633689759
       fish01_out02: -1578983422
@@ -1687,6 +1730,7 @@ TextureImporter:
       fish01_wait03: -113083632
       fish02_bite: -1276106060
       fish02_hook01: -1447049888
+      fish02_hook01m: 1854878303
       fish02_hook02: -291158108
       fish02_pick01: -580183698
       fish02_pick02: 2068174086

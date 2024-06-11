@@ -279,7 +279,7 @@ namespace HeavenStudio.Games
             }
 
             BeatAction.New(this, actions);
-            MultiSound.Play(sounds.ToArray(), true, true);
+            MultiSound.Play(sounds, true, true);
 
             if (autoPassTurn)
             {
@@ -390,7 +390,7 @@ namespace HeavenStudio.Games
             if (misses > 0) return;
             flowerParticles.Play();
             SoundByte.PlayOneShotGame($"tambourine/player/turnPass/sweep");
-            MultiSound.Play(new MultiSound.Sound[]
+            MultiSound.Play(new List<MultiSound.Sound>
             {
                 new MultiSound.Sound("tambourine/player/turnPass/note1", beat),
                 new MultiSound.Sound("tambourine/player/turnPass/note2", beat + 0.1f),

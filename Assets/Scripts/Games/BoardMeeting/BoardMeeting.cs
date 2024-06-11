@@ -182,7 +182,7 @@ namespace HeavenStudio.Games
             assistantCanBop = false;
             string twoSound = "boardMeeting/two";
             if (beat % 1 != 0) twoSound = "boardMeeting/twoUra";
-            MultiSound.Play(new MultiSound.Sound[]
+            MultiSound.Play(new List<MultiSound.Sound>
             {
                 new MultiSound.Sound("boardMeeting/one", beat),
                 new MultiSound.Sound(twoSound, beat + 0.5f),

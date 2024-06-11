@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Jukebox;
 using HeavenStudio.Games;
+using HeavenStudio.Util;
 
 namespace HeavenStudio
 {
@@ -66,7 +67,7 @@ namespace HeavenStudio
             Minigames.Init(this);
         }
 
-        public void CallEvent(RiqEntity entity, bool gameActive)
+        public void CallEvent(RiqEntity entity, bool gameActive, bool preEvent = false)
         {
             string[] details = entity.datamodel.Split('/');
             Minigames.Minigame game = minigames[details[0]];
@@ -77,14 +78,22 @@ namespace HeavenStudio
                 if (details.Length > 2) currentSwitchGame = details[2];
 
                 Minigames.GameAction action = game.actions.Find(c => c.actionName == details[1]);
-                if (gameActive)
+                if (preEvent)
                 {
-                    action.function.Invoke();
+                    action.preFunction.Invoke();
                 }
                 else
                 {
-                    action.inactiveFunction.Invoke();
+                    if (gameActive)
+                    {
+                        action.function.Invoke();
+                    }
+                    else
+                    {
+                        action.inactiveFunction.Invoke();
+                    }
                 }
+
             }
             catch (Exception ex)
             {
@@ -92,22 +101,22 @@ namespace HeavenStudio
             }
         }
 
-        public void CallPreEvent(RiqEntity entity)
-        {
-            string[] details = entity.datamodel.Split('/');
-            Minigames.Minigame game = minigames[details[0]];
-            try
-            {
-                currentEntity = entity;
+        // public void CallPreEvent(RiqEntity entity)
+        // {
+        //     string[] details = entity.datamodel.Split('/');
+        //     Minigames.Minigame game = minigames[details[0]];
+        //     try
+        //     {
+        //         currentEntity = entity;
 
-                Minigames.GameAction action = game.actions.Find(c => c.actionName == details[1]);
-                action.preFunction.Invoke();
-            }
-            catch (Exception ex)
-            {
-                Debug.LogWarning("Event not found! May be spelled wrong or it is not implemented.\n" + ex);
-            }
-        }
+        //         Minigames.GameAction action = game.actions.Find(c => c.actionName == details[1]);
+        //         action.preFunction.Invoke();
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         Debug.LogWarning("Event not found! May be spelled wrong or it is not implemented.\n" + ex);
+        //     }
+        // }
 
         public static List<RiqEntity> GetAllInGameManagerList(string gameName)
         {

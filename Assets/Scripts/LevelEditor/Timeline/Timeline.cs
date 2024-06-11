@@ -172,7 +172,7 @@ namespace HeavenStudio.Editor.Track
         public Button PlayBTN;
         public Button PauseBTN;
         public Button StopBTN;
-        public Button MetronomeBTN;
+        public UIButton MetronomeBTN;
         public Button AutoplayBTN;
         public Button SelectionsBTN;
         public Button TempoChangeBTN;
@@ -268,10 +268,18 @@ namespace HeavenStudio.Editor.Track
             {
                 timelineState.SetState(CurrentTimelineState.State.ChartSection);
             });
+            MetronomeBTN.onClick.AddListener(delegate
+            {
+                MetronomeToggle();
+            });
+            MetronomeBTN.onRightClick.AddListener(delegate
+            {
+                MetronomeCycle();
+            });
 
             SetTimeButtonColors(true, false, false);
             MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
-            MetronomeBTN.transform.GetChild(1).GetComponent<Image>().color = Color.gray;
+            MetronomeBTN.transform.GetChild(1).GetComponent<Image>().color = "009FC6".Hex2RGB();
             MetronomeBTN.transform.GetChild(2).GetComponent<Image>().color = Color.gray;
 
             timelineState.SetState(CurrentTimelineState.State.Selection);
@@ -342,19 +350,52 @@ namespace HeavenStudio.Editor.Track
 
         public void MetronomeToggle()
         {
-            if (!Conductor.instance.metronome)
+            Conductor.instance.metronomeActive = !Conductor.instance.metronomeActive;
+            if (Conductor.instance.metronomeActive)
             {
-                MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = "009FC6".Hex2RGB();
-                MetronomeBTN.transform.GetChild(1).GetComponent<Image>().color = "009FC6".Hex2RGB();
-                MetronomeBTN.transform.GetChild(2).GetComponent<Image>().color = "009FC6".Hex2RGB();
-                Conductor.instance.metronome = true;
+                MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = MetronomeBTN.transform.GetChild(1).GetComponent<Image>().color;
+                MetronomeBTN.transform.GetChild(2).GetComponent<Image>().color = MetronomeBTN.transform.GetChild(1).GetComponent<Image>().color;
             }
             else
             {
                 MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
-                MetronomeBTN.transform.GetChild(1).GetComponent<Image>().color = Color.gray;
                 MetronomeBTN.transform.GetChild(2).GetComponent<Image>().color = Color.gray;
-                Conductor.instance.metronome = false;
+            }
+        }
+
+        public void MetronomeCycle()
+        {
+            Conductor.instance.metronome++;
+            Conductor.instance.metronome %= 3;
+
+            switch (Conductor.instance.metronome)
+            {
+                case 0:
+                MetronomeBTN.transform.GetChild(1).GetComponent<Image>().color = "009FC6".Hex2RGB();
+                if (Conductor.instance.metronomeActive)
+                {
+                    MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = "009FC6".Hex2RGB();
+                    MetronomeBTN.transform.GetChild(2).GetComponent<Image>().color = "009FC6".Hex2RGB();
+                }
+                break;
+
+                case 1:
+                MetronomeBTN.transform.GetChild(1).GetComponent<Image>().color = "DB7B04".Hex2RGB();
+                if (Conductor.instance.metronomeActive)
+                {
+                    MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = "DB7B04".Hex2RGB();
+                    MetronomeBTN.transform.GetChild(2).GetComponent<Image>().color = "DB7B04".Hex2RGB();
+                }
+                break;
+
+                case 2:
+                MetronomeBTN.transform.GetChild(1).GetComponent<Image>().color = "3AC211".Hex2RGB();
+                if (Conductor.instance.metronomeActive)
+                {
+                    MetronomeBTN.transform.GetChild(0).GetComponent<Image>().color = "3AC211".Hex2RGB();
+                    MetronomeBTN.transform.GetChild(2).GetComponent<Image>().color = "3AC211".Hex2RGB();
+                }
+                break;
             }
         }
 
@@ -404,7 +445,7 @@ namespace HeavenStudio.Editor.Track
             {
                 RectTransform rectTransform = MetronomeBTN.transform.GetChild(1).GetComponent<RectTransform>();
                 float rot = 0f;
-                if (cond.metronome)
+                if (cond.metronomeActive)
                 {
                     int startBeat = (int)Math.Floor(cond.songPositionInBeats - 0.5);
                     float nm = cond.GetLoopPositionFromBeat(0.5f, 1f, ignoreSwing: false);
@@ -448,7 +489,14 @@ namespace HeavenStudio.Editor.Track
 
                 if (Input.GetKeyDown(KeyCode.M))
                 {
-                    MetronomeToggle();
+                    if (Input.GetKey(KeyCode.LeftShift))
+                    {
+                        MetronomeCycle();
+                    }
+                    else
+                    {
+                        MetronomeToggle();
+                    }
                 }
 
                 if (Input.GetKeyDown(KeyCode.Alpha1))
