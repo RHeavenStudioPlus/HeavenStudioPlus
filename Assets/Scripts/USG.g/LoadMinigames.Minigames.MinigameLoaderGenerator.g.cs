@@ -503,6 +503,16 @@ namespace HeavenStudio
                 Debug.LogWarning("Game loader AgbNightWalkLoader failed!");
             }
 
+            game = PcoVenusLoader.AddGame(eventCaller);
+            if (game != null)
+            {
+                eventCaller.minigames.Add(game.name, game);
+            }
+            else
+            {
+                Debug.LogWarning("Game loader PcoVenusLoader failed!");
+            }
+
             game = NtrOctopusMachineLoader.AddGame(eventCaller);
             if (game != null)
             {
