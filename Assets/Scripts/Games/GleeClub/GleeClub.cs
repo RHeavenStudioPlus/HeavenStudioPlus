@@ -12,7 +12,7 @@ namespace HeavenStudio.Games.Loaders
     {
         public static Minigame AddGame(EventCaller eventCaller)
         {
-            return new Minigame("gleeClub", "Glee Club", "cfcecf", false, false, new List<GameAction>()
+            return new Minigame("gleeClub", "Glee Club", "cfcecf", true, false, new List<GameAction>()
             {
                 new GameAction("intervalStart", "Start Interval")
                 {

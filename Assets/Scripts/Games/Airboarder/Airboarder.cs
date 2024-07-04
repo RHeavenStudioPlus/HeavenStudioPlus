@@ -34,7 +34,7 @@ namespace HeavenStudio.Games.Loaders
     {
         public static Minigame AddGame(EventCaller eventCaller)
         {
-            return new Minigame("airboarder", "Airboarder", "fbd4f2", false, false, new List<GameAction>()
+            return new Minigame("airboarder", "Airboarder", "fbd4f2", true, false, new List<GameAction>()
             {
 
                 new GameAction("bop", "Bop")

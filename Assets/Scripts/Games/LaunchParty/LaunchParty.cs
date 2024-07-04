@@ -11,7 +11,7 @@ namespace HeavenStudio.Games.Loaders
     {
         public static Minigame AddGame(EventCaller eventCaller) 
         {
-            return new Minigame("launchParty", "Launch Party", "000000", false, false, new List<GameAction>()
+            return new Minigame("launchParty", "Launch Party", "000000", true, false, new List<GameAction>()
             {
                 new GameAction("rocket", "Family Model")
                 {

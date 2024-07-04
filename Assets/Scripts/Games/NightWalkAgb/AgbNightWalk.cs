@@ -14,7 +14,7 @@ namespace HeavenStudio.Games.Loaders
     {
         public static Minigame AddGame(EventCaller eventCaller)
         {
-            return new Minigame("nightWalkAgb", "Night Walk (GBA)", "FFFFFF", false, false, new List<GameAction>()
+            return new Minigame("nightWalkAgb", "Night Walk (GBA)", "FFFFFF", true, false, new List<GameAction>()
             {
                 new GameAction("countIn8", "8 Beat Count-In")
                 {

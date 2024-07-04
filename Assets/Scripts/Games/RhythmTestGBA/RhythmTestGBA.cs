@@ -36,7 +36,7 @@ namespace HeavenStudio.Games.Loaders
     {
         public static Minigame AddGame(EventCaller eventCaller)
         {
-            return new Minigame("rhythmTestGBA", "Rhythm Test (GBA) \n<color=#adadad>(Rhythm-kan Check)</color>", "2DD816", false, false, new List<GameAction>()
+            return new Minigame("rhythmTestGBA", "Rhythm Test (GBA) \n<color=#adadad>(Rhythm-kan Check)</color>", "2DD816", true, false, new List<GameAction>()
             {
 
                 new GameAction("countin", "Change Screen Beeping Properties")

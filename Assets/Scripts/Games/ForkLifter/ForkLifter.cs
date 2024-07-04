@@ -26,7 +26,7 @@ namespace HeavenStudio.Games.Loaders
             }
             RiqBeatmap.OnUpdateEntity += flGradientUpdater;
 			
-            return new Minigame("forkLifter", "Fork Lifter", "f1f1f1", false, false, new List<GameAction>()
+            return new Minigame("forkLifter", "Fork Lifter", "f1f1f1", true, false, new List<GameAction>()
             {
                 new GameAction("flick", "Flick Food")
                 {

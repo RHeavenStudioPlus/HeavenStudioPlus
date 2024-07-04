@@ -16,7 +16,7 @@ namespace HeavenStudio.Games.Loaders
     {
         public static Minigame AddGame(EventCaller eventCaller)
         {
-            return new Minigame("freezeFrame", "Freeze Frame", "8b93b4", false, false, new List<GameAction>()
+            return new Minigame("freezeFrame", "Freeze Frame", "8b93b4", true, false, new List<GameAction>()
             {
                 new GameAction("bop", "Bop")
                 {

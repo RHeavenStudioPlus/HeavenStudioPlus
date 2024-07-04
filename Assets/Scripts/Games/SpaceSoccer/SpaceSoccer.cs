@@ -9,7 +9,7 @@ namespace HeavenStudio.Games.Loaders
     public static class NtrSoccerLoader
     {
         public static Minigame AddGame(EventCaller eventCaller) {
-            return new Minigame("spaceSoccer", "Space Soccer", "ff7d27", false, false, new List<GameAction>()
+            return new Minigame("spaceSoccer", "Space Soccer", "ff7d27", true, false, new List<GameAction>()
             {
                 new GameAction("ball dispense", "Ball Dispense")
                 {

@@ -24,7 +24,7 @@ namespace HeavenStudio.Games.Loaders
             }
             RiqBeatmap.OnUpdateEntity += BackgroundUpdater;
 
-            return new Minigame("mrUpbeat", "Mr. Upbeat", "E0E0E0", false, false, new List<GameAction>()
+            return new Minigame("mrUpbeat", "Mr. Upbeat", "E0E0E0", true, false, new List<GameAction>()
             {
                 new GameAction("prepare", "Prepare")
                 {

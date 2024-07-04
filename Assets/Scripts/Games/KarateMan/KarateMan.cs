@@ -104,7 +104,7 @@ namespace HeavenStudio.Games.Loaders
             }
             RiqBeatmap.OnUpdateEntity += BulbUpdater;
 
-            return new Minigame("karateman", "Karate Man", "fbca3e", false, false, new List<GameAction>()
+            return new Minigame("karateman", "Karate Man", "fbca3e", true, false, new List<GameAction>()
             {
                 new GameAction("bop", "Bop")
                 {

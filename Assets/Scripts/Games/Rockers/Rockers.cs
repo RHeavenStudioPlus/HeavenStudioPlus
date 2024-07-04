@@ -14,7 +14,7 @@ namespace HeavenStudio.Games.Loaders
     {
         public static Minigame AddGame(EventCaller eventCaller)
         {
-            return new Minigame("rockers", "Rockers", "EB4C94", false, false, new List<GameAction>()
+            return new Minigame("rockers", "Rockers", "EB4C94", true, false, new List<GameAction>()
             {
                 new GameAction("intervalStart", "Start Interval")
                 {

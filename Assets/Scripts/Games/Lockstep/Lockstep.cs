@@ -18,7 +18,7 @@ namespace HeavenStudio.Games.Loaders
     {
         public static Minigame AddGame(EventCaller eventCaller)
         {
-            return new Minigame("lockstep", "Lockstep", "f0338d", false, false, new List<GameAction>()
+            return new Minigame("lockstep", "Lockstep", "f0338d", true, false, new List<GameAction>()
             {
                 new GameAction("bop", "Bop")
                 {

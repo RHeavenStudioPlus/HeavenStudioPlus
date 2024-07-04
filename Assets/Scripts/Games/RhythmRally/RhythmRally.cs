@@ -15,7 +15,7 @@ namespace HeavenStudio.Games.Loaders
     {
         public static Minigame AddGame(EventCaller eventCaller)
         {
-            return new Minigame("rhythmRally", "Rhythm Rally", "ffffff", false, false, new List<GameAction>()
+            return new Minigame("rhythmRally", "Rhythm Rally", "ffffff", true, false, new List<GameAction>()
             {
                 new GameAction("bop", "Bop")
                 {
