@@ -11,7 +11,7 @@ namespace HeavenStudio.Games.Loaders
     public static class NtrOctopusMachineLoader
     {
         public static Minigame AddGame(EventCaller eventCaller) {
-            return new Minigame("octopusMachine", "Octopus Machine", "FFf362B", false, false, new List<GameAction>()
+            return new Minigame("octopusMachine", "Octopus Machine", "FFf362B", true, false, new List<GameAction>()
             {
                 new GameAction("bop", "Bop")
                 {

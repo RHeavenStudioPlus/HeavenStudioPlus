@@ -15,7 +15,7 @@ namespace HeavenStudio.Games.Loaders
     {
         public static Minigame AddGame(EventCaller eventCaller)
         {
-            return new Minigame("samuraiSliceNtr", "Samurai Slice (DS)", "b6b5b6", false, false, new List<GameAction>()
+            return new Minigame("samuraiSliceNtr", "Samurai Slice (DS)", "b6b5b6", true, false, new List<GameAction>()
             {
                 new GameAction("bop", "Bop")
                 {

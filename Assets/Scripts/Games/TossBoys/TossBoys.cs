@@ -12,7 +12,7 @@ namespace HeavenStudio.Games.Loaders
     {
         public static Minigame AddGame(EventCaller eventCaller)
         {
-            return new Minigame("tossBoys", "Toss Boys \n<color=#adadad>(Tosu Bōizu)</color>", "9cfff7", false, false, new List<GameAction>()
+            return new Minigame("tossBoys", "Toss Boys \n<color=#adadad>(Tosu Bōizu)</color>", "9cfff7", true, false, new List<GameAction>()
             {
                 new GameAction("bop", "Bop")
                 {

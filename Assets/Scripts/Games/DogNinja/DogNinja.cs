@@ -44,7 +44,7 @@ namespace HeavenStudio.Games.Loaders
             RiqBeatmap.OnUpdateEntity += ObjectUpdater;
             // RiqBeatmap.OnUpdateEntity += BirdUpdater;
 
-            return new Minigame("dogNinja", "Dog Ninja", "554899", false, false, new List<GameAction>()
+            return new Minigame("dogNinja", "Dog Ninja", "554899", true, false, new List<GameAction>()
             {
                 new GameAction("Bop", "Bop")
                 {

@@ -36,7 +36,7 @@ namespace HeavenStudio.Games.Loaders
             }
             RiqBeatmap.OnUpdateEntity += fwBGUpdater;
 			
-            return new Minigame("fireworks", "Fireworks \n<color=#adadad>(Hanabi)</color>", "000820", false, false, new List<GameAction>()
+            return new Minigame("fireworks", "Fireworks \n<color=#adadad>(Hanabi)</color>", "000820", true, false, new List<GameAction>()
             {
                 new GameAction("firework", "Firework")
                 {

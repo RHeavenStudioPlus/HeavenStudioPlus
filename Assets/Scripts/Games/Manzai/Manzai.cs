@@ -25,7 +25,7 @@ namespace HeavenStudio.Games.Loaders
             }
             RiqBeatmap.OnUpdateEntity += BoingUpdater;
 
-            return new Minigame("manzai", "Manzai", "72003D", false, false, new List<GameAction>()
+            return new Minigame("manzai", "Manzai", "72003D", true, false, new List<GameAction>()
             {
                 new GameAction("bop", "Bop")
                 {

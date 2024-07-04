@@ -17,7 +17,7 @@ namespace HeavenStudio.Games.Loaders
     {
         public static Minigame AddGame(EventCaller eventCaller)
         {
-            return new Minigame("builtToScaleRvl", "Built To Scale (Wii)", "1ad21a", false, false, new List<GameAction>()
+            return new Minigame("builtToScaleRvl", "Built To Scale (Wii)", "1ad21a", true, false, new List<GameAction>()
             {
                 new GameAction("spawn rod", "Spawn Rod")
                 {

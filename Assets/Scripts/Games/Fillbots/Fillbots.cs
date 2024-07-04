@@ -31,7 +31,7 @@ namespace HeavenStudio.Games.Loaders
                 new Param("size", Scripts_Fillbots.BotSize.Medium, "Size", "Set the size of the Robot.")
             );
             
-            return new Minigame("fillbots", "Fillbots", "FFFFFF", false, false, new List<GameAction>()
+            return new Minigame("fillbots", "Fillbots", "FFFFFF", true, false, new List<GameAction>()
             {
                 new("bop", "Bop")
                 {
