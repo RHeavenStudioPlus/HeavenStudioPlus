@@ -1232,44 +1232,11 @@ namespace HeavenStudio
                             new("bottomEnd", new EntityTypes.Float(0f, 1f, 0.02f), "End Bottom Collapse", "Set the bottom collapse at the end of the event."),
 
                             new("noiseStart", new EntityTypes.Float(0f, 1f, 0.3f), "Start Noise", "Set the noise at the start of the event."),
-                            new("noiseEnd", new EntityTypes.Float(0f, 1f, 0.3f), "End Noise", "Set the noise at the end of the event."),
-
-                            new("HSonVHS", false, "VHS Effects", "Toggle if VHS effects are enabled." , new()
-                            {
-                                new Param.CollapseParam((x, _) => (bool)x, new string[] { "bleedIntStart","bleedIntEnd","bleedIteration","vhsGrainStart","vhsGrainEnd",
-                                "grainScaleStart","grainScaleEnd","stripeDenStart","stripeDenEnd","stripeOpacStart","stripeOpacEnd","edgeIntStart","edgeIntEnd","edgeDistStart","edgeDistEnd"
-                                 })
-                            }
-                            ),
-
-                            new("bleedIntStart", new EntityTypes.Float(0f, 1f, 0.5f), "Start Bleed", "Set the color bleeding at the start of the event."),
-                            new("bleedIntEnd", new EntityTypes.Float(0f, 1f, 0.5f), "End Bleed", "Set the color bleeding at the end of the event."),
-
-                            new("bleedIteration", new EntityTypes.Integer(2,8,2), "Bleed Iterations", "Sets the amount of iterations of color bleeding."),
-
-                            new("vhsGrainStart", new EntityTypes.Float(0f,1f,0.1f), "Start Grain", "Sets the intensity of the grain at the start of the event. Grain looks different than the Grain block."),
-                            new("vhsGrainEnd", new EntityTypes.Float(0f,1f,0.1f), "End Grain", "Sets the intensity of the grain at the end of the event. Grain looks different than the Grain block."),
-
-                            new("grainScaleStart", new EntityTypes.Float(0f,1f,0.1f), "Start Grain Scale", "Sets the size of the grain at the start of the event.Grain looks different than the Grain block."),
-                            new("grainScaleEnd", new EntityTypes.Float(0f,1f,0.1f), "End Grain Scale", "Sets the size of the grain at the end of the event.Grain looks different than the Grain block."),                            
-
-                            new("stripeDenStart", new EntityTypes.Float(0f, 1f, 0.1f), "Start Stripe Density", "Set the stripe density at the start of the event."),
-                            new("stripeDenEnd", new EntityTypes.Float(0f, 1f, 0.1f), "End Stripe Density", "Set the stripe density at the end of the event."),
-
-                            new("stripeOpacStart", new EntityTypes.Float(0f, 1f, 1f), "Start Stripe Opacity", "Set the stripe opacity at the start of the event."),
-                            new("stripeOpacEnd", new EntityTypes.Float(0f, 1f, 1f), "End Stripe Opacity", "Set the stripe opacity at the end of the event."),
-
-                            new("edgeIntStart", new EntityTypes.Float(0f, 2f, 0.5f), "Start Edge Sharpness", "Set the edge sharpness at the start of the event."),
-                            new("edgeIntEnd", new EntityTypes.Float(0f, 2f, 0.5f), "End Edge Sharpness", "Set the edge sharpness at the end of the event."),
-
-                            new("edgeDistStart", new EntityTypes.Float(0f, 0.005f, 0.002f), "Start Edge Distance", "Set the edge sharpness at the start of the event."),
-                            new("edgeDistEnd", new EntityTypes.Float(0f, 0.005f, 0.002f), "End Edge Distance", "Set the edge sharpness at the end of the event."),
-
+                            new("noiseEnd", new EntityTypes.Float(0f, 1f, 0.3f), "End Noise", "Set the noise knee at the end of the event."),
 
                             new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.", new()
                             {
-                                new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "intenStart", "rgbStart", "bottomStart", "noiseStart",
-                                "bleedIntStart","vhsGrainStart","grainScaleStart","stripeDenStart","stripeOpacStart","edgeIntStart","edgeDistStart"})
+                                new((x, y) => (Util.EasingFunction.Ease)x != Util.EasingFunction.Ease.Instant, new string[] { "intenStart", "rgbStart", "bottomStart", "noiseStart"})
                             }),
                         }
                     },

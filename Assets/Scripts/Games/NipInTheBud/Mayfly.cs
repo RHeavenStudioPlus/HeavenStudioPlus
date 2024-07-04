@@ -21,7 +21,6 @@ public class Mayfly : MonoBehaviour
     public bool isApproaching;
     public bool isFleeing;
     public bool isExiting;
-    public bool reaction = false;
 
     public BezierCurve3D startCurve;
     public BezierCurve3D approachCurve;
@@ -104,20 +103,17 @@ public class Mayfly : MonoBehaviour
     {
         game.StopPrepare();
         if (state >= 1f || state <= -1f) {
-            Leilani.DoScaledAnimationAsync("SnapMiss", 0.5f, 0);
-            
+            Leilani.DoScaledAnimationAsync("SnapMiss", 0.5f);
             SoundByte.PlayOneShotGame("nipInTheBud/barely");
             isApproaching = false;
             isFleeing = true;
             fleeBeat = game.conductor.songPositionInBeatsAsDouble;
             transform.Rotate(new Vector3 (0,180,0));
-            if (reaction) game.bopExpression = "Sad";
 
         }
         else {
-            Leilani.DoScaledAnimationAsync("Snap", 0.5f, 0);
+            Leilani.DoScaledAnimationAsync("Snap", 0.5f);
             SoundByte.PlayOneShotGame("nipInTheBud/catch");
-            if (reaction) game.bopExpression = "Happy";
             Destroy(gameObject);
 
         }
@@ -128,8 +124,7 @@ public class Mayfly : MonoBehaviour
     public void Miss (PlayerActionEvent caller)
     {
         if (!game.preparing) return;
-            Leilani.DoScaledAnimationAsync("Unprepare", 0.5f, 0);
-            if (reaction) game.bopExpression = "Sad";
+            Leilani.DoScaledAnimationAsync("Unprepare", 0.5f);
             game.StopPrepare();
 
     }

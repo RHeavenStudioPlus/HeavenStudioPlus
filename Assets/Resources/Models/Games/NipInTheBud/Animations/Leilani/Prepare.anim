@@ -161,6 +161,13 @@ AnimationClip:
     path: her head/flytrap 2
     classID: 212
     script: {fileID: 0}
+  - curve:
+    - time: 0
+      value: {fileID: 656154875, guid: bbed663cea3d8ba4ca735966c228755f, type: 3}
+    attribute: m_Sprite
+    path: her head/face
+    classID: 212
+    script: {fileID: 0}
   m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
@@ -198,6 +205,13 @@ AnimationClip:
       isPPtrCurve: 1
     - serializedVersion: 2
       path: 2763204507
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 2763204507
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -222,6 +236,7 @@ AnimationClip:
     - {fileID: -1280359294, guid: bbed663cea3d8ba4ca735966c228755f, type: 3}
     - {fileID: -1083426451, guid: bbed663cea3d8ba4ca735966c228755f, type: 3}
     - {fileID: -1280359294, guid: bbed663cea3d8ba4ca735966c228755f, type: 3}
+    - {fileID: 656154875, guid: bbed663cea3d8ba4ca735966c228755f, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

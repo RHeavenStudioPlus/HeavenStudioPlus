@@ -265,7 +265,6 @@ namespace HeavenStudio
 
         private void UpdateRetroTV()
         {
-            UpdateVHS();
             if (!_volume.profile.TryGetSettings<CRT>(out var t)) return;
             t.enabled.Override(false);
             foreach (var e in _retroTvs)
@@ -289,50 +288,6 @@ namespace HeavenStudio
 
                 float newNoiseAmount = func(e["noiseStart"], e["noiseEnd"], clampNormal);
                 t.NoiseAmount.Override(newNoiseAmount);
-            }
-
-
-        }
-
-        private void UpdateVHS()
-        {
-            if (!_volume.profile.TryGetSettings<VHS>(out var tb)) return;
-            tb.enabled.Override(false);
-            foreach (var e in _retroTvs)
-            {
-                
-                float normalized = Conductor.instance.GetPositionFromBeat(e.beat, e.length);
-                if (normalized < 0) break;
-
-                tb.enabled.Override(e["HSonVHS"]);
-                if (!tb.enabled) return;
-
-                float clampNormal = Mathf.Clamp01(normalized);
-                var func = Util.EasingFunction.GetEasingFunction((Util.EasingFunction.Ease)e["ease"]);   
-
-                float newBleedIntensity = func(e["bleedIntStart"], e["bleedIntEnd"], clampNormal);
-                tb.colorBleedingIntensity.Override(newBleedIntensity);              
-
-                tb.colorBleedIterations.Override(e["bleedIteration"]) ;
-
-                float newGrainIntensity = func(e["vhsGrainStart"], e["vhsGrainEnd"], clampNormal);
-                tb.grainIntensity.Override(newGrainIntensity); 
-
-                float newGrainScale = func(e["grainScaleStart"], e["grainScaleEnd"], clampNormal);
-                tb.grainScale.Override(newGrainScale);
-
-                float newStripeDensity = func(e["stripeDenStart"], e["stripeDenEnd"], clampNormal);
-                tb.stripeNoiseDensity.Override(newStripeDensity);
-
-                float newStripeOpacity = func(e["stripeOpacStart"], e["stripeOpacEnd"], clampNormal);
-                tb.stripeNoiseOpacity.Override(newStripeOpacity);
-
-                float newEdgeSharpness = func(e["edgeIntStart"], e["edgeIntEnd"], clampNormal);
-                tb.edgeIntensity.Override(newEdgeSharpness);
-
-                float newEdgeDistance = func(e["edgeDistStart"], e["edgeDistEnd"], clampNormal);
-                tb.edgeDistance.Override(newEdgeDistance);
-
             }
         }
 

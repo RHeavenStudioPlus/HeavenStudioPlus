@@ -20,7 +20,6 @@ public class Mosquito : MonoBehaviour
     public bool isStarting;
     public bool isApproaching;
     public bool isFleeing;
-    public bool reaction = false;
 
     public BezierCurve3D startCurve;
     public BezierCurve3D approachCurve;
@@ -61,7 +60,6 @@ public class Mosquito : MonoBehaviour
         body.sortingOrder = bodySort;
         wingA.sortingOrder = wingSort;
         wingB.sortingOrder = wingSort;
-        
 
         if (isStarting)
         {
@@ -77,7 +75,7 @@ public class Mosquito : MonoBehaviour
             
             float flyPosApproach = game.conductor.GetPositionFromBeat(approachBeat, 1f);
             transform.position = approachCurve.GetPoint(flyPosApproach);
-            if (flyPosApproach > 1f) {
+            if (flyPosApproach == 1f) {
                 bodySort = 1000;
                 wingSort = 1001;
             }
@@ -97,25 +95,18 @@ public class Mosquito : MonoBehaviour
 
     public void Hit (PlayerActionEvent caller, float state)
     {
-        
-        double hitBeat = game.conductor.songPositionInBeatsAsDouble;
         game.StopPrepare();
         if (state >= 1f || state <= -1f) {
-            Leilani.DoScaledAnimationAsync("SnapMiss", 0.5f, 0);
-            if (reaction) game.bopExpression = "Sad";
+            Leilani.DoScaledAnimationAsync("SnapMiss", 0.5f);
             SoundByte.PlayOneShotGame("nipInTheBud/barely");
             isApproaching = false;
             isFleeing = true;
             fleeBeat = game.conductor.songPositionInBeatsAsDouble;
             transform.Rotate(new Vector3 (0,180,0));
-            
 
         }
         else {
-            
-            Leilani.DoScaledAnimationAsync("Snap", 0.5f, 0);
-            if (reaction) game.bopExpression = "Happy";
-            
+            Leilani.DoScaledAnimationAsync("Snap", 0.5f);
             SoundByte.PlayOneShotGame("nipInTheBud/catch");
             Destroy(gameObject);
 
@@ -127,8 +118,7 @@ public class Mosquito : MonoBehaviour
     public void Miss (PlayerActionEvent caller)
     {
         if (!game.preparing) return;
-            Leilani.DoScaledAnimationAsync("Unprepare", 0.5f, 0);
-            if (reaction) game.bopExpression = "Sad";
+            Leilani.DoScaledAnimationAsync("Unprepare", 0.5f);
             game.StopPrepare();
 
     }
