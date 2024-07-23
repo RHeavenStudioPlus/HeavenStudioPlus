@@ -48,15 +48,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SoundSequences: []
+  bopExpression: Neutral
   noBop: 0
   queuePrepare: 0
   preparing: 0
+  queueBopReset: 0
   Leilani: {fileID: 5072954338074711667}
   Bubble: {fileID: 8732817739479535685}
   Mosquito: {fileID: 4605372250674165452}
   Mayfly: {fileID: 7253892797257996928}
   mosquitoStart: {fileID: 6555989109832723705}
   mayflyStart: {fileID: 929922526424387638}
+  bg: {fileID: 5756144563134076738}
 --- !u!1 &103298534525363771
 GameObject:
   m_ObjectHideFlags: 0
@@ -864,7 +867,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -99
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.5226415, g: 0.7978147, b: 1, a: 1}
+  m_Color: {r: 0.52156866, g: 0.7960785, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3474,37 +3477,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7028175541807747852, guid: f36473a4658f5f24b85b570e367384ad, type: 3}
   m_PrefabInstance: {fileID: 1432673203301685664}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7253892797257996928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8244112737627441836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f146698328285e4d8ea2364007efbc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  game: {fileID: 3783111488010996518}
-  startBeat: 0
-  approachBeat: 0
-  fleeBeat: 0
-  exitBeat: 0
-  isStarting: 0
-  isApproaching: 0
-  isFleeing: 0
-  isExiting: 0
-  startCurve: {fileID: 2475665257954988165}
-  approachCurve: {fileID: 6448767205562499052}
-  fleeCurve: {fileID: 3400584872498074024}
-  exitCurve: {fileID: 9154918582704560486}
-  mayflyStart: {fileID: 929922526424387638}
-  body: {fileID: 2455014384847910462}
-  wing: {fileID: 3350274965730861215}
-  bodySort: 1000
-  wingSort: 1001
-  mayflyAnim: {fileID: 6525900588632335309}
 --- !u!95 &6525900588632335309
 Animator:
   serializedVersion: 5
@@ -3526,6 +3498,38 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7253892797257996928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8244112737627441836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f146698328285e4d8ea2364007efbc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  game: {fileID: 3783111488010996518}
+  startBeat: 0
+  approachBeat: 0
+  fleeBeat: 0
+  exitBeat: 0
+  isStarting: 0
+  isApproaching: 0
+  isFleeing: 0
+  isExiting: 0
+  reaction: 0
+  startCurve: {fileID: 2475665257954988165}
+  approachCurve: {fileID: 6448767205562499052}
+  fleeCurve: {fileID: 3400584872498074024}
+  exitCurve: {fileID: 9154918582704560486}
+  mayflyStart: {fileID: 929922526424387638}
+  body: {fileID: 2455014384847910462}
+  wing: {fileID: 3350274965730861215}
+  bodySort: 1000
+  wingSort: 1001
+  mayflyAnim: {fileID: 6525900588632335309}
 --- !u!1001 &1525949660395820690
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3688,35 +3692,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5428139642651604820, guid: 49da75740b93b054ca046c8c789c5d9c, type: 3}
   m_PrefabInstance: {fileID: 1525949660395820690}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4605372250674165452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6807722035279798726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13aac20650c994c46a1a76ee099b0b20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  game: {fileID: 3783111488010996518}
-  startBeat: 0
-  approachBeat: 0
-  fleeBeat: 0
-  isStarting: 0
-  isApproaching: 0
-  isFleeing: 0
-  startCurve: {fileID: 769859434969489468}
-  approachCurve: {fileID: 5758757004530344118}
-  fleeCurve: {fileID: 4094440243496292854}
-  body: {fileID: 3602407337172639390}
-  wingA: {fileID: 1320628034356552646}
-  wingB: {fileID: 294082144596250463}
-  bodySort: 0
-  wingSort: 1
-  mosquitoStart: {fileID: 6555989109832723705}
-  mosquitoAnim: {fileID: 3330774167501094315}
 --- !u!95 &3330774167501094315
 Animator:
   serializedVersion: 5
@@ -3738,3 +3713,33 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4605372250674165452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6807722035279798726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13aac20650c994c46a1a76ee099b0b20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  game: {fileID: 3783111488010996518}
+  startBeat: 0
+  approachBeat: 0
+  fleeBeat: 0
+  isStarting: 0
+  isApproaching: 0
+  isFleeing: 0
+  reaction: 0
+  startCurve: {fileID: 769859434969489468}
+  approachCurve: {fileID: 5758757004530344118}
+  fleeCurve: {fileID: 4094440243496292854}
+  body: {fileID: 3602407337172639390}
+  wingA: {fileID: 1320628034356552646}
+  wingB: {fileID: 294082144596250463}
+  bodySort: 0
+  wingSort: 1
+  mosquitoStart: {fileID: 6555989109832723705}
+  mosquitoAnim: {fileID: 3330774167501094315}
