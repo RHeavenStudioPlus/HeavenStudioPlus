@@ -823,6 +823,16 @@ namespace HeavenStudio
                 Debug.LogWarning("Game loader NtrTunnelLoader failed!");
             }
 
+            game = PcoWaffleLoader.AddGame(eventCaller);
+            if (game != null)
+            {
+                eventCaller.minigames.Add(game.name, game);
+            }
+            else
+            {
+                Debug.LogWarning("Game loader PcoWaffleLoader failed!");
+            }
+
             game = AgbWaltzLoader.AddGame(eventCaller);
             if (game != null)
             {
