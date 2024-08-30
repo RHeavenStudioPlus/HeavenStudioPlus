@@ -13839,7 +13839,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 171581557}
   m_HandleRect: {fileID: 171581556}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -17838,6 +17838,387 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.size
+      value: 66
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_BeforeStackBundles.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[0].assemblyQualifiedName
+      value: CRT, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[1].assemblyQualifiedName
+      value: VHS, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[2].assemblyQualifiedName
+      value: XPostProcessing.AuroraVignette, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[3].assemblyQualifiedName
+      value: XPostProcessing.BokehBlur, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[4].assemblyQualifiedName
+      value: XPostProcessing.BoxBlur, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[5].assemblyQualifiedName
+      value: XPostProcessing.ColorAdjustmentBleachBypass, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[6].assemblyQualifiedName
+      value: XPostProcessing.ColorAdjustmentBrightness, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[7].assemblyQualifiedName
+      value: XPostProcessing.ColorAdjustmentContrast, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[8].assemblyQualifiedName
+      value: XPostProcessing.ColorAdjustmentContrastV2, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[9].assemblyQualifiedName
+      value: XPostProcessing.ColorAdjustmentContrastV3, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[10].assemblyQualifiedName
+      value: XPostProcessing.ColorAdjustmentHue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[11].assemblyQualifiedName
+      value: XPostProcessing.ColorAdjustmentLensFilter, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[12].assemblyQualifiedName
+      value: XPostProcessing.ColorAdjustmentSaturation, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[13].assemblyQualifiedName
+      value: XPostProcessing.ColorAdjustmentTechnicolor, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[14].assemblyQualifiedName
+      value: XPostProcessing.ColorAdjustmentTint, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[15].assemblyQualifiedName
+      value: XPostProcessing.ColorAdjustmentWhiteBalance, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[16].assemblyQualifiedName
+      value: XPostProcessing.ColorReplace, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[17].assemblyQualifiedName
+      value: XPostProcessing.ColorReplaceV2, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[18].assemblyQualifiedName
+      value: XPostProcessing.DirectionalBlur, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[19].assemblyQualifiedName
+      value: XPostProcessing.DualBoxBlur, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[20].assemblyQualifiedName
+      value: XPostProcessing.DualGaussianBlur, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[21].assemblyQualifiedName
+      value: XPostProcessing.DualKawaseBlur, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[22].assemblyQualifiedName
+      value: XPostProcessing.DualTentBlur, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[23].assemblyQualifiedName
+      value: XPostProcessing.EdgeDetectionRoberts, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[24].assemblyQualifiedName
+      value: XPostProcessing.EdgeDetectionRobertsNeon, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[25].assemblyQualifiedName
+      value: XPostProcessing.EdgeDetectionRobertsNeonV2, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[26].assemblyQualifiedName
+      value: XPostProcessing.EdgeDetectionScharr, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[27].assemblyQualifiedName
+      value: XPostProcessing.EdgeDetectionScharrNeon, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[28].assemblyQualifiedName
+      value: XPostProcessing.EdgeDetectionScharrNeonV2, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[29].assemblyQualifiedName
+      value: XPostProcessing.EdgeDetectionSobel, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[30].assemblyQualifiedName
+      value: XPostProcessing.EdgeDetectionSobelNeon, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[31].assemblyQualifiedName
+      value: XPostProcessing.EdgeDetectionSobelNeonV2, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[32].assemblyQualifiedName
+      value: XPostProcessing.GaussianBlur, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[33].assemblyQualifiedName
+      value: XPostProcessing.GlitchAnalogNoise, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[34].assemblyQualifiedName
+      value: XPostProcessing.GlitchDigitalStripe, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[35].assemblyQualifiedName
+      value: XPostProcessing.GlitchImageBlock, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[36].assemblyQualifiedName
+      value: XPostProcessing.GlitchImageBlockV2, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[37].assemblyQualifiedName
+      value: XPostProcessing.GlitchImageBlockV3, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[38].assemblyQualifiedName
+      value: XPostProcessing.GlitchImageBlockV4, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[39].assemblyQualifiedName
+      value: XPostProcessing.GlitchLineBlock, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[40].assemblyQualifiedName
+      value: XPostProcessing.GlitchRGBSplit, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[41].assemblyQualifiedName
+      value: XPostProcessing.GlitchRGBSplitV2, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[42].assemblyQualifiedName
+      value: XPostProcessing.GlitchRGBSplitV3, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[43].assemblyQualifiedName
+      value: XPostProcessing.GlitchRGBSplitV4, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[44].assemblyQualifiedName
+      value: XPostProcessing.GlitchRGBSplitV5, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[45].assemblyQualifiedName
+      value: XPostProcessing.GlitchScanLineJitter, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[46].assemblyQualifiedName
+      value: XPostProcessing.GlitchScreenJump, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[47].assemblyQualifiedName
+      value: XPostProcessing.GlitchScreenShake, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[48].assemblyQualifiedName
+      value: XPostProcessing.GlitchTileJitter, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[49].assemblyQualifiedName
+      value: XPostProcessing.GlitchWaveJitter, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[50].assemblyQualifiedName
+      value: XPostProcessing.GrainyBlur, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[51].assemblyQualifiedName
+      value: XPostProcessing.IrisBlur, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[52].assemblyQualifiedName
+      value: XPostProcessing.IrisBlurV2, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[53].assemblyQualifiedName
+      value: XPostProcessing.KawaseBlur, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[54].assemblyQualifiedName
+      value: XPostProcessing.RadialBlur, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[55].assemblyQualifiedName
+      value: XPostProcessing.RadialBlurV2, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[56].assemblyQualifiedName
+      value: XPostProcessing.RapidOldTVVignette, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[57].assemblyQualifiedName
+      value: XPostProcessing.RapidOldTVVignetteV2, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[58].assemblyQualifiedName
+      value: XPostProcessing.RapidVignette, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[59].assemblyQualifiedName
+      value: XPostProcessing.RapidVignetteV2, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[60].assemblyQualifiedName
+      value: XPostProcessing.SharpenV1, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[61].assemblyQualifiedName
+      value: XPostProcessing.SharpenV2, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[62].assemblyQualifiedName
+      value: XPostProcessing.SharpenV3, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[63].assemblyQualifiedName
+      value: XPostProcessing.TentBlur, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[64].assemblyQualifiedName
+      value: XPostProcessing.TiltShiftBlur, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_AfterStackBundles.Array.data[65].assemblyQualifiedName
+      value: XPostProcessing.TiltShiftBlurV2, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_BeforeStackBundles.Array.data[1].assemblyQualifiedName
+      value: XPostProcessing.PixelizeCircle, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_BeforeStackBundles.Array.data[2].assemblyQualifiedName
+      value: XPostProcessing.PixelizeDiamond, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_BeforeStackBundles.Array.data[3].assemblyQualifiedName
+      value: XPostProcessing.PixelizeHexagon, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_BeforeStackBundles.Array.data[4].assemblyQualifiedName
+      value: XPostProcessing.PixelizeHexagonGrid, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_BeforeStackBundles.Array.data[5].assemblyQualifiedName
+      value: XPostProcessing.PixelizeLeaf, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_BeforeStackBundles.Array.data[6].assemblyQualifiedName
+      value: XPostProcessing.PixelizeLed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_BeforeStackBundles.Array.data[7].assemblyQualifiedName
+      value: XPostProcessing.PixelizeQuad, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_BeforeStackBundles.Array.data[8].assemblyQualifiedName
+      value: XPostProcessing.PixelizeSector, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 154916227922109824, guid: 720073bc7682b1441bece7116681f72c, type: 3}
+      propertyPath: m_BeforeStackBundles.Array.data[9].assemblyQualifiedName
+      value: XPostProcessing.PixelizeTriangle, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
     - target: {fileID: 3558106557710386107, guid: 720073bc7682b1441bece7116681f72c, type: 3}
       propertyPath: m_BlockingMask.m_Bits
       value: 0
@@ -17909,10 +18290,6 @@ PrefabInstance:
     - target: {fileID: 6136050241491700490, guid: 720073bc7682b1441bece7116681f72c, type: 3}
       propertyPath: m_RaycastTarget
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6136050241491700490, guid: 720073bc7682b1441bece7116681f72c, type: 3}
-      propertyPath: m_PixelsPerUnitMultiplier
-      value: 256
       objectReference: {fileID: 0}
     - target: {fileID: 8281773103246844715, guid: 720073bc7682b1441bece7116681f72c, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -25976,8 +26353,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1589389272}
   m_HandleRect: {fileID: 1589389271}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.999981
+  m_Value: 1
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -31854,7 +32231,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 128.61226}
+  m_AnchoredPosition: {x: 0, y: 201.06128}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &1154875945
@@ -42002,8 +42379,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1220118245}
   m_HandleRect: {fileID: 1220118244}
   m_Direction: 2
-  m_Value: 1.0000004
-  m_Size: 0.71179855
+  m_Value: 1
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
