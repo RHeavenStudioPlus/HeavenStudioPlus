@@ -49,8 +49,20 @@ SpriteAtlas:
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
-  m_PackedSprites: []
-  m_PackedSpriteNamesToIndex: []
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 3415c44124ae23848b87fd54e89c311a, type: 3}
+  - {fileID: 21300000, guid: 2a6d79929866efd4385c7362ec3131db, type: 3}
+  - {fileID: 21300000, guid: 2e20ecf23d52f0140af1a8d12e2ed72c, type: 3}
+  - {fileID: 21300000, guid: 0e997025dc553d747b54986affb43e0b, type: 3}
+  - {fileID: 21300000, guid: d96a0ef5dd98aef48be98d42b43c3e94, type: 3}
+  - {fileID: 21300000, guid: c7d2f9575b8edad4daf15132618d153b, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - rhythmsomenmem
+  - nitbmem
+  - totcmem
+  - meatgrindermem
+  - wafflemem
+  - dressyourbestmem
   m_RenderDataMap: {}
   m_Tag: MemsAtlas
   m_IsVariant: 0
