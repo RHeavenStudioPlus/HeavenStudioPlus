@@ -100,22 +100,6 @@ namespace HeavenStudio.Games.Loaders
                     //     new("auto", true, "Auto React", "Toggle if the reaction should be on by default.")
                     // }
                 },
-                new GameAction("background appearance", "Background Appearance", "Appearance")
-                {
-                    function = delegate {
-                        var e = eventCaller.currentEntity;
-                        if (eventCaller.gameManager.TryGetMinigame(out DressYourBest instance)) {
-                            instance.ChangeBackgroundAppearance(e.beat, e.length, e["start"], e["end"], e["ease"]);
-                        }
-                    },
-                    resizable = true,
-                    parameters = new List<Param>()
-                    {
-                        new("start", DressYourBest.DefaultBGColor, "Start Color", "Set the color at the start of the event."),
-                        new("end", DressYourBest.DefaultBGColor, "End Color", "Set the color at the end of the event."),
-                        new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.")
-                    },
-                },
                 new GameAction("change emotion", "Change Emotion", "Characters")
                 {
                     // preFunction = delegate {
@@ -132,7 +116,41 @@ namespace HeavenStudio.Games.Loaders
                         new("face", DressYourBest.Faces.Idle, "Face", "Set the face to change to."),
                     }
                 },
-            }
+                new GameAction("cameo", "Cameo")
+                {
+                    function = delegate {
+                        var e = eventCaller.currentEntity;
+                        if (eventCaller.gameManager.TryGetMinigame(out DressYourBest instance)) {
+                            instance.Cameo(e.beat, e.length, e["animation"], e["ease"]);
+                        }
+                    },
+                    resizable = true,
+                    defaultLength = 8,
+                    parameters = new List<Param>() {
+                        new Param("animation", new EntityTypes.Integer(1, 5, 1), "Choose Cameo", "Choose which cameo to play."),
+                        new Param("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action."),
+                    }
+                },
+                new GameAction("background appearance", "Background Appearance", "Appearance")
+                {
+                    function = delegate {
+                        var e = eventCaller.currentEntity;
+                        if (eventCaller.gameManager.TryGetMinigame(out DressYourBest instance)) {
+                            instance.ChangeBackgroundAppearance(e.beat, e.length, e["start"], e["end"], e["ease"]);
+                        }
+                    },
+                    resizable = true,
+                    hidden = true,
+                    parameters = new List<Param>()
+                    {
+                        new("start", DressYourBest.DefaultBGColor, "Back Wall Start Color", "Set the color at the start of the event."),
+                        new("end", DressYourBest.DefaultBGColor, "Back Wall End Color", "Set the color at the end of the event."),
+                        new("ease", Util.EasingFunction.Ease.Linear, "Ease", "Set the easing of the action.")
+                    },
+                },
+            },
+            new List<string>() { "pco", "repeat" },
+            chronologicalSortKey: 20240601
             );
         }
     }
@@ -172,11 +190,19 @@ namespace HeavenStudio.Games
             Incorrect,
         }
 
+        public struct UpdateEasing
+        {
+            public double beat;
+            public float length;
+            public Util.EasingFunction.Ease ease;
+        }
+
         [Header("Animators")]
         [SerializeField] private Animator girlAnim;
         [SerializeField] private Animator monkeyAnim;
         [SerializeField] private Animator sewingAnim;
         [SerializeField] private Animator reactionAnim;
+        [SerializeField] private Animator cameoAnim;
 
         [Header("Renderers")]
         [SerializeField] private SpriteRenderer bgSpriteRenderer;
@@ -186,6 +212,9 @@ namespace HeavenStudio.Games
         [SerializeField] private Material lightMaterialTemplate;
 
         [Header("Variables")]
+        private UpdateEasing cameoEase;
+        private int cameoAnimNumber = 1;
+
         [SerializeField] private ColorPair[] lightStates;
         [Serializable] // can't serialize tuples :/
         private struct ColorPair
@@ -247,6 +276,16 @@ namespace HeavenStudio.Games
 
                 ScoreMiss();
             }
+
+            if (cameoEase.length != 0)
+            {
+                float normalizedBeat = conductor.GetPositionFromBeat(cameoEase.beat, cameoEase.length);
+                Util.EasingFunction.Function func = Util.EasingFunction.GetEasingFunction(cameoEase.ease);
+                float newPos = func(0f, 1f, normalizedBeat);
+                cameoAnim.DoNormalizedAnimation($"CameoWalk{cameoAnimNumber}", newPos);
+                if (normalizedBeat >= 1) cameoEase.length = 0;
+            }
+            cameoAnim.gameObject.SetActive(cameoEase.length != 0);
         }
 
         public override void OnLateBeatPulse(double beat)
@@ -318,6 +357,17 @@ namespace HeavenStudio.Games
             ColorPair colorPair = lightStates[(int)state];
             lightRenderer.material.SetColor("_ColorAlpha", colorPair.inside);
             lightRenderer.material.SetColor("_ColorBravo", colorPair.outside);
+        }
+
+        public void Cameo(double beat, float length, int animation, int ease)
+        {
+            cameoAnimNumber = animation;
+            cameoEase = new()
+            {
+                beat = beat,
+                length = length,
+                ease = (Util.EasingFunction.Ease)ease,
+            };
         }
 
         public void ChangeBackgroundAppearance(double beat, float length, Color startColor, Color endColor, int ease)
