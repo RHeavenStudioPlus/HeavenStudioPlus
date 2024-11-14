@@ -39,18 +39,20 @@ namespace HeavenStudio.Games.Scripts_BalloonHunter
             {
                 SoundByte.PlayOneShotGame("balloonHunter/miss");
                 anim.DoScaledAnimationAsync("Miss", 0.5f);
+                game.bopExpression = "Sad";
             }
             else
             {
                 SoundByte.PlayOneShotGame("balloonHunter/pop");
                 popEffect.DoScaledAnimationAsync("Pop", 0.5f);
+                if (game.bopExpression == "Neutral") { game.bopExpression = "Happy"; }
                 Destroy(gameObject);
             }
         }
 
         public void Miss(PlayerActionEvent caller)
         {
-
+            game.bopExpression = "Sad";
         }
     }
 }

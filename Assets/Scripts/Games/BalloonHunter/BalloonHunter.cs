@@ -40,13 +40,14 @@ namespace HeavenStudio.Games.Loaders
                 {
                     function = delegate {
                         if (eventCaller.gameManager.minigameObj.TryGetComponent(out BalloonHunter instance)) {
-                            instance.ToggleBop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length, eventCaller.currentEntity["auto"], eventCaller.currentEntity["toggle"]);
+                            instance.ToggleBop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length, eventCaller.currentEntity["auto"], eventCaller.currentEntity["toggle"], eventCaller.currentEntity["emote"]);
                         }
                     },
                     parameters = new List<Param>()
                     {
                         new Param("toggle", true, "Bop", "Toggle if the characters should bop for the duration of this event."),
                         new Param("auto", true, "Bop (Auto)", "Toggle if the characters should automatically bop until another Bop event is reached."),
+                        new Param("emote", true, "Reactions", "Toggle if the characters should react to the player's performance."),
                     }
                 },
                 new GameAction("prepare", "Prepare")
@@ -103,8 +104,9 @@ namespace HeavenStudio.Games
     /// Minigame inherits directly from MonoBehaviour, and adds Heaven Studio specific methods to override.
     public class BalloonHunter : Minigame
     {
-        public static BalloonHunter instance;
-        
+        //public static BalloonHunter instance;
+        public string bopExpression = "Neutral";
+
         [Header("Objects")]
         [SerializeField] Balloon slowBalloon;
         [SerializeField] Balloon fastBalloon;
@@ -116,10 +118,11 @@ namespace HeavenStudio.Games
         private bool hunterBop;
         private bool birdBop;
         private bool preparing;
+        private bool queueBopReset;
 
         private void Awake()
         {
-            instance = this;
+            //instance = this;
             slowBalloon.gameObject.SetActive(false);
             fastBalloon.gameObject.SetActive(false);
         }
@@ -129,13 +132,16 @@ namespace HeavenStudio.Games
         {
             if (hunterBop)
             {
-                hunterAnim.DoScaledAnimationAsync("Bop", 0.5f);
+                hunterAnim.DoScaledAnimationAsync("Bop", 0.5f, animLayer: 0);
+                if (!queueBopReset) { hunterAnim.DoScaledAnimationAsync(bopExpression, 0.5f, animLayer: 1); }
 
             }
             if (birdBop)
             {
-                birdAnim.DoScaledAnimationAsync("Bop", 0.5f);
+                birdAnim.DoScaledAnimationAsync("Bop", 0.5f, animLayer: 0);
+                if (!queueBopReset) { birdAnim.DoScaledAnimationAsync(bopExpression, 0.5f, animLayer: 1); }
             }
+
         }
 
         public void Update()
@@ -143,6 +149,7 @@ namespace HeavenStudio.Games
             if (PlayerInput.GetIsAction(InputAction_BasicPress) && (!preparing) && !IsExpectingInputNow(InputAction_BasicPress))
             {
                 hunterAnim.DoScaledAnimationAsync("Bop", 0.5f);
+
             }
             if (PlayerInput.GetIsAction(InputAction_BasicPress) && (preparing) && !IsExpectingInputNow(InputAction_BasicPress))
             {
@@ -154,7 +161,8 @@ namespace HeavenStudio.Games
         public void Prepare()
         {
             if (preparing) return;
-            hunterAnim.DoScaledAnimationAsync("Prepare", 0.5f);
+            hunterAnim.DoScaledAnimationAsync("Prepare", 0.5f, animLayer: 0);
+            hunterAnim.DoScaledAnimationAsync("Neutral", 0.5f, animLayer: 1);
             preparing = true;
             hunterBop = false;
         }
@@ -166,23 +174,37 @@ namespace HeavenStudio.Games
             birdAnim.DoScaledAnimationAsync("Call", 0.5f, animLayer: 1);
         }
 
-        public void ToggleBop(double beat, float length, bool auto, bool bop)
+        public void ResetBopExpression(double beat)
+        {
+            BeatAction.New(this, new() {
+                    new(beat+1, delegate{
+                        bopExpression = "Neutral";
+                        queueBopReset = false;
+                    }),
+            });
+        }
+
+        public void ToggleBop(double beat, float length, bool auto, bool bop, bool emote)
         {
             hunterBop = auto;
             birdBop = auto;
             preparing = false;
             if (bop) 
             { 
-                hunterAnim.DoScaledAnimationAsync("Bop", 0.5f);
-                birdAnim.DoScaledAnimationAsync("Bop", 0.5f);
+                hunterAnim.DoScaledAnimationAsync("Bop", 0.5f, animLayer: 0);
+                hunterAnim.DoScaledAnimationAsync(emote ? bopExpression : "Neutral", 0.5f, animLayer: 1);
+                birdAnim.DoScaledAnimationAsync("Bop", 0.5f, animLayer: 0);
+                birdAnim.DoScaledAnimationAsync(emote ? bopExpression : "Neutral", 0.5f, animLayer: 1);
             }
+            queueBopReset = true;
+            ResetBopExpression(beat);
         }
 
         public void QueueBalloonSlow(double beat)
         {
             SendBalloonSlow(beat);
 
-            BeatAction.New(instance, new List<BeatAction.Action>(){
+            BeatAction.New(this, new List<BeatAction.Action>(){
                 new BeatAction.Action(beat, delegate {BirdCall();}),
                 new BeatAction.Action(beat+1, delegate {Prepare();}),
             });
@@ -203,7 +225,7 @@ namespace HeavenStudio.Games
             newFastB.startBeat = beat;
             newFastB.gameObject.SetActive(true);
 
-            BeatAction.New(instance, new List<BeatAction.Action>(){
+            BeatAction.New(this, new List<BeatAction.Action>(){
                 new BeatAction.Action(beat, delegate {BirdCall();}),
                 new BeatAction.Action(beat+0.75, delegate {BirdCall();}),
                 new BeatAction.Action(beat+0.75, delegate {Prepare();})
