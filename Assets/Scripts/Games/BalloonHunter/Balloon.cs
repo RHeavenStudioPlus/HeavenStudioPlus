@@ -34,6 +34,7 @@ namespace HeavenStudio.Games.Scripts_BalloonHunter
         public void Pop(PlayerActionEvent caller, float state)
         {
             hunterAnim.DoScaledAnimationAsync("Shoot", 0.5f);
+            SoundByte.PlayOneShotGame("balloonHunter/blow");
 
             if (state is >= 1 or <= -1)
             {
