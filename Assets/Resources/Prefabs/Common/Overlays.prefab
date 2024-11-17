@@ -676,7 +676,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0.06}
-  m_SizeDelta: {x: 5.12, y: 0.6425}
+  m_SizeDelta: {x: 5.25, y: 0.6425}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6499736204176492279
 CanvasRenderer:
@@ -733,7 +733,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.5
+  m_fontSize: 0.55
   m_fontSizeBase: 15.6
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -755,7 +755,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 1
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -2299,6 +2299,10 @@ PrefabInstance:
     - target: {fileID: 6146690113140836413, guid: f54ff2803b9c18046b673dc177d752ef, type: 3}
       propertyPath: m_fontSize
       value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146690113140836413, guid: f54ff2803b9c18046b673dc177d752ef, type: 3}
+      propertyPath: m_ActiveFontFeatures.Array.data[0]
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 6146690113140836415, guid: f54ff2803b9c18046b673dc177d752ef, type: 3}
       propertyPath: m_Layer
