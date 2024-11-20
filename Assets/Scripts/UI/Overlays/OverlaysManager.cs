@@ -267,7 +267,7 @@ namespace HeavenStudio.Common
 
             public static SectionComponent CreateDefault()
             {
-                return new SectionComponent(true, new Vector2(0.7f, 0.765f), 1f, 0f);
+                return new SectionComponent(true, new Vector2(-0.7f, 0.765f), 1f, 0f);
             }
 
         }
