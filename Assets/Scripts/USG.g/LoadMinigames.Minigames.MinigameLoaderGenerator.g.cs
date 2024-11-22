@@ -23,6 +23,26 @@ namespace HeavenStudio
                 Debug.LogWarning("Game loader PcoCanneryLoader failed!");
             }
 
+            game = PcoBalloonHunterLoader.AddGame(eventCaller);
+            if (game != null)
+            {
+                eventCaller.minigames.Add(game.name, game);
+            }
+            else
+            {
+                Debug.LogWarning("Game loader PcoBalloonHunterLoader failed!");
+            }
+
+            game = PcoCanneryLoader.AddGame(eventCaller);
+            if (game != null)
+            {
+                eventCaller.minigames.Add(game.name, game);
+            }
+            else
+            {
+                Debug.LogWarning("Game loader PcoCanneryLoader failed!");
+            }
+
             game = PcoDressYourBestLoader.AddGame(eventCaller);
             if (game != null)
             {
