@@ -13,6 +13,15 @@ namespace HeavenStudio
 
             Minigames.Minigame game;
 
+            game = PcoCanneryLoader.AddGame(eventCaller);
+            if (game != null)
+            {
+                eventCaller.minigames.Add(game.name, game);
+            }
+            else
+            {
+                Debug.LogWarning("Game loader PcoCanneryLoader failed!");
+            }
 
             game = PcoDressYourBestLoader.AddGame(eventCaller);
             if (game != null)
@@ -62,6 +71,16 @@ namespace HeavenStudio
             else
             {
                 Debug.LogWarning("Game loader PcoSomenLoader failed!");
+            }
+
+            game = TotemClimbLoader.AddGame(eventCaller);
+            if (game != null)
+            {
+                eventCaller.minigames.Add(game.name, game);
+            }
+            else
+            {
+                Debug.LogWarning("Game loader TotemClimbLoader failed!");
             }
 
             game = MobTrickLoader.AddGame(eventCaller);
