@@ -13,6 +13,15 @@ namespace HeavenStudio
 
             Minigames.Minigame game;
 
+            game = PcoCanneryLoader.AddGame(eventCaller);
+            if (game != null)
+            {
+                eventCaller.minigames.Add(game.name, game);
+            }
+            else
+            {
+                Debug.LogWarning("Game loader PcoCanneryLoader failed!");
+            }
 
             game = PcoBalloonHunterLoader.AddGame(eventCaller);
             if (game != null)
