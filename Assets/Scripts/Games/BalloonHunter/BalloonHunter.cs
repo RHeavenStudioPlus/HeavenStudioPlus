@@ -40,9 +40,11 @@ namespace HeavenStudio.Games.Loaders
                 {
                     function = delegate {
                         if (eventCaller.gameManager.minigameObj.TryGetComponent(out BalloonHunter instance)) {
-                            instance.ToggleBop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length, eventCaller.currentEntity["auto"], eventCaller.currentEntity["toggle"], eventCaller.currentEntity["emote"]);
+                            instance.Bop(eventCaller.currentEntity.beat, eventCaller.currentEntity.length, eventCaller.currentEntity["auto"], eventCaller.currentEntity["toggle"], eventCaller.currentEntity["emote"]);
                         }
                     },
+                    defaultLength = 1f,
+                    resizable = true,
                     parameters = new List<Param>()
                     {
                         new Param("toggle", true, "Bop", "Toggle if the characters should bop for the duration of this event."),
@@ -59,7 +61,7 @@ namespace HeavenStudio.Games.Loaders
                     },
                     defaultLength = 0.5f,
                 },
-                new GameAction("balloonSlow", "Slow Balloon")
+                new GameAction("balloonSlow", "Normal Balloon")
                 {
                     function = delegate {
                         SoundByte.PlayOneShotGame("balloonHunter/tweet_slow", eventCaller.currentEntity.beat, forcePlay: true);
@@ -80,7 +82,7 @@ namespace HeavenStudio.Games.Loaders
                     },
                     defaultLength = 2.5f,
                 },
-                new GameAction("balloonBoth", "Both Balloons")
+                new GameAction("balloonBoth", "Double Balloons")
                 {
                     function = delegate {
                         SoundByte.PlayOneShotGame("balloonHunter/tweet_both", eventCaller.currentEntity.beat, forcePlay: true);
@@ -90,6 +92,17 @@ namespace HeavenStudio.Games.Loaders
                         }
                     },
                     defaultLength = 3,
+                },
+                new GameAction("balloonFive", "Slow Balloon")
+                {
+                    function = delegate {
+                        SoundByte.PlayOneShotGame("balloonHunter/tweet_five", eventCaller.currentEntity.beat, forcePlay: true);
+                        SoundByte.PlayOneShotGame("balloonHunter/tweet_five", eventCaller.currentEntity.beat+1, forcePlay: true);
+                        if (eventCaller.gameManager.minigameObj.TryGetComponent(out BalloonHunter instance)) {
+                            instance.SendBalloonFive(eventCaller.currentEntity.beat);
+                        }
+                    },
+                    defaultLength = 5,
                 }
             }
             );
@@ -110,25 +123,28 @@ namespace HeavenStudio.Games
         [Header("Objects")]
         [SerializeField] Balloon slowBalloon;
         [SerializeField] Balloon fastBalloon;
+        [SerializeField] Balloon balloonFive;
 
         [Header("Animators")]
         [SerializeField] Animator hunterAnim;
         [SerializeField] Animator birdAnim;
 
-        private bool hunterBop;
-        private bool birdBop;
+        private bool hunterBop = true;
+        private bool birdBop = true;
         private bool preparing;
         private bool queueBopReset;
+        public bool hunterHold;
 
         private void Awake()
         {
             //instance = this;
             slowBalloon.gameObject.SetActive(false);
             fastBalloon.gameObject.SetActive(false);
+            balloonFive.gameObject.SetActive(false);
         }
 
 
-        public override void OnBeatPulse(double beat)
+        public override void OnLateBeatPulse(double beat)
         {
             if (hunterBop)
             {
@@ -153,8 +169,10 @@ namespace HeavenStudio.Games
             }
             if (PlayerInput.GetIsAction(InputAction_BasicPress) && (preparing) && !IsExpectingInputNow(InputAction_BasicPress))
             {
-                hunterAnim.DoScaledAnimationAsync("Miss", 0.5f);
+                hunterAnim.DoScaledAnimationAsync("Miss", 0.5f, animLayer: 0);
+                hunterAnim.DoScaledAnimationAsync("Blow", 0.5f, animLayer: 1);
                 SoundByte.PlayOneShotGame("balloonHunter/blow");
+                hunterHold = false;
             }
         }
 
@@ -162,9 +180,19 @@ namespace HeavenStudio.Games
         {
             if (preparing) return;
             hunterAnim.DoScaledAnimationAsync("Prepare", 0.5f, animLayer: 0);
-            hunterAnim.DoScaledAnimationAsync("Neutral", 0.5f, animLayer: 1);
+            hunterAnim.DoScaledAnimationAsync("Hold", 0.5f, animLayer: 1);
             preparing = true;
+            hunterHold = true;
             hunterBop = false;
+        }
+
+        public void Unprepare()
+        {
+            if ((!hunterHold) && (preparing))
+            {
+                hunterAnim.DoScaledAnimationAsync("Bop", 0.5f, animLayer: 0);
+                preparing = false;
+            }
         }
 
         public void BirdCall()
@@ -184,17 +212,24 @@ namespace HeavenStudio.Games
             });
         }
 
-        public void ToggleBop(double beat, float length, bool auto, bool bop, bool emote)
+        public void Bop(double beat, float length, bool auto, bool bop, bool emote)
         {
             hunterBop = auto;
             birdBop = auto;
             preparing = false;
             if (bop) 
             { 
-                hunterAnim.DoScaledAnimationAsync("Bop", 0.5f, animLayer: 0);
-                hunterAnim.DoScaledAnimationAsync(emote ? bopExpression : "Neutral", 0.5f, animLayer: 1);
-                birdAnim.DoScaledAnimationAsync("Bop", 0.5f, animLayer: 0);
-                birdAnim.DoScaledAnimationAsync(emote ? bopExpression : "Neutral", 0.5f, animLayer: 1);
+                List<BeatAction.Action> actions = new();
+                for (int i = 0; i < length; i++)
+                {
+                    actions.Add(new(beat + i, delegate {
+                        hunterAnim.DoScaledAnimationAsync("Bop", 0.5f, animLayer: 0);
+                        hunterAnim.DoScaledAnimationAsync(emote ? bopExpression : "Neutral", 0.5f, animLayer: 1);
+                        birdAnim.DoScaledAnimationAsync("Bop", 0.5f, animLayer: 0);
+                        birdAnim.DoScaledAnimationAsync(emote ? bopExpression : "Neutral", 0.5f, animLayer: 1);
+                    }));
+                }
+                if (actions.Count > 0) BeatAction.New(this, actions);
             }
             queueBopReset = true;
             ResetBopExpression(beat);
@@ -203,6 +238,7 @@ namespace HeavenStudio.Games
         public void QueueBalloonSlow(double beat)
         {
             SendBalloonSlow(beat);
+            Unprepare();
 
             BeatAction.New(this, new List<BeatAction.Action>(){
                 new BeatAction.Action(beat, delegate {BirdCall();}),
@@ -213,7 +249,7 @@ namespace HeavenStudio.Games
         public void SendBalloonSlow(double beat)
         {
             Balloon newSlowB = Instantiate(slowBalloon, transform);
-            newSlowB.isFast = false;
+            newSlowB.balloonSpeed = 3f;
             newSlowB.startBeat = beat;
             newSlowB.gameObject.SetActive(true);
         }
@@ -221,9 +257,11 @@ namespace HeavenStudio.Games
         public void SendBalloonFast(double beat)
         {
             Balloon newFastB = Instantiate(fastBalloon, transform);
-            newFastB.isFast = true;
+            newFastB.balloonSpeed = 2.5f;
             newFastB.startBeat = beat;
             newFastB.gameObject.SetActive(true);
+
+            Unprepare();
 
             BeatAction.New(this, new List<BeatAction.Action>(){
                 new BeatAction.Action(beat, delegate {BirdCall();}),
@@ -236,6 +274,21 @@ namespace HeavenStudio.Games
         {
             SendBalloonSlow(beat);
             SendBalloonFast(beat);
+        }
+
+        public void SendBalloonFive(double beat)
+        {
+            Balloon newFive = Instantiate(balloonFive, transform);
+            newFive.balloonSpeed = 3f;
+            newFive.startBeat = beat+2;
+            newFive.gameObject.SetActive(true);
+
+            BeatAction.New(this, new List<BeatAction.Action>(){
+                new BeatAction.Action(beat, delegate {BirdCall();}),
+                new BeatAction.Action(beat+1, delegate {BirdCall();}),
+                new BeatAction.Action(beat+2, delegate {Unprepare();}),
+                new BeatAction.Action(beat+3, delegate {Prepare();})
+            });
         }
     }
 }

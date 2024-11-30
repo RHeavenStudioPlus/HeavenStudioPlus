@@ -9,7 +9,7 @@ namespace HeavenStudio.Games.Scripts_BalloonHunter
     public class Balloon : MonoBehaviour
     {
         public double startBeat;
-        public bool isFast;
+        public float balloonSpeed;
 
         [Header("Components")]
         [SerializeField] Animator anim;
@@ -20,21 +20,23 @@ namespace HeavenStudio.Games.Scripts_BalloonHunter
         // Start is called before the first frame update
         private void Start()
         {
-            game.ScheduleInput(startBeat, isFast ? 1.5f : 2f, Minigame.InputAction_BasicPress, Pop, Miss, null);
+            game.ScheduleInput(startBeat, balloonSpeed-1, Minigame.InputAction_BasicPress, Pop, Miss, null);
         }
 
         // Update is called once per frame
         private void Update()
         {
-            float normalizedBeat = Conductor.instance.GetPositionFromBeat(startBeat, isFast ? 2.5 : 3);
+            float normalizedBeat = Conductor.instance.GetPositionFromBeat(startBeat, balloonSpeed);
             if (normalizedBeat > 1) Destroy(gameObject);
             anim.DoNormalizedAnimation("Move", normalizedBeat, 0);
         }
 
         public void Pop(PlayerActionEvent caller, float state)
         {
-            hunterAnim.DoScaledAnimationAsync("Shoot", 0.5f);
+            hunterAnim.DoScaledAnimationAsync("Shoot", 0.5f, animLayer : 0);
+            hunterAnim.DoScaledAnimationAsync("Blow", 0.5f, animLayer: 1);
             SoundByte.PlayOneShotGame("balloonHunter/blow");
+            game.hunterHold = false;
 
             if (state is >= 1 or <= -1)
             {
